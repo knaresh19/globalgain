@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<udm.DeploymentPackage version="deployment_version-version_suffix" application="CMACGM-ASIA/Net/CAP500_GLOBAL_V2">
+	<orchestrator />
+	<enableAutomaticOrchestrators>false</enableAutomaticOrchestrators>
+	<application />
+	<deployables>
+		<iis.WebDeployContent name="CAP500_GLOBAL_V2" file="CAP500_GLOBAL_V2.zip">
+			<tags>
+				<value>CAP500_GLOBAL_V2</value>
+			</tags>
+			<scanPlaceholders>true</scanPlaceholders>
+			<websiteName>{{PLACEHOLDER_WEBSITE_NAME}}</websiteName>
+			<websitePhysicalPath>{{PLACEHOLDER_WEBSITE_PHYSICALPATH}}</websitePhysicalPath>
+		</iis.WebDeployContent>
+	</deployables>
+	<applicationDependencies />
+</udm.DeploymentPackage>
