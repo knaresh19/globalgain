@@ -1,4 +1,7 @@
 pipelineType: net
+runSonar: true
+provisionFor: master
+
 ##If your included tests, list the projects on which the tests should be executed as per below example
 #tests:
 # - CAP500_GLOBAL_V2.Tests
