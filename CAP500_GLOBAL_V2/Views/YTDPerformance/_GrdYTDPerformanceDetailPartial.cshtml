@@ -1,0 +1,56 @@
+@{
+    var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GrdSummaryDashboardDetail";
+        settings.CallbackRouteValues = new { Controller = "SummaryDashboard", Action = "SummaryDashboardDetailPartial" };
+
+        settings.SettingsPager.PageSize = 100;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.KeyFieldName = "id";
+        settings.Columns.Add("CountryName");
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "TargetTY";
+            c.Caption = "<center>" + profileData.ProjectYear + " Target (USD)</center>";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+        });
+        settings.Columns.AddBand(YTDBand =>
+        {
+            YTDBand.Caption = "<center>" + profileData.ProjectYear + " YTD PERFORMANCE</center>";
+            YTDBand.Columns.Add(c =>
+            {
+                c.FieldName = "YTDTarget";
+                c.Caption = "YTD Targets";
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            });
+            YTDBand.Columns.Add(c =>
+            {
+                c.FieldName = "YTDAchSaving";
+                c.Caption = "YTD Saving Achieved";
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            });
+            YTDBand.Columns.Add(c =>
+            {
+                c.FieldName = "percentytd";
+                c.Caption = "<center>%</center>";
+            });
+        });
+
+        settings.PreRender = (sender, e) =>
+        {
+            ((MVCxGridView)sender).DetailRows.ExpandRow(0);
+        };
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

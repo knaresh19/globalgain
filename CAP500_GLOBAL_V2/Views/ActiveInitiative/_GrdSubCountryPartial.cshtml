@@ -1,0 +1,70 @@
+@{
+    List<GAIN.Models.GeneralEntity> modelList = new List<GAIN.Models.GeneralEntity>();
+    if(ViewData["SubCountrySelected"] != null)
+    {
+        modelList = ViewData["SubCountrySelected"] as List<GAIN.Models.GeneralEntity>;
+    }
+
+    var gridLookup = Html.DevExpress().ComboBoxFor(
+    model => model,
+    settings =>
+    {
+        settings.Name = "GrdSubCountry";
+        settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+        settings.Properties.TextField = "def";
+        settings.Properties.ValueField = "id";
+        settings.Properties.ValueType = typeof(long);
+        settings.Properties.ClientInstanceName = "GrdSubCountry";
+        //settings.Properties.NullDisplayText = "";
+        //settings.Properties.NullValueItemDisplayText = "";
+        settings.Height = System.Web.UI.WebControls.Unit.Pixel(30);
+    }).BindList(modelList).GetHtml();
+}
+    @*@{
+    var gridLookup = Html.DevExpress().GridLookup(
+    settings =>
+    {
+        settings.Name = "GrdSubCountry";
+        settings.KeyFieldName = "id";
+
+        settings.GridViewProperties.CallbackRouteValues = new { Controller = "ActiveInitiative", Action = "GrdSubCountryPartial" };
+        //settings.Properties.SelectionMode = GridLookupSelectionMode.Single;
+        //settings.Properties.TextFormatString = "{0}";
+        settings.Width = 190;
+
+        settings.GridViewProperties.SettingsEditing.AddNewRowRouteValues = new { Controller = "ActiveInitiative", Action = "GrdSubCountryPartialAddNew" };
+        settings.GridViewProperties.SettingsEditing.UpdateRowRouteValues = new { Controller = "ActiveInitiative", Action = "GrdSubCountryPartialUpdate" };
+        settings.GridViewProperties.SettingsEditing.DeleteRowRouteValues = new { Controller = "ActiveInitiative", Action = "GrdSubCountryPartialDelete" };
+        settings.GridViewProperties.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+
+        //settings.GridViewProperties.SettingsBehavior.ConfirmDelete = true;
+
+        //settings.CommandColumn.Visible = true;
+        //settings.CommandColumn.ShowNewButton = true;
+        //settings.CommandColumn.ShowDeleteButton = true;
+        //settings.CommandColumn.ShowEditButton = true;
+
+        settings.GridViewProperties.SettingsPager.Visible = true;
+        settings.GridViewProperties.Settings.ShowGroupPanel = false;
+        settings.GridViewProperties.Settings.ShowFilterRow = true;
+
+        settings.Columns.Add("SubCountryName");
+
+        settings.ShowModelErrors = true;
+        settings.Properties.TextFormatString = "{0}";
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.SelectionMode = GridLookupSelectionMode.Single;
+        settings.Properties.ValidationSettings.Display = Display.Dynamic;
+        settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+
+        settings.Properties.ClientSideEvents.ValueChanged = "OnSubCountryChanged";
+
+        settings.ClientEnabled = false;
+
+    });
+    if (ViewData["EditError"] != null)
+    {
+        gridLookup.SetEditErrorText((string)ViewData["EditError"]);
+    }
+    gridLookup.BindList(ViewData["Selected"]).Bind(Model).GetHtml();
+}*@

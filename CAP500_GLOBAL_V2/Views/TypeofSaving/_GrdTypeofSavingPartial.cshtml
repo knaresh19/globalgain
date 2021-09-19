@@ -1,0 +1,47 @@
+@{
+    var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GrdTypeofSaving";
+        settings.CallbackRouteValues = new { Controller = "TopCategory", Action = "TopCategoryPartial" };
+
+        settings.SettingsPager.PageSize = 50;
+        //settings.SettingsPager.PageSizeItemSettings.Visible = false;
+
+        //settings.SettingsPager.Visible = true;
+        //settings.Settings.ShowGroupPanel = true;
+        //settings.Settings.ShowFilterRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.KeyFieldName = "id";
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "SavingTypeName";
+            c.Caption = "<center>Saving Type Name</center>";
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "prcnt";
+            c.Caption = "<center>% Achieved</center>";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "YTDAchieved";
+            c.Caption = "Saving Achieved YTD";
+            c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "YTDTarget";
+            c.Caption = "<center>Target YTD</center>";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+        });
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

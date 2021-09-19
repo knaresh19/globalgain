@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="32baf16f7d7b46878bab6ee645643c83" Name="Diagram1">
+        <EntityTypeShape EntityType="GainModel.logtable" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.maccess_menu" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mactiontype" Width="1.5" PointX="13.5" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mbrand" Width="1.5" PointX="10.5" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mbrandcountry" Width="1.5" PointX="10.5" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mcluster" Width="1.5" PointX="5.25" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mcostcontrolsite" Width="1.5" PointX="10.5" PointY="29" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mcosttype" Width="1.5" PointX="13.5" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mcountry" Width="1.5" PointX="8.25" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mlegalentity" Width="1.5" PointX="10.5" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mmenu" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mport" Width="1.5" PointX="10.5" PointY="35.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mregion" Width="1.5" PointX="0.75" PointY="19.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mregional_office" Width="1.5" PointX="10.5" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mrole" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.msavingtype" Width="1.5" PointX="13.5" PointY="38.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.msourcecategory" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mstatu" Width="1.5" PointX="10.5" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.msubcost" Width="1.5" PointX="13.5" PointY="40.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.msubcountry" Width="1.5" PointX="10.5" PointY="32" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.msubregion" Width="1.5" PointX="3" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.msynimpact" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.myear" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.t_cost_actiontype" Width="1.5" PointX="15.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.t_initiative" Width="1.5" PointX="12.75" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.t_subcostactiontype" Width="1.5" PointX="15.75" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.t_subcostbrand" Width="1.5" PointX="15.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.t_subcostinitiative" Width="1.5" PointX="15.75" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.user_list" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.vwagency" Width="1.5" PointX="4.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.vwheaderinitiative" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.vwsummarydashboard" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.vwsummarydashboarddetail" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.vwtopcategory" Width="1.5" PointX="9.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.vwtypeofsaving" Width="1.5" PointX="6.75" PointY="10.75" IsExpanded="true" />
+        <AssociationConnector Association="GainModel.fk_access_menu_roles1" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.maccess_menu_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_ACTIONTYPE_COSTITEM_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_actiontypeid_actiontype_subcost" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_brandid" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_BRANDID_SUBCOSTID" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_initbrand" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_LegalBrandID" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_brandcountry" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_initcluster" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_region_cluster" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_subregion_cluster" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_initcostcontrol" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_COSTITEM_ACTIONTYPE_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_costitemid" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_t_subcostbrand_mcosttype" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_country_ro" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_countryid" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_inicountry" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_LegalCountry" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_region" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_subregion_country" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_initlegalentity" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.mmenu_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_initport" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_initregion" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_region_ro" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_subregion" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_t_initiative_mregional_office" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_savingtypeid" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_SAVINGTYPEID_SUBCOSTID" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_initstatus" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_subcostid" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_subcostid_actiontype_subcost" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.FK_SUBCOSTID_BRANDID" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_initsubcountry" ManuallyRouted="false" />
+        <AssociationConnector Association="GainModel.fk_initsubregion" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

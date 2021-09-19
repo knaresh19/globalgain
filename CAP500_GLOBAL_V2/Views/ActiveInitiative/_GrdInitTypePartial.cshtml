@@ -1,0 +1,35 @@
+@{
+    var gridLookup = Html.DevExpress().GridLookup(settings =>
+    {
+        settings.Name = "GrdInitType";
+        settings.KeyFieldName = "id";
+
+        settings.GridViewProperties.CallbackRouteValues = new { Controller = "ActiveInitiative", Action = "GrdInitTypePartial" };
+        settings.Properties.SelectionMode = GridLookupSelectionMode.Single;
+        settings.Properties.TextFormatString = "{0}";
+        settings.Width = 190;
+
+        settings.GridViewProperties.SettingsEditing.AddNewRowRouteValues = new { Controller = "ActiveInitiative", Action = "GrdInitTypePartialAddNew" };
+        settings.GridViewProperties.SettingsEditing.UpdateRowRouteValues = new { Controller = "ActiveInitiative", Action = "GrdInitTypePartialUpdate" };
+        settings.GridViewProperties.SettingsEditing.DeleteRowRouteValues = new { Controller = "ActiveInitiative", Action = "GrdInitTypePartialDelete" };
+        settings.GridViewProperties.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        //settings.GridViewProperties.SettingsBehavior.ConfirmDelete = true;
+
+        //settings.CommandColumn.Visible = true;
+        //settings.CommandColumn.ShowNewButton = true;
+        //settings.CommandColumn.ShowDeleteButton = true;
+        //settings.CommandColumn.ShowEditButton = true;
+
+        settings.GridViewProperties.SettingsPager.Visible = true;
+        settings.GridViewProperties.Settings.ShowGroupPanel = false;
+        settings.GridViewProperties.Settings.ShowFilterRow = true;
+
+        settings.Columns.Add("SavingTypeName");
+        settings.ClientEnabled = false;
+    });
+    if (ViewData["EditError"] != null)
+    {
+        gridLookup.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@gridLookup.BindList(Model).GetHtml()

@@ -1,0 +1,3371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GainModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="logtable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="genKey" Type="varchar" MaxLength="40" />
+          <Property Name="initnumber" Type="varchar" MaxLength="50" />
+          <Property Name="projectyear" Type="int" />
+          <Property Name="tablesName" Type="varchar" MaxLength="100" />
+          <Property Name="columnsName" Type="varchar" MaxLength="100" />
+          <Property Name="oldValues" Type="text" />
+          <Property Name="newValues" Type="text" />
+          <Property Name="dateUpdate" Type="datetime" Precision="0" />
+          <Property Name="updateBy" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="maccess_menu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="roles_id" Type="uint" Nullable="false" />
+          <Property Name="menu_id" Type="uint" />
+          <Property Name="publish" Type="bool" />
+          <Property Name="obsolete" Type="bool" Nullable="false" />
+          <Property Name="createdby" Type="varchar" MaxLength="64" />
+          <Property Name="createddate" Type="datetime" Precision="0" />
+          <Property Name="modifiedby" Type="varchar" MaxLength="64" />
+          <Property Name="modifieddate" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="mactiontype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActionTypeName" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mbrand">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="brandname" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mbrandcountry">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="countryid" Type="bigint" Nullable="false" />
+          <Property Name="brandid" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mcluster">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegionID" Type="bigint" Nullable="false" />
+          <Property Name="SubRegionID" Type="bigint" Nullable="false" />
+          <Property Name="CountryID" Type="bigint" />
+          <Property Name="ClusterName" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mcostcontrolsite">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CostControlSiteName" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mcosttype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CostTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mcountry">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegionID" Type="bigint" />
+          <Property Name="SubRegionID" Type="bigint" />
+          <Property Name="CountryName" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="mlegalentity">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrandID" Type="bigint" />
+          <Property Name="CountryID" Type="bigint" />
+          <Property Name="LegalEntityName" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="mmenu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="char" MaxLength="3" />
+          <Property Name="iconcls" Type="tinytext" />
+          <Property Name="label" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="link" Type="varchar" MaxLength="200" />
+          <Property Name="attribute" Type="text" />
+          <Property Name="level" Type="int" />
+          <Property Name="order" Type="int" />
+          <Property Name="position" Type="enum" />
+          <Property Name="parent" Type="uint" />
+          <Property Name="publish" Type="bool" />
+          <Property Name="linkdependency" Type="text" />
+          <Property Name="obsolete" Type="bool" Nullable="false" />
+          <Property Name="createdby" Type="varchar" MaxLength="64" />
+          <Property Name="createddate" Type="datetime" Precision="0" />
+          <Property Name="modifiedby" Type="varchar" MaxLength="64" />
+          <Property Name="modifieddate" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="mport">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PortName" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mregion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegionName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="isActive" Type="int" />
+        </EntityType>
+        <EntityType Name="mregional_office">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegionID" Type="bigint" />
+          <Property Name="CountryID" Type="bigint" />
+          <Property Name="RegionalOffice_Name" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="mroles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_code" Type="char" MaxLength="4" />
+          <Property Name="code" Type="char" MaxLength="3" />
+          <Property Name="def" Type="varchar" MaxLength="45" />
+          <Property Name="desc" Type="text" />
+          <Property Name="permission" Type="text" />
+          <Property Name="countries_id" Type="text" />
+          <Property Name="isFinalRole" Type="bool" Nullable="false" />
+          <Property Name="obsolete" Type="bool" Nullable="false" />
+          <Property Name="createdby" Type="varchar" MaxLength="64" />
+          <Property Name="createddate" Type="datetime" Precision="0" />
+          <Property Name="modifiedby" Type="varchar" MaxLength="64" />
+          <Property Name="modifieddate" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="msavingtype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SavingTypeName" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="msourcecategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryname" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="mstatus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="isActive" Type="enum" />
+        </EntityType>
+        <EntityType Name="msubcost">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubCostName" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="msubcountry">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryID" Type="bigint" Nullable="false" />
+          <Property Name="SubCountryName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="msubregion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegionID" Type="bigint" Nullable="false" />
+          <Property Name="SubRegionName" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="msynimpact">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SynImpactName" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="myears">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="years" Type="int" />
+          <Property Name="yrStatus" Type="int" />
+        </EntityType>
+        <EntityType Name="t_cost_actiontype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="costitemid" Type="bigint" Nullable="false" />
+          <Property Name="actiontypeid" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_initiative">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InitNumber" Type="varchar" MaxLength="50" />
+          <Property Name="RelatedInitiative" Type="varchar" MaxLength="50" />
+          <Property Name="SourceCategory" Type="bigint" />
+          <Property Name="BrandID" Type="bigint" />
+          <Property Name="RegionID" Type="bigint" />
+          <Property Name="SubRegionID" Type="bigint" />
+          <Property Name="ClusterID" Type="bigint" />
+          <Property Name="RegionalOfficeID" Type="bigint" />
+          <Property Name="CostControlID" Type="bigint" />
+          <Property Name="LegalEntityID" Type="bigint" />
+          <Property Name="CountryID" Type="bigint" />
+          <Property Name="SubCountryID" Type="bigint" />
+          <Property Name="Confidential" Type="enum" />
+          <Property Name="Description" Type="mediumtext" />
+          <Property Name="ResponsibleFullName" Type="varchar" MaxLength="250" />
+          <Property Name="InitiativeType" Type="bigint" />
+          <Property Name="CostCategoryID" Type="bigint" />
+          <Property Name="SubCostCategoryID" Type="bigint" />
+          <Property Name="ActionTypeID" Type="bigint" />
+          <Property Name="SynergyImpactID" Type="bigint" />
+          <Property Name="InitStatus" Type="bigint" />
+          <Property Name="isDeleted" Type="int" Nullable="false" />
+          <Property Name="StartMonth" Type="date" />
+          <Property Name="EndMonth" Type="date" />
+          <Property Name="LaraCode" Type="varchar" MaxLength="50" />
+          <Property Name="TargetTY" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNY" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="HOValidity" Type="enum" />
+          <Property Name="RPOCControl" Type="enum" />
+          <Property Name="YTDTarget" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="YTDAchieved" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetJan" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchJan" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetFeb" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchFeb" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetMar" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchMar" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetApr" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchApr" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetMay" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchMay" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetJun" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchJun" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetJul" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchJul" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetAug" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchAug" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetSep" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchSep" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetOct" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchOct" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNov" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNov" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetDec" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchDec" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexJan" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexJan" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexFeb" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexFeb" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexMar" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexMar" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexApr" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexApr" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexMay" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexMay" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexJun" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexJun" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexJul" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexJul" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexAug" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexAug" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexSep" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexSep" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexOct" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexOct" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexNov" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexNov" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexDec" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexDec" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ProjectYear" Type="year" />
+          <Property Name="AgencyComment" Type="mediumtext" />
+          <Property Name="RPOCComment" Type="mediumtext" />
+          <Property Name="HOComment" Type="mediumtext" />
+          <Property Name="AdditionalInfo" Type="mediumtext" />
+          <Property Name="PortID" Type="bigint" />
+          <Property Name="VendorName" Type="varchar" MaxLength="255" />
+          <Property Name="UploadedFile" Type="mediumtext" />
+          <Property Name="GenKey" Type="varchar" MaxLength="42" />
+          <Property Name="CreatedDate" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_subcostactiontype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="subcostid" Type="bigint" />
+          <Property Name="actiontypeid" Type="bigint" />
+        </EntityType>
+        <EntityType Name="t_subcostbrand">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="savingtypeid" Type="bigint" />
+          <Property Name="costtypeid" Type="bigint" />
+          <Property Name="subcostid" Type="bigint" />
+          <Property Name="brandid" Type="bigint" />
+        </EntityType>
+        <EntityType Name="t_subcostinitiative">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="savingtypeid" Type="bigint" />
+          <Property Name="costitemid" Type="bigint" />
+          <Property Name="subcostid" Type="bigint" />
+        </EntityType>
+        <EntityType Name="user_list">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USER_FIRST_NAME" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="USER_MIDDLE_NAME" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="USER_LAST_NAME" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="DEPARTMENT_CODE" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="COUNTRY_CODE" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="PICTURE_PATH" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="EXTENSION_NO" Type="int" Nullable="false" />
+          <Property Name="Company_code" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="text" />
+          <Property Name="levelKdAccess" Type="int" />
+          <Property Name="status" Type="int" />
+          <Property Name="KdAccess" Type="int" />
+          <Property Name="country_right" Type="text" />
+          <Property Name="POD" Type="varchar" MaxLength="50" />
+          <Property Name="istoadmin" Type="int" />
+          <Property Name="right_name" Type="varchar" MaxLength="10" />
+          <Property Name="cb_right" Type="varchar" MaxLength="255" />
+          <Property Name="region_right" Type="text" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+          <Property Name="isNew" Type="int" />
+          <Property Name="userType" Type="int" />
+          <Property Name="CompanyCountry" Type="text" />
+          <Property Name="OfficeLocation" Type="text" />
+          <Property Name="Job" Type="text" />
+          <Property Name="encPassword" Type="varchar" MaxLength="256" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.gain2.vwagency' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwagency">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="jml" />
+            <PropertyRef Name="targetty" />
+            <PropertyRef Name="monthlytarget" />
+            <PropertyRef Name="monthlyachsaving" />
+            <PropertyRef Name="percentty" />
+            <PropertyRef Name="ytdtarget" />
+            <PropertyRef Name="ytdachieved" />
+            <PropertyRef Name="percentytd" />
+            <PropertyRef Name="gap" />
+          </Key>
+          <Property Name="id" Type="ubigint" Nullable="false" />
+          <Property Name="CostTypeName" Type="varchar" MaxLength="50" />
+          <Property Name="projectyear" Type="year" />
+          <Property Name="jml" Type="bigint" Nullable="false" />
+          <Property Name="targetty" Type="decimal" Precision="32" Scale="2" Nullable="false" />
+          <Property Name="monthlytarget" Type="decimal" Precision="43" Scale="0" Nullable="false" />
+          <Property Name="monthlyachsaving" Type="decimal" Precision="43" Scale="0" Nullable="false" />
+          <Property Name="percentty" Type="decimal" Precision="49" Scale="2" Nullable="false" />
+          <Property Name="ytdtarget" Type="decimal" Precision="43" Scale="2" Nullable="false" />
+          <Property Name="ytdachieved" Type="decimal" Precision="43" Scale="2" Nullable="false" />
+          <Property Name="percentytd" Type="decimal" Precision="49" Scale="2" Nullable="false" />
+          <Property Name="gap" Type="decimal" Precision="44" Scale="2" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.gain2.vwheaderinitiative' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwheaderinitiative">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="isDeleted" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="InitNumber" Type="varchar" MaxLength="50" />
+          <Property Name="SourceCategory" Type="bigint" />
+          <Property Name="RelatedInitiative" Type="varchar" MaxLength="50" />
+          <Property Name="CountryID" Type="bigint" />
+          <Property Name="CountryName" Type="varchar" MaxLength="250" />
+          <Property Name="SubCountryID" Type="bigint" />
+          <Property Name="SubCountryName" Type="varchar" MaxLength="250" />
+          <Property Name="BrandID" Type="bigint" />
+          <Property Name="brandname" Type="varchar" MaxLength="250" />
+          <Property Name="RegionID" Type="bigint" />
+          <Property Name="RegionName" Type="varchar" MaxLength="250" />
+          <Property Name="SubRegionID" Type="bigint" />
+          <Property Name="SubRegionName" Type="varchar" MaxLength="250" />
+          <Property Name="ClusterID" Type="bigint" />
+          <Property Name="ClusterName" Type="varchar" MaxLength="250" />
+          <Property Name="RegionalOfficeID" Type="bigint" />
+          <Property Name="RegionalOffice_Name" Type="varchar" MaxLength="250" />
+          <Property Name="CostControlID" Type="bigint" />
+          <Property Name="CostControlSiteName" Type="varchar" MaxLength="250" />
+          <Property Name="LegalEntityID" Type="bigint" />
+          <Property Name="LegalEntityName" Type="varchar" MaxLength="250" />
+          <Property Name="Confidential" Type="enum" />
+          <Property Name="Description" Type="mediumtext" />
+          <Property Name="ResponsibleFullName" Type="varchar" MaxLength="250" />
+          <Property Name="InitiativeType" Type="bigint" />
+          <Property Name="SavingTypeName" Type="varchar" MaxLength="250" />
+          <Property Name="CostCategoryID" Type="bigint" />
+          <Property Name="CostTypeName" Type="varchar" MaxLength="50" />
+          <Property Name="SubCostCategoryID" Type="bigint" />
+          <Property Name="SubCostName" Type="varchar" MaxLength="250" />
+          <Property Name="ActionTypeID" Type="bigint" />
+          <Property Name="ActionTypeName" Type="varchar" MaxLength="250" />
+          <Property Name="SynergyImpactID" Type="bigint" />
+          <Property Name="SynImpactName" Type="varchar" MaxLength="250" />
+          <Property Name="StartMonth" Type="date" />
+          <Property Name="EndMonth" Type="date" />
+          <Property Name="LaraCode" Type="varchar" MaxLength="50" />
+          <Property Name="TargetTY" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNY" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="HOValidity" Type="enum" />
+          <Property Name="RPOCControl" Type="enum" />
+          <Property Name="InitStatus" Type="bigint" />
+          <Property Name="Status" Type="varchar" MaxLength="200" />
+          <Property Name="YTDTarget" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="YTDAchieved" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetJan" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchJan" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetFeb" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchFeb" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetMar" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchMar" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetApr" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchApr" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetMay" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchMay" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetJun" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchJun" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetJul" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchJul" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetAug" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchAug" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetSep" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchSep" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetOct" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchOct" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNov" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNov" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetDec" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchDec" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexJan" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexJan" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexFeb" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexFeb" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexMar" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexMar" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexApr" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexApr" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexMay" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexMay" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexJun" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexJun" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexJul" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexJul" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexAug" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexAug" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexSep" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexSep" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexOct" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexOct" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexNov" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexNov" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TargetNexDec" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AchNexDec" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AgencyComment" Type="mediumtext" />
+          <Property Name="RPOCComment" Type="mediumtext" />
+          <Property Name="HOComment" Type="mediumtext" />
+          <Property Name="AdditionalInfo" Type="mediumtext" />
+          <Property Name="PortID" Type="bigint" />
+          <Property Name="portName" Type="varchar" MaxLength="250" />
+          <Property Name="VendorName" Type="varchar" MaxLength="255" />
+          <Property Name="UploadedFile" Type="mediumtext" />
+          <Property Name="isDeleted" Type="int" Nullable="false" />
+          <Property Name="ProjectYear" Type="year" />
+          <Property Name="CreatedDate" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.gain2.vwsummarydashboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwsummarydashboard">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="CountryName" />
+            <PropertyRef Name="jml" />
+            <PropertyRef Name="TargetTY" />
+            <PropertyRef Name="monthlytarget" />
+            <PropertyRef Name="monthlyachsaving" />
+            <PropertyRef Name="percentty" />
+            <PropertyRef Name="YTDTarget" />
+            <PropertyRef Name="YTDAchSaving" />
+            <PropertyRef Name="percentytd" />
+            <PropertyRef Name="gap" />
+          </Key>
+          <Property Name="id" Type="ubigint" Nullable="false" />
+          <Property Name="RegionName" Type="varchar" MaxLength="250" />
+          <Property Name="CountryName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="ProjectYear" Type="year" />
+          <Property Name="jml" Type="bigint" Nullable="false" />
+          <Property Name="TargetTY" Type="decimal" Precision="32" Scale="2" Nullable="false" />
+          <Property Name="monthlytarget" Type="decimal" Precision="44" Scale="2" Nullable="false" />
+          <Property Name="monthlyachsaving" Type="decimal" Precision="44" Scale="2" Nullable="false" />
+          <Property Name="percentty" Type="decimal" Precision="50" Scale="2" Nullable="false" />
+          <Property Name="YTDTarget" Type="decimal" Precision="43" Scale="2" Nullable="false" />
+          <Property Name="YTDAchSaving" Type="decimal" Precision="43" Scale="2" Nullable="false" />
+          <Property Name="percentytd" Type="decimal" Precision="49" Scale="2" Nullable="false" />
+          <Property Name="gap" Type="decimal" Precision="44" Scale="2" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.gain2.vwsummarydashboarddetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwsummarydashboarddetail">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="jml" />
+            <PropertyRef Name="TargetTY" />
+            <PropertyRef Name="monthlytarget" />
+            <PropertyRef Name="monthlyachsaving" />
+            <PropertyRef Name="percentty" />
+            <PropertyRef Name="YTDTarget" />
+            <PropertyRef Name="YTDAchSaving" />
+            <PropertyRef Name="percentytd" />
+            <PropertyRef Name="gap" />
+          </Key>
+          <Property Name="id" Type="ubigint" Nullable="false" />
+          <Property Name="RegionName" Type="varchar" MaxLength="250" />
+          <Property Name="CountryName" Type="varchar" MaxLength="250" />
+          <Property Name="ProjectYear" Type="year" />
+          <Property Name="jml" Type="bigint" Nullable="false" />
+          <Property Name="TargetTY" Type="decimal" Precision="32" Scale="2" Nullable="false" />
+          <Property Name="monthlytarget" Type="decimal" Precision="44" Scale="2" Nullable="false" />
+          <Property Name="monthlyachsaving" Type="decimal" Precision="44" Scale="2" Nullable="false" />
+          <Property Name="percentty" Type="decimal" Precision="50" Scale="2" Nullable="false" />
+          <Property Name="YTDTarget" Type="decimal" Precision="43" Scale="2" Nullable="false" />
+          <Property Name="YTDAchSaving" Type="decimal" Precision="43" Scale="2" Nullable="false" />
+          <Property Name="percentytd" Type="decimal" Precision="49" Scale="2" Nullable="false" />
+          <Property Name="gap" Type="decimal" Precision="44" Scale="2" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.gain2.vwtopcategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwtopcategory">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="prcnt" />
+            <PropertyRef Name="YTDAchieved" />
+            <PropertyRef Name="YTDTarget" />
+          </Key>
+          <Property Name="id" Type="ubigint" Nullable="false" />
+          <Property Name="CostTypeName" Type="varchar" MaxLength="50" />
+          <Property Name="projectyear" Type="year" />
+          <Property Name="prcnt" Type="decimal" Precision="49" Scale="2" Nullable="false" />
+          <Property Name="YTDAchieved" Type="decimal" Precision="43" Scale="2" Nullable="false" />
+          <Property Name="YTDTarget" Type="decimal" Precision="43" Scale="2" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwtypeofsaving">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="YTDAchieved" />
+            <PropertyRef Name="YTDTarget" />
+          </Key>
+          <Property Name="id" Type="ubigint" Nullable="false" />
+          <Property Name="SavingTypeName" Type="varchar" MaxLength="250" />
+          <Property Name="projectyear" Type="year" />
+          <Property Name="prcnt" Type="decimal" Precision="49" Scale="2" />
+          <Property Name="YTDAchieved" Type="decimal" Precision="43" Scale="2" Nullable="false" />
+          <Property Name="YTDTarget" Type="decimal" Precision="43" Scale="2" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_access_menu_roles1">
+          <End Role="mroles" Type="Self.mroles" Multiplicity="1" />
+          <End Role="maccess_menu" Type="Self.maccess_menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mroles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="maccess_menu">
+              <PropertyRef Name="roles_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACTIONTYPE_COSTITEM_ID">
+          <End Role="mactiontype" Type="Self.mactiontype" Multiplicity="1" />
+          <End Role="t_cost_actiontype" Type="Self.t_cost_actiontype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mactiontype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_cost_actiontype">
+              <PropertyRef Name="actiontypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_actiontypeid_actiontype_subcost">
+          <End Role="mactiontype" Type="Self.mactiontype" Multiplicity="0..1" />
+          <End Role="t_subcostactiontype" Type="Self.t_subcostactiontype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mactiontype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostactiontype">
+              <PropertyRef Name="actiontypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_brandcountry">
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="1" />
+          <End Role="mbrandcountry" Type="Self.mbrandcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mbrandcountry">
+              <PropertyRef Name="countryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_brandid">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="1" />
+          <End Role="mbrandcountry" Type="Self.mbrandcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mbrandcountry">
+              <PropertyRef Name="brandid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANDID_SUBCOSTID">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="0..1" />
+          <End Role="t_subcostbrand" Type="Self.t_subcostbrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostbrand">
+              <PropertyRef Name="brandid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COSTITEM_ACTIONTYPE_ID">
+          <End Role="mcosttype" Type="Self.mcosttype" Multiplicity="1" />
+          <End Role="t_cost_actiontype" Type="Self.t_cost_actiontype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcosttype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_cost_actiontype">
+              <PropertyRef Name="costitemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_costitemid">
+          <End Role="mcosttype" Type="Self.mcosttype" Multiplicity="0..1" />
+          <End Role="t_subcostinitiative" Type="Self.t_subcostinitiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcosttype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostinitiative">
+              <PropertyRef Name="costitemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_country_ro">
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="0..1" />
+          <End Role="mregional_office" Type="Self.mregional_office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mregional_office">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_countryid">
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="1" />
+          <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="msubcountry">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_inicountry">
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initbrand">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initcluster">
+          <End Role="mcluster" Type="Self.mcluster" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcluster">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="ClusterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initcostcontrol">
+          <End Role="mcostcontrolsite" Type="Self.mcostcontrolsite" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcostcontrolsite">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="CostControlID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initlegalentity">
+          <End Role="mlegalentity" Type="Self.mlegalentity" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mlegalentity">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="LegalEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initport">
+          <End Role="mport" Type="Self.mport" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="PortID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initregion">
+          <End Role="mregion" Type="Self.mregion" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initstatus">
+          <End Role="mstatus" Type="Self.mstatus" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mstatus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="InitStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initsubcountry">
+          <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="SubCountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initsubregion">
+          <End Role="msubregion" Type="Self.msubregion" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="SubRegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalBrandID">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="0..1" />
+          <End Role="mlegalentity" Type="Self.mlegalentity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mlegalentity">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalCountry">
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="0..1" />
+          <End Role="mlegalentity" Type="Self.mlegalentity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mlegalentity">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_region">
+          <End Role="mregion" Type="Self.mregion" Multiplicity="0..1" />
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mcountry">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_region_cluster">
+          <End Role="mregion" Type="Self.mregion" Multiplicity="1" />
+          <End Role="mcluster" Type="Self.mcluster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mcluster">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_region_ro">
+          <End Role="mregion" Type="Self.mregion" Multiplicity="0..1" />
+          <End Role="mregional_office" Type="Self.mregional_office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mregional_office">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_savingtypeid">
+          <End Role="msavingtype" Type="Self.msavingtype" Multiplicity="0..1" />
+          <End Role="t_subcostinitiative" Type="Self.t_subcostinitiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msavingtype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostinitiative">
+              <PropertyRef Name="savingtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SAVINGTYPEID_SUBCOSTID">
+          <End Role="msavingtype" Type="Self.msavingtype" Multiplicity="0..1" />
+          <End Role="t_subcostbrand" Type="Self.t_subcostbrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msavingtype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostbrand">
+              <PropertyRef Name="savingtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_subcostid">
+          <End Role="msubcost" Type="Self.msubcost" Multiplicity="0..1" />
+          <End Role="t_subcostinitiative" Type="Self.t_subcostinitiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcost">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostinitiative">
+              <PropertyRef Name="subcostid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_subcostid_actiontype_subcost">
+          <End Role="msubcost" Type="Self.msubcost" Multiplicity="0..1" />
+          <End Role="t_subcostactiontype" Type="Self.t_subcostactiontype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcost">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostactiontype">
+              <PropertyRef Name="subcostid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUBCOSTID_BRANDID">
+          <End Role="msubcost" Type="Self.msubcost" Multiplicity="0..1" />
+          <End Role="t_subcostbrand" Type="Self.t_subcostbrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcost">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostbrand">
+              <PropertyRef Name="subcostid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_subregion">
+          <End Role="mregion" Type="Self.mregion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="msubregion" Type="Self.msubregion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="msubregion">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_subregion_cluster">
+          <End Role="msubregion" Type="Self.msubregion" Multiplicity="1" />
+          <End Role="mcluster" Type="Self.mcluster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mcluster">
+              <PropertyRef Name="SubRegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_subregion_country">
+          <End Role="msubregion" Type="Self.msubregion" Multiplicity="0..1" />
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mcountry">
+              <PropertyRef Name="SubRegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_initiative_mregional_office">
+          <End Role="mregional_office" Type="Self.mregional_office" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregional_office">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="RegionalOfficeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_subcostbrand_mcosttype">
+          <End Role="mcosttype" Type="Self.mcosttype" Multiplicity="0..1" />
+          <End Role="t_subcostbrand" Type="Self.t_subcostbrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcosttype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostbrand">
+              <PropertyRef Name="costtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="maccess_menu_ibfk_3">
+          <End Role="mmenu" Type="Self.mmenu" Multiplicity="0..1" />
+          <End Role="maccess_menu" Type="Self.maccess_menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mmenu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="maccess_menu">
+              <PropertyRef Name="menu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="mmenu_ibfk_1">
+          <End Role="mmenu" Type="Self.mmenu" Multiplicity="0..1" />
+          <End Role="mmenu1" Type="Self.mmenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mmenu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mmenu1">
+              <PropertyRef Name="parent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GainModelStoreContainer">
+          <EntitySet Name="logtable" EntityType="Self.logtable" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="maccess_menu" EntityType="Self.maccess_menu" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mactiontype" EntityType="Self.mactiontype" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mbrand" EntityType="Self.mbrand" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mbrandcountry" EntityType="Self.mbrandcountry" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mcluster" EntityType="Self.mcluster" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mcostcontrolsite" EntityType="Self.mcostcontrolsite" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mcosttype" EntityType="Self.mcosttype" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mcountry" EntityType="Self.mcountry" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mlegalentity" EntityType="Self.mlegalentity" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mmenu" EntityType="Self.mmenu" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mport" EntityType="Self.mport" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mregion" EntityType="Self.mregion" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mregional_office" EntityType="Self.mregional_office" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mroles" EntityType="Self.mroles" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="msavingtype" EntityType="Self.msavingtype" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="msourcecategory" EntityType="Self.msourcecategory" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="mstatus" EntityType="Self.mstatus" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="msubcost" EntityType="Self.msubcost" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="msubcountry" EntityType="Self.msubcountry" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="msubregion" EntityType="Self.msubregion" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="msynimpact" EntityType="Self.msynimpact" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="myears" EntityType="Self.myears" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="t_cost_actiontype" EntityType="Self.t_cost_actiontype" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="t_initiative" EntityType="Self.t_initiative" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="t_subcostactiontype" EntityType="Self.t_subcostactiontype" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="t_subcostbrand" EntityType="Self.t_subcostbrand" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="t_subcostinitiative" EntityType="Self.t_subcostinitiative" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="user_list" EntityType="Self.user_list" Schema="gain2" store:Type="Tables" />
+          <EntitySet Name="vwagency" EntityType="Self.vwagency" store:Type="Views" store:Schema="gain2">
+            <DefiningQuery>SELECT
+`vwagency`.`id`, 
+`vwagency`.`CostTypeName`, 
+`vwagency`.`projectyear`, 
+`vwagency`.`jml`, 
+`vwagency`.`targetty`, 
+`vwagency`.`monthlytarget`, 
+`vwagency`.`monthlyachsaving`, 
+`vwagency`.`percentty`, 
+`vwagency`.`ytdtarget`, 
+`vwagency`.`ytdachieved`, 
+`vwagency`.`percentytd`, 
+`vwagency`.`gap`
+FROM `vwagency` AS `vwagency`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwheaderinitiative" EntityType="Self.vwheaderinitiative" store:Type="Views" store:Schema="gain2">
+            <DefiningQuery>SELECT
+`vwheaderinitiative`.`id`, 
+`vwheaderinitiative`.`InitNumber`, 
+`vwheaderinitiative`.`SourceCategory`, 
+`vwheaderinitiative`.`RelatedInitiative`, 
+`vwheaderinitiative`.`CountryID`, 
+`vwheaderinitiative`.`CountryName`, 
+`vwheaderinitiative`.`SubCountryID`, 
+`vwheaderinitiative`.`SubCountryName`, 
+`vwheaderinitiative`.`BrandID`, 
+`vwheaderinitiative`.`brandname`, 
+`vwheaderinitiative`.`RegionID`, 
+`vwheaderinitiative`.`RegionName`, 
+`vwheaderinitiative`.`SubRegionID`, 
+`vwheaderinitiative`.`SubRegionName`, 
+`vwheaderinitiative`.`ClusterID`, 
+`vwheaderinitiative`.`ClusterName`, 
+`vwheaderinitiative`.`RegionalOfficeID`, 
+`vwheaderinitiative`.`RegionalOffice_Name`, 
+`vwheaderinitiative`.`CostControlID`, 
+`vwheaderinitiative`.`CostControlSiteName`, 
+`vwheaderinitiative`.`LegalEntityID`, 
+`vwheaderinitiative`.`LegalEntityName`, 
+`vwheaderinitiative`.`Confidential`, 
+`vwheaderinitiative`.`Description`, 
+`vwheaderinitiative`.`ResponsibleFullName`, 
+`vwheaderinitiative`.`InitiativeType`, 
+`vwheaderinitiative`.`SavingTypeName`, 
+`vwheaderinitiative`.`CostCategoryID`, 
+`vwheaderinitiative`.`CostTypeName`, 
+`vwheaderinitiative`.`SubCostCategoryID`, 
+`vwheaderinitiative`.`SubCostName`, 
+`vwheaderinitiative`.`ActionTypeID`, 
+`vwheaderinitiative`.`ActionTypeName`, 
+`vwheaderinitiative`.`SynergyImpactID`, 
+`vwheaderinitiative`.`SynImpactName`, 
+`vwheaderinitiative`.`StartMonth`, 
+`vwheaderinitiative`.`EndMonth`, 
+`vwheaderinitiative`.`LaraCode`, 
+`vwheaderinitiative`.`TargetTY`, 
+`vwheaderinitiative`.`TargetNY`, 
+`vwheaderinitiative`.`HOValidity`, 
+`vwheaderinitiative`.`RPOCControl`, 
+`vwheaderinitiative`.`InitStatus`, 
+`vwheaderinitiative`.`Status`, 
+`vwheaderinitiative`.`YTDTarget`, 
+`vwheaderinitiative`.`YTDAchieved`, 
+`vwheaderinitiative`.`TargetJan`, 
+`vwheaderinitiative`.`AchJan`, 
+`vwheaderinitiative`.`TargetFeb`, 
+`vwheaderinitiative`.`AchFeb`, 
+`vwheaderinitiative`.`TargetMar`, 
+`vwheaderinitiative`.`AchMar`, 
+`vwheaderinitiative`.`TargetApr`, 
+`vwheaderinitiative`.`AchApr`, 
+`vwheaderinitiative`.`TargetMay`, 
+`vwheaderinitiative`.`AchMay`, 
+`vwheaderinitiative`.`TargetJun`, 
+`vwheaderinitiative`.`AchJun`, 
+`vwheaderinitiative`.`TargetJul`, 
+`vwheaderinitiative`.`AchJul`, 
+`vwheaderinitiative`.`TargetAug`, 
+`vwheaderinitiative`.`AchAug`, 
+`vwheaderinitiative`.`TargetSep`, 
+`vwheaderinitiative`.`AchSep`, 
+`vwheaderinitiative`.`TargetOct`, 
+`vwheaderinitiative`.`AchOct`, 
+`vwheaderinitiative`.`TargetNov`, 
+`vwheaderinitiative`.`AchNov`, 
+`vwheaderinitiative`.`TargetDec`, 
+`vwheaderinitiative`.`AchDec`, 
+`vwheaderinitiative`.`TargetNexJan`, 
+`vwheaderinitiative`.`AchNexJan`, 
+`vwheaderinitiative`.`TargetNexFeb`, 
+`vwheaderinitiative`.`AchNexFeb`, 
+`vwheaderinitiative`.`TargetNexMar`, 
+`vwheaderinitiative`.`AchNexMar`, 
+`vwheaderinitiative`.`TargetNexApr`, 
+`vwheaderinitiative`.`AchNexApr`, 
+`vwheaderinitiative`.`TargetNexMay`, 
+`vwheaderinitiative`.`AchNexMay`, 
+`vwheaderinitiative`.`TargetNexJun`, 
+`vwheaderinitiative`.`AchNexJun`, 
+`vwheaderinitiative`.`TargetNexJul`, 
+`vwheaderinitiative`.`AchNexJul`, 
+`vwheaderinitiative`.`TargetNexAug`, 
+`vwheaderinitiative`.`AchNexAug`, 
+`vwheaderinitiative`.`TargetNexSep`, 
+`vwheaderinitiative`.`AchNexSep`, 
+`vwheaderinitiative`.`TargetNexOct`, 
+`vwheaderinitiative`.`AchNexOct`, 
+`vwheaderinitiative`.`TargetNexNov`, 
+`vwheaderinitiative`.`AchNexNov`, 
+`vwheaderinitiative`.`TargetNexDec`, 
+`vwheaderinitiative`.`AchNexDec`, 
+`vwheaderinitiative`.`AgencyComment`, 
+`vwheaderinitiative`.`RPOCComment`, 
+`vwheaderinitiative`.`HOComment`, 
+`vwheaderinitiative`.`AdditionalInfo`, 
+`vwheaderinitiative`.`PortID`, 
+`vwheaderinitiative`.`portName`, 
+`vwheaderinitiative`.`VendorName`, 
+`vwheaderinitiative`.`UploadedFile`, 
+`vwheaderinitiative`.`isDeleted`, 
+`vwheaderinitiative`.`ProjectYear`, 
+`vwheaderinitiative`.`CreatedDate`
+FROM `vwheaderinitiative` AS `vwheaderinitiative`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwsummarydashboard" EntityType="Self.vwsummarydashboard" store:Type="Views" store:Schema="gain2">
+            <DefiningQuery>SELECT
+`vwsummarydashboard`.`id`, 
+`vwsummarydashboard`.`RegionName`, 
+`vwsummarydashboard`.`CountryName`, 
+`vwsummarydashboard`.`ProjectYear`, 
+`vwsummarydashboard`.`jml`, 
+`vwsummarydashboard`.`TargetTY`, 
+`vwsummarydashboard`.`monthlytarget`, 
+`vwsummarydashboard`.`monthlyachsaving`, 
+`vwsummarydashboard`.`percentty`, 
+`vwsummarydashboard`.`YTDTarget`, 
+`vwsummarydashboard`.`YTDAchSaving`, 
+`vwsummarydashboard`.`percentytd`, 
+`vwsummarydashboard`.`gap`
+FROM `vwsummarydashboard` AS `vwsummarydashboard`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwsummarydashboarddetail" EntityType="Self.vwsummarydashboarddetail" store:Type="Views" store:Schema="gain2">
+            <DefiningQuery>SELECT
+`vwsummarydashboarddetail`.`id`, 
+`vwsummarydashboarddetail`.`RegionName`, 
+`vwsummarydashboarddetail`.`CountryName`, 
+`vwsummarydashboarddetail`.`ProjectYear`, 
+`vwsummarydashboarddetail`.`jml`, 
+`vwsummarydashboarddetail`.`TargetTY`, 
+`vwsummarydashboarddetail`.`monthlytarget`, 
+`vwsummarydashboarddetail`.`monthlyachsaving`, 
+`vwsummarydashboarddetail`.`percentty`, 
+`vwsummarydashboarddetail`.`YTDTarget`, 
+`vwsummarydashboarddetail`.`YTDAchSaving`, 
+`vwsummarydashboarddetail`.`percentytd`, 
+`vwsummarydashboarddetail`.`gap`
+FROM `vwsummarydashboarddetail` AS `vwsummarydashboarddetail`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwtopcategory" EntityType="Self.vwtopcategory" store:Type="Views" store:Schema="gain2">
+            <DefiningQuery>SELECT
+`vwtopcategory`.`id`, 
+`vwtopcategory`.`CostTypeName`, 
+`vwtopcategory`.`projectyear`, 
+`vwtopcategory`.`prcnt`, 
+`vwtopcategory`.`YTDAchieved`, 
+`vwtopcategory`.`YTDTarget`
+FROM `vwtopcategory` AS `vwtopcategory`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwtypeofsaving" EntityType="Self.vwtypeofsaving" store:Type="Views" store:Schema="gain2">
+            <DefiningQuery>SELECT
+`vwtypeofsaving`.`id`, 
+`vwtypeofsaving`.`SavingTypeName`, 
+`vwtypeofsaving`.`projectyear`, 
+`vwtypeofsaving`.`prcnt`, 
+`vwtypeofsaving`.`YTDAchieved`, 
+`vwtypeofsaving`.`YTDTarget`
+FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_access_menu_roles1" Association="Self.fk_access_menu_roles1">
+            <End Role="mroles" EntitySet="mroles" />
+            <End Role="maccess_menu" EntitySet="maccess_menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACTIONTYPE_COSTITEM_ID" Association="Self.FK_ACTIONTYPE_COSTITEM_ID">
+            <End Role="mactiontype" EntitySet="mactiontype" />
+            <End Role="t_cost_actiontype" EntitySet="t_cost_actiontype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_actiontypeid_actiontype_subcost" Association="Self.FK_actiontypeid_actiontype_subcost">
+            <End Role="mactiontype" EntitySet="mactiontype" />
+            <End Role="t_subcostactiontype" EntitySet="t_subcostactiontype" />
+          </AssociationSet>
+          <AssociationSet Name="fk_brandcountry" Association="Self.fk_brandcountry">
+            <End Role="mcountry" EntitySet="mcountry" />
+            <End Role="mbrandcountry" EntitySet="mbrandcountry" />
+          </AssociationSet>
+          <AssociationSet Name="fk_brandid" Association="Self.fk_brandid">
+            <End Role="mbrand" EntitySet="mbrand" />
+            <End Role="mbrandcountry" EntitySet="mbrandcountry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BRANDID_SUBCOSTID" Association="Self.FK_BRANDID_SUBCOSTID">
+            <End Role="mbrand" EntitySet="mbrand" />
+            <End Role="t_subcostbrand" EntitySet="t_subcostbrand" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COSTITEM_ACTIONTYPE_ID" Association="Self.FK_COSTITEM_ACTIONTYPE_ID">
+            <End Role="mcosttype" EntitySet="mcosttype" />
+            <End Role="t_cost_actiontype" EntitySet="t_cost_actiontype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_costitemid" Association="Self.FK_costitemid">
+            <End Role="mcosttype" EntitySet="mcosttype" />
+            <End Role="t_subcostinitiative" EntitySet="t_subcostinitiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_country_ro" Association="Self.fk_country_ro">
+            <End Role="mcountry" EntitySet="mcountry" />
+            <End Role="mregional_office" EntitySet="mregional_office" />
+          </AssociationSet>
+          <AssociationSet Name="fk_countryid" Association="Self.fk_countryid">
+            <End Role="mcountry" EntitySet="mcountry" />
+            <End Role="msubcountry" EntitySet="msubcountry" />
+          </AssociationSet>
+          <AssociationSet Name="fk_inicountry" Association="Self.fk_inicountry">
+            <End Role="mcountry" EntitySet="mcountry" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initbrand" Association="Self.fk_initbrand">
+            <End Role="mbrand" EntitySet="mbrand" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initcluster" Association="Self.fk_initcluster">
+            <End Role="mcluster" EntitySet="mcluster" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initcostcontrol" Association="Self.fk_initcostcontrol">
+            <End Role="mcostcontrolsite" EntitySet="mcostcontrolsite" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initlegalentity" Association="Self.fk_initlegalentity">
+            <End Role="mlegalentity" EntitySet="mlegalentity" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initport" Association="Self.fk_initport">
+            <End Role="mport" EntitySet="mport" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initregion" Association="Self.fk_initregion">
+            <End Role="mregion" EntitySet="mregion" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initstatus" Association="Self.fk_initstatus">
+            <End Role="mstatus" EntitySet="mstatus" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initsubcountry" Association="Self.fk_initsubcountry">
+            <End Role="msubcountry" EntitySet="msubcountry" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initsubregion" Association="Self.fk_initsubregion">
+            <End Role="msubregion" EntitySet="msubregion" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalBrandID" Association="Self.fk_LegalBrandID">
+            <End Role="mbrand" EntitySet="mbrand" />
+            <End Role="mlegalentity" EntitySet="mlegalentity" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalCountry" Association="Self.fk_LegalCountry">
+            <End Role="mcountry" EntitySet="mcountry" />
+            <End Role="mlegalentity" EntitySet="mlegalentity" />
+          </AssociationSet>
+          <AssociationSet Name="fk_region" Association="Self.fk_region">
+            <End Role="mregion" EntitySet="mregion" />
+            <End Role="mcountry" EntitySet="mcountry" />
+          </AssociationSet>
+          <AssociationSet Name="fk_region_cluster" Association="Self.fk_region_cluster">
+            <End Role="mregion" EntitySet="mregion" />
+            <End Role="mcluster" EntitySet="mcluster" />
+          </AssociationSet>
+          <AssociationSet Name="fk_region_ro" Association="Self.fk_region_ro">
+            <End Role="mregion" EntitySet="mregion" />
+            <End Role="mregional_office" EntitySet="mregional_office" />
+          </AssociationSet>
+          <AssociationSet Name="FK_savingtypeid" Association="Self.FK_savingtypeid">
+            <End Role="msavingtype" EntitySet="msavingtype" />
+            <End Role="t_subcostinitiative" EntitySet="t_subcostinitiative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SAVINGTYPEID_SUBCOSTID" Association="Self.FK_SAVINGTYPEID_SUBCOSTID">
+            <End Role="msavingtype" EntitySet="msavingtype" />
+            <End Role="t_subcostbrand" EntitySet="t_subcostbrand" />
+          </AssociationSet>
+          <AssociationSet Name="FK_subcostid" Association="Self.FK_subcostid">
+            <End Role="msubcost" EntitySet="msubcost" />
+            <End Role="t_subcostinitiative" EntitySet="t_subcostinitiative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_subcostid_actiontype_subcost" Association="Self.FK_subcostid_actiontype_subcost">
+            <End Role="msubcost" EntitySet="msubcost" />
+            <End Role="t_subcostactiontype" EntitySet="t_subcostactiontype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUBCOSTID_BRANDID" Association="Self.FK_SUBCOSTID_BRANDID">
+            <End Role="msubcost" EntitySet="msubcost" />
+            <End Role="t_subcostbrand" EntitySet="t_subcostbrand" />
+          </AssociationSet>
+          <AssociationSet Name="fk_subregion" Association="Self.fk_subregion">
+            <End Role="mregion" EntitySet="mregion" />
+            <End Role="msubregion" EntitySet="msubregion" />
+          </AssociationSet>
+          <AssociationSet Name="fk_subregion_cluster" Association="Self.fk_subregion_cluster">
+            <End Role="msubregion" EntitySet="msubregion" />
+            <End Role="mcluster" EntitySet="mcluster" />
+          </AssociationSet>
+          <AssociationSet Name="fk_subregion_country" Association="Self.fk_subregion_country">
+            <End Role="msubregion" EntitySet="msubregion" />
+            <End Role="mcountry" EntitySet="mcountry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_initiative_mregional_office" Association="Self.FK_t_initiative_mregional_office">
+            <End Role="mregional_office" EntitySet="mregional_office" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_subcostbrand_mcosttype" Association="Self.FK_t_subcostbrand_mcosttype">
+            <End Role="mcosttype" EntitySet="mcosttype" />
+            <End Role="t_subcostbrand" EntitySet="t_subcostbrand" />
+          </AssociationSet>
+          <AssociationSet Name="maccess_menu_ibfk_3" Association="Self.maccess_menu_ibfk_3">
+            <End Role="mmenu" EntitySet="mmenu" />
+            <End Role="maccess_menu" EntitySet="maccess_menu" />
+          </AssociationSet>
+          <AssociationSet Name="mmenu_ibfk_1" Association="Self.mmenu_ibfk_1">
+            <End Role="mmenu" EntitySet="mmenu" />
+            <End Role="mmenu1" EntitySet="mmenu" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GainModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="logtable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="genKey" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="initnumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="projectyear" Type="Int32" />
+          <Property Name="tablesName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="columnsName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="oldValues" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="newValues" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="dateUpdate" Type="DateTime" />
+          <Property Name="updateBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="maccess_menu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="roles_id" Type="Int64" Nullable="false" />
+          <Property Name="menu_id" Type="Int64" />
+          <Property Name="publish" Type="Boolean" />
+          <Property Name="obsolete" Type="Boolean" Nullable="false" />
+          <Property Name="createdby" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="createddate" Type="DateTime" />
+          <Property Name="modifiedby" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="modifieddate" Type="DateTime" />
+          <NavigationProperty Name="mrole" Relationship="Self.fk_access_menu_roles1" FromRole="maccess_menu" ToRole="mroles" />
+          <NavigationProperty Name="mmenu" Relationship="Self.maccess_menu_ibfk_3" FromRole="maccess_menu" ToRole="mmenu" />
+        </EntityType>
+        <EntityType Name="mactiontype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionTypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="t_cost_actiontype" Relationship="Self.FK_ACTIONTYPE_COSTITEM_ID" FromRole="mactiontype" ToRole="t_cost_actiontype" />
+          <NavigationProperty Name="t_subcostactiontype" Relationship="Self.FK_actiontypeid_actiontype_subcost" FromRole="mactiontype" ToRole="t_subcostactiontype" />
+        </EntityType>
+        <EntityType Name="mbrand">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="brandname" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="mbrandcountries" Relationship="Self.fk_brandid" FromRole="mbrand" ToRole="mbrandcountry" />
+          <NavigationProperty Name="t_subcostbrand" Relationship="Self.FK_BRANDID_SUBCOSTID" FromRole="mbrand" ToRole="t_subcostbrand" />
+          <NavigationProperty Name="t_initiative" Relationship="Self.fk_initbrand" FromRole="mbrand" ToRole="t_initiative" />
+          <NavigationProperty Name="mlegalentities" Relationship="Self.fk_LegalBrandID" FromRole="mbrand" ToRole="mlegalentity" />
+        </EntityType>
+        <EntityType Name="mbrandcountry">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="countryid" Type="Int64" Nullable="false" />
+          <Property Name="brandid" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="mbrand" Relationship="Self.fk_brandid" FromRole="mbrandcountry" ToRole="mbrand" />
+          <NavigationProperty Name="mcountry" Relationship="Self.fk_brandcountry" FromRole="mbrandcountry" ToRole="mcountry" />
+        </EntityType>
+        <EntityType Name="mcluster">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegionID" Type="Int64" Nullable="false" />
+          <Property Name="SubRegionID" Type="Int64" Nullable="false" />
+          <Property Name="CountryID" Type="Int64" />
+          <Property Name="ClusterName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="t_initiative" Relationship="Self.fk_initcluster" FromRole="mcluster" ToRole="t_initiative" />
+          <NavigationProperty Name="mregion" Relationship="Self.fk_region_cluster" FromRole="mcluster" ToRole="mregion" />
+          <NavigationProperty Name="msubregion" Relationship="Self.fk_subregion_cluster" FromRole="mcluster" ToRole="msubregion" />
+        </EntityType>
+        <EntityType Name="mcostcontrolsite">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CostControlSiteName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="t_initiative" Relationship="Self.fk_initcostcontrol" FromRole="mcostcontrolsite" ToRole="t_initiative" />
+        </EntityType>
+        <EntityType Name="mcosttype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CostTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="t_cost_actiontype" Relationship="Self.FK_COSTITEM_ACTIONTYPE_ID" FromRole="mcosttype" ToRole="t_cost_actiontype" />
+          <NavigationProperty Name="t_subcostinitiative" Relationship="Self.FK_costitemid" FromRole="mcosttype" ToRole="t_subcostinitiative" />
+          <NavigationProperty Name="t_subcostbrand" Relationship="Self.FK_t_subcostbrand_mcosttype" FromRole="mcosttype" ToRole="t_subcostbrand" />
+        </EntityType>
+        <EntityType Name="mcountry">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegionID" Type="Int64" />
+          <Property Name="SubRegionID" Type="Int64" />
+          <Property Name="CountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="mbrandcountries" Relationship="Self.fk_brandcountry" FromRole="mcountry" ToRole="mbrandcountry" />
+          <NavigationProperty Name="mregional_office" Relationship="Self.fk_country_ro" FromRole="mcountry" ToRole="mregional_office" />
+          <NavigationProperty Name="msubcountries" Relationship="Self.fk_countryid" FromRole="mcountry" ToRole="msubcountry" />
+          <NavigationProperty Name="t_initiative" Relationship="Self.fk_inicountry" FromRole="mcountry" ToRole="t_initiative" />
+          <NavigationProperty Name="mlegalentities" Relationship="Self.fk_LegalCountry" FromRole="mcountry" ToRole="mlegalentity" />
+          <NavigationProperty Name="mregion" Relationship="Self.fk_region" FromRole="mcountry" ToRole="mregion" />
+          <NavigationProperty Name="msubregion" Relationship="Self.fk_subregion_country" FromRole="mcountry" ToRole="msubregion" />
+        </EntityType>
+        <EntityType Name="mlegalentity">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrandID" Type="Int64" />
+          <Property Name="CountryID" Type="Int64" />
+          <Property Name="LegalEntityName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="mbrand" Relationship="Self.fk_LegalBrandID" FromRole="mlegalentity" ToRole="mbrand" />
+          <NavigationProperty Name="mcountry" Relationship="Self.fk_LegalCountry" FromRole="mlegalentity" ToRole="mcountry" />
+          <NavigationProperty Name="t_initiative" Relationship="Self.fk_initlegalentity" FromRole="mlegalentity" ToRole="t_initiative" />
+        </EntityType>
+        <EntityType Name="mmenu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="iconcls" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="label" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="link" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="attribute" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="level" Type="Int32" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="position" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="parent" Type="Int64" />
+          <Property Name="publish" Type="Boolean" />
+          <Property Name="linkdependency" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="obsolete" Type="Boolean" Nullable="false" />
+          <Property Name="createdby" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="createddate" Type="DateTime" />
+          <Property Name="modifiedby" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="modifieddate" Type="DateTime" />
+          <NavigationProperty Name="maccess_menu" Relationship="Self.maccess_menu_ibfk_3" FromRole="mmenu" ToRole="maccess_menu" />
+          <NavigationProperty Name="mmenu1" Relationship="Self.mmenu_ibfk_1" FromRole="mmenu" ToRole="mmenu1" />
+          <NavigationProperty Name="mmenu2" Relationship="Self.mmenu_ibfk_1" FromRole="mmenu1" ToRole="mmenu" />
+        </EntityType>
+        <EntityType Name="mport">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PortName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="t_initiative" Relationship="Self.fk_initport" FromRole="mport" ToRole="t_initiative" />
+        </EntityType>
+        <EntityType Name="mregion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegionName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="Int32" />
+          <NavigationProperty Name="mclusters" Relationship="Self.fk_region_cluster" FromRole="mregion" ToRole="mcluster" />
+          <NavigationProperty Name="mcountries" Relationship="Self.fk_region" FromRole="mregion" ToRole="mcountry" />
+          <NavigationProperty Name="t_initiative" Relationship="Self.fk_initregion" FromRole="mregion" ToRole="t_initiative" />
+          <NavigationProperty Name="mregional_office" Relationship="Self.fk_region_ro" FromRole="mregion" ToRole="mregional_office" />
+          <NavigationProperty Name="msubregions" Relationship="Self.fk_subregion" FromRole="mregion" ToRole="msubregion" />
+        </EntityType>
+        <EntityType Name="mregional_office">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegionID" Type="Int64" />
+          <Property Name="CountryID" Type="Int64" />
+          <Property Name="RegionalOffice_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="mcountry" Relationship="Self.fk_country_ro" FromRole="mregional_office" ToRole="mcountry" />
+          <NavigationProperty Name="mregion" Relationship="Self.fk_region_ro" FromRole="mregional_office" ToRole="mregion" />
+          <NavigationProperty Name="t_initiative" Relationship="Self.FK_t_initiative_mregional_office" FromRole="mregional_office" ToRole="t_initiative" />
+        </EntityType>
+        <EntityType Name="mrole">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="def" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="desc" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="permission" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="countries_id" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="isFinalRole" Type="Boolean" Nullable="false" />
+          <Property Name="obsolete" Type="Boolean" Nullable="false" />
+          <Property Name="createdby" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="createddate" Type="DateTime" />
+          <Property Name="modifiedby" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="modifieddate" Type="DateTime" />
+          <NavigationProperty Name="maccess_menu" Relationship="Self.fk_access_menu_roles1" FromRole="mroles" ToRole="maccess_menu" />
+        </EntityType>
+        <EntityType Name="msavingtype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SavingTypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="t_subcostinitiative" Relationship="Self.FK_savingtypeid" FromRole="msavingtype" ToRole="t_subcostinitiative" />
+          <NavigationProperty Name="t_subcostbrand" Relationship="Self.FK_SAVINGTYPEID_SUBCOSTID" FromRole="msavingtype" ToRole="t_subcostbrand" />
+        </EntityType>
+        <EntityType Name="msourcecategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryname" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mstatu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_initiative" Relationship="Self.fk_initstatus" FromRole="mstatus" ToRole="t_initiative" />
+        </EntityType>
+        <EntityType Name="msubcost">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubCostName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="t_subcostinitiative" Relationship="Self.FK_subcostid" FromRole="msubcost" ToRole="t_subcostinitiative" />
+          <NavigationProperty Name="t_subcostactiontype" Relationship="Self.FK_subcostid_actiontype_subcost" FromRole="msubcost" ToRole="t_subcostactiontype" />
+          <NavigationProperty Name="t_subcostbrand" Relationship="Self.FK_SUBCOSTID_BRANDID" FromRole="msubcost" ToRole="t_subcostbrand" />
+        </EntityType>
+        <EntityType Name="msubcountry">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryID" Type="Int64" Nullable="false" />
+          <Property Name="SubCountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CountryCode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="mcountry" Relationship="Self.fk_countryid" FromRole="msubcountry" ToRole="mcountry" />
+          <NavigationProperty Name="t_initiative" Relationship="Self.fk_initsubcountry" FromRole="msubcountry" ToRole="t_initiative" />
+        </EntityType>
+        <EntityType Name="msubregion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegionID" Type="Int64" Nullable="false" />
+          <Property Name="SubRegionName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="mclusters" Relationship="Self.fk_subregion_cluster" FromRole="msubregion" ToRole="mcluster" />
+          <NavigationProperty Name="mcountries" Relationship="Self.fk_subregion_country" FromRole="msubregion" ToRole="mcountry" />
+          <NavigationProperty Name="mregion" Relationship="Self.fk_subregion" FromRole="msubregion" ToRole="mregion" />
+          <NavigationProperty Name="t_initiative" Relationship="Self.fk_initsubregion" FromRole="msubregion" ToRole="t_initiative" />
+        </EntityType>
+        <EntityType Name="msynimpact">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SynImpactName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="myear">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="years" Type="Int32" />
+          <Property Name="yrStatus" Type="Int32" />
+        </EntityType>
+        <EntityType Name="t_cost_actiontype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="costitemid" Type="Int64" Nullable="false" />
+          <Property Name="actiontypeid" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="mactiontype" Relationship="Self.FK_ACTIONTYPE_COSTITEM_ID" FromRole="t_cost_actiontype" ToRole="mactiontype" />
+          <NavigationProperty Name="mcosttype" Relationship="Self.FK_COSTITEM_ACTIONTYPE_ID" FromRole="t_cost_actiontype" ToRole="mcosttype" />
+        </EntityType>
+        <EntityType Name="t_initiative">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InitNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RelatedInitiative" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SourceCategory" Type="Int64" />
+          <Property Name="BrandID" Type="Int64" />
+          <Property Name="RegionID" Type="Int64" />
+          <Property Name="SubRegionID" Type="Int64" />
+          <Property Name="ClusterID" Type="Int64" />
+          <Property Name="RegionalOfficeID" Type="Int64" />
+          <Property Name="CostControlID" Type="Int64" />
+          <Property Name="LegalEntityID" Type="Int64" />
+          <Property Name="CountryID" Type="Int64" />
+          <Property Name="SubCountryID" Type="Int64" />
+          <Property Name="Confidential" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="ResponsibleFullName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="InitiativeType" Type="Int64" />
+          <Property Name="CostCategoryID" Type="Int64" />
+          <Property Name="SubCostCategoryID" Type="Int64" />
+          <Property Name="ActionTypeID" Type="Int64" />
+          <Property Name="SynergyImpactID" Type="Int64" />
+          <Property Name="InitStatus" Type="Int64" />
+          <Property Name="isDeleted" Type="Int32" Nullable="false" />
+          <Property Name="StartMonth" Type="DateTime" />
+          <Property Name="EndMonth" Type="DateTime" />
+          <Property Name="LaraCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TargetTY" Type="Decimal" />
+          <Property Name="TargetNY" Type="Decimal" />
+          <Property Name="HOValidity" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="RPOCControl" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="YTDTarget" Type="Decimal" />
+          <Property Name="YTDAchieved" Type="Decimal" />
+          <Property Name="TargetJan" Type="Decimal" />
+          <Property Name="AchJan" Type="Decimal" />
+          <Property Name="TargetFeb" Type="Decimal" />
+          <Property Name="AchFeb" Type="Decimal" />
+          <Property Name="TargetMar" Type="Decimal" />
+          <Property Name="AchMar" Type="Decimal" />
+          <Property Name="TargetApr" Type="Decimal" />
+          <Property Name="AchApr" Type="Decimal" />
+          <Property Name="TargetMay" Type="Decimal" />
+          <Property Name="AchMay" Type="Decimal" />
+          <Property Name="TargetJun" Type="Decimal" />
+          <Property Name="AchJun" Type="Decimal" />
+          <Property Name="TargetJul" Type="Decimal" />
+          <Property Name="AchJul" Type="Decimal" />
+          <Property Name="TargetAug" Type="Decimal" />
+          <Property Name="AchAug" Type="Decimal" />
+          <Property Name="TargetSep" Type="Decimal" />
+          <Property Name="AchSep" Type="Decimal" />
+          <Property Name="TargetOct" Type="Decimal" />
+          <Property Name="AchOct" Type="Decimal" />
+          <Property Name="TargetNov" Type="Decimal" />
+          <Property Name="AchNov" Type="Decimal" />
+          <Property Name="TargetDec" Type="Decimal" />
+          <Property Name="AchDec" Type="Decimal" />
+          <Property Name="TargetNexJan" Type="Decimal" />
+          <Property Name="AchNexJan" Type="Decimal" />
+          <Property Name="TargetNexFeb" Type="Decimal" />
+          <Property Name="AchNexFeb" Type="Decimal" />
+          <Property Name="TargetNexMar" Type="Decimal" />
+          <Property Name="AchNexMar" Type="Decimal" />
+          <Property Name="TargetNexApr" Type="Decimal" />
+          <Property Name="AchNexApr" Type="Decimal" />
+          <Property Name="TargetNexMay" Type="Decimal" />
+          <Property Name="AchNexMay" Type="Decimal" />
+          <Property Name="TargetNexJun" Type="Decimal" />
+          <Property Name="AchNexJun" Type="Decimal" />
+          <Property Name="TargetNexJul" Type="Decimal" />
+          <Property Name="AchNexJul" Type="Decimal" />
+          <Property Name="TargetNexAug" Type="Decimal" />
+          <Property Name="AchNexAug" Type="Decimal" />
+          <Property Name="TargetNexSep" Type="Decimal" />
+          <Property Name="AchNexSep" Type="Decimal" />
+          <Property Name="TargetNexOct" Type="Decimal" />
+          <Property Name="AchNexOct" Type="Decimal" />
+          <Property Name="TargetNexNov" Type="Decimal" />
+          <Property Name="AchNexNov" Type="Decimal" />
+          <Property Name="TargetNexDec" Type="Decimal" />
+          <Property Name="AchNexDec" Type="Decimal" />
+          <Property Name="ProjectYear" Type="Int16" />
+          <Property Name="AgencyComment" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="RPOCComment" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="HOComment" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="AdditionalInfo" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="PortID" Type="Int64" />
+          <Property Name="VendorName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UploadedFile" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="GenKey" Type="String" MaxLength="42" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="mbrand" Relationship="Self.fk_initbrand" FromRole="t_initiative" ToRole="mbrand" />
+          <NavigationProperty Name="mcluster" Relationship="Self.fk_initcluster" FromRole="t_initiative" ToRole="mcluster" />
+          <NavigationProperty Name="mcostcontrolsite" Relationship="Self.fk_initcostcontrol" FromRole="t_initiative" ToRole="mcostcontrolsite" />
+          <NavigationProperty Name="mcountry" Relationship="Self.fk_inicountry" FromRole="t_initiative" ToRole="mcountry" />
+          <NavigationProperty Name="mlegalentity" Relationship="Self.fk_initlegalentity" FromRole="t_initiative" ToRole="mlegalentity" />
+          <NavigationProperty Name="mport" Relationship="Self.fk_initport" FromRole="t_initiative" ToRole="mport" />
+          <NavigationProperty Name="mregion" Relationship="Self.fk_initregion" FromRole="t_initiative" ToRole="mregion" />
+          <NavigationProperty Name="mregional_office" Relationship="Self.FK_t_initiative_mregional_office" FromRole="t_initiative" ToRole="mregional_office" />
+          <NavigationProperty Name="mstatu" Relationship="Self.fk_initstatus" FromRole="t_initiative" ToRole="mstatus" />
+          <NavigationProperty Name="msubcountry" Relationship="Self.fk_initsubcountry" FromRole="t_initiative" ToRole="msubcountry" />
+          <NavigationProperty Name="msubregion" Relationship="Self.fk_initsubregion" FromRole="t_initiative" ToRole="msubregion" />
+        </EntityType>
+        <EntityType Name="t_subcostactiontype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="subcostid" Type="Int64" />
+          <Property Name="actiontypeid" Type="Int64" />
+          <NavigationProperty Name="mactiontype" Relationship="Self.FK_actiontypeid_actiontype_subcost" FromRole="t_subcostactiontype" ToRole="mactiontype" />
+          <NavigationProperty Name="msubcost" Relationship="Self.FK_subcostid_actiontype_subcost" FromRole="t_subcostactiontype" ToRole="msubcost" />
+        </EntityType>
+        <EntityType Name="t_subcostbrand">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="savingtypeid" Type="Int64" />
+          <Property Name="costtypeid" Type="Int64" />
+          <Property Name="subcostid" Type="Int64" />
+          <Property Name="brandid" Type="Int64" />
+          <NavigationProperty Name="mbrand" Relationship="Self.FK_BRANDID_SUBCOSTID" FromRole="t_subcostbrand" ToRole="mbrand" />
+          <NavigationProperty Name="mcosttype" Relationship="Self.FK_t_subcostbrand_mcosttype" FromRole="t_subcostbrand" ToRole="mcosttype" />
+          <NavigationProperty Name="msavingtype" Relationship="Self.FK_SAVINGTYPEID_SUBCOSTID" FromRole="t_subcostbrand" ToRole="msavingtype" />
+          <NavigationProperty Name="msubcost" Relationship="Self.FK_SUBCOSTID_BRANDID" FromRole="t_subcostbrand" ToRole="msubcost" />
+        </EntityType>
+        <EntityType Name="t_subcostinitiative">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="savingtypeid" Type="Int64" />
+          <Property Name="costitemid" Type="Int64" />
+          <Property Name="subcostid" Type="Int64" />
+          <NavigationProperty Name="mcosttype" Relationship="Self.FK_costitemid" FromRole="t_subcostinitiative" ToRole="mcosttype" />
+          <NavigationProperty Name="msavingtype" Relationship="Self.FK_savingtypeid" FromRole="t_subcostinitiative" ToRole="msavingtype" />
+          <NavigationProperty Name="msubcost" Relationship="Self.FK_subcostid" FromRole="t_subcostinitiative" ToRole="msubcost" />
+        </EntityType>
+        <EntityType Name="user_list">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USER_FIRST_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="USER_MIDDLE_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="USER_LAST_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DEPARTMENT_CODE" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="COUNTRY_CODE" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PICTURE_PATH" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EXTENSION_NO" Type="Int32" Nullable="false" />
+          <Property Name="Company_code" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="levelKdAccess" Type="Int32" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="KdAccess" Type="Int32" />
+          <Property Name="country_right" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="POD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="istoadmin" Type="Int32" />
+          <Property Name="right_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="cb_right" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="region_right" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="isNew" Type="Int32" />
+          <Property Name="userType" Type="Int32" />
+          <Property Name="CompanyCountry" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="OfficeLocation" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Job" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="encPassword" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vwagency">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="targetty" />
+            <PropertyRef Name="monthlytarget" />
+            <PropertyRef Name="monthlyachsaving" />
+            <PropertyRef Name="percentty" />
+            <PropertyRef Name="ytdtarget" />
+            <PropertyRef Name="ytdachieved" />
+            <PropertyRef Name="percentytd" />
+            <PropertyRef Name="jml" />
+            <PropertyRef Name="gap" />
+          </Key>
+          <Property Name="id" Type="Decimal" Nullable="false" />
+          <Property Name="CostTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="projectyear" Type="Int16" />
+          <Property Name="targetty" Type="Decimal" Nullable="false" />
+          <Property Name="monthlytarget" Type="Decimal" Nullable="false" />
+          <Property Name="monthlyachsaving" Type="Decimal" Nullable="false" />
+          <Property Name="percentty" Type="Decimal" Nullable="false" />
+          <Property Name="ytdtarget" Type="Decimal" Nullable="false" />
+          <Property Name="ytdachieved" Type="Decimal" Nullable="false" />
+          <Property Name="percentytd" Type="Decimal" Nullable="false" />
+          <Property Name="jml" Type="Int64" Nullable="false" />
+          <Property Name="gap" Type="Decimal" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vwheaderinitiative">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="isDeleted" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="InitNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SourceCategory" Type="Int64" />
+          <Property Name="RelatedInitiative" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CountryID" Type="Int64" />
+          <Property Name="CountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="SubCountryID" Type="Int64" />
+          <Property Name="SubCountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="BrandID" Type="Int64" />
+          <Property Name="brandname" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="RegionID" Type="Int64" />
+          <Property Name="RegionName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="SubRegionID" Type="Int64" />
+          <Property Name="SubRegionName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ClusterID" Type="Int64" />
+          <Property Name="ClusterName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="RegionalOfficeID" Type="Int64" />
+          <Property Name="RegionalOffice_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CostControlID" Type="Int64" />
+          <Property Name="CostControlSiteName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LegalEntityID" Type="Int64" />
+          <Property Name="LegalEntityName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Confidential" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="ResponsibleFullName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="InitiativeType" Type="Int64" />
+          <Property Name="SavingTypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CostCategoryID" Type="Int64" />
+          <Property Name="CostTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SubCostCategoryID" Type="Int64" />
+          <Property Name="SubCostName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ActionTypeID" Type="Int64" />
+          <Property Name="ActionTypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="SynergyImpactID" Type="Int64" />
+          <Property Name="SynImpactName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="StartMonth" Type="DateTime" />
+          <Property Name="EndMonth" Type="DateTime" />
+          <Property Name="LaraCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TargetTY" Type="Decimal" />
+          <Property Name="TargetNY" Type="Decimal" />
+          <Property Name="HOValidity" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="RPOCControl" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="InitStatus" Type="Int64" />
+          <Property Name="Status" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="YTDTarget" Type="Decimal" />
+          <Property Name="YTDAchieved" Type="Decimal" />
+          <Property Name="TargetJan" Type="Decimal" />
+          <Property Name="AchJan" Type="Decimal" />
+          <Property Name="TargetFeb" Type="Decimal" />
+          <Property Name="AchFeb" Type="Decimal" />
+          <Property Name="TargetMar" Type="Decimal" />
+          <Property Name="AchMar" Type="Decimal" />
+          <Property Name="TargetApr" Type="Decimal" />
+          <Property Name="AchApr" Type="Decimal" />
+          <Property Name="TargetMay" Type="Decimal" />
+          <Property Name="AchMay" Type="Decimal" />
+          <Property Name="TargetJun" Type="Decimal" />
+          <Property Name="AchJun" Type="Decimal" />
+          <Property Name="TargetJul" Type="Decimal" />
+          <Property Name="AchJul" Type="Decimal" />
+          <Property Name="TargetAug" Type="Decimal" />
+          <Property Name="AchAug" Type="Decimal" />
+          <Property Name="TargetSep" Type="Decimal" />
+          <Property Name="AchSep" Type="Decimal" />
+          <Property Name="TargetOct" Type="Decimal" />
+          <Property Name="AchOct" Type="Decimal" />
+          <Property Name="TargetNov" Type="Decimal" />
+          <Property Name="AchNov" Type="Decimal" />
+          <Property Name="TargetDec" Type="Decimal" />
+          <Property Name="AchDec" Type="Decimal" />
+          <Property Name="TargetNexJan" Type="Decimal" />
+          <Property Name="AchNexJan" Type="Decimal" />
+          <Property Name="TargetNexFeb" Type="Decimal" />
+          <Property Name="AchNexFeb" Type="Decimal" />
+          <Property Name="TargetNexMar" Type="Decimal" />
+          <Property Name="AchNexMar" Type="Decimal" />
+          <Property Name="TargetNexApr" Type="Decimal" />
+          <Property Name="AchNexApr" Type="Decimal" />
+          <Property Name="TargetNexMay" Type="Decimal" />
+          <Property Name="AchNexMay" Type="Decimal" />
+          <Property Name="TargetNexJun" Type="Decimal" />
+          <Property Name="AchNexJun" Type="Decimal" />
+          <Property Name="TargetNexJul" Type="Decimal" />
+          <Property Name="AchNexJul" Type="Decimal" />
+          <Property Name="TargetNexAug" Type="Decimal" />
+          <Property Name="AchNexAug" Type="Decimal" />
+          <Property Name="TargetNexSep" Type="Decimal" />
+          <Property Name="AchNexSep" Type="Decimal" />
+          <Property Name="TargetNexOct" Type="Decimal" />
+          <Property Name="AchNexOct" Type="Decimal" />
+          <Property Name="TargetNexNov" Type="Decimal" />
+          <Property Name="AchNexNov" Type="Decimal" />
+          <Property Name="TargetNexDec" Type="Decimal" />
+          <Property Name="AchNexDec" Type="Decimal" />
+          <Property Name="AgencyComment" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="RPOCComment" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="HOComment" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="AdditionalInfo" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="PortID" Type="Int64" />
+          <Property Name="portName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="VendorName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UploadedFile" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" />
+          <Property Name="isDeleted" Type="Int32" Nullable="false" />
+          <Property Name="ProjectYear" Type="Int16" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="vwsummarydashboard">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="CountryName" />
+            <PropertyRef Name="TargetTY" />
+            <PropertyRef Name="monthlytarget" />
+            <PropertyRef Name="monthlyachsaving" />
+            <PropertyRef Name="percentty" />
+            <PropertyRef Name="YTDTarget" />
+            <PropertyRef Name="YTDAchSaving" />
+            <PropertyRef Name="percentytd" />
+            <PropertyRef Name="jml" />
+            <PropertyRef Name="gap" />
+          </Key>
+          <Property Name="id" Type="Decimal" Nullable="false" />
+          <Property Name="RegionName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CountryName" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProjectYear" Type="Int16" />
+          <Property Name="TargetTY" Type="Decimal" Nullable="false" />
+          <Property Name="monthlytarget" Type="Decimal" Nullable="false" />
+          <Property Name="monthlyachsaving" Type="Decimal" Nullable="false" />
+          <Property Name="percentty" Type="Decimal" Nullable="false" />
+          <Property Name="YTDTarget" Type="Decimal" Nullable="false" />
+          <Property Name="YTDAchSaving" Type="Decimal" Nullable="false" />
+          <Property Name="percentytd" Type="Decimal" Nullable="false" />
+          <Property Name="jml" Type="Int64" Nullable="false" />
+          <Property Name="gap" Type="Decimal" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vwsummarydashboarddetail">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="TargetTY" />
+            <PropertyRef Name="monthlytarget" />
+            <PropertyRef Name="monthlyachsaving" />
+            <PropertyRef Name="percentty" />
+            <PropertyRef Name="YTDTarget" />
+            <PropertyRef Name="YTDAchSaving" />
+            <PropertyRef Name="percentytd" />
+            <PropertyRef Name="jml" />
+            <PropertyRef Name="gap" />
+          </Key>
+          <Property Name="id" Type="Decimal" Nullable="false" />
+          <Property Name="RegionName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectYear" Type="Int16" />
+          <Property Name="TargetTY" Type="Decimal" Nullable="false" />
+          <Property Name="monthlytarget" Type="Decimal" Nullable="false" />
+          <Property Name="monthlyachsaving" Type="Decimal" Nullable="false" />
+          <Property Name="percentty" Type="Decimal" Nullable="false" />
+          <Property Name="YTDTarget" Type="Decimal" Nullable="false" />
+          <Property Name="YTDAchSaving" Type="Decimal" Nullable="false" />
+          <Property Name="percentytd" Type="Decimal" Nullable="false" />
+          <Property Name="jml" Type="Int64" Nullable="false" />
+          <Property Name="gap" Type="Decimal" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vwtopcategory">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="prcnt" />
+            <PropertyRef Name="YTDAchieved" />
+            <PropertyRef Name="YTDTarget" />
+          </Key>
+          <Property Name="id" Type="Decimal" Nullable="false" />
+          <Property Name="CostTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="projectyear" Type="Int16" />
+          <Property Name="prcnt" Type="Decimal" Nullable="false" />
+          <Property Name="YTDAchieved" Type="Decimal" Nullable="false" />
+          <Property Name="YTDTarget" Type="Decimal" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vwtypeofsaving">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="YTDAchieved" />
+            <PropertyRef Name="YTDTarget" />
+          </Key>
+          <Property Name="id" Type="Decimal" Nullable="false" />
+          <Property Name="SavingTypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="projectyear" Type="Int16" />
+          <Property Name="prcnt" Type="Decimal" />
+          <Property Name="YTDAchieved" Type="Decimal" Nullable="false" />
+          <Property Name="YTDTarget" Type="Decimal" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_access_menu_roles1">
+          <End Role="mroles" Type="Self.mrole" Multiplicity="1" />
+          <End Role="maccess_menu" Type="Self.maccess_menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mroles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="maccess_menu">
+              <PropertyRef Name="roles_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="maccess_menu_ibfk_3">
+          <End Role="mmenu" Type="Self.mmenu" Multiplicity="0..1" />
+          <End Role="maccess_menu" Type="Self.maccess_menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mmenu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="maccess_menu">
+              <PropertyRef Name="menu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACTIONTYPE_COSTITEM_ID">
+          <End Role="mactiontype" Type="Self.mactiontype" Multiplicity="1" />
+          <End Role="t_cost_actiontype" Type="Self.t_cost_actiontype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mactiontype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_cost_actiontype">
+              <PropertyRef Name="actiontypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_actiontypeid_actiontype_subcost">
+          <End Role="mactiontype" Type="Self.mactiontype" Multiplicity="0..1" />
+          <End Role="t_subcostactiontype" Type="Self.t_subcostactiontype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mactiontype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostactiontype">
+              <PropertyRef Name="actiontypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_brandid">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="1" />
+          <End Role="mbrandcountry" Type="Self.mbrandcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mbrandcountry">
+              <PropertyRef Name="brandid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANDID_SUBCOSTID">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="0..1" />
+          <End Role="t_subcostbrand" Type="Self.t_subcostbrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostbrand">
+              <PropertyRef Name="brandid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initbrand">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalBrandID">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="0..1" />
+          <End Role="mlegalentity" Type="Self.mlegalentity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mlegalentity">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_brandcountry">
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="1" />
+          <End Role="mbrandcountry" Type="Self.mbrandcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mbrandcountry">
+              <PropertyRef Name="countryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initcluster">
+          <End Role="mcluster" Type="Self.mcluster" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcluster">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="ClusterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_region_cluster">
+          <End Role="mregion" Type="Self.mregion" Multiplicity="1" />
+          <End Role="mcluster" Type="Self.mcluster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mcluster">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_subregion_cluster">
+          <End Role="msubregion" Type="Self.msubregion" Multiplicity="1" />
+          <End Role="mcluster" Type="Self.mcluster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mcluster">
+              <PropertyRef Name="SubRegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initcostcontrol">
+          <End Role="mcostcontrolsite" Type="Self.mcostcontrolsite" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcostcontrolsite">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="CostControlID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COSTITEM_ACTIONTYPE_ID">
+          <End Role="mcosttype" Type="Self.mcosttype" Multiplicity="1" />
+          <End Role="t_cost_actiontype" Type="Self.t_cost_actiontype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcosttype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_cost_actiontype">
+              <PropertyRef Name="costitemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_costitemid">
+          <End Role="mcosttype" Type="Self.mcosttype" Multiplicity="0..1" />
+          <End Role="t_subcostinitiative" Type="Self.t_subcostinitiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcosttype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostinitiative">
+              <PropertyRef Name="costitemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_subcostbrand_mcosttype">
+          <End Role="mcosttype" Type="Self.mcosttype" Multiplicity="0..1" />
+          <End Role="t_subcostbrand" Type="Self.t_subcostbrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcosttype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostbrand">
+              <PropertyRef Name="costtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_country_ro">
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="0..1" />
+          <End Role="mregional_office" Type="Self.mregional_office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mregional_office">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_countryid">
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="1" />
+          <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="msubcountry">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_inicountry">
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalCountry">
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="0..1" />
+          <End Role="mlegalentity" Type="Self.mlegalentity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mlegalentity">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_region">
+          <End Role="mregion" Type="Self.mregion" Multiplicity="0..1" />
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mcountry">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_subregion_country">
+          <End Role="msubregion" Type="Self.msubregion" Multiplicity="0..1" />
+          <End Role="mcountry" Type="Self.mcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mcountry">
+              <PropertyRef Name="SubRegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initlegalentity">
+          <End Role="mlegalentity" Type="Self.mlegalentity" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mlegalentity">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="LegalEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="mmenu_ibfk_1">
+          <End Role="mmenu" Type="Self.mmenu" Multiplicity="0..1" />
+          <End Role="mmenu1" Type="Self.mmenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mmenu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mmenu1">
+              <PropertyRef Name="parent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initport">
+          <End Role="mport" Type="Self.mport" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="PortID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initregion">
+          <End Role="mregion" Type="Self.mregion" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_region_ro">
+          <End Role="mregion" Type="Self.mregion" Multiplicity="0..1" />
+          <End Role="mregional_office" Type="Self.mregional_office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mregional_office">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_subregion">
+          <End Role="mregion" Type="Self.mregion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="msubregion" Type="Self.msubregion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="msubregion">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_initiative_mregional_office">
+          <End Role="mregional_office" Type="Self.mregional_office" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mregional_office">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="RegionalOfficeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_savingtypeid">
+          <End Role="msavingtype" Type="Self.msavingtype" Multiplicity="0..1" />
+          <End Role="t_subcostinitiative" Type="Self.t_subcostinitiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msavingtype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostinitiative">
+              <PropertyRef Name="savingtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SAVINGTYPEID_SUBCOSTID">
+          <End Role="msavingtype" Type="Self.msavingtype" Multiplicity="0..1" />
+          <End Role="t_subcostbrand" Type="Self.t_subcostbrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msavingtype">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostbrand">
+              <PropertyRef Name="savingtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initstatus">
+          <End Role="mstatus" Type="Self.mstatu" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mstatus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="InitStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_subcostid">
+          <End Role="msubcost" Type="Self.msubcost" Multiplicity="0..1" />
+          <End Role="t_subcostinitiative" Type="Self.t_subcostinitiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcost">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostinitiative">
+              <PropertyRef Name="subcostid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_subcostid_actiontype_subcost">
+          <End Role="msubcost" Type="Self.msubcost" Multiplicity="0..1" />
+          <End Role="t_subcostactiontype" Type="Self.t_subcostactiontype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcost">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostactiontype">
+              <PropertyRef Name="subcostid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUBCOSTID_BRANDID">
+          <End Role="msubcost" Type="Self.msubcost" Multiplicity="0..1" />
+          <End Role="t_subcostbrand" Type="Self.t_subcostbrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcost">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subcostbrand">
+              <PropertyRef Name="subcostid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initsubcountry">
+          <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="SubCountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_initsubregion">
+          <End Role="msubregion" Type="Self.msubregion" Multiplicity="0..1" />
+          <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubregion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_initiative">
+              <PropertyRef Name="SubRegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GainEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="logtables" EntityType="Self.logtable" />
+          <EntitySet Name="maccess_menu" EntityType="Self.maccess_menu" />
+          <EntitySet Name="mactiontypes" EntityType="Self.mactiontype" />
+          <EntitySet Name="mbrands" EntityType="Self.mbrand" />
+          <EntitySet Name="mbrandcountries" EntityType="Self.mbrandcountry" />
+          <EntitySet Name="mclusters" EntityType="Self.mcluster" />
+          <EntitySet Name="mcostcontrolsites" EntityType="Self.mcostcontrolsite" />
+          <EntitySet Name="mcosttypes" EntityType="Self.mcosttype" />
+          <EntitySet Name="mcountries" EntityType="Self.mcountry" />
+          <EntitySet Name="mlegalentities" EntityType="Self.mlegalentity" />
+          <EntitySet Name="mmenus" EntityType="Self.mmenu" />
+          <EntitySet Name="mports" EntityType="Self.mport" />
+          <EntitySet Name="mregions" EntityType="Self.mregion" />
+          <EntitySet Name="mregional_office" EntityType="Self.mregional_office" />
+          <EntitySet Name="mroles" EntityType="Self.mrole" />
+          <EntitySet Name="msavingtypes" EntityType="Self.msavingtype" />
+          <EntitySet Name="msourcecategories" EntityType="Self.msourcecategory" />
+          <EntitySet Name="mstatus" EntityType="Self.mstatu" />
+          <EntitySet Name="msubcosts" EntityType="Self.msubcost" />
+          <EntitySet Name="msubcountries" EntityType="Self.msubcountry" />
+          <EntitySet Name="msubregions" EntityType="Self.msubregion" />
+          <EntitySet Name="msynimpacts" EntityType="Self.msynimpact" />
+          <EntitySet Name="myears" EntityType="Self.myear" />
+          <EntitySet Name="t_cost_actiontype" EntityType="Self.t_cost_actiontype" />
+          <EntitySet Name="t_initiative" EntityType="Self.t_initiative" />
+          <EntitySet Name="t_subcostactiontype" EntityType="Self.t_subcostactiontype" />
+          <EntitySet Name="t_subcostbrand" EntityType="Self.t_subcostbrand" />
+          <EntitySet Name="t_subcostinitiative" EntityType="Self.t_subcostinitiative" />
+          <EntitySet Name="user_list" EntityType="Self.user_list" />
+          <EntitySet Name="vwagencies" EntityType="Self.vwagency" />
+          <EntitySet Name="vwheaderinitiatives" EntityType="Self.vwheaderinitiative" />
+          <EntitySet Name="vwsummarydashboards" EntityType="Self.vwsummarydashboard" />
+          <EntitySet Name="vwsummarydashboarddetails" EntityType="Self.vwsummarydashboarddetail" />
+          <EntitySet Name="vwtopcategories" EntityType="Self.vwtopcategory" />
+          <EntitySet Name="vwtypeofsavings" EntityType="Self.vwtypeofsaving" />
+          <AssociationSet Name="fk_access_menu_roles1" Association="Self.fk_access_menu_roles1">
+            <End Role="mroles" EntitySet="mroles" />
+            <End Role="maccess_menu" EntitySet="maccess_menu" />
+          </AssociationSet>
+          <AssociationSet Name="maccess_menu_ibfk_3" Association="Self.maccess_menu_ibfk_3">
+            <End Role="mmenu" EntitySet="mmenus" />
+            <End Role="maccess_menu" EntitySet="maccess_menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACTIONTYPE_COSTITEM_ID" Association="Self.FK_ACTIONTYPE_COSTITEM_ID">
+            <End Role="mactiontype" EntitySet="mactiontypes" />
+            <End Role="t_cost_actiontype" EntitySet="t_cost_actiontype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_actiontypeid_actiontype_subcost" Association="Self.FK_actiontypeid_actiontype_subcost">
+            <End Role="mactiontype" EntitySet="mactiontypes" />
+            <End Role="t_subcostactiontype" EntitySet="t_subcostactiontype" />
+          </AssociationSet>
+          <AssociationSet Name="fk_brandid" Association="Self.fk_brandid">
+            <End Role="mbrand" EntitySet="mbrands" />
+            <End Role="mbrandcountry" EntitySet="mbrandcountries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BRANDID_SUBCOSTID" Association="Self.FK_BRANDID_SUBCOSTID">
+            <End Role="mbrand" EntitySet="mbrands" />
+            <End Role="t_subcostbrand" EntitySet="t_subcostbrand" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initbrand" Association="Self.fk_initbrand">
+            <End Role="mbrand" EntitySet="mbrands" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalBrandID" Association="Self.fk_LegalBrandID">
+            <End Role="mbrand" EntitySet="mbrands" />
+            <End Role="mlegalentity" EntitySet="mlegalentities" />
+          </AssociationSet>
+          <AssociationSet Name="fk_brandcountry" Association="Self.fk_brandcountry">
+            <End Role="mcountry" EntitySet="mcountries" />
+            <End Role="mbrandcountry" EntitySet="mbrandcountries" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initcluster" Association="Self.fk_initcluster">
+            <End Role="mcluster" EntitySet="mclusters" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_region_cluster" Association="Self.fk_region_cluster">
+            <End Role="mregion" EntitySet="mregions" />
+            <End Role="mcluster" EntitySet="mclusters" />
+          </AssociationSet>
+          <AssociationSet Name="fk_subregion_cluster" Association="Self.fk_subregion_cluster">
+            <End Role="msubregion" EntitySet="msubregions" />
+            <End Role="mcluster" EntitySet="mclusters" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initcostcontrol" Association="Self.fk_initcostcontrol">
+            <End Role="mcostcontrolsite" EntitySet="mcostcontrolsites" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COSTITEM_ACTIONTYPE_ID" Association="Self.FK_COSTITEM_ACTIONTYPE_ID">
+            <End Role="mcosttype" EntitySet="mcosttypes" />
+            <End Role="t_cost_actiontype" EntitySet="t_cost_actiontype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_costitemid" Association="Self.FK_costitemid">
+            <End Role="mcosttype" EntitySet="mcosttypes" />
+            <End Role="t_subcostinitiative" EntitySet="t_subcostinitiative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_subcostbrand_mcosttype" Association="Self.FK_t_subcostbrand_mcosttype">
+            <End Role="mcosttype" EntitySet="mcosttypes" />
+            <End Role="t_subcostbrand" EntitySet="t_subcostbrand" />
+          </AssociationSet>
+          <AssociationSet Name="fk_country_ro" Association="Self.fk_country_ro">
+            <End Role="mcountry" EntitySet="mcountries" />
+            <End Role="mregional_office" EntitySet="mregional_office" />
+          </AssociationSet>
+          <AssociationSet Name="fk_countryid" Association="Self.fk_countryid">
+            <End Role="mcountry" EntitySet="mcountries" />
+            <End Role="msubcountry" EntitySet="msubcountries" />
+          </AssociationSet>
+          <AssociationSet Name="fk_inicountry" Association="Self.fk_inicountry">
+            <End Role="mcountry" EntitySet="mcountries" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalCountry" Association="Self.fk_LegalCountry">
+            <End Role="mcountry" EntitySet="mcountries" />
+            <End Role="mlegalentity" EntitySet="mlegalentities" />
+          </AssociationSet>
+          <AssociationSet Name="fk_region" Association="Self.fk_region">
+            <End Role="mregion" EntitySet="mregions" />
+            <End Role="mcountry" EntitySet="mcountries" />
+          </AssociationSet>
+          <AssociationSet Name="fk_subregion_country" Association="Self.fk_subregion_country">
+            <End Role="msubregion" EntitySet="msubregions" />
+            <End Role="mcountry" EntitySet="mcountries" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initlegalentity" Association="Self.fk_initlegalentity">
+            <End Role="mlegalentity" EntitySet="mlegalentities" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="mmenu_ibfk_1" Association="Self.mmenu_ibfk_1">
+            <End Role="mmenu" EntitySet="mmenus" />
+            <End Role="mmenu1" EntitySet="mmenus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initport" Association="Self.fk_initport">
+            <End Role="mport" EntitySet="mports" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initregion" Association="Self.fk_initregion">
+            <End Role="mregion" EntitySet="mregions" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_region_ro" Association="Self.fk_region_ro">
+            <End Role="mregion" EntitySet="mregions" />
+            <End Role="mregional_office" EntitySet="mregional_office" />
+          </AssociationSet>
+          <AssociationSet Name="fk_subregion" Association="Self.fk_subregion">
+            <End Role="mregion" EntitySet="mregions" />
+            <End Role="msubregion" EntitySet="msubregions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_initiative_mregional_office" Association="Self.FK_t_initiative_mregional_office">
+            <End Role="mregional_office" EntitySet="mregional_office" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_savingtypeid" Association="Self.FK_savingtypeid">
+            <End Role="msavingtype" EntitySet="msavingtypes" />
+            <End Role="t_subcostinitiative" EntitySet="t_subcostinitiative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SAVINGTYPEID_SUBCOSTID" Association="Self.FK_SAVINGTYPEID_SUBCOSTID">
+            <End Role="msavingtype" EntitySet="msavingtypes" />
+            <End Role="t_subcostbrand" EntitySet="t_subcostbrand" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initstatus" Association="Self.fk_initstatus">
+            <End Role="mstatus" EntitySet="mstatus" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_subcostid" Association="Self.FK_subcostid">
+            <End Role="msubcost" EntitySet="msubcosts" />
+            <End Role="t_subcostinitiative" EntitySet="t_subcostinitiative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_subcostid_actiontype_subcost" Association="Self.FK_subcostid_actiontype_subcost">
+            <End Role="msubcost" EntitySet="msubcosts" />
+            <End Role="t_subcostactiontype" EntitySet="t_subcostactiontype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUBCOSTID_BRANDID" Association="Self.FK_SUBCOSTID_BRANDID">
+            <End Role="msubcost" EntitySet="msubcosts" />
+            <End Role="t_subcostbrand" EntitySet="t_subcostbrand" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initsubcountry" Association="Self.fk_initsubcountry">
+            <End Role="msubcountry" EntitySet="msubcountries" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_initsubregion" Association="Self.fk_initsubregion">
+            <End Role="msubregion" EntitySet="msubregions" />
+            <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GainModelStoreContainer" CdmEntityContainer="GainEntities">
+          <EntitySetMapping Name="logtables">
+            <EntityTypeMapping TypeName="GainModel.logtable">
+              <MappingFragment StoreEntitySet="logtable">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="genKey" ColumnName="genKey" />
+                <ScalarProperty Name="initnumber" ColumnName="initnumber" />
+                <ScalarProperty Name="projectyear" ColumnName="projectyear" />
+                <ScalarProperty Name="tablesName" ColumnName="tablesName" />
+                <ScalarProperty Name="columnsName" ColumnName="columnsName" />
+                <ScalarProperty Name="oldValues" ColumnName="oldValues" />
+                <ScalarProperty Name="newValues" ColumnName="newValues" />
+                <ScalarProperty Name="dateUpdate" ColumnName="dateUpdate" />
+                <ScalarProperty Name="updateBy" ColumnName="updateBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="maccess_menu">
+            <EntityTypeMapping TypeName="GainModel.maccess_menu">
+              <MappingFragment StoreEntitySet="maccess_menu">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="roles_id" ColumnName="roles_id" />
+                <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+                <ScalarProperty Name="publish" ColumnName="publish" />
+                <ScalarProperty Name="obsolete" ColumnName="obsolete" />
+                <ScalarProperty Name="createdby" ColumnName="createdby" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="modifiedby" ColumnName="modifiedby" />
+                <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mactiontypes">
+            <EntityTypeMapping TypeName="GainModel.mactiontype">
+              <MappingFragment StoreEntitySet="mactiontype">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ActionTypeName" ColumnName="ActionTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mbrands">
+            <EntityTypeMapping TypeName="GainModel.mbrand">
+              <MappingFragment StoreEntitySet="mbrand">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="brandname" ColumnName="brandname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mbrandcountries">
+            <EntityTypeMapping TypeName="GainModel.mbrandcountry">
+              <MappingFragment StoreEntitySet="mbrandcountry">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="countryid" ColumnName="countryid" />
+                <ScalarProperty Name="brandid" ColumnName="brandid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mclusters">
+            <EntityTypeMapping TypeName="GainModel.mcluster">
+              <MappingFragment StoreEntitySet="mcluster">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="SubRegionID" ColumnName="SubRegionID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="ClusterName" ColumnName="ClusterName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mcostcontrolsites">
+            <EntityTypeMapping TypeName="GainModel.mcostcontrolsite">
+              <MappingFragment StoreEntitySet="mcostcontrolsite">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="CostControlSiteName" ColumnName="CostControlSiteName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mcosttypes">
+            <EntityTypeMapping TypeName="GainModel.mcosttype">
+              <MappingFragment StoreEntitySet="mcosttype">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="CostTypeName" ColumnName="CostTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mcountries">
+            <EntityTypeMapping TypeName="GainModel.mcountry">
+              <MappingFragment StoreEntitySet="mcountry">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="SubRegionID" ColumnName="SubRegionID" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mlegalentities">
+            <EntityTypeMapping TypeName="GainModel.mlegalentity">
+              <MappingFragment StoreEntitySet="mlegalentity">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="LegalEntityName" ColumnName="LegalEntityName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mmenus">
+            <EntityTypeMapping TypeName="GainModel.mmenu">
+              <MappingFragment StoreEntitySet="mmenu">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="iconcls" ColumnName="iconcls" />
+                <ScalarProperty Name="label" ColumnName="label" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="attribute" ColumnName="attribute" />
+                <ScalarProperty Name="level" ColumnName="level" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="parent" ColumnName="parent" />
+                <ScalarProperty Name="publish" ColumnName="publish" />
+                <ScalarProperty Name="linkdependency" ColumnName="linkdependency" />
+                <ScalarProperty Name="obsolete" ColumnName="obsolete" />
+                <ScalarProperty Name="createdby" ColumnName="createdby" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="modifiedby" ColumnName="modifiedby" />
+                <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mports">
+            <EntityTypeMapping TypeName="GainModel.mport">
+              <MappingFragment StoreEntitySet="mport">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="PortName" ColumnName="PortName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mregions">
+            <EntityTypeMapping TypeName="GainModel.mregion">
+              <MappingFragment StoreEntitySet="mregion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mregional_office">
+            <EntityTypeMapping TypeName="GainModel.mregional_office">
+              <MappingFragment StoreEntitySet="mregional_office">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="RegionalOffice_Name" ColumnName="RegionalOffice_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mroles">
+            <EntityTypeMapping TypeName="GainModel.mrole">
+              <MappingFragment StoreEntitySet="mroles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="role_code" ColumnName="role_code" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="def" ColumnName="def" />
+                <ScalarProperty Name="desc" ColumnName="desc" />
+                <ScalarProperty Name="permission" ColumnName="permission" />
+                <ScalarProperty Name="countries_id" ColumnName="countries_id" />
+                <ScalarProperty Name="isFinalRole" ColumnName="isFinalRole" />
+                <ScalarProperty Name="obsolete" ColumnName="obsolete" />
+                <ScalarProperty Name="createdby" ColumnName="createdby" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="modifiedby" ColumnName="modifiedby" />
+                <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="msavingtypes">
+            <EntityTypeMapping TypeName="GainModel.msavingtype">
+              <MappingFragment StoreEntitySet="msavingtype">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="SavingTypeName" ColumnName="SavingTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="msourcecategories">
+            <EntityTypeMapping TypeName="GainModel.msourcecategory">
+              <MappingFragment StoreEntitySet="msourcecategory">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categoryname" ColumnName="categoryname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mstatus">
+            <EntityTypeMapping TypeName="GainModel.mstatu">
+              <MappingFragment StoreEntitySet="mstatus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="msubcosts">
+            <EntityTypeMapping TypeName="GainModel.msubcost">
+              <MappingFragment StoreEntitySet="msubcost">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="SubCostName" ColumnName="SubCostName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="msubcountries">
+            <EntityTypeMapping TypeName="GainModel.msubcountry">
+              <MappingFragment StoreEntitySet="msubcountry">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="SubCountryName" ColumnName="SubCountryName" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="msubregions">
+            <EntityTypeMapping TypeName="GainModel.msubregion">
+              <MappingFragment StoreEntitySet="msubregion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="SubRegionName" ColumnName="SubRegionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="msynimpacts">
+            <EntityTypeMapping TypeName="GainModel.msynimpact">
+              <MappingFragment StoreEntitySet="msynimpact">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="SynImpactName" ColumnName="SynImpactName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="myears">
+            <EntityTypeMapping TypeName="GainModel.myear">
+              <MappingFragment StoreEntitySet="myears">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="years" ColumnName="years" />
+                <ScalarProperty Name="yrStatus" ColumnName="yrStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_cost_actiontype">
+            <EntityTypeMapping TypeName="GainModel.t_cost_actiontype">
+              <MappingFragment StoreEntitySet="t_cost_actiontype">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="costitemid" ColumnName="costitemid" />
+                <ScalarProperty Name="actiontypeid" ColumnName="actiontypeid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_initiative">
+            <EntityTypeMapping TypeName="GainModel.t_initiative">
+              <MappingFragment StoreEntitySet="t_initiative">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="InitNumber" ColumnName="InitNumber" />
+                <ScalarProperty Name="RelatedInitiative" ColumnName="RelatedInitiative" />
+                <ScalarProperty Name="SourceCategory" ColumnName="SourceCategory" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="SubRegionID" ColumnName="SubRegionID" />
+                <ScalarProperty Name="ClusterID" ColumnName="ClusterID" />
+                <ScalarProperty Name="RegionalOfficeID" ColumnName="RegionalOfficeID" />
+                <ScalarProperty Name="CostControlID" ColumnName="CostControlID" />
+                <ScalarProperty Name="LegalEntityID" ColumnName="LegalEntityID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="SubCountryID" ColumnName="SubCountryID" />
+                <ScalarProperty Name="Confidential" ColumnName="Confidential" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ResponsibleFullName" ColumnName="ResponsibleFullName" />
+                <ScalarProperty Name="InitiativeType" ColumnName="InitiativeType" />
+                <ScalarProperty Name="CostCategoryID" ColumnName="CostCategoryID" />
+                <ScalarProperty Name="SubCostCategoryID" ColumnName="SubCostCategoryID" />
+                <ScalarProperty Name="ActionTypeID" ColumnName="ActionTypeID" />
+                <ScalarProperty Name="SynergyImpactID" ColumnName="SynergyImpactID" />
+                <ScalarProperty Name="InitStatus" ColumnName="InitStatus" />
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="StartMonth" ColumnName="StartMonth" />
+                <ScalarProperty Name="EndMonth" ColumnName="EndMonth" />
+                <ScalarProperty Name="LaraCode" ColumnName="LaraCode" />
+                <ScalarProperty Name="TargetTY" ColumnName="TargetTY" />
+                <ScalarProperty Name="TargetNY" ColumnName="TargetNY" />
+                <ScalarProperty Name="HOValidity" ColumnName="HOValidity" />
+                <ScalarProperty Name="RPOCControl" ColumnName="RPOCControl" />
+                <ScalarProperty Name="YTDTarget" ColumnName="YTDTarget" />
+                <ScalarProperty Name="YTDAchieved" ColumnName="YTDAchieved" />
+                <ScalarProperty Name="TargetJan" ColumnName="TargetJan" />
+                <ScalarProperty Name="AchJan" ColumnName="AchJan" />
+                <ScalarProperty Name="TargetFeb" ColumnName="TargetFeb" />
+                <ScalarProperty Name="AchFeb" ColumnName="AchFeb" />
+                <ScalarProperty Name="TargetMar" ColumnName="TargetMar" />
+                <ScalarProperty Name="AchMar" ColumnName="AchMar" />
+                <ScalarProperty Name="TargetApr" ColumnName="TargetApr" />
+                <ScalarProperty Name="AchApr" ColumnName="AchApr" />
+                <ScalarProperty Name="TargetMay" ColumnName="TargetMay" />
+                <ScalarProperty Name="AchMay" ColumnName="AchMay" />
+                <ScalarProperty Name="TargetJun" ColumnName="TargetJun" />
+                <ScalarProperty Name="AchJun" ColumnName="AchJun" />
+                <ScalarProperty Name="TargetJul" ColumnName="TargetJul" />
+                <ScalarProperty Name="AchJul" ColumnName="AchJul" />
+                <ScalarProperty Name="TargetAug" ColumnName="TargetAug" />
+                <ScalarProperty Name="AchAug" ColumnName="AchAug" />
+                <ScalarProperty Name="TargetSep" ColumnName="TargetSep" />
+                <ScalarProperty Name="AchSep" ColumnName="AchSep" />
+                <ScalarProperty Name="TargetOct" ColumnName="TargetOct" />
+                <ScalarProperty Name="AchOct" ColumnName="AchOct" />
+                <ScalarProperty Name="TargetNov" ColumnName="TargetNov" />
+                <ScalarProperty Name="AchNov" ColumnName="AchNov" />
+                <ScalarProperty Name="TargetDec" ColumnName="TargetDec" />
+                <ScalarProperty Name="AchDec" ColumnName="AchDec" />
+                <ScalarProperty Name="TargetNexJan" ColumnName="TargetNexJan" />
+                <ScalarProperty Name="AchNexJan" ColumnName="AchNexJan" />
+                <ScalarProperty Name="TargetNexFeb" ColumnName="TargetNexFeb" />
+                <ScalarProperty Name="AchNexFeb" ColumnName="AchNexFeb" />
+                <ScalarProperty Name="TargetNexMar" ColumnName="TargetNexMar" />
+                <ScalarProperty Name="AchNexMar" ColumnName="AchNexMar" />
+                <ScalarProperty Name="TargetNexApr" ColumnName="TargetNexApr" />
+                <ScalarProperty Name="AchNexApr" ColumnName="AchNexApr" />
+                <ScalarProperty Name="TargetNexMay" ColumnName="TargetNexMay" />
+                <ScalarProperty Name="AchNexMay" ColumnName="AchNexMay" />
+                <ScalarProperty Name="TargetNexJun" ColumnName="TargetNexJun" />
+                <ScalarProperty Name="AchNexJun" ColumnName="AchNexJun" />
+                <ScalarProperty Name="TargetNexJul" ColumnName="TargetNexJul" />
+                <ScalarProperty Name="AchNexJul" ColumnName="AchNexJul" />
+                <ScalarProperty Name="TargetNexAug" ColumnName="TargetNexAug" />
+                <ScalarProperty Name="AchNexAug" ColumnName="AchNexAug" />
+                <ScalarProperty Name="TargetNexSep" ColumnName="TargetNexSep" />
+                <ScalarProperty Name="AchNexSep" ColumnName="AchNexSep" />
+                <ScalarProperty Name="TargetNexOct" ColumnName="TargetNexOct" />
+                <ScalarProperty Name="AchNexOct" ColumnName="AchNexOct" />
+                <ScalarProperty Name="TargetNexNov" ColumnName="TargetNexNov" />
+                <ScalarProperty Name="AchNexNov" ColumnName="AchNexNov" />
+                <ScalarProperty Name="TargetNexDec" ColumnName="TargetNexDec" />
+                <ScalarProperty Name="AchNexDec" ColumnName="AchNexDec" />
+                <ScalarProperty Name="ProjectYear" ColumnName="ProjectYear" />
+                <ScalarProperty Name="AgencyComment" ColumnName="AgencyComment" />
+                <ScalarProperty Name="RPOCComment" ColumnName="RPOCComment" />
+                <ScalarProperty Name="HOComment" ColumnName="HOComment" />
+                <ScalarProperty Name="AdditionalInfo" ColumnName="AdditionalInfo" />
+                <ScalarProperty Name="PortID" ColumnName="PortID" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="UploadedFile" ColumnName="UploadedFile" />
+                <ScalarProperty Name="GenKey" ColumnName="GenKey" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_subcostactiontype">
+            <EntityTypeMapping TypeName="GainModel.t_subcostactiontype">
+              <MappingFragment StoreEntitySet="t_subcostactiontype">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="subcostid" ColumnName="subcostid" />
+                <ScalarProperty Name="actiontypeid" ColumnName="actiontypeid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_subcostbrand">
+            <EntityTypeMapping TypeName="GainModel.t_subcostbrand">
+              <MappingFragment StoreEntitySet="t_subcostbrand">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="savingtypeid" ColumnName="savingtypeid" />
+                <ScalarProperty Name="costtypeid" ColumnName="costtypeid" />
+                <ScalarProperty Name="subcostid" ColumnName="subcostid" />
+                <ScalarProperty Name="brandid" ColumnName="brandid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_subcostinitiative">
+            <EntityTypeMapping TypeName="GainModel.t_subcostinitiative">
+              <MappingFragment StoreEntitySet="t_subcostinitiative">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="savingtypeid" ColumnName="savingtypeid" />
+                <ScalarProperty Name="costitemid" ColumnName="costitemid" />
+                <ScalarProperty Name="subcostid" ColumnName="subcostid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_list">
+            <EntityTypeMapping TypeName="GainModel.user_list">
+              <MappingFragment StoreEntitySet="user_list">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="USER_FIRST_NAME" ColumnName="USER_FIRST_NAME" />
+                <ScalarProperty Name="USER_MIDDLE_NAME" ColumnName="USER_MIDDLE_NAME" />
+                <ScalarProperty Name="USER_LAST_NAME" ColumnName="USER_LAST_NAME" />
+                <ScalarProperty Name="DEPARTMENT_CODE" ColumnName="DEPARTMENT_CODE" />
+                <ScalarProperty Name="COUNTRY_CODE" ColumnName="COUNTRY_CODE" />
+                <ScalarProperty Name="PICTURE_PATH" ColumnName="PICTURE_PATH" />
+                <ScalarProperty Name="EXTENSION_NO" ColumnName="EXTENSION_NO" />
+                <ScalarProperty Name="Company_code" ColumnName="Company_code" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="levelKdAccess" ColumnName="levelKdAccess" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="KdAccess" ColumnName="KdAccess" />
+                <ScalarProperty Name="country_right" ColumnName="country_right" />
+                <ScalarProperty Name="POD" ColumnName="POD" />
+                <ScalarProperty Name="istoadmin" ColumnName="istoadmin" />
+                <ScalarProperty Name="right_name" ColumnName="right_name" />
+                <ScalarProperty Name="cb_right" ColumnName="cb_right" />
+                <ScalarProperty Name="region_right" ColumnName="region_right" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="isNew" ColumnName="isNew" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+                <ScalarProperty Name="CompanyCountry" ColumnName="CompanyCountry" />
+                <ScalarProperty Name="OfficeLocation" ColumnName="OfficeLocation" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="encPassword" ColumnName="encPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwagencies">
+            <EntityTypeMapping TypeName="GainModel.vwagency">
+              <MappingFragment StoreEntitySet="vwagency">
+                <ScalarProperty Name="gap" ColumnName="gap" />
+                <ScalarProperty Name="jml" ColumnName="jml" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="CostTypeName" ColumnName="CostTypeName" />
+                <ScalarProperty Name="projectyear" ColumnName="projectyear" />
+                <ScalarProperty Name="targetty" ColumnName="targetty" />
+                <ScalarProperty Name="monthlytarget" ColumnName="monthlytarget" />
+                <ScalarProperty Name="monthlyachsaving" ColumnName="monthlyachsaving" />
+                <ScalarProperty Name="percentty" ColumnName="percentty" />
+                <ScalarProperty Name="ytdtarget" ColumnName="ytdtarget" />
+                <ScalarProperty Name="ytdachieved" ColumnName="ytdachieved" />
+                <ScalarProperty Name="percentytd" ColumnName="percentytd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwheaderinitiatives">
+            <EntityTypeMapping TypeName="GainModel.vwheaderinitiative">
+              <MappingFragment StoreEntitySet="vwheaderinitiative">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="InitNumber" ColumnName="InitNumber" />
+                <ScalarProperty Name="SourceCategory" ColumnName="SourceCategory" />
+                <ScalarProperty Name="RelatedInitiative" ColumnName="RelatedInitiative" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="SubCountryID" ColumnName="SubCountryID" />
+                <ScalarProperty Name="SubCountryName" ColumnName="SubCountryName" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="brandname" ColumnName="brandname" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="SubRegionID" ColumnName="SubRegionID" />
+                <ScalarProperty Name="SubRegionName" ColumnName="SubRegionName" />
+                <ScalarProperty Name="ClusterID" ColumnName="ClusterID" />
+                <ScalarProperty Name="ClusterName" ColumnName="ClusterName" />
+                <ScalarProperty Name="RegionalOfficeID" ColumnName="RegionalOfficeID" />
+                <ScalarProperty Name="RegionalOffice_Name" ColumnName="RegionalOffice_Name" />
+                <ScalarProperty Name="CostControlID" ColumnName="CostControlID" />
+                <ScalarProperty Name="CostControlSiteName" ColumnName="CostControlSiteName" />
+                <ScalarProperty Name="LegalEntityID" ColumnName="LegalEntityID" />
+                <ScalarProperty Name="LegalEntityName" ColumnName="LegalEntityName" />
+                <ScalarProperty Name="Confidential" ColumnName="Confidential" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ResponsibleFullName" ColumnName="ResponsibleFullName" />
+                <ScalarProperty Name="InitiativeType" ColumnName="InitiativeType" />
+                <ScalarProperty Name="SavingTypeName" ColumnName="SavingTypeName" />
+                <ScalarProperty Name="CostCategoryID" ColumnName="CostCategoryID" />
+                <ScalarProperty Name="CostTypeName" ColumnName="CostTypeName" />
+                <ScalarProperty Name="SubCostCategoryID" ColumnName="SubCostCategoryID" />
+                <ScalarProperty Name="SubCostName" ColumnName="SubCostName" />
+                <ScalarProperty Name="ActionTypeID" ColumnName="ActionTypeID" />
+                <ScalarProperty Name="ActionTypeName" ColumnName="ActionTypeName" />
+                <ScalarProperty Name="SynergyImpactID" ColumnName="SynergyImpactID" />
+                <ScalarProperty Name="SynImpactName" ColumnName="SynImpactName" />
+                <ScalarProperty Name="StartMonth" ColumnName="StartMonth" />
+                <ScalarProperty Name="EndMonth" ColumnName="EndMonth" />
+                <ScalarProperty Name="LaraCode" ColumnName="LaraCode" />
+                <ScalarProperty Name="TargetTY" ColumnName="TargetTY" />
+                <ScalarProperty Name="TargetNY" ColumnName="TargetNY" />
+                <ScalarProperty Name="HOValidity" ColumnName="HOValidity" />
+                <ScalarProperty Name="RPOCControl" ColumnName="RPOCControl" />
+                <ScalarProperty Name="InitStatus" ColumnName="InitStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="YTDTarget" ColumnName="YTDTarget" />
+                <ScalarProperty Name="YTDAchieved" ColumnName="YTDAchieved" />
+                <ScalarProperty Name="TargetJan" ColumnName="TargetJan" />
+                <ScalarProperty Name="AchJan" ColumnName="AchJan" />
+                <ScalarProperty Name="TargetFeb" ColumnName="TargetFeb" />
+                <ScalarProperty Name="AchFeb" ColumnName="AchFeb" />
+                <ScalarProperty Name="TargetMar" ColumnName="TargetMar" />
+                <ScalarProperty Name="AchMar" ColumnName="AchMar" />
+                <ScalarProperty Name="TargetApr" ColumnName="TargetApr" />
+                <ScalarProperty Name="AchApr" ColumnName="AchApr" />
+                <ScalarProperty Name="TargetMay" ColumnName="TargetMay" />
+                <ScalarProperty Name="AchMay" ColumnName="AchMay" />
+                <ScalarProperty Name="TargetJun" ColumnName="TargetJun" />
+                <ScalarProperty Name="AchJun" ColumnName="AchJun" />
+                <ScalarProperty Name="TargetJul" ColumnName="TargetJul" />
+                <ScalarProperty Name="AchJul" ColumnName="AchJul" />
+                <ScalarProperty Name="TargetAug" ColumnName="TargetAug" />
+                <ScalarProperty Name="AchAug" ColumnName="AchAug" />
+                <ScalarProperty Name="TargetSep" ColumnName="TargetSep" />
+                <ScalarProperty Name="AchSep" ColumnName="AchSep" />
+                <ScalarProperty Name="TargetOct" ColumnName="TargetOct" />
+                <ScalarProperty Name="AchOct" ColumnName="AchOct" />
+                <ScalarProperty Name="TargetNov" ColumnName="TargetNov" />
+                <ScalarProperty Name="AchNov" ColumnName="AchNov" />
+                <ScalarProperty Name="TargetDec" ColumnName="TargetDec" />
+                <ScalarProperty Name="AchDec" ColumnName="AchDec" />
+                <ScalarProperty Name="TargetNexJan" ColumnName="TargetNexJan" />
+                <ScalarProperty Name="AchNexJan" ColumnName="AchNexJan" />
+                <ScalarProperty Name="TargetNexFeb" ColumnName="TargetNexFeb" />
+                <ScalarProperty Name="AchNexFeb" ColumnName="AchNexFeb" />
+                <ScalarProperty Name="TargetNexMar" ColumnName="TargetNexMar" />
+                <ScalarProperty Name="AchNexMar" ColumnName="AchNexMar" />
+                <ScalarProperty Name="TargetNexApr" ColumnName="TargetNexApr" />
+                <ScalarProperty Name="AchNexApr" ColumnName="AchNexApr" />
+                <ScalarProperty Name="TargetNexMay" ColumnName="TargetNexMay" />
+                <ScalarProperty Name="AchNexMay" ColumnName="AchNexMay" />
+                <ScalarProperty Name="TargetNexJun" ColumnName="TargetNexJun" />
+                <ScalarProperty Name="AchNexJun" ColumnName="AchNexJun" />
+                <ScalarProperty Name="TargetNexJul" ColumnName="TargetNexJul" />
+                <ScalarProperty Name="AchNexJul" ColumnName="AchNexJul" />
+                <ScalarProperty Name="TargetNexAug" ColumnName="TargetNexAug" />
+                <ScalarProperty Name="AchNexAug" ColumnName="AchNexAug" />
+                <ScalarProperty Name="TargetNexSep" ColumnName="TargetNexSep" />
+                <ScalarProperty Name="AchNexSep" ColumnName="AchNexSep" />
+                <ScalarProperty Name="TargetNexOct" ColumnName="TargetNexOct" />
+                <ScalarProperty Name="AchNexOct" ColumnName="AchNexOct" />
+                <ScalarProperty Name="TargetNexNov" ColumnName="TargetNexNov" />
+                <ScalarProperty Name="AchNexNov" ColumnName="AchNexNov" />
+                <ScalarProperty Name="TargetNexDec" ColumnName="TargetNexDec" />
+                <ScalarProperty Name="AchNexDec" ColumnName="AchNexDec" />
+                <ScalarProperty Name="AgencyComment" ColumnName="AgencyComment" />
+                <ScalarProperty Name="RPOCComment" ColumnName="RPOCComment" />
+                <ScalarProperty Name="HOComment" ColumnName="HOComment" />
+                <ScalarProperty Name="AdditionalInfo" ColumnName="AdditionalInfo" />
+                <ScalarProperty Name="PortID" ColumnName="PortID" />
+                <ScalarProperty Name="portName" ColumnName="portName" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="UploadedFile" ColumnName="UploadedFile" />
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="ProjectYear" ColumnName="ProjectYear" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwsummarydashboards">
+            <EntityTypeMapping TypeName="GainModel.vwsummarydashboard">
+              <MappingFragment StoreEntitySet="vwsummarydashboard">
+                <ScalarProperty Name="gap" ColumnName="gap" />
+                <ScalarProperty Name="jml" ColumnName="jml" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="ProjectYear" ColumnName="ProjectYear" />
+                <ScalarProperty Name="TargetTY" ColumnName="TargetTY" />
+                <ScalarProperty Name="monthlytarget" ColumnName="monthlytarget" />
+                <ScalarProperty Name="monthlyachsaving" ColumnName="monthlyachsaving" />
+                <ScalarProperty Name="percentty" ColumnName="percentty" />
+                <ScalarProperty Name="YTDTarget" ColumnName="YTDTarget" />
+                <ScalarProperty Name="YTDAchSaving" ColumnName="YTDAchSaving" />
+                <ScalarProperty Name="percentytd" ColumnName="percentytd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwsummarydashboarddetails">
+            <EntityTypeMapping TypeName="GainModel.vwsummarydashboarddetail">
+              <MappingFragment StoreEntitySet="vwsummarydashboarddetail">
+                <ScalarProperty Name="gap" ColumnName="gap" />
+                <ScalarProperty Name="jml" ColumnName="jml" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="ProjectYear" ColumnName="ProjectYear" />
+                <ScalarProperty Name="TargetTY" ColumnName="TargetTY" />
+                <ScalarProperty Name="monthlytarget" ColumnName="monthlytarget" />
+                <ScalarProperty Name="monthlyachsaving" ColumnName="monthlyachsaving" />
+                <ScalarProperty Name="percentty" ColumnName="percentty" />
+                <ScalarProperty Name="YTDTarget" ColumnName="YTDTarget" />
+                <ScalarProperty Name="YTDAchSaving" ColumnName="YTDAchSaving" />
+                <ScalarProperty Name="percentytd" ColumnName="percentytd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwtopcategories">
+            <EntityTypeMapping TypeName="GainModel.vwtopcategory">
+              <MappingFragment StoreEntitySet="vwtopcategory">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="CostTypeName" ColumnName="CostTypeName" />
+                <ScalarProperty Name="projectyear" ColumnName="projectyear" />
+                <ScalarProperty Name="prcnt" ColumnName="prcnt" />
+                <ScalarProperty Name="YTDAchieved" ColumnName="YTDAchieved" />
+                <ScalarProperty Name="YTDTarget" ColumnName="YTDTarget" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwtypeofsavings">
+            <EntityTypeMapping TypeName="GainModel.vwtypeofsaving">
+              <MappingFragment StoreEntitySet="vwtypeofsaving">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="SavingTypeName" ColumnName="SavingTypeName" />
+                <ScalarProperty Name="projectyear" ColumnName="projectyear" />
+                <ScalarProperty Name="prcnt" ColumnName="prcnt" />
+                <ScalarProperty Name="YTDAchieved" ColumnName="YTDAchieved" />
+                <ScalarProperty Name="YTDTarget" ColumnName="YTDTarget" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

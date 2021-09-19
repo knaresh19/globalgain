@@ -1,0 +1,251 @@
+<script type="text/javascript">
+    $.post('@Url.Content("~/ActiveInitiative/GrdSubCountryPartial")', { Id: null }, function (data) {
+        var obj; CboSubCountry.ClearItems();
+        $.each(data[0]["SubCountryData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            CboSubCountry.AddItem(obj.SubCountryName, obj.id);
+        });
+        CboSubCountry.SelectIndex(0);
+    });
+    function OnCboSubCountryChanged() {
+
+    }
+    function OnCboClusterChanged() {
+
+    }
+    function OnCboFocusOnChanged() {
+
+    }
+    function OnCboPeriodChanged() {
+
+    }
+    function SubmitFilter() {
+        alert("Filter Submitted !");
+    }
+</script>
+
+<table width="100%">
+    <tr>
+        <td>Country</td>
+        <td>
+            @{
+                var CboCountry = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboCountry";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboCountry";
+                    settings.Width = 190;
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboCountryChanged";
+                    }).GetHtml();
+            }
+        </td>
+        <td>Cluster</td>
+        <td>
+            @{
+                var CboCluster = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboCluster";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboCluster";
+                    settings.Width = 190;
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboClusterChanged";
+                    }).GetHtml();
+            }
+        </td>
+        <td>Focus On</td>
+        <td>
+            @{
+                var CboFocusOn = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboFocusOn";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboFocusOn";
+                    settings.Width = 190;
+                    //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboFocusOnChanged";
+                    }).GetHtml();
+            }
+        </td>
+        <td>Period</td>
+        <td>
+            @{
+                var CboPeriod = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboPeriod";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboPeriod";
+                    settings.Width = 190;
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboPeriodChanged";
+                    }).GetHtml();
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>SubCountry</td>
+        <td>
+            @{
+                var CboSubCountry = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboSubCountry";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboSubCountry";
+                    settings.Width = 190;
+                    settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboSubCountryChanged";
+                }).GetHtml();
+            }
+        </td>
+        <td>Brand</td>
+        <td>
+            @{
+                var CbOBrand = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CbOBrand";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CbOBrand";
+                    settings.Width = 190;
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCbOBrandChanged";
+                    }).GetHtml();
+            }
+        </td>
+        <td>Type of Saving</td>
+        <td>
+            @{
+                var CboTypeOfSaving = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboTypeOfSaving";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboTypeOfSaving";
+                    settings.Width = 190;
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboTypeOfSavingOnChanged";
+                    }).GetHtml();
+            }
+        </td>
+        <td>In</td>
+        <td>
+            @{
+                var CboCurrency = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboCurrency";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboCurrency";
+                    settings.Width = 190;
+                    settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboCurrencyChanged";
+                }).GetHtml();
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>Region</td>
+        <td>
+            @{
+                var CboRegion = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboRegion";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboRegion";
+                    settings.Width = 190;
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboRegionChanged";
+                    }).GetHtml();
+            }
+        </td>
+        <td>Regional Office</td>
+        <td>
+            @{
+                var CboRegionalOffice = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboRegionalOffice";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboRegionalOffice";
+                    settings.Width = 190;
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCbOBrandChanged";
+                    }).GetHtml();
+            }
+        </td>
+        <td>Status</td>
+        <td>
+            @{
+                var CboStatus = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboStatus";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboStatus";
+                    settings.Width = 190;
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboTypeOfSavingOnChanged";
+                    }).GetHtml();
+            }
+        </td>
+        <td>Validity</td>
+        <td>
+            @{
+                var CboValidity = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboValidity";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboValidity";
+                    settings.Width = 190;
+                    settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboValidityChanged";
+                }).GetHtml();
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>Sub Region</td>
+        <td>
+            @{
+                var CboSubRegion = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboSubRegion";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboSubRegion";
+                    settings.Width = 190;
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboRegionChanged";
+                    }).GetHtml();
+            }
+        </td>
+        <td>Cost Control Site</td>
+        <td>
+            @{
+                var CboCostControlSite = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboCostControlSite";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboCostControlSite";
+                    settings.Width = 190;
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCbOBrandChanged";
+                    }).GetHtml();
+            }
+        </td>
+        <td>Synergy Impact</td>
+        <td>
+            @{
+                var CboSynergy = Html.DevExpress().ComboBox(
+                settings =>
+                {
+                    settings.Name = "CboSynergy";
+                    settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
+                    settings.Properties.ClientInstanceName = "CboSynergy";
+                    settings.Width = 190;
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboTypeOfSavingOnChanged";
+                    }).GetHtml();
+            }
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            <button class="btn btn-success" value="Submit" onclick="SubmitFilter();">Submit</button>
+        </td>
+    </tr>
+
+</table>
