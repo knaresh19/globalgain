@@ -1,1 +1,0 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="CAP500_GLOBAL_V2space.WebApiApplication" Language="C#" %>
