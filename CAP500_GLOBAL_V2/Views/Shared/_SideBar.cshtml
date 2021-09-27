@@ -1,0 +1,80 @@
+﻿<!-- sidebar menu -->
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div class="menu_section">
+        <h3>General</h3>
+        <ul class="nav side-menu">
+            @*<li>
+                <a href="@Url.Content("~/")"><i class="fa fa-home"></i> Home</a>
+            </li>*@
+            <li>
+                <a><i class="fa fa-cogs"></i> Saving Initiative <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="@Url.Content("~/ActiveInitiative")">Active Initiative</a></li>
+                    <li><a href="@Url.Content("~/ToBeDeletedList")">To Be Deleted List</a></li>
+                    <li><a href="@Url.Content("~/SavingMonitoring")">Saving Monitoring</a></li>
+                    <li><a href="@Url.Content("~/ChangePerInitiative")">Change Per Initiative</a></li>
+                </ul>
+            </li>
+            <li><a href="@Url.Content("~/DashboardRegion")"><i class="fa fa-globe"></i> Dashboard Region</a></li>
+            <li><a href="@Url.Content("~/DashboardCostPerItem")"><i class="fa fa-dashboard"></i> Dashboard Cost Per Item</a></li>
+            <li>
+                <a><i class="fa fa-desktop"></i> Reports <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="@Url.Content("~/SummaryDashboard")">Summary Dashboard</a></li>
+                    <li><a href="@Url.Content("~/TopCategory")">Top Categories</a></li>
+                    <li><a href="@Url.Content("~/TypeofSaving")">Type of Saving</a></li>
+                    <li><a href="@Url.Content("~/Focus")">Focus</a></li>
+                    <li><a href="@Url.Content("~/MonthlySaving")">Monthly Saving</a></li>
+                    <li><a href="@Url.Content("~/CountryContribution")">Country Contribution</a></li>
+                    <li><a href="@Url.Content("~/Agency")">Agency</a></li>
+                    <li><a href="@Url.Content("~/YTDPerformance")">YTD Performance</a></li>
+                </ul>
+            </li>
+            <li>
+                <a><i class="fa fa-gear"></i> Settings <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li>
+                        <a>Master<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li class="sub_menu"><a href="@Url.Content("~/MActionType")">Master Action Type</a></li>
+                            <li><a href="@Url.Content("~/MBrand")">Master Brand</a></li>
+                            <li><a href="@Url.Content("~/MBrandCountry")">Master Brand Country</a></li>
+                            <li><a href="@Url.Content("~/MCluster")">Master Cluster</a></li>
+                            <li><a href="@Url.Content("~/MCostControlSite")">Master Cost Control Site</a></li>
+                            <li><a href="@Url.Content("~/MCostType")">Master Cost Category</a></li>
+                            <li><a href="@Url.Content("~/MCountry")">Master Country</a></li>
+                            <li><a href="@Url.Content("~/MLegalEntity")">Master Legal Entity</a></li>
+                            <li><a href="@Url.Content("~/MPort")">Master Port</a></li>
+                            <li><a href="@Url.Content("~/MRegion")">Master Region</a></li>
+                            <li><a href="@Url.Content("~/MRegionalOffice")">Master Regional Office</a></li>
+                            <li><a href="@Url.Content("~/MSavingType")">Type of Initiative</a></li>
+                            <li><a href="@Url.Content("~/MStatus")">Master Initiative Status</a></li>
+                            <li><a href="@Url.Content("~/MSubCost")">Master Sub Cost Impacted</a></li>
+                            <li><a href="@Url.Content("~/MSubCountry")">Master Sub Country</a></li>
+                            <li><a href="@Url.Content("~/MSubRegion")">Master Sub Region</a></li>
+                            <li><a href="@Url.Content("~/MSynImpact")">Master Synergy Impact</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a>Setup Users<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li class="sub_menu"><a href="@Url.Content("~/MUsers")">Users</a></li>
+                            <li><a href="@Url.Content("~/MRoles")">Roles</a></li>
+                            <li><a href="@Url.Content("~/MPages")">Pages</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a>Setup Initiative<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li class="sub_menu"><a href="@Url.Content("~/CostActionType")">Initiative to Item</a></li>
+                            <li><a href="@Url.Content("~/SubCostInitiative")">Item to Sub Cost</a></li>
+                            <li><a href="@Url.Content("~/SubCostBrand")">Brand to Sub Cost</a></li>
+                            <li><a href="@Url.Content("~/SubCostActionType")">Sub Cost to Action Type</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- /sidebar menu -->
