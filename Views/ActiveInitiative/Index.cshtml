@@ -1574,6 +1574,14 @@
 
     function OnEndCallback(s, e) {
         AdjustSize();
+        UpdateFigureWidget(s);
+
+    }
+
+    function UpdateFigureWidget(grid) {
+        $('#sp-num-of-init').html(grid.cpNumberOfInitiative);
+        $('#sp-total-target').html(grid.cpTotalTarget);
+        $('#sp-total-saving-achieved').html(grid.cpTotalSavingAchieved);
     }
 
     function AdjustSize() {
@@ -1814,6 +1822,13 @@
         var idx = s.GetRowKey(e.visibleIndex);
         ShowEditWindow(idx);
     }
+
+    $(function () {
+        setTimeout(function () {
+            UpdateFigureWidget(GrdMainInitiative);
+        }, 300);
+
+    });
 </script>
 
 @{ ViewBag.Title = "Index";

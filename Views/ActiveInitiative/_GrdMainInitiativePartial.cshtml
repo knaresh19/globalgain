@@ -1359,7 +1359,20 @@
         settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TargetNexDec").DisplayFormat = "{0:N2}";
         settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "AchNexDec").DisplayFormat = "{0:N2}";
 
+
+        settings.CustomJSProperties = (s, e) =>
+        {
+            MVCxGridView gridView = (MVCxGridView) s;
+            decimal TotalTarget = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDTargetUb"]);
+            decimal TotalSavingAchieved = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDAchievedUb"]);
+            gridView.JSProperties["cpTotalTarget"] = String.Format("$ {0:N2}", TotalTarget);
+            gridView.JSProperties["cpTotalSavingAchieved"] = String.Format("$ {0:N2}", TotalSavingAchieved);
+            gridView.JSProperties["cpNumberOfInitiative"] = String.Format("{0:N0}", gridView.VisibleRowCount);
+        };
+
         settings.ClientSideEvents.RowDblClick = "onRowDoubleClick";
+
+
     });
     if (ViewData["EditError"] != null)
     {
