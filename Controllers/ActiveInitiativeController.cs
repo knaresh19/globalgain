@@ -64,6 +64,48 @@ namespace GAIN.Controllers
                 RegionalOffice_rightcondition = RegionalOffice_rightcondition.Substring(0, RegionalOffice_rightcondition.Length - 1);
                 where += " and a.RegionalOfficeID in (" + RegionalOffice_rightcondition + ")";
             }
+            if (profileData.Brand_right != "" && profileData.Brand_right != "ALL")
+            {
+                var brandtext = profileData.Brand_right.Replace("|", "','");
+                int lenbrand = brandtext.Length;
+                brandtext = "(" + brandtext.Substring(2, (lenbrand - 4)) + ")";
+                var brandid = db.mbrands.SqlQuery("select id,brandname from mbrand where brandname in " + brandtext + " group by id,brandname").ToList();
+                var brandcondition = "";
+                for (var i = 0; i < brandid.Count(); i++)
+                {
+                    brandcondition += brandid[i].id.ToString() + ",";
+                }
+                brandcondition = brandcondition.Substring(0, brandcondition.Length - 1);
+                where += " and a.BrandID in (" + brandcondition + ")";
+            }
+            if (profileData.CostItem_right != "" && profileData.CostItem_right != "ALL")
+            {
+                var costitemtext = profileData.CostItem_right.Replace("|", "','");
+                int lencostitem = costitemtext.Length;
+                costitemtext = "(" + costitemtext.Substring(2, (lencostitem - 4)) + ")";
+                var costitemid = db.mcosttypes.SqlQuery("select id,CostTypeName from mcosttype where CostTypeName in " + costitemtext + " group by id,CostTypeName").ToList();
+                var costitemcondition = "";
+                for (var i = 0; i < costitemid.Count(); i++)
+                {
+                    costitemcondition += costitemid[i].id.ToString() + ",";
+                }
+                costitemcondition = costitemcondition.Substring(0, costitemcondition.Length - 1);
+                where += " and a.CostCategoryID in (" + costitemcondition + ")";
+            }
+            if (profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL")
+            {
+                var subcostitemtext = profileData.SubCostItem_right.Replace("|", "','");
+                int lensubcostitem = subcostitemtext.Length;
+                subcostitemtext = "(" + subcostitemtext.Substring(2, (lensubcostitem - 4)) + ")";
+                var subcostitemid = db.mcosttypes.SqlQuery("select id,SubCostName from msubcost where SubCostName in " + subcostitemtext + " group by id,SubCostName").ToList();
+                var subcostitemcondition = "";
+                for (var i = 0; i < subcostitemid.Count(); i++)
+                {
+                    subcostitemcondition += subcostitemid[i].id.ToString() + ",";
+                }
+                subcostitemcondition = subcostitemcondition.Substring(0, subcostitemcondition.Length - 1);
+                where += " and a.SubCostCategoryID in (" + subcostitemcondition + ")";
+            }
 
             var model = db.vwheaderinitiatives.ToList();
             if (profileData.UserType == 2)  //rpoc
@@ -98,7 +140,8 @@ namespace GAIN.Controllers
                         where += " and a.CostControlID in (" + cccondition + ")";
                     }
                 }
-            } else if (profileData.UserType == 3) //agency
+            } 
+            else if (profileData.UserType == 3) //agency
             {
                 var cntrytext = profileData.CountryID.Replace("|", "','");
                 int lencntrytext = cntrytext.Length;
