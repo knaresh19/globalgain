@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<udm.DeploymentPackage version="deployment_version-version_suffix" application="CMACGM-ASIA/Net/CAP500_GLOBAL_V2">
+<udm.DeploymentPackage version="deployment_version-version_suffix" application="CMACGM-ASIA/Net/GAIN">
 	<orchestrator />
 	<enableAutomaticOrchestrators>false</enableAutomaticOrchestrators>
 	<application />
 	<deployables>
-		<iis.WebDeployContent name="CAP500_GLOBAL_V2" file="CAP500_GLOBAL_V2.zip">
+		<iis.WebDeployContent name="GAIN" file="GAIN.zip">
 			<tags>
-				<value>CAP500_GLOBAL_V2</value>
+				<value>GAIN</value>
 			</tags>
 			<scanPlaceholders>true</scanPlaceholders>
 			<websiteName>{{PLACEHOLDER_WEBSITE_NAME}}</websiteName>
