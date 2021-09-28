@@ -1,0 +1,1980 @@
+﻿@{
+    var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
+    string UploadDirectory = System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"];
+}
+
+
+@Html.Partial("_ViewKebutuhanDevExpress")
+
+<link rel="stylesheet" href="@Url.Content("~/assets/poin/css/main.css")">
+
+<style type="text/css">
+    .top_nav .navbar-right {
+        height: 40px;
+    }
+    .dxgvHeader_Aqua {
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 7px 6px;
+        border-top: 1px none orange;
+        border: 1px solid orange;
+        /*background: #4c5471 !important;*/
+        overflow: hidden;
+        font-weight: normal;
+        text-align: left;
+    }
+    .dxpLite_Aqua, .dxpLite_Aqua .dxp-summary, .dxpLite_Aqua .dxp-ellip, .dxgvControl_Aqua .dxpLite_Aqua .dxp-pageSizeItem {
+        color: floralwhite;
+    }
+    .dxpLite_Aqua .dxp-dropDownButton {
+        padding: 10px 6px 10px 6px;
+    }
+    .dxgvAdaptiveGroupPanel_Aqua, .dxgvGroupPanel_Aqua, .dxgvPagerBottomPanel_Aqua, .dxgvPagerTopPanel_Aqua {
+        color: floralwhite;
+        border-bottom: 1px Solid #A3C0E8;
+        background: #3D5294 url('@Url.Content("~/DXR.axd?r=0_5247-zbjzm")') repeat-x top;
+    }
+    .dxgvSelectedRow_Aqua, .dxgvFocusedRow_Aqua, .dxgvFocusedRow_Aqua a.dxeHyperlink_Aqua {
+        color: #dc3545;
+        background-color: blanchedalmond;
+    }
+    .dxIcon_actions_delete_16x16devav {
+        background-position: -252px -18px;
+    }
+    .dxIcon_actions_edit_16x16devav {
+        background-position: -306px -18px;
+    }
+    .dxIcon_support_info_16x16 {
+        background-position: 0px 0px;
+    }
+    .dxIcon_actions_edit_16x16devav, .dxIcon_actions_edit_16x16devav_disabled,
+    .dxIcon_support_info_16x16, .dxIcon_support_info_16x16devav, .dxIcon_support_info_16x16_disabled,
+    .dxIcon_actions_delete_16x16devav, .dxIcon_actions_delete_16x16devav, .dxIcon_actions_delete_16x16devav
+    {
+        background-image: url('@Url.Content("~/DXR.axd?r=0_14-NhGZl")');
+        background-repeat: no-repeat;
+        background-color: transparent;
+        width: 16px;
+        height: 16px;
+    }
+    .dxpcLite_Aqua .dxpc-mainDiv, .dxpcLite_Aqua.dxpc-mainDiv, .dxdpLite_Aqua .dxpc-mainDiv, .dxdpLite_Aqua.dxpc-mainDiv {
+        FONT-WEIGHT: 200;
+        top: 0;
+        left: 0;
+        background-color: rgb(236,236,236);
+    }
+    .dxpcLite_Aqua .dxpc-footer, .dxpcLite_Aqua .dxpc-header, .dxdpLite_Aqua .dxpc-header {
+        color: white;
+        background: #3D5294 url('@Url.Content("~/DXR.axd?r=0_5247-zbjzm")') repeat-x top;
+        border-top: 1px none #CCCCCC;
+        border-right: 1px solid #CCCCCC;
+        border-bottom: 1px solid #CCCCCC;
+        border-left: 1px solid #CCCCCC;
+    }
+    /*    .dxpLite_Aqua, .dxgvFilterRow_Aqua {
+        background: lightskyblue;
+    }*/
+    .dxpLite_Aqua.dxgvRBB.dxgvHHEC {
+        background-color: #C7EAFA;
+    }
+    .ComboCSS {
+        /*display: block;*/
+        width: 100%;
+        height: calc(1.5em + .75rem + 1px);
+        font-size: 11pt;
+        /*padding: .375rem .75rem;*/
+        /*font-size: 1rem;*/
+        /*font-weight: 400;*/
+        /*line-height: 1.5;*/
+        /*color: #495057;*/
+        /*background-color: #fff;*/
+        /*background-clip: padding-box;*/
+        /*border: 1px solid #ced4da;*/
+        /*border-radius: .25rem;*/
+        /*transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;*/
+    }
+</style>
+
+<style type="text/css" media="all">
+    @@media(min-width:768px) {
+        .col-md-3a {
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            max-width: 28%;
+        }
+
+        .col-md-9a {
+            -ms-flex: 0 0 75%;
+            flex: 0 0 75%;
+            max-width: 78%;
+        }
+    }
+
+    @@media(min-width:1200px) {
+        .row {
+            margin-left: -30px;
+            padding-left: 11px;
+            *zoom: 1;
+        }
+
+            .row:before,
+            .row:after {
+                display: table;
+                line-height: 0;
+                content: "";
+            }
+
+            .row:after {
+                clear: both;
+            }
+
+        [class*="span"] {
+            float: left;
+            min-height: 1px;
+            margin-left: 30px;
+        }
+        /*
+                .container,
+                .navbar-static-top .container,
+                .navbar-fixed-top .container,
+                .navbar-fixed-bottom .container {
+                    width: 1170px;
+                }*/
+        .span12 {
+            width: 1000px;
+        }
+
+        .span11 {
+            width: 1070px;
+        }
+
+        .span10 {
+            width: 970px;
+        }
+
+        .span9 {
+            width: 870px;
+        }
+
+        .span8 {
+            width: 770px;
+        }
+
+        .span7 {
+            width: 670px;
+        }
+
+        .span6 {
+            width: 570px;
+        }
+
+        .span5 {
+            width: 470px;
+        }
+
+        .span4 {
+            width: 370px;
+        }
+
+        .span3 {
+            width: 270px;
+        }
+
+        .span2 {
+            width: 170px;
+        }
+
+        .span1 {
+            width: 70px;
+        }
+
+        .offset12 {
+            margin-left: 1230px;
+        }
+
+        .offset11 {
+            margin-left: 1130px;
+        }
+
+        .offset10 {
+            margin-left: 1030px;
+        }
+
+        .offset9 {
+            margin-left: 930px;
+        }
+
+        .offset8 {
+            margin-left: 830px;
+        }
+
+        .offset7 {
+            margin-left: 730px;
+        }
+
+        .offset6 {
+            margin-left: 630px;
+        }
+
+        .offset5 {
+            margin-left: 530px;
+        }
+
+        .offset4 {
+            margin-left: 430px;
+        }
+
+        .offset3 {
+            margin-left: 330px;
+        }
+
+        .offset2 {
+            margin-left: 230px;
+        }
+
+        .offset1 {
+            margin-left: 130px;
+        }
+
+        .row-fluid {
+            width: 100%;
+            margin-top: -3px;
+            margin-bottom: 10px;
+            *zoom: 1;
+        }
+
+        .row-fluid2 {
+            width: 100%;
+            height: 10px;
+            *zoom: 1;
+        }
+
+        .row-fluid:before,
+        .row-fluid:after {
+            display: table;
+            line-height: 0;
+            content: "";
+        }
+
+        .row-fluid:after {
+            clear: both;
+        }
+
+        .row-fluid [class*="span"] {
+            display: block;
+            float: left;
+            width: 100%;
+            min-height: 30px;
+            margin-left: 2.564102564102564%;
+            *margin-left: 2.5109110747408616%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+            .row-fluid [class*="span"]:first-child {
+                margin-left: 0;
+            }
+
+        .row-fluid .controls-row [class*="span"] + [class*="span"] {
+            margin-left: 2.564102564102564%;
+        }
+
+        .row-fluid .jarak-atas {
+            padding-top: 5px;
+        }
+
+        .row-fluid .span12 {
+            width: 100%;
+            *width: 99.94680851063829%;
+        }
+
+        .row-fluid .span11 {
+            width: 91.45299145299145%;
+            *width: 91.39979996362975%;
+        }
+
+        .row-fluid .span10 {
+            width: 82.90598290598291%;
+            *width: 82.8527914166212%;
+        }
+
+        .row-fluid .span9 {
+            width: 74.35897435897436%;
+            *width: 74.30578286961266%;
+        }
+
+        .row-fluid .span8 {
+            width: 65.81196581196582%;
+            *width: 65.75877432260411%;
+        }
+
+        .row-fluid .span7 {
+            width: 57.26495726495726%;
+            *width: 57.21176577559556%;
+        }
+
+        .row-fluid .span6 {
+            width: 48.717948717948715%;
+            *width: 48.664757228587014%;
+        }
+
+        .row-fluid .span5 {
+            width: 40.17094017094017%;
+            *width: 40.11774868157847%;
+        }
+
+        .row-fluid .span4 {
+            width: 31.623931623931625%;
+            *width: 31.570740134569924%;
+        }
+
+        .row-fluid .span3 {
+            width: 23.076923076923077%;
+            *width: 23.023731587561375%;
+        }
+
+        .row-fluid .span2 {
+            width: 14.52991452991453%;
+            *width: 14.476723040552828%;
+        }
+
+        .row-fluid .span1 {
+            width: 7%;
+            *width: 5.929714493544281%;
+        }
+
+        .row-fluid .offset12 {
+            margin-left: 105.12820512820512%;
+            *margin-left: 105.02182214948171%;
+        }
+
+            .row-fluid .offset12:first-child {
+                margin-left: 102.56410256410257%;
+                *margin-left: 102.45771958537915%;
+            }
+
+        .row-fluid .offset11 {
+            margin-left: 96.58119658119658%;
+            *margin-left: 96.47481360247316%;
+        }
+
+            .row-fluid .offset11:first-child {
+                margin-left: 94.01709401709402%;
+                *margin-left: 93.91071103837061%;
+            }
+
+        .row-fluid .offset10 {
+            margin-left: 88.03418803418803%;
+            *margin-left: 87.92780505546462%;
+        }
+
+            .row-fluid .offset10:first-child {
+                margin-left: 85.47008547008548%;
+                *margin-left: 85.36370249136206%;
+            }
+
+        .row-fluid .offset9 {
+            margin-left: 79.48717948717949%;
+            *margin-left: 79.38079650845607%;
+        }
+
+            .row-fluid .offset9:first-child {
+                margin-left: 76.92307692307693%;
+                *margin-left: 76.81669394435352%;
+            }
+
+        .row-fluid .offset8 {
+            margin-left: 70.94017094017094%;
+            *margin-left: 70.83378796144753%;
+        }
+
+            .row-fluid .offset8:first-child {
+                margin-left: 68.37606837606839%;
+                *margin-left: 68.26968539734497%;
+            }
+
+        .row-fluid .offset7 {
+            margin-left: 62.393162393162385%;
+            *margin-left: 62.28677941443899%;
+        }
+
+            .row-fluid .offset7:first-child {
+                margin-left: 59.82905982905982%;
+                *margin-left: 59.72267685033642%;
+            }
+
+        .row-fluid .offset6 {
+            margin-left: 53.84615384615384%;
+            *margin-left: 53.739770867430444%;
+        }
+
+            .row-fluid .offset6:first-child {
+                margin-left: 51.28205128205128%;
+                *margin-left: 51.175668303327875%;
+            }
+
+        .row-fluid .offset5 {
+            margin-left: 45.299145299145295%;
+            *margin-left: 45.1927623204219%;
+        }
+
+            .row-fluid .offset5:first-child {
+                margin-left: 42.73504273504273%;
+                *margin-left: 42.62865975631933%;
+            }
+
+        .row-fluid .offset4 {
+            margin-left: 36.75213675213675%;
+            *margin-left: 36.645753773413354%;
+        }
+
+            .row-fluid .offset4:first-child {
+                margin-left: 34.18803418803419%;
+                *margin-left: 34.081651209310785%;
+            }
+
+        .row-fluid .offset3 {
+            margin-left: 28.205128205128204%;
+            *margin-left: 28.0987452264048%;
+        }
+
+            .row-fluid .offset3:first-child {
+                margin-left: 25.641025641025642%;
+                *margin-left: 25.53464266230224%;
+            }
+
+        .row-fluid .offset2 {
+            margin-left: 19.65811965811966%;
+            *margin-left: 19.551736679396257%;
+        }
+
+            .row-fluid .offset2:first-child {
+                margin-left: 17.094017094017094%;
+                *margin-left: 16.98763411529369%;
+            }
+
+        .row-fluid .offset1 {
+            margin-left: 11.11111111111111%;
+            *margin-left: 11.004728132387708%;
+        }
+
+            .row-fluid .offset1:first-child {
+                margin-left: 8.547008547008547%;
+                *margin-left: 8.440625568285142%;
+            }
+
+        input,
+        textarea,
+        .uneditable-input {
+            margin-left: 0;
+        }
+
+        .controls-row [class*="span"] + [class*="span"] {
+            margin-left: 30px;
+        }
+
+        input.span12,
+        textarea.span12,
+        .uneditable-input.span12 {
+            width: 1156px;
+        }
+
+        input.span11,
+        textarea.span11,
+        .uneditable-input.span11 {
+            width: 1056px;
+        }
+
+        input.span10,
+        textarea.span10,
+        .uneditable-input.span10 {
+            width: 956px;
+        }
+
+        input.span9,
+        textarea.span9,
+        .uneditable-input.span9 {
+            width: 856px;
+        }
+
+        input.span8,
+        textarea.span8,
+        .uneditable-input.span8 {
+            width: 756px;
+        }
+
+        input.span7,
+        textarea.span7,
+        .uneditable-input.span7 {
+            width: 656px;
+        }
+
+        input.span6,
+        textarea.span6,
+        .uneditable-input.span6 {
+            width: 556px;
+        }
+
+        input.span5,
+        textarea.span5,
+        .uneditable-input.span5 {
+            width: 456px;
+        }
+
+        input.span4,
+        textarea.span4,
+        .uneditable-input.span4 {
+            width: 356px;
+        }
+
+        input.span3,
+        textarea.span3,
+        .uneditable-input.span3 {
+            width: 256px;
+        }
+
+        input.span2,
+        textarea.span2,
+        .uneditable-input.span2 {
+            width: 156px;
+        }
+
+        input.span1,
+        textarea.span1,
+        .uneditable-input.span1 {
+            width: 56px;
+        }
+
+        .thumbnails {
+            margin-left: -30px;
+        }
+
+            .thumbnails > li {
+                margin-left: 30px;
+            }
+
+        .row-fluid .thumbnails {
+            margin-left: 0;
+        }
+    }
+    /*        @@media(min-width:768px) and (max-width:979px) {
+                .row {
+                    margin-left: -20px;
+                    *zoom: 1;
+                }
+
+                    .row:before,
+                    .row:after {
+                        display: table;
+                        line-height: 0;
+                        content: "";
+                    }
+
+                    .row:after {
+                        clear: both;
+                    }
+
+                [class*="span"] {
+                    float: left;
+                    min-height: 1px;
+                    margin-left: 20px;
+                }
+
+                .container,
+                .navbar-static-top .container,
+                .navbar-fixed-top .container,
+                .navbar-fixed-bottom .container {
+                    width: 724px;
+                }
+
+                .span12 {
+                    width: 724px;
+                }
+
+                .span11 {
+                    width: 662px;
+                }
+
+                .span10 {
+                    width: 600px;
+                }
+
+                .span9 {
+                    width: 538px;
+                }
+
+                .span8 {
+                    width: 476px;
+                }
+
+                .span7 {
+                    width: 414px;
+                }
+
+                .span6 {
+                    width: 352px;
+                }
+
+                .span5 {
+                    width: 290px;
+                }
+
+                .span4 {
+                    width: 228px;
+                }
+
+                .span3 {
+                    width: 166px;
+                }
+
+                .span2 {
+                    width: 104px;
+                }
+
+                .span1 {
+                    width: 42px;
+                }
+
+                .offset12 {
+                    margin-left: 764px;
+                }
+
+                .offset11 {
+                    margin-left: 702px;
+                }
+
+                .offset10 {
+                    margin-left: 640px;
+                }
+
+                .offset9 {
+                    margin-left: 578px;
+                }
+
+                .offset8 {
+                    margin-left: 516px;
+                }
+
+                .offset7 {
+                    margin-left: 454px;
+                }
+
+                .offset6 {
+                    margin-left: 392px;
+                }
+
+                .offset5 {
+                    margin-left: 330px;
+                }
+
+                .offset4 {
+                    margin-left: 268px;
+                }
+
+                .offset3 {
+                    margin-left: 206px;
+                }
+
+                .offset2 {
+                    margin-left: 144px;
+                }
+
+                .offset1 {
+                    margin-left: 82px;
+                }
+
+                .row-fluid {
+                    width: 100%;
+                    *zoom: 1;
+                }
+
+                    .row-fluid:before,
+                    .row-fluid:after {
+                        display: table;
+                        line-height: 0;
+                        content: "";
+                    }
+
+                    .row-fluid:after {
+                        clear: both;
+                    }
+
+                    .row-fluid [class*="span"] {
+                        display: block;
+                        float: left;
+                        width: 100%;
+                        min-height: 30px;
+                        margin-left: 2.7624309392265194%;
+                        *margin-left: 2.709239449864817%;
+                        -webkit-box-sizing: border-box;
+                        -moz-box-sizing: border-box;
+                        box-sizing: border-box;
+                    }
+
+                        .row-fluid [class*="span"]:first-child {
+                            margin-left: 0;
+                        }
+
+                    .row-fluid .controls-row [class*="span"] + [class*="span"] {
+                        margin-left: 2.7624309392265194%;
+                    }
+
+                    .row-fluid .span12 {
+                        width: 100%;
+                        *width: 99.94680851063829%;
+                    }
+
+                    .row-fluid .span11 {
+                        width: 91.43646408839778%;
+                        *width: 91.38327259903608%;
+                    }
+
+                    .row-fluid .span10 {
+                        width: 82.87292817679558%;
+                        *width: 82.81973668743387%;
+                    }
+
+                    .row-fluid .span9 {
+                        width: 74.30939226519337%;
+                        *width: 74.25620077583166%;
+                    }
+
+                    .row-fluid .span8 {
+                        width: 65.74585635359117%;
+                        *width: 65.69266486422946%;
+                    }
+
+                    .row-fluid .span7 {
+                        width: 57.18232044198895%;
+                        *width: 57.12912895262725%;
+                    }
+
+                    .row-fluid .span6 {
+                        width: 48.61878453038674%;
+                        *width: 48.56559304102504%;
+                    }
+
+                    .row-fluid .span5 {
+                        width: 40.05524861878453%;
+                        *width: 40.00205712942283%;
+                    }
+
+                    .row-fluid .span4 {
+                        width: 31.491712707182323%;
+                        *width: 31.43852121782062%;
+                    }
+
+                    .row-fluid .span3 {
+                        width: 22.92817679558011%;
+                        *width: 22.87498530621841%;
+                    }
+
+                    .row-fluid .span2 {
+                        width: 14.3646408839779%;
+                        *width: 14.311449394616199%;
+                    }
+
+                    .row-fluid .span1 {
+                        width: 5.801104972375691%;
+                        *width: 5.747913483013988%;
+                    }
+
+                    .row-fluid .offset12 {
+                        margin-left: 105.52486187845304%;
+                        *margin-left: 105.41847889972962%;
+                    }
+
+                        .row-fluid .offset12:first-child {
+                            margin-left: 102.76243093922652%;
+                            *margin-left: 102.6560479605031%;
+                        }
+
+                    .row-fluid .offset11 {
+                        margin-left: 96.96132596685082%;
+                        *margin-left: 96.8549429881274%;
+                    }
+
+                        .row-fluid .offset11:first-child {
+                            margin-left: 94.1988950276243%;
+                            *margin-left: 94.09251204890089%;
+                        }
+
+                    .row-fluid .offset10 {
+                        margin-left: 88.39779005524862%;
+                        *margin-left: 88.2914070765252%;
+                    }
+
+                        .row-fluid .offset10:first-child {
+                            margin-left: 85.6353591160221%;
+                            *margin-left: 85.52897613729868%;
+                        }
+
+                    .row-fluid .offset9 {
+                        margin-left: 79.8342541436464%;
+                        *margin-left: 79.72787116492299%;
+                    }
+
+                        .row-fluid .offset9:first-child {
+                            margin-left: 77.07182320441989%;
+                            *margin-left: 76.96544022569647%;
+                        }
+
+                    .row-fluid .offset8 {
+                        margin-left: 71.2707182320442%;
+                        *margin-left: 71.16433525332079%;
+                    }
+
+                        .row-fluid .offset8:first-child {
+                            margin-left: 68.50828729281768%;
+                            *margin-left: 68.40190431409427%;
+                        }
+
+                    .row-fluid .offset7 {
+                        margin-left: 62.70718232044199%;
+                        *margin-left: 62.600799341718584%;
+                    }
+
+                        .row-fluid .offset7:first-child {
+                            margin-left: 59.94475138121547%;
+                            *margin-left: 59.838368402492065%;
+                        }
+
+                    .row-fluid .offset6 {
+                        margin-left: 54.14364640883978%;
+                        *margin-left: 54.037263430116376%;
+                    }
+
+                        .row-fluid .offset6:first-child {
+                            margin-left: 51.38121546961326%;
+                            *margin-left: 51.27483249088986%;
+                        }
+
+                    .row-fluid .offset5 {
+                        margin-left: 45.58011049723757%;
+                        *margin-left: 45.47372751851417%;
+                    }
+
+                        .row-fluid .offset5:first-child {
+                            margin-left: 42.81767955801105%;
+                            *margin-left: 42.71129657928765%;
+                        }
+
+                    .row-fluid .offset4 {
+                        margin-left: 37.01657458563536%;
+                        *margin-left: 36.91019160691196%;
+                    }
+
+                        .row-fluid .offset4:first-child {
+                            margin-left: 34.25414364640884%;
+                            *margin-left: 34.14776066768544%;
+                        }
+
+                    .row-fluid .offset3 {
+                        margin-left: 28.45303867403315%;
+                        *margin-left: 28.346655695309746%;
+                    }
+
+                        .row-fluid .offset3:first-child {
+                            margin-left: 25.69060773480663%;
+                            *margin-left: 25.584224756083227%;
+                        }
+
+                    .row-fluid .offset2 {
+                        margin-left: 19.88950276243094%;
+                        *margin-left: 19.783119783707537%;
+                    }
+
+                        .row-fluid .offset2:first-child {
+                            margin-left: 17.12707182320442%;
+                            *margin-left: 17.02068884448102%;
+                        }
+
+                    .row-fluid .offset1 {
+                        margin-left: 11.32596685082873%;
+                        *margin-left: 11.219583872105325%;
+                    }
+
+                        .row-fluid .offset1:first-child {
+                            margin-left: 8.56353591160221%;
+                            *margin-left: 8.457152932878806%;
+                        }
+
+                input,
+                textarea,
+                .uneditable-input {
+                    margin-left: 0;
+                }
+
+                .controls-row [class*="span"] + [class*="span"] {
+                    margin-left: 20px;
+                }
+
+                input.span12,
+                textarea.span12,
+                .uneditable-input.span12 {
+                    width: 710px;
+                }
+
+                input.span11,
+                textarea.span11,
+                .uneditable-input.span11 {
+                    width: 648px;
+                }
+
+                input.span10,
+                textarea.span10,
+                .uneditable-input.span10 {
+                    width: 586px;
+                }
+
+                input.span9,
+                textarea.span9,
+                .uneditable-input.span9 {
+                    width: 524px;
+                }
+
+                input.span8,
+                textarea.span8,
+                .uneditable-input.span8 {
+                    width: 462px;
+                }
+
+                input.span7,
+                textarea.span7,
+                .uneditable-input.span7 {
+                    width: 400px;
+                }
+
+                input.span6,
+                textarea.span6,
+                .uneditable-input.span6 {
+                    width: 338px;
+                }
+
+                input.span5,
+                textarea.span5,
+                .uneditable-input.span5 {
+                    width: 276px;
+                }
+
+                input.span4,
+                textarea.span4,
+                .uneditable-input.span4 {
+                    width: 214px;
+                }
+
+                input.span3,
+                textarea.span3,
+                .uneditable-input.span3 {
+                    width: 152px;
+                }
+
+                input.span2,
+                textarea.span2,
+                .uneditable-input.span2 {
+                    width: 90px;
+                }
+
+                input.span1,
+                textarea.span1,
+                .uneditable-input.span1 {
+                    width: 28px;
+                }
+            }
+
+            @@media(max-width:767px) {
+                body {
+                    padding-right: 20px;
+                    padding-left: 20px;
+                }
+
+                .navbar-fixed-top,
+                .navbar-fixed-bottom,
+                .navbar-static-top {
+                    margin-right: -20px;
+                    margin-left: -20px;
+                }
+
+                .container-fluid {
+                    padding: 0;
+                }
+
+                .dl-horizontal dt {
+                    float: none;
+                    width: auto;
+                    clear: none;
+                    text-align: left;
+                }
+
+                .dl-horizontal dd {
+                    margin-left: 0;
+                }
+
+                .container {
+                    width: auto;
+                }
+
+                .row-fluid {
+                    width: 100%;
+                }
+
+                .row,
+                .thumbnails {
+                    margin-left: 0;
+                }
+
+                    .thumbnails > li {
+                        float: none;
+                        margin-left: 0;
+                    }
+
+                [class*="span"],
+                .uneditable-input[class*="span"],
+                .row-fluid [class*="span"] {
+                    display: block;
+                    float: none;
+                    width: 100%;
+                    margin-left: 0;
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                }
+
+                .span12,
+                .row-fluid .span12 {
+                    width: 100%;
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                }
+
+                .row-fluid [class*="offset"]:first-child {
+                    margin-left: 0;
+                }
+
+                .input-large,
+                .input-xlarge,
+                .input-xxlarge,
+                input[class*="span"],
+                select[class*="span"],
+                textarea[class*="span"],
+                .uneditable-input {
+                    display: block;
+                    width: 100%;
+                    min-height: 30px;
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                }
+
+                .input-prepend input,
+                .input-append input,
+                .input-prepend input[class*="span"],
+                .input-append input[class*="span"] {
+                    display: inline-block;
+                    width: auto;
+                }
+
+                .controls-row [class*="span"] + [class*="span"] {
+                    margin-left: 0;
+                }
+
+                .modal {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    left: 20px;
+                    width: auto;
+                    margin: 0;
+                }
+
+                    .modal.fade {
+                        top: -100px;
+                    }
+
+                    .modal.fade.in {
+                        top: 20px;
+                    }
+            }
+    */
+
+    @@media screen and (min-width:1200px) {
+        .row-fluid .span2a {
+            width: 8.6%;
+            *width: 8.6%
+        }
+
+        .row-fluid .span2b {
+            width: 19.7%;
+            *width: 19.7%
+        }
+
+        .row-fluid .span3a {
+            width: 20%;
+            *width: 11%
+        }
+
+        .inputan-popup {
+            width: 175px;
+        }
+    }
+</style>
+
+<script type="text/javascript">
+    $(function () {
+        $("#BtnInitiative").on("click", function () {
+            $.post('@Url.Content("~/ActiveInitiative/GrdSubCountryPartial")', { Id: null }, function (data) {
+                var obj; GrdSubCountryPopup.ClearItems();
+                $.each(data[0]["SubCountryData"], function (key, value) {
+                    value = JSON.stringify(value); obj = JSON.parse(value);
+                    GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
+                });
+                GrdSubCountryPopup.SelectIndex(0);
+            });
+            $.post('@Url.Content("~/ActiveInitiative/GetInfoForPopUp")', {Id:null}, function (data) {
+                var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); CboWebinarCat.ClearItems();
+                $.each(data[0]["SavingTypeData"], function (key, value) {
+                    value = JSON.stringify(value); obj = JSON.parse(value);
+                    GrdInitType.AddItem(obj.SavingTypeName, obj.id);
+                });
+                $.each(data[0]["ActionTypeData"], function (key, value) {
+                    value = JSON.stringify(value); obj = JSON.parse(value);
+                    GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+                });
+                $.each(data[0]["SynImpactData"], function (key, value) {
+                    value = JSON.stringify(value); obj = JSON.parse(value);
+                    GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
+                });
+                $.each(data[0]["InitStatusData"], function (key, value) {
+                    value = JSON.stringify(value); obj = JSON.parse(value);
+                    GrdInitStatus.AddItem(obj.Status, obj.id);
+                });
+                $.each(data[0]["PortNameData"], function (key, value) {
+                    value = JSON.stringify(value); obj = JSON.parse(value);
+                    TxPortName.AddItem(obj.PortName, obj.id);
+                });
+                $.each(data[0]["MCostTypeData"], function (key, value) {
+                    value = JSON.stringify(value); obj = JSON.parse(value);
+                    GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
+                });
+                $.each(data[0]["MSourceCategory"], function (key, value) {
+                    value = JSON.stringify(value); obj = JSON.parse(value);
+                    CboWebinarCat.AddItem(obj.categoryname, obj.id);
+                });
+                GrdInitType.SelectIndex(0); GrdActionType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
+            });
+            CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
+            CboWebinarCat.AddItem("");
+            CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
+            CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
+            $("#FormStatus").val("New");
+            $("#btnDuplicate").prop("disabled", true);
+            WindowInitiative.Show();
+        });
+
+    });
+
+    function OnInitiativeTypeChanged(s, e) {
+        var id = s.GetValue();
+        $.post("@Url.Content("~/ActiveInitiative/GetItemFromInitiativeType")", {id:id}, function (data) {
+            var obj; CostCategoryID.ClearItems();
+            $.each(data[0]["CostTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                CostCategoryID.AddItem(obj.CostTypeName, obj.id);
+            });
+            CostCategoryID.SelectIndex(0);
+        });
+    }
+
+    function OnCostCategoryChanged(s, e) {
+        var id = InitiativeType.GetValue(InitiativeType.GetSelectedIndex()); var id2 = s.GetValue(); var id3 = BrandID.GetValue(BrandID.GetSelectedIndex());
+        $.post("@Url.Content("~/ActiveInitiative/GetItemFromCostCategory")", {id:id,id2:id2,id3:id3}, function (data) {
+            var obj; SubCostCategoryID.ClearItems(); ActionTypeID.ClearItems();
+            $.each(data[0]["SubCostData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                SubCostCategoryID.AddItem(obj.SubCostName, obj.id);
+            });
+            $.each(data[0]["ActionTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                ActionTypeID.AddItem(obj.ActionTypeName, obj.id);
+            });
+            SubCostCategoryID.SelectIndex(0); ActionTypeID.SelectIndex(0);
+        });
+    }
+
+    function OnSubCountryChanged(s, e) {
+        var id = s.GetValue(); /*var teks = s.GetText();*/
+        $.post('@Url.Content("~/ActiveInitiative/GetCountryBySub")', { id: id }, function (data) {
+            var obj; CountryID.ClearItems(); BrandID.ClearItems(); RegionID.ClearItems(); SubRegionID.ClearItems(); ClusterID.ClearItems(); RegionalOfficeID.ClearItems(); CostControlID.ClearItems();
+            LegalEntityID.ClearItems(); InitiativeType.ClearItems();
+            $.each(data[0]["CountryData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                CountryID.AddItem(obj.CountryName, obj.id);
+            });
+            $.each(data[0]["BrandData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                BrandID.AddItem(obj.BrandName, obj.id);
+            });
+            $.each(data[0]["RegionData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                RegionID.AddItem(obj.RegionName, obj.id);
+            });
+            $.each(data[0]["SubRegionData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                SubRegionID.AddItem(obj.SubRegionName, obj.id);
+            });
+            $.each(data[0]["ClusterData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                ClusterID.AddItem(obj.ClusterName, obj.id);
+            });
+            $.each(data[0]["RegionalOfficeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                RegionalOfficeID.AddItem(obj.RegionalOfficeName, obj.id);
+            });
+            $.each(data[0]["CostControlSiteData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                CostControlID.AddItem(obj.CostControlSiteName, obj.id);
+            });
+            $.each(data[0]["LegalEntityData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
+            });
+            $.each(data[0]["TypeInitiativeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                InitiativeType.AddItem(obj.SavingTypeName, obj.id);
+            });
+            CountryID.SelectIndex(0); BrandID.SelectIndex(0); RegionID.SelectIndex(0); SubRegionID.SelectIndex(0); ClusterID.SelectIndex(0); RegionalOfficeID.SelectIndex(0); CostControlID.SelectIndex(0);
+            LegalEntityID.SelectIndex(0); InitiativeType.SelectIndex(0);
+        });
+    }
+
+    function OnBrandChanged(s, e) {
+        var id = s.GetValue();
+        var countryid = CountryID.GetValue();
+        $.post('@Url.Content("~/ActiveInitiative/GetLegalFromBrand")', { brandid: id, countryid: countryid}, function (data) {
+            var obj; LegalEntityID.ClearItems();
+            $.each(data[0]["LegalEntityData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
+            });
+            LegalEntityID.SelectIndex(0);
+        });
+    }
+
+    function onContextMenuItemFormGridViewClick(s, e) {
+
+        var key = e.elementIndex;
+        var rptId = s.GetRowKey(key);
+
+        switch (e.item.name) {
+            case 'Info':
+                alert('Edit Detail => s.GetRowKey(key) = ' + rptId + ' || e.elementIndex = ' + key);
+                break;
+            case 'EditDetail':
+                ShowEditWindow(rptId);
+                break;
+        }
+    }
+
+    function onRowDoubleClick(s, e) {
+        var key = e.visibleIndex;
+        var rptId = s.GetRowKey(key);
+
+        ShowEditWindow(rptId);
+        //WarningDeleteReport("Detail Info For This ARO Counting Number " + rptId, rptId);
+    }
+
+    function PretDut() {
+        //GrdSubCountry.GetGridView().SetFocusedRowIndex(0);
+        GrdSubCountryPopup.GetGridView().GetItemValues(0, 'SubCountryName', OnGetRowValues);
+        //GrdLegalEntity.SetText = '';
+        //GrdLegalEntity.GetGridView().GetRowValues(0, 'LegalEntityName', OnGetRowValues);
+    }
+
+    function OnGetRowValues2(value) {
+        GrdLegalEntity.SetText = value;
+        //GrdLegalEntity.SetValue(value);
+    }
+
+    function OnGetRowValues(value) {
+        GrdSubCountryPopup.SetText = value;
+    }
+
+    function ShowEditWindow(id) {
+        $("#FormStatus").val("Edit");
+        $.post('@Url.Content("~/ActiveInitiative/GetInfoForPopUp")', {Id:id}, function (data) {
+            var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); GrdSubCost.ClearItems();
+            var uType = '@profileData.UserType';
+            CboWebinarCat.ClearItems();
+            $.each(data[0]["SavingTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdInitType.AddItem(obj.SavingTypeName, obj.id);
+            });
+            $.each(data[0]["ActionTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+            });
+            $.each(data[0]["SynImpactData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
+            });
+            $.each(data[0]["InitStatusData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdInitStatus.AddItem(obj.Status, obj.id);
+            });
+            $.each(data[0]["PortNameData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                TxPortName.AddItem(obj.PortName, obj.id);
+            });
+            $.each(data[0]["MCostTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
+            });
+            $.each(data[0]["MSubCostData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdSubCost.AddItem(obj.SubCostName, obj.id);
+            });
+            $.each(data[0]["MSourceCategory"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                CboWebinarCat.AddItem(obj.categoryname, obj.id);
+            });
+            GrdInitType.SelectIndex(0); GrdActionType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); GrdSubCost.SelectIndex(0); CboWebinarCat.SelectIndex(0);
+        });
+
+        CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
+        CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
+        CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
+
+        $.post('@Url.Content("~/ActiveInitiative/GetInfoById")', { Id: id }, function (data) {
+            if (data != '') {
+                var obj = JSON.parse(data); var SubCountryID = obj.SubCountryID;
+                var uType = '@profileData.UserType';
+                //console.log("ShowEditWindow->SubCountryID = " + obj.SubCountryID);
+                $("#FormID").val(obj.id);
+                $("#LblInitiative").text(obj.InitNumber);
+                LblRelatedInitiative.SetValue(obj.RelatedInitiative);
+                $("#GrdCountry").val(obj.CountryName);
+                $("#GrdCountryVal").val(obj.CountryID);
+                $("#GrdRegional").val(obj.RegionName);
+                $("#GrdRegionalVal").val(obj.RegionID);
+                $("#GrdSubRegion").val(obj.SubRegionName);
+                $("#GrdSubRegionVal").val(obj.SubRegionID);
+                $("#GrdCluster").val(obj.ClusterName);
+                $("#GrdClusterVal").val(obj.ClusterID);
+                $("#GrdRegionalOffice").val(obj.RegionalOffice_Name);
+                $("#GrdRegionalOfficeVal").val(obj.RegionalOfficeID);
+                CboConfidential.SetValue(obj.Confidential);
+                StartMonth.SetValue(new Date(obj.StartMonth));
+                EndMonth.SetValue(new Date(obj.EndMonth));
+                CboWebinarCat.SetValue(obj.SourceCategory);
+                $("#GrdCostControl").val(obj.CostControlSiteName);
+                $("#GrdCostControlVal").val(obj.CostControlID);
+                //$("#GrdInitCategory").val(obj.CostTypeName);
+                //$("#GrdSubCost").val(obj.SubCostName);
+                $("#GrdActionType").val(obj.ActionTypeName);
+                $("#GrdSynImpact").val(obj.SynImpactName);
+                $("#TxResponsibleName").val(obj.ResponsibleFullName);
+                $("#TxLaraCode").val(obj.LaraCode);
+                $("#TxDesc").val(obj.Description);
+                GrdInitStatus.SetValue(obj.InitStatus);
+                TxPortName.SetValue(obj.PortID);
+                GrdInitType.SetValue(obj.InitiativeType);
+                GrdInitCategory.SetValue(obj.CostCategoryID);
+                GrdSubCost.SetValue(obj.SubCostCategoryID);
+                GrdActionType.SetValue(obj.ActionTypeID);
+                GrdSynImpact.SetValue(obj.SynergyImpactID);
+                $("#TxVendorSupp").val(obj.VendorName);
+                $("#TxAdditionalInfo").val(obj.AdditionalInfo);
+                $("#TxAgency").val(obj.AgencyComment);
+                $("#TxRPOCComment").val(obj.RPOCComment);
+                $("#TxHOComment").val(obj.HOComment);
+                CboHoValidity.SetValue(obj.HOValidity);
+                CboRPOCValidity.SetValue(obj.RPOCControl);
+                txTarget12.SetValue(obj.TargetTY);
+                txTargetFullYear.SetValue(obj.TargetNY);
+                txYTDTargetFullYear.SetValue(obj.YTDTarget);
+                txYTDSavingFullYear.SetValue(obj.YTDAchieved);
+                OnStartMonthChanged();
+                $(".targetjan").val(obj.TargetJan); $(".targetfeb").val(obj.TargetFeb); $(".targetmar").val(obj.TargetMar); $(".targetapr").val(obj.TargetApr); $(".targetmay").val(obj.TargetMay); $(".targetjun").val(obj.TargetJun);
+                $(".targetjul").val(obj.TargetJul); $(".targetaug").val(obj.TargetAug); $(".targetsep").val(obj.TargetSep); $(".targetoct").val(obj.TargetOct); $(".targetnov").val(obj.TargetNov); $(".targetdec").val(obj.TargetDec);
+                $(".savingjan").val(obj.AchJan); $(".savingfeb").val(obj.AchFeb); $(".savingmar").val(obj.AchMar); $(".savingapr").val(obj.AchApr); $(".savingmay").val(obj.AchMay); $(".savingjun").val(obj.AchJun);
+                $(".savingjul").val(obj.AchJul); $(".savingaug").val(obj.AchAug); $(".savingsep").val(obj.AchSep); $(".savingoct").val(obj.AchOct); $(".savingnov").val(obj.AchNov); $(".savingdec").val(obj.AchDec);
+
+                $(".targetjan2").val(obj.TargetNexJan); $(".targetfeb2").val(obj.TargetNexFeb); $(".targetmar2").val(obj.TargetNexMar); $(".targetapr2").val(obj.TargetNexApr); $(".targetmay2").val(obj.TargetNexMay); $(".targetjun2").val(obj.TargetNexJun);
+                $(".targetjul2").val(obj.TargetNexJul); $(".targetaug2").val(obj.TargetNexAug); $(".targetsep2").val(obj.TargetNexSep); $(".targetoct2").val(obj.TargetNexOct); $(".targetnov2").val(obj.TargetNexNov); $(".targetdec2").val(obj.TargetNexDec);
+                $(".savingjan2").val(obj.AchNexJan); $(".savingfeb2").val(obj.AchNexFeb); $(".savingmar2").val(obj.AchNexMar); $(".savingapr2").val(obj.AchNexApr); $(".savingmay2").val(obj.AchNexMay); $(".savingjun2").val(obj.AchNexJun);
+                $(".savingjul2").val(obj.AchNexJul); $(".savingaug2").val(obj.AchNexAug); $(".savingsep2").val(obj.AchNexSep); $(".savingoct2").val(obj.AchNexOct); $(".savingnov2").val(obj.AchNexNov); $(".savingdec2").val(obj.AchNexDec);
+
+                if (obj.InitStatus == 4) {
+                    $(".txSaving").prop("disabled", true);
+                } else if (obj.InitStatus == 1) {
+                    $("#btnSave").prop("disabled", true);
+                } else if (obj.InitStatus == 2 && uType != 1 && uType != 2) //status is final and user is not HO or RO
+                {
+                    $("#btnSave").prop("disabled", true);
+                }
+
+
+                //GrdInitStatus.GetGridView().Refresh();
+                //GrdInitType.GetGridView().Refresh();
+
+                $.post('@Url.Content("~/ActiveInitiative/GetCountryBySub")', { Id: SubCountryID, Id2: id}, function (data) {
+                    var obj2;
+                    GrdSubCountryPopup.ClearItems(); GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
+                    $.each(data[0]["SubCountryData"], function (key, value) {
+                        value = JSON.stringify(value); obj2 = JSON.parse(value);
+                        GrdSubCountryPopup.AddItem(obj2.SubCountryName, obj2.id);
+                    });
+                    $.each(data[0]["BrandData"], function (key, value) {
+                        value = JSON.stringify(value); obj2 = JSON.parse(value);
+                        GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
+                    });
+                    $.each(data[0]["LegalEntityData"], function (key, value) {
+                        value = JSON.stringify(value); obj2 = JSON.parse(value);
+                        GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
+                    });
+                    GrdSubCountryPopup.SelectIndex(0); GrdBrandPopup.SelectIndex(0); GrdLegalEntityPopup.SelectIndex(0);
+                });
+                getYtdValue();
+                WindowInitiative.Show();
+            }
+        });
+    }
+
+    function DeleteReport(id) {
+        WarningDeleteReport("Detail Info For This ARO Counting Number " + id, id);
+    }
+
+    function WarningDeleteReport(msg, id) {
+        Swal.fire({
+            title: 'Detail Info',
+            text: msg,
+            type: 'info',
+            cancelButtonColor: 'btn btn-success'
+        }).then((result) => {
+            if (result.value) {
+                doDeleteReport(id);
+            }
+        });
+
+        return false;
+    }
+
+    function doDeleteReport(id) {
+        $.ajax({
+            type: "POST",
+            url: urlDeleteReport,
+            data: { id: id },
+            beforeSend: function () {
+                ___lp.Show();
+            },
+            error: function (jqXHR, textStatus, thrownError) {
+                ___lp.Hide();
+
+                if (jqXHR.responseText) {
+                    if (jqXHR.responseText == "__sessiontimeout") {
+                        window.location = _urlLogOff;
+                    }
+                }
+                else {
+                    var errMsg = "Sorry, There is a problem. ";
+                    if (textStatus.length > 0)
+                        errMsg += "(" + textStatus + ").";
+                    FailMsg(errMsg);
+                }
+            },
+            success: function (response) {
+                ___lp.Hide();
+                if (response.status == 'success') {
+                    cmrMainGridView.PerformCallback();
+                    SuccessMsg("Report successfully deleted.");
+                }
+                else if (response.status == 'fail') {
+                    isThereNewRecord = false;
+                    FailMsg(response.error_message);
+                }
+                else {
+                    if (response == "__sessiontimeout")
+                        window.location = urlLogOffOrg;
+                    else
+                        FailMsg(response.error_message)
+                }
+            }
+        });
+    }
+
+    function OnCloseNewInitiativeWindow() {
+        $("#LblInitiative").text("XXX-0001");
+        GrdSubCountryPopup.SetValue(null);
+        GrdBrandPopup.SetValue(null);
+        GrdLegalEntityPopup.SetValue(null);
+        //GrdCountry.SetValue(null);
+        //GrdRegional.SetValue(null);
+        //GrdSubRegion.SetValue(null);
+        //GrdCluster.SetValue(null);
+        //GrdRegionalOffice.SetValue(null);
+        //GrdCostControl.SetValue(null);
+        CboConfidential.SetValue(null);
+        $("#GrdCountry").val(null);
+        $("#GrdRegional").val(null);
+        $("#GrdSubRegion").val(null);
+        $("#GrdCluster").val(null);
+        $("#GrdRegionalOffice").val(null);
+        GrdInitStatus.SetValue(null);
+        $("#GrdCostControl").val(null);
+        $("#GrdInitCategory").val(null);
+        $("#GrdSubCost").val(null);
+        $("#GrdActionType").val(null);
+        $("#GrdSynImpact").val(null);
+        $("#TxResponsibleName").val(null);
+        $("#TxLaraCode").val(null);
+        $("#TxDesc").val(null);
+        $("#TxPortName").val(null);
+        $("#TxVendorSupp").val(null);
+        $("#TxAdditionalInfo").val(null);
+        $("#TxAgency").val(null);
+        $("#TxRPOCComment").val(null);
+        $("#TxHOComment").val(null);
+        $("#chkAuto").prop('checked', false);
+        $(".txTarget").prop('disabled', false);
+        $('.txSaving,.txTarget,#btnDuplicate,#btnSave,#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo,#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
+        GrdInitType.SetValue(null);
+        GrdInitStatus.ClearItems();
+        TxPortName.ClearItems();
+        GrdInitType.ClearItems();
+        GrdActionType.ClearItems();
+        CboHoValidity.ClearItems();
+        CboRPOCValidity.ClearItems();
+        CboRPOCValidity.ClearItems();
+        GrdSubCost.ClearItems();
+        txTarget12.SetValue();
+        txTargetFullYear.SetValue();
+        txYTDTargetFullYear.SetValue();
+        txYTDSavingFullYear.SetValue();
+        //GrdInitCategory.SetValue(null);
+        //GrdSubCost.SetValue(null);
+        GrdActionType.SetValue(null);
+        //GrdSynImpact.SetValue(null);
+        StartMonth.SetValue(null);
+        EndMonth.SetValue(null);
+        LblRelatedInitiative.SetValue(null);
+        CboWebinarCat.ClearItems();
+        //GrdLegalEntity.SetText = '';
+        $.post('@Url.Content("~/ActiveInitiative/RemoveSelectedGridLookup")', function (data) {
+            console.log(data);
+        });
+        //GrdBrand.GetGridView().Refresh();
+    }
+
+    function OnInit(s, e) {
+        GrdSubCountryPopup.SelectIndex(0);
+        AdjustSize();
+    }
+
+    function OnEndCallback(s, e) {
+        AdjustSize();
+    }
+
+    function AdjustSize() {
+        var height = window.innerHeight - 250;//(screen.height - 450);//document.documentElement.clientHeight;
+        GrdMainInitiative.SetHeight(height);
+    }
+
+    function BtnExportXls() {
+        GrdMainInitiative.ExportTo("Xls");
+    }
+
+    function BtnExportPdf() {
+        GrdMainInitiative.ExportTo("Pdf");
+    }
+
+    function OnSubCountryPopupChanged(s, e) {
+        var id = s.GetValue();
+        $.post('@Url.Content("~/ActiveInitiative/GetCountryBySub")', { id: id }, function (data) {
+            var obj; GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
+            GrdBrandPopup.AddItem("[ Please Select ]", 0);
+            $.each(data[0]["BrandData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdBrandPopup.AddItem(obj.BrandName, obj.id);
+            });
+            $.each(data[0]["CountryData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                $("#GrdCountryVal").val(obj.id); $("#GrdCountry").val(obj.CountryName);
+            });
+            $.each(data[0]["RegionData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                $("#GrdRegionalVal").val(obj.id); $("#GrdRegional").val(obj.RegionName);
+            });
+            $.each(data[0]["SubRegionData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                $("#GrdSubRegionVal").val(obj.id); $("#GrdSubRegion").val(obj.SubRegionName);
+            });
+            $.each(data[0]["ClusterData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                $("#GrdClusterVal").val(obj.id); $("#GrdCluster").val(obj.ClusterName);
+            });
+            $.each(data[0]["RegionalOfficeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                $("#GrdRegionalOfficeVal").val(obj.id); $("#GrdRegionalOffice").val(obj.RegionalOfficeName);
+            });
+            $.each(data[0]["CostControlSiteData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                $("#GrdCostControlVal").val(obj.id); $("#GrdCostControl").val(obj.CostControlSiteName);
+            });
+            GrdBrandPopup.SelectIndex(0);
+        });
+    }
+
+    function OnBrandPopupChanged(s, e) {
+        var id = s.GetValue(); var SubCountry = $("#GrdCountryVal").val(); // var SubCountry = GrdSubCountryPopup.GetValue();
+        $.post('@Url.Content("~/ActiveInitiative/GetLegalFromBrand")', { BrandID: id, CountryID: SubCountry }, function (data) {
+            var obj; GrdLegalEntityPopup.ClearItems();
+            $.each(data[0]["LegalEntityData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
+            });
+            GrdLegalEntityPopup.SelectIndex(0);
+        });
+    }
+
+    function OnGrdInitTypeChanged(s, e) {
+        var id = s.GetValue();
+        $.post('@Url.Content("~/ActiveInitiative/GetItemFromInitiativeType")', { id: id }, function (data) {
+            var obj; GrdInitCategory.ClearItems();
+            $.each(data[0]["CostTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
+            });
+            GrdInitCategory.SelectIndex(0);
+        });
+    }
+
+    function OnSubCostPopupChanged(s, e) {
+        var id = s.GetValue();
+        $.post('@Url.Content("~/ActiveInitiative/GetItemFromSubCost")', { id: id }, function (data) {
+            var obj; GrdActionType.ClearItems();
+            $.each(data[0]["ActionTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+            });
+            GrdActionType.SelectIndex(0);
+        });
+    }
+
+    function OnGrdInitCategoryPopupChanged(s, e) {
+        var id = GrdInitType.GetValue(); var id2 = s.GetValue(); var id3 = GrdBrandPopup.GetValue();
+        $.post('@Url.Content("~/ActiveInitiative/GetItemFromCostCategory")', { id: id, id2: id2, id3: id3 }, function (data) {
+            var obj; GrdSubCost.ClearItems();
+            $.each(data[0]["SubCostData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdSubCost.AddItem(obj.SubCostName, obj.id);
+            });
+            GrdSubCost.SelectIndex(0);
+        });
+    }
+
+    function OnCboYearChanged(s,e)
+    {
+        var id = s.GetText();//s.GetValue();
+        $.post("@Url.Content("~/ActiveInitiative/ProjectYear")", { Id: id }, function () {
+            window.location.reload();
+        });
+    }
+
+    function OnClickEventReview(s, e) {
+        var idx = s.GetRowKey(e.visibleIndex);
+        $.post("@Url.Content("~/EventReview/SetEventReviewID")", { ID: idx }, function (data) {
+            WindowEventReview.SetContentHtml(data);
+            WindowEventReview.Show();
+        });
+    }
+
+    function OnClickComment(s, e) {
+        var id = s.GetRowKey(e.visibleIndex);
+        $.post("@Url.Content("~/ActiveInitiative/GetInitiativeComment")", { Id: id }, function (data) {
+            var AgencyComment = data.AgencyComment;
+            var RPOCComment = data.RPOCComment;
+            var HOComment = data.HOComment;
+            if ((AgencyComment == null) || (AgencyComment == '')) AgencyComment = 'Not Commented Yet';
+            if ((RPOCComment == null) || (RPOCComment == '')) RPOCComment = 'Not Commented Yet';
+            if ((HOComment == null) || (HOComment == '')) HOComment = 'Not Commented Yet';
+
+            $(".agencyexcerpt").html(AgencyComment);
+            $(".rpocexcerpt").html(RPOCComment);
+            $(".hoexcerpt").html(HOComment);
+            WindowComment.Show();
+        });
+    }
+
+    function OnClickUpload(s, e) {
+        var idx = s.GetRowKey(e.visibleIndex);
+        $.post("@Url.Content("~/ActiveInitiative/SetIDUploadFile")", { ID: idx }, function (data) {
+            var obj;
+            var InitNumber = data[0]["InitiativeNumber"];
+            $(".UploadInitiativeNumber").html(InitNumber);
+
+            $.each(data[0]["UploadedFileData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj.UploadedFileName != null) {
+                    var output = ""; var arrFileName = obj.UploadedFileName.split("|");
+                    if (arrFileName[0] != '') {
+                        for (var x = 0; x < arrFileName.length; x++) {
+                            output += "<tr><td width=\"660\"><a href=\"@Url.Content(UploadDirectory)" + arrFileName[x] + "\" target=\"_new\" >" + arrFileName[x] + "</td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + InitNumber + "','" + arrFileName[x] + "',this)\" >Remove</button></td></tr>";
+                        }
+                        $("#summary-uploaded-files").html(output);
+                    } else {
+                        $("#summary-uploaded-files").html("<tr><td colspan=\"2\"><center>There is no File Uploaded</center></td></tr>");
+                    }
+
+                } else {
+                    $("#summary-uploaded-files").html("<tr><td colspan=\"2\"><center>There is no File Uploaded</center></td></tr>");
+                }
+            });
+            WindowUpload.Show();
+        });
+    }
+
+    function onUploadControlFileUploadComplete(s, e) {
+        if (e.callbackData) {
+            var isisekarang = $("#summary-uploaded-files").html();
+            var fileData = e.callbackData.split('|');
+            var fileName = fileData[0];
+            var initiativenumber = fileData[1];
+
+            var classStatus = "label-warning";
+            if (status == "success")
+                classStatus = "label-success";
+            else if (status == "fail")
+                classStatus = "label-danger";
+
+            @*var rowCount = $("#summary-uploaded-files tr").length;
+            var columnSumm = $("<tr><td><a href=\"@Url.Content(UploadDirectory)" + fileName + "\" target=\"_new\">" + fileName + "</a></td></tr>");
+            console.log(columnSumm.html());*@
+
+            if (isisekarang == '<tr><td colspan="2"><center>There is no File Uploaded</center></td></tr>') {
+                $("#summary-uploaded-files").html('');
+            }
+            $("#summary-uploaded-files").append("<tr><td width='660'><a href=\"@Url.Content(UploadDirectory)" + fileName + "\" target=\"_new\">" + fileName + "</a></td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + initiativenumber + "','" + fileName + "',this)\" >Remove</button></td></tr>");
+        }
+    }
+
+    function removefile(initiativenumber, filename, btndel) {
+        Swal.fire({
+            title: 'Confirmation',
+            text: 'Are you sure to remove this file ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Remove'
+        }).then((result) => {
+            if (result.value) {
+                $.post("@Url.Content("~/ActiveInitiative/removefile")", {Initiativenumber:initiativenumber, Filename: filename}, function (data) {
+                    $(btndel).closest('tr').remove();
+                });
+            }
+        });
+    }
+
+    function OnStartMonthChanged() {
+        var awal = StartMonth.GetValue();
+        var dt = new Date(awal.getFullYear(), awal.getMonth() + 11, 1);
+        EndMonth.SetMaxDate(dt);
+    }
+
+    function OnInitStatusChanged(s, e) {
+        var id = s.GetText();
+        var uType = '@profileData.UserType';
+        var xFormStatus = $("#FormStatus").val();
+
+        if (uType == 3 && id == "Pending" && xFormStatus != "New") {
+            GrdInitStatus.SelectIndex(0);
+            Swal.fire(
+                'You can not change the status',
+                'Agency user can not change to pending',
+                'error'
+            );
+        }
+    }
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 45 && charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57)) {
+            Swal.fire(
+                'Numeric only',
+                'You can not input alphanumeric character here',
+                'error'
+            );
+            return false;
+        }
+        return true;
+    }
+
+    function OnClickEditInitiative(s, e) {
+        var idx = s.GetRowKey(e.visibleIndex);
+        ShowEditWindow(idx);
+    }
+</script>
+
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutTable.cshtml"; }
+
+<div class="row" style="display: block;">
+    <div class="col-md-12 col-sm-12  ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Active Initiative of the year: </h2>
+                <div class="col-md-1 col-sm-1  ">
+                    @Html.Action("CboYear")
+                </div>
+                <div class="col-md-9a col-sm-9">
+                    <div style="float:left;">
+                        @*<a id="BtnInitiative" class="btn btn-app btn-primary"><i class="fa fa-edit"></i> Add New</a>&nbsp;
+                            <a class="btn btn-app btn-success" id="BtnExportXls" onclick="BtnExportXls();"><i class="fa fa-file-excel-o"></i> Export Excel</a>&nbsp;
+                            <a class="btn btn-app btn-danger" id="BtnExportPdf" onclick="BtnExportPdf();"><i class="fa fa-file-pdf-o"></i> Export PDF</a>&nbsp;*@
+                        <button class="btn btn-primary" id="BtnInitiative" style="font-size:9pt;color:white;background-color:#007bff;"><i class="fa fa-edit"></i> Create New</button>
+                        <button class="btn btn-success" id="BtnExportXls" onclick="BtnExportXls();" style="font-size:9pt;color:white;background-color:#26B99A;"><i class="fa fa-file-excel-o"></i> Export Excel</button>
+                        @*<button class="btn btn-danger" id="BtnExportPdf" onclick="BtnExportPdf();" style="font-size:9pt;color:white;background-color:#dc3545;"><i class="fa fa-file-pdf-o"></i> Export PDF</button>*@
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @using (Html.BeginForm())
+                {
+                    @Html.Action("GrdMainInitiativePartial")
+                }
+                @*<table class="table table-striped jambo_table initiative_table" id="initiative_table" cellspacing="0" width="100%">*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="@Url.Content("~/assets/poin/js/jquery.rollNumber.js")"></script>
+<script src="@Url.Content("~/assets/poin/js/main.js")"></script>
+
+@Html.DevExpress().PopupControl(settings =>
+    {
+        settings.Name = "WindowInitiative";
+        settings.Width = 1760;
+        settings.Height = 800;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.AllowResize = true;
+        settings.ShowHeader = true;
+        settings.ShowFooter = true;
+        settings.ShowOnPageLoad = false;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.ClientSideEvents.CloseUp = "OnCloseNewInitiativeWindow";
+        settings.Modal = true;
+        //settings.PopupElementID = "BtnInitiative";
+        settings.HeaderText = "GAIN - Create New Initiative";
+        settings.FooterText = "GAIN - CMACGM Copyright @" + DateTime.Now.Year + ". APAC DIGITAL FACTORY - CMA-CGM";
+
+        settings.SetContent(() =>
+        {
+            //ViewContext.Writer.Write("Popup control content");
+            Html.RenderPartial("_NewInitiative");
+        });
+    }).GetHtml()
+
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "WindowOkSaved";
+    settings.Width = 250;
+    settings.Height = 130;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.AllowResize = false;
+    settings.ShowHeader = true;
+    settings.ShowFooter = true;
+    settings.ShowOnPageLoad = false;
+    settings.AllowDragging = false;
+    settings.CloseAction = CloseAction.OuterMouseClick;
+    settings.CloseOnEscape = true;
+    //settings.ClientSideEvents.CloseUp = "OnCloseNewInitiativeWindow";
+    settings.Modal = true;
+    settings.HeaderText = "Saved";
+    settings.FooterText = "Copyright GAIN @" + DateTime.Now.Year + ". APAC DIGITAL FACTORY - CMA-CGM";
+
+    settings.SetContent(() =>
+    {
+        ViewContext.Writer.Write("<h4>Okay! Data Saved.</h4><br/><h6><span id=\"initsukses\"></span></h6><br/><br/><br/><br/><br/><div style='float:right'><button class='btn btn-info' onclick='WindowOkSaved.Hide();window.location.reload();'>Close</button></div>");
+    });
+}).GetHtml()
+
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "WindowEventReview";
+    settings.Width = 1050;
+    settings.Height = 500;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.AllowResize = true;
+    settings.ShowHeader = true;
+    settings.ShowFooter = true;
+    settings.ShowOnPageLoad = false;
+    settings.AllowDragging = true;
+    settings.CloseAction = CloseAction.CloseButton;
+    settings.CloseOnEscape = true;
+    settings.Modal = true;
+    settings.HeaderText = "GAIN - Event Review Window";
+    settings.FooterText = "GAIN - CMACGM Copyright @" + DateTime.Now.Year + ". APAC DIGITAL FACTORY - CMA-CGM";
+
+    //settings.SetContent(() =>
+    //{
+    //    //Html.Action("GrdEventReviewPartial", "EventReview");
+    //});
+}).GetHtml()
+
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "WindowComment";
+    settings.Width = 1260;
+    settings.Height = 800;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.AllowResize = true;
+    settings.ShowHeader = true;
+    settings.ShowFooter = true;
+    settings.ShowOnPageLoad = false;
+    settings.AllowDragging = true;
+    settings.CloseAction = CloseAction.CloseButton;
+    settings.CloseOnEscape = true;
+    settings.Modal = true;
+    settings.HeaderText = "GAIN - Comment Window";
+    settings.FooterText = "GAIN - CMACGM Copyright @" + DateTime.Now.Year + ". APAC DIGITAL FACTORY - CMA-CGM";
+
+    settings.SetContent(() =>
+    {
+        //ViewContext.Writer.Write("Popup control content");
+        Html.RenderPartial("_Comment");
+    });
+}).GetHtml()
+
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "WindowUpload";
+    settings.Width = 1260;
+    settings.Height = 800;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.AllowResize = true;
+    settings.ShowHeader = true;
+    settings.ShowFooter = true;
+    settings.ShowOnPageLoad = false;
+    settings.AllowDragging = true;
+    settings.CloseAction = CloseAction.CloseButton;
+    settings.CloseOnEscape = true;
+    settings.Modal = true;
+    settings.HeaderText = "GAIN - Upload Window";
+    settings.FooterText = "GAIN - CMACGM Copyright @" + DateTime.Now.Year + ". APAC DIGITAL FACTORY - CMA-CGM";
+
+    settings.SetContent(() =>
+    {
+        Html.RenderPartial("_UploadPage");
+    });
+}).GetHtml()
+

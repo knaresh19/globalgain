@@ -1,0 +1,18 @@
+@Html.DevExpress().Chart(settings =>
+{
+    settings.Name = "chrttypeofsaving";
+    settings.Width = 1000;
+    settings.Height = 600;
+
+    settings.Series.Template(t => t.SetDataMembers("CostTypeName", "Nilai"));
+
+    settings.Legends.Default(l =>
+    {
+        l.AlignmentHorizontal = LegendAlignmentHorizontal.RightOutside;
+    });
+    settings.Titles.Add(t =>
+    {
+        t.Text = "YTD Saving Achieved vs YTD Target";
+    });
+
+}).Bind(Model, "TypeOfCost").GetHtml()
