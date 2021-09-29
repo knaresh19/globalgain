@@ -1128,7 +1128,7 @@
                 var obj; GrdSubCountryPopup.ClearItems();
                 $.each(data[0]["SubCountryData"], function (key, value) {
                     value = JSON.stringify(value); obj = JSON.parse(value);
-                    GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
+                    if (obj != null) GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
                 });
                 GrdSubCountryPopup.SelectIndex(0);
             });
@@ -1136,31 +1136,31 @@
                 var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); CboWebinarCat.ClearItems();
                 $.each(data[0]["SavingTypeData"], function (key, value) {
                     value = JSON.stringify(value); obj = JSON.parse(value);
-                    GrdInitType.AddItem(obj.SavingTypeName, obj.id);
+                    if (obj != null) GrdInitType.AddItem(obj.SavingTypeName, obj.id);
                 });
                 $.each(data[0]["ActionTypeData"], function (key, value) {
                     value = JSON.stringify(value); obj = JSON.parse(value);
-                    GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+                    if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
                 });
                 $.each(data[0]["SynImpactData"], function (key, value) {
                     value = JSON.stringify(value); obj = JSON.parse(value);
-                    GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
+                    if (obj != null) GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
                 });
                 $.each(data[0]["InitStatusData"], function (key, value) {
                     value = JSON.stringify(value); obj = JSON.parse(value);
-                    GrdInitStatus.AddItem(obj.Status, obj.id);
+                    if (obj != null) GrdInitStatus.AddItem(obj.Status, obj.id);
                 });
                 $.each(data[0]["PortNameData"], function (key, value) {
                     value = JSON.stringify(value); obj = JSON.parse(value);
-                    TxPortName.AddItem(obj.PortName, obj.id);
+                    if (obj != null) TxPortName.AddItem(obj.PortName, obj.id);
                 });
                 $.each(data[0]["MCostTypeData"], function (key, value) {
                     value = JSON.stringify(value); obj = JSON.parse(value);
-                    GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
+                    if (obj != null) GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
                 });
                 $.each(data[0]["MSourceCategory"], function (key, value) {
                     value = JSON.stringify(value); obj = JSON.parse(value);
-                    CboWebinarCat.AddItem(obj.categoryname, obj.id);
+                    if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
                 });
                 GrdInitType.SelectIndex(0); GrdActionType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
             });
@@ -1181,7 +1181,7 @@
             var obj; CostCategoryID.ClearItems();
             $.each(data[0]["CostTypeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                CostCategoryID.AddItem(obj.CostTypeName, obj.id);
+                if (obj != null) CostCategoryID.AddItem(obj.CostTypeName, obj.id);
             });
             CostCategoryID.SelectIndex(0);
         });
@@ -1193,11 +1193,11 @@
             var obj; SubCostCategoryID.ClearItems(); ActionTypeID.ClearItems();
             $.each(data[0]["SubCostData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                SubCostCategoryID.AddItem(obj.SubCostName, obj.id);
+                if (obj != null) SubCostCategoryID.AddItem(obj.SubCostName, obj.id);
             });
             $.each(data[0]["ActionTypeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                ActionTypeID.AddItem(obj.ActionTypeName, obj.id);
+                if (obj != null) ActionTypeID.AddItem(obj.ActionTypeName, obj.id);
             });
             SubCostCategoryID.SelectIndex(0); ActionTypeID.SelectIndex(0);
         });
@@ -1210,39 +1210,39 @@
             LegalEntityID.ClearItems(); InitiativeType.ClearItems();
             $.each(data[0]["CountryData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                CountryID.AddItem(obj.CountryName, obj.id);
+                if (obj != null) CountryID.AddItem(obj.CountryName, obj.id);
             });
             $.each(data[0]["BrandData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                BrandID.AddItem(obj.BrandName, obj.id);
+                if (obj != null) BrandID.AddItem(obj.BrandName, obj.id);
             });
             $.each(data[0]["RegionData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                RegionID.AddItem(obj.RegionName, obj.id);
+                if (obj != null) RegionID.AddItem(obj.RegionName, obj.id);
             });
             $.each(data[0]["SubRegionData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                SubRegionID.AddItem(obj.SubRegionName, obj.id);
+                if (obj != null) SubRegionID.AddItem(obj.SubRegionName, obj.id);
             });
             $.each(data[0]["ClusterData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                ClusterID.AddItem(obj.ClusterName, obj.id);
+                if (obj != null) ClusterID.AddItem(obj.ClusterName, obj.id);
             });
             $.each(data[0]["RegionalOfficeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                RegionalOfficeID.AddItem(obj.RegionalOfficeName, obj.id);
+                if (obj != null) RegionalOfficeID.AddItem(obj.RegionalOfficeName, obj.id);
             });
             $.each(data[0]["CostControlSiteData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                CostControlID.AddItem(obj.CostControlSiteName, obj.id);
+                if (obj != null) CostControlID.AddItem(obj.CostControlSiteName, obj.id);
             });
             $.each(data[0]["LegalEntityData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
+                if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
             });
             $.each(data[0]["TypeInitiativeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                InitiativeType.AddItem(obj.SavingTypeName, obj.id);
+                if (obj != null) InitiativeType.AddItem(obj.SavingTypeName, obj.id);
             });
             CountryID.SelectIndex(0); BrandID.SelectIndex(0); RegionID.SelectIndex(0); SubRegionID.SelectIndex(0); ClusterID.SelectIndex(0); RegionalOfficeID.SelectIndex(0); CostControlID.SelectIndex(0);
             LegalEntityID.SelectIndex(0); InitiativeType.SelectIndex(0);
@@ -1256,7 +1256,7 @@
             var obj; LegalEntityID.ClearItems();
             $.each(data[0]["LegalEntityData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
+                if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
             });
             LegalEntityID.SelectIndex(0);
         });
@@ -1309,35 +1309,35 @@
             CboWebinarCat.ClearItems();
             $.each(data[0]["SavingTypeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdInitType.AddItem(obj.SavingTypeName, obj.id);
+                if (obj != null) GrdInitType.AddItem(obj.SavingTypeName, obj.id);
             });
             $.each(data[0]["ActionTypeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+                if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
             });
             $.each(data[0]["SynImpactData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
+                if (obj != null) GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
             });
             $.each(data[0]["InitStatusData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdInitStatus.AddItem(obj.Status, obj.id);
+                if (obj != null) GrdInitStatus.AddItem(obj.Status, obj.id);
             });
             $.each(data[0]["PortNameData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                TxPortName.AddItem(obj.PortName, obj.id);
+                if (obj != null) TxPortName.AddItem(obj.PortName, obj.id);
             });
             $.each(data[0]["MCostTypeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
+                if (obj != null) GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
             });
             $.each(data[0]["MSubCostData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdSubCost.AddItem(obj.SubCostName, obj.id);
+                if (obj != null) GrdSubCost.AddItem(obj.SubCostName, obj.id);
             });
             $.each(data[0]["MSourceCategory"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                CboWebinarCat.AddItem(obj.categoryname, obj.id);
+                if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
             });
             GrdInitType.SelectIndex(0); GrdActionType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); GrdSubCost.SelectIndex(0); CboWebinarCat.SelectIndex(0);
         });
@@ -1424,15 +1424,15 @@
                     GrdSubCountryPopup.ClearItems(); GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
                     $.each(data[0]["SubCountryData"], function (key, value) {
                         value = JSON.stringify(value); obj2 = JSON.parse(value);
-                        GrdSubCountryPopup.AddItem(obj2.SubCountryName, obj2.id);
+                        if (obj != null) GrdSubCountryPopup.AddItem(obj2.SubCountryName, obj2.id);
                     });
                     $.each(data[0]["BrandData"], function (key, value) {
                         value = JSON.stringify(value); obj2 = JSON.parse(value);
-                        GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
+                        if (obj != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
                     });
                     $.each(data[0]["LegalEntityData"], function (key, value) {
                         value = JSON.stringify(value); obj2 = JSON.parse(value);
-                        GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
+                        if (obj != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
                     });
                     GrdSubCountryPopup.SelectIndex(0); GrdBrandPopup.SelectIndex(0); GrdLegalEntityPopup.SelectIndex(0);
                 });
@@ -1604,31 +1604,45 @@
             GrdBrandPopup.AddItem("[ Please Select ]", 0);
             $.each(data[0]["BrandData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdBrandPopup.AddItem(obj.BrandName, obj.id);
+                if (obj != null) {
+                    GrdBrandPopup.AddItem(obj.BrandName, obj.id);
+                }
             });
             $.each(data[0]["CountryData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                $("#GrdCountryVal").val(obj.id); $("#GrdCountry").val(obj.CountryName);
+                if (obj != null) {
+                    $("#GrdCountryVal").val(obj.id); $("#GrdCountry").val(obj.CountryName);
+                }
             });
             $.each(data[0]["RegionData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                $("#GrdRegionalVal").val(obj.id); $("#GrdRegional").val(obj.RegionName);
+                if (obj != null) {
+                    $("#GrdRegionalVal").val(obj.id); $("#GrdRegional").val(obj.RegionName);
+                }
             });
             $.each(data[0]["SubRegionData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                $("#GrdSubRegionVal").val(obj.id); $("#GrdSubRegion").val(obj.SubRegionName);
+                if (obj != null) {
+                    $("#GrdSubRegionVal").val(obj.id); $("#GrdSubRegion").val(obj.SubRegionName);
+                }
             });
             $.each(data[0]["ClusterData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                $("#GrdClusterVal").val(obj.id); $("#GrdCluster").val(obj.ClusterName);
+                if (obj != null) {
+                    $("#GrdClusterVal").val(obj.id); $("#GrdCluster").val(obj.ClusterName);
+                } 
             });
             $.each(data[0]["RegionalOfficeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                $("#GrdRegionalOfficeVal").val(obj.id); $("#GrdRegionalOffice").val(obj.RegionalOfficeName);
+                if (obj != null) {
+                    $("#GrdRegionalOfficeVal").val(obj.id); $("#GrdRegionalOffice").val(obj.RegionalOfficeName);
+                }
             });
             $.each(data[0]["CostControlSiteData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                $("#GrdCostControlVal").val(obj.id); $("#GrdCostControl").val(obj.CostControlSiteName);
+                if (obj != null) {
+                    $("#GrdCostControlVal").val(obj.id); $("#GrdCostControl").val(obj.CostControlSiteName);
+                }
             });
             GrdBrandPopup.SelectIndex(0);
         });
@@ -1640,7 +1654,7 @@
             var obj; GrdLegalEntityPopup.ClearItems();
             $.each(data[0]["LegalEntityData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
+                if (obj != null) GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
             });
             GrdLegalEntityPopup.SelectIndex(0);
         });
@@ -1652,7 +1666,7 @@
             var obj; GrdInitCategory.ClearItems();
             $.each(data[0]["CostTypeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
+                if (obj != null) GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
             });
             GrdInitCategory.SelectIndex(0);
         });
@@ -1664,7 +1678,7 @@
             var obj; GrdActionType.ClearItems();
             $.each(data[0]["ActionTypeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+                if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
             });
             GrdActionType.SelectIndex(0);
         });
@@ -1676,7 +1690,7 @@
             var obj; GrdSubCost.ClearItems();
             $.each(data[0]["SubCostData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdSubCost.AddItem(obj.SubCostName, obj.id);
+                if (obj != null) GrdSubCost.AddItem(obj.SubCostName, obj.id);
             });
             GrdSubCost.SelectIndex(0);
         });
