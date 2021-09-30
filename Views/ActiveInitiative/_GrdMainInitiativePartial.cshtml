@@ -1269,6 +1269,9 @@
                             {
                                 ytdValue = (decimal)e.GetListSourceFieldValue("Target" + m);
                             }
+                        } else
+                        {
+                            ytdValue = 0;
                         }
                     }
                     c++;
@@ -1291,6 +1294,10 @@
                             {
                                 ytdValue = (decimal)e.GetListSourceFieldValue("Ach" + m);
                             }
+                        }
+                        else
+                        {
+                            ytdValue = 0;
                         }
                     }
                     c++;
@@ -1362,9 +1369,16 @@
 
         settings.CustomJSProperties = (s, e) =>
         {
+            decimal TotalTarget = 0;
+            decimal TotalSavingAchieved = 0;
+
             MVCxGridView gridView = (MVCxGridView) s;
-            decimal TotalTarget = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDTargetUb"]);
-            decimal TotalSavingAchieved = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDAchievedUb"]);
+            if (gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDTargetUb"]) != null)
+                TotalTarget = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDTargetUb"]);
+
+            if (gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDAchievedUb"]) != null)
+                TotalSavingAchieved = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDAchievedUb"]);
+
             gridView.JSProperties["cpTotalTarget"] = String.Format("$ {0:N2}", TotalTarget);
             gridView.JSProperties["cpTotalSavingAchieved"] = String.Format("$ {0:N2}", TotalSavingAchieved);
             gridView.JSProperties["cpNumberOfInitiative"] = String.Format("{0:N0}", gridView.VisibleRowCount);
