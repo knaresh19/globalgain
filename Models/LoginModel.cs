@@ -46,6 +46,7 @@ namespace GAIN.Models
         public int? validity_right { get; set; }
         public int? confidential_right { get; set; }
         public string years_right { get; set; }
+        public int istoadmin { get; set; }
 
     }
 }

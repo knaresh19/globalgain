@@ -1,10 +1,5 @@
 ﻿@{
-    //GAIN.Models.LoginSession LoginSession = new GAIN.Models.LoginSession
-    //{
-    //    ID = "dja.frnugraha"
-    //};
-    //this.Session["DefaultGAINSess"] = LoginSession;
-
+    
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
 }
 
@@ -28,13 +23,13 @@
                 <li class="nav-item col-md-4 col-sm-4" style="padding-left:35px;">
                     <h6>
                         <img src="@Url.Content("~/assets/poin/images/coins.png")" alt="Total Target ($)" />
-                        <b>Total Saving Achieved: <span id="sp-total-saving-achieved">...</span></b>
+                        <b>Total YTD Achieved: <span id="sp-total-saving-achieved">...</span></b>
                     </h6>
                 </li>
                 <li class="nav-item col-md-3 col-sm-3" style="padding-left:25px;">
                     <h6>
                         <img src="@Url.Content("~/assets/poin/images/Green_dart_hitting_target_36.png")" alt="Total Target ($)" />
-                        <b>Total Target: <span id="sp-total-target">...</span></b>
+                        <b>Total YTD Target: <span id="sp-total-target">...</span></b>
                     </h6>
                 </li>
                 <li class="col-md-3 col-sm-3">

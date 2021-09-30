@@ -51,7 +51,8 @@ namespace GAIN.Controllers
                             SubCostItem_right = isRegistered.SubCostItem_right,
                             validity_right = isRegistered.validity_right,
                             confidential_right = isRegistered.confidential_right,
-                            years_right = isRegistered.years_right
+                            years_right = isRegistered.years_right,
+                            istoadmin = (int)isRegistered.istoadmin
                         };
                         this.Session["DefaultGAINSess"] = LoginSession;
 
@@ -77,7 +78,8 @@ namespace GAIN.Controllers
                             SubCostItem_right = isRegistered.SubCostItem_right,
                             validity_right = isRegistered.validity_right,
                             confidential_right = isRegistered.confidential_right,
-                            years_right = isRegistered.years_right
+                            years_right = isRegistered.years_right,
+                            istoadmin = (int)isRegistered.istoadmin
                         };
                         this.Session["DefaultGAINSess"] = LoginSession;
                         return RedirectToAction("Index", "Home");
@@ -107,7 +109,8 @@ namespace GAIN.Controllers
                                 SubCostItem_right = isRegistered.SubCostItem_right,
                                 validity_right = isRegistered.validity_right,
                                 confidential_right = isRegistered.confidential_right,
-                                years_right = isRegistered.years_right
+                                years_right = isRegistered.years_right,
+                                istoadmin = (int)isRegistered.istoadmin
                             };
                             this.Session["DefaultGAINSess"] = LoginSession;
 

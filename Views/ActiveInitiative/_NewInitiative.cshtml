@@ -462,6 +462,8 @@
                         {
                             settings.Name = "txYTDTargetFullYear";
                             settings.ClientEnabled = false;
+                            settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                            settings.Properties.DisplayFormatString = "#,###.00";
                             settings.Width = 190;
                         }).GetHtml()
                     </div>
@@ -471,6 +473,8 @@
                         {
                             settings.Name = "txYTDSavingFullYear";
                             settings.ClientEnabled = false;
+                            settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                            settings.Properties.DisplayFormatString = "#,###.00";
                             settings.Width = 190;
                         }).GetHtml()
                     </div>

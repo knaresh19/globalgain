@@ -1,4 +1,8 @@
-﻿<!-- sidebar menu -->
+﻿@{
+    var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
+}
+
+<!-- sidebar menu -->
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section">
         <h3>General</h3>
@@ -30,6 +34,9 @@
                     <li><a href="@Url.Content("~/YTDPerformance")">YTD Performance</a></li>
                 </ul>
             </li>
+            @{ 
+                if (profileData.istoadmin == 1)
+                {
             <li>
                 <a><i class="fa fa-gear"></i> Settings <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
@@ -74,6 +81,8 @@
                     </li>
                 </ul>
             </li>
+                }
+            }
         </ul>
     </div>
 </div>
