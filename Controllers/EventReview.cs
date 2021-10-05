@@ -7,24 +7,19 @@ using System.Web.Mvc;
 using GAIN.Models;
 
 namespace GAIN.Controllers
-{
-    public class EventReviewController : MyBaseController
-    {
+{    public class EventReviewController : MyBaseController
+     {
         GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
 
         public ActionResult GrdEventReviewPartial()
         {
             var profileData = Session["EventReviewID"] as EventReviewSession;
-            if (profileData != null)
-            {
-                var ID = Int64.Parse(profileData.ID);
-                var model = db.logtables.Where(c => c.id == ID);
-                return PartialView("~/Views/ActiveInitiative/_GrdEventReviewPartial.cshtml", model.ToList());
-            } else
-            {
-                return Content("");
-            }
+
+            var ID = Int64.Parse(profileData.ID);
+            var model = db.logtables.Where(c => c.id == ID);
+            return PartialView("~/Views/ActiveInitiative/_GrdEventReviewPartial.cshtml", model.ToList());
         }
+
         public ActionResult SetEventReviewID(FormPost PostedData)
         {
             EventReviewSession EventReviewSession = new EventReviewSession

@@ -34,7 +34,22 @@ namespace GAIN.Controllers
             LoginSession LoginSession = new LoginSession
             {
                 ID = profileData.ID,
-                ProjectYear = GetInfo.Id
+                ProjectYear = GetInfo.Id,
+                UserType = profileData.UserType,
+                CountryCode = profileData.CountryCode,
+                RegionID = profileData.RegionID,
+                CountryID = profileData.CountryID,
+                CostControlSite = profileData.CostControlSite,
+                subcountry_right = profileData.subcountry_right,
+                RegionalOffice_right = profileData.RegionalOffice_right,
+                CostControlSite_right = profileData.CostControlSite_right,
+                Brand_right = profileData.Brand_right,
+                CostItem_right = profileData.CostItem_right,
+                SubCostItem_right = profileData.SubCostItem_right,
+                validity_right = profileData.validity_right,
+                confidential_right = profileData.confidential_right,
+                years_right = profileData.years_right,
+                istoadmin = profileData.istoadmin
             };
             Session["DefaultGAINSess"] = LoginSession;
             return Content("Ok");
@@ -595,7 +610,7 @@ namespace GAIN.Controllers
                     //int InitNextNum = rand.Next(1,999);
                     //string OutInitNextNum = "00" + InitNextNum.ToString();
 
-                    string nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(DateTime.Now.Year + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o=>o.CreatedDate).FirstOrDefault().InitNumber;
+                    string nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(DateTime.Now.Year + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o=>o.InitNumber).FirstOrDefault().InitNumber;
                     nomerterakhir = nomerterakhir.Substring((nomerterakhir.Length - 3), 3);
                     int nomerurut = (Int32.Parse(nomerterakhir) + 1);
                     string nomerselanjutnya = ("00" + nomerurut.ToString());
@@ -853,7 +868,7 @@ namespace GAIN.Controllers
             CountryList = db.mcountries.Where(c => c.id == CountryID).Select(s => new CountryList { id = s.id, CountryName = s.CountryName }).ToList();
             if (GetInfo.Id2 == 0)
             {
-                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id WHERE c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
             } else
             {
                 BrandList = db.mbrands.Where(c => c.id == modelinitiative.BrandID).Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
@@ -864,7 +879,7 @@ namespace GAIN.Controllers
             RegionalOfficeList = db.mregional_office.Where(ro => ro.RegionID == RegionID && ro.CountryID == CountryID).Select(s => new RegionalOfficeList { id = s.id, RegionalOfficeName = s.RegionalOffice_Name }).ToList();
             var costcontrolid = db.t_subctry_costcntrlsite.Where(sc => sc.subcountryid == SubCountryID).FirstOrDefault().costcontrolid;
             CostControlList = db.mcostcontrolsites.Where(c => c.id == costcontrolid).Select(s => new CostControlList { id = s.id, CostControlSiteName = s.CostControlSiteName }).ToList();
-            LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID && le.BrandID == BrandIDx).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
+            LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID && le.BrandID == BrandIDx && le.SubCountryID == SubCountryID && le.CostControlSiteID == costcontrolid).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
             //LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
             TypeInitiativeList = db.msavingtypes.Where(st => st.id == modelinitiative.InitiativeType).Select(s => new TypeInitiativeList { id = s.id, SavingTypeName = s.SavingTypeName }).ToList();
 

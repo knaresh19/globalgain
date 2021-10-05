@@ -23,11 +23,15 @@ namespace GAIN.Models
         public long id { get; set; }
         public Nullable<long> BrandID { get; set; }
         public Nullable<long> CountryID { get; set; }
+        public Nullable<long> SubCountryID { get; set; }
+        public Nullable<long> CostControlSiteID { get; set; }
         public string LegalEntityName { get; set; }
     
         public virtual mbrand mbrand { get; set; }
+        public virtual mcostcontrolsite mcostcontrolsite { get; set; }
         public virtual mcountry mcountry { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_initiative> t_initiative { get; set; }
+        public virtual msubcountry msubcountry { get; set; }
     }
 }

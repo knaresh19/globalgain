@@ -21,6 +21,7 @@ namespace GAIN.Models
             this.t_subcostbrand = new HashSet<t_subcostbrand>();
             this.t_initiative = new HashSet<t_initiative>();
             this.mlegalentities = new HashSet<mlegalentity>();
+            this.t_subctry_costcntrlsite = new HashSet<t_subctry_costcntrlsite>();
         }
     
         public long id { get; set; }
@@ -34,5 +35,7 @@ namespace GAIN.Models
         public virtual ICollection<t_initiative> t_initiative { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<mlegalentity> mlegalentities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<t_subctry_costcntrlsite> t_subctry_costcntrlsite { get; set; }
     }
 }

@@ -17,6 +17,8 @@ namespace GAIN.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public msubcountry()
         {
+            this.mbrandcountries = new HashSet<mbrandcountry>();
+            this.mlegalentities = new HashSet<mlegalentity>();
             this.t_initiative = new HashSet<t_initiative>();
             this.t_subctry_costcntrlsite = new HashSet<t_subctry_costcntrlsite>();
         }
@@ -26,7 +28,11 @@ namespace GAIN.Models
         public string SubCountryName { get; set; }
         public string CountryCode { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<mbrandcountry> mbrandcountries { get; set; }
         public virtual mcountry mcountry { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<mlegalentity> mlegalentities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_initiative> t_initiative { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

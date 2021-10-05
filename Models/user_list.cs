@@ -34,7 +34,6 @@ namespace GAIN.Models
         public string right_name { get; set; }
         public string cb_right { get; set; }
         public string region_right { get; set; }
-        public string costcontrolsite { get; set; }
         public string email { get; set; }
         public Nullable<int> isNew { get; set; }
         public Nullable<int> userType { get; set; }
@@ -42,6 +41,7 @@ namespace GAIN.Models
         public string OfficeLocation { get; set; }
         public string Job { get; set; }
         public string encPassword { get; set; }
+        public string costcontrolsite { get; set; }
         public string subcountry_right { get; set; }
         public string subregion_right { get; set; }
         public string RegionalOffice_right { get; set; }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="GainModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="GainModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="logtable">
           <Key>
             <PropertyRef Name="id" />
@@ -54,6 +54,7 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="countryid" Type="bigint" Nullable="false" />
+          <Property Name="subcountryid" Type="bigint" />
           <Property Name="brandid" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="mcluster">
@@ -96,6 +97,8 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BrandID" Type="bigint" />
           <Property Name="CountryID" Type="bigint" />
+          <Property Name="SubCountryID" Type="bigint" />
+          <Property Name="CostControlSiteID" Type="bigint" />
           <Property Name="LegalEntityName" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="mmenu">
@@ -363,6 +366,7 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="subcountryid" Type="bigint" Nullable="false" />
           <Property Name="costcontrolid" Type="bigint" Nullable="false" />
+          <Property Name="brandid" Type="bigint" />
         </EntityType>
         <EntityType Name="user_list">
           <Key>
@@ -388,7 +392,6 @@
           <Property Name="right_name" Type="varchar" MaxLength="10" />
           <Property Name="cb_right" Type="varchar" MaxLength="255" />
           <Property Name="region_right" Type="text" />
-          <Property Name="costcontrolsite" Type="text" />
           <Property Name="email" Type="varchar" MaxLength="255" />
           <Property Name="isNew" Type="int" />
           <Property Name="userType" Type="int" />
@@ -396,6 +399,7 @@
           <Property Name="OfficeLocation" Type="text" />
           <Property Name="Job" Type="text" />
           <Property Name="encPassword" Type="varchar" MaxLength="256" />
+          <Property Name="costcontrolsite" Type="text" />
           <Property Name="subcountry_right" Type="text" />
           <Property Name="subregion_right" Type="text" />
           <Property Name="RegionalOffice_right" Type="text" />
@@ -442,6 +446,7 @@ warning 6002: The table/view 'def.gain2.vwheaderinitiative' does not have a prim
             <PropertyRef Name="id" />
             <PropertyRef Name="isDeleted" />
             <PropertyRef Name="CreatedDate" />
+            <PropertyRef Name="ModifiedDate" />
           </Key>
           <Property Name="id" Type="bigint" Nullable="false" />
           <Property Name="InitNumber" Type="varchar" MaxLength="50" />
@@ -548,6 +553,9 @@ warning 6002: The table/view 'def.gain2.vwheaderinitiative' does not have a prim
           <Property Name="isDeleted" Type="int" Nullable="false" />
           <Property Name="ProjectYear" Type="year" />
           <Property Name="CreatedDate" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'def.gain2.vwsummarydashboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -706,6 +714,18 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
             </Principal>
             <Dependent Role="t_subcostbrand">
               <PropertyRef Name="brandid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_brandsubcountry">
+          <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="0..1" />
+          <End Role="mbrandcountry" Type="Self.mbrandcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mbrandcountry">
+              <PropertyRef Name="subcountryid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -889,6 +909,18 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_LegalCostControlSiteID">
+          <End Role="mcostcontrolsite" Type="Self.mcostcontrolsite" Multiplicity="0..1" />
+          <End Role="mlegalentity" Type="Self.mlegalentity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcostcontrolsite">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mlegalentity">
+              <PropertyRef Name="CostControlSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_LegalCountry">
           <End Role="mcountry" Type="Self.mcountry" Multiplicity="0..1" />
           <End Role="mlegalentity" Type="Self.mlegalentity" Multiplicity="*" />
@@ -898,6 +930,18 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
             </Principal>
             <Dependent Role="mlegalentity">
               <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalSubCountryID">
+          <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="0..1" />
+          <End Role="mlegalentity" Type="Self.mlegalentity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mlegalentity">
+              <PropertyRef Name="SubCountryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -994,6 +1038,18 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
             </Principal>
             <Dependent Role="t_subcostbrand">
               <PropertyRef Name="subcostid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_subcountry_brnd">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="0..1" />
+          <End Role="t_subctry_costcntrlsite" Type="Self.t_subctry_costcntrlsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subctry_costcntrlsite">
+              <PropertyRef Name="brandid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1260,7 +1316,10 @@ FROM `vwagency` AS `vwagency`</DefiningQuery>
 `vwheaderinitiative`.`UploadedFile`, 
 `vwheaderinitiative`.`isDeleted`, 
 `vwheaderinitiative`.`ProjectYear`, 
-`vwheaderinitiative`.`CreatedDate`
+`vwheaderinitiative`.`CreatedDate`, 
+`vwheaderinitiative`.`CreatedBy`, 
+`vwheaderinitiative`.`ModifiedDate`, 
+`vwheaderinitiative`.`ModifiedBy`
 FROM `vwheaderinitiative` AS `vwheaderinitiative`</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwsummarydashboard" EntityType="Self.vwsummarydashboard" store:Type="Views" store:Schema="gain2">
@@ -1341,6 +1400,10 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <End Role="mbrand" EntitySet="mbrand" />
             <End Role="t_subcostbrand" EntitySet="t_subcostbrand" />
           </AssociationSet>
+          <AssociationSet Name="fk_brandsubcountry" Association="Self.fk_brandsubcountry">
+            <End Role="msubcountry" EntitySet="msubcountry" />
+            <End Role="mbrandcountry" EntitySet="mbrandcountry" />
+          </AssociationSet>
           <AssociationSet Name="FK_COSTITEM_ACTIONTYPE_ID" Association="Self.FK_COSTITEM_ACTIONTYPE_ID">
             <End Role="mcosttype" EntitySet="mcosttype" />
             <End Role="t_cost_actiontype" EntitySet="t_cost_actiontype" />
@@ -1401,8 +1464,16 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <End Role="mbrand" EntitySet="mbrand" />
             <End Role="mlegalentity" EntitySet="mlegalentity" />
           </AssociationSet>
+          <AssociationSet Name="fk_LegalCostControlSiteID" Association="Self.fk_LegalCostControlSiteID">
+            <End Role="mcostcontrolsite" EntitySet="mcostcontrolsite" />
+            <End Role="mlegalentity" EntitySet="mlegalentity" />
+          </AssociationSet>
           <AssociationSet Name="fk_LegalCountry" Association="Self.fk_LegalCountry">
             <End Role="mcountry" EntitySet="mcountry" />
+            <End Role="mlegalentity" EntitySet="mlegalentity" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalSubCountryID" Association="Self.fk_LegalSubCountryID">
+            <End Role="msubcountry" EntitySet="msubcountry" />
             <End Role="mlegalentity" EntitySet="mlegalentity" />
           </AssociationSet>
           <AssociationSet Name="fk_region" Association="Self.fk_region">
@@ -1436,6 +1507,10 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <AssociationSet Name="FK_SUBCOSTID_BRANDID" Association="Self.FK_SUBCOSTID_BRANDID">
             <End Role="msubcost" EntitySet="msubcost" />
             <End Role="t_subcostbrand" EntitySet="t_subcostbrand" />
+          </AssociationSet>
+          <AssociationSet Name="fk_subcountry_brnd" Association="Self.fk_subcountry_brnd">
+            <End Role="mbrand" EntitySet="mbrand" />
+            <End Role="t_subctry_costcntrlsite" EntitySet="t_subctry_costcntrlsite" />
           </AssociationSet>
           <AssociationSet Name="fk_subcountry_ccs" Association="Self.fk_subcountry_ccs">
             <End Role="mcostcontrolsite" EntitySet="mcostcontrolsite" />
@@ -1474,7 +1549,8 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <End Role="mmenu1" EntitySet="mmenu" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GainModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1528,6 +1604,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <NavigationProperty Name="t_subcostbrand" Relationship="Self.FK_BRANDID_SUBCOSTID" FromRole="mbrand" ToRole="t_subcostbrand" />
           <NavigationProperty Name="t_initiative" Relationship="Self.fk_initbrand" FromRole="mbrand" ToRole="t_initiative" />
           <NavigationProperty Name="mlegalentities" Relationship="Self.fk_LegalBrandID" FromRole="mbrand" ToRole="mlegalentity" />
+          <NavigationProperty Name="t_subctry_costcntrlsite" Relationship="Self.fk_subcountry_brnd" FromRole="mbrand" ToRole="t_subctry_costcntrlsite" />
         </EntityType>
         <EntityType Name="mbrandcountry">
           <Key>
@@ -1535,9 +1612,11 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="countryid" Type="Int64" Nullable="false" />
+          <Property Name="subcountryid" Type="Int64" />
           <Property Name="brandid" Type="Int64" Nullable="false" />
           <NavigationProperty Name="mbrand" Relationship="Self.fk_brandid" FromRole="mbrandcountry" ToRole="mbrand" />
           <NavigationProperty Name="mcountry" Relationship="Self.fk_brandcountry" FromRole="mbrandcountry" ToRole="mcountry" />
+          <NavigationProperty Name="msubcountry" Relationship="Self.fk_brandsubcountry" FromRole="mbrandcountry" ToRole="msubcountry" />
         </EntityType>
         <EntityType Name="mcluster">
           <Key>
@@ -1559,7 +1638,8 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CostControlSiteName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="t_initiative" Relationship="Self.fk_initcostcontrol" FromRole="mcostcontrolsite" ToRole="t_initiative" />
-          <NavigationProperty Name="t_subctry_costcntrlsite" Relationship="GainModel.fk_subcountry_ccs" FromRole="mcostcontrolsite" ToRole="t_subctry_costcntrlsite" />
+          <NavigationProperty Name="mlegalentities" Relationship="Self.fk_LegalCostControlSiteID" FromRole="mcostcontrolsite" ToRole="mlegalentity" />
+          <NavigationProperty Name="t_subctry_costcntrlsite" Relationship="Self.fk_subcountry_ccs" FromRole="mcostcontrolsite" ToRole="t_subctry_costcntrlsite" />
         </EntityType>
         <EntityType Name="mcosttype">
           <Key>
@@ -1594,10 +1674,14 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BrandID" Type="Int64" />
           <Property Name="CountryID" Type="Int64" />
+          <Property Name="SubCountryID" Type="Int64" />
+          <Property Name="CostControlSiteID" Type="Int64" />
           <Property Name="LegalEntityName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="mbrand" Relationship="Self.fk_LegalBrandID" FromRole="mlegalentity" ToRole="mbrand" />
+          <NavigationProperty Name="mcostcontrolsite" Relationship="Self.fk_LegalCostControlSiteID" FromRole="mlegalentity" ToRole="mcostcontrolsite" />
           <NavigationProperty Name="mcountry" Relationship="Self.fk_LegalCountry" FromRole="mlegalentity" ToRole="mcountry" />
           <NavigationProperty Name="t_initiative" Relationship="Self.fk_initlegalentity" FromRole="mlegalentity" ToRole="t_initiative" />
+          <NavigationProperty Name="msubcountry" Relationship="Self.fk_LegalSubCountryID" FromRole="mlegalentity" ToRole="msubcountry" />
         </EntityType>
         <EntityType Name="mmenu">
           <Key>
@@ -1719,9 +1803,11 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <Property Name="CountryID" Type="Int64" Nullable="false" />
           <Property Name="SubCountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CountryCode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="mbrandcountries" Relationship="Self.fk_brandsubcountry" FromRole="msubcountry" ToRole="mbrandcountry" />
           <NavigationProperty Name="mcountry" Relationship="Self.fk_countryid" FromRole="msubcountry" ToRole="mcountry" />
+          <NavigationProperty Name="mlegalentities" Relationship="Self.fk_LegalSubCountryID" FromRole="msubcountry" ToRole="mlegalentity" />
           <NavigationProperty Name="t_initiative" Relationship="Self.fk_initsubcountry" FromRole="msubcountry" ToRole="t_initiative" />
-          <NavigationProperty Name="t_subctry_costcntrlsite" Relationship="GainModel.fk_subcountry_sc" FromRole="msubcountry" ToRole="t_subctry_costcntrlsite" />
+          <NavigationProperty Name="t_subctry_costcntrlsite" Relationship="Self.fk_subcountry_sc" FromRole="msubcountry" ToRole="t_subctry_costcntrlsite" />
         </EntityType>
         <EntityType Name="msubregion">
           <Key>
@@ -1905,6 +1991,18 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <NavigationProperty Name="msavingtype" Relationship="Self.FK_savingtypeid" FromRole="t_subcostinitiative" ToRole="msavingtype" />
           <NavigationProperty Name="msubcost" Relationship="Self.FK_subcostid" FromRole="t_subcostinitiative" ToRole="msubcost" />
         </EntityType>
+        <EntityType Name="t_subctry_costcntrlsite">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="subcountryid" Type="Int64" Nullable="false" />
+          <Property Name="costcontrolid" Type="Int64" Nullable="false" />
+          <Property Name="brandid" Type="Int64" />
+          <NavigationProperty Name="mbrand" Relationship="Self.fk_subcountry_brnd" FromRole="t_subctry_costcntrlsite" ToRole="mbrand" />
+          <NavigationProperty Name="mcostcontrolsite" Relationship="Self.fk_subcountry_ccs" FromRole="t_subctry_costcntrlsite" ToRole="mcostcontrolsite" />
+          <NavigationProperty Name="msubcountry" Relationship="Self.fk_subcountry_sc" FromRole="t_subctry_costcntrlsite" ToRole="msubcountry" />
+        </EntityType>
         <EntityType Name="user_list">
           <Key>
             <PropertyRef Name="user_id" />
@@ -1929,7 +2027,6 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <Property Name="right_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="cb_right" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="region_right" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
-          <Property Name="costcontrolsite" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="isNew" Type="Int32" />
           <Property Name="userType" Type="Int32" />
@@ -1937,6 +2034,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <Property Name="OfficeLocation" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <Property Name="Job" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <Property Name="encPassword" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="costcontrolsite" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <Property Name="subcountry_right" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <Property Name="subregion_right" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <Property Name="RegionalOffice_right" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
@@ -1979,6 +2077,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <PropertyRef Name="id" />
             <PropertyRef Name="isDeleted" />
             <PropertyRef Name="CreatedDate" />
+            <PropertyRef Name="ModifiedDate" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" />
           <Property Name="InitNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -2085,6 +2184,9 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <Property Name="isDeleted" Type="Int32" Nullable="false" />
           <Property Name="ProjectYear" Type="Int16" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="vwsummarydashboard">
           <Key>
@@ -2262,6 +2364,18 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_subcountry_brnd">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="0..1" />
+          <End Role="t_subctry_costcntrlsite" Type="Self.t_subctry_costcntrlsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subctry_costcntrlsite">
+              <PropertyRef Name="brandid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_brandcountry">
           <End Role="mcountry" Type="Self.mcountry" Multiplicity="1" />
           <End Role="mbrandcountry" Type="Self.mbrandcountry" Multiplicity="*" />
@@ -2271,6 +2385,18 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             </Principal>
             <Dependent Role="mbrandcountry">
               <PropertyRef Name="countryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_brandsubcountry">
+          <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="0..1" />
+          <End Role="mbrandcountry" Type="Self.mbrandcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mbrandcountry">
+              <PropertyRef Name="subcountryid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2319,6 +2445,30 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             </Principal>
             <Dependent Role="t_initiative">
               <PropertyRef Name="CostControlID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalCostControlSiteID">
+          <End Role="mcostcontrolsite" Type="Self.mcostcontrolsite" Multiplicity="0..1" />
+          <End Role="mlegalentity" Type="Self.mlegalentity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcostcontrolsite">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mlegalentity">
+              <PropertyRef Name="CostControlSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_subcountry_ccs">
+          <End Role="mcostcontrolsite" Type="Self.mcostcontrolsite" Multiplicity="1" />
+          <End Role="t_subctry_costcntrlsite" Type="Self.t_subctry_costcntrlsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mcostcontrolsite">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subctry_costcntrlsite">
+              <PropertyRef Name="costcontrolid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2439,6 +2589,18 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             </Principal>
             <Dependent Role="t_initiative">
               <PropertyRef Name="LegalEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalSubCountryID">
+          <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="0..1" />
+          <End Role="mlegalentity" Type="Self.mlegalentity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mlegalentity">
+              <PropertyRef Name="SubCountryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2600,6 +2762,18 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_subcountry_sc">
+          <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="1" />
+          <End Role="t_subctry_costcntrlsite" Type="Self.t_subctry_costcntrlsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="t_subctry_costcntrlsite">
+              <PropertyRef Name="subcountryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_initsubregion">
           <End Role="msubregion" Type="Self.msubregion" Multiplicity="0..1" />
           <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
@@ -2641,6 +2815,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <EntitySet Name="t_subcostactiontype" EntityType="Self.t_subcostactiontype" />
           <EntitySet Name="t_subcostbrand" EntityType="Self.t_subcostbrand" />
           <EntitySet Name="t_subcostinitiative" EntityType="Self.t_subcostinitiative" />
+          <EntitySet Name="t_subctry_costcntrlsite" EntityType="Self.t_subctry_costcntrlsite" />
           <EntitySet Name="user_list" EntityType="Self.user_list" />
           <EntitySet Name="vwagencies" EntityType="Self.vwagency" />
           <EntitySet Name="vwheaderinitiatives" EntityType="Self.vwheaderinitiative" />
@@ -2680,8 +2855,16 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <End Role="mbrand" EntitySet="mbrands" />
             <End Role="mlegalentity" EntitySet="mlegalentities" />
           </AssociationSet>
+          <AssociationSet Name="fk_subcountry_brnd" Association="Self.fk_subcountry_brnd">
+            <End Role="mbrand" EntitySet="mbrands" />
+            <End Role="t_subctry_costcntrlsite" EntitySet="t_subctry_costcntrlsite" />
+          </AssociationSet>
           <AssociationSet Name="fk_brandcountry" Association="Self.fk_brandcountry">
             <End Role="mcountry" EntitySet="mcountries" />
+            <End Role="mbrandcountry" EntitySet="mbrandcountries" />
+          </AssociationSet>
+          <AssociationSet Name="fk_brandsubcountry" Association="Self.fk_brandsubcountry">
+            <End Role="msubcountry" EntitySet="msubcountries" />
             <End Role="mbrandcountry" EntitySet="mbrandcountries" />
           </AssociationSet>
           <AssociationSet Name="fk_initcluster" Association="Self.fk_initcluster">
@@ -2699,6 +2882,14 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <AssociationSet Name="fk_initcostcontrol" Association="Self.fk_initcostcontrol">
             <End Role="mcostcontrolsite" EntitySet="mcostcontrolsites" />
             <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalCostControlSiteID" Association="Self.fk_LegalCostControlSiteID">
+            <End Role="mcostcontrolsite" EntitySet="mcostcontrolsites" />
+            <End Role="mlegalentity" EntitySet="mlegalentities" />
+          </AssociationSet>
+          <AssociationSet Name="fk_subcountry_ccs" Association="Self.fk_subcountry_ccs">
+            <End Role="mcostcontrolsite" EntitySet="mcostcontrolsites" />
+            <End Role="t_subctry_costcntrlsite" EntitySet="t_subctry_costcntrlsite" />
           </AssociationSet>
           <AssociationSet Name="FK_COSTITEM_ACTIONTYPE_ID" Association="Self.FK_COSTITEM_ACTIONTYPE_ID">
             <End Role="mcosttype" EntitySet="mcosttypes" />
@@ -2739,6 +2930,10 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <AssociationSet Name="fk_initlegalentity" Association="Self.fk_initlegalentity">
             <End Role="mlegalentity" EntitySet="mlegalentities" />
             <End Role="t_initiative" EntitySet="t_initiative" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalSubCountryID" Association="Self.fk_LegalSubCountryID">
+            <End Role="msubcountry" EntitySet="msubcountries" />
+            <End Role="mlegalentity" EntitySet="mlegalentities" />
           </AssociationSet>
           <AssociationSet Name="mmenu_ibfk_1" Association="Self.mmenu_ibfk_1">
             <End Role="mmenu" EntitySet="mmenus" />
@@ -2792,54 +2987,15 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <End Role="msubcountry" EntitySet="msubcountries" />
             <End Role="t_initiative" EntitySet="t_initiative" />
           </AssociationSet>
+          <AssociationSet Name="fk_subcountry_sc" Association="Self.fk_subcountry_sc">
+            <End Role="msubcountry" EntitySet="msubcountries" />
+            <End Role="t_subctry_costcntrlsite" EntitySet="t_subctry_costcntrlsite" />
+          </AssociationSet>
           <AssociationSet Name="fk_initsubregion" Association="Self.fk_initsubregion">
             <End Role="msubregion" EntitySet="msubregions" />
             <End Role="t_initiative" EntitySet="t_initiative" />
           </AssociationSet>
-          <EntitySet Name="t_subctry_costcntrlsite" EntityType="GainModel.t_subctry_costcntrlsite" />
-          <AssociationSet Name="fk_subcountry_ccs" Association="GainModel.fk_subcountry_ccs">
-            <End Role="mcostcontrolsite" EntitySet="mcostcontrolsites" />
-            <End Role="t_subctry_costcntrlsite" EntitySet="t_subctry_costcntrlsite" />
-          </AssociationSet>
-          <AssociationSet Name="fk_subcountry_sc" Association="GainModel.fk_subcountry_sc">
-            <End Role="msubcountry" EntitySet="msubcountries" />
-            <End Role="t_subctry_costcntrlsite" EntitySet="t_subctry_costcntrlsite" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="t_subctry_costcntrlsite">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="subcountryid" Type="Int64" Nullable="false" />
-          <Property Name="costcontrolid" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="mcostcontrolsite" Relationship="GainModel.fk_subcountry_ccs" FromRole="t_subctry_costcntrlsite" ToRole="mcostcontrolsite" />
-          <NavigationProperty Name="msubcountry" Relationship="GainModel.fk_subcountry_sc" FromRole="t_subctry_costcntrlsite" ToRole="msubcountry" />
-        </EntityType>
-        <Association Name="fk_subcountry_ccs">
-          <End Type="GainModel.mcostcontrolsite" Role="mcostcontrolsite" Multiplicity="1" />
-          <End Type="GainModel.t_subctry_costcntrlsite" Role="t_subctry_costcntrlsite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="mcostcontrolsite">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="t_subctry_costcntrlsite">
-              <PropertyRef Name="costcontrolid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_subcountry_sc">
-          <End Type="GainModel.msubcountry" Role="msubcountry" Multiplicity="1" />
-          <End Type="GainModel.t_subctry_costcntrlsite" Role="t_subctry_costcntrlsite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="msubcountry">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="t_subctry_costcntrlsite">
-              <PropertyRef Name="subcountryid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2898,6 +3054,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
               <MappingFragment StoreEntitySet="mbrandcountry">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="countryid" ColumnName="countryid" />
+                <ScalarProperty Name="subcountryid" ColumnName="subcountryid" />
                 <ScalarProperty Name="brandid" ColumnName="brandid" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2945,6 +3102,8 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="SubCountryID" ColumnName="SubCountryID" />
+                <ScalarProperty Name="CostControlSiteID" ColumnName="CostControlSiteID" />
                 <ScalarProperty Name="LegalEntityName" ColumnName="LegalEntityName" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3225,19 +3384,19 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="t_subctry_costcntrlsite">
+            <EntityTypeMapping TypeName="GainModel.t_subctry_costcntrlsite">
+              <MappingFragment StoreEntitySet="t_subctry_costcntrlsite">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="subcountryid" ColumnName="subcountryid" />
+                <ScalarProperty Name="costcontrolid" ColumnName="costcontrolid" />
+                <ScalarProperty Name="brandid" ColumnName="brandid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="user_list">
             <EntityTypeMapping TypeName="GainModel.user_list">
               <MappingFragment StoreEntitySet="user_list">
-                <ScalarProperty Name="years_right" ColumnName="years_right" />
-                <ScalarProperty Name="confidential_right" ColumnName="confidential_right" />
-                <ScalarProperty Name="validity_right" ColumnName="validity_right" />
-                <ScalarProperty Name="SubCostItem_right" ColumnName="SubCostItem_right" />
-                <ScalarProperty Name="CostItem_right" ColumnName="CostItem_right" />
-                <ScalarProperty Name="Brand_right" ColumnName="Brand_right" />
-                <ScalarProperty Name="CostControlSite_right" ColumnName="CostControlSite_right" />
-                <ScalarProperty Name="RegionalOffice_right" ColumnName="RegionalOffice_right" />
-                <ScalarProperty Name="subregion_right" ColumnName="subregion_right" />
-                <ScalarProperty Name="subcountry_right" ColumnName="subcountry_right" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="USER_FIRST_NAME" ColumnName="USER_FIRST_NAME" />
                 <ScalarProperty Name="USER_MIDDLE_NAME" ColumnName="USER_MIDDLE_NAME" />
@@ -3258,7 +3417,6 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
                 <ScalarProperty Name="right_name" ColumnName="right_name" />
                 <ScalarProperty Name="cb_right" ColumnName="cb_right" />
                 <ScalarProperty Name="region_right" ColumnName="region_right" />
-                <ScalarProperty Name="costcontrolsite" ColumnName="costcontrolsite" />
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="isNew" ColumnName="isNew" />
                 <ScalarProperty Name="userType" ColumnName="userType" />
@@ -3266,6 +3424,17 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
                 <ScalarProperty Name="OfficeLocation" ColumnName="OfficeLocation" />
                 <ScalarProperty Name="Job" ColumnName="Job" />
                 <ScalarProperty Name="encPassword" ColumnName="encPassword" />
+                <ScalarProperty Name="costcontrolsite" ColumnName="costcontrolsite" />
+                <ScalarProperty Name="subcountry_right" ColumnName="subcountry_right" />
+                <ScalarProperty Name="subregion_right" ColumnName="subregion_right" />
+                <ScalarProperty Name="RegionalOffice_right" ColumnName="RegionalOffice_right" />
+                <ScalarProperty Name="CostControlSite_right" ColumnName="CostControlSite_right" />
+                <ScalarProperty Name="Brand_right" ColumnName="Brand_right" />
+                <ScalarProperty Name="CostItem_right" ColumnName="CostItem_right" />
+                <ScalarProperty Name="SubCostItem_right" ColumnName="SubCostItem_right" />
+                <ScalarProperty Name="validity_right" ColumnName="validity_right" />
+                <ScalarProperty Name="confidential_right" ColumnName="confidential_right" />
+                <ScalarProperty Name="years_right" ColumnName="years_right" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3395,6 +3564,9 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
                 <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
                 <ScalarProperty Name="ProjectYear" ColumnName="ProjectYear" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3457,15 +3629,6 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
                 <ScalarProperty Name="prcnt" ColumnName="prcnt" />
                 <ScalarProperty Name="YTDAchieved" ColumnName="YTDAchieved" />
                 <ScalarProperty Name="YTDTarget" ColumnName="YTDTarget" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="t_subctry_costcntrlsite">
-            <EntityTypeMapping TypeName="GainModel.t_subctry_costcntrlsite">
-              <MappingFragment StoreEntitySet="t_subctry_costcntrlsite">
-                <ScalarProperty Name="costcontrolid" ColumnName="costcontrolid" />
-                <ScalarProperty Name="subcountryid" ColumnName="subcountryid" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

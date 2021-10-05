@@ -16,9 +16,11 @@ namespace GAIN.Models
     {
         public long id { get; set; }
         public long countryid { get; set; }
+        public Nullable<long> subcountryid { get; set; }
         public long brandid { get; set; }
     
         public virtual mbrand mbrand { get; set; }
         public virtual mcountry mcountry { get; set; }
+        public virtual msubcountry msubcountry { get; set; }
     }
 }

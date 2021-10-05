@@ -119,5 +119,8 @@ namespace GAIN.Models
         public int isDeleted { get; set; }
         public Nullable<short> ProjectYear { get; set; }
         public System.DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public System.DateTime ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
     }
 }

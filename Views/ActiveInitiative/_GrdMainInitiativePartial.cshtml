@@ -42,7 +42,6 @@
         //settings.SettingsCommandButton.EditButton.Image.Url = Url.Content("~/assets/poin/images/Sign_up_Icon_22.png");
         //settings.SettingsCommandButton.EditButton.Image.ToolTip = "Edit";
 
-
         settings.SettingsCommandButton.DeleteButton.RenderMode = GridCommandButtonRenderMode.Image;
         settings.SettingsCommandButton.DeleteButton.Image.IconID = "Open_Folder_Delete_Icon_16";
         settings.SettingsCommandButton.DeleteButton.Image.Url = Url.Content("~/assets/poin/images/Open_Folder_Delete_Icon_22.png");
@@ -93,7 +92,8 @@
         settings.Settings.ShowFilterRow = true;
         settings.Settings.ShowFilterRowMenu = false;
         settings.Settings.ShowHeaderFilterButton = true;
-        settings.Settings.ShowFilterBar = DevExpress.Web.GridViewStatusBarMode.Hidden;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        settings.Settings.ShowFilterBar = DevExpress.Web.GridViewStatusBarMode.Visible;
 
         settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCellsWindowLimit;
         settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
@@ -111,6 +111,7 @@
         {
             c.FieldName = "InitNumber";
             c.Width = 100;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.FixedStyle = GridViewColumnFixedStyle.Left;
         });
         settings.Columns.Add(c =>
@@ -125,6 +126,7 @@
             c.Name = "SourceCategory";
             c.Caption = "Source Category";
             c.Width = 100;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.FixedStyle = GridViewColumnFixedStyle.Left;
             c.EditorProperties().ComboBox(p =>
             {
@@ -142,6 +144,7 @@
             c.Name = "SubCountryID";
             c.Caption = "Sub Country";
             c.Width = 150;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.FixedStyle = GridViewColumnFixedStyle.Left;
             c.CellStyle.BackColor = System.Drawing.Color.Ivory;
             c.EditorProperties().ComboBox(p =>
@@ -164,6 +167,7 @@
             c.Name = "BrandID";
             c.Caption = "Brand";
             c.Width = 100;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.CellStyle.BackColor = System.Drawing.Color.Ivory;
             c.EditorProperties().ComboBox(p =>
             {
@@ -181,6 +185,7 @@
             c.Name = "CountryID";
             c.Caption = "Country";
             c.Width = 150;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.EditorProperties().ComboBox(p =>
             {
@@ -197,6 +202,7 @@
             c.Name = "RegionID";
             c.Caption = "Region";
             c.Width = 100;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.EditorProperties().ComboBox(p =>
             {
@@ -212,6 +218,7 @@
             c.FieldName = "SubRegionID";
             c.Caption = "Sub Region";
             c.Width = 100;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.EditorProperties().ComboBox(p =>
             {
@@ -227,6 +234,7 @@
             c.FieldName = "ClusterID";
             c.Caption = "Cluster";
             c.Width = 200;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.EditorProperties().ComboBox(p =>
             {
@@ -243,6 +251,7 @@
             c.Name = "RegionalOfficeID";
             c.Caption = "Regional Office";
             c.Width = 200;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.EditorProperties().ComboBox(p =>
             {
@@ -259,6 +268,7 @@
             c.Name = "CostControlID";
             c.Caption = "Cost Control<br/>Site";
             c.Width = 100;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.EditorProperties().ComboBox(p =>
             {
@@ -275,6 +285,7 @@
             c.Name = "LegalEntityID";
             c.Caption = "Legal Entity Name";
             c.Width = 250;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.CellStyle.BackColor = System.Drawing.Color.Ivory;
             c.EditorProperties().ComboBox(p =>
             {
@@ -290,6 +301,7 @@
             c.FieldName = "Confidential";
             c.Caption = "Confidential";
             c.Width = 100;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
                 p.ValueType = typeof(string);
@@ -305,6 +317,7 @@
             c.Name = "InitiativeType";
             c.Caption = "TypeOf Initiative";
             c.Width = 200;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "SavingTypeName";
@@ -321,6 +334,7 @@
             c.Name = "CostCategoryID";
             c.Caption = "Item Category";
             c.Width = 250;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "CostTypeName";
@@ -337,6 +351,7 @@
             c.Name = "SubCostCategoryID";
             c.Caption = "Sub Cost<br/>Item Impacted";
             c.Width = 200;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "SubCostName";
@@ -352,6 +367,7 @@
             c.Name = "ActionTypeID";
             c.Caption = "Action Type";
             c.Width = 250;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "ActionTypeName";
@@ -366,6 +382,7 @@
             c.FieldName = "SynergyImpactID";
             c.Caption = "Synergy Impact";
             c.Width = 200;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "SynImpactName";
@@ -395,6 +412,7 @@
             c.FieldName = "LaraCode";
             c.Caption = "Lara Charge<br/>Code";
             c.PropertiesEdit.DisplayFormatString = "";
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.Width = 100;
         });
         settings.Columns.Add(c =>
@@ -418,6 +436,7 @@
             c.FieldName = "HOValidity";
             c.Caption = "HO Validity";
             c.Width = 100;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
                 p.ValueType = typeof(string);
@@ -430,6 +449,7 @@
             c.FieldName = "RPOCControl";
             c.Caption = "RPOC Control";
             c.Width = 100;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
                 p.ValueType = typeof(string);
@@ -446,7 +466,8 @@
         {
             c.FieldName = "InitStatus";
             c.Caption = "Initiative Status";
-            c.Width = 100;
+            c.Width = 150;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "Status";
@@ -469,7 +490,7 @@
             c.Caption = "YTD Achieved";
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            c.Width = 100;
+            c.Width = 150;
         });
 
         settings.Columns.AddBand(JanuaryBand =>
@@ -1032,6 +1053,28 @@
             c.FieldName = "CreatedDate";
             c.Caption = "Created Date";
             c.PropertiesEdit.DisplayFormatString = "MMMM dd, yyyy";
+            c.Width = 390;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "CreatedBy";
+            c.Caption = "Created By";
+            c.Width = 390;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "ModifiedDate";
+            c.Caption = "Modified Date";
+            c.PropertiesEdit.DisplayFormatString = "MMMM dd, yyyy";
+            c.Width = 390;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "ModifiedBy";
+            c.Caption = "Modified By";
             c.Width = 390;
         });
         #endregion

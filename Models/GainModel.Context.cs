@@ -53,6 +53,7 @@ namespace GAIN.Models
         public virtual DbSet<t_subcostactiontype> t_subcostactiontype { get; set; }
         public virtual DbSet<t_subcostbrand> t_subcostbrand { get; set; }
         public virtual DbSet<t_subcostinitiative> t_subcostinitiative { get; set; }
+        public virtual DbSet<t_subctry_costcntrlsite> t_subctry_costcntrlsite { get; set; }
         public virtual DbSet<user_list> user_list { get; set; }
         public virtual DbSet<vwagency> vwagencies { get; set; }
         public virtual DbSet<vwheaderinitiative> vwheaderinitiatives { get; set; }
@@ -60,6 +61,5 @@ namespace GAIN.Models
         public virtual DbSet<vwsummarydashboarddetail> vwsummarydashboarddetails { get; set; }
         public virtual DbSet<vwtopcategory> vwtopcategories { get; set; }
         public virtual DbSet<vwtypeofsaving> vwtypeofsavings { get; set; }
-        public virtual DbSet<t_subctry_costcntrlsite> t_subctry_costcntrlsite { get; set; }
     }
 }

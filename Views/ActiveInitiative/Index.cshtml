@@ -1408,13 +1408,12 @@
 
                 if (obj.InitStatus == 4) {
                     $(".txSaving").prop("disabled", true);
-                } else if (obj.InitStatus == 1) {
+                } else if (obj.InitStatus == 1 && uType == 3) {
                     $("#btnSave").prop("disabled", true);
                 } else if (obj.InitStatus == 2 && uType != 1 && uType != 2) //status is final and user is not HO or RO
                 {
                     $("#btnSave").prop("disabled", true);
                 }
-
 
                 //GrdInitStatus.GetGridView().Refresh();
                 //GrdInitType.GetGridView().Refresh();
@@ -1510,7 +1509,7 @@
         GrdBrandPopup.SetValue(null);
         GrdLegalEntityPopup.SetValue(null);
         //GrdCountry.SetValue(null);
-        //GrdRegional.SetValue(null);
+        //GrdRegional.SetValue(null);txTarget12
         //GrdSubRegion.SetValue(null);
         //GrdCluster.SetValue(null);
         //GrdRegionalOffice.SetValue(null);
@@ -1539,7 +1538,8 @@
         $("#TxHOComment").val(null);
         $("#chkAuto").prop('checked', false);
         $(".txTarget").prop('disabled', false);
-        $('.txSaving,.txTarget,#btnDuplicate,#btnSave,#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo,#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
+        $('.txSaving,.txTarget').val();
+        $('.txSaving,#btnDuplicate,#btnSave,#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo,#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
         GrdInitType.SetValue(null);
         GrdInitStatus.ClearItems();
         TxPortName.ClearItems();
@@ -1708,6 +1708,7 @@
     function OnClickEventReview(s, e) {
         var idx = s.GetRowKey(e.visibleIndex);
         $.post("@Url.Content("~/EventReview/SetEventReviewID")", { ID: idx }, function (data) {
+            //$("input[name='WindowEventReview']").html(data);
             WindowEventReview.SetContentHtml(data);
             WindowEventReview.Show();
         });
@@ -1900,7 +1901,7 @@
         settings.ClientSideEvents.CloseUp = "OnCloseNewInitiativeWindow";
         settings.Modal = true;
         //settings.PopupElementID = "BtnInitiative";
-        settings.HeaderText = "GAIN - Create New Initiative";
+        settings.HeaderText = "GAIN - Create New / Edit Initiative";
         settings.FooterText = "GAIN - CMACGM Copyright @" + DateTime.Now.Year + ". APAC DIGITAL FACTORY - CMA-CGM";
 
         settings.SetContent(() =>
@@ -1940,6 +1941,7 @@
     settings.Name = "WindowEventReview";
     settings.Width = 1050;
     settings.Height = 500;
+    settings.ShowPageScrollbarWhenModal = true;
     settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
     settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
     settings.AllowResize = true;

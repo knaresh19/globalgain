@@ -1137,15 +1137,18 @@
         settings.SettingsResizing.Visualization = ResizingMode.Live;
         settings.CallbackRouteValues = new { Controller = "EventReview", Action = "GrdEventReviewPartial" };
 
-settings.KeyFieldName = "id";
+        settings.KeyFieldName = "id";
 
         settings.SettingsPager.Visible = true;
-        settings.SettingsPager.Mode = GridViewPagerMode.EndlessPaging;
+        settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+        //settings.SettingsPager.PageSize = 10;
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+
         settings.Settings.ShowGroupPanel = false;
         settings.Settings.ShowFilterRow = true;
         settings.SettingsBehavior.AllowSelectByRowClick = true;
 
-settings.Columns.Add(c =>
+        settings.Columns.Add(c =>
         {
             c.Name = "columnsName";
             c.FieldName = "columnsName";
@@ -1183,7 +1186,7 @@ settings.Columns.Add(c =>
 }
 @grid.Bind(Model).GetHtml()
 
-<div class="row"><br/></div>
+<div class="row"><br /></div>
 
 <div class="row" style="display: block;">
     <div class="col-md-12 col-sm-12  ">
