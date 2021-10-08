@@ -11,9 +11,9 @@ $diy = $('.number-diy .data');
 $total_target = $('.number-diy2 .data');
 $total_saving = $('.number-diy3 .data');
 
-rolling_number();
-rolling_total_target();
-rolling_total_saving();
+//rolling_number();
+//rolling_total_target();
+//rolling_total_saving();
 
 //setInterval(function () {
     //rolling_number();
