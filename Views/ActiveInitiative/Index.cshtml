@@ -1509,7 +1509,7 @@
         GrdBrandPopup.SetValue(null);
         GrdLegalEntityPopup.SetValue(null);
         //GrdCountry.SetValue(null);
-        //GrdRegional.SetValue(null);txTarget12
+        //GrdRegional.SetValue(null);
         //GrdSubRegion.SetValue(null);
         //GrdCluster.SetValue(null);
         //GrdRegionalOffice.SetValue(null);
@@ -1538,7 +1538,7 @@
         $("#TxHOComment").val(null);
         $("#chkAuto").prop('checked', false);
         $(".txTarget").prop('disabled', false);
-        $('.txSaving,.txTarget').val();
+        $('.txSaving, .txTarget').val('');
         $('.txSaving,#btnDuplicate,#btnSave,#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo,#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
         GrdInitType.SetValue(null);
         GrdInitStatus.ClearItems();
@@ -1631,7 +1631,7 @@
                 value = JSON.stringify(value); obj = JSON.parse(value);
                 if (obj != null) {
                     $("#GrdClusterVal").val(obj.id); $("#GrdCluster").val(obj.ClusterName);
-                } 
+                }
             });
             $.each(data[0]["RegionalOfficeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
@@ -1708,7 +1708,6 @@
     function OnClickEventReview(s, e) {
         var idx = s.GetRowKey(e.visibleIndex);
         $.post("@Url.Content("~/EventReview/SetEventReviewID")", { ID: idx }, function (data) {
-            //$("input[name='WindowEventReview']").html(data);
             WindowEventReview.SetContentHtml(data);
             WindowEventReview.Show();
         });
@@ -1843,7 +1842,6 @@
         setTimeout(function () {
             UpdateFigureWidget(GrdMainInitiative);
         }, 300);
-
     });
 </script>
 
@@ -1932,7 +1930,7 @@
 
     settings.SetContent(() =>
     {
-        ViewContext.Writer.Write("<h4>Okay! Data Saved.</h4><br/><h6><span id=\"initsukses\"></span></h6><br/><br/><br/><br/><br/><div style='float:right'><button class='btn btn-info' onclick='WindowOkSaved.Hide();window.location.reload();'>Close</button></div>");
+        ViewContext.Writer.Write("<h4>Okay! Data Saved.</h4><br/><h6><span id=\"initsukses\"></span></h6><br/><br/><br/><br/><br/><div style='float:right'><button class='btn btn-info' onclick='WindowOkSaved.Hide();GrdMainInitiative.Refresh();'>Close</button></div>");
     });
 }).GetHtml()
 

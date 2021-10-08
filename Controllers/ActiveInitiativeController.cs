@@ -715,7 +715,7 @@ namespace GAIN.Controllers
                 initdata.AchNexJul = savingjul2;initdata.AchNexAug = savingaug2;initdata.AchNexSep = savingsep2;initdata.AchNexOct = savingoct2;initdata.AchNexNov = savingnov2;initdata.AchNexDec = savingdec2;
 
                 //initdata.ModifiedDate = DateTime.Now;
-                initdata.CreatedBy = (initdata.CreatedBy == null ? UserID : initdata.CreatedBy);
+                initdata.CreatedBy = initdata.CreatedBy;// (initdata.CreatedBy == null ? UserID : initdata.CreatedBy);
                 initdata.ModifiedBy = UserID;
 
                 //initdata.CreatedDate = DateTime.Now;

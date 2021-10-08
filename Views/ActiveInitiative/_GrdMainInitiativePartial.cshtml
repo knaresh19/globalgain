@@ -166,7 +166,7 @@
             c.FieldName = "BrandID";
             c.Name = "BrandID";
             c.Caption = "Brand";
-            c.Width = 100;
+            c.Width = 150;
             c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.CellStyle.BackColor = System.Drawing.Color.Ivory;
             c.EditorProperties().ComboBox(p =>
@@ -1052,29 +1052,29 @@
         {
             c.FieldName = "CreatedDate";
             c.Caption = "Created Date";
-            c.PropertiesEdit.DisplayFormatString = "MMMM dd, yyyy";
-            c.Width = 390;
+            c.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy hh:mm";
+            c.Width = 130;
         });
 
         settings.Columns.Add(c =>
         {
             c.FieldName = "CreatedBy";
             c.Caption = "Created By";
-            c.Width = 390;
+            c.Width = 200;
         });
 
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "ModifiedDate";
-            c.Caption = "Modified Date";
-            c.PropertiesEdit.DisplayFormatString = "MMMM dd, yyyy";
-            c.Width = 390;
-        });
+        //settings.Columns.Add(c =>
+        //{
+        //    c.FieldName = "ModifiedDate";
+        //    c.Caption = "Modified Date";
+        //    c.PropertiesEdit.DisplayFormatString = "MMMM dd, yyyy";
+        //    c.Width = 390;
+        //});
 
         settings.Columns.Add(c =>
         {
             c.FieldName = "ModifiedBy";
-            c.Caption = "Modified By";
+            c.Caption = "Last Modified By";
             c.Width = 390;
         });
         #endregion
@@ -1319,6 +1319,7 @@
                     }
                     c++;
                 }
+                e.Value = ytdValue;
             }
             else if (e.Column.FieldName == "YTDAchievedUb")
             {
@@ -1345,14 +1346,15 @@
                     }
                     c++;
                 }
+                e.Value = ytdValue;
             }
-
-            e.Value = ytdValue;
         };
+
         settings.ClientSideEvents.EndCallback = "OnEndCallback";
 
         settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
-        //settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+        settings.Settings.VerticalScrollableHeight = 50;
 
         settings.Settings.ShowFooter = true;
         settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TargetTY").DisplayFormat = "{0:N2}";

@@ -31,13 +31,15 @@ namespace GAIN.Controllers
             var model = new List<logtable>();
             var ID = Int64.Parse(PostedData.ID);
             var initiative = db.t_initiative.Where(c => c.id == ID).FirstOrDefault();
-            if (initiative.GenKey == null)
+            if (initiative.GenKey != null)
+            {
+                model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.genKey == initiative.GenKey).ToList();
+            }
+            else
             {
                 model = db.logtables.Where(c => c.initnumber == initiative.InitNumber).ToList();
-            } else
-            {
-                model = db.logtables.Where(c => c.genKey == initiative.GenKey).ToList();
             }
+
             ViewBag.Initnumber = initiative.InitNumber;
             return PartialView("~/Views/ActiveInitiative/_GrdEventReviewPartial.cshtml", model);
         }

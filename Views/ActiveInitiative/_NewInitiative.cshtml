@@ -879,7 +879,7 @@
         var d = new Date();
         var m = d.getMonth(); var nilai = 0; var hitung = 0; var saving = 0; var hitungsaving = 0;
         for (var o = 0; o < targetty.length; o++) {
-            if (o <= m) {
+            if (o < m) {
                 nilai = $("." + targetty[o]).val();
                 if (nilai != "") {
                     nilai = parseFloat(nilai); hitung = parseFloat(hitung);
