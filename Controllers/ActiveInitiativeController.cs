@@ -722,7 +722,6 @@ namespace GAIN.Controllers
                 db.SaveChanges();
                 return Content("saved|" + initdata.InitNumber);
             }
-            
         }
         [HttpPost]
         public ActionResult GetInfoById(Models.GetInfoByIDModel GetInfo)
@@ -843,7 +842,16 @@ namespace GAIN.Controllers
             
             Int64 CountryID = (long)modelsubcountry.CountryID;
             Int64 SubCountryID = (long)modelsubcountry.id;
-            Int64 BrandIDx = (long)modelinitiative.BrandID;
+            Int64 BrandIDx = 0;
+            if (modelinitiative.BrandID.HasValue)
+            {
+                BrandIDx = (long)modelinitiative.BrandID;
+            } else
+            {
+                var brandcountry = db.mbrandcountries.Where(c=> c.subcountryid == SubCountryID).FirstOrDefault();
+                BrandIDx = brandcountry.brandid;
+            }
+            
             modelcountry = db.mcountries.Where(c => c.id == CountryID).FirstOrDefault();
             Int64 RegionID = (long)modelcountry.RegionID;
             Int64 SubRegionID = (long)modelcountry.SubRegionID;

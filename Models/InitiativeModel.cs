@@ -225,6 +225,7 @@ namespace GAIN.Models
     public class EventReviewSession
     {
         public string ID { get; set; }
+        public string InitiativeNumber { get; set; }
     }
     public class UploadSession
     {

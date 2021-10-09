@@ -15,9 +15,30 @@ namespace GAIN.Controllers
         {
             var profileData = Session["EventReviewID"] as EventReviewSession;
 
-            var ID = Int64.Parse(profileData.ID);
-            var model = db.logtables.Where(c => c.id == ID);
-            return PartialView("~/Views/ActiveInitiative/_GrdEventReviewPartial.cshtml", model.ToList());
+            //var ID = Int64.Parse(profileData.ID);
+            //var model = db.logtables.Where(c => c.id == ID);
+            //return PartialView("~/Views/ActiveInitiative/_GrdEventReviewPartial.cshtml", model.ToList());
+            var model = new List<logtable>();
+            var ID = (profileData == null ? 0 : Int64.Parse(profileData.ID));
+            var initiative = db.t_initiative.Where(c => c.id == ID).FirstOrDefault();
+            if (initiative != null)
+            {
+                if (initiative.GenKey != null)
+                {
+                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.genKey == initiative.GenKey).ToList();
+                }
+                else
+                {
+                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber).ToList();
+                }
+                ViewBag.Initnumber = initiative.InitNumber;
+            } else
+            {
+                model = db.logtables.Where(c => c.initnumber == ID.ToString()).ToList();
+                ViewBag.Initnumber = "";
+            }
+
+            return PartialView("~/Views/ActiveInitiative/_GrdEventReviewPartial.cshtml", model);
         }
 
         public ActionResult SetEventReviewID(FormPost PostedData)
@@ -40,8 +61,12 @@ namespace GAIN.Controllers
                 model = db.logtables.Where(c => c.initnumber == initiative.InitNumber).ToList();
             }
 
-            ViewBag.Initnumber = initiative.InitNumber;
-            return PartialView("~/Views/ActiveInitiative/_GrdEventReviewPartial.cshtml", model);
+            //EventReviewSession.ID  = PostedData.ID;
+            //EventReviewSession.InitiativeNumber = initiative.InitNumber;
+            //Session["EventReviewID"] = EventReviewSession;
+
+            return Content(initiative.InitNumber);
+            //return PartialView("~/Views/ActiveInitiative/_GrdEventReviewPartial.cshtml", model);
         }
     }
 }

@@ -3,7 +3,6 @@
     string UploadDirectory = System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"];
 }
 
-
 @Html.Partial("_ViewKebutuhanDevExpress")
 
 <link rel="stylesheet" href="@Url.Content("~/assets/poin/css/main.css")">
@@ -1415,6 +1414,7 @@
                     $("#btnSave").prop("disabled", true);
                 }
 
+                var legalentityidx = obj.LegalEntityID;
                 //GrdInitStatus.GetGridView().Refresh();
                 //GrdInitType.GetGridView().Refresh();
 
@@ -1433,7 +1433,8 @@
                         value = JSON.stringify(value); obj2 = JSON.parse(value);
                         if (obj != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
                     });
-                    GrdSubCountryPopup.SelectIndex(0); GrdBrandPopup.SelectIndex(0); GrdLegalEntityPopup.SelectIndex(0);
+                    GrdSubCountryPopup.SelectIndex(0); GrdBrandPopup.SelectIndex(0); //GrdLegalEntityPopup.SelectIndex(0);
+                    GrdLegalEntityPopup.SetValue(legalentityidx);
                 });
                 getYtdValue();
                 WindowInitiative.Show();
@@ -1707,8 +1708,11 @@
 
     function OnClickEventReview(s, e) {
         var idx = s.GetRowKey(e.visibleIndex);
+        $('.titleinitiative').html('');
         $.post("@Url.Content("~/EventReview/SetEventReviewID")", { ID: idx }, function (data) {
-            WindowEventReview.SetContentHtml(data);
+            //WindowEventReview.SetContentHtml(data);
+            $('.titleinitiative').html('Initiative Number: ' + data);
+            GrdEventReview.Refresh();
             WindowEventReview.Show();
         });
     }
@@ -1953,10 +1957,43 @@
     settings.HeaderText = "GAIN - Event Review Window";
     settings.FooterText = "GAIN - CMACGM Copyright @" + DateTime.Now.Year + ". APAC DIGITAL FACTORY - CMA-CGM";
 
-    //settings.SetContent(() =>
-    //{
-    //    //Html.Action("GrdEventReviewPartial", "EventReview");
-    //});
+    settings.SetContent(() =>
+    {
+        //Html.Action("GrdEventReviewPartial", "EventReview");
+
+        ViewContext.Writer.Write("" +
+            "<div class=\"row\" style=\"display: block;\"> " +
+            "    <div class=\"col-md-12 col-sm-12\">" +
+            "        <div class=\"col-md-10 col-sm-10\">" +
+            "            <h2 class=\"titleinitiative\"></h2> " +
+            "        </div> " +
+            "        <div class=\"col-md-2 col-sm-2\"> " +
+            "            <div style=\"float:right;\"> " +
+            "                &nbsp; " +
+            "            </div> " +
+            "        </div> " +
+            "    </div> " +
+            "</div> ");
+
+        Html.RenderPartial("_GrdEventReviewPartial");
+
+        ViewContext.Writer.Write("" +
+        "<div class=\"row\"><br /></div> " +
+        "" +
+        "<div class=\"row\" style=\"display: block;\">" +
+        "    <div class=\"col-md-12 col-sm-12\">" +
+        "        <div class=\"col-md-10 col-sm-10\">" +
+        "            &nbsp;" +
+        "        </div>" +
+        "        <div class=\"col-md-2 col-sm-2\">" +
+        "            <div style=\"float:right;\">" +
+        "                <button class=\"btn btn-danger\" onclick=\"WindowEventReview.Hide();\">Close</button>" +
+        "            </div>" +
+        "        </div>" +
+        "    </div>" +
+        "</div>");
+
+    });
 }).GetHtml()
 
 @Html.DevExpress().PopupControl(settings =>

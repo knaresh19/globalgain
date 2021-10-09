@@ -2478,6 +2478,8 @@
     <Content Include="assets\poin\images\add-file.png" />
     <Content Include="assets\poin\images\american-express.png" />
     <Content Include="assets\poin\images\cloud-computing.png" />
+    <Content Include="assets\poin\images\cmacgm.jpg" />
+    <Content Include="assets\poin\images\cmacgm.mp4" />
     <Content Include="assets\poin\images\coins.png" />
     <Content Include="assets\poin\images\conversation.png" />
     <Content Include="assets\poin\images\cropper.jpg" />
@@ -2505,6 +2507,7 @@
     <Content Include="assets\poin\img\n-bg.png" />
     <Content Include="assets\poin\js\datepicker\daterangepicker.js" />
     <Content Include="assets\poin\js\jquery.rollNumber.js" />
+    <Content Include="assets\poin\js\jquery.vide.js" />
     <Content Include="assets\poin\js\main.js" />
     <Content Include="assets\poin\js\moment\moment.min.js" />
     <Content Include="assets\poin\js\sweetalert2.all.min.js" />
