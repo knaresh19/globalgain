@@ -1341,7 +1341,8 @@
                         }
                         else
                         {
-                            ytdValue = 0;
+                            if (ytdValue == 0 || ytdValue == null)
+                                ytdValue = 0;
                         }
                     }
                     c++;
