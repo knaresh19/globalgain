@@ -110,6 +110,8 @@ namespace GAIN.Models
     {
         public Int64 BrandID { get; set; }
         public Int64 CountryID { get; set; }
+        public Int64 SubCountryID { get; set; }
+        public Int64 CostControlSiteID { get; set; }
     }
     public class GetConfidential
     {

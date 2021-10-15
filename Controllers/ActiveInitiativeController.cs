@@ -155,7 +155,7 @@ namespace GAIN.Controllers
                         where += " and a.CostControlID in (" + cccondition + ")";
                     }
                 }
-            } 
+            }
             else if (profileData.UserType == 3) //agency
             {
                 var cntrytext = profileData.CountryID.Replace("|", "','");
@@ -609,8 +609,13 @@ namespace GAIN.Controllers
                     Random rand = new Random();
                     //int InitNextNum = rand.Next(1,999);
                     //string OutInitNextNum = "00" + InitNextNum.ToString();
+                    string nomerterakhir = "";
+                    t_initiative initz = db.t_initiative.Where(c => c.InitNumber.StartsWith(DateTime.Now.Year + KodeNegara)).FirstOrDefault();
+                    if (initz != null)
+                        nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(DateTime.Now.Year + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
+                    else
+                        nomerterakhir = DateTime.Now.Year + KodeNegara + "000";
 
-                    string nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(DateTime.Now.Year + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o=>o.InitNumber).FirstOrDefault().InitNumber;
                     nomerterakhir = nomerterakhir.Substring((nomerterakhir.Length - 3), 3);
                     int nomerurut = (Int32.Parse(nomerterakhir) + 1);
                     string nomerselanjutnya = ("00" + nomerurut.ToString());
@@ -974,7 +979,7 @@ namespace GAIN.Controllers
         public ActionResult GetLegalFromBrand(Models.GetInfoByBrandIDModel GetInfo)
         {
             List<LegalEntityList> LegalEntity = new List<LegalEntityList>();
-            LegalEntity = db.mlegalentities.Where(c => c.BrandID == GetInfo.BrandID && c.CountryID == GetInfo.CountryID).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
+            LegalEntity = db.mlegalentities.Where(c => c.BrandID == GetInfo.BrandID && c.CountryID == GetInfo.CountryID && c.SubCountryID == GetInfo.SubCountryID && c.CostControlSiteID == GetInfo.CostControlSiteID).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
             List<GetDataFromSubCountry> GDSC = new List<GetDataFromSubCountry>();
             GDSC.Add(new GetDataFromSubCountry
             {

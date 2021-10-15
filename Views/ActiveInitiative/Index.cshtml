@@ -1651,8 +1651,8 @@
     }
 
     function OnBrandPopupChanged(s, e) {
-        var id = s.GetValue(); var SubCountry = $("#GrdCountryVal").val(); // var SubCountry = GrdSubCountryPopup.GetValue();
-        $.post('@Url.Content("~/ActiveInitiative/GetLegalFromBrand")', { BrandID: id, CountryID: SubCountry }, function (data) {
+        var id = s.GetValue(); var Country = $("#GrdCountryVal").val(); var SubCountry = GrdSubCountryPopup.GetValue(); var CostControlSite = $("#GrdCostControlVal").val();
+        $.post('@Url.Content("~/ActiveInitiative/GetLegalFromBrand")', {BrandID: id, CountryID: Country, SubCountryID: SubCountry, CostControlSiteID: CostControlSite}, function (data) {
             var obj; GrdLegalEntityPopup.ClearItems();
             $.each(data[0]["LegalEntityData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
