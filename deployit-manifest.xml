@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<udm.DeploymentPackage version="deployment_version-version_suffix" application="CMACGM-ASIA/Net/CAP500_GLOBAL_V2">
+<udm.DeploymentPackage version="deployment_version-version_suffix" application="CMACGM-ASIA/MIDDLEWARE/Net/CAP500_GLOBAL_V2">
 	<orchestrator />
 	<enableAutomaticOrchestrators>false</enableAutomaticOrchestrators>
 	<application />
