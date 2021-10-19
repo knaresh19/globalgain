@@ -29,8 +29,21 @@
             border-top-left-radius: 0;
             border-bottom-left-radius: 0
         }
-        .az-column-signup {opacity:70%}
+
+        .az-column-signup {
+            opacity: 70%
+        }
     </style>
+
+    @*<script type="text/javascript">
+        $(function () {
+            $('body').css('zoom', '70%'); /* Webkit browsers */
+            $('body').css('zoom', '0.7'); /* Other non-webkit browsers */
+            //$('body').css('transform', 'scale(0.7)'); /* Moz-browsers */
+            //$('body').css('-moz-transform-origin', '0 0'); /* Moz-browsers */
+            //$('body').css('-moz-transform', 'scale(0.7, 0.7)'); /* Moz-browsers */
+        });
+    </script>*@
 </head>
 
 @*<img src="@Url.Content("~/assets/poin/backstretch/images/logocma.png")" height=120>*@
@@ -44,7 +57,7 @@
         @*<div> <i class="typcn typcn-chart-bar-outline"></i><h1 class=az-logo>az<span>i</span>a</h1><h5>Responsive Modern Dashboard &amp; Admin Template</h5><p>We are excited to launch our new company and product Azia. After being featured in too many magazines to mention and having created an online stir, we know that BootstrapDash is going to be big. We also hope to win Startup Fictional Business of the Year this year.</p><p>Browse our site and see for yourself why you need Azia.</p> <a href=index.html class="btn btn-outline-indigo">Learn More</a></div>*@
         <!--</div>-->
 
-        <div class=az-column-signup> @*<h1 class=az-logo><center><span><img src="@Url.Content("~/assets/poin/backstretch/images/logocma.png")" height=250></span></center></h1>*@<h1 class=az-logo><center><span><img src="@Url.Content("~/assets/loginpage/Main_Logo_New.png")" style="padding:100px 0 0 100px"></span></center></h1><div class=az-signup-header><h2>GAIN CAP500 v.@ViewContext.Controller.GetType().Assembly.GetName().Version</h2><h4>Please login using your credential.</h4><p><h6 style=color:red>@Html.ValidationMessage("CustomError")</h6></p><form method=post name=FrmLogin action="@Url.Content("~/Login/Loginpost")"><div class=form-group> <label>Username</label> <input id=Username name=Username type=text class=form-control placeholder="Enter your Username"></div><div class=form-group> <label>AD Password</label><div class=input-group id=show_hide_password> <input id=password name=password class=form-control type=password placeholder="Enter your AD password" /><div class=input-group-addon> <a href=javascript:void(0)><i class="fa fa-eye-slash" aria-hidden=true></i></a></div></div></div> <button class="btn btn-az-primary btn-block">Submit</button></form><center><p><span><div style="background-color: lightgoldenrodyellow; color:black; opacity: 0.8; padding: 20px 20px 20px 20px; width: 400px; -webkit-border-bottom-left-radius: 15px; border-bottom-left-radius: 15px; -webkit-border-bottom-right-radius: 15px; border-bottom-right-radius: 15px; -webkit-border-top-left-radius: 15px; border-top-left-radius: 15px; -webkit-border-top-right-radius: 15px; border-top-right-radius: 15px; border-width: 4px; border-color: black;"><i>Your User Name, CMA AD ID and Email address will be collected for login purposes, to record all value changes made by you in this application, or to remind you to submit monthly progress report on time. Only authorized users to the application would have access to your personal data. Such data would not be transferred outside of CMA CGM. You can opt out of the use of your personal data by contacting the Application Team via EUP, but please be aware that such opt-out will cause operational difficulties.</i></div></span></p></center></div><div class=az-signup-footer><p>Copyright 2021. Provided by CMA-CGM <a href=mailto:asia.itretsupport@cma-cgm.com>APAC Digital Factory</a></p></div></div>
+        <div class="az-column-signup"> @*<h1 class=az-logo><center><span><img src="@Url.Content("~/assets/poin/backstretch/images/logocma.png")" height=250></span></center></h1>*@<h1 class=az-logo><center><span><img src="@Url.Content("~/assets/loginpage/Main_Logo_New.png")" style="padding:100px 0 0 100px"></span></center></h1><div class=az-signup-header><h2>GAIN CAP500 v.@ViewContext.Controller.GetType().Assembly.GetName().Version</h2><h4>Please login using your credential.</h4><p><h6 style=color:red>@Html.ValidationMessage("CustomError")</h6></p><form method=post name=FrmLogin action="@Url.Content("~/Login/Loginpost")"><div class=form-group> <label>Username</label> <input id=Username name=Username type=text class=form-control placeholder="Enter your Username"></div><div class=form-group> <label>AD Password</label><div class=input-group id=show_hide_password> <input id=password name=password class=form-control type=password placeholder="Enter your AD password" /><div class=input-group-addon> <a href=javascript:void(0)><i class="fa fa-eye-slash" aria-hidden=true></i></a></div></div></div> <button class="btn btn-az-primary btn-block">Submit</button></form><center><p><span><div style="background-color: lightgoldenrodyellow; color:black; opacity: 0.8; padding: 20px 20px 20px 20px; width: 400px; -webkit-border-bottom-left-radius: 15px; border-bottom-left-radius: 15px; -webkit-border-bottom-right-radius: 15px; border-bottom-right-radius: 15px; -webkit-border-top-left-radius: 15px; border-top-left-radius: 15px; -webkit-border-top-right-radius: 15px; border-top-right-radius: 15px; border-width: 4px; border-color: black;"><i>Your User Name, CMA AD ID and Email address will be collected for login purposes, to record all value changes made by you in this application, or to remind you to submit monthly progress report on time. Only authorized users to the application would have access to your personal data. Such data would not be transferred outside of CMA CGM. You can opt out of the use of your personal data by contacting the Application Team via EUP, but please be aware that such opt-out will cause operational difficulties.</i></div></span></p></center></div><div class=az-signup-footer><p>Copyright 2021. Provided by CMA-CGM <a href=mailto:asia.itretsupport@cma-cgm.com>APAC Digital Factory</a></p></div></div>
     </div>
     <script src="@Url.Content("~/assets/loginpage/lib/jquery/jquery.min.js")"></script>
     <script src="@Url.Content("~/assets/loginpage/lib/bootstrap/js/bootstrap.bundle.min.js")"></script>

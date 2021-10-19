@@ -1071,7 +1071,7 @@ namespace GAIN.Controllers
 
             string UploadDirectory = System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"];
 
-            long DefaultMaxFileSize = 100 * 1048576; // 4MB
+            long DefaultMaxFileSize = 1000 * 1048576; // 1000MB
 
             UploadControlValidationSettings UploadValidationSettings = new DevExpress.Web.UploadControlValidationSettings()
             {

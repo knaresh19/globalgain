@@ -624,6 +624,20 @@
 
 
     <script type="text/javascript">
+
+    function calculateSum() {
+        var sum = 0; var nama;
+        $(".txTarget").each(function () {
+            nama = this.name;
+            if (nama.indexOf("2") < 1) {
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                }
+            }
+        });
+        return sum.toFixed(2);
+    }
+
     $(function () {
         $("#btnSave").on('click', function () {
             Swal.fire({
@@ -694,57 +708,68 @@
                         xGrdInitStatus > 0 && xGrdInitType != null && xGrdInitCategory != null && xGrdSubCost != null && xGrdActionType != null &&
                         xGrdSynImpact != null && xStartMonth != null && xEndMonth != null
                     ) {
-                        $.post("@Url.Content("~/ActiveInitiative/SaveNew")", {
-                            FormID: xFormID,
-                            FormStatus: xFormStatus,
-                            GrdSubCountry: xGrdSubCountry,
-                            GrdBrand: xGrdBrand,
-                            GrdLegalEntity: xGrdLegalEntity,
-                            GrdCountry: xGrdCountry,
-                            GrdRegional: xGrdRegional,
-                            GrdSubRegion: xGrdSubRegion,
-                            GrdCluster: xGrdCluster,
-                            GrdRegionalOffice: xGrdRegionalOffice,
-                            GrdCostControl: xGrdCostControl,
-                            CboConfidential: xCboConfidential,
-                            TxResponsibleName: xTxResponsibleName,
-                            TxDesc: xTxDesc,
-                            GrdInitStatus: xGrdInitStatus,
-                            TxLaraCode: xTxLaraCode,
-                            TxPortName: xTxPortName,
-                            TxVendorSupp: xTxVendorSupp,
-                            TxAdditionalInfo: xTxAdditionalInfo,
-                            GrdInitType: xGrdInitType,
-                            GrdInitCategory: xGrdInitCategory,
-                            GrdSubCost: xGrdSubCost,
-                            GrdActionType: xGrdActionType,
-                            GrdSynImpact: xGrdSynImpact,
-                            StartMonth: xStartMonth,
-                            EndMonth: xEndMonth,
-                            TxAgency: xTxAgency,
-                            TxRPOCComment: xTxRPOCComment,
-                            TxHOComment: xTxHOComment,
-                            CboHoValidity: xCboHoValidity,
-                            CboRPOCValidity: xCboRPOCValidity,
-                            TxTarget12: xTxTarget12,
-                            TxTargetFullYear: xTxTargetFullYear,
-                            TxYTDTargetFullYear: xTxYTDTargetFullYear,
-                            TxYTDSavingFullYear: xTxYTDSavingFullYear,
-                            ProjectYear: xProjectYear,
-                            RelatedInitiative: xRelatedInitiative,
-                            SourceCategory: xCboWebinarCat,
-                            targetjan: targetjan, targetfeb: targetfeb, targetmar: targetmar, targetapr: targetapr, targetmay: targetmay, targetjun: targetjun, targetjul: targetjul, targetaug: targetaug,targetsep:targetsep,targetoct:targetoct,targetnov:targetnov,targetdec:targetdec,
-                            targetjan2: targetjan2, targetfeb2: targetfeb2, targetmar2: targetmar2, targetapr2: targetapr2, targetmay2: targetmay2, targetjun2: targetjun2, targetjul2: targetjul2, targetaug2: targetaug2,targetsep2:targetsep2,targetoct2:targetoct2,targetnov2:targetnov2,targetdec2:targetdec2,
-                            savingjan: savingjan, savingfeb: savingfeb, savingmar: savingmar, savingapr: savingapr, savingmay: savingmay, savingjun: savingjun, savingjul: savingjul, savingaug: savingaug,savingsep:savingsep,savingoct:savingoct,savingnov:savingnov,savingdec:savingdec,
-                            savingjan2: savingjan2, savingfeb2: savingfeb2, savingmar2: savingmar2, savingapr2: savingapr2, savingmay2: savingmay2, savingjun2: savingjun2, savingjul2: savingjul2, savingaug2: savingaug2,savingsep2:savingsep2,savingoct2:savingoct2,savingnov2:savingnov2,savingdec2:savingdec2
-                        }, function (data) {
+                        var sum = 0;
+                        var sumtarget = calculateSum();
+
+                        if (Number(xTxTargetFullYear).toFixed(2) == Number(sumtarget).toFixed(2)) {
+                            $.post("@Url.Content("~/ActiveInitiative/SaveNew")", {
+                                FormID: xFormID,
+                                FormStatus: xFormStatus,
+                                GrdSubCountry: xGrdSubCountry,
+                                GrdBrand: xGrdBrand,
+                                GrdLegalEntity: xGrdLegalEntity,
+                                GrdCountry: xGrdCountry,
+                                GrdRegional: xGrdRegional,
+                                GrdSubRegion: xGrdSubRegion,
+                                GrdCluster: xGrdCluster,
+                                GrdRegionalOffice: xGrdRegionalOffice,
+                                GrdCostControl: xGrdCostControl,
+                                CboConfidential: xCboConfidential,
+                                TxResponsibleName: xTxResponsibleName,
+                                TxDesc: xTxDesc,
+                                GrdInitStatus: xGrdInitStatus,
+                                TxLaraCode: xTxLaraCode,
+                                TxPortName: xTxPortName,
+                                TxVendorSupp: xTxVendorSupp,
+                                TxAdditionalInfo: xTxAdditionalInfo,
+                                GrdInitType: xGrdInitType,
+                                GrdInitCategory: xGrdInitCategory,
+                                GrdSubCost: xGrdSubCost,
+                                GrdActionType: xGrdActionType,
+                                GrdSynImpact: xGrdSynImpact,
+                                StartMonth: xStartMonth,
+                                EndMonth: xEndMonth,
+                                TxAgency: xTxAgency,
+                                TxRPOCComment: xTxRPOCComment,
+                                TxHOComment: xTxHOComment,
+                                CboHoValidity: xCboHoValidity,
+                                CboRPOCValidity: xCboRPOCValidity,
+                                TxTarget12: xTxTarget12,
+                                TxTargetFullYear: xTxTargetFullYear,
+                                TxYTDTargetFullYear: xTxYTDTargetFullYear,
+                                TxYTDSavingFullYear: xTxYTDSavingFullYear,
+                                ProjectYear: xProjectYear,
+                                RelatedInitiative: xRelatedInitiative,
+                                SourceCategory: xCboWebinarCat,
+                                targetjan: targetjan, targetfeb: targetfeb, targetmar: targetmar, targetapr: targetapr, targetmay: targetmay, targetjun: targetjun, targetjul: targetjul, targetaug: targetaug, targetsep: targetsep, targetoct: targetoct, targetnov: targetnov, targetdec: targetdec,
+                                targetjan2: targetjan2, targetfeb2: targetfeb2, targetmar2: targetmar2, targetapr2: targetapr2, targetmay2: targetmay2, targetjun2: targetjun2, targetjul2: targetjul2, targetaug2: targetaug2, targetsep2: targetsep2, targetoct2: targetoct2, targetnov2: targetnov2, targetdec2: targetdec2,
+                                savingjan: savingjan, savingfeb: savingfeb, savingmar: savingmar, savingapr: savingapr, savingmay: savingmay, savingjun: savingjun, savingjul: savingjul, savingaug: savingaug, savingsep: savingsep, savingoct: savingoct, savingnov: savingnov, savingdec: savingdec,
+                                savingjan2: savingjan2, savingfeb2: savingfeb2, savingmar2: savingmar2, savingapr2: savingapr2, savingmay2: savingmay2, savingjun2: savingjun2, savingjul2: savingjul2, savingaug2: savingaug2, savingsep2: savingsep2, savingoct2: savingoct2, savingnov2: savingnov2, savingdec2: savingdec2
+                            }, function (data) {
                                 if (data.substring(0, 5) == "saved") {
-                                    if (xFormStatus=="New") $("#initsukses").html("New Initiative Number: " + data.substring(6, data.length)); else $("#initsukses").html("Initiative successfully saved!");
+                                    if (xFormStatus == "New") $("#initsukses").html("New Initiative Number: " + data.substring(6, data.length)); else $("#initsukses").html("Initiative successfully saved!");
                                     $("#btnEdit").click(); $("#btnClose").click();
                                     WindowInitiative.Hide();
                                     WindowOkSaved.Show();
                                 }
-                        });
+                            });
+                        } else {
+                            Swal.fire(
+                                'Value is not match',
+                                'Target year (USD) is not match with Monthly Target',
+                                'error'
+                            );
+                        }
                     }
                     else {
                         Swal.fire(
@@ -754,7 +779,7 @@
                         );
                     }
                 }
-            })
+            });
         });
 
         $("#btnEditx").on('click', function () {
@@ -832,7 +857,7 @@
 
     function CheckUncheckCalculate() {
         var targetstartselected = false;var targetstartselected2 = true; var startmon;
-        if ($('#chkAuto').is(':checked')) {
+        if (($('#chkAuto').is(':checked')) && txTargetFullYear.GetValue() == "") {
             const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec","targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
             //const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec");
             startmon = ((moment(StartMonth.GetValue()).format("M")) - 1);
@@ -846,6 +871,46 @@
             var arrnilai = [];
             for (var a = 0; a <= months; a++) {
                 arrnilai[a] = nilai;
+            }
+            for (var i = 0; i < targetty.length; i++) {
+                if (i >= startmon && x < months) {
+                    targetstartselected = true;
+                } else {
+                    targetstartselected = false;
+                }
+
+                if (targetstartselected == true) {
+                    $("." + targetty[i]).val(arrnilai[x]);
+                    $("." + targetty[i]).prop('disabled', false);
+                    $("." + targetty[i]).prop('readonly', true);
+                    x++;
+                } else {
+                    $("." + targetty[i]).val("");
+                    $("." + targetty[i]).prop('disabled', true);
+                    $("." + targetty[i]).prop('readonly', false);
+                }
+            }
+            getYtdValue();
+        } else if (($('#chkAuto').is(':checked')) && txTargetFullYear.GetValue() != "")
+        {
+            const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
+            startmon = ((moment(StartMonth.GetValue()).format("M")) - 1);
+            var months; var x = 0;
+            months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
+            months -= StartMonth.GetValue().getMonth();
+            months += EndMonth.GetValue().getMonth();
+            months++;
+
+            var nilai = Number(txTargetFullYear.GetValue() / (months - startmon)).toFixed(2);
+            var nilai2 = Number((txTarget12.GetValue() - txTargetFullYear.GetValue()) / startmon).toFixed(2);
+            var arrnilai = []; var startmon2 = startmon;
+            for (var a = 0; a <= months; a++) {
+                if (startmon2 < 12) {
+                    arrnilai[a] = nilai;
+                } else {
+                    arrnilai[a] = nilai2;
+                }
+                startmon2++;
             }
             for (var i = 0; i < targetty.length; i++) {
                 if (i >= startmon && x < months) {
@@ -896,4 +961,4 @@
         txYTDTargetFullYear.SetValue(hitung);
         txYTDSavingFullYear.SetValue(hitungsaving);
     }
-</script>
+    </script>

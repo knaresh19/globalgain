@@ -48,6 +48,21 @@
             z-index: 100000;
         }
     </style>
+
+    @*<script type="text/javascript">
+        $(function () {
+            $('body').css('zoom', '70%'); /* Webkit browsers */
+            $('body').css('zoom', '0.7'); /* Other non-webkit browsers */
+            //$('body').css('transform', 'scale(0.7)'); /* Moz-browsers */
+            $('body').css('-moz-transform-origin', '0 0'); /* Moz-browsers */
+            $('body').css('-moz-transform', 'scale(0.7, 0.7)'); /* Moz-browsers */
+
+            setInterval(function () {
+                GrdMainInitiative.SetHeight(690);
+            }, 1000);
+        });
+    </script>*@
+
 </head>
 
 <body class="nav-md">
@@ -126,19 +141,9 @@
 
     <script type="text/javascript">
         $(function () {
-            //$('body').css('zoom', '70%'); /* Webkit browsers */
-            //$('body').css('zoom', '0.7'); /* Other non-webkit browsers */
-            //$('body').css('transform', 'scale(0.7)'); /* Moz-browsers */
-            //$('body').css('-moz-transform-origin', '0 0'); /* Moz-browsers */
-            //$('body').css('-moz-transform', 'scale(0.7, 0.7)'); /* Moz-browsers */
-
             $("#menu_toggle").on('click', function () {
                 GrdMainInitiative.AdjustControl();
             });
-
-            //setInterval(function () {
-            //    GrdMainInitiative.SetHeight(690);
-            //}, 1000);
         });
     </script>
 </body>
