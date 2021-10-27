@@ -1887,31 +1887,31 @@
 <script src="@Url.Content("~/assets/poin/js/main.js")"></script>
 
 @Html.DevExpress().PopupControl(settings =>
-    {
-        settings.Name = "WindowInitiative";
-        settings.Width = 1760;
-        settings.Height = 800;
-        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
-        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
-        settings.AllowResize = true;
-        settings.ShowHeader = true;
-        settings.ShowFooter = true;
-        settings.ShowOnPageLoad = false;
-        settings.AllowDragging = true;
-        settings.CloseAction = CloseAction.CloseButton;
-        settings.CloseOnEscape = true;
-        settings.ClientSideEvents.CloseUp = "OnCloseNewInitiativeWindow";
-        settings.Modal = true;
-        //settings.PopupElementID = "BtnInitiative";
-        settings.HeaderText = "GAIN - Create New / Edit Initiative";
-        settings.FooterText = "GAIN - CMACGM Copyright @" + DateTime.Now.Year + ". APAC DIGITAL FACTORY - CMA-CGM";
+{
+    settings.Name = "WindowInitiative";
+    settings.Width = 1760;
+    settings.Height = 800;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.AllowResize = true;
+    settings.ShowHeader = true;
+    settings.ShowFooter = true;
+    settings.ShowOnPageLoad = false;
+    settings.AllowDragging = true;
+    settings.CloseAction = CloseAction.CloseButton;
+    settings.CloseOnEscape = true;
+    settings.ClientSideEvents.CloseUp = "OnCloseNewInitiativeWindow";
+    settings.Modal = true;
+    //settings.PopupElementID = "BtnInitiative";
+    settings.HeaderText = "GAIN - Create New / Edit Initiative";
+    settings.FooterText = "GAIN - CMACGM Copyright @" + DateTime.Now.Year + ". APAC DIGITAL FACTORY - CMA-CGM";
 
-        settings.SetContent(() =>
-        {
-            //ViewContext.Writer.Write("Popup control content");
-            Html.RenderPartial("_NewInitiative");
-        });
-    }).GetHtml()
+    settings.SetContent(() =>
+    {
+        //ViewContext.Writer.Write("Popup control content");
+        Html.RenderPartial("_NewInitiative");
+    });
+}).GetHtml()
 
 @Html.DevExpress().PopupControl(settings =>
 {
@@ -1946,7 +1946,7 @@
     settings.ShowPageScrollbarWhenModal = true;
     settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
     settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
-    settings.AllowResize = true;
+    settings.AllowResize = false;
     settings.ShowHeader = true;
     settings.ShowFooter = true;
     settings.ShowOnPageLoad = false;

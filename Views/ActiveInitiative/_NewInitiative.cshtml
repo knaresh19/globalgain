@@ -901,9 +901,16 @@
             months += EndMonth.GetValue().getMonth();
             months++;
 
-            var nilai = Number(txTargetFullYear.GetValue() / (months - startmon)).toFixed(2);
-            var nilai2 = Number((txTarget12.GetValue() - txTargetFullYear.GetValue()) / startmon).toFixed(2);
-            var arrnilai = []; var startmon2 = startmon;
+            //alert("months: " + months + ", startmon = " + startmon);
+            var nilai; var nilai2; var arrnilai = []; var startmon2 = startmon;
+            if (months < 12 && startmon < 12) {                                     // kalau initiative nya kurang dari 12 bulan dan mulainya kurang dari januari tahun depannya
+                nilai = Number(txTargetFullYear.GetValue() / (12 - startmon)).toFixed(2);
+                nilai2 = Number((txTarget12.GetValue() - txTargetFullYear.GetValue()) / (months - (12 - startmon))).toFixed(2);
+            } else {
+                nilai = Number(txTargetFullYear.GetValue() / (months - startmon)).toFixed(2);
+                nilai2 = Number((txTarget12.GetValue() - txTargetFullYear.GetValue()) / startmon).toFixed(2);
+            }
+
             for (var a = 0; a <= months; a++) {
                 if (startmon2 < 12) {
                     arrnilai[a] = nilai;
