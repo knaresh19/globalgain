@@ -25,7 +25,7 @@ namespace GAIN.Controllers
             {
                 if (initiative.GenKey != null)
                 {
-                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.genKey == initiative.GenKey).ToList();
+                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey).ToList();
                 }
                 else
                 {
@@ -54,7 +54,7 @@ namespace GAIN.Controllers
             var initiative = db.t_initiative.Where(c => c.id == ID).FirstOrDefault();
             if (initiative.GenKey != null)
             {
-                model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.genKey == initiative.GenKey).ToList();
+                model = db.logtables.Where(c => c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey).ToList();
             }
             else
             {

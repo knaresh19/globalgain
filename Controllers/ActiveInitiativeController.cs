@@ -179,12 +179,15 @@ namespace GAIN.Controllers
             ViewData["mregions"] = db.mregions.ToList();
             ViewData["brandname"] = db.mbrands.ToList();
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
-            ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").ToList();
-            ViewData["mregional_office"] = db.mregional_office.Where(c => c.RegionalOffice_Name != "").ToList();
+            //ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").ToList();
+            ViewData["mcluster"] = db.mclusters.SqlQuery("SELECT * FROM mcluster where ClusterName != \"\" GROUP BY clustername").ToList();
+            //ViewData["mregional_office"] = db.mregional_office.Where(c => c.RegionalOffice_Name != "").ToList();
+            ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office GROUP BY RegionalOffice_Name").ToList();
             ViewData["CostControlSiteName"] = db.mcostcontrolsites.Where(c => c.CostControlSiteName != "").ToList();
             ViewData["CountryName"] = db.mcountries.Where(c => c.CountryName != "").ToList();
             ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "").ToList();
-            ViewData["LegalEntityName"] = db.mlegalentities.Where(c => c.LegalEntityName != "").ToList();
+            //ViewData["LegalEntityName"] = db.mlegalentities.Where(c => c.LegalEntityName != "").ToList();
+            ViewData["LegalEntityName"] = db.mlegalentities.SqlQuery("SELECT * FROM mlegalentity GROUP BY LegalEntityName").ToList();
             ViewData["SavingTypeName"] = db.msavingtypes.ToList();
             ViewData["CostTypeName"] = db.mcosttypes.ToList();
             ViewData["SubCostName"] = db.msubcosts.ToList();
