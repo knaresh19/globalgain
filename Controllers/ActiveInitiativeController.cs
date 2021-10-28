@@ -179,15 +179,13 @@ namespace GAIN.Controllers
             ViewData["mregions"] = db.mregions.ToList();
             ViewData["brandname"] = db.mbrands.ToList();
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
-            //ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").ToList();
-            ViewData["mcluster"] = db.mclusters.SqlQuery("SELECT * FROM mcluster where ClusterName != \"\" GROUP BY clustername").ToList();
-            //ViewData["mregional_office"] = db.mregional_office.Where(c => c.RegionalOffice_Name != "").ToList();
-            ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office GROUP BY RegionalOffice_Name").ToList();
+            //ViewData["mcluster"] = db.mclusters.SqlQuery("SELECT * FROM mcluster where ClusterName != \'\'").ToList();
+            ViewData["mcluster"] = db.mclusters.Where(c=>c.ClusterName != "").GroupBy(g=>g.ClusterName).Select(s=>new { ClusterName = s.Key}).ToList();
+            ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office").GroupBy(g=>g.RegionalOffice_Name).Select(s=> new { RegionalOffice_Name = s.Key }).ToList();
             ViewData["CostControlSiteName"] = db.mcostcontrolsites.Where(c => c.CostControlSiteName != "").ToList();
             ViewData["CountryName"] = db.mcountries.Where(c => c.CountryName != "").ToList();
             ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "").ToList();
-            //ViewData["LegalEntityName"] = db.mlegalentities.Where(c => c.LegalEntityName != "").ToList();
-            ViewData["LegalEntityName"] = db.mlegalentities.SqlQuery("SELECT * FROM mlegalentity GROUP BY LegalEntityName").ToList();
+            ViewData["LegalEntityName"] = db.mlegalentities.GroupBy(g=>g.LegalEntityName).Select(s=> new {LegalEntityName = s.Key}).ToList();
             ViewData["SavingTypeName"] = db.msavingtypes.ToList();
             ViewData["CostTypeName"] = db.mcosttypes.ToList();
             ViewData["SubCostName"] = db.msubcosts.ToList();
@@ -299,12 +297,12 @@ namespace GAIN.Controllers
             ViewData["mregions"] = db.mregions.ToList();
             ViewData["brandname"] = db.mbrands.ToList();
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
-            ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").ToList();
-            ViewData["mregional_office"] = db.mregional_office.Where(c => c.RegionalOffice_Name != "").ToList();
+            ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
+            ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office").GroupBy(g => g.RegionalOffice_Name).Select(s => new { RegionalOffice_Name = s.Key }).ToList();
             ViewData["CostControlSiteName"] = db.mcostcontrolsites.Where(c => c.CostControlSiteName != "").ToList();
             ViewData["CountryName"] = db.mcountries.Where(c => c.CountryName != "").ToList();
             ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "").ToList();
-            ViewData["LegalEntityName"] = db.mlegalentities.Where(c => c.LegalEntityName != "").ToList();
+            ViewData["LegalEntityName"] = db.mlegalentities.GroupBy(g => g.LegalEntityName).Select(s => new { LegalEntityName = s.Key }).ToList();
             ViewData["SavingTypeName"] = db.msavingtypes.ToList();
             ViewData["CostTypeName"] = db.mcosttypes.ToList();
             ViewData["SubCostName"] = db.msubcosts.ToList();
@@ -847,19 +845,28 @@ namespace GAIN.Controllers
             {
                 modelinitiative = db.t_initiative.Where(init => init.id == GetInfo.Id2).FirstOrDefault();
             }
-            
+
+            var brandcountry = new mbrandcountry();
             Int64 CountryID = (long)modelsubcountry.CountryID;
             Int64 SubCountryID = (long)modelsubcountry.id;
             Int64 BrandIDx = 0;
-            if (modelinitiative.BrandID.HasValue)
+            if (modelinitiative != null)
             {
-                BrandIDx = (long)modelinitiative.BrandID;
+                if (modelinitiative.BrandID.HasValue)
+                {
+                    BrandIDx = (long)modelinitiative.BrandID;
+                }
+                else
+                {
+                    brandcountry = db.mbrandcountries.Where(c => c.subcountryid == SubCountryID).FirstOrDefault();
+                    BrandIDx = brandcountry.brandid;
+                }
             } else
             {
-                var brandcountry = db.mbrandcountries.Where(c=> c.subcountryid == SubCountryID).FirstOrDefault();
+                brandcountry = db.mbrandcountries.Where(c => c.subcountryid == SubCountryID).FirstOrDefault();
                 BrandIDx = brandcountry.brandid;
             }
-            
+
             modelcountry = db.mcountries.Where(c => c.id == CountryID).FirstOrDefault();
             Int64 RegionID = (long)modelcountry.RegionID;
             Int64 SubRegionID = (long)modelcountry.SubRegionID;
@@ -897,7 +904,13 @@ namespace GAIN.Controllers
             CostControlList = db.mcostcontrolsites.Where(c => c.id == costcontrolid).Select(s => new CostControlList { id = s.id, CostControlSiteName = s.CostControlSiteName }).ToList();
             LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID && le.BrandID == BrandIDx && le.SubCountryID == SubCountryID && le.CostControlSiteID == costcontrolid).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
             //LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
-            TypeInitiativeList = db.msavingtypes.Where(st => st.id == modelinitiative.InitiativeType).Select(s => new TypeInitiativeList { id = s.id, SavingTypeName = s.SavingTypeName }).ToList();
+            if (modelinitiative != null)
+            {
+                TypeInitiativeList = db.msavingtypes.Where(st => st.id == modelinitiative.InitiativeType).Select(s => new TypeInitiativeList { id = s.id, SavingTypeName = s.SavingTypeName }).ToList();
+            } else
+            {
+                TypeInitiativeList = db.msavingtypes.Select(s => new TypeInitiativeList { id = s.id, SavingTypeName = s.SavingTypeName }).ToList();
+            }
 
             GDSC.Add(new GetDataFromSubCountry
             {

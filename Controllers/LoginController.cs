@@ -118,6 +118,7 @@ namespace GAIN.Controllers
                         }
                         catch (DirectoryServicesCOMException e)
                         {
+                            ModelState.AddModelError("CustomErrorMsg", e.Message);
                             ModelState.AddModelError("CustomError", "Username and AD password doesnot match!");
                             return View("index");
                         }

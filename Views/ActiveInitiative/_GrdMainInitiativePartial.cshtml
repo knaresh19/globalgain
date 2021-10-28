@@ -231,7 +231,7 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "ClusterID";
+            c.FieldName = "ClusterName";
             c.Caption = "Cluster";
             c.Width = 200;
             c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
@@ -239,7 +239,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "ClusterName";
-                p.ValueField = "id";
+                p.ValueField = "ClusterName";
                 p.ClientInstanceName = "ClusterID";
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["mcluster"]);
@@ -247,7 +247,7 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "RegionalOfficeID";
+            c.FieldName = "RegionalOffice_Name";
             c.Name = "RegionalOfficeID";
             c.Caption = "Regional Office";
             c.Width = 200;
@@ -256,7 +256,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "RegionalOffice_Name";
-                p.ValueField = "id";
+                p.ValueField = "RegionalOffice_Name";
                 p.ClientInstanceName = "RegionalOfficeID";
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["mregional_office"]);
@@ -281,7 +281,7 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "LegalEntityID";
+            c.FieldName = "LegalEntityName";
             c.Name = "LegalEntityID";
             c.Caption = "Legal Entity Name";
             c.Width = 250;
@@ -290,7 +290,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "LegalEntityName";
-                p.ValueField = "id";
+                p.ValueField = "LegalEntityName";
                 p.ClientInstanceName = "LegalEntityID";
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["LegalEntityName"]);
