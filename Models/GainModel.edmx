@@ -40,6 +40,7 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ActionTypeName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="isActive" Type="enum" Nullable="false" />
         </EntityType>
         <EntityType Name="mbrand">
           <Key>
@@ -80,6 +81,7 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CostTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="enum" Nullable="false" />
         </EntityType>
         <EntityType Name="mcountry">
           <Key>
@@ -97,9 +99,9 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BrandID" Type="bigint" />
           <Property Name="CountryID" Type="bigint" />
+          <Property Name="LegalEntityName" Type="varchar" MaxLength="250" />
           <Property Name="SubCountryID" Type="bigint" />
           <Property Name="CostControlSiteID" Type="bigint" />
-          <Property Name="LegalEntityName" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="mmenu">
           <Key>
@@ -146,6 +148,8 @@
           <Property Name="RegionID" Type="bigint" />
           <Property Name="CountryID" Type="bigint" />
           <Property Name="RegionalOffice_Name" Type="varchar" MaxLength="250" />
+          <Property Name="SubCountryID" Type="bigint" />
+          <Property Name="BrandID" Type="bigint" />
         </EntityType>
         <EntityType Name="mroles">
           <Key>
@@ -171,6 +175,7 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SavingTypeName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="isActive" Type="enum" Nullable="false" />
         </EntityType>
         <EntityType Name="msourcecategory">
           <Key>
@@ -193,6 +198,7 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SubCostName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="isActive" Type="enum" Nullable="false" />
         </EntityType>
         <EntityType Name="msubcountry">
           <Key>
@@ -217,6 +223,7 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SynImpactName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="isActive" Type="enum" Nullable="false" />
         </EntityType>
         <EntityType Name="myears">
           <Key>
@@ -426,7 +433,7 @@ warning 6002: The table/view 'def.gain2.vwagency' does not have a primary key de
             <PropertyRef Name="percentytd" />
             <PropertyRef Name="gap" />
           </Key>
-          <Property Name="id" Type="ubigint" Nullable="false" />
+          <Property Name="id" Type="uint" Nullable="false" />
           <Property Name="CostTypeName" Type="varchar" MaxLength="50" />
           <Property Name="projectyear" Type="year" />
           <Property Name="jml" Type="bigint" Nullable="false" />
@@ -555,7 +562,7 @@ warning 6002: The table/view 'def.gain2.vwheaderinitiative' does not have a prim
           <Property Name="CreatedDate" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="213" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'def.gain2.vwsummarydashboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -573,7 +580,7 @@ warning 6002: The table/view 'def.gain2.vwsummarydashboard' does not have a prim
             <PropertyRef Name="percentytd" />
             <PropertyRef Name="gap" />
           </Key>
-          <Property Name="id" Type="ubigint" Nullable="false" />
+          <Property Name="id" Type="uint" Nullable="false" />
           <Property Name="RegionName" Type="varchar" MaxLength="250" />
           <Property Name="CountryName" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="ProjectYear" Type="year" />
@@ -602,7 +609,7 @@ warning 6002: The table/view 'def.gain2.vwsummarydashboarddetail' does not have 
             <PropertyRef Name="percentytd" />
             <PropertyRef Name="gap" />
           </Key>
-          <Property Name="id" Type="ubigint" Nullable="false" />
+          <Property Name="id" Type="uint" Nullable="false" />
           <Property Name="RegionName" Type="varchar" MaxLength="250" />
           <Property Name="CountryName" Type="varchar" MaxLength="250" />
           <Property Name="ProjectYear" Type="year" />
@@ -625,7 +632,7 @@ warning 6002: The table/view 'def.gain2.vwtopcategory' does not have a primary k
             <PropertyRef Name="YTDAchieved" />
             <PropertyRef Name="YTDTarget" />
           </Key>
-          <Property Name="id" Type="ubigint" Nullable="false" />
+          <Property Name="id" Type="uint" Nullable="false" />
           <Property Name="CostTypeName" Type="varchar" MaxLength="50" />
           <Property Name="projectyear" Type="year" />
           <Property Name="prcnt" Type="decimal" Precision="49" Scale="2" Nullable="false" />
@@ -638,7 +645,7 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="ubigint" Nullable="false" />
+          <Property Name="id" Type="uint" Nullable="false" />
           <Property Name="SavingTypeName" Type="varchar" MaxLength="250" />
           <Property Name="projectyear" Type="year" />
           <Property Name="prcnt" Type="decimal" Precision="49" Scale="2" />
@@ -678,6 +685,18 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
             </Principal>
             <Dependent Role="t_subcostactiontype">
               <PropertyRef Name="actiontypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_brand_ro">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="0..1" />
+          <End Role="mregional_office" Type="Self.mregional_office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mregional_office">
+              <PropertyRef Name="BrandID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1065,6 +1084,18 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_subcountry_ro">
+          <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="0..1" />
+          <End Role="mregional_office" Type="Self.mregional_office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mregional_office">
+              <PropertyRef Name="SubCountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_subcountry_sc">
           <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="1" />
           <End Role="t_subctry_costcntrlsite" Type="Self.t_subctry_costcntrlsite" Multiplicity="*" />
@@ -1388,6 +1419,10 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <End Role="mactiontype" EntitySet="mactiontype" />
             <End Role="t_subcostactiontype" EntitySet="t_subcostactiontype" />
           </AssociationSet>
+          <AssociationSet Name="fk_brand_ro" Association="Self.fk_brand_ro">
+            <End Role="mbrand" EntitySet="mbrand" />
+            <End Role="mregional_office" EntitySet="mregional_office" />
+          </AssociationSet>
           <AssociationSet Name="fk_brandcountry" Association="Self.fk_brandcountry">
             <End Role="mcountry" EntitySet="mcountry" />
             <End Role="mbrandcountry" EntitySet="mbrandcountry" />
@@ -1516,6 +1551,10 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <End Role="mcostcontrolsite" EntitySet="mcostcontrolsite" />
             <End Role="t_subctry_costcntrlsite" EntitySet="t_subctry_costcntrlsite" />
           </AssociationSet>
+          <AssociationSet Name="fk_subcountry_ro" Association="Self.fk_subcountry_ro">
+            <End Role="msubcountry" EntitySet="msubcountry" />
+            <End Role="mregional_office" EntitySet="mregional_office" />
+          </AssociationSet>
           <AssociationSet Name="fk_subcountry_sc" Association="Self.fk_subcountry_sc">
             <End Role="msubcountry" EntitySet="msubcountry" />
             <End Role="t_subctry_costcntrlsite" EntitySet="t_subctry_costcntrlsite" />
@@ -1591,6 +1630,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ActionTypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="t_cost_actiontype" Relationship="Self.FK_ACTIONTYPE_COSTITEM_ID" FromRole="mactiontype" ToRole="t_cost_actiontype" />
           <NavigationProperty Name="t_subcostactiontype" Relationship="Self.FK_actiontypeid_actiontype_subcost" FromRole="mactiontype" ToRole="t_subcostactiontype" />
         </EntityType>
@@ -1600,6 +1640,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="brandname" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="mregional_office" Relationship="Self.fk_brand_ro" FromRole="mbrand" ToRole="mregional_office" />
           <NavigationProperty Name="mbrandcountries" Relationship="Self.fk_brandid" FromRole="mbrand" ToRole="mbrandcountry" />
           <NavigationProperty Name="t_subcostbrand" Relationship="Self.FK_BRANDID_SUBCOSTID" FromRole="mbrand" ToRole="t_subcostbrand" />
           <NavigationProperty Name="t_initiative" Relationship="Self.fk_initbrand" FromRole="mbrand" ToRole="t_initiative" />
@@ -1647,6 +1688,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CostTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="t_cost_actiontype" Relationship="Self.FK_COSTITEM_ACTIONTYPE_ID" FromRole="mcosttype" ToRole="t_cost_actiontype" />
           <NavigationProperty Name="t_subcostinitiative" Relationship="Self.FK_costitemid" FromRole="mcosttype" ToRole="t_subcostinitiative" />
           <NavigationProperty Name="t_subcostbrand" Relationship="Self.FK_t_subcostbrand_mcosttype" FromRole="mcosttype" ToRole="t_subcostbrand" />
@@ -1674,9 +1716,9 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BrandID" Type="Int64" />
           <Property Name="CountryID" Type="Int64" />
+          <Property Name="LegalEntityName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="SubCountryID" Type="Int64" />
           <Property Name="CostControlSiteID" Type="Int64" />
-          <Property Name="LegalEntityName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="mbrand" Relationship="Self.fk_LegalBrandID" FromRole="mlegalentity" ToRole="mbrand" />
           <NavigationProperty Name="mcostcontrolsite" Relationship="Self.fk_LegalCostControlSiteID" FromRole="mlegalentity" ToRole="mcostcontrolsite" />
           <NavigationProperty Name="mcountry" Relationship="Self.fk_LegalCountry" FromRole="mlegalentity" ToRole="mcountry" />
@@ -1737,8 +1779,12 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <Property Name="RegionID" Type="Int64" />
           <Property Name="CountryID" Type="Int64" />
           <Property Name="RegionalOffice_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="SubCountryID" Type="Int64" />
+          <Property Name="BrandID" Type="Int64" />
+          <NavigationProperty Name="mbrand" Relationship="Self.fk_brand_ro" FromRole="mregional_office" ToRole="mbrand" />
           <NavigationProperty Name="mcountry" Relationship="Self.fk_country_ro" FromRole="mregional_office" ToRole="mcountry" />
           <NavigationProperty Name="mregion" Relationship="Self.fk_region_ro" FromRole="mregional_office" ToRole="mregion" />
+          <NavigationProperty Name="msubcountry" Relationship="Self.fk_subcountry_ro" FromRole="mregional_office" ToRole="msubcountry" />
           <NavigationProperty Name="t_initiative" Relationship="Self.FK_t_initiative_mregional_office" FromRole="mregional_office" ToRole="t_initiative" />
         </EntityType>
         <EntityType Name="mrole">
@@ -1766,6 +1812,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SavingTypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="t_subcostinitiative" Relationship="Self.FK_savingtypeid" FromRole="msavingtype" ToRole="t_subcostinitiative" />
           <NavigationProperty Name="t_subcostbrand" Relationship="Self.FK_SAVINGTYPEID_SUBCOSTID" FromRole="msavingtype" ToRole="t_subcostbrand" />
         </EntityType>
@@ -1791,6 +1838,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SubCostName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="t_subcostinitiative" Relationship="Self.FK_subcostid" FromRole="msubcost" ToRole="t_subcostinitiative" />
           <NavigationProperty Name="t_subcostactiontype" Relationship="Self.FK_subcostid_actiontype_subcost" FromRole="msubcost" ToRole="t_subcostactiontype" />
           <NavigationProperty Name="t_subcostbrand" Relationship="Self.FK_SUBCOSTID_BRANDID" FromRole="msubcost" ToRole="t_subcostbrand" />
@@ -1806,6 +1854,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <NavigationProperty Name="mbrandcountries" Relationship="Self.fk_brandsubcountry" FromRole="msubcountry" ToRole="mbrandcountry" />
           <NavigationProperty Name="mcountry" Relationship="Self.fk_countryid" FromRole="msubcountry" ToRole="mcountry" />
           <NavigationProperty Name="mlegalentities" Relationship="Self.fk_LegalSubCountryID" FromRole="msubcountry" ToRole="mlegalentity" />
+          <NavigationProperty Name="mregional_office" Relationship="Self.fk_subcountry_ro" FromRole="msubcountry" ToRole="mregional_office" />
           <NavigationProperty Name="t_initiative" Relationship="Self.fk_initsubcountry" FromRole="msubcountry" ToRole="t_initiative" />
           <NavigationProperty Name="t_subctry_costcntrlsite" Relationship="Self.fk_subcountry_sc" FromRole="msubcountry" ToRole="t_subctry_costcntrlsite" />
         </EntityType>
@@ -1827,6 +1876,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SynImpactName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="myear">
           <Key>
@@ -2059,7 +2109,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <PropertyRef Name="percentytd" />
             <PropertyRef Name="gap" />
           </Key>
-          <Property Name="id" Type="Decimal" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" />
           <Property Name="CostTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="projectyear" Type="Int16" />
           <Property Name="jml" Type="Int64" Nullable="false" />
@@ -2186,7 +2236,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="213" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="vwsummarydashboard">
           <Key>
@@ -2202,7 +2252,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <PropertyRef Name="percentytd" />
             <PropertyRef Name="gap" />
           </Key>
-          <Property Name="id" Type="Decimal" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" />
           <Property Name="RegionName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="CountryName" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProjectYear" Type="Int16" />
@@ -2229,7 +2279,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <PropertyRef Name="percentytd" />
             <PropertyRef Name="gap" />
           </Key>
-          <Property Name="id" Type="Decimal" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" />
           <Property Name="RegionName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="CountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="ProjectYear" Type="Int16" />
@@ -2250,7 +2300,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <PropertyRef Name="YTDAchieved" />
             <PropertyRef Name="YTDTarget" />
           </Key>
-          <Property Name="id" Type="Decimal" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" />
           <Property Name="CostTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="projectyear" Type="Int16" />
           <Property Name="prcnt" Type="Decimal" Nullable="false" />
@@ -2261,7 +2311,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Decimal" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" />
           <Property Name="SavingTypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="projectyear" Type="Int16" />
           <Property Name="prcnt" Type="Decimal" />
@@ -2313,6 +2363,18 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             </Principal>
             <Dependent Role="t_subcostactiontype">
               <PropertyRef Name="actiontypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_brand_ro">
+          <End Role="mbrand" Type="Self.mbrand" Multiplicity="0..1" />
+          <End Role="mregional_office" Type="Self.mregional_office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mbrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mregional_office">
+              <PropertyRef Name="BrandID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2666,6 +2728,18 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_subcountry_ro">
+          <End Role="msubcountry" Type="Self.msubcountry" Multiplicity="0..1" />
+          <End Role="mregional_office" Type="Self.mregional_office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msubcountry">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="mregional_office">
+              <PropertyRef Name="SubCountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_t_initiative_mregional_office">
           <End Role="mregional_office" Type="Self.mregional_office" Multiplicity="0..1" />
           <End Role="t_initiative" Type="Self.t_initiative" Multiplicity="*" />
@@ -2839,6 +2913,10 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <End Role="mactiontype" EntitySet="mactiontypes" />
             <End Role="t_subcostactiontype" EntitySet="t_subcostactiontype" />
           </AssociationSet>
+          <AssociationSet Name="fk_brand_ro" Association="Self.fk_brand_ro">
+            <End Role="mbrand" EntitySet="mbrands" />
+            <End Role="mregional_office" EntitySet="mregional_office" />
+          </AssociationSet>
           <AssociationSet Name="fk_brandid" Association="Self.fk_brandid">
             <End Role="mbrand" EntitySet="mbrands" />
             <End Role="mbrandcountry" EntitySet="mbrandcountries" />
@@ -2955,6 +3033,10 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
             <End Role="mregion" EntitySet="mregions" />
             <End Role="msubregion" EntitySet="msubregions" />
           </AssociationSet>
+          <AssociationSet Name="fk_subcountry_ro" Association="Self.fk_subcountry_ro">
+            <End Role="msubcountry" EntitySet="msubcountries" />
+            <End Role="mregional_office" EntitySet="mregional_office" />
+          </AssociationSet>
           <AssociationSet Name="FK_t_initiative_mregional_office" Association="Self.FK_t_initiative_mregional_office">
             <End Role="mregional_office" EntitySet="mregional_office" />
             <End Role="t_initiative" EntitySet="t_initiative" />
@@ -3038,6 +3120,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
               <MappingFragment StoreEntitySet="mactiontype">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="ActionTypeName" ColumnName="ActionTypeName" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3083,6 +3166,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
               <MappingFragment StoreEntitySet="mcosttype">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="CostTypeName" ColumnName="CostTypeName" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3102,9 +3186,9 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="LegalEntityName" ColumnName="LegalEntityName" />
                 <ScalarProperty Name="SubCountryID" ColumnName="SubCountryID" />
                 <ScalarProperty Name="CostControlSiteID" ColumnName="CostControlSiteID" />
-                <ScalarProperty Name="LegalEntityName" ColumnName="LegalEntityName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3155,6 +3239,8 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
                 <ScalarProperty Name="RegionID" ColumnName="RegionID" />
                 <ScalarProperty Name="CountryID" ColumnName="CountryID" />
                 <ScalarProperty Name="RegionalOffice_Name" ColumnName="RegionalOffice_Name" />
+                <ScalarProperty Name="SubCountryID" ColumnName="SubCountryID" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3182,6 +3268,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
               <MappingFragment StoreEntitySet="msavingtype">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="SavingTypeName" ColumnName="SavingTypeName" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3207,6 +3294,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
               <MappingFragment StoreEntitySet="msubcost">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="SubCostName" ColumnName="SubCostName" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3234,6 +3322,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
               <MappingFragment StoreEntitySet="msynimpact">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="SynImpactName" ColumnName="SynImpactName" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

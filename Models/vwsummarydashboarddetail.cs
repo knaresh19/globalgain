@@ -14,7 +14,7 @@ namespace GAIN.Models
     
     public partial class vwsummarydashboarddetail
     {
-        public decimal id { get; set; }
+        public long id { get; set; }
         public string RegionName { get; set; }
         public string CountryName { get; set; }
         public Nullable<short> ProjectYear { get; set; }

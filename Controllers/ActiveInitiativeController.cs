@@ -1011,7 +1011,7 @@ namespace GAIN.Controllers
             db.Configuration.ProxyCreationEnabled = false;
             GDFI.Add(new GetItemCategoryDataFromInitiative
             {
-                CostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName UNION ALL SELECT b.id, b.CostTypeName FROM t_subcostinitiative a LEFT JOIN mcosttype b ON a.costitemid = b.id WHERE a.savingtypeid = " + SCID + " GROUP BY b.id, b.CostTypeName").ToList()
+                CostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive UNION ALL SELECT b.id, b.CostTypeName, b.isActive FROM t_subcostinitiative a LEFT JOIN mcosttype b ON a.costitemid = b.id WHERE a.savingtypeid = " + SCID + " and b.isActive = \'Y\' GROUP BY b.id, b.CostTypeName").ToList()
             });
             return Json(GDFI, JsonRequestBehavior.AllowGet);
         }
@@ -1023,7 +1023,7 @@ namespace GAIN.Controllers
             db.Configuration.ProxyCreationEnabled = false;
             GDFI.Add(new GetItemCategoryDataFromInitiative
             {
-                ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName UNION ALL SELECT c.id, c.ActionTypeName FROM t_subcostactiontype a LEFT JOIN msubcost b ON a.subcostid = b.id LEFT JOIN mactiontype c ON a.actiontypeid = c.id WHERE b.id = " + SCID + ";").ToList()
+                ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName,\'\' as isActive UNION ALL SELECT c.id, c.ActionTypeName,c.isActive FROM t_subcostactiontype a LEFT JOIN msubcost b ON a.subcostid = b.id LEFT JOIN mactiontype c ON a.actiontypeid = c.id WHERE b.id = " + SCID + " and c.isActive = \'Y\';").ToList()
             });
             return Json(GDFI, JsonRequestBehavior.AllowGet);
         }
@@ -1035,8 +1035,8 @@ namespace GAIN.Controllers
             db.Configuration.ProxyCreationEnabled = false;
             GDFC.Add(new GetItemSubCategoryDataFromCategory
             {
-                SubCostData = db.msubcosts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SubCostName UNION ALL SELECT b.id,b.SubCostName FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + SCID + " AND a.costtypeid = " + SCID2 + " AND a.brandid = " + SCID3 + " GROUP BY b.id, b.SubCostName").ToList(),
-                ActionTypeData = db.mactiontypes.SqlQuery("SELECT a.actiontypeid AS id,c.ActionTypeName FROM t_cost_actiontype a LEFT JOIN mcosttype b ON a.costitemid = b.id LEFT JOIN mactiontype c ON a.actiontypeid = c.id WHERE a.costitemid = " + SCID2 + "; ").ToList()
+                SubCostData = db.msubcosts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SubCostName, \'\' as isActive UNION ALL SELECT b.id,b.SubCostName,b.isActive FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + SCID + " AND a.costtypeid = " + SCID2 + " AND a.brandid = " + SCID3 + " and b.isActive = \'Y\' GROUP BY b.id, b.SubCostName").ToList(),
+                ActionTypeData = db.mactiontypes.SqlQuery("SELECT a.actiontypeid AS id,c.ActionTypeName, b.isActive FROM t_cost_actiontype a LEFT JOIN mcosttype b ON a.costitemid = b.id LEFT JOIN mactiontype c ON a.actiontypeid = c.id WHERE a.costitemid = " + SCID2 + " and c.isActive = \'Y\'; ").ToList()
             });
             return Json(GDFC, JsonRequestBehavior.AllowGet);
         }
@@ -1051,25 +1051,25 @@ namespace GAIN.Controllers
 
                 GIFP.Add(new OutInitiative
                 {
-                    SavingTypeData = db.msavingtypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SavingTypeName UNION ALL Select id, SavingTypeName From msavingtype").ToList(),
-                    ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName UNION ALL Select id, ActionTypeName From mactiontype").ToList(),
-                    SynImpactData = db.msynimpacts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SynImpactName UNION ALL Select id, SynImpactName From msynimpact").ToList(),
+                    SavingTypeData = db.msavingtypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SavingTypeName,\'\' as isActive UNION ALL Select id, SavingTypeName,isActive From msavingtype where isActive = 'Y' ").ToList(),
+                    ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName, \'\' as isActive UNION ALL Select id, ActionTypeName, isActive From mactiontype where isActive = 'Y' ").ToList(),
+                    SynImpactData = db.msynimpacts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SynImpactName, \'\' as isActive UNION ALL Select id, SynImpactName, isActive From msynimpact where isActive = 'Y' ").ToList(),
                     InitStatusData = db.mstatus.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS Status, \'\' AS isActive UNION ALL Select id, Status, isActive From mstatus where isActive ='Y'; ").ToList(),
                     PortNameData = db.mports.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS PortName UNION ALL Select id, PortName From mport").ToList(),
-                    MCostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName UNION ALL SELECT b.id, b.CostTypeName FROM t_subcostinitiative a LEFT JOIN mcosttype b ON a.costitemid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " GROUP BY b.id, b.CostTypeName; ").ToList(),
-                    MSubCostData = db.msubcosts.SqlQuery("SELECT b.id,b.SubCostName FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " AND a.costtypeid = " + model.CostCategoryID + " AND a.brandid = " + model.BrandID + " GROUP BY b.id,b.SubCostName; ").ToList(),
+                    MCostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive UNION ALL SELECT b.id, b.CostTypeName,b.isActive FROM t_subcostinitiative a LEFT JOIN mcosttype b ON a.costitemid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " and b.isActive = 'Y' GROUP BY b.id, b.CostTypeName; ").ToList(),
+                    MSubCostData = db.msubcosts.SqlQuery("SELECT b.id,b.SubCostName,b.isActive FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " AND a.costtypeid = " + model.CostCategoryID + " AND a.brandid = " + model.BrandID + " and b.isActive = 'Y' GROUP BY b.id,b.SubCostName; ").ToList(),
                     MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname UNION ALL SELECT id, categoryname FROM msourcecategory").ToList()
                 });
             } else
             {
                 GIFP.Add(new OutInitiative
                 {
-                    SavingTypeData = db.msavingtypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SavingTypeName UNION ALL Select id, SavingTypeName From msavingtype").ToList(),
-                    ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName UNION ALL Select id, ActionTypeName From mactiontype").ToList(),
-                    SynImpactData = db.msynimpacts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SynImpactName UNION ALL Select id, SynImpactName From msynimpact").ToList(),
+                    SavingTypeData = db.msavingtypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SavingTypeName, \'\' as isActive UNION ALL Select id, SavingTypeName,isActive From msavingtype where isActive = 'Y' ").ToList(),
+                    ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName, \'\' as isActive UNION ALL Select id, ActionTypeName,isActive From mactiontype where isActive = 'Y' ").ToList(),
+                    SynImpactData = db.msynimpacts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SynImpactName,\'\' as isActive UNION ALL Select id, SynImpactName,isActive From msynimpact where isActive = 'Y' ").ToList(),
                     InitStatusData = db.mstatus.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS Status, \'\' AS isActive UNION ALL Select id, Status, isActive From mstatus where isActive ='Y'").ToList(),
                     PortNameData = db.mports.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS PortName UNION ALL Select id, PortName From mport").ToList(),
-                    MCostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName UNION ALL Select id, CostTypeName From mcosttype").ToList(),
+                    MCostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive UNION ALL Select id, CostTypeName, isActive From mcosttype where isActive = 'Y' ").ToList(),
                     MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname UNION ALL SELECT id, categoryname FROM msourcecategory").ToList()
                 });
             }
@@ -1117,7 +1117,7 @@ namespace GAIN.Controllers
                         }
                         else
                         {
-                            FileDiDB = filename;
+                            FileDiDB = filename + "|" + InitiativeNumber;
                         }
                         db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = \'" + FileDiDB + "\' where InitNumber = \'" + InitiativeNumber + "\' ");
                         db.SaveChanges();
@@ -1153,10 +1153,28 @@ namespace GAIN.Controllers
         }
         public ActionResult removefile(RemoveFilePost PostedData)
         {
-            db.Database.ExecuteSqlCommand("UPDATE t_initiative SET uploadedfile = REPLACE(UploadedFile,'|" + PostedData.Filename + "','') WHERE InitNumber = '" + PostedData.Initiativenumber + "'");
-            db.Database.ExecuteSqlCommand("UPDATE t_initiative SET uploadedfile = REPLACE(UploadedFile,'" + PostedData.Filename + "','') WHERE InitNumber = '" + PostedData.Initiativenumber + "'");
+            string UploadDirectory = System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"];
+            string resultFileUrl = Request.MapPath(UploadDirectory + PostedData.Filename);
+
+            // ini buat ngapus yang belakangnya ada tanda |
+            db.Database.ExecuteSqlCommand("UPDATE t_initiative SET uploadedfile = REPLACE(UploadedFile,'" + PostedData.Filename + "|" + PostedData.Initiativenumber + "|','') WHERE InitNumber = '" + PostedData.Initiativenumber + "'");
+
+            // ini buat ngapus yang depannya ada tanda |
+            db.Database.ExecuteSqlCommand("UPDATE t_initiative SET uploadedfile = REPLACE(UploadedFile,'|" + PostedData.Filename + "|" + PostedData.Initiativenumber + "','') WHERE InitNumber = '" + PostedData.Initiativenumber + "'");
+
+            // ini buat ngapus klo depannya gak ada tanda |
+            db.Database.ExecuteSqlCommand("UPDATE t_initiative SET uploadedfile = REPLACE(UploadedFile,'" + PostedData.Filename + "|" + PostedData.Initiativenumber + "','') WHERE InitNumber = '" + PostedData.Initiativenumber + "'");
             db.SaveChanges();
-            return Content("Ok");
+
+            if (System.IO.File.Exists(resultFileUrl))
+            {
+                System.IO.File.Delete(resultFileUrl);
+                return Content("Ok");
+            } else
+            {
+                return Content("File not deleted");
+            }
+
         }
         public ActionResult GetInitiativeComment(GetInfoByIDModel GetInfo)
         {

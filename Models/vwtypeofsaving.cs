@@ -14,7 +14,7 @@ namespace GAIN.Models
     
     public partial class vwtypeofsaving
     {
-        public decimal id { get; set; }
+        public long id { get; set; }
         public string SavingTypeName { get; set; }
         public Nullable<short> projectyear { get; set; }
         public Nullable<decimal> prcnt { get; set; }

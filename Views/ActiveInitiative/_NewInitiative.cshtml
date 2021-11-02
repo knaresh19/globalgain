@@ -702,11 +702,13 @@
                     var savingjun2 = $(".savingjun2").val(); var savingjul2 = $(".savingjul2").val(); var savingaug2 = $(".savingaug2").val(); var savingsep2 = $(".savingsep2").val(); var savingoct2 = $(".savingoct2").val();
                     var savingnov2 = $(".savingnov2").val(); var savingdec2 = $(".savingdec2").val();
 
+                    //alert(xGrdSubCountry + " " + xGrdBrand + " " + xGrdLegalEntity + " " + xGrdCountry + " " + xGrdRegional + " " + xGrdSubRegion + " " + xGrdCluster + " " + xGrdRegionalOffice + " " + xGrdCostControl + " " + xCboConfidential + " " + xGrdInitStatus + " " + xGrdInitType + " " + xGrdInitCategory + " " + xGrdSubCost + " " + xGrdActionType + " " + xGrdSynImpact + " " + xStartMonth + " " + xEndMonth);
+
                     if (
                         xGrdSubCountry != null && xGrdBrand != null && xGrdLegalEntity != null && xGrdCountry != null && xGrdRegional != null &&
                         xGrdSubRegion != null && xGrdCluster != null && xGrdRegionalOffice != null && xGrdCostControl != null && xCboConfidential != null &&
-                        xGrdInitStatus > 0 && xGrdInitType != null && xGrdInitCategory != null && xGrdSubCost != null && xGrdActionType != null &&
-                        xGrdSynImpact != null && xStartMonth != null && xEndMonth != null
+                        xGrdInitStatus > 0 && xGrdInitType > 0 && xGrdInitCategory > 0 && xGrdSubCost > 0 && xGrdActionType > 0 &&
+                        xGrdSynImpact > 0 && xStartMonth != null && xEndMonth != null
                     ) {
                         var sum = 0;
                         var sumtarget = calculateSum();

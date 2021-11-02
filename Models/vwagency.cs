@@ -14,7 +14,7 @@ namespace GAIN.Models
     
     public partial class vwagency
     {
-        public decimal id { get; set; }
+        public long id { get; set; }
         public string CostTypeName { get; set; }
         public Nullable<short> projectyear { get; set; }
         public long jml { get; set; }

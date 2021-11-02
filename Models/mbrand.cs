@@ -17,6 +17,7 @@ namespace GAIN.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public mbrand()
         {
+            this.mregional_office = new HashSet<mregional_office>();
             this.mbrandcountries = new HashSet<mbrandcountry>();
             this.t_subcostbrand = new HashSet<t_subcostbrand>();
             this.t_initiative = new HashSet<t_initiative>();
@@ -27,6 +28,8 @@ namespace GAIN.Models
         public long id { get; set; }
         public string brandname { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<mregional_office> mregional_office { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<mbrandcountry> mbrandcountries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

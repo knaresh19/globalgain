@@ -23,6 +23,7 @@ namespace GAIN.Models
     
         public long id { get; set; }
         public string ActionTypeName { get; set; }
+        public string isActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_cost_actiontype> t_cost_actiontype { get; set; }

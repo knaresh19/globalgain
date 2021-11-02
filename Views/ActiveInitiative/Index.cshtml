@@ -1508,7 +1508,9 @@
         $("#LblInitiative").text("XXX-0001");
         GrdSubCountryPopup.SetValue(null);
         GrdBrandPopup.SetValue(null);
+        GrdBrandPopup.ClearItems();
         GrdLegalEntityPopup.SetValue(null);
+        GrdLegalEntityPopup.ClearItems();
         //GrdCountry.SetValue(null);
         //GrdRegional.SetValue(null);
         //GrdSubRegion.SetValue(null);
@@ -1525,6 +1527,7 @@
         GrdInitStatus.SetValue(null);
         $("#GrdCostControl").val(null);
         $("#GrdInitCategory").val(null);
+        GrdInitCategory.ClearItems();
         $("#GrdSubCost").val(null);
         $("#GrdActionType").val(null);
         $("#GrdSynImpact").val(null);
@@ -1748,6 +1751,7 @@
                     if (arrFileName[0] != '') {
                         for (var x = 0; x < arrFileName.length; x++) {
                             output += "<tr><td width=\"660\"><a href=\"@Url.Content(UploadDirectory)" + arrFileName[x] + "\" target=\"_new\" >" + arrFileName[x] + "</td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + InitNumber + "','" + arrFileName[x] + "',this)\" >Remove</button></td></tr>";
+                            x++;
                         }
                         $("#summary-uploaded-files").html(output);
                     } else {
@@ -1795,8 +1799,12 @@
             confirmButtonText: 'Remove'
         }).then((result) => {
             if (result.value) {
-                $.post("@Url.Content("~/ActiveInitiative/removefile")", {Initiativenumber:initiativenumber, Filename: filename}, function (data) {
+                $.post("@Url.Content("~/ActiveInitiative/removefile")", { Initiativenumber: initiativenumber, Filename: filename }, function (data) {
+                    console.log(data);
                     $(btndel).closest('tr').remove();
+
+                    var tmp = $("#summary-uploaded-files").html();
+                    if (tmp == "") $("#summary-uploaded-files").html("<tr><td colspan=\"2\"><center>There is no File Uploaded</center></td></tr>");
                 });
             }
         });
