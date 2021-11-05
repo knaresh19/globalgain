@@ -1,6 +1,7 @@
 ﻿@{
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
     string UploadDirectory = System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"];
+    var years_right = profileData.years_right;
 }
 
 @Html.Partial("_ViewKebutuhanDevExpress")
@@ -1169,6 +1170,16 @@
             CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
             $("#FormStatus").val("New");
             $("#btnDuplicate").prop("disabled", true);
+
+            var years_right = '@years_right';
+            var project_year = '@profileData.ProjectYear';
+
+            if (years_right.includes(project_year)) {
+                $("#btnSave").prop('disabled', false);
+            } else {
+                $("#btnSave").prop('disabled', true);
+            }
+
             WindowInitiative.Show();
         });
 
@@ -1437,6 +1448,16 @@
                     GrdLegalEntityPopup.SetValue(legalentityidx);
                 });
                 getYtdValue();
+
+                var years_right = '@years_right';
+                var project_year = '@profileData.ProjectYear';
+
+                if (years_right.includes(project_year)) {
+                    $("#btnSave").prop('disabled', '');
+                } else {
+                    $("#btnSave").prop('disabled', 'disabled');
+                }
+
                 WindowInitiative.Show();
             }
         });

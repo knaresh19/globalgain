@@ -1,6 +1,7 @@
 ﻿@{ 
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
     var user_type = profileData.UserType;
+    var years_right = profileData.years_right;
 }
 
     <style type="text/css">
@@ -812,6 +813,15 @@
                     GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
                 });
                 GrdSubCountryPopup.SelectIndex(0);
+
+                var years_right = '@years_right';
+                var project_year = '@profileData.ProjectYear';
+
+                if (years_right.includes(project_year)) {
+                    $("#btnSave").prop('disabled', false);
+                } else {
+                    $("#btnSave").prop('disabled', true);
+                }
             });
             Swal.fire(
                 'Duplicated Successfully',
