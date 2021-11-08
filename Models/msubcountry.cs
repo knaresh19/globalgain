@@ -28,6 +28,7 @@ namespace GAIN.Models
         public long CountryID { get; set; }
         public string SubCountryName { get; set; }
         public string CountryCode { get; set; }
+        public string isActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<mbrandcountry> mbrandcountries { get; set; }

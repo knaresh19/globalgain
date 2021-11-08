@@ -887,14 +887,14 @@ namespace GAIN.Controllers
             List<TypeInitiativeList> TypeInitiativeList = new List<TypeInitiativeList>();
 
             db.Configuration.ProxyCreationEnabled = false;
-            SubCountryList = db.msubcountries.Where(c => c.id == SubCountryID).Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+            SubCountryList = db.msubcountries.Where(c => c.id == SubCountryID && c.isActive == "Y").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
             CountryList = db.mcountries.Where(c => c.id == CountryID).Select(s => new CountryList { id = s.id, CountryName = s.CountryName }).ToList();
             if (GetInfo.Id2 == 0)
             {
-                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
             } else
             {
-                BrandList = db.mbrands.Where(c => c.id == modelinitiative.BrandID).Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                BrandList = db.mbrands.Where(c => c.id == modelinitiative.BrandID && c.isActive == "Y").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
             }
             RegionList = db.mregions.Where(c => c.id == RegionID).Select(s => new RegionList { id = s.id, RegionName = s.RegionName }).ToList();
             SubRegionList = db.msubregions.Where(c => c.id == SubRegionID).Select(s => new SubRegionList { id = s.id, SubRegionName = s.SubRegionName }).ToList();
