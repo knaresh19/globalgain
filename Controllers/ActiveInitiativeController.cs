@@ -177,21 +177,21 @@ namespace GAIN.Controllers
             model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
 
             ViewData["mregions"] = db.mregions.ToList();
-            ViewData["brandname"] = db.mbrands.ToList();
+            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y").ToList();
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
             //ViewData["mcluster"] = db.mclusters.SqlQuery("SELECT * FROM mcluster where ClusterName != \'\'").ToList();
             ViewData["mcluster"] = db.mclusters.Where(c=>c.ClusterName != "").GroupBy(g=>g.ClusterName).Select(s=>new { ClusterName = s.Key}).ToList();
             ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office").GroupBy(g=>g.RegionalOffice_Name).Select(s=> new { RegionalOffice_Name = s.Key }).ToList();
             ViewData["CostControlSiteName"] = db.mcostcontrolsites.Where(c => c.CostControlSiteName != "").ToList();
             ViewData["CountryName"] = db.mcountries.Where(c => c.CountryName != "").ToList();
-            ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "").ToList();
+            ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "" && c.isActive == "Y").ToList();
             ViewData["LegalEntityName"] = db.mlegalentities.GroupBy(g=>g.LegalEntityName).Select(s=> new {LegalEntityName = s.Key}).ToList();
-            ViewData["SavingTypeName"] = db.msavingtypes.ToList();
-            ViewData["CostTypeName"] = db.mcosttypes.ToList();
-            ViewData["SubCostName"] = db.msubcosts.ToList();
-            ViewData["ActionTypeName"] = db.mactiontypes.ToList();
-            ViewData["SynImpactName"] = db.msynimpacts.ToList();
-            ViewData["Status"] = db.mstatus.ToList();
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(c => c.isActive == "Y").ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(c => c.isActive == "Y").ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(c => c.isActive == "Y").ToList();
+            ViewData["ActionTypeName"] = db.mactiontypes.Where(c=>c.isActive=="Y").ToList();
+            ViewData["SynImpactName"] = db.msynimpacts.Where(c => c.isActive == "Y").ToList();
+            ViewData["Status"] = db.mstatus.Where(c => c.isActive == "Y").ToList();
             ViewData["portName"] = db.mports.ToList();
             ViewData["SourceCategoryName"] = db.msourcecategories.ToList();
             return PartialView("_GrdMainInitiativePartial", model);
@@ -295,20 +295,20 @@ namespace GAIN.Controllers
             }
 
             ViewData["mregions"] = db.mregions.ToList();
-            ViewData["brandname"] = db.mbrands.ToList();
+            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y").ToList();
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
             ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
             ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office").GroupBy(g => g.RegionalOffice_Name).Select(s => new { RegionalOffice_Name = s.Key }).ToList();
             ViewData["CostControlSiteName"] = db.mcostcontrolsites.Where(c => c.CostControlSiteName != "").ToList();
             ViewData["CountryName"] = db.mcountries.Where(c => c.CountryName != "").ToList();
-            ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "").ToList();
+            ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "" && c.isActive == "Y").ToList();
             ViewData["LegalEntityName"] = db.mlegalentities.GroupBy(g => g.LegalEntityName).Select(s => new { LegalEntityName = s.Key }).ToList();
-            ViewData["SavingTypeName"] = db.msavingtypes.ToList();
-            ViewData["CostTypeName"] = db.mcosttypes.ToList();
-            ViewData["SubCostName"] = db.msubcosts.ToList();
-            ViewData["ActionTypeName"] = db.mactiontypes.ToList();
-            ViewData["SynImpactName"] = db.msynimpacts.ToList();
-            ViewData["Status"] = db.mstatus.ToList();
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(c => c.isActive == "Y").ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(c => c.isActive == "Y").ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(c => c.isActive == "Y").ToList();
+            ViewData["ActionTypeName"] = db.mactiontypes.Where(c => c.isActive == "Y").ToList();
+            ViewData["SynImpactName"] = db.msynimpacts.Where(c => c.isActive == "Y").ToList();
+            ViewData["Status"] = db.mstatus.Where(c => c.isActive == "Y").ToList();
             ViewData["portName"] = db.mports.ToList();
             ViewData["SourceCategoryName"] = db.msourcecategories.ToList();
             return PartialView("_GrdMainInitiativePartial", model2.ToList());
@@ -361,9 +361,9 @@ namespace GAIN.Controllers
             model = db.msubcountries.Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
 
             if (GetInfo.Id != 0)
-                model = db.msubcountries.Where(c => c.id == GetInfo.Id && !string.IsNullOrEmpty(c.SubCountryName)).Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                model = db.msubcountries.Where(c => c.id == GetInfo.Id && c.isActive == "Y" && !(string.IsNullOrEmpty(c.SubCountryName))).Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
             else
-                model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName)).Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName) && c.isActive == "Y").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
 
             List<GetDataFromSubCountry> GDSC = new List<GetDataFromSubCountry>();
             GDSC.Add(new GetDataFromSubCountry
@@ -576,31 +576,31 @@ namespace GAIN.Controllers
             long? SourceCategory = NewInitiative.SourceCategory;
             SourceCategory = (long?)(SourceCategory == 0 ? (long?)null : SourceCategory);
 
-            decimal targetjan = NewInitiative.targetjan;decimal targetjan2 = NewInitiative.targetjan2;
-            decimal targetfeb = NewInitiative.targetfeb;decimal targetfeb2 = NewInitiative.targetfeb2;
-            decimal targetmar = NewInitiative.targetmar;decimal targetmar2 = NewInitiative.targetmar2;
-            decimal targetapr = NewInitiative.targetapr;decimal targetapr2 = NewInitiative.targetapr2;
-            decimal targetmay = NewInitiative.targetmay;decimal targetmay2 = NewInitiative.targetmay2;
-            decimal targetjun = NewInitiative.targetjun;decimal targetjun2 = NewInitiative.targetjun2;
-            decimal targetjul = NewInitiative.targetjul;decimal targetjul2 = NewInitiative.targetjul2;
-            decimal targetaug = NewInitiative.targetaug;decimal targetaug2 = NewInitiative.targetaug2;
-            decimal targetsep = NewInitiative.targetsep;decimal targetsep2 = NewInitiative.targetsep2;
-            decimal targetoct = NewInitiative.targetoct;decimal targetoct2 = NewInitiative.targetoct2;
-            decimal targetnov = NewInitiative.targetnov;decimal targetnov2 = NewInitiative.targetnov2;
-            decimal targetdec = NewInitiative.targetdec;decimal targetdec2 = NewInitiative.targetdec2;
+            decimal? targetjan = NewInitiative.targetjan;decimal? targetjan2 = NewInitiative.targetjan2;
+            decimal? targetfeb = NewInitiative.targetfeb;decimal? targetfeb2 = NewInitiative.targetfeb2;
+            decimal? targetmar = NewInitiative.targetmar;decimal? targetmar2 = NewInitiative.targetmar2;
+            decimal? targetapr = NewInitiative.targetapr;decimal? targetapr2 = NewInitiative.targetapr2;
+            decimal? targetmay = NewInitiative.targetmay;decimal? targetmay2 = NewInitiative.targetmay2;
+            decimal? targetjun = NewInitiative.targetjun;decimal? targetjun2 = NewInitiative.targetjun2;
+            decimal? targetjul = NewInitiative.targetjul;decimal? targetjul2 = NewInitiative.targetjul2;
+            decimal? targetaug = NewInitiative.targetaug;decimal? targetaug2 = NewInitiative.targetaug2;
+            decimal? targetsep = NewInitiative.targetsep;decimal? targetsep2 = NewInitiative.targetsep2;
+            decimal? targetoct = NewInitiative.targetoct;decimal? targetoct2 = NewInitiative.targetoct2;
+            decimal? targetnov = NewInitiative.targetnov;decimal? targetnov2 = NewInitiative.targetnov2;
+            decimal? targetdec = NewInitiative.targetdec;decimal? targetdec2 = NewInitiative.targetdec2;
 
-            decimal savingjan = NewInitiative.savingjan;decimal savingjan2 = NewInitiative.savingjan2;
-            decimal savingfeb = NewInitiative.savingfeb;decimal savingfeb2 = NewInitiative.savingfeb2;
-            decimal savingmar = NewInitiative.savingmar;decimal savingmar2 = NewInitiative.savingmar2;
-            decimal savingapr = NewInitiative.savingapr;decimal savingapr2 = NewInitiative.savingapr2;
-            decimal savingmay = NewInitiative.savingmay;decimal savingmay2 = NewInitiative.savingmay2;
-            decimal savingjun = NewInitiative.savingjun;decimal savingjun2 = NewInitiative.savingjun2;
-            decimal savingjul = NewInitiative.savingjul;decimal savingjul2 = NewInitiative.savingjul2;
-            decimal savingaug = NewInitiative.savingaug;decimal savingaug2 = NewInitiative.savingaug2;
-            decimal savingsep = NewInitiative.savingsep;decimal savingsep2 = NewInitiative.savingsep2;
-            decimal savingoct = NewInitiative.savingoct;decimal savingoct2 = NewInitiative.savingoct2;
-            decimal savingnov = NewInitiative.savingnov;decimal savingnov2 = NewInitiative.savingnov2;
-            decimal savingdec = NewInitiative.savingdec;decimal savingdec2 = NewInitiative.savingdec2;
+            decimal? savingjan = NewInitiative.savingjan;decimal? savingjan2 = NewInitiative.savingjan2;
+            decimal? savingfeb = NewInitiative.savingfeb;decimal? savingfeb2 = NewInitiative.savingfeb2;
+            decimal? savingmar = NewInitiative.savingmar;decimal? savingmar2 = NewInitiative.savingmar2;
+            decimal? savingapr = NewInitiative.savingapr;decimal? savingapr2 = NewInitiative.savingapr2;
+            decimal? savingmay = NewInitiative.savingmay;decimal? savingmay2 = NewInitiative.savingmay2;
+            decimal? savingjun = NewInitiative.savingjun;decimal? savingjun2 = NewInitiative.savingjun2;
+            decimal? savingjul = NewInitiative.savingjul;decimal? savingjul2 = NewInitiative.savingjul2;
+            decimal? savingaug = NewInitiative.savingaug;decimal? savingaug2 = NewInitiative.savingaug2;
+            decimal? savingsep = NewInitiative.savingsep;decimal? savingsep2 = NewInitiative.savingsep2;
+            decimal? savingoct = NewInitiative.savingoct;decimal? savingoct2 = NewInitiative.savingoct2;
+            decimal? savingnov = NewInitiative.savingnov;decimal? savingnov2 = NewInitiative.savingnov2;
+            decimal? savingdec = NewInitiative.savingdec;decimal? savingdec2 = NewInitiative.savingdec2;
 
             if (FormStatus == "New")
             {

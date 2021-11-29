@@ -1182,7 +1182,6 @@
 
             WindowInitiative.Show();
         });
-
     });
 
     function OnInitiativeTypeChanged(s, e) {
@@ -1406,15 +1405,15 @@
                 txYTDTargetFullYear.SetValue(obj.YTDTarget);
                 txYTDSavingFullYear.SetValue(obj.YTDAchieved);
                 OnStartMonthChanged();
-                $(".targetjan").val(obj.TargetJan); $(".targetfeb").val(obj.TargetFeb); $(".targetmar").val(obj.TargetMar); $(".targetapr").val(obj.TargetApr); $(".targetmay").val(obj.TargetMay); $(".targetjun").val(obj.TargetJun);
-                $(".targetjul").val(obj.TargetJul); $(".targetaug").val(obj.TargetAug); $(".targetsep").val(obj.TargetSep); $(".targetoct").val(obj.TargetOct); $(".targetnov").val(obj.TargetNov); $(".targetdec").val(obj.TargetDec);
-                $(".savingjan").val(obj.AchJan); $(".savingfeb").val(obj.AchFeb); $(".savingmar").val(obj.AchMar); $(".savingapr").val(obj.AchApr); $(".savingmay").val(obj.AchMay); $(".savingjun").val(obj.AchJun);
-                $(".savingjul").val(obj.AchJul); $(".savingaug").val(obj.AchAug); $(".savingsep").val(obj.AchSep); $(".savingoct").val(obj.AchOct); $(".savingnov").val(obj.AchNov); $(".savingdec").val(obj.AchDec);
+                $(".targetjan").val(formatValue(obj.TargetJan)); $(".targetfeb").val(formatValue(obj.TargetFeb)); $(".targetmar").val(formatValue(obj.TargetMar)); $(".targetapr").val(formatValue(obj.TargetApr)); $(".targetmay").val(formatValue(obj.TargetMay)); $(".targetjun").val(formatValue(obj.TargetJun));
+                $(".targetjul").val(formatValue(obj.TargetJul)); $(".targetaug").val(formatValue(obj.TargetAug)); $(".targetsep").val(formatValue(obj.TargetSep)); $(".targetoct").val(formatValue(obj.TargetOct)); $(".targetnov").val(formatValue(obj.TargetNov)); $(".targetdec").val(formatValue(obj.TargetDec));
+                $(".savingjan").val(formatValue(obj.AchJan)); $(".savingfeb").val(formatValue(obj.AchFeb)); $(".savingmar").val(formatValue(obj.AchMar)); $(".savingapr").val(formatValue(obj.AchApr)); $(".savingmay").val(formatValue(obj.AchMay)); $(".savingjun").val(formatValue(obj.AchJun));
+                $(".savingjul").val(formatValue(obj.AchJul)); $(".savingaug").val(formatValue(obj.AchAug)); $(".savingsep").val(formatValue(obj.AchSep)); $(".savingoct").val(formatValue(obj.AchOct)); $(".savingnov").val(formatValue(obj.AchNov)); $(".savingdec").val(formatValue(obj.AchDec));
 
-                $(".targetjan2").val(obj.TargetNexJan); $(".targetfeb2").val(obj.TargetNexFeb); $(".targetmar2").val(obj.TargetNexMar); $(".targetapr2").val(obj.TargetNexApr); $(".targetmay2").val(obj.TargetNexMay); $(".targetjun2").val(obj.TargetNexJun);
-                $(".targetjul2").val(obj.TargetNexJul); $(".targetaug2").val(obj.TargetNexAug); $(".targetsep2").val(obj.TargetNexSep); $(".targetoct2").val(obj.TargetNexOct); $(".targetnov2").val(obj.TargetNexNov); $(".targetdec2").val(obj.TargetNexDec);
-                $(".savingjan2").val(obj.AchNexJan); $(".savingfeb2").val(obj.AchNexFeb); $(".savingmar2").val(obj.AchNexMar); $(".savingapr2").val(obj.AchNexApr); $(".savingmay2").val(obj.AchNexMay); $(".savingjun2").val(obj.AchNexJun);
-                $(".savingjul2").val(obj.AchNexJul); $(".savingaug2").val(obj.AchNexAug); $(".savingsep2").val(obj.AchNexSep); $(".savingoct2").val(obj.AchNexOct); $(".savingnov2").val(obj.AchNexNov); $(".savingdec2").val(obj.AchNexDec);
+                $(".targetjan2").val(formatValue(obj.TargetNexJan)); $(".targetfeb2").val(formatValue(obj.TargetNexFeb)); $(".targetmar2").val(formatValue(obj.TargetNexMar)); $(".targetapr2").val(formatValue(obj.TargetNexApr)); $(".targetmay2").val(formatValue(obj.TargetNexMay)); $(".targetjun2").val(formatValue(obj.TargetNexJun));
+                $(".targetjul2").val(formatValue(obj.TargetNexJul)); $(".targetaug2").val(formatValue(obj.TargetNexAug)); $(".targetsep2").val(formatValue(obj.TargetNexSep)); $(".targetoct2").val(formatValue(obj.TargetNexOct)); $(".targetnov2").val(formatValue(obj.TargetNexNov)); $(".targetdec2").val(formatValue(obj.TargetNexDec));
+                $(".savingjan2").val(formatValue(obj.AchNexJan)); $(".savingfeb2").val(formatValue(obj.AchNexFeb)); $(".savingmar2").val(formatValue(obj.AchNexMar)); $(".savingapr2").val(formatValue(obj.AchNexApr)); $(".savingmay2").val(formatValue(obj.AchNexMay)); $(".savingjun2").val(formatValue(obj.AchNexJun));
+                $(".savingjul2").val(formatValue(obj.AchNexJul)); $(".savingaug2").val(formatValue(obj.AchNexAug)); $(".savingsep2").val(formatValue(obj.AchNexSep)); $(".savingoct2").val(formatValue(obj.AchNexOct)); $(".savingnov2").val(formatValue(obj.AchNexNov)); $(".savingdec2").val(formatValue(obj.AchNexDec));
 
                 if (obj.InitStatus == 4) {
                     $(".txSaving").prop("disabled", true);
@@ -1458,6 +1457,12 @@
                     $("#btnSave").prop('disabled', 'disabled');
                 }
 
+                $("#TxAgency, #TxRPOCComment, #TxHOComment").prop("disabled", true);
+                if (uType == 1) $("#TxHOComment").prop("disabled", false);
+                if (uType == 2) $("#TxRPOCComment").prop("disabled", false);
+                if (uType == 3) $("#TxAgency").prop("disabled", false);
+
+                OnEndMonthChanged();
                 WindowInitiative.Show();
             }
         });
@@ -1837,6 +1842,38 @@
         EndMonth.SetMaxDate(dt);
     }
 
+    function OnEndMonthChanged()
+    {
+        var targetstartselected = false; var targetstartselected2 = true; var startmon;
+        const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
+        const savingty = new Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
+        startmon = ((moment(StartMonth.GetValue()).format("M")) - 1);
+        var months; var x = 0;
+        months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
+        months -= StartMonth.GetValue().getMonth();
+        months += EndMonth.GetValue().getMonth();
+        months++; // ngitung selisih bulan mulai dan bulan akhir initiative
+
+        for (var i = 0; i < targetty.length; i++) {
+            if (i >= startmon && x < months) {
+                targetstartselected = true;
+            } else {
+                targetstartselected = false;
+            }
+
+            if (targetstartselected == true) {
+                $("." + targetty[i]).prop('disabled', false);
+                $("." + savingty[i]).prop('disabled', false);
+                x++;
+            } else {
+                $("." + targetty[i]).val('');
+                $("." + savingty[i]).val('');
+                $("." + targetty[i]).prop('disabled', true);
+                $("." + savingty[i]).prop('disabled', true);
+            }
+        }
+    }
+
     function OnInitStatusChanged(s, e) {
         var id = s.GetText();
         var uType = '@profileData.UserType';
@@ -1869,6 +1906,13 @@
     function OnClickEditInitiative(s, e) {
         var idx = s.GetRowKey(e.visibleIndex);
         ShowEditWindow(idx);
+    }
+
+    function formatValue(n) {
+        if (n != null && n != "")
+            return parseFloat(n).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        else
+            return "";
     }
 
     $(function () {
