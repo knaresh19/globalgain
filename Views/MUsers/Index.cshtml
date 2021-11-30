@@ -1,8 +1,274 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutTable.cshtml";
+    Layout = "~/Views/Shared/_LayoutTable2.cshtml";
+
+
+    string jsonListCountry = "{}";
+    if (ViewData["LISTCOUNTRIES"] != null)
+    {
+
+        jsonListCountry = Newtonsoft.Json.JsonConvert.SerializeObject((List<SimpleModel>)ViewData["LISTCOUNTRIES"],
+            new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            }
+        );
+    }
+
+    string jsonListSubCountry = "{}";
+    if (ViewData["LISTSUBCOUNTRIES"] != null)
+    {
+
+        jsonListSubCountry = Newtonsoft.Json.JsonConvert.SerializeObject((List<string>)ViewData["LISTSUBCOUNTRIES"],
+            new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            }
+        );
+    }
+
+    string jsonListRegion = "{}";
+    if (ViewData["LISTREGIONS"] != null)
+    {
+
+        jsonListRegion = Newtonsoft.Json.JsonConvert.SerializeObject((List<SimpleModel>)ViewData["LISTREGIONS"],
+            new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            }
+        );
+    }
+
+    string jsonListSubRegion = "{}";
+    if (ViewData["LISTSUBREGIONS"] != null)
+    {
+
+        jsonListSubRegion = Newtonsoft.Json.JsonConvert.SerializeObject((List<SimpleModel2>)ViewData["LISTSUBREGIONS"],
+            new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            }
+        );
+    }
+
+    string jsonListBrand = "{}";
+    if (ViewData["LISTBRANDS"] != null)
+    {
+
+        jsonListBrand = Newtonsoft.Json.JsonConvert.SerializeObject((List<SimpleModel>)ViewData["LISTBRANDS"],
+            new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            }
+        );
+    }
+
+    string jsonListRegionOffice = "{}";
+    if (ViewData["LISTREGIONOFFICES"] != null)
+    {
+
+        jsonListRegionOffice = Newtonsoft.Json.JsonConvert.SerializeObject((List<RegionalOfficeDto>)ViewData["LISTREGIONOFFICES"],
+            new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            }
+        );
+    }
+
+    string jsonListCostControlSite = "{}";
+    if (ViewData["LISTCOSTCONTROLSITES"] != null)
+    {
+
+        jsonListCostControlSite = Newtonsoft.Json.JsonConvert.SerializeObject((List<string>)ViewData["LISTCOSTCONTROLSITES"],
+            new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            }
+        );
+    }
+
+    string jsonListCostItemType = "{}";
+    if (ViewData["LISTCOSTITEMTYPES"] != null)
+    {
+
+        jsonListCostItemType = Newtonsoft.Json.JsonConvert.SerializeObject((List<string>)ViewData["LISTCOSTITEMTYPES"],
+            new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            }
+        );
+    }
+
+    string jsonListSubCostItem = "{}";
+    if (ViewData["LISTSUBCOSTITEMS"] != null)
+    {
+
+        jsonListSubCostItem = Newtonsoft.Json.JsonConvert.SerializeObject((List<string>)ViewData["LISTSUBCOSTITEMS"],
+            new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            }
+        );
+    }
 }
+
+@*<script src="@Url.Content("~/Scripts/muser.js")" type="text/javascript"></script>*@
+<script>
+    @Html.Raw(String.Format("let jsListCountry = {0};", jsonListCountry))
+    @Html.Raw(String.Format("let jsListSubCountry = {0};", jsonListSubCountry))
+    @Html.Raw(String.Format("let jsListRegion = {0};", jsonListRegion))
+    @Html.Raw(String.Format("let jsListSubRegion = {0};", jsonListSubRegion))
+    @Html.Raw(String.Format("let jsListBrand = {0};", jsonListBrand))
+    @Html.Raw(String.Format("let jsListRegionOffice = {0};", jsonListRegionOffice))
+    @Html.Raw(String.Format("let jsListCostControlSite = {0};", jsonListCostControlSite))
+    @Html.Raw(String.Format("let jsListCostItemType = {0};", jsonListCostItemType))
+    @Html.Raw(String.Format("let jsListSubCostItem = {0};", jsonListSubCostItem))
+
+    const CheckIfContainAll = (val) => val != "ALL";
+
+    function onBeginCallback(s, e) {
+
+    }
+
+    function onBatchEditEndEditing(s, e) {
+
+    }
+    function onButtonUpdateClick(s, e) {
+        GrdMUsers.UpdateEdit();
+    }
+
+    function onButtonCancelClick(s, e) {
+        GrdMUsers.CancelEdit();
+    }
+
+    function onChangeToken(s, e) {
+        var selItems = s.GetValue();
+        if (selItems.length > 0) {
+            var arrItems = selItems.split(',');
+            var isContainAll = arrItems.every(val => {
+                console.log(val);
+                return (val != "ALL");
+            });
+
+            var isContainAll = arrItems.every(CheckIfContainAll);
+            if (!isContainAll) {
+                s.ClearTokenCollection();
+                s.SetValue("ALL");
+            }
+        }
+    }
+
+    function onGotFocusRegionOfficeRight(s, e) {
+        s.ClearItems();
+
+        var selCountries = country_right.GetValue();
+        var selSubCountries = subcountry_right.GetValue();
+        var selRegions = region_right.GetValue();
+        var selBrands = Brand_right.GetValue();
+
+        jsListRegionOffice.forEach((val, idx) => {
+            if (idx == 0)
+                s.AddItem(val.RegionalOffice_Name);
+            else {
+
+            }
+        });
+
+
+    }
+</script>
+
+
+<link rel="stylesheet" href="@Url.Content("~/assets/poin/css/main.css")">
+
+<style type="text/css">
+    .top_nav .navbar-right {
+        height: 40px;
+    }
+    .dxgvHeader_Aqua {
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 7px 6px;
+        border-top: 1px none orange;
+        border: 1px solid orange;
+        /*background: #4c5471 !important;*/
+        overflow: hidden;
+        font-weight: normal;
+        text-align: left;
+    }
+    .dxpLite_Aqua, .dxpLite_Aqua .dxp-summary, .dxpLite_Aqua .dxp-ellip, .dxgvControl_Aqua .dxpLite_Aqua .dxp-pageSizeItem {
+        color: floralwhite;
+    }
+    .dxpLite_Aqua .dxp-dropDownButton {
+        padding: 10px 6px 10px 6px;
+    }
+    .dxgvAdaptiveGroupPanel_Aqua, .dxgvGroupPanel_Aqua, .dxgvPagerBottomPanel_Aqua, .dxgvPagerTopPanel_Aqua {
+        color: floralwhite;
+        border-bottom: 1px Solid #A3C0E8;
+        background: #3D5294 url('@Url.Content("~/DXR.axd?r=0_5247-zbjzm")') repeat-x top;
+    }
+    .dxgvSelectedRow_Aqua, .dxgvFocusedRow_Aqua, .dxgvFocusedRow_Aqua a.dxeHyperlink_Aqua {
+        color: #dc3545;
+        background-color: blanchedalmond;
+    }
+    .dxIcon_actions_delete_16x16devav {
+        background-position: -252px -18px;
+    }
+    .dxIcon_actions_edit_16x16devav {
+        background-position: -306px -18px;
+    }
+    .dxIcon_support_info_16x16 {
+        background-position: 0px 0px;
+    }
+    .dxIcon_actions_edit_16x16devav, .dxIcon_actions_edit_16x16devav_disabled,
+    .dxIcon_support_info_16x16, .dxIcon_support_info_16x16devav, .dxIcon_support_info_16x16_disabled,
+    .dxIcon_actions_delete_16x16devav, .dxIcon_actions_delete_16x16devav, .dxIcon_actions_delete_16x16devav
+    {
+        background-image: url('@Url.Content("~/DXR.axd?r=0_14-NhGZl")');
+        background-repeat: no-repeat;
+        background-color: transparent;
+        width: 16px;
+        height: 16px;
+    }
+    .dxpcLite_Aqua .dxpc-mainDiv, .dxpcLite_Aqua.dxpc-mainDiv, .dxdpLite_Aqua .dxpc-mainDiv, .dxdpLite_Aqua.dxpc-mainDiv {
+        FONT-WEIGHT: 200;
+        top: 0;
+        left: 0;
+        background-color: rgb(236,236,236);
+    }
+    .dxpcLite_Aqua .dxpc-footer, .dxpcLite_Aqua .dxpc-header, .dxdpLite_Aqua .dxpc-header {
+        color: white;
+        background: #3D5294 url('@Url.Content("~/DXR.axd?r=0_5247-zbjzm")') repeat-x top;
+        border-top: 1px none #CCCCCC;
+        border-right: 1px solid #CCCCCC;
+        border-bottom: 1px solid #CCCCCC;
+        border-left: 1px solid #CCCCCC;
+    }
+    /*    .dxpLite_Aqua, .dxgvFilterRow_Aqua {
+        background: lightskyblue;
+    }*/
+    .dxpLite_Aqua.dxgvRBB.dxgvHHEC {
+        background-color: #C7EAFA;
+    }
+    .ComboCSS {
+        /*display: block;*/
+        width: 100%;
+        height: calc(1.5em + .75rem + 1px);
+        font-size: 11pt;
+        /*padding: .375rem .75rem;*/
+        /*font-size: 1rem;*/
+        /*font-weight: 400;*/
+        /*line-height: 1.5;*/
+        /*color: #495057;*/
+        /*background-color: #fff;*/
+        /*background-clip: padding-box;*/
+        /*border: 1px solid #ced4da;*/
+        /*border-radius: .25rem;*/
+        /*transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;*/
+    }
+</style>
+
+
 
 @Html.Partial("_ViewKebutuhanDevExpress")
 
@@ -11,11 +277,24 @@
 <div class="row" style="display: block;">
     <div class="col-md-12 col-sm-12  ">
         <div class="x_panel">
-            <div class="x_title">
-                <h2>Users List</h2>
-                <div class="clearfix"></div>
+            <div>
+                @using (Html.BeginForm("uploadprocess", "musers", FormMethod.Post, new { @class = "form-inline", @id = "form-upload-files-list-user", encType = "multipart/form-data", @style = "margin-bottom:15px;" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="col-sm-4 col-md-4 col-lg-4" width="200px;">
+                                <label for="files" class="control-label" style="font-weight:bold;margin-top: 7px;">Upload File Excel</label>
+                            </div>
+                            <div class="col-sm-8 col-md-8 col-lg-8">
+                                @Html.TextBox("file", null, new { @id = "input-file-exl", type = "file", name = "Files", @style = "padding: 6px 0;height:35px;", @class = "", accept = ".xls, .xlsx" })
+                            </div>
+                        </div>
+                    </div>
+                    <button type='button' class='btn btn-mn btn-primary btn-quirk mr5' style='margin: 0px;' onclick='submitFile();'>Upload</button>
+                }
             </div>
-            <div class="x_content">
+            <div class="x_content" id="box-main-grid" style="overflow:hidden;">
 
                 @using (Html.BeginForm())
                 {
@@ -25,4 +304,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        SetContainerHeight();
+        $("#menu_toggle").on('click', function () {
+            GrdMUsers.AdjustControl();
+        });
+    });
+
+    function SetContainerHeight() {
+        let h = window.innerHeight;
+        let selH = 175;
+        if (ASPxClientUtils.IsExists(GrdMUsers)) {
+            GrdMUsers.SetHeight(h - selH);
+        }
+    }
+
+    function submitFile() {
+        if ($('#input-file-exl').val() === "") {
+            alert("Please select file first!");
+        }
+        else {
+            $('#form-upload-files-list-user').submit();
+        }
+    }
+</script>
 
