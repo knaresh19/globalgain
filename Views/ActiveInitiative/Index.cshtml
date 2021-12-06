@@ -1124,6 +1124,13 @@
 <script type="text/javascript">
     $(function () {
         $("#BtnInitiative").on("click", function () {
+            var min_py = 0; var max_py = 0;
+            var py = '@profileData.ProjectYear';
+            min_py = (+py - 1);
+            max_py = (+py);
+            StartMonth.SetMinDate(new Date(min_py + '-01-01'));
+            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
+
             $.post('@Url.Content("~/ActiveInitiative/GrdSubCountryPartial")', { Id: null }, function (data) {
                 var obj; GrdSubCountryPopup.ClearItems();
                 $.each(data[0]["SubCountryData"], function (key, value) {
@@ -1181,6 +1188,7 @@
             }
 
             WindowInitiative.Show();
+            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
         });
     });
 
@@ -1311,6 +1319,13 @@
     }
 
     function ShowEditWindow(id) {
+        var min_py = 0; var max_py = 0;
+        var py = '@profileData.ProjectYear';
+        min_py = (+py - 1);
+        max_py = (+py);
+        StartMonth.SetMinDate(new Date(min_py + '-01-01'));
+        StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
+
         $("#FormStatus").val("Edit");
         $.post('@Url.Content("~/ActiveInitiative/GetInfoForPopUp")', {Id:id}, function (data) {
             var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); GrdSubCost.ClearItems();
@@ -1358,7 +1373,7 @@
         $.post('@Url.Content("~/ActiveInitiative/GetInfoById")', { Id: id }, function (data) {
             if (data != '') {
                 var obj = JSON.parse(data); var SubCountryID = obj.SubCountryID;
-                var uType = '@profileData.UserType';
+                var uType = '@profileData.UserType'; var projectYear = '@profileData.ProjectYear';
                 //console.log("ShowEditWindow->SubCountryID = " + obj.SubCountryID);
                 $("#FormID").val(obj.id);
                 $("#LblInitiative").text(obj.InitNumber);
@@ -1404,16 +1419,25 @@
                 txTargetFullYear.SetValue(obj.TargetNY);
                 txYTDTargetFullYear.SetValue(obj.YTDTarget);
                 txYTDSavingFullYear.SetValue(obj.YTDAchieved);
-                OnStartMonthChanged();
-                $(".targetjan").val(formatValue(obj.TargetJan)); $(".targetfeb").val(formatValue(obj.TargetFeb)); $(".targetmar").val(formatValue(obj.TargetMar)); $(".targetapr").val(formatValue(obj.TargetApr)); $(".targetmay").val(formatValue(obj.TargetMay)); $(".targetjun").val(formatValue(obj.TargetJun));
-                $(".targetjul").val(formatValue(obj.TargetJul)); $(".targetaug").val(formatValue(obj.TargetAug)); $(".targetsep").val(formatValue(obj.TargetSep)); $(".targetoct").val(formatValue(obj.TargetOct)); $(".targetnov").val(formatValue(obj.TargetNov)); $(".targetdec").val(formatValue(obj.TargetDec));
-                $(".savingjan").val(formatValue(obj.AchJan)); $(".savingfeb").val(formatValue(obj.AchFeb)); $(".savingmar").val(formatValue(obj.AchMar)); $(".savingapr").val(formatValue(obj.AchApr)); $(".savingmay").val(formatValue(obj.AchMay)); $(".savingjun").val(formatValue(obj.AchJun));
-                $(".savingjul").val(formatValue(obj.AchJul)); $(".savingaug").val(formatValue(obj.AchAug)); $(".savingsep").val(formatValue(obj.AchSep)); $(".savingoct").val(formatValue(obj.AchOct)); $(".savingnov").val(formatValue(obj.AchNov)); $(".savingdec").val(formatValue(obj.AchDec));
 
-                $(".targetjan2").val(formatValue(obj.TargetNexJan)); $(".targetfeb2").val(formatValue(obj.TargetNexFeb)); $(".targetmar2").val(formatValue(obj.TargetNexMar)); $(".targetapr2").val(formatValue(obj.TargetNexApr)); $(".targetmay2").val(formatValue(obj.TargetNexMay)); $(".targetjun2").val(formatValue(obj.TargetNexJun));
-                $(".targetjul2").val(formatValue(obj.TargetNexJul)); $(".targetaug2").val(formatValue(obj.TargetNexAug)); $(".targetsep2").val(formatValue(obj.TargetNexSep)); $(".targetoct2").val(formatValue(obj.TargetNexOct)); $(".targetnov2").val(formatValue(obj.TargetNexNov)); $(".targetdec2").val(formatValue(obj.TargetNexDec));
-                $(".savingjan2").val(formatValue(obj.AchNexJan)); $(".savingfeb2").val(formatValue(obj.AchNexFeb)); $(".savingmar2").val(formatValue(obj.AchNexMar)); $(".savingapr2").val(formatValue(obj.AchNexApr)); $(".savingmay2").val(formatValue(obj.AchNexMay)); $(".savingjun2").val(formatValue(obj.AchNexJun));
-                $(".savingjul2").val(formatValue(obj.AchNexJul)); $(".savingaug2").val(formatValue(obj.AchNexAug)); $(".savingsep2").val(formatValue(obj.AchNexSep)); $(".savingoct2").val(formatValue(obj.AchNexOct)); $(".savingnov2").val(formatValue(obj.AchNexNov)); $(".savingdec2").val(formatValue(obj.AchNexDec));
+                OnStartMonthChanged();
+
+                if ((new Date(obj.StartMonth).getFullYear()) < projectYear) {
+                    $(".targetjan").val(formatValue(obj.TargetNexJan)); $(".targetfeb").val(formatValue(obj.TargetNexFeb)); $(".targetmar").val(formatValue(obj.TargetNexMar)); $(".targetapr").val(formatValue(obj.TargetNexApr)); $(".targetmay").val(formatValue(obj.TargetNexMay)); $(".targetjun").val(formatValue(obj.TargetNexJun));
+                    $(".targetjul").val(formatValue(obj.TargetNexJul)); $(".targetaug").val(formatValue(obj.TargetNexAug)); $(".targetsep").val(formatValue(obj.TargetNexSep)); $(".targetoct").val(formatValue(obj.TargetNexOct)); $(".targetnov").val(formatValue(obj.TargetNexNov)); $(".targetdec").val(formatValue(obj.TargetNexDec));
+                    $(".savingjan").val(formatValue(obj.AchNexJan)); $(".savingfeb").val(formatValue(obj.AchNexFeb)); $(".savingmar").val(formatValue(obj.AchNexMar)); $(".savingapr").val(formatValue(obj.AchNexApr)); $(".savingmay").val(formatValue(obj.AchNexMay)); $(".savingjun").val(formatValue(obj.AchNexJun));
+                    $(".savingjul").val(formatValue(obj.AchNexJul)); $(".savingaug").val(formatValue(obj.AchNexAug)); $(".savingsep").val(formatValue(obj.AchNexSep)); $(".savingoct").val(formatValue(obj.AchNexOct)); $(".savingnov").val(formatValue(obj.AchNexNov)); $(".savingdec").val(formatValue(obj.AchNexDec));
+                } else {
+                    $(".targetjan").val(formatValue(obj.TargetJan)); $(".targetfeb").val(formatValue(obj.TargetFeb)); $(".targetmar").val(formatValue(obj.TargetMar)); $(".targetapr").val(formatValue(obj.TargetApr)); $(".targetmay").val(formatValue(obj.TargetMay)); $(".targetjun").val(formatValue(obj.TargetJun));
+                    $(".targetjul").val(formatValue(obj.TargetJul)); $(".targetaug").val(formatValue(obj.TargetAug)); $(".targetsep").val(formatValue(obj.TargetSep)); $(".targetoct").val(formatValue(obj.TargetOct)); $(".targetnov").val(formatValue(obj.TargetNov)); $(".targetdec").val(formatValue(obj.TargetDec));
+                    $(".savingjan").val(formatValue(obj.AchJan)); $(".savingfeb").val(formatValue(obj.AchFeb)); $(".savingmar").val(formatValue(obj.AchMar)); $(".savingapr").val(formatValue(obj.AchApr)); $(".savingmay").val(formatValue(obj.AchMay)); $(".savingjun").val(formatValue(obj.AchJun));
+                    $(".savingjul").val(formatValue(obj.AchJul)); $(".savingaug").val(formatValue(obj.AchAug)); $(".savingsep").val(formatValue(obj.AchSep)); $(".savingoct").val(formatValue(obj.AchOct)); $(".savingnov").val(formatValue(obj.AchNov)); $(".savingdec").val(formatValue(obj.AchDec));
+
+                    $(".targetjan2").val(formatValue(obj.TargetNexJan)); $(".targetfeb2").val(formatValue(obj.TargetNexFeb)); $(".targetmar2").val(formatValue(obj.TargetNexMar)); $(".targetapr2").val(formatValue(obj.TargetNexApr)); $(".targetmay2").val(formatValue(obj.TargetNexMay)); $(".targetjun2").val(formatValue(obj.TargetNexJun));
+                    $(".targetjul2").val(formatValue(obj.TargetNexJul)); $(".targetaug2").val(formatValue(obj.TargetNexAug)); $(".targetsep2").val(formatValue(obj.TargetNexSep)); $(".targetoct2").val(formatValue(obj.TargetNexOct)); $(".targetnov2").val(formatValue(obj.TargetNexNov)); $(".targetdec2").val(formatValue(obj.TargetNexDec));
+                    $(".savingjan2").val(formatValue(obj.AchNexJan)); $(".savingfeb2").val(formatValue(obj.AchNexFeb)); $(".savingmar2").val(formatValue(obj.AchNexMar)); $(".savingapr2").val(formatValue(obj.AchNexApr)); $(".savingmay2").val(formatValue(obj.AchNexMay)); $(".savingjun2").val(formatValue(obj.AchNexJun));
+                    $(".savingjul2").val(formatValue(obj.AchNexJul)); $(".savingaug2").val(formatValue(obj.AchNexAug)); $(".savingsep2").val(formatValue(obj.AchNexSep)); $(".savingoct2").val(formatValue(obj.AchNexOct)); $(".savingnov2").val(formatValue(obj.AchNexNov)); $(".savingdec2").val(formatValue(obj.AchNexDec));
+                }
 
                 if (obj.InitStatus == 4) {
                     $(".txSaving").prop("disabled", true);
@@ -1591,6 +1615,9 @@
         EndMonth.SetValue(null);
         LblRelatedInitiative.SetValue(null);
         CboWebinarCat.ClearItems();
+        $("input[name='StartMonth']").prop('disabled', false);
+        $("input[name='StartMonth']").prop('readonly', false);
+        StartMonth.clientEnabled = true;
         //GrdLegalEntity.SetText = '';
         $.post('@Url.Content("~/ActiveInitiative/RemoveSelectedGridLookup")', function (data) {
             console.log(data);
@@ -1844,35 +1871,76 @@
 
     function OnEndMonthChanged()
     {
-        var targetstartselected = false; var targetstartselected2 = true; var startmon;
-        const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
-        const savingty = new Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
-        startmon = ((moment(StartMonth.GetValue()).format("M")) - 1);
-        var months; var x = 0;
-        months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
-        months -= StartMonth.GetValue().getMonth();
-        months += EndMonth.GetValue().getMonth();
-        months++; // ngitung selisih bulan mulai dan bulan akhir initiative
+        var targetstartselected = false; var targetstartselected2 = true; var startmon; var projectYear = '@profileData.ProjectYear';
+        var targetty = new Array();var savingty = new Array();
+        if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
+            targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
+            savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
 
-        for (var i = 0; i < targetty.length; i++) {
-            if (i >= startmon && x < months) {
-                targetstartselected = true;
-            } else {
-                targetstartselected = false;
+            startmon = ((moment(StartMonth.GetValue()).format("M")) - 1);
+            var months; var x = 0;
+            months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
+            months -= StartMonth.GetValue().getMonth();
+            months += EndMonth.GetValue().getMonth();
+            months++; // ngitung selisih bulan mulai dan bulan akhir initiative
+
+            for (var i = 0; i <= targetty.length; i++) {
+                if (i >= startmon && x < months) {
+                    targetstartselected = true;
+                } else {
+                    targetstartselected = false;
+                }
+
+                if (targetstartselected == true) {
+                    $("." + targetty[i]).prop('disabled', false);
+                    $("." + savingty[i]).prop('disabled', false);
+                    x++;
+                } else {
+                    $("." + targetty[i]).val('');
+                    $("." + savingty[i]).val('');
+                    $("." + targetty[i]).prop('disabled', true);
+                    $("." + savingty[i]).prop('disabled', true);
+                }
+            }
+        } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
+            targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
+            savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
+
+            var endmonth = ((moment(EndMonth.GetValue()).format("M")) - 1);
+            for (var i = 0; i <= targetty.length; i++) {
+                if (i <= endmonth) {
+                    $("." + targetty[i]).prop('disabled', false);
+                    $("." + savingty[i]).prop('disabled', false);
+                } else {
+                    $("." + targetty[i]).val('');
+                    $("." + savingty[i]).val('');
+                    $("." + targetty[i]).prop('disabled', true);
+                    $("." + savingty[i]).prop('disabled', true);
+                }
             }
 
-            if (targetstartselected == true) {
-                $("." + targetty[i]).prop('disabled', false);
-                $("." + savingty[i]).prop('disabled', false);
-                x++;
-            } else {
-                $("." + targetty[i]).val('');
-                $("." + savingty[i]).val('');
-                $("." + targetty[i]).prop('disabled', true);
-                $("." + savingty[i]).prop('disabled', true);
+            $("input[name='StartMonth']").prop('disabled', true);
+            $("input[name='StartMonth']").prop('readonly', true);
+            StartMonth.clientEnabled = false;
+        } else if ((new Date(StartMonth.GetValue()).getFullYear()) > projectYear) {
+            targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
+            savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
+
+            var startmonth = ((moment(StartMonth.GetValue()).format("M")) - 1);
+            var endmonth = ((moment(EndMonth.GetValue()).format("M")));
+            for (var i = 0; i <= targetty.length; i++) {
+                if (i > (+startmonth + 11) && i <= (+endmonth + 11)) {
+                    $("." + targetty[i]).prop('disabled', false);
+                    $("." + savingty[i]).prop('disabled', false);
+                } else {
+                    $("." + targetty[i]).val('');
+                    $("." + savingty[i]).val('');
+                    $("." + targetty[i]).prop('disabled', true);
+                    $("." + savingty[i]).prop('disabled', true);
+                }
             }
         }
-    }
+    } 
 
     function OnInitStatusChanged(s, e) {
         var id = s.GetText();

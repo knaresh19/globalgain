@@ -84,7 +84,7 @@ namespace GAIN.Controllers
                 var brandtext = profileData.Brand_right.Replace("|", "','");
                 int lenbrand = brandtext.Length;
                 brandtext = "(" + brandtext.Substring(2, (lenbrand - 4)) + ")";
-                var brandid = db.mbrands.SqlQuery("select id,brandname from mbrand where brandname in " + brandtext + " group by id,brandname").ToList();
+                var brandid = db.mbrands.SqlQuery("select id,brandname,isActive from mbrand where brandname in " + brandtext + " group by id,brandname").ToList();
                 var brandcondition = "";
                 for (var i = 0; i < brandid.Count(); i++)
                 {
@@ -123,6 +123,7 @@ namespace GAIN.Controllers
             }
 
             var model = db.vwheaderinitiatives.ToList();
+
             if (profileData.UserType == 2)  //rpoc
             {
                 if (profileData.RegionID != "" && profileData.RegionID != "ALL")
@@ -194,6 +195,65 @@ namespace GAIN.Controllers
             ViewData["Status"] = db.mstatus.Where(c => c.isActive == "Y").ToList();
             ViewData["portName"] = db.mports.ToList();
             ViewData["SourceCategoryName"] = db.msourcecategories.ToList();
+
+            foreach(var item in model)
+            {
+                if ( Convert.ToDateTime(item.StartMonth).Year < profileData.ProjectYear)
+                {
+                    item.TargetJan = item.TargetNexJan;
+                    item.TargetFeb = item.TargetNexFeb;
+                    item.TargetMar = item.TargetNexMar;
+                    item.TargetApr = item.TargetNexApr;
+                    item.TargetMay = item.TargetNexMay;
+                    item.TargetJun = item.TargetNexJun;
+                    item.TargetJul = item.TargetNexJul;
+                    item.TargetAug = item.TargetNexAug;
+                    item.TargetSep = item.TargetNexSep;
+                    item.TargetOct = item.TargetNexOct;
+                    item.TargetNov = item.TargetNexNov;
+                    item.TargetDec = item.TargetNexDec;
+
+                    item.TargetNexJan = null;
+                    item.TargetNexFeb = null;
+                    item.TargetNexMar = null;
+                    item.TargetNexApr = null;
+                    item.TargetNexMay = null;
+                    item.TargetNexJun = null;
+                    item.TargetNexJul = null;
+                    item.TargetNexAug = null;
+                    item.TargetNexSep = null;
+                    item.TargetNexOct = null;
+                    item.TargetNexNov = null;
+                    item.TargetNexDec = null;
+
+                    item.AchJan = item.AchNexJan;
+                    item.AchFeb = item.AchNexFeb;
+                    item.AchMar = item.AchNexMar;
+                    item.AchApr = item.AchNexApr;
+                    item.AchMay = item.AchNexMay;
+                    item.AchJun = item.AchNexJun;
+                    item.AchJul = item.AchNexJul;
+                    item.AchAug = item.AchNexAug;
+                    item.AchSep = item.AchNexSep;
+                    item.AchOct = item.AchNexOct;
+                    item.AchNov = item.AchNexNov;
+                    item.AchDec = item.AchNexDec;
+
+                    item.AchNexJan = null;
+                    item.AchNexFeb = null;
+                    item.AchNexMar = null;
+                    item.AchNexApr = null;
+                    item.AchNexMay = null;
+                    item.AchNexJun = null;
+                    item.AchNexJul = null;
+                    item.AchNexAug = null;
+                    item.AchNexSep = null;
+                    item.AchNexOct = null;
+                    item.AchNexNov = null;
+                    item.AchNexDec = null;
+                }
+            }
+
             return PartialView("_GrdMainInitiativePartial", model);
         }
         public static void ConsoleLog(string message)
