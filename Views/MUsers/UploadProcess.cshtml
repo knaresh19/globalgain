@@ -1,0 +1,100 @@
+﻿@model UploadStatusExportXls
+@{
+    Layout = "~/Views/Shared/_LayoutTable2.cshtml";
+    string urlHomeUserAdmin = Url.Action("index", "musers");
+}
+<div class="panel">
+    <div class="panel-heading nopaddingbottom">
+        <h3 class="panel-title">Upload File Results</h3>
+        <p class="nomargin"></p>
+    </div>
+    <div class="panel-body" style="margin-top: 25px;">
+        @if (ViewData["EditSuccess"] != null)
+        {
+            <div class="alert alert-success" role="alert">@ViewData["EditSuccess"]</div>
+        }
+        @if (ViewData["EditError"] != null)
+        {
+            <div class="alert alert-danger" role="alert">@ViewData["EditError"]</div>
+        }
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group" style="float: right; padding-right: 12px;">
+                    <button type="button" class="btn btn-large btn-warning" style="min-width:125px;" onclick="window.location.href='@urlHomeUserAdmin'">Back To Admin User</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+        <div class="row">
+            <table class="table table-striped">
+                <caption>&nbsp;</caption>
+                <thead>
+                    <tr>
+                        <th style="width:75px;">#Row</th>
+                        <th style="width:200px;">User Name</th>
+                        <th style="width:200px;">Firstname</th>
+                        <th style="width:125px;">Status</th>
+                        <th>Error Messages</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (ExportUserPerRowStatus m in Model.row_status)
+                        {
+                            string rowCls = "success";
+                            if (m.status == "NOK")
+                            {
+                                rowCls = "danger";
+                            }
+                            <tr class="@rowCls">
+                                <th>@m.row</th>
+                                <td>@m.user.username</td>
+                                <td>@m.user.USER_FIRST_NAME</td>
+                                <td>
+                                    @if (m.status == "OK")
+                                    {
+                                        Html.ViewContext.Writer.WriteLine("SUCCESS");
+                                    }
+                                    else if (m.status == "EXIST")
+                                    {
+                                        Html.ViewContext.Writer.WriteLine("USER EXIST");
+                                    }
+                                    else
+                                    {
+                                        Html.ViewContext.Writer.WriteLine("FAIL");
+                                    }
+
+                            </td>
+                            <td>
+                                @if (m.status == "NOK" || m.status == "EXIST")
+                                {
+                                    if (m.error_message.Count > 0)
+                                    {
+                                        <ul>
+                                            @foreach (string err in m.error_message)
+                                            {
+                                                <li>
+                                                    @{
+                                                        Html.ViewContext.Writer.WriteLine(err);
+                                                    }
+                                                </li>
+                                            }
+                                        </ul>
+
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
