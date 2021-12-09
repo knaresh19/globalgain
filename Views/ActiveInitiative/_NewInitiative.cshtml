@@ -51,8 +51,8 @@
                             settings.Name = "GrdSubCountryPopup";
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdSubCountryPopup";
-    //settings.ClientEnabled = false;
-    settings.Width = 190;
+                                        //settings.ClientEnabled = false;
+                                        settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCountryPopupChanged";
                         }).GetHtml();
                     }
@@ -67,8 +67,8 @@
                             settings.Name = "GrdBrandPopup";
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdBrandPopup";
-    //settings.ClientEnabled = false;
-    settings.Width = 190;
+                                        //settings.ClientEnabled = false;
+                                        settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnBrandPopupChanged";
                         }).GetHtml();
                     }
@@ -83,8 +83,8 @@
                             settings.Name = "GrdLegalEntityPopup";
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdLegalEntityPopup";
-    //settings.ClientEnabled = false;
-    settings.Width = 190;
+                                        //settings.ClientEnabled = false;
+                                        settings.Width = 190;
                         }).GetHtml();
                     }
                     @*@Html.Action("GrdLegalEntityPartial")*@
@@ -166,8 +166,8 @@
                             settings.Name = "GrdInitStatus";
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdInitStatus";
-    //settings.ClientEnabled = false;
-    settings.Width = 190;
+                                        //settings.ClientEnabled = false;
+                                        settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnInitStatusChanged";
                         }).GetHtml();
                     }
@@ -192,10 +192,10 @@
                             settings.Name = "TxPortName";
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "TxPortName";
-    //settings.ClientEnabled = false;
-    settings.Width = 190;
-    //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnGrdInitTypeChanged";
-}).GetHtml();
+                                        //settings.ClientEnabled = false;
+                                        settings.Width = 190;
+                                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnGrdInitTypeChanged";
+                                    }).GetHtml();
                     }
                     @*<input class="inputan-popup" disabled="disabled" type="text" id="TxPortName" style="font-size: 8pt;" />*@
                     @*@Html.DevExpress().TextBox(settings =>
@@ -245,8 +245,8 @@
                             settings.Name = "GrdInitType";
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdInitType";
-    //settings.ClientEnabled = false;
-    settings.Width = 190;
+                                        //settings.ClientEnabled = false;
+                                        settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnGrdInitTypeChanged";
                         }).GetHtml();
                     }
@@ -261,8 +261,8 @@
                             settings.Name = "GrdInitCategory";
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(380);
                             settings.Properties.ClientInstanceName = "GrdInitCategory";
-    //settings.ClientEnabled = false;
-    settings.Width = 380;
+                                        //settings.ClientEnabled = false;
+                                        settings.Width = 380;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnGrdInitCategoryPopupChanged";
                         }).GetHtml();
                     }
@@ -278,8 +278,8 @@
                             settings.Name = "GrdSubCost";
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdSubCost";
-    //settings.ClientEnabled = false;
-    settings.Width = 380;
+                                        //settings.ClientEnabled = false;
+                                        settings.Width = 380;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCostPopupChanged";
                         }).GetHtml();
                     }
@@ -295,10 +295,10 @@
                             settings.Name = "GrdActionType";
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdActionType";
-    //settings.ClientEnabled = false;
-    settings.Width = 190;
-    //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCountryPopupChanged";
-}).GetHtml();
+                                        //settings.ClientEnabled = false;
+                                        settings.Width = 190;
+                                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCountryPopupChanged";
+                                    }).GetHtml();
                     }
                     @*<input class="inputan-popup" type="text" id="GrdActionType" disabled="disabled" style="font-size: 8pt;" />*@
                     @*@Html.Action("GrdActionTypePartial")*@
@@ -312,10 +312,10 @@
                             settings.Name = "GrdSynImpact";
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdSynImpact";
-    //settings.ClientEnabled = false;
-    settings.Width = 190;
-    //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCountryPopupChanged";
-}).GetHtml();
+                                        //settings.ClientEnabled = false;
+                                        settings.Width = 190;
+                                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCountryPopupChanged";
+                                    }).GetHtml();
                     }
                     @*@Html.Action("GrdSynImpactPartial")*@
                 </div>
@@ -641,11 +641,209 @@
             nama = this.name;
             if (nama.indexOf("2") < 1) {
                 if (this.value.length != 0) {
-                    sum += parseFloat(this.value.replace(",", ""));
+                    sum += parseFloat(this.value.replaceAll(",", ""));
                 }
             }
         });
         return sum.toFixed(2);
+    }
+
+    function SaveInitiative() {
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Save'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var xFormStatus = $("#FormStatus").val();
+                var xFormID = $("#FormID").val();
+                var xGrdSubCountry = GrdSubCountryPopup.GetValue();
+                var xGrdBrand = GrdBrandPopup.GetValue();
+                var xGrdLegalEntity = GrdLegalEntityPopup.GetValue();
+                var xGrdCountry = $("#GrdCountryVal").val();
+                var xGrdRegional = $("#GrdRegionalVal").val();
+                var xGrdSubRegion = $("#GrdSubRegionVal").val();
+                var xGrdCluster = $("#GrdClusterVal").val();
+                var xGrdRegionalOffice = $("#GrdRegionalOfficeVal").val();
+                var xGrdCostControl = $("#GrdCostControlVal").val();
+                var xCboConfidential = CboConfidential.GetValue();
+                var xTxResponsibleName = $("#TxResponsibleName").val();
+                var xTxDesc = $("#TxDesc").val();
+                var xGrdInitStatus = GrdInitStatus.GetValue();
+                var xTxLaraCode = $("#TxLaraCode").val();
+                var xTxPortName = (TxPortName.GetValue() == 0 ? 1 : TxPortName.GetValue());
+                var xTxVendorSupp = $("#TxVendorSupp").val();
+                var xTxAdditionalInfo = $("#TxAdditionalInfo").val();
+                var xGrdInitType = GrdInitType.GetValue();
+                var xGrdInitCategory = GrdInitCategory.GetValue();
+                var xGrdSubCost = GrdSubCost.GetValue();
+                var xGrdActionType = GrdActionType.GetValue();
+                var xGrdSynImpact = GrdSynImpact.GetValue();
+                var xStartMonth = StartMonth.GetValue();
+                if (xStartMonth != null) xStartMonth = xStartMonth.format("Y-m-d");
+                var xEndMonth = EndMonth.GetValue();
+                if (xEndMonth != null) xEndMonth = xEndMonth.format("Y-m-d");
+                var xTxAgency = $("#TxAgency").val();
+                var xTxRPOCComment = $("#TxRPOCComment").val();
+                var xTxHOComment = $("#TxHOComment").val();
+                var xCboHoValidity = CboHoValidity.GetValue();
+                var xCboRPOCValidity = CboRPOCValidity.GetValue();
+                var xTxTarget12 = txTarget12.GetValue();
+                var xTxTargetFullYear = txTargetFullYear.GetValue();
+                var xTxYTDTargetFullYear = txYTDTargetFullYear.GetValue();
+                var xTxYTDSavingFullYear = txYTDSavingFullYear.GetValue();
+                var xProjectYear = CboYear.GetText();
+                var xRelatedInitiative = LblRelatedInitiative.GetValue();
+                var xCboWebinarCat = CboWebinarCat.GetValue();
+                var projectYear = '@profileData.ProjectYear';
+
+                if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
+                    // gak usah disimpen year yang sebelumnya
+                    var targetjan2 = $(".targetjan").val().replaceAll(",", ""); var targetfeb2 = $(".targetfeb").val().replaceAll(",", ""); var targetmar2 = $(".targetmar").val().replaceAll(",", ""); var targetapr2 = $(".targetapr").val().replaceAll(",", ""); var targetmay2 = $(".targetmay").val().replaceAll(",", "");
+                    var targetjun2 = $(".targetjun").val().replaceAll(",", ""); var targetjul2 = $(".targetjul").val().replaceAll(",", ""); var targetaug2 = $(".targetaug").val().replaceAll(",", ""); var targetsep2 = $(".targetsep").val().replaceAll(",", ""); var targetoct2 = $(".targetoct").val().replaceAll(",", "");
+                    var targetnov2 = $(".targetnov").val().replaceAll(",", ""); var targetdec2 = $(".targetdec").val().replaceAll(",", "");
+
+                    var savingjan2 = $(".savingjan").val().replaceAll(",", ""); var savingfeb2 = $(".savingfeb").val().replaceAll(",", ""); var savingmar2 = $(".savingmar").val().replaceAll(",", ""); var savingapr2 = $(".savingapr").val().replaceAll(",", ""); var savingmay2 = $(".savingmay").val().replaceAll(",", "");
+                    var savingjun2 = $(".savingjun").val().replaceAll(",", ""); var savingjul2 = $(".savingjul").val().replaceAll(",", ""); var savingaug2 = $(".savingaug").val().replaceAll(",", ""); var savingsep2 = $(".savingsep").val().replaceAll(",", ""); var savingoct2 = $(".savingoct").val().replaceAll(",", "");
+                    var savingnov2 = $(".savingnov").val().replaceAll(",", ""); var savingdec2 = $(".savingdec").val().replaceAll(",", "");
+                } else {
+                    var targetjan = $(".targetjan").val().replaceAll(",", ""); var targetfeb = $(".targetfeb").val().replaceAll(",", ""); var targetmar = $(".targetmar").val().replaceAll(",", ""); var targetapr = $(".targetapr").val().replaceAll(",", ""); var targetmay = $(".targetmay").val().replaceAll(",", "");
+                    var targetjun = $(".targetjun").val().replaceAll(",", ""); var targetjul = $(".targetjul").val().replaceAll(",", ""); var targetaug = $(".targetaug").val().replaceAll(",", ""); var targetsep = $(".targetsep").val().replaceAll(",", ""); var targetoct = $(".targetoct").val().replaceAll(",", "");
+                    var targetnov = $(".targetnov").val().replaceAll(",", ""); var targetdec = $(".targetdec").val().replaceAll(",", "");
+                    var targetjan2 = $(".targetjan2").val().replaceAll(",", ""); var targetfeb2 = $(".targetfeb2").val().replaceAll(",", ""); var targetmar2 = $(".targetmar2").val().replaceAll(",", ""); var targetapr2 = $(".targetapr2").val().replaceAll(",", ""); var targetmay2 = $(".targetmay2").val().replaceAll(",", "");
+                    var targetjun2 = $(".targetjun2").val().replaceAll(",", ""); var targetjul2 = $(".targetjul2").val().replaceAll(",", ""); var targetaug2 = $(".targetaug2").val().replaceAll(",", ""); var targetsep2 = $(".targetsep2").val().replaceAll(",", ""); var targetoct2 = $(".targetoct2").val().replaceAll(",", "");
+                    var targetnov2 = $(".targetnov2").val().replaceAll(",", ""); var targetdec2 = $(".targetdec2").val().replaceAll(",", "");
+
+                    var savingjan = $(".savingjan").val().replaceAll(",", ""); var savingfeb = $(".savingfeb").val().replaceAll(",", ""); var savingmar = $(".savingmar").val().replaceAll(",", ""); var savingapr = $(".savingapr").val().replaceAll(",", ""); var savingmay = $(".savingmay").val().replaceAll(",", "");
+                    var savingjun = $(".savingjun").val().replaceAll(",", ""); var savingjul = $(".savingjul").val().replaceAll(",", ""); var savingaug = $(".savingaug").val().replaceAll(",", ""); var savingsep = $(".savingsep").val().replaceAll(",", ""); var savingoct = $(".savingoct").val().replaceAll(",", "");
+                    var savingnov = $(".savingnov").val().replaceAll(",", ""); var savingdec = $(".savingdec").val().replaceAll(",", "");
+                    var savingjan2 = $(".savingjan2").val().replaceAll(",", ""); var savingfeb2 = $(".savingfeb2").val().replaceAll(",", ""); var savingmar2 = $(".savingmar2").val().replaceAll(",", ""); var savingapr2 = $(".savingapr2").val().replaceAll(",", ""); var savingmay2 = $(".savingmay2").val().replaceAll(",", "");
+                    var savingjun2 = $(".savingjun2").val().replaceAll(",", ""); var savingjul2 = $(".savingjul2").val().replaceAll(",", ""); var savingaug2 = $(".savingaug2").val().replaceAll(",", ""); var savingsep2 = $(".savingsep2").val().replaceAll(",", ""); var savingoct2 = $(".savingoct2").val().replaceAll(",", "");
+                    var savingnov2 = $(".savingnov2").val().replaceAll(",", ""); var savingdec2 = $(".savingdec2").val().replaceAll(",", "");
+                }
+
+                //alert(xGrdSubCountry + " " + xGrdBrand + " " + xGrdLegalEntity + " " + xGrdCountry + " " + xGrdRegional + " " + xGrdSubRegion + " " + xGrdCluster + " " + xGrdRegionalOffice + " " + xGrdCostControl + " " + xCboConfidential + " " + xGrdInitStatus + " " + xGrdInitType + " " + xGrdInitCategory + " " + xGrdSubCost + " " + xGrdActionType + " " + xGrdSynImpact + " " + xStartMonth + " " + xEndMonth);
+
+                if (
+                    xGrdSubCountry != null && xGrdBrand != null && xGrdLegalEntity != null && xGrdCountry != null && xGrdRegional != null &&
+                    xGrdSubRegion != null && xGrdCluster != null && xGrdRegionalOffice != null && xGrdCostControl != null && xCboConfidential != null &&
+                    xGrdInitStatus > 0 && xGrdInitType > 0 && xGrdInitCategory > 0 && xGrdSubCost > 0 && xGrdActionType > 0 &&
+                    xGrdSynImpact > 0 && xStartMonth != null && xEndMonth != null
+                ) {
+                    var sum = 0; var x2 = 0;
+                    $(".txTarget").each(function () {
+                        if (isNaN(parseFloat($(this).val())))
+                            sum += 0;
+                        else
+                            sum += parseFloat($(this).val().replaceAll(",", ""));
+                    });
+
+                    if ((new Date(xStartMonth).getFullYear()) == projectYear) {
+                        var a = (parseFloat(txTargetFullYear.GetValue()).toFixed(0));
+                        var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
+                        if ((+a > +b) || (sum.toFixed(0) != (+b))) {
+                            Swal.fire(
+                                'Target 12 Months Less Than Total Target Field',
+                                'Target This Year Cannot Greater Than Target 12 Months and Target 12 Months Cannot Less Than Total Monthly Target Field',
+                                'error'
+                            );
+                            return;
+                        }
+                    } else if ((new Date(xStartMonth).getFullYear()) < projectYear) {
+                        var x1 = StartMonth.GetValue().getMonth();
+                        x2 = ((12 - x1) * targetjan2);
+                        var a = (parseFloat(txTargetFullYear.GetValue()).toFixed(0));
+                        var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
+
+                        if ((+a > +b) || ((x2 + sum).toFixed(0) != (+b))) {
+                            Swal.fire(
+                                'Target 12 Months Less Than Total Target Field',
+                                'Target This Year Cannot Greater Than Target 12 Months and Target 12 Months Cannot Less Than Total Monthly Target Field',
+                                'error'
+                            );
+                            return;
+                        }
+                    }
+
+                    var sumtarget = 0;
+                    if ((new Date(xStartMonth).getFullYear()) == projectYear) {
+                        var sum = 0;
+                        sumtarget = calculateSum();
+                    } else if ((new Date(xStartMonth).getFullYear()) < projectYear) {
+                        sumtarget = sum;
+                        //sumtarget = (((12 - (StartMonth.GetValue().getMonth())) * targetjan2) + sum);
+                    }
+
+                    if (Number(xTxTargetFullYear).toFixed(0) == Number(sumtarget).toFixed(0)) {
+                        $.post("@Url.Content("~/ActiveInitiative/SaveNew")", {
+                            FormID: xFormID,
+                            FormStatus: xFormStatus,
+                            GrdSubCountry: xGrdSubCountry,
+                            GrdBrand: xGrdBrand,
+                            GrdLegalEntity: xGrdLegalEntity,
+                            GrdCountry: xGrdCountry,
+                            GrdRegional: xGrdRegional,
+                            GrdSubRegion: xGrdSubRegion,
+                            GrdCluster: xGrdCluster,
+                            GrdRegionalOffice: xGrdRegionalOffice,
+                            GrdCostControl: xGrdCostControl,
+                            CboConfidential: xCboConfidential,
+                            TxResponsibleName: xTxResponsibleName,
+                            TxDesc: xTxDesc,
+                            GrdInitStatus: xGrdInitStatus,
+                            TxLaraCode: xTxLaraCode,
+                            TxPortName: xTxPortName,
+                            TxVendorSupp: xTxVendorSupp,
+                            TxAdditionalInfo: xTxAdditionalInfo,
+                            GrdInitType: xGrdInitType,
+                            GrdInitCategory: xGrdInitCategory,
+                            GrdSubCost: xGrdSubCost,
+                            GrdActionType: xGrdActionType,
+                            GrdSynImpact: xGrdSynImpact,
+                            StartMonth: xStartMonth,
+                            EndMonth: xEndMonth,
+                            TxAgency: xTxAgency,
+                            TxRPOCComment: xTxRPOCComment,
+                            TxHOComment: xTxHOComment,
+                            CboHoValidity: xCboHoValidity,
+                            CboRPOCValidity: xCboRPOCValidity,
+                            TxTarget12: xTxTarget12,
+                            TxTargetFullYear: xTxTargetFullYear,
+                            TxYTDTargetFullYear: xTxYTDTargetFullYear,
+                            TxYTDSavingFullYear: xTxYTDSavingFullYear,
+                            ProjectYear: xProjectYear,
+                            RelatedInitiative: xRelatedInitiative,
+                            SourceCategory: xCboWebinarCat,
+                            targetjan: targetjan, targetfeb: targetfeb, targetmar: targetmar, targetapr: targetapr, targetmay: targetmay, targetjun: targetjun, targetjul: targetjul, targetaug: targetaug, targetsep: targetsep, targetoct: targetoct, targetnov: targetnov, targetdec: targetdec,
+                            targetjan2: targetjan2, targetfeb2: targetfeb2, targetmar2: targetmar2, targetapr2: targetapr2, targetmay2: targetmay2, targetjun2: targetjun2, targetjul2: targetjul2, targetaug2: targetaug2, targetsep2: targetsep2, targetoct2: targetoct2, targetnov2: targetnov2, targetdec2: targetdec2,
+                            savingjan: savingjan, savingfeb: savingfeb, savingmar: savingmar, savingapr: savingapr, savingmay: savingmay, savingjun: savingjun, savingjul: savingjul, savingaug: savingaug, savingsep: savingsep, savingoct: savingoct, savingnov: savingnov, savingdec: savingdec,
+                            savingjan2: savingjan2, savingfeb2: savingfeb2, savingmar2: savingmar2, savingapr2: savingapr2, savingmay2: savingmay2, savingjun2: savingjun2, savingjul2: savingjul2, savingaug2: savingaug2, savingsep2: savingsep2, savingoct2: savingoct2, savingnov2: savingnov2, savingdec2: savingdec2
+                        }, function (data) {
+                            if (data.substring(0, 5) == "saved") {
+                                if (xFormStatus == "New") $("#initsukses").html("New Initiative Number: " + data.substring(6, data.length)); else $("#initsukses").html("Initiative successfully saved!");
+                                $("#btnEdit").click(); $("#btnClose").click();
+                                WindowInitiative.Hide();
+                                WindowOkSaved.Show();
+                            }
+                        });
+                    } else {
+                        Swal.fire(
+                            'Value is not match',
+                            'Target year (USD) is not match with Monthly Target',
+                            'error'
+                        );
+                    }
+                }
+                else {
+                    Swal.fire(
+                        'Mandatory field cannot blank',
+                        'You must enter all mandatory field which marked as <font color="red">red asterisk</font>',
+                        'error'
+                    );
+                }
+            }
+        });
     }
 
     $(function () {
@@ -658,204 +856,19 @@
         });
 
         $("#btnSave").on('click', function () {
-            Swal.fire({
+            var projectYear = '@profileData.ProjectYear';
+            if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
+                Swal.fire({
                     title: 'Initiative of Previous Year',
                     text: 'This initiative is a previous year initiative. Total sum of month target for current year and next year will not match the initial target 12 months.',
                     icon: 'warning',
                     showCancelButton: false
-            }).then((result) => {
-                Swal.fire({
-                    title: 'Do you want to save the changes?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Save'
                 }).then((result) => {
-                    if (result.isConfirmed) {
-                        var xFormStatus = $("#FormStatus").val();
-                        var xFormID = $("#FormID").val();
-                        var xGrdSubCountry = GrdSubCountryPopup.GetValue();
-                        var xGrdBrand = GrdBrandPopup.GetValue();
-                        var xGrdLegalEntity = GrdLegalEntityPopup.GetValue();
-                        var xGrdCountry = $("#GrdCountryVal").val();
-                        var xGrdRegional = $("#GrdRegionalVal").val();
-                        var xGrdSubRegion = $("#GrdSubRegionVal").val();
-                        var xGrdCluster = $("#GrdClusterVal").val();
-                        var xGrdRegionalOffice = $("#GrdRegionalOfficeVal").val();
-                        var xGrdCostControl = $("#GrdCostControlVal").val();
-                        var xCboConfidential = CboConfidential.GetValue();
-                        var xTxResponsibleName = $("#TxResponsibleName").val();
-                        var xTxDesc = $("#TxDesc").val();
-                        var xGrdInitStatus = GrdInitStatus.GetValue();
-                        var xTxLaraCode = $("#TxLaraCode").val();
-                        var xTxPortName = (TxPortName.GetValue() == 0 ? 1 : TxPortName.GetValue());
-                        var xTxVendorSupp = $("#TxVendorSupp").val();
-                        var xTxAdditionalInfo = $("#TxAdditionalInfo").val();
-                        var xGrdInitType = GrdInitType.GetValue();
-                        var xGrdInitCategory = GrdInitCategory.GetValue();
-                        var xGrdSubCost = GrdSubCost.GetValue();
-                        var xGrdActionType = GrdActionType.GetValue();
-                        var xGrdSynImpact = GrdSynImpact.GetValue();
-                        var xStartMonth = StartMonth.GetValue();
-                        if (xStartMonth != null) xStartMonth = xStartMonth.format("Y-m-d");
-                        var xEndMonth = EndMonth.GetValue();
-                        if (xEndMonth != null) xEndMonth = xEndMonth.format("Y-m-d");
-                        var xTxAgency = $("#TxAgency").val();
-                        var xTxRPOCComment = $("#TxRPOCComment").val();
-                        var xTxHOComment = $("#TxHOComment").val();
-                        var xCboHoValidity = CboHoValidity.GetValue();
-                        var xCboRPOCValidity = CboRPOCValidity.GetValue();
-                        var xTxTarget12 = txTarget12.GetValue();
-                        var xTxTargetFullYear = txTargetFullYear.GetValue();
-                        var xTxYTDTargetFullYear = txYTDTargetFullYear.GetValue();
-                        var xTxYTDSavingFullYear = txYTDSavingFullYear.GetValue();
-                        var xProjectYear = CboYear.GetText();
-                        var xRelatedInitiative = LblRelatedInitiative.GetValue();
-                        var xCboWebinarCat = CboWebinarCat.GetValue();
-                        var projectYear = '@profileData.ProjectYear';
-
-                        if ((new Date(xStartMonth).getFullYear()) < projectYear) {
-                            // gak usah disimpen year yang sebelumnya
-                            var targetjan2 = $(".targetjan").val().replace(",", ""); var targetfeb2 = $(".targetfeb").val().replace(",", ""); var targetmar2 = $(".targetmar").val().replace(",", ""); var targetapr2 = $(".targetapr").val().replace(",", ""); var targetmay2 = $(".targetmay").val().replace(",", "");
-                            var targetjun2 = $(".targetjun").val().replace(",", ""); var targetjul2 = $(".targetjul").val().replace(",", ""); var targetaug2 = $(".targetaug").val().replace(",", ""); var targetsep2 = $(".targetsep").val().replace(",", ""); var targetoct2 = $(".targetoct").val().replace(",", "");
-                            var targetnov2 = $(".targetnov").val().replace(",", ""); var targetdec2 = $(".targetdec").val().replace(",", "");
-
-                            var savingjan2 = $(".savingjan").val().replace(",", ""); var savingfeb2 = $(".savingfeb").val().replace(",", ""); var savingmar2 = $(".savingmar").val().replace(",", ""); var savingapr2 = $(".savingapr").val().replace(",", ""); var savingmay2 = $(".savingmay").val().replace(",", "");
-                            var savingjun2 = $(".savingjun").val().replace(",", ""); var savingjul2 = $(".savingjul").val().replace(",", ""); var savingaug2 = $(".savingaug").val().replace(",", ""); var savingsep2 = $(".savingsep").val().replace(",", ""); var savingoct2 = $(".savingoct").val().replace(",", "");
-                            var savingnov2 = $(".savingnov").val().replace(",", ""); var savingdec2 = $(".savingdec").val().replace(",", "");
-                        } else {
-                            var targetjan = $(".targetjan").val().replace(",", ""); var targetfeb = $(".targetfeb").val().replace(",", ""); var targetmar = $(".targetmar").val().replace(",", ""); var targetapr = $(".targetapr").val().replace(",", ""); var targetmay = $(".targetmay").val().replace(",", "");
-                            var targetjun = $(".targetjun").val().replace(",", ""); var targetjul = $(".targetjul").val().replace(",", ""); var targetaug = $(".targetaug").val().replace(",", ""); var targetsep = $(".targetsep").val().replace(",", ""); var targetoct = $(".targetoct").val().replace(",", "");
-                            var targetnov = $(".targetnov").val().replace(",", ""); var targetdec = $(".targetdec").val().replace(",", "");
-                            var targetjan2 = $(".targetjan2").val().replace(",", ""); var targetfeb2 = $(".targetfeb2").val().replace(",", ""); var targetmar2 = $(".targetmar2").val().replace(",", ""); var targetapr2 = $(".targetapr2").val().replace(",", ""); var targetmay2 = $(".targetmay2").val().replace(",", "");
-                            var targetjun2 = $(".targetjun2").val().replace(",", ""); var targetjul2 = $(".targetjul2").val().replace(",", ""); var targetaug2 = $(".targetaug2").val().replace(",", ""); var targetsep2 = $(".targetsep2").val().replace(",", ""); var targetoct2 = $(".targetoct2").val().replace(",", "");
-                            var targetnov2 = $(".targetnov2").val().replace(",", ""); var targetdec2 = $(".targetdec2").val().replace(",", "");
-
-                            var savingjan = $(".savingjan").val().replace(",", ""); var savingfeb = $(".savingfeb").val().replace(",", ""); var savingmar = $(".savingmar").val().replace(",", ""); var savingapr = $(".savingapr").val().replace(",", ""); var savingmay = $(".savingmay").val().replace(",", "");
-                            var savingjun = $(".savingjun").val().replace(",", ""); var savingjul = $(".savingjul").val().replace(",", ""); var savingaug = $(".savingaug").val().replace(",", ""); var savingsep = $(".savingsep").val().replace(",", ""); var savingoct = $(".savingoct").val().replace(",", "");
-                            var savingnov = $(".savingnov").val().replace(",", ""); var savingdec = $(".savingdec").val().replace(",", "");
-                            var savingjan2 = $(".savingjan2").val().replace(",", ""); var savingfeb2 = $(".savingfeb2").val().replace(",", ""); var savingmar2 = $(".savingmar2").val().replace(",", ""); var savingapr2 = $(".savingapr2").val().replace(",", ""); var savingmay2 = $(".savingmay2").val().replace(",", "");
-                            var savingjun2 = $(".savingjun2").val().replace(",", ""); var savingjul2 = $(".savingjul2").val().replace(",", ""); var savingaug2 = $(".savingaug2").val().replace(",", ""); var savingsep2 = $(".savingsep2").val().replace(",", ""); var savingoct2 = $(".savingoct2").val().replace(",", "");
-                            var savingnov2 = $(".savingnov2").val().replace(",", ""); var savingdec2 = $(".savingdec2").val().replace(",", "");
-                        }
-
-                        //alert(xGrdSubCountry + " " + xGrdBrand + " " + xGrdLegalEntity + " " + xGrdCountry + " " + xGrdRegional + " " + xGrdSubRegion + " " + xGrdCluster + " " + xGrdRegionalOffice + " " + xGrdCostControl + " " + xCboConfidential + " " + xGrdInitStatus + " " + xGrdInitType + " " + xGrdInitCategory + " " + xGrdSubCost + " " + xGrdActionType + " " + xGrdSynImpact + " " + xStartMonth + " " + xEndMonth);
-
-                        if (
-                            xGrdSubCountry != null && xGrdBrand != null && xGrdLegalEntity != null && xGrdCountry != null && xGrdRegional != null &&
-                            xGrdSubRegion != null && xGrdCluster != null && xGrdRegionalOffice != null && xGrdCostControl != null && xCboConfidential != null &&
-                            xGrdInitStatus > 0 && xGrdInitType > 0 && xGrdInitCategory > 0 && xGrdSubCost > 0 && xGrdActionType > 0 &&
-                            xGrdSynImpact > 0 && xStartMonth != null && xEndMonth != null
-                        ) {
-                            var sum = 0; var x2 = 0;
-                            $(".txTarget").each(function () {
-                                if (isNaN(parseFloat($(this).val())))
-                                    sum += 0;
-                                else
-                                    sum += parseFloat($(this).val().replace(",", ""));
-                            });
-
-                            if ((new Date(xStartMonth).getFullYear()) == projectYear) {
-                                if ((parseFloat(txTargetFullYear.GetValue()).toFixed(0) > parseFloat(txTarget12.GetValue()).toFixed(0)) && (sum.toFixed(0) != parseFloat(txTarget12.GetValue()).toFixed(0))) {
-                                    Swal.fire(
-                                        'Target 12 Months Less Than Total Target Field',
-                                        'Target This Year Cannot Greater Than Target 12 Months and Target 12 Months Cannot Less Than Total Monthly Target Field',
-                                        'error'
-                                    );
-                                    return;
-                                }
-                            } else if ((new Date(xStartMonth).getFullYear()) < projectYear) {
-                                var x1 = StartMonth.GetValue().getMonth();
-                                x2 = ((12 - x1) * targetjan2);
-
-                                if ((parseFloat(txTargetFullYear.GetValue()).toFixed(0) > parseFloat(txTarget12.GetValue()).toFixed(0)) && ((x2 + sum).toFixed(0) != parseFloat(txTarget12.GetValue()).toFixed(0))) {
-                                    Swal.fire(
-                                        'Target 12 Months Less Than Total Target Field',
-                                        'Target This Year Cannot Greater Than Target 12 Months and Target 12 Months Cannot Less Than Total Monthly Target Field',
-                                        'error'
-                                    );
-                                    return;
-                                }
-                            }
-
-                            var sumtarget = 0;
-                            if ((new Date(xStartMonth).getFullYear()) == projectYear) {
-                                var sum = 0;
-                                sumtarget = calculateSum();
-                            } else if ((new Date(xStartMonth).getFullYear()) < projectYear) {
-                                sumtarget = sum;
-                                //sumtarget = (((12 - (StartMonth.GetValue().getMonth())) * targetjan2) + sum);
-                            }
-
-                            if (Number(xTxTargetFullYear).toFixed(0) == Number(sumtarget).toFixed(0)) {
-                                $.post("@Url.Content("~/ActiveInitiative/SaveNew")", {
-                                    FormID: xFormID,
-                                    FormStatus: xFormStatus,
-                                    GrdSubCountry: xGrdSubCountry,
-                                    GrdBrand: xGrdBrand,
-                                    GrdLegalEntity: xGrdLegalEntity,
-                                    GrdCountry: xGrdCountry,
-                                    GrdRegional: xGrdRegional,
-                                    GrdSubRegion: xGrdSubRegion,
-                                    GrdCluster: xGrdCluster,
-                                    GrdRegionalOffice: xGrdRegionalOffice,
-                                    GrdCostControl: xGrdCostControl,
-                                    CboConfidential: xCboConfidential,
-                                    TxResponsibleName: xTxResponsibleName,
-                                    TxDesc: xTxDesc,
-                                    GrdInitStatus: xGrdInitStatus,
-                                    TxLaraCode: xTxLaraCode,
-                                    TxPortName: xTxPortName,
-                                    TxVendorSupp: xTxVendorSupp,
-                                    TxAdditionalInfo: xTxAdditionalInfo,
-                                    GrdInitType: xGrdInitType,
-                                    GrdInitCategory: xGrdInitCategory,
-                                    GrdSubCost: xGrdSubCost,
-                                    GrdActionType: xGrdActionType,
-                                    GrdSynImpact: xGrdSynImpact,
-                                    StartMonth: xStartMonth,
-                                    EndMonth: xEndMonth,
-                                    TxAgency: xTxAgency,
-                                    TxRPOCComment: xTxRPOCComment,
-                                    TxHOComment: xTxHOComment,
-                                    CboHoValidity: xCboHoValidity,
-                                    CboRPOCValidity: xCboRPOCValidity,
-                                    TxTarget12: xTxTarget12,
-                                    TxTargetFullYear: xTxTargetFullYear,
-                                    TxYTDTargetFullYear: xTxYTDTargetFullYear,
-                                    TxYTDSavingFullYear: xTxYTDSavingFullYear,
-                                    ProjectYear: xProjectYear,
-                                    RelatedInitiative: xRelatedInitiative,
-                                    SourceCategory: xCboWebinarCat,
-                                    targetjan: targetjan, targetfeb: targetfeb, targetmar: targetmar, targetapr: targetapr, targetmay: targetmay, targetjun: targetjun, targetjul: targetjul, targetaug: targetaug, targetsep: targetsep, targetoct: targetoct, targetnov: targetnov, targetdec: targetdec,
-                                    targetjan2: targetjan2, targetfeb2: targetfeb2, targetmar2: targetmar2, targetapr2: targetapr2, targetmay2: targetmay2, targetjun2: targetjun2, targetjul2: targetjul2, targetaug2: targetaug2, targetsep2: targetsep2, targetoct2: targetoct2, targetnov2: targetnov2, targetdec2: targetdec2,
-                                    savingjan: savingjan, savingfeb: savingfeb, savingmar: savingmar, savingapr: savingapr, savingmay: savingmay, savingjun: savingjun, savingjul: savingjul, savingaug: savingaug, savingsep: savingsep, savingoct: savingoct, savingnov: savingnov, savingdec: savingdec,
-                                    savingjan2: savingjan2, savingfeb2: savingfeb2, savingmar2: savingmar2, savingapr2: savingapr2, savingmay2: savingmay2, savingjun2: savingjun2, savingjul2: savingjul2, savingaug2: savingaug2, savingsep2: savingsep2, savingoct2: savingoct2, savingnov2: savingnov2, savingdec2: savingdec2
-                                }, function (data) {
-                                    if (data.substring(0, 5) == "saved") {
-                                        if (xFormStatus == "New") $("#initsukses").html("New Initiative Number: " + data.substring(6, data.length)); else $("#initsukses").html("Initiative successfully saved!");
-                                        $("#btnEdit").click(); $("#btnClose").click();
-                                        WindowInitiative.Hide();
-                                        WindowOkSaved.Show();
-                                    }
-                                });
-                            } else {
-                                Swal.fire(
-                                    'Value is not match',
-                                    'Target year (USD) is not match with Monthly Target',
-                                    'error'
-                                );
-                            }
-                        }
-                        else {
-                            Swal.fire(
-                                'Mandatory field cannot blank',
-                                'You must enter all mandatory field which marked as <font color="red">red asterisk</font>',
-                                'error'
-                            );
-                        }
-                    }
+                    SaveInitiative();
                 });
-            });
+            } else {
+                SaveInitiative();
+            }
         });
 
         $("#btnEditx").on('click', function () {
@@ -920,7 +933,7 @@
                 var target = e.target,
                     position = target.selectionStart; // Capture initial position
 
-                target.value = value.replace(/(?!^)-/g, '').replace(/^,/, '').replace(/^-,/, '-');
+                target.value = value.replaceAll(/(?!^)-/g, '').replaceAll(/^,/, '').replaceAll(/^-,/, '-');
 
                 target.selectionEnd = position; // Set the cursor back to the initial position.
             }
@@ -947,7 +960,7 @@
                 }
                 if ((nilai * months) < Number(txTarget12.GetValue())) {
                     var sisa = Number(txTarget12.GetValue()) - (nilai * months);
-                    arrnilai[months - 1] = (Number(arrnilai[months - 1].replace(",", "")) + Number(sisa)).toFixed(2);
+                    arrnilai[months - 1] = (Number(arrnilai[months - 1].replaceAll(",", "")) + Number(sisa)).toFixed(2);
                 }
 
                 for (var i = 0; i < targetty.length; i++) {
@@ -977,7 +990,7 @@
 
                 //var months = ((moment(EndMonth.GetValue()).format("M")));
                 var nilai = Number(txTarget12.GetValue() / months).toFixed(2);
-                var endmonth = ((moment(StartMonth.GetValue()).format("M")) - 1);
+                var endmonth = ((moment(EndMonth.GetValue()).format("M")));
 
                 if ((nilai * months) < Number(txTarget12.GetValue())) {
                     var sisa = Number(txTarget12.GetValue()) - ((+nilai) * (+months));
@@ -1024,7 +1037,7 @@
                 }
                 if ((nilai * months) < Number(txTarget12.GetValue())) {
                     var sisa = Number(txTarget12.GetValue()) - (nilai * months);
-                    arrnilai[months - 1] = (Number(arrnilai[months - 1].replace(",", "")) + Number(sisa)).toFixed(2);
+                    arrnilai[months - 1] = (Number(arrnilai[months - 1].replaceAll(",", "")) + Number(sisa)).toFixed(2);
                 }
 
                 for (var i = 0; i < targetty.length; i++) {
@@ -1057,7 +1070,7 @@
         var d = new Date();
         var m = d.getMonth(); var nilai = 0; var hitung = 0; var saving = 0; var hitungsaving = 0;
         for (var o = 0; o < targetty.length; o++) {
-            nilai = $("." + targetty[o]).val().replace(",", "");
+            nilai = $("." + targetty[o]).val().replaceAll(",", "");
             if (nilai != "") {
                 nilai = parseFloat(nilai).toFixed(2); hitung = parseFloat(hitung).toFixed(2);
                 hitung = (parseFloat(nilai) + parseFloat(hitung));
@@ -1089,13 +1102,13 @@
         var m = d.getMonth(); var nilai = 0; var hitung = 0; var saving = 0; var hitungsaving = 0;
         for (var o = 0; o < targetty.length; o++) {
             if (o < m) {
-                nilai = $("." + targetty[o]).val().replace(",", "");
+                nilai = $("." + targetty[o]).val().replaceAll(",", "");
                 if (nilai != "") {
                     nilai = parseFloat(nilai); hitung = parseFloat(hitung);
                     hitung = (nilai + hitung);
                 }
 
-                saving = $("." + savingty[o]).val().replace(",", "");
+                saving = $("." + savingty[o]).val().replaceAll(",", "");
                 if (saving != "") {
                     saving = parseFloat(saving); hitungsaving = parseFloat(hitungsaving);
                     hitungsaving = (saving + hitungsaving);

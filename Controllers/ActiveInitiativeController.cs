@@ -70,7 +70,7 @@ namespace GAIN.Controllers
                 var regofficetext = profileData.RegionalOffice_right.Replace("|", "','");
                 int lenRegionalOffice_right = regofficetext.Length;
                 regofficetext = "(" + regofficetext.Substring(2, (lenRegionalOffice_right - 4)) + ")";
-                var RegionalOffice_rightid = db.mregional_office.SqlQuery("select id,RegionID,CountryID,RegionalOffice_Name from mregional_office where RegionalOffice_Name in " + regofficetext + " group by id,RegionID,CountryID,RegionalOffice_Name").ToList();
+                var RegionalOffice_rightid = db.mregional_office.SqlQuery("select id,RegionID,CountryID,RegionalOffice_Name,SubCountryID,BrandID from mregional_office where RegionalOffice_Name in " + regofficetext + " group by id,RegionID,CountryID,RegionalOffice_Name,SubCountryID,BrandID").ToList();
                 var RegionalOffice_rightcondition = "";
                 for (var i = 0; i < RegionalOffice_rightid.Count(); i++)
                 {
@@ -98,7 +98,7 @@ namespace GAIN.Controllers
                 var costitemtext = profileData.CostItem_right.Replace("|", "','");
                 int lencostitem = costitemtext.Length;
                 costitemtext = "(" + costitemtext.Substring(2, (lencostitem - 4)) + ")";
-                var costitemid = db.mcosttypes.SqlQuery("select id,CostTypeName from mcosttype where CostTypeName in " + costitemtext + " group by id,CostTypeName").ToList();
+                var costitemid = db.mcosttypes.SqlQuery("select id,CostTypeName,isActive from mcosttype where CostTypeName in " + costitemtext + " group by id,CostTypeName,isActive").ToList();
                 var costitemcondition = "";
                 for (var i = 0; i < costitemid.Count(); i++)
                 {
@@ -112,7 +112,7 @@ namespace GAIN.Controllers
                 var subcostitemtext = profileData.SubCostItem_right.Replace("|", "','");
                 int lensubcostitem = subcostitemtext.Length;
                 subcostitemtext = "(" + subcostitemtext.Substring(2, (lensubcostitem - 4)) + ")";
-                var subcostitemid = db.mcosttypes.SqlQuery("select id,SubCostName from msubcost where SubCostName in " + subcostitemtext + " group by id,SubCostName").ToList();
+                var subcostitemid = db.mcosttypes.SqlQuery("select id,SubCostName,isActive from msubcost where SubCostName in " + subcostitemtext + " group by id,SubCostName,isActive").ToList();
                 var subcostitemcondition = "";
                 for (var i = 0; i < subcostitemid.Count(); i++)
                 {

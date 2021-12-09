@@ -1977,10 +1977,14 @@
     }
 
     function formatValue(n) {
-        if (n != null && n != "")
-            return parseFloat(n).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        else
+        if (n != null && n != "") {
+            n = String(n).replaceAll(',','');
+            return parseFloat(n).toFixed(2).replaceAll(/\d(?=(\d{3})+\.)/g, '$&,');
+        }
+        else {
             return "";
+        }
+            
     }
 
     $(function () {
