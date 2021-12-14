@@ -1840,6 +1840,7 @@
                 $("#summary-uploaded-files").html('');
             }
             $("#summary-uploaded-files").append("<tr><td width='660'><a href=\"@Url.Content(UploadDirectory)" + fileName + "\" target=\"_new\">" + fileName + "</a></td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + initiativenumber + "','" + fileName + "',this)\" >Remove</button></td></tr>");
+            GrdMainInitiative.Refresh();
         }
     }
 

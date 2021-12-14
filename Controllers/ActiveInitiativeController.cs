@@ -175,7 +175,8 @@ namespace GAIN.Controllers
 
             //ConsoleLog(" UserType: " + profileData.UserType + "\\n RegionID: " + profileData.RegionID + "\\n CostControlSite: " + profileData.CostControlSite + "\\n Country: " + profileData.CountryID + "\\n Condition: " + where);
 
-            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
+            //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
+            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
 
             ViewData["mregions"] = db.mregions.ToList();
             ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y").ToList();
@@ -667,15 +668,16 @@ namespace GAIN.Controllers
                 using (GainEntities db = new GainEntities())
                 {
                     var tinitiative = db.Set<t_initiative>();
+                    var YearInitiative = profileData.ProjectYear;
                     Random rand = new Random();
                     //int InitNextNum = rand.Next(1,999);
                     //string OutInitNextNum = "00" + InitNextNum.ToString();
                     string nomerterakhir = "";
-                    t_initiative initz = db.t_initiative.Where(c => c.InitNumber.StartsWith(DateTime.Now.Year + KodeNegara)).FirstOrDefault();
+                    t_initiative initz = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara)).FirstOrDefault();
                     if (initz != null)
-                        nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(DateTime.Now.Year + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
+                        nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
                     else
-                        nomerterakhir = DateTime.Now.Year + KodeNegara + "000";
+                        nomerterakhir = YearInitiative + KodeNegara + "000";
 
                     nomerterakhir = nomerterakhir.Substring((nomerterakhir.Length - 3), 3);
                     int nomerurut = (Int32.Parse(nomerterakhir) + 1);
@@ -684,7 +686,7 @@ namespace GAIN.Controllers
 
                     tinitiative.Add(new t_initiative
                     {
-                        InitNumber = DateTime.Now.Year + KodeNegara + nomerselanjutnya,
+                        InitNumber = YearInitiative + KodeNegara + nomerselanjutnya,
                         RelatedInitiative = RelatedInitiative,
                         SourceCategory = SourceCategory,
                         BrandID = GrdBrand,
