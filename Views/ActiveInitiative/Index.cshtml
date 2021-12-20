@@ -1490,6 +1490,14 @@
                 if (uType == 3) $(".txTarget").prop("disabled", true);
 
                 OnEndMonthChanged();
+
+                var formstatus;
+                formstatus = $("#FormStatus").val();
+                if (uType == 3 && formstatus == "Edit") {
+                    $("#chkAuto").prop("disabled", true);
+                    $(".txTarget").prop("disabled", true);
+                }
+
                 WindowInitiative.Show();
             }
         });
@@ -1618,9 +1626,12 @@
         EndMonth.SetValue(null);
         LblRelatedInitiative.SetValue(null);
         CboWebinarCat.ClearItems();
+        $("#chkAuto").prop('disabled', false);
+        $(".txTarget").prop("disabled", false);
         $("input[name='StartMonth']").prop('disabled', false);
         $("input[name='StartMonth']").prop('readonly', false);
         StartMonth.clientEnabled = true;
+
         //GrdLegalEntity.SetText = '';
         $.post('@Url.Content("~/ActiveInitiative/RemoveSelectedGridLookup")', function (data) {
             console.log(data);
@@ -1881,6 +1892,12 @@
     function OnEndMonthChanged()
     {
         var targetstartselected = false; var targetstartselected2 = true; var startmon; var projectYear = '@profileData.ProjectYear';
+        var endmonthValue = '';
+        if (EndMonth.GetValue() == null) {
+            endmonthValue = StartMonth.GetValue();
+        } else {
+            endmonthValue = EndMonth.GetValue();
+        }
         var targetty = new Array();var savingty = new Array();
         if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
             targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
@@ -1888,9 +1905,9 @@
 
             startmon = ((moment(StartMonth.GetValue()).format("M")) - 1);
             var months; var x = 0;
-            months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
+            months = (endmonthValue.getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
             months -= StartMonth.GetValue().getMonth();
-            months += EndMonth.GetValue().getMonth();
+            months += endmonthValue.getMonth();
             months++; // ngitung selisih bulan mulai dan bulan akhir initiative
 
             for (var i = 0; i <= targetty.length; i++) {
@@ -1915,7 +1932,7 @@
             targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
             savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
 
-            var endmonth = ((moment(EndMonth.GetValue()).format("M")) - 1);
+            var endmonth = ((moment(endmonthValue).format("M")) - 1);
             for (var i = 0; i <= targetty.length; i++) {
                 if (i <= endmonth) {
                     $("." + targetty[i]).prop('disabled', false);
@@ -1936,7 +1953,7 @@
             savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
 
             var startmonth = ((moment(StartMonth.GetValue()).format("M")) - 1);
-            var endmonth = ((moment(EndMonth.GetValue()).format("M")));
+            var endmonth = ((moment(endmonthValue).format("M")));
             for (var i = 0; i <= targetty.length; i++) {
                 if (i > (+startmonth + 11) && i <= (+endmonth + 11)) {
                     $("." + targetty[i]).prop('disabled', false);
