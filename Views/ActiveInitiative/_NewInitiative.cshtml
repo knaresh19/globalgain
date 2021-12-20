@@ -941,7 +941,8 @@
     });
 
     function CheckUncheckCalculate() {
-        var targetstartselected = false;var targetstartselected2 = true; var startmon;var projectYear = '@profileData.ProjectYear';
+        var targetstartselected = false; var targetstartselected2 = true; var startmon; var projectYear = '@profileData.ProjectYear';var uType = '@profileData.UserType';
+
         if (($('#chkAuto').is(':checked')) && txTargetFullYear.GetValue() != "") {
             if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
                 const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
@@ -1063,6 +1064,8 @@
         }
         getYtdValue();
         hitungtahunini();
+
+        if (uType == 3) $(".txTarget").prop("disabled", true);
     }
 
     function hitungtahunini() {

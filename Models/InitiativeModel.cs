@@ -189,6 +189,7 @@ namespace GAIN.Models
     {
         public List<CountryList> CountryData { get; set; }
         public List<SubCountryList> SubCountryData { get; set; }
+        public List<msubcountry> SubCountryDataBySQLQuery { get; set; } 
         public List<BrandList> BrandData { get; set; }
         public List<RegionList> RegionData { get; set; }
         public List<SubRegionList> SubRegionData { get; set; }

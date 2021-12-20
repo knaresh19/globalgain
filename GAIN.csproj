@@ -57,7 +57,7 @@
     <Reference Include="DevExpress.Dashboard.v20.1.Web.WebForms, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Data.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.DataAccess.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-	<Reference Include="DevExpress.Docs.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Docs.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Map.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Office.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Pdf.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -249,6 +249,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GainModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\GeneralDto.cs" />
     <Compile Include="Models\InitiativeModel.cs" />
     <Compile Include="Models\logtable.cs">
       <DependentUpon>GainModel.tt</DependentUpon>
@@ -339,9 +340,11 @@
     <Compile Include="Models\t_subctry_costcntrlsite.cs">
       <DependentUpon>GainModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserTools.cs" />
     <Compile Include="Models\user_list.cs">
       <DependentUpon>GainModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\user_list_metadata.cs" />
     <Compile Include="Models\vwagency.cs">
       <DependentUpon>GainModel.tt</DependentUpon>
     </Compile>
@@ -6403,6 +6406,9 @@
     <Content Include="Views\TypeofSaving\_ChartPartial.cshtml" />
     <Content Include="Views\Agency\_GrdFilterPartial.cshtml" />
     <Content Include="Views\ActiveInitiative\_UploadPage.cshtml" />
+    <Content Include="Views\Shared\_LayoutTable2.cshtml" />
+    <Content Include="Views\Shared\_TopProfile2.cshtml" />
+    <Content Include="Views\MUsers\UploadProcess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

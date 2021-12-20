@@ -175,8 +175,8 @@ namespace GAIN.Controllers
 
             //ConsoleLog(" UserType: " + profileData.UserType + "\\n RegionID: " + profileData.RegionID + "\\n CostControlSite: " + profileData.CostControlSite + "\\n Country: " + profileData.CountryID + "\\n Condition: " + where);
 
-            //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
-            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
+            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
+            //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
 
             ViewData["mregions"] = db.mregions.ToList();
             ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y").ToList();
@@ -418,18 +418,52 @@ namespace GAIN.Controllers
         }
         public ActionResult GrdSubCountryPartial(Models.GetInfoByIDModel GetInfo)
         {
+            var profileData = Session["DefaultGAINSess"] as LoginSession; var where = "";
+            if (profileData.UserType == 3) //agency
+            {
+                var cntrytext = profileData.CountryID.Replace("|", "','");
+                int lencntrytext = cntrytext.Length;
+                cntrytext = "(" + cntrytext.Substring(2, (lencntrytext - 4)) + ")";
+                var cntryid = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y' and SubCountryName in " + cntrytext + " ").ToList();
+                var cntryidcondition = "(";
+                for (var i = 0; i < cntryid.Count(); i++)
+                {
+                    cntryidcondition += cntryid[i].id.ToString() + ",";
+                }
+                cntryidcondition = cntryidcondition.Substring(0, cntryidcondition.Length - 1);
+
+                //where += " and a.CountryID in " + cntryidcondition + ")";
+                where += cntryidcondition + ")";
+            }
+
+            //db.Configuration.ProxyCreationEnabled = false;
+            //var model = db.msubcountries.ToList();
+
             List<SubCountryList> model = new List<SubCountryList>();
             model = db.msubcountries.Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
 
             if (GetInfo.Id != 0)
+            {
                 model = db.msubcountries.Where(c => c.id == GetInfo.Id && c.isActive == "Y" && !(string.IsNullOrEmpty(c.SubCountryName))).Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                //model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y' and id = " + GetInfo.Id + " ").ToList();
+            }
             else
-                model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName) && c.isActive == "Y").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
-
+            {
+                if (profileData.UserType == 3) //agency
+                {
+                    //model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName) && c.CountryCode   && c.isActive == "Y").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                    model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y' and id in " + where + " ").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                } else
+                {
+                    model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName) && c.isActive == "Y").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                    //model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y';").ToList();
+                }
+            }
+            
             List<GetDataFromSubCountry> GDSC = new List<GetDataFromSubCountry>();
             GDSC.Add(new GetDataFromSubCountry
             {
-                SubCountryData = model
+                SubCountryData = model                
             });
 
             return Json(GDSC, JsonRequestBehavior.AllowGet);
@@ -974,19 +1008,39 @@ namespace GAIN.Controllers
                 TypeInitiativeList = db.msavingtypes.Select(s => new TypeInitiativeList { id = s.id, SavingTypeName = s.SavingTypeName }).ToList();
             }
 
-            GDSC.Add(new GetDataFromSubCountry
+            if(GetInfo.Id > 0)
             {
-                SubCountryData = SubCountryList,
-                CountryData = CountryList,
-                BrandData = BrandList,
-                RegionData = RegionList,
-                SubRegionData = SubRegionList,
-                ClusterData = ClusterList,
-                RegionalOfficeData = RegionalOfficeList,
-                CostControlSiteData = CostControlList,
-                LegalEntityData = LegalEntityList,
-                TypeInitiativeData = TypeInitiativeList
-            });
+                GDSC.Add(new GetDataFromSubCountry
+                {
+                    SubCountryData = SubCountryList,
+                    CountryData = CountryList,
+                    BrandData = BrandList,
+                    RegionData = RegionList,
+                    SubRegionData = SubRegionList,
+                    ClusterData = ClusterList,
+                    RegionalOfficeData = RegionalOfficeList,
+                    CostControlSiteData = CostControlList,
+                    LegalEntityData = LegalEntityList,
+                    TypeInitiativeData = TypeInitiativeList
+                });
+
+            } else
+            {
+                GDSC.Add(new GetDataFromSubCountry
+                {
+                    SubCountryData = null,
+                    CountryData = null,
+                    BrandData = null,
+                    RegionData = null,
+                    SubRegionData = null,
+                    ClusterData = null,
+                    RegionalOfficeData = null,
+                    CostControlSiteData = null,
+                    LegalEntityData = null,
+                    TypeInitiativeData = null
+                });
+
+            }
 
             return Json(GDSC, JsonRequestBehavior.AllowGet);
         }

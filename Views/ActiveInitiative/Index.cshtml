@@ -1133,6 +1133,7 @@
 
             $.post('@Url.Content("~/ActiveInitiative/GrdSubCountryPartial")', { Id: null }, function (data) {
                 var obj; GrdSubCountryPopup.ClearItems();
+                GrdSubCountryPopup.AddItem("[Please Select]", null);
                 $.each(data[0]["SubCountryData"], function (key, value) {
                     value = JSON.stringify(value); obj = JSON.parse(value);
                     if (obj != null) GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
@@ -1486,6 +1487,8 @@
                 if (uType == 2) $("#TxRPOCComment").prop("disabled", false);
                 if (uType == 3) $("#TxAgency").prop("disabled", false);
 
+                if (uType == 3) $(".txTarget").prop("disabled", true);
+
                 OnEndMonthChanged();
                 WindowInitiative.Show();
             }
@@ -1657,6 +1660,9 @@
 
     function OnSubCountryPopupChanged(s, e) {
         var id = s.GetValue();
+        $("#GrdCountryVal").val(''); $("#GrdCountry").val(''); $("#GrdRegionalVal").val(''); $("#GrdRegional").val('');
+        $("#GrdSubRegionVal").val(''); $("#GrdSubRegion").val(''); $("#GrdClusterVal").val(''); $("#GrdCluster").val('');
+        $("#GrdRegionalOfficeVal").val(''); $("#GrdRegionalOffice").val(''); $("#GrdCostControlVal").val(''); $("#GrdCostControl").val('');
         $.post('@Url.Content("~/ActiveInitiative/GetCountryBySub")', { id: id }, function (data) {
             var obj; GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
             GrdBrandPopup.AddItem("[ Please Select ]", 0);
@@ -1865,6 +1871,8 @@
     }
 
     function OnStartMonthChanged() {
+        OnEndMonthChanged();
+
         var awal = StartMonth.GetValue();
         var dt = new Date(awal.getFullYear(), awal.getMonth() + 11, 1);
         EndMonth.SetMaxDate(dt);
@@ -1941,7 +1949,7 @@
                 }
             }
         }
-    } 
+    }
 
     function OnInitStatusChanged(s, e) {
         var id = s.GetText();
@@ -1985,7 +1993,7 @@
         else {
             return "";
         }
-            
+
     }
 
     $(function () {
