@@ -739,10 +739,13 @@
                             sum += parseFloat($(this).val().replaceAll(",", ""));
                     });
 
-                    if ((new Date(xStartMonth).getFullYear()) == projectYear) {
+                    if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
                         var a = (parseFloat(txTargetFullYear.GetValue()).toFixed(0));
                         var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
-                        if ((+a > +b) || (sum.toFixed(0) != (+b))) {
+
+                        a = Math.abs(Math.floor(a)); b = Math.abs(Math.floor(b)); sum = Math.abs(Math.floor(sum));
+                        alert('a = ' + a + ' || b = ' + b + ' || sum = ' + sum);
+                        if ((a >= b) || (sum != (b))) {
                             Swal.fire(
                                 'Target 12 Months Less Than Total Target Field',
                                 'Target This Year Cannot Greater Than Target 12 Months and Target 12 Months Cannot Less Than Total Monthly Target Field',
@@ -750,13 +753,16 @@
                             );
                             return;
                         }
-                    } else if ((new Date(xStartMonth).getFullYear()) < projectYear) {
+                    } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
                         var x1 = StartMonth.GetValue().getMonth();
-                        x2 = ((12 - x1) * targetjan2);
+                        x1 = Math.abs(x1); x2 = ((12 - x1) * Math.abs(targetjan2));
+                        x2 = Math.abs(Math.floor(x2));
                         var a = (parseFloat(txTargetFullYear.GetValue()).toFixed(0));
                         var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
 
-                        if ((+a > +b) || ((x2 + sum).toFixed(0) != (+b))) {
+                        a = Math.abs(Math.floor(a)); b = Math.abs(Math.floor(b)); sum = Math.abs(Math.floor(sum));
+                        alert('a = ' + a + ' || b = ' + b + ' || sum = ' + sum + ' || x2 = ' + x2);
+                        if ((a >= b) || ((x2 + sum) != (b))) {
                             Swal.fire(
                                 'Target 12 Months Less Than Total Target Field',
                                 'Target This Year Cannot Greater Than Target 12 Months and Target 12 Months Cannot Less Than Total Monthly Target Field',
@@ -767,11 +773,11 @@
                     }
 
                     var sumtarget = 0;
-                    if ((new Date(xStartMonth).getFullYear()) == projectYear) {
+                    if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
                         var sum = 0;
                         sumtarget = calculateSum();
-                    } else if ((new Date(xStartMonth).getFullYear()) < projectYear) {
-                        sumtarget = sum;
+                    } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
+                        sumtarget = Math.abs(sum);
                         //sumtarget = (((12 - (StartMonth.GetValue().getMonth())) * targetjan2) + sum);
                     }
 

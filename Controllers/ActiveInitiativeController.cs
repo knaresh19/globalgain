@@ -159,10 +159,10 @@ namespace GAIN.Controllers
             }
             else if (profileData.UserType == 3) //agency
             {
-                var cntrytext = profileData.CountryID.Replace("|", "','");
+                var cntrytext = profileData.subcountry_right.Replace("|", "','");
                 int lencntrytext = cntrytext.Length;
                 cntrytext = "(" + cntrytext.Substring(2, (lencntrytext - 4)) + ")";
-                var cntryid = db.mcountries.SqlQuery("SELECT id,RegionID,SubRegionID,CountryName FROM mcountry WHERE CountryName IN " + cntrytext + " group by id,RegionID,SubRegionID,CountryName").ToList();
+                var cntryid = db.msubcountries.SqlQuery("SELECT id,CountryID,SubCountryName,CountryCode,isActive FROM msubcountry WHERE SubCountryName IN " + cntrytext + " group by id,CountryID,SubCountryName,CountryCode,isActive").ToList();
                 var cntryidcondition = "(";
                 for (var i=0;i< cntryid.Count();i++)
                 {
@@ -170,7 +170,7 @@ namespace GAIN.Controllers
                 }
                 cntryidcondition = cntryidcondition.Substring(0, cntryidcondition.Length-1);
 
-                where += " and a.CountryID in " + cntryidcondition + ")";
+                where += " and a.SubCountryID in " + cntryidcondition + ")";
             }
 
             //ConsoleLog(" UserType: " + profileData.UserType + "\\n RegionID: " + profileData.RegionID + "\\n CostControlSite: " + profileData.CostControlSite + "\\n Country: " + profileData.CountryID + "\\n Condition: " + where);

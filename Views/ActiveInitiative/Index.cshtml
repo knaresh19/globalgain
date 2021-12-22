@@ -1487,13 +1487,14 @@
                 if (uType == 2) $("#TxRPOCComment").prop("disabled", false);
                 if (uType == 3) $("#TxAgency").prop("disabled", false);
 
-                if (uType == 3) $(".txTarget").prop("disabled", true);
+                //if (uType == 3) $(".txTarget").prop("disabled", true);
 
                 OnEndMonthChanged();
 
-                var formstatus;
+                var formstatus; var initstatusvalue;
                 formstatus = $("#FormStatus").val();
-                if (uType == 3 && formstatus == "Edit") {
+                initstatusvalue = GrdInitStatus.GetValue();
+                if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4" ) {
                     $("#chkAuto").prop("disabled", true);
                     $(".txTarget").prop("disabled", true);
                 }
@@ -1965,6 +1966,15 @@
                     $("." + savingty[i]).prop('disabled', true);
                 }
             }
+        }
+
+        var formstatus; var initstatusvalue; var uType;
+        uType = '@profileData.UserType';
+        formstatus = $("#FormStatus").val();
+        initstatusvalue = GrdInitStatus.GetValue();
+        if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4") {
+            $("#chkAuto").prop("disabled", true);
+            $(".txTarget").prop("disabled", true);
         }
     }
 
