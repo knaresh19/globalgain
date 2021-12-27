@@ -2018,8 +2018,10 @@
         if (n != null && n != "") {
             n = String(n).replaceAll(',','');
             return parseFloat(n).toFixed(2).replaceAll(/\d(?=(\d{3})+\.)/g, '$&,');
-        }
-        else {
+        } else if (n == 0)
+        {
+            return 0;
+        } else {
             return "";
         }
 
