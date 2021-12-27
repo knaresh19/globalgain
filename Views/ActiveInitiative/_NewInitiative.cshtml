@@ -648,6 +648,17 @@
         return sum.toFixed(2);
     }
 
+    function calculateAllTarget() {
+        var sum = 0; var nama;
+        $(".txTarget").each(function () {
+            nama = this.name;
+            if (this.value.length != 0) {
+                sum += parseFloat(this.value.replaceAll(",", ""));
+            }
+        });
+        return sum.toFixed(2);
+    }
+
     function SaveInitiative() {
         Swal.fire({
             title: 'Do you want to save the changes?',
@@ -744,7 +755,6 @@
                         var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
 
                         a = Math.abs(Math.floor(a)); b = Math.abs(Math.floor(b)); sum = Math.abs(Math.floor(sum));
-                        alert('a = ' + a + ' || b = ' + b + ' || sum = ' + sum);
                         if ((a >= b) || (sum != (b))) {
                             Swal.fire(
                                 'Target 12 Months Less Than Total Target Field',
@@ -755,14 +765,20 @@
                         }
                     } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
                         var x1 = StartMonth.GetValue().getMonth();
-                        x1 = Math.abs(x1); x2 = ((12 - x1) * Math.abs(targetjan2));
-                        x2 = Math.abs(Math.floor(x2));
+                        var months;
+                        months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
+                        months -= StartMonth.GetValue().getMonth();
+                        months += EndMonth.GetValue().getMonth();
+                        months++; // ngitung selisih bulan mulai dan bulan akhir initiative
+
                         var a = (parseFloat(txTargetFullYear.GetValue()).toFixed(0));
                         var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
+                        x1 = Math.abs(x1); x2 = Math.abs(((b / months).toFixed(0)) * (12 - x1));//x2 = ((12 - x1) * Math.abs(Math.floor(targetjan2)));
+                        x2 = Math.abs(Math.floor(x2));
 
                         a = Math.abs(Math.floor(a)); b = Math.abs(Math.floor(b)); sum = Math.abs(Math.floor(sum));
-                        alert('a = ' + a + ' || b = ' + b + ' || sum = ' + sum + ' || x2 = ' + x2);
-                        if ((a >= b) || ((x2 + sum) != (b))) {
+                        //alert('a = ' + a + ' || b = ' + b + ' || sum = ' + sum + ' || x2 = ' + x2 + " || months = " + months + " || (12 - x1) = " + (12 - x1));
+                        if ((a >= b) || ((x2 + sum) > (b + 5))) { // tolerance $5
                             Swal.fire(
                                 'Target 12 Months Less Than Total Target Field',
                                 'Target This Year Cannot Greater Than Target 12 Months and Target 12 Months Cannot Less Than Total Monthly Target Field',

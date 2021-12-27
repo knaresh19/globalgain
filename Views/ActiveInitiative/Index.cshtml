@@ -1497,6 +1497,7 @@
                 if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4" ) {
                     $("#chkAuto").prop("disabled", true);
                     $(".txTarget").prop("disabled", true);
+                    StartMonth.clientEnabled = false; EndMonth.clientEnabled = false;
                 }
 
                 WindowInitiative.Show();
@@ -1632,6 +1633,7 @@
         $("input[name='StartMonth']").prop('disabled', false);
         $("input[name='StartMonth']").prop('readonly', false);
         StartMonth.clientEnabled = true;
+        EndMonth.clientEnabled = true;
 
         //GrdLegalEntity.SetText = '';
         $.post('@Url.Content("~/ActiveInitiative/RemoveSelectedGridLookup")', function (data) {
