@@ -913,6 +913,10 @@
         });
 
         $("#btnDuplicate").on("click", function () {
+            var subCountry = GrdSubCountryPopup.GetText();
+            var subCountryID = GrdSubCountryPopup.GetValue();
+            var brand = GrdBrandPopup.GetText();
+            var legal = GrdLegalEntityPopup.GetText();
             $("#FormStatus").val("New");
             $("#LblInitiative").text("DUP-0001");
             $("#btnDuplicate").prop("disabled", true);
@@ -922,7 +926,31 @@
                     value = JSON.stringify(value); obj = JSON.parse(value);
                     GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
                 });
-                GrdSubCountryPopup.SelectIndex(0);
+
+                GrdSubCountryPopup.SetText(subCountry);
+
+                GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
+                $.post('@Url.Content("~/ActiveInitiative/GetCountryBySub")', { id: subCountryID }, function (data) {
+                    var obj;
+                    $.each(data[0]["BrandData"], function (key, value) {
+                        value = JSON.stringify(value); obj = JSON.parse(value);
+                        if (obj != null) GrdBrandPopup.AddItem(obj.BrandName, obj.id);
+                    });
+                    $.each(data[0]["LegalEntityData"], function (key, value) {
+                        value = JSON.stringify(value); obj = JSON.parse(value);
+                        if (obj != null) GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
+                    });
+                    GrdBrandPopup.SetText(brand); GrdLegalEntityPopup.SetText(legal);
+                });
+                /*GrdSubCountryPopup.SelectIndex(0);*/
+                //GrdBrandPopup.ClearItems();
+                //GrdLegalEntityPopup.ClearItems();
+                //$('#GrdCountry').val(''); $('#GrdCountryVal').val('');
+                //$('#GrdRegional').val(''); $('#GrdRegionalVal').val('');
+                //$('#GrdSubRegion').val(''); $('#GrdSubRegionVal').val('');
+                //$('#GrdCluster').val(''); $('#GrdClusterVal').val('');
+                //$('#GrdRegionalOffice').val(''); $('#GrdRegionalOfficeVal').val('');
+                //$('#GrdCostControl').val(''); $('#GrdCostControlVal').val('');
 
                 var years_right = '@years_right';
                 var project_year = '@profileData.ProjectYear';
