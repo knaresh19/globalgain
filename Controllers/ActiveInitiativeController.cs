@@ -1230,6 +1230,8 @@ namespace GAIN.Controllers
             {
                 if (e.UploadedFile.IsValid)
                 {
+                    LoginSession profileData = this.Session["DefaultGAINSess"] as LoginSession;
+
                     string filename = e.UploadedFile.FileName;
                     string resultFileName = e.UploadedFile.FileName;
                     string resultFileUrl = UploadDirectory + resultFileName;
@@ -1250,7 +1252,7 @@ namespace GAIN.Controllers
                         {
                             FileDiDB = filename + "|" + InitiativeNumber;
                         }
-                        db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = \'" + FileDiDB + "\' where InitNumber = \'" + InitiativeNumber + "\' ");
+                        db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = \'" + FileDiDB + "\', ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' ");
                         db.SaveChanges();
                     }
                 }

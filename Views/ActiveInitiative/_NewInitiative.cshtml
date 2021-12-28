@@ -764,7 +764,7 @@
                         //    return;
                         //}
 
-                        if (a >= b) {
+                        if (a > b) {
                             Swal.fire(
                                 'Target 12 Months Less Than Total Target Field',
                                 'All Applicable Target of This Year Cannot Greater Than Target 12 Months',
@@ -773,7 +773,7 @@
                             return;
                         }
 
-                        if ((sum) > (b + 1)) { // tolerance $5
+                        if ((sum) > (b + 1)) { // tolerance $1
                             Swal.fire(
                                 'Target Cannot be Greater Than 12 Months Target',
                                 'All Applicable Target Cannot Greater Than Target 12 Months',
@@ -799,7 +799,7 @@
                         //alert('a = ' + a + ' || b = ' + b + ' || sum = ' + sum + ' || x2 = ' + x2 + " || months = " + months + " || (12 - x1) = " + (12 - x1));
                         //if ((a >= b) || ((x2 + sum) > (b + 5))) { // tolerance $5
 
-                        if (a >= b) {
+                        if (a > b) {
                             Swal.fire(
                                 'Target 12 Months Less Than Total Target Field',
                                 'All Applicable Target of This Year Cannot Greater Than Target 12 Months',
@@ -808,7 +808,7 @@
                             return;
                         }
 
-                        if ((x2 + sum) > (b + 1)) { // tolerance $5
+                        if ((x2 + sum) > (b + 1)) { // tolerance $1
                             Swal.fire(
                                 'Target Cannot be Greater Than 12 Months Target',
                                 'All Applicable Target Cannot Greater Than Target 12 Months',
