@@ -76,8 +76,12 @@ namespace GAIN.Controllers
                 {
                     RegionalOffice_rightcondition += RegionalOffice_rightid[i].id.ToString() + ",";
                 }
-                RegionalOffice_rightcondition = RegionalOffice_rightcondition.Substring(0, RegionalOffice_rightcondition.Length - 1);
-                where += " and a.RegionalOfficeID in (" + RegionalOffice_rightcondition + ")";
+
+                if (RegionalOffice_rightcondition != "") //to prevent error when regional office is disabled but some user still set to that regional office.
+                {
+                    RegionalOffice_rightcondition = RegionalOffice_rightcondition.Substring(0, RegionalOffice_rightcondition.Length - 1);
+                    where += " and a.RegionalOfficeID in (" + RegionalOffice_rightcondition + ")";
+                }
             }
             if (profileData.Brand_right != "" && profileData.Brand_right != "ALL")
             {
@@ -90,8 +94,12 @@ namespace GAIN.Controllers
                 {
                     brandcondition += brandid[i].id.ToString() + ",";
                 }
-                brandcondition = brandcondition.Substring(0, brandcondition.Length - 1);
-                where += " and a.BrandID in (" + brandcondition + ")";
+
+                if (brandcondition != "") //to prevent error when brand is disabled but some user still set to that brand.
+                {
+                    brandcondition = brandcondition.Substring(0, brandcondition.Length - 1);
+                    where += " and a.BrandID in (" + brandcondition + ")";
+                }
             }
             if (profileData.CostItem_right != "" && profileData.CostItem_right != "ALL")
             {
@@ -104,8 +112,12 @@ namespace GAIN.Controllers
                 {
                     costitemcondition += costitemid[i].id.ToString() + ",";
                 }
-                costitemcondition = costitemcondition.Substring(0, costitemcondition.Length - 1);
-                where += " and a.CostCategoryID in (" + costitemcondition + ")";
+
+                if (costitemcondition != "") //to prevent error when cost item is disabled but some user still set to that cost item.
+                {
+                    costitemcondition = costitemcondition.Substring(0, costitemcondition.Length - 1);
+                    where += " and a.CostCategoryID in (" + costitemcondition + ")";
+                }
             }
             if (profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL")
             {
@@ -118,8 +130,11 @@ namespace GAIN.Controllers
                 {
                     subcostitemcondition += subcostitemid[i].id.ToString() + ",";
                 }
-                subcostitemcondition = subcostitemcondition.Substring(0, subcostitemcondition.Length - 1);
-                where += " and a.SubCostCategoryID in (" + subcostitemcondition + ")";
+                if (subcostitemcondition != "") //to prevent error when sub cost item is disabled but some user still set to that sub cost item.
+                {
+                    subcostitemcondition = subcostitemcondition.Substring(0, subcostitemcondition.Length - 1);
+                    where += " and a.SubCostCategoryID in (" + subcostitemcondition + ")";
+                }
             }
 
             var model = db.vwheaderinitiatives.ToList();
