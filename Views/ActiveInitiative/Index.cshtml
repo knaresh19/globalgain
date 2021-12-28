@@ -1444,7 +1444,7 @@
                     $(".txSaving").prop("disabled", true);
                 } else if (obj.InitStatus == 1 && uType == 3) {
                     $("#btnSave").prop("disabled", true);
-                } else if (obj.InitStatus == 2 && uType != 1 && uType != 2) //status is final and user is not HO or RO
+                } else if (obj.InitStatus == 2 && uType == 3) //status is final and user is not HO or RO
                 {
                     $("#btnSave").prop("disabled", true);
                 }
@@ -1494,7 +1494,7 @@
                 var formstatus; var initstatusvalue;
                 formstatus = $("#FormStatus").val();
                 initstatusvalue = GrdInitStatus.GetValue();
-                if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4" ) {
+                if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4") {
                     $("#chkAuto").prop("disabled", true);
                     $(".txTarget").prop("disabled", true);
                     StartMonth.clientEnabled = false; EndMonth.clientEnabled = false;

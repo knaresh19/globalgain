@@ -21,7 +21,7 @@
                     @Html.DevExpress().Label(settings =>
                {
                    settings.Name = "LblInitiative";
-                   settings.Text = "XXX-0001";
+                   settings.Text = DateTime.Now.Year + "XX####";
                    settings.ControlStyle.Font.Bold = true;
                    settings.ControlStyle.Font.Size = 12;
                }).GetHtml()
@@ -990,6 +990,8 @@
                 } else {
                     $("#btnSave").prop('disabled', true);
                 }
+                StartMonth.clientEnabled = true;
+                EndMonth.clientEnabled = true;
             });
             Swal.fire(
                 'Duplicated Successfully',
