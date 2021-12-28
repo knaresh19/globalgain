@@ -990,6 +990,19 @@
                 } else {
                     $("#btnSave").prop('disabled', true);
                 }
+
+                StartMonth.SetValue(); EndMonth.SetValue();
+                var min_py = 0; var max_py = 0;
+                var py = '@profileData.ProjectYear';
+                min_py = (+py - 1);
+                max_py = (+py);
+                StartMonth.SetMinDate(new Date(min_py + '-01-01'));
+                StartMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+                EndMonth.SetMinDate(new Date(max_py + '-01-01'));
+                EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+                $(".txTarget").prop("disabled", false); $(".txSaving").prop("disabled", false);$(".txTarget").val(''); $(".txSaving").val('');
+                txTarget12.SetValue(""); txTargetFullYear.SetValue(""); txYTDTargetFullYear.SetValue(""); txYTDSavingFullYear.SetValue("");
+
                 StartMonth.clientEnabled = true;
                 EndMonth.clientEnabled = true;
             });

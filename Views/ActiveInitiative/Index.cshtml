@@ -1129,7 +1129,9 @@
             min_py = (+py - 1);
             max_py = (+py);
             StartMonth.SetMinDate(new Date(min_py + '-01-01'));
-            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
+            StartMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+            EndMonth.SetMinDate(new Date(max_py + '-01-01'));
+            EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
 
             $.post('@Url.Content("~/ActiveInitiative/GrdSubCountryPartial")', { Id: null }, function (data) {
                 var obj; GrdSubCountryPopup.ClearItems();
@@ -1189,7 +1191,7 @@
             }
 
             WindowInitiative.Show();
-            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
+/*            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));*/
         });
     });
 
@@ -1325,7 +1327,9 @@
         min_py = (+py - 1);
         max_py = (+py);
         StartMonth.SetMinDate(new Date(min_py + '-01-01'));
-        StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
+        StartMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+        EndMonth.SetMinDate(new Date(max_py + '-01-01'));
+        EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
 
         $("#FormStatus").val("Edit");
         $.post('@Url.Content("~/ActiveInitiative/GetInfoForPopUp")', {Id:id}, function (data) {
@@ -1494,7 +1498,7 @@
                 var formstatus; var initstatusvalue;
                 formstatus = $("#FormStatus").val();
                 initstatusvalue = GrdInitStatus.GetValue();
-                if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4") {
+                if (uType == 3 && formstatus == "Edit" && initstatusvalue != "3" && initstatusvalue != "4") {
                     $("#chkAuto").prop("disabled", true);
                     $(".txTarget").prop("disabled", true);
                     StartMonth.clientEnabled = false; EndMonth.clientEnabled = false;
