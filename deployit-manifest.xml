@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<udm.DeploymentPackage version="deployment_version-version_suffix" application="CMACGM-ASIA/Net/GAIN">
-	<orchestrator />
+<udm.DeploymentPackage version="deployment_version-version_suffix" application="CMACGM-ASIA/MIDDLEWARE/Net/GAIN">
+	<orchestrator>
+  	  <value>sequential-by-container</value>
+    </orchestrator>
 	<enableAutomaticOrchestrators>false</enableAutomaticOrchestrators>
 	<application />
 	<deployables>
@@ -11,6 +13,7 @@
 			<scanPlaceholders>true</scanPlaceholders>
 			<websiteName>{{PLACEHOLDER_WEBSITE_NAME}}</websiteName>
 			<websitePhysicalPath>{{PLACEHOLDER_WEBSITE_PHYSICALPATH}}</websitePhysicalPath>
+			<excludeFileNamesRegex>.+\.(json | js | yml | html)</excludeFileNamesRegex>
 		</iis.WebDeployContent>
 	</deployables>
 	<applicationDependencies />
