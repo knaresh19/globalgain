@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 ## Exclude web.config file
-Web.config
+
 
 # User-specific files
 *.rsuser
