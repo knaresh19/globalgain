@@ -1,0 +1,120 @@
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GrdSubCostBrand";
+        settings.CallbackRouteValues = new { Controller = "SubCostBrand", Action = "GrdSubCostBrandPartial" };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "SubCostBrand", Action = "GrdSubCostBrandPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "SubCostBrand", Action = "GrdSubCostBrandPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "SubCostBrand", Action = "GrdSubCostBrandPartialDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.SettingsPager.PageSize = 10;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+        settings.SettingsCommandButton.EditButton.RenderMode = GridCommandButtonRenderMode.Image;
+        settings.SettingsCommandButton.EditButton.Image.IconID = "icoEdit";
+        settings.SettingsCommandButton.EditButton.Image.Url = Url.Content("~/assets/poin/images/Sign_up_Icon_22.png");
+        settings.SettingsCommandButton.EditButton.Image.ToolTip = "Edit";
+        settings.SettingsCommandButton.NewButton.RenderMode = GridCommandButtonRenderMode.Image;
+        settings.SettingsCommandButton.NewButton.Image.IconID = "add-file";
+        settings.SettingsCommandButton.NewButton.Image.Url = Url.Content("~/assets/poin/images/add-file.png");
+        settings.SettingsCommandButton.NewButton.Image.ToolTip = "New";
+        settings.SettingsCommandButton.DeleteButton.RenderMode = GridCommandButtonRenderMode.Image;
+        settings.SettingsCommandButton.DeleteButton.Image.IconID = "Open_Folder_Delete_Icon_22";
+        settings.SettingsCommandButton.DeleteButton.Image.Url = Url.Content("~/assets/poin/images/Open_Folder_Delete_Icon_22.png");
+        settings.SettingsCommandButton.DeleteButton.Image.ToolTip = "Delete";
+        settings.SettingsCommandButton.UpdateButton.RenderMode = GridCommandButtonRenderMode.Image;
+        settings.SettingsCommandButton.UpdateButton.Image.IconID = "Total Commander_32";
+        settings.SettingsCommandButton.UpdateButton.Image.Url = Url.Content("~/assets/poin/images/Total Commander_22.png");
+        settings.SettingsCommandButton.UpdateButton.Image.ToolTip = "Save";
+        settings.SettingsCommandButton.CancelButton.RenderMode = GridCommandButtonRenderMode.Image;
+        settings.SettingsCommandButton.CancelButton.Image.IconID = "Ad Aware_32";
+        settings.SettingsCommandButton.CancelButton.Image.Url = Url.Content("~/assets/poin/images/Ad Aware_22.png");
+        settings.SettingsCommandButton.CancelButton.Image.ToolTip = "Cancel";
+
+        settings.KeyFieldName = "id";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "savingtypeid";
+            c.Caption = "Type of Initiative";
+            c.Width = 300;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "SavingTypeName";
+                p.ValueField = "id";
+                p.ClientInstanceName = "SavingTypeID";
+                p.ValueType = typeof(string);
+                //p.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
+                p.BindList(ViewData["SavingTypeName"]);
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "costtypeid";
+            c.Caption = "Item Category";
+            c.Width = 800;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "CostTypeName";
+                p.ValueField = "id";
+                p.ClientInstanceName = "CostTypeID";
+                p.ValueType = typeof(string);
+                //p.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
+                p.BindList(ViewData["CostTypeName"]);
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "subcostid";
+            c.Caption = "Sub Cost Item";
+            c.Width = 800;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "SubCostName";
+                p.ValueField = "id";
+                p.ClientInstanceName = "SubCostID";
+                p.ValueType = typeof(string);
+                //p.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
+                p.BindList(ViewData["SubCostName"]);
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "brandid";
+            c.Caption = "Brand Name";
+            c.Width = 800;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "brandname";
+                p.ValueField = "id";
+                p.ClientInstanceName = "BrandID";
+                p.ValueType = typeof(string);
+                //p.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
+                p.BindList(ViewData["BrandName"]);
+            });
+        });
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

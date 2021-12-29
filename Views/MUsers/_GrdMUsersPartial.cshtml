@@ -1,0 +1,854 @@
+@functions{
+    object GetEditingUser(ASPxGridView grid)
+    {
+        if (grid.IsNewRowEditing)
+            return new user_list();
+        return grid.GetRow(grid.EditingRowVisibleIndex);
+    }
+}
+
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GrdMUsers";
+        settings.CallbackRouteValues = new
+        {
+            Controller = "MUsers",
+            Action = "GrdMUsersPartial"
+        };
+
+        settings.Width = Unit.Percentage(100);
+        settings.Height = Unit.Percentage(100);
+        settings.Settings.HorizontalScrollBarMode = DevExpress.Web.ScrollBarMode.Auto;
+        settings.Settings.VerticalScrollBarMode = DevExpress.Web.ScrollBarMode.Auto;
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "MUsers", Action = "GrdMUsersPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "MUsers", Action = "GrdMUsersPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "MUsers", Action = "GrdMUsersPartialDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.SettingsPager.PageSize = 10;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+        settings.SettingsCommandButton.EditButton.RenderMode = GridCommandButtonRenderMode.Image;
+        settings.SettingsCommandButton.EditButton.Image.IconID = "icoEdit";
+        settings.SettingsCommandButton.EditButton.Image.Url = Url.Content("~/assets/poin/images/Sign_up_Icon_22.png");
+        settings.SettingsCommandButton.EditButton.Image.ToolTip = "Edit";
+        settings.SettingsCommandButton.NewButton.RenderMode = GridCommandButtonRenderMode.Image;
+        settings.SettingsCommandButton.NewButton.Image.IconID = "add-file";
+        settings.SettingsCommandButton.NewButton.Image.Url = Url.Content("~/assets/poin/images/add-file.png");
+        settings.SettingsCommandButton.NewButton.Image.ToolTip = "New";
+        settings.SettingsCommandButton.DeleteButton.RenderMode = GridCommandButtonRenderMode.Image;
+        settings.SettingsCommandButton.DeleteButton.Image.IconID = "Open_Folder_Delete_Icon_22";
+        settings.SettingsCommandButton.DeleteButton.Image.Url = Url.Content("~/assets/poin/images/Open_Folder_Delete_Icon_22.png");
+        settings.SettingsCommandButton.DeleteButton.Image.ToolTip = "Delete";
+        settings.SettingsCommandButton.UpdateButton.RenderMode = GridCommandButtonRenderMode.Button;
+        //settings.SettingsCommandButton.UpdateButton.Image.IconID = "Total Commander_32";
+        settings.SettingsCommandButton.UpdateButton.Image.Url = Url.Content("~/assets/poin/images/Total Commander_22.png");
+        settings.SettingsCommandButton.UpdateButton.Image.ToolTip = "Save";
+        settings.SettingsCommandButton.CancelButton.RenderMode = GridCommandButtonRenderMode.Button;
+        //settings.SettingsCommandButton.CancelButton.Image.IconID = "Ad Aware_32";
+        settings.SettingsCommandButton.CancelButton.Image.Url = Url.Content("~/assets/poin/images/Ad Aware_22.png");
+        settings.SettingsCommandButton.CancelButton.Image.ToolTip = "Cancel";
+
+        //settings.CommandColumn.ShowUpdateButton = false;
+
+
+        settings.KeyFieldName = "user_id";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+        settings.Toolbars.Add(t =>
+        {
+            t.SettingsAdaptivity.Enabled = true;
+            t.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+            //t.Items.Add(GridViewToolbarCommand.ExportToPdf);
+            //t.Items.Add(GridViewToolbarCommand.ExportToXls);
+            t.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+            //t.Items.Add(GridViewToolbarCommand.ExportToDocx);
+            //t.Items.Add(GridViewToolbarCommand.ExportToRtf);
+            //t.Items.Add(GridViewToolbarCommand.ExportToCsv);
+        });
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+
+
+
+        settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+        settings.SettingsPopup.EditForm.Width = Unit.Pixel(800);
+        settings.SettingsPopup.EditForm.HorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.SettingsPopup.EditForm.VerticalAlign = PopupVerticalAlign.WindowCenter;
+
+
+        //ListEditItemCollection listStatus = new ListEditItemCollection {
+        //    new ListEditItem{ Text = "Active", Value = 1},
+        //    new ListEditItem{ Text = "Inactive", Value = 2}
+        //};
+
+        StatusOptionModel StatusOptionModel = new StatusOptionModel();
+        List<SimpleModel> listStatus = StatusOptionModel.StatusOption();
+
+
+        BoolOptionModel BolOptionModel = new BoolOptionModel();
+        List<SimpleModel> listBoolean = BolOptionModel.BoolOption();
+
+        UserTypeOptionModel UserTypeOptionModel = new UserTypeOptionModel();
+        List<SimpleModel> listUserType = UserTypeOptionModel.UserTypeOption();
+        
+
+        //ListEditItemCollection listBoolean = new ListEditItemCollection {
+        //    new ListEditItem{ Text = "Yes", Value = 1},
+        //    new ListEditItem{ Text = "No", Value = 0}
+        //};
+
+
+
+        settings.SetEditFormTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<div style='margin: 20px;'>");
+            Html.DevExpress().FormLayout(flSettings =>
+            {
+                flSettings.Name = "FormLayoutProducts";
+                flSettings.Width = Unit.Percentage(100);
+                flSettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                flSettings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 700;
+                flSettings.ColCount = 2;
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "username";
+                    i.Caption = "User Name";
+                    i.NestedExtension().TextBox(s =>
+                    {
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                    });
+                });
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "email";
+                    i.Caption = "Email";
+                    i.NestedExtension().TextBox(s =>
+                    {
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                    });
+                });
+
+
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "USER_FIRST_NAME";
+                    i.Caption = "First Name";
+                    i.NestedExtension().TextBox(s =>
+                    {
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                    });
+                });
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "USER_LAST_NAME";
+                    i.Caption = "Last Name";
+                    i.NestedExtension().TextBox(s =>
+                    {
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                    });
+                });
+
+
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "COUNTRY_CODE";
+                    i.Caption = "Country Code";
+                    i.NestedExtension().TextBox(s =>
+                    {
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                    });
+                });
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "Company_code";
+                    i.Caption = "Company Code";
+                    i.NestedExtension().TextBox(s =>
+                    {
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                    });
+                });
+
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "isNew";
+                    i.Caption = "Is New";
+                    i.NestedExtension().ComboBox(s =>
+                    {
+                        s.Name = "isNew";
+                        s.Properties.ValueType = typeof(int);
+                        //s.Properties.Items.AddRange(listBoolean);
+                        s.Properties.DataSource = listBoolean;
+                        s.Properties.TextField = "def";
+                        s.Properties.ValueField = "id";
+                        s.Properties.ValueType = typeof(int);
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Pixel(60);
+                    });
+                });
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "istoadmin";
+                    i.Caption = "Is To Admin";
+                    i.NestedExtension().ComboBox(s =>
+                    {
+                        s.Properties.ValueType = typeof(int);
+                        s.Properties.DataSource = listBoolean;
+                        s.Properties.TextField = "def";
+                        s.Properties.ValueField = "id";
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Pixel(60);
+                    });
+                });
+
+
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "status";
+                    i.Caption = "Status";
+                    i.NestedExtension().ComboBox(s =>
+                    {
+                        s.Properties.ValueType = typeof(int);
+                        s.Properties.DataSource = listStatus;
+                        s.Properties.TextField = "def";
+                        s.Properties.ValueField = "id";
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Pixel(100);
+                    });
+                });
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "CostControlSite_right";
+                    i.Caption = "Cost Controller Site Right";
+                    i.NestedExtension().TokenBox(s =>
+                    {
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                        s.Height = Unit.Pixel(33);
+
+                        s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                        s.Properties.DataSource = ViewData["LISTCOSTCONTROLSITES"];
+                        s.Properties.ItemValueType = typeof(string);
+                        s.Properties.ClientSideEvents.TokensChanged = "onChangeToken";
+                    });
+                });
+
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "country_right";
+                    i.Caption = "Country Right";
+                    i.NestedExtension().TokenBox(s =>
+                    {
+                        s.Properties.ValueField = "def";
+                        s.Properties.TextField = "def";
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                        s.Height = Unit.Pixel(33);
+
+                        s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                        s.Properties.DataSource = ViewData["LISTCOUNTRIES"];
+                        s.Properties.ItemValueType = typeof(string);
+                        s.Properties.ClientSideEvents.TokensChanged = "onChangeToken";
+                    });
+                });
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "subcountry_right";
+                    i.Caption = "Sub Country Right";
+                    i.NestedExtensionType = FormLayoutNestedExtensionItemType.TokenBox;
+                    i.NestedExtension().TokenBox(s =>
+                    {
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                        s.Height = Unit.Pixel(33);
+
+                        s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                        s.Properties.DataSource = ViewData["LISTSUBCOUNTRIES"];
+                        s.Properties.ItemValueType = typeof(string);
+                        s.Properties.ClientSideEvents.TokensChanged = "onChangeToken";
+                        //s.Properties.ValueSeparator = '|';
+
+                    });
+                });
+
+
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "region_right";
+                    i.Caption = "Region Right";
+                    i.NestedExtension().TokenBox(s =>
+                    {
+                        s.Properties.ValueField = "def";
+                        s.Properties.TextField = "def";
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                        s.Height = Unit.Pixel(33);
+
+                        s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                        s.Properties.DataSource = ViewData["LISTREGIONS"];
+                        s.Properties.ItemValueType = typeof(string);
+                        s.Properties.ClientSideEvents.TokensChanged = "onChangeToken";
+                    });
+                });
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "subregion_right";
+                    i.Caption = "Sub Region Right";
+                    i.NestedExtension().TokenBox(s =>
+                    {
+                        s.Properties.ValueField = "def";
+                        s.Properties.TextField = "def";
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                        s.Height = Unit.Pixel(33);
+
+                        s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                        s.Properties.DataSource = ViewData["LISTSUBREGIONS"];
+                        s.Properties.ItemValueType = typeof(string);
+                        s.Properties.ClientSideEvents.TokensChanged = "onChangeToken";
+                    });
+                });
+
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "Brand_right";
+                    i.Caption = "Brand Right";
+                    i.NestedExtension().TokenBox(s =>
+                    {
+                        s.Properties.ValueField = "def";
+                        s.Properties.TextField = "def";
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                        s.Height = Unit.Pixel(33);
+
+                        s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                        s.Properties.DataSource = ViewData["LISTBRANDS"];
+                        s.Properties.ItemValueType = typeof(string);
+                        s.Properties.ClientSideEvents.TokensChanged = "onChangeToken";
+                    });
+                });
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "RegionalOffice_right";
+                    i.Caption = "Region Office Right";
+                    i.NestedExtension().TokenBox(s =>
+                    {
+                        s.Properties.ValueField = "RegionalOffice_Name";
+                        s.Properties.TextField = "RegionalOffice_Name";
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                        s.Height = Unit.Pixel(33);
+
+                        s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                        s.Properties.DataSource = ViewData["LISTREGIONOFFICES"];
+                        s.Properties.ItemValueType = typeof(string);
+                        s.Properties.ClientSideEvents.TokensChanged = "onChangeToken";
+                        //s.Properties.ClientSideEvents.GotFocus = "onGotFocusRegionOfficeRight";
+                    });
+                });
+
+
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "CostItem_right";
+                    i.Caption = "Cost Item Right";
+                    i.NestedExtension().TokenBox(s =>
+                    {
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                        s.Height = Unit.Pixel(33);
+
+                        s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                        s.Properties.DataSource = ViewData["LISTCOSTITEMTYPES"];
+                        s.Properties.ItemValueType = typeof(string);
+                        s.Properties.ClientSideEvents.TokensChanged = "onChangeToken";
+                    });
+                });
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "SubCostItem_right";
+                    i.Caption = "Sub Cost Item Right";
+                    i.NestedExtension().TokenBox(s =>
+                    {
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                        s.Height = Unit.Pixel(33);
+
+                        s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                        s.Properties.DataSource = ViewData["LISTSUBCOSTITEMS"];
+                        s.Properties.ItemValueType = typeof(string);
+                        s.Properties.ClientSideEvents.TokensChanged = "onChangeToken";
+                    });
+                });
+
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "validity_right";
+                    i.Caption = "Validity Right";
+                    i.NestedExtension().ComboBox(s =>
+                    {
+                        s.Properties.ValueType = typeof(int);
+                        s.Properties.DataSource = listBoolean;
+                        s.Properties.TextField = "def";
+                        s.Properties.ValueField = "id";
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Pixel(100);
+                    });
+                });
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "confidential_right";
+                    i.Caption = "Confidential Right";
+                    i.NestedExtension().ComboBox(s =>
+                    {
+                        s.Properties.ValueType = typeof(int);
+                        s.Properties.DataSource = listBoolean;
+                        s.Properties.TextField = "def";
+                        s.Properties.ValueField = "id";
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Pixel(60);
+                    });
+                });
+
+
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "userType";
+                    i.Caption = "User Type";
+                    i.NestedExtension().ComboBox(s =>
+                    {
+                        s.Properties.ValueType = typeof(int);
+                        s.Properties.DataSource = listUserType;
+                        s.Properties.TextField = "def";
+                        s.Properties.ValueField = "id";
+
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Pixel(200);
+                    });
+                });
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "years_right";
+                    i.Caption = "Year Right";
+                    i.NestedExtension().TextBox(s =>
+                    {
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(100);
+                    });
+                });
+
+                flSettings.Items.AddEmptyItem();
+                flSettings.Items.Add(i =>
+                {
+                    i.ShowCaption = DefaultBoolean.False;
+                }).SetNestedContent(() =>
+                {
+                    ViewContext.Writer.Write("<div style='float:right'>");
+                    Html.DevExpress().Button(btnSettings =>
+                    {
+                        btnSettings.Name = "btnUpdate";
+                        btnSettings.Text = "Update";
+                        btnSettings.ClientSideEvents.Click = "onButtonUpdateClick";
+                    }).Render();
+                    Html.DevExpress().Button(btnSettings =>
+                    {
+                        btnSettings.Name = "btnCancel";
+                        btnSettings.Text = "Cancel";
+                        btnSettings.Style[HtmlTextWriterStyle.MarginLeft] = "5px";
+                        btnSettings.ClientSideEvents.Click = "onButtonCancelClick";
+                    }).Render();
+                    ViewContext.Writer.Write("</div>");
+                });
+            })
+            .Bind(ViewData["EditableUser"] ?? GetEditingUser(c.Grid))
+            .Render();
+
+            ViewContext.Writer.Write("</div>");
+
+        });
+
+
+
+        settings.CustomJSProperties += (s, e) =>
+        {
+            MVCxGridView gridView = (MVCxGridView)s;
+
+            if (gridView.EditingRowVisibleIndex != -1)
+                e.Properties["cpEditingRowVisibleIndex"] = gridView.EditingRowVisibleIndex;
+        };
+
+
+        //settings.Columns.Add(c =>
+        //{
+        //    c.FieldName = "user_id";
+        //    c.Width = System.Web.UI.WebControls.Unit.Pixel(0);
+        //    c.EditFormSettings.Visible = DefaultBoolean.False;
+        //});
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "username";
+            c.Caption = "User Name";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(110);
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "USER_FIRST_NAME";
+            c.Caption = "First Name";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "USER_LAST_NAME";
+            c.Caption = "Last Name";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "COUNTRY_CODE";
+            c.Caption = "Country Code";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Company_code";
+            c.Caption = "Company Code";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+
+        });
+        /*settings.Columns.Add(c =>
+        {
+            c.FieldName = "levelKdAccess";
+            c.Caption = "Level Access";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+
+        });*/
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "status";
+            c.Caption = "Status";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+
+            c.EditorProperties().ComboBox(e =>
+            {
+                e.BindList(listStatus);
+                e.TextField = "def";
+                e.ValueField = "id";
+                e.Width = Unit.Percentage(100);
+            });
+
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "istoadmin";
+            c.Caption = "Is To Admin";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.EditorProperties().ComboBox(e =>
+            {
+                e.BindList(listBoolean);
+                e.TextField = "def";
+                e.ValueField = "id";
+                e.Width = Unit.Percentage(100);
+            });
+
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "email";
+            c.Caption = "E-Mail";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "isNew";
+            c.Caption = "Is New";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.ColumnType = MVCxGridViewColumnType.ComboBox;
+            c.EditorProperties().ComboBox(e =>
+            {
+                e.BindList(listBoolean);
+                e.TextField = "def";
+                e.ValueField = "id";
+                e.Width = Unit.Percentage(100);
+            });
+
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "country_right";
+            c.Caption = "Country Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(350);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TokenBox;
+
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "subcountry_right";
+            c.Caption = "Sub Country Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(350);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.ColumnType = MVCxGridViewColumnType.TokenBox;
+
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "region_right";
+            c.Caption = "Region Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(350);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.ColumnType = MVCxGridViewColumnType.TokenBox;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "subregion_right";
+            c.Caption = "Sub Region Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(350);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.ColumnType = MVCxGridViewColumnType.TokenBox;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "RegionalOffice_right";
+            c.Caption = "Regional Office Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(350);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.ColumnType = MVCxGridViewColumnType.TokenBox;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "CostControlSite_right";
+            c.Caption = "Cost Control Site Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(350);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.ColumnType = MVCxGridViewColumnType.TokenBox;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Brand_right";
+            c.Caption = "Brand Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(350);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.ColumnType = MVCxGridViewColumnType.TokenBox;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "CostItem_right";
+            c.Caption = "Cost Item Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(350);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.ColumnType = MVCxGridViewColumnType.TokenBox;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "SubCostItem_right";
+            c.Caption = "Sub Cost Item Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(350);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.ColumnType = MVCxGridViewColumnType.TokenBox;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "validity_right";
+            c.Caption = "Validity Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.EditorProperties().ComboBox(e =>
+            {
+                e.BindList(listBoolean);
+                e.TextField = "def";
+                e.ValueField = "id";
+                e.Width = Unit.Percentage(100);
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "confidential_right";
+            c.Caption = "Confidential Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.EditorProperties().ComboBox(e =>
+            {
+                e.BindList(listBoolean);
+                e.TextField = "def";
+                e.ValueField = "id";
+                e.Width = Unit.Percentage(100);
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "userType";
+            c.Caption = "User Type";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.EditorProperties().ComboBox(e =>
+            {
+                e.BindList(listUserType);
+                e.TextField = "def";
+                e.ValueField = "id";
+                e.Width = Unit.Percentage(100);
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "years_right";
+            c.Caption = "Years Right";
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            c.CellStyle.Wrap = DefaultBoolean.True;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+
+        settings.SettingsExport.FileName = "GainUsersList";
+        settings.SettingsExport.Styles.Cell.BorderSize = 0;
+        settings.SettingsExport.Styles.Header.Font.Name = "Calibri";
+        settings.SettingsExport.Styles.Header.Font.Size = new FontUnit(11.0f);
+        settings.SettingsExport.Styles.Cell.Font.Name = "Calibri";
+        settings.SettingsExport.Styles.Cell.Font.Size = new FontUnit(11.0f);
+        settings.SettingsExport.Styles.Cell.Font.Bold = false;
+        settings.SettingsExport.Styles.Footer.Font.Name = "Calibri";
+        settings.SettingsExport.Styles.Footer.Font.Size = new FontUnit(11.0f);
+        settings.SettingsExport.RenderBrick = (sender, e) =>
+        {
+            e.BrickStyle.BorderColor = System.Drawing.ColorTranslator.FromHtml("#000000");
+
+            if (e.RowType == GridViewRowType.Header || e.RowType == GridViewRowType.Group || e.RowType == GridViewRowType.Footer)
+            {
+                System.Drawing.Color col = System.Drawing.ColorTranslator.FromHtml("#2f75b5");
+                e.BrickStyle.BackColor = col;
+                e.BrickStyle.ForeColor = System.Drawing.Color.White;
+                return;
+            }
+            else if (e.RowType == GridViewRowType.Data)
+            {
+                //if (e.VisibleIndex % 2 == 0)
+                //   e.BrickStyle.BackColor = System.Drawing.ColorTranslator.FromHtml("#d8e9f1");
+                System.Drawing.Font eFont = e.BrickStyle.Font;
+                System.Drawing.Font nFont = new System.Drawing.Font(eFont.FontFamily, eFont.Size, System.Drawing.FontStyle.Regular);
+                e.BrickStyle.Font = nFont;
+                if (e.Column.Name == "Account" || e.Column.Name == "Nature" || e.Column.Name == "setup_cost_center_id" || e.Column.Name == "setup_currency_id")
+                {
+                    e.BrickStyle.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+                }
+                return;
+            }
+
+            //if (e.RowType == GridViewRowType.Data && e.VisibleIndex % 2 == 0)
+            //    e.BrickStyle.BackColor = System.Drawing.Color.FromArgb(0xEE, 0xEE, 0xEE);
+        };
+
+
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

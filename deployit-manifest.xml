@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<udm.DeploymentPackage version="deployment_version-version_suffix" application="CMACGM-ASIA/MIDDLEWARE/Net/CAP500_GLOBAL_V2">
-	<orchestrator />
+<udm.DeploymentPackage version="deployment_version-version_suffix" application="CMACGM-ASIA/MIDDLEWARE/Net/GAIN">
+	<orchestrator>
+  	  <value>sequential-by-container</value>
+    </orchestrator>
 	<enableAutomaticOrchestrators>false</enableAutomaticOrchestrators>
 	<application />
 	<deployables>
-		<iis.WebDeployContent name="CAP500_GLOBAL_V2" file="CAP500_GLOBAL_V2.zip">
+		<iis.WebDeployContent name="GAIN" file="GAIN.zip">
 			<tags>
-				<value>CAP500_GLOBAL_V2</value>
+				<value>GAIN</value>
 			</tags>
 			<scanPlaceholders>true</scanPlaceholders>
 			<websiteName>{{PLACEHOLDER_WEBSITE_NAME}}</websiteName>
 			<websitePhysicalPath>{{PLACEHOLDER_WEBSITE_PHYSICALPATH}}</websitePhysicalPath>
+			<excludeFileNamesRegex>.+\.(json | js | yml | html)</excludeFileNamesRegex>
 		</iis.WebDeployContent>
 	</deployables>
 	<applicationDependencies />

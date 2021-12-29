@@ -1,0 +1,22 @@
+﻿@{
+    //GAIN.Models.LoginSession LoginSession = new GAIN.Models.LoginSession
+    //{
+    //    ID = "dja.frnugraha"
+    //};
+    //this.Session["DefaultGAINSess"] = LoginSession;
+
+    var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
+}
+
+<!-- menu profile quick info -->
+<div class="profile clearfix">
+    <div class="profile_pic">
+        @*<img src="/assets/poin/images/img.jpg" alt="..." class="img-circle profile_img">*@
+        <img src="@Url.Content("~/assets/poin/images/img.jpg")" alt="..." class="img-circle profile_img">
+    </div>
+    <div class="profile_info">
+        <span>Welcome,</span>
+        <h2> @profileData.ID</h2>
+    </div>
+</div>
+<!-- /menu profile quick info -->

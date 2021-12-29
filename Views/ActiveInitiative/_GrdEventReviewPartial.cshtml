@@ -1,0 +1,59 @@
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GrdEventReview";
+        settings.Settings.VerticalScrollableHeight = 300;
+        settings.SettingsResizing.Visualization = ResizingMode.Live;
+        settings.CallbackRouteValues = new { Controller = "EventReview", Action = "GrdEventReviewPartial" };
+
+        settings.KeyFieldName = "id";
+
+        settings.SettingsPager.Visible = true;
+        settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+        //settings.SettingsPager.PageSize = 10;
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = true;
+        settings.Settings.ShowHeaderFilterButton = true;
+        settings.SettingsPopup.HeaderFilter.Height = 200;
+        settings.SettingsPopup.HeaderFilter.SettingsAdaptivity.MinHeight = 300;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.Columns.Add(c =>
+        {
+            c.Name = "columnsName";
+            c.FieldName = "columnsName";
+            c.Width = 200;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.Name = "oldValues";
+            c.FieldName = "oldValues";
+            c.Width = 200;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.Name = "newValues";
+            c.FieldName = "newValues";
+            c.Width = 200;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.Name = "dateUpdate";
+            c.FieldName = "dateUpdate";
+            c.Width = 200;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.Name = "updateBy";
+            c.FieldName = "updateBy";
+            c.Width = 200;
+        });
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
