@@ -1,10 +1,6 @@
 pipelineType: net
 runSonar: false
-provisionFor: master
-
-##If your included tests, list the projects on which the tests should be executed as per below example
-#tests:
-# - CAP500_GLOBAL_V2.Tests
-##If you need to upload nexus artefacts
-#nexus:
-# - CAP500_GLOBAL_V2
+provisionFor: 
+ - master
+ - develop
+ - test
