@@ -1,5 +1,5 @@
 pipelineType: net
-runSonar: true
+runSonar: false
 provisionFor: master
 
 ##If your included tests, list the projects on which the tests should be executed as per below example
