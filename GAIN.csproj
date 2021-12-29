@@ -6475,9 +6475,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\GAIN_DEPENDENCY.1.0.0\lib\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="GAIN, Version=2.0.5.22781, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\GAIN_DEPENDENCY.1.0.0\lib\GAIN.dll</HintPath>
-    </Reference>
     <Reference Include="Google.Protobuf, Version=3.14.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>packages\GAIN_DEPENDENCY.1.0.0\lib\Google.Protobuf.dll</HintPath>
     </Reference>
