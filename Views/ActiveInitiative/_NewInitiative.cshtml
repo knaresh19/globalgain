@@ -807,7 +807,6 @@
                                 'YTD target and 12 months target both  should be positive or negative',
                                 'error'
                             );
-                            return;
                         }
 
                     } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
@@ -878,7 +877,8 @@
                         //sumtarget = (((12 - (StartMonth.GetValue().getMonth())) * targetjan2) + sum);
                     }
 
-                    if (Number(xTxTargetFullYear).toFixed(0) == Number(sumtarget).toFixed(0)) {
+                    //if (Number(xTxTargetFullYear).toFixed(0) == Number(sumtarget).toFixed(0)) {
+                    if (Math.floor(Number(xTxTargetFullYear)) == Math.floor(Number(sumtarget))) {
                         $.post("@Url.Content("~/ActiveInitiative/SaveNew")", {
                             FormID: xFormID,
                             FormStatus: xFormStatus,
