@@ -790,8 +790,11 @@
                         }
                         else {
                             Swal.fire(
-                                'Sum of monthly target and 12 months target,both  should be positive or negative'
+                                'Target Cannot be Greater Than 12 Months Target',
+                                'Sum of monthly target and 12 months target,both  should be positive or negative',
+                                'error'
                             );
+                            return;
                         }
 
                     } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
@@ -835,7 +838,11 @@
                         }
                         else {
                             Swal.fire(
-                                'Sum of monthly target and 12 months target,both  should be positive or negative');
+                                'Target Cannot be Greater Than 12 Months Target',
+                                'Sum of monthly target and 12 months target,both  should be positive or negative',
+                                'error'
+                            );
+                            return;
                         }
                     }
 
