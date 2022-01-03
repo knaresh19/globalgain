@@ -753,7 +753,11 @@
                     if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
                         var a = (parseFloat(txTargetFullYear.GetValue()).toFixed(0));
                         var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
+                        //code change by Sudhish for -ve /+ve
 
+                        var originalfullyeartarget = a;
+                        var originaltwelevetarget = b;
+                        var sumofmonthlytarget = sum;
                         a = Math.abs(Math.floor(a)); b = Math.abs(Math.floor(b)); sum = Math.abs(Math.floor(sum));
                         //if ((a >= b) || (sum != (b))) {
                         //    Swal.fire(
@@ -763,23 +767,31 @@
                         //    );
                         //    return;
                         //}
+                        //var sign =Math.sign(a)
+                        //do the comparison only if signs are equal 
+                        if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
+                            if (a > b) {
+                                Swal.fire(
+                                    'Target 12 Months Less Than Total Target Field',
+                                    'All Applicable Target of This Year Cannot Greater Than Target 12 Months',
+                                    'error'
+                                );
+                                return;
+                            }
 
-                        if (a > b) {
-                            Swal.fire(
-                                'Target 12 Months Less Than Total Target Field',
-                                'All Applicable Target of This Year Cannot Greater Than Target 12 Months',
-                                'error'
-                            );
-                            return;
+                            if ((sum) > (b + 1)) { // tolerance $1
+                                Swal.fire(
+                                    'Target Cannot be Greater Than 12 Months Target',
+                                    'All Applicable Target Cannot Greater Than Target 12 Months',
+                                    'error'
+                                );
+                                return;
+                            }
                         }
-
-                        if ((sum) > (b + 1)) { // tolerance $1
+                        else {
                             Swal.fire(
-                                'Target Cannot be Greater Than 12 Months Target',
-                                'All Applicable Target Cannot Greater Than Target 12 Months',
-                                'error'
+                                'Sum of monthly target and 12 months target,both  should be positive or negative'
                             );
-                            return;
                         }
 
                     } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
@@ -789,32 +801,41 @@
                         months -= StartMonth.GetValue().getMonth();
                         months += EndMonth.GetValue().getMonth();
                         months++; // ngitung selisih bulan mulai dan bulan akhir initiative
-
+                       
                         var a = (parseFloat(txTargetFullYear.GetValue()).toFixed(0));
                         var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
+                        //Added by Sudhish for positive /-ve 
+                        var originalfullyeartarget = a;
+                        var originaltwelevetarget = b;
+                        var sumofmonthlytarget = sum;
                         x1 = Math.abs(x1); x2 = Math.abs(((b / months).toFixed(0)) * (12 - x1));//x2 = ((12 - x1) * Math.abs(Math.floor(targetjan2)));
                         x2 = Math.abs(Math.floor(x2));
 
                         a = Math.abs(Math.floor(a)); b = Math.abs(Math.floor(b)); sum = Math.abs(Math.floor(sum));
                         //alert('a = ' + a + ' || b = ' + b + ' || sum = ' + sum + ' || x2 = ' + x2 + " || months = " + months + " || (12 - x1) = " + (12 - x1));
                         //if ((a >= b) || ((x2 + sum) > (b + 5))) { // tolerance $5
+                        if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
+                            if (a > b) {
+                                Swal.fire(
+                                    'Target 12 Months Less Than Total Target Field',
+                                    'All Applicable Target of This Year Cannot Greater Than Target 12 Months',
+                                    'error'
+                                );
+                                return;
+                            }
 
-                        if (a > b) {
-                            Swal.fire(
-                                'Target 12 Months Less Than Total Target Field',
-                                'All Applicable Target of This Year Cannot Greater Than Target 12 Months',
-                                'error'
-                            );
-                            return;
+                            if ((x2 + sum) > (b + 1)) { // tolerance $1
+                                Swal.fire(
+                                    'Target Cannot be Greater Than 12 Months Target',
+                                    'All Applicable Target Cannot Greater Than Target 12 Months',
+                                    'error'
+                                );
+                                return;
+                            }
                         }
-
-                        if ((x2 + sum) > (b + 1)) { // tolerance $1
+                        else {
                             Swal.fire(
-                                'Target Cannot be Greater Than 12 Months Target',
-                                'All Applicable Target Cannot Greater Than Target 12 Months',
-                                'error'
-                            );
-                            return;
+                                'Sum of monthly target and 12 months target,both  should be positive or negative');
                         }
                     }
 
