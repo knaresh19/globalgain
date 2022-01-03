@@ -1572,7 +1572,7 @@
     }
 
     function OnCloseNewInitiativeWindow() {
-        $("#LblInitiative").text("XXX-0001");
+        $("#LblInitiative").text(DateTime.Now.Year + "XX####");
         GrdSubCountryPopup.SetValue(null);
         GrdBrandPopup.SetValue(null);
         GrdBrandPopup.ClearItems();
