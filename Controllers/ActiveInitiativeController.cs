@@ -59,7 +59,7 @@ namespace GAIN.Controllers
             return PartialView("_NewInitiative");
         }
         [ValidateInput(false)]
-        public ActionResult GrdMainInitiativePartial()
+        public ActionResult GrdMainInitiativePartial() // Main Function to show data in Main Grid
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
             var where = "";
