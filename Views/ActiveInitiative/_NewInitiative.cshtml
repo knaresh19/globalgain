@@ -855,7 +855,8 @@
                         //sumtarget = (((12 - (StartMonth.GetValue().getMonth())) * targetjan2) + sum);
                     }
 
-                    if (Number(xTxTargetFullYear).toFixed(0) == Number(sumtarget).toFixed(0)) {
+                    //if (Number(xTxTargetFullYear).toFixed(0) == Number(sumtarget).toFixed(0)) {
+                    if (Math.floor(Number(xTxTargetFullYear)) == Math.floor(Number(sumtarget))) {
                         $.post("@Url.Content("~/ActiveInitiative/SaveNew")", {
                             FormID: xFormID,
                             FormStatus: xFormStatus,
