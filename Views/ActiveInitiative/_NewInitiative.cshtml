@@ -173,7 +173,7 @@
                     }
                     @*@Html.Action("GrdInitStatusPartial")*@
                 </div>
-                <div class="span2a">
+                <div class="span2a"
                     LARA Code:
                     <input class="inputan-popup" type="text" id="TxLaraCode" style="font-size: 8pt;" />
                     @*<input class="inputan-popup" disabled="disabled" type="text" id="TxLaraCode" style="font-size: 8pt;" />*@
@@ -769,29 +769,42 @@
                         //}
                         //var sign =Math.sign(a)
                         //do the comparison only if signs are equal 
-                        if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
-                            if (a > b) {
-                                Swal.fire(
-                                    'Target 12 Months Less Than Total Target Field',
-                                    'All Applicable Target of This Year Cannot Greater Than Target 12 Months',
-                                    'error'
-                                );
-                                return;
-                            }
+                        if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {
 
-                            if ((sum) > (b + 1)) { // tolerance $1
+
+                            if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
+                                if (a > b) {
+                                    Swal.fire(
+                                        'Inconsistent Targets',
+                                        'Target YTD cannot be greater then 12 months target',
+                                        'error'
+                                    );
+                                    return;
+                                }
+
+                                if ((sum) > (b + 1)) { // tolerance $1
+                                    Swal.fire(
+                                        'Inconsistent Target',
+                                        'All Applicable Target Cannot Greater Than Target 12 Months',
+                                        'error'
+                                    );
+                                    return;
+                                }
+                            }
+                            else {
                                 Swal.fire(
-                                    'Target Cannot be Greater Than 12 Months Target',
-                                    'All Applicable Target Cannot Greater Than Target 12 Months',
+                                    'Inconsistent Target',
+                                    'Sum of monthly target and 12 months target,both  should be positive or negative',
                                     'error'
                                 );
                                 return;
                             }
                         }
+
                         else {
                             Swal.fire(
-                                'Target Cannot be Greater Than 12 Months Target',
-                                'Sum of monthly target and 12 months target,both  should be positive or negative',
+                                'Inconsistent Target',
+                                'Target 12 Months and Target Current Year both should be positive or negative value',
                                 'error'
                             );
                             return;
@@ -818,19 +831,29 @@
                         //alert('a = ' + a + ' || b = ' + b + ' || sum = ' + sum + ' || x2 = ' + x2 + " || months = " + months + " || (12 - x1) = " + (12 - x1));
                         //if ((a >= b) || ((x2 + sum) > (b + 5))) { // tolerance $5
                         if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
-                            if (a > b) {
-                                Swal.fire(
-                                    'Target 12 Months Less Than Total Target Field',
-                                    'All Applicable Target of This Year Cannot Greater Than Target 12 Months',
-                                    'error'
-                                );
-                                return;
-                            }
+                            if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
+                                if (a > b) {
+                                    Swal.fire(
+                                        'Inconsistent Target',
+                                        'All Applicable Target of This Year Cannot Greater Than Target 12 Months',
+                                        'error'
+                                    );
+                                    return;
+                                }
 
-                            if ((x2 + sum) > (b + 1)) { // tolerance $1
+                                if ((x2 + sum) > (b + 1)) { // tolerance $1
+                                    Swal.fire(
+                                        'Inconsistent Target',
+                                        'All Applicable Target Cannot Greater Than Target 12 Months',
+                                        'error'
+                                    );
+                                    return;
+                                }
+                            }
+                            else {
                                 Swal.fire(
-                                    'Target Cannot be Greater Than 12 Months Target',
-                                    'All Applicable Target Cannot Greater Than Target 12 Months',
+                                    'Inconsistent Target',
+                                    'Sum of monthly target and 12 months target,both  should be positive or negative',
                                     'error'
                                 );
                                 return;
@@ -838,8 +861,8 @@
                         }
                         else {
                             Swal.fire(
-                                'Target Cannot be Greater Than 12 Months Target',
-                                'Sum of monthly target and 12 months target,both  should be positive or negative',
+                                'Inconsistent Target',
+                                'Target 12 Months and Target Current Year both should be positive or negative value',
                                 'error'
                             );
                             return;
