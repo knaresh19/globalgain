@@ -142,9 +142,8 @@ $(function () {
 
             GrdSubCountryPopup.SetText(subCountry);
 
-            GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
             $.post(URLContent('ActiveInitiative/GetCountryBySub'), { id: subCountryID }, function (data) {
-                var obj;
+                var obj;GrdBrandPopup.ClearItems();GrdLegalEntityPopup.ClearItems();
                 $.each(data[0]["BrandData"], function (key, value) {
                     value = JSON.stringify(value); obj = JSON.parse(value);
                     if (obj != null) GrdBrandPopup.AddItem(obj.BrandName, obj.id);
@@ -154,6 +153,7 @@ $(function () {
                     if (obj != null) GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
                 });
                 GrdBrandPopup.SetText(brand); GrdLegalEntityPopup.SetText(legal);
+                console.log(GrdLegalEntityPopup.GetValue());
             });
             /*GrdSubCountryPopup.SelectIndex(0);*/
             //GrdBrandPopup.ClearItems();
