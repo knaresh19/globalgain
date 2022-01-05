@@ -1183,7 +1183,7 @@ function SaveInitiative() {
                                 return;
                             }
 
-                            if ((sum) > (b + 1)) { // tolerance $1
+                            if (!((sum) == (b + 1) || (sum) == b)) { // tolerance $1
                                 Swal.fire(
                                     'Inconsistent Target',
                                     'All Applicable Target Cannot Greater Than Target 12 Months',
@@ -1242,7 +1242,7 @@ function SaveInitiative() {
                                 return;
                             }
 
-                            if ((x2 + sum) > (b + 1)) { // tolerance $1
+                            if (!((x2 + sum) == (b + 1) || (x2 + sum) == b)) { // tolerance $1
                                 Swal.fire(
                                     'Inconsistent Target',
                                     'All Applicable Target Cannot Greater Than Target 12 Months',
