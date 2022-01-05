@@ -770,19 +770,19 @@
                         //var sign =Math.sign(a)
                         //do the comparison only if signs are equal 
                         if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {
-
+                            debugger;
 
                             if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
                                 if (a > b) {
                                     Swal.fire(
                                         'Inconsistent Targets',
-                                        'Target YTD cannot be greater then 12 months target',
+                                        'Target Current Year cannot be greater than Target 12 Months',
                                         'error'
                                     );
                                     return;
                                 }
 
-                                if ((sum) > (b + 1)) { // tolerance $1
+                                if (!((sum) == (b + 1) || (sum) == b)) { // tolerance $1
                                     Swal.fire(
                                         'Inconsistent Target',
                                         'All Applicable Target Cannot Greater Than Target 12 Months',
@@ -841,7 +841,7 @@
                                     return;
                                 }
 
-                                if ((x2 + sum) > (b + 1)) { // tolerance $1
+                                if (!((x2 + sum) == (b + 1) || (x2 + sum ) == b)) { // tolerance $1
                                     Swal.fire(
                                         'Inconsistent Target',
                                         'All Applicable Target Cannot Greater Than Target 12 Months',
