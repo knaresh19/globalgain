@@ -21,7 +21,7 @@
                     @Html.DevExpress().Label(settings =>
                {
                    settings.Name = "LblInitiative";
-                   settings.Text = DateTime.Now.Year + "XX####";
+                   settings.Text = @projectYear + "XX####";
                    settings.ControlStyle.Font.Bold = true;
                    settings.ControlStyle.Font.Size = 12;
                }).GetHtml()
