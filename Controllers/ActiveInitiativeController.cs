@@ -65,7 +65,7 @@ namespace GAIN.Controllers
             var where = "";
 
             if (profileData.confidential_right == 0) where += " and Confidential != 'Y'";
-            if (profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0,1)=="|")
+            if (profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0, 1) == "|")
             {
                 var regofficetext = profileData.RegionalOffice_right.Replace("|", "','");
                 int lenRegionalOffice_right = regofficetext.Length;
@@ -154,7 +154,8 @@ namespace GAIN.Controllers
                     }
                     rpoccondition = rpoccondition.Substring(0, rpoccondition.Length - 1);
                     where += " and a.RegionID in (" + rpoccondition + ")";
-                } else
+                }
+                else
                 {
                     if (profileData.CostControlSite != "ALL")
                     {
@@ -179,11 +180,11 @@ namespace GAIN.Controllers
                 cntrytext = "(" + cntrytext.Substring(2, (lencntrytext - 4)) + ")";
                 var cntryid = db.msubcountries.SqlQuery("SELECT id,CountryID,SubCountryName,CountryCode,isActive FROM msubcountry WHERE SubCountryName IN " + cntrytext + " group by id,CountryID,SubCountryName,CountryCode,isActive").ToList();
                 var cntryidcondition = "(";
-                for (var i=0;i< cntryid.Count();i++)
+                for (var i = 0; i < cntryid.Count(); i++)
                 {
                     cntryidcondition += cntryid[i].id.ToString() + ",";
                 }
-                cntryidcondition = cntryidcondition.Substring(0, cntryidcondition.Length-1);
+                cntryidcondition = cntryidcondition.Substring(0, cntryidcondition.Length - 1);
 
                 where += " and a.SubCountryID in " + cntryidcondition + ")";
             }
@@ -197,24 +198,24 @@ namespace GAIN.Controllers
             ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y").ToList();
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
             //ViewData["mcluster"] = db.mclusters.SqlQuery("SELECT * FROM mcluster where ClusterName != \'\'").ToList();
-            ViewData["mcluster"] = db.mclusters.Where(c=>c.ClusterName != "").GroupBy(g=>g.ClusterName).Select(s=>new { ClusterName = s.Key}).ToList();
-            ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office").GroupBy(g=>g.RegionalOffice_Name).Select(s=> new { RegionalOffice_Name = s.Key }).ToList();
+            ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
+            ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office").GroupBy(g => g.RegionalOffice_Name).Select(s => new { RegionalOffice_Name = s.Key }).ToList();
             ViewData["CostControlSiteName"] = db.mcostcontrolsites.Where(c => c.CostControlSiteName != "").ToList();
             ViewData["CountryName"] = db.mcountries.Where(c => c.CountryName != "").ToList();
             ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "" && c.isActive == "Y").ToList();
-            ViewData["LegalEntityName"] = db.mlegalentities.GroupBy(g=>g.LegalEntityName).Select(s=> new {LegalEntityName = s.Key}).ToList();
+            ViewData["LegalEntityName"] = db.mlegalentities.GroupBy(g => g.LegalEntityName).Select(s => new { LegalEntityName = s.Key }).ToList();
             ViewData["SavingTypeName"] = db.msavingtypes.Where(c => c.isActive == "Y").ToList();
             ViewData["CostTypeName"] = db.mcosttypes.Where(c => c.isActive == "Y").ToList();
             ViewData["SubCostName"] = db.msubcosts.Where(c => c.isActive == "Y").ToList();
-            ViewData["ActionTypeName"] = db.mactiontypes.Where(c=>c.isActive=="Y").ToList();
+            ViewData["ActionTypeName"] = db.mactiontypes.Where(c => c.isActive == "Y").ToList();
             ViewData["SynImpactName"] = db.msynimpacts.Where(c => c.isActive == "Y").ToList();
             ViewData["Status"] = db.mstatus.Where(c => c.isActive == "Y").ToList();
             ViewData["portName"] = db.mports.ToList();
             ViewData["SourceCategoryName"] = db.msourcecategories.ToList();
 
-            foreach(var item in model)
+            foreach (var item in model)
             {
-                if ( Convert.ToDateTime(item.StartMonth).Year < profileData.ProjectYear)
+                if (Convert.ToDateTime(item.StartMonth).Year < profileData.ProjectYear)
                 {
                     item.TargetJan = item.TargetNexJan;
                     item.TargetFeb = item.TargetNexFeb;
@@ -276,7 +277,7 @@ namespace GAIN.Controllers
         {
             string scriptTag = "<script type=\"\" language=\"\">console.clear(); {0}</script>";
             string function = "console.log('{0}');";
-            string log = string.Format(string.Format(scriptTag, function), message.Replace("'","\\'"));
+            string log = string.Format(string.Format(scriptTag, function), message.Replace("'", "\\'"));
             System.Web.HttpContext.Current.Response.Write(log);
         }
         [HttpPost, ValidateInput(false)]
@@ -468,17 +469,18 @@ namespace GAIN.Controllers
                 {
                     //model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName) && c.CountryCode   && c.isActive == "Y").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
                     model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y' and id in " + where + " ").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
-                } else
+                }
+                else
                 {
                     model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName) && c.isActive == "Y").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
                     //model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y';").ToList();
                 }
             }
-            
+
             List<GetDataFromSubCountry> GDSC = new List<GetDataFromSubCountry>();
             GDSC.Add(new GetDataFromSubCountry
             {
-                SubCountryData = model                
+                SubCountryData = model
             });
 
             return Json(GDSC, JsonRequestBehavior.AllowGet);
@@ -686,31 +688,31 @@ namespace GAIN.Controllers
             long? SourceCategory = NewInitiative.SourceCategory;
             SourceCategory = (long?)(SourceCategory == 0 ? (long?)null : SourceCategory);
 
-            decimal? targetjan = NewInitiative.targetjan;decimal? targetjan2 = NewInitiative.targetjan2;
-            decimal? targetfeb = NewInitiative.targetfeb;decimal? targetfeb2 = NewInitiative.targetfeb2;
-            decimal? targetmar = NewInitiative.targetmar;decimal? targetmar2 = NewInitiative.targetmar2;
-            decimal? targetapr = NewInitiative.targetapr;decimal? targetapr2 = NewInitiative.targetapr2;
-            decimal? targetmay = NewInitiative.targetmay;decimal? targetmay2 = NewInitiative.targetmay2;
-            decimal? targetjun = NewInitiative.targetjun;decimal? targetjun2 = NewInitiative.targetjun2;
-            decimal? targetjul = NewInitiative.targetjul;decimal? targetjul2 = NewInitiative.targetjul2;
-            decimal? targetaug = NewInitiative.targetaug;decimal? targetaug2 = NewInitiative.targetaug2;
-            decimal? targetsep = NewInitiative.targetsep;decimal? targetsep2 = NewInitiative.targetsep2;
-            decimal? targetoct = NewInitiative.targetoct;decimal? targetoct2 = NewInitiative.targetoct2;
-            decimal? targetnov = NewInitiative.targetnov;decimal? targetnov2 = NewInitiative.targetnov2;
-            decimal? targetdec = NewInitiative.targetdec;decimal? targetdec2 = NewInitiative.targetdec2;
+            decimal? targetjan = NewInitiative.targetjan; decimal? targetjan2 = NewInitiative.targetjan2;
+            decimal? targetfeb = NewInitiative.targetfeb; decimal? targetfeb2 = NewInitiative.targetfeb2;
+            decimal? targetmar = NewInitiative.targetmar; decimal? targetmar2 = NewInitiative.targetmar2;
+            decimal? targetapr = NewInitiative.targetapr; decimal? targetapr2 = NewInitiative.targetapr2;
+            decimal? targetmay = NewInitiative.targetmay; decimal? targetmay2 = NewInitiative.targetmay2;
+            decimal? targetjun = NewInitiative.targetjun; decimal? targetjun2 = NewInitiative.targetjun2;
+            decimal? targetjul = NewInitiative.targetjul; decimal? targetjul2 = NewInitiative.targetjul2;
+            decimal? targetaug = NewInitiative.targetaug; decimal? targetaug2 = NewInitiative.targetaug2;
+            decimal? targetsep = NewInitiative.targetsep; decimal? targetsep2 = NewInitiative.targetsep2;
+            decimal? targetoct = NewInitiative.targetoct; decimal? targetoct2 = NewInitiative.targetoct2;
+            decimal? targetnov = NewInitiative.targetnov; decimal? targetnov2 = NewInitiative.targetnov2;
+            decimal? targetdec = NewInitiative.targetdec; decimal? targetdec2 = NewInitiative.targetdec2;
 
-            decimal? savingjan = NewInitiative.savingjan;decimal? savingjan2 = NewInitiative.savingjan2;
-            decimal? savingfeb = NewInitiative.savingfeb;decimal? savingfeb2 = NewInitiative.savingfeb2;
-            decimal? savingmar = NewInitiative.savingmar;decimal? savingmar2 = NewInitiative.savingmar2;
-            decimal? savingapr = NewInitiative.savingapr;decimal? savingapr2 = NewInitiative.savingapr2;
-            decimal? savingmay = NewInitiative.savingmay;decimal? savingmay2 = NewInitiative.savingmay2;
-            decimal? savingjun = NewInitiative.savingjun;decimal? savingjun2 = NewInitiative.savingjun2;
-            decimal? savingjul = NewInitiative.savingjul;decimal? savingjul2 = NewInitiative.savingjul2;
-            decimal? savingaug = NewInitiative.savingaug;decimal? savingaug2 = NewInitiative.savingaug2;
-            decimal? savingsep = NewInitiative.savingsep;decimal? savingsep2 = NewInitiative.savingsep2;
-            decimal? savingoct = NewInitiative.savingoct;decimal? savingoct2 = NewInitiative.savingoct2;
-            decimal? savingnov = NewInitiative.savingnov;decimal? savingnov2 = NewInitiative.savingnov2;
-            decimal? savingdec = NewInitiative.savingdec;decimal? savingdec2 = NewInitiative.savingdec2;
+            decimal? savingjan = NewInitiative.savingjan; decimal? savingjan2 = NewInitiative.savingjan2;
+            decimal? savingfeb = NewInitiative.savingfeb; decimal? savingfeb2 = NewInitiative.savingfeb2;
+            decimal? savingmar = NewInitiative.savingmar; decimal? savingmar2 = NewInitiative.savingmar2;
+            decimal? savingapr = NewInitiative.savingapr; decimal? savingapr2 = NewInitiative.savingapr2;
+            decimal? savingmay = NewInitiative.savingmay; decimal? savingmay2 = NewInitiative.savingmay2;
+            decimal? savingjun = NewInitiative.savingjun; decimal? savingjun2 = NewInitiative.savingjun2;
+            decimal? savingjul = NewInitiative.savingjul; decimal? savingjul2 = NewInitiative.savingjul2;
+            decimal? savingaug = NewInitiative.savingaug; decimal? savingaug2 = NewInitiative.savingaug2;
+            decimal? savingsep = NewInitiative.savingsep; decimal? savingsep2 = NewInitiative.savingsep2;
+            decimal? savingoct = NewInitiative.savingoct; decimal? savingoct2 = NewInitiative.savingoct2;
+            decimal? savingnov = NewInitiative.savingnov; decimal? savingnov2 = NewInitiative.savingnov2;
+            decimal? savingdec = NewInitiative.savingdec; decimal? savingdec2 = NewInitiative.savingdec2;
 
             if (FormStatus == "New")
             {
@@ -773,11 +775,57 @@ namespace GAIN.Controllers
                         PortID = (TxPortName == 0 ? 1 : TxPortName),
                         ProjectYear = (short)ProjectYear,
                         VendorName = TxVendorSupp,
-                        TargetJan=targetjan,TargetFeb=targetfeb,TargetMar=targetmar,TargetApr=targetapr,TargetMay=targetmay,TargetJun=targetjun,TargetJul=targetjul,TargetAug=targetaug,TargetSep=targetsep,TargetOct=targetoct,TargetNov=targetnov,TargetDec=targetdec,
-                        TargetNexJan=targetjan2,TargetNexFeb=targetfeb2,TargetNexMar=targetmar2,TargetNexApr=targetapr2,TargetNexMay=targetmay2,TargetNexJun=targetjun2,TargetNexJul=targetjul2,TargetNexAug=targetaug2,TargetNexSep=targetsep2,TargetNexOct=targetoct2,TargetNexNov=targetnov2,TargetNexDec=targetdec2,
-                        AchJan=savingjan,AchFeb=savingfeb,AchMar=savingmar,AchApr=savingapr,AchMay=savingmay,AchJun=savingjun,AchJul=savingjul,AchAug=savingaug,AchSep=savingsep,AchOct=savingoct,AchNov=savingnov,AchDec=savingdec,
-                        AchNexJan=savingjan2,AchNexFeb=savingfeb2,AchNexMar=savingmar2,AchNexApr=savingapr2,AchNexMay=savingmay2,AchNexJun=savingjun2,AchNexJul=savingjul2,AchNexAug=savingaug2,AchNexSep=savingsep2,AchNexOct=savingoct2,AchNexNov=savingnov2,AchNexDec=savingdec2,
-                        CreatedDate = DateTime.Now,CreatedBy = UserID,ModifiedBy = UserID
+                        TargetJan = targetjan,
+                        TargetFeb = targetfeb,
+                        TargetMar = targetmar,
+                        TargetApr = targetapr,
+                        TargetMay = targetmay,
+                        TargetJun = targetjun,
+                        TargetJul = targetjul,
+                        TargetAug = targetaug,
+                        TargetSep = targetsep,
+                        TargetOct = targetoct,
+                        TargetNov = targetnov,
+                        TargetDec = targetdec,
+                        TargetNexJan = targetjan2,
+                        TargetNexFeb = targetfeb2,
+                        TargetNexMar = targetmar2,
+                        TargetNexApr = targetapr2,
+                        TargetNexMay = targetmay2,
+                        TargetNexJun = targetjun2,
+                        TargetNexJul = targetjul2,
+                        TargetNexAug = targetaug2,
+                        TargetNexSep = targetsep2,
+                        TargetNexOct = targetoct2,
+                        TargetNexNov = targetnov2,
+                        TargetNexDec = targetdec2,
+                        AchJan = savingjan,
+                        AchFeb = savingfeb,
+                        AchMar = savingmar,
+                        AchApr = savingapr,
+                        AchMay = savingmay,
+                        AchJun = savingjun,
+                        AchJul = savingjul,
+                        AchAug = savingaug,
+                        AchSep = savingsep,
+                        AchOct = savingoct,
+                        AchNov = savingnov,
+                        AchDec = savingdec,
+                        AchNexJan = savingjan2,
+                        AchNexFeb = savingfeb2,
+                        AchNexMar = savingmar2,
+                        AchNexApr = savingapr2,
+                        AchNexMay = savingmay2,
+                        AchNexJun = savingjun2,
+                        AchNexJul = savingjul2,
+                        AchNexAug = savingaug2,
+                        AchNexSep = savingsep2,
+                        AchNexOct = savingoct2,
+                        AchNexNov = savingnov2,
+                        AchNexDec = savingdec2,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = UserID,
+                        ModifiedBy = UserID
                     });
                     db.SaveChanges();
                     return Content("saved|" + YearInitiative + KodeNegara + nomerselanjutnya);
@@ -821,15 +869,15 @@ namespace GAIN.Controllers
                 initdata.AdditionalInfo = TxAdditionalInfo;
                 initdata.PortID = (TxPortName == 0 ? 1 : TxPortName);
                 initdata.VendorName = TxVendorSupp;
-                initdata.TargetJan = targetjan;initdata.TargetFeb = targetfeb;initdata.TargetMar = targetmar;initdata.TargetApr = targetapr;initdata.TargetMay = targetmay;initdata.TargetJun = targetjun;
-                initdata.TargetJul = targetjul;initdata.TargetAug = targetaug;initdata.TargetSep = targetsep;initdata.TargetOct = targetoct;initdata.TargetNov = targetnov;initdata.TargetDec = targetdec;
-                initdata.TargetNexJan = targetjan2;initdata.TargetNexFeb = targetfeb2;initdata.TargetNexMar = targetmar2;initdata.TargetNexApr = targetapr2;initdata.TargetNexMay = targetmay2;initdata.TargetNexJun = targetjun2;
-                initdata.TargetNexJul = targetjul2;initdata.TargetNexAug = targetaug2;initdata.TargetNexSep = targetsep2;initdata.TargetNexOct = targetoct2;initdata.TargetNexNov = targetnov2;initdata.TargetNexDec = targetdec2;
+                initdata.TargetJan = targetjan; initdata.TargetFeb = targetfeb; initdata.TargetMar = targetmar; initdata.TargetApr = targetapr; initdata.TargetMay = targetmay; initdata.TargetJun = targetjun;
+                initdata.TargetJul = targetjul; initdata.TargetAug = targetaug; initdata.TargetSep = targetsep; initdata.TargetOct = targetoct; initdata.TargetNov = targetnov; initdata.TargetDec = targetdec;
+                initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
+                initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
 
-                initdata.AchJan = savingjan;initdata.AchFeb = savingfeb;initdata.AchMar = savingmar;initdata.AchApr = savingapr;initdata.AchMay = savingmay;initdata.AchJun = savingjun;
-                initdata.AchJul = savingjul;initdata.AchAug = savingaug;initdata.AchSep = savingsep;initdata.AchOct = savingoct;initdata.AchNov = savingnov;initdata.AchDec = savingdec;
-                initdata.AchNexJan = savingjan2;initdata.AchNexFeb = savingfeb2;initdata.AchNexMar = savingmar2;initdata.AchNexApr = savingapr2;initdata.AchNexMay = savingmay2;initdata.AchNexJun = savingjun2;
-                initdata.AchNexJul = savingjul2;initdata.AchNexAug = savingaug2;initdata.AchNexSep = savingsep2;initdata.AchNexOct = savingoct2;initdata.AchNexNov = savingnov2;initdata.AchNexDec = savingdec2;
+                initdata.AchJan = savingjan; initdata.AchFeb = savingfeb; initdata.AchMar = savingmar; initdata.AchApr = savingapr; initdata.AchMay = savingmay; initdata.AchJun = savingjun;
+                initdata.AchJul = savingjul; initdata.AchAug = savingaug; initdata.AchSep = savingsep; initdata.AchOct = savingoct; initdata.AchNov = savingnov; initdata.AchDec = savingdec;
+                initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
+                initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
 
                 //initdata.ModifiedDate = DateTime.Now;
                 initdata.CreatedBy = initdata.CreatedBy;// (initdata.CreatedBy == null ? UserID : initdata.CreatedBy);
@@ -949,10 +997,11 @@ namespace GAIN.Controllers
             else
                 modelsubcountry = db.msubcountries.FirstOrDefault();
 
-            if(GetInfo.Id2 == 0)
+            if (GetInfo.Id2 == 0)
             {
                 modelinitiative = db.t_initiative.Where(init => init.SubCountryID == GetInfo.Id).FirstOrDefault();
-            } else
+            }
+            else
             {
                 modelinitiative = db.t_initiative.Where(init => init.id == GetInfo.Id2).FirstOrDefault();
             }
@@ -972,7 +1021,8 @@ namespace GAIN.Controllers
                     brandcountry = db.mbrandcountries.Where(c => c.subcountryid == SubCountryID).FirstOrDefault();
                     BrandIDx = brandcountry.brandid;
                 }
-            } else
+            }
+            else
             {
                 brandcountry = db.mbrandcountries.Where(c => c.subcountryid == SubCountryID).FirstOrDefault();
                 BrandIDx = brandcountry.brandid;
@@ -1003,7 +1053,8 @@ namespace GAIN.Controllers
             if (GetInfo.Id2 == 0)
             {
                 BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
-            } else
+            }
+            else
             {
                 BrandList = db.mbrands.Where(c => c.id == modelinitiative.BrandID && c.isActive == "Y").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
             }
@@ -1018,12 +1069,13 @@ namespace GAIN.Controllers
             if (modelinitiative != null)
             {
                 TypeInitiativeList = db.msavingtypes.Where(st => st.id == modelinitiative.InitiativeType).Select(s => new TypeInitiativeList { id = s.id, SavingTypeName = s.SavingTypeName }).ToList();
-            } else
+            }
+            else
             {
                 TypeInitiativeList = db.msavingtypes.Select(s => new TypeInitiativeList { id = s.id, SavingTypeName = s.SavingTypeName }).ToList();
             }
 
-            if(GetInfo.Id > 0)
+            if (GetInfo.Id > 0)
             {
                 GDSC.Add(new GetDataFromSubCountry
                 {
@@ -1039,7 +1091,8 @@ namespace GAIN.Controllers
                     TypeInitiativeData = TypeInitiativeList
                 });
 
-            } else
+            }
+            else
             {
                 GDSC.Add(new GetDataFromSubCountry
                 {
@@ -1160,7 +1213,7 @@ namespace GAIN.Controllers
         }
         public ActionResult GetItemFromCostCategory(Models.GetInfoByIDModel GetInfo)
         {
-            long SCID = GetInfo.Id;long SCID2 = GetInfo.Id2;long SCID3 = GetInfo.Id3;
+            long SCID = GetInfo.Id; long SCID2 = GetInfo.Id2; long SCID3 = GetInfo.Id3;
             List<GetItemSubCategoryDataFromCategory> GDFC = new List<GetItemSubCategoryDataFromCategory>();
 
             db.Configuration.ProxyCreationEnabled = false;
@@ -1191,7 +1244,8 @@ namespace GAIN.Controllers
                     MSubCostData = db.msubcosts.SqlQuery("SELECT b.id,b.SubCostName,b.isActive FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " AND a.costtypeid = " + model.CostCategoryID + " AND a.brandid = " + model.BrandID + " and b.isActive = 'Y' GROUP BY b.id,b.SubCostName; ").ToList(),
                     MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname UNION ALL SELECT id, categoryname FROM msourcecategory").ToList()
                 });
-            } else
+            }
+            else
             {
                 GIFP.Add(new OutInitiative
                 {
@@ -1275,7 +1329,7 @@ namespace GAIN.Controllers
             GDFU.Add(new GetDataForUpload
             {
                 InitiativeNumber = initiative.InitNumber,
-                UploadedFileData = db.t_initiative.Where(c => c.id == GetInfo.Id).Select(s => new UploadedFileList {id = s.id, UploadedFileName = s.UploadedFile }).ToList()
+                UploadedFileData = db.t_initiative.Where(c => c.id == GetInfo.Id).Select(s => new UploadedFileList { id = s.id, UploadedFileName = s.UploadedFile }).ToList()
             });
 
             return Json(GDFU, JsonRequestBehavior.AllowGet);
@@ -1303,7 +1357,8 @@ namespace GAIN.Controllers
             {
                 System.IO.File.Delete(resultFileUrl);
                 return Content("Ok");
-            } else
+            }
+            else
             {
                 return Content("File not deleted");
             }
@@ -1322,7 +1377,7 @@ namespace GAIN.Controllers
                 RPOCComment = rpoc,
                 HOComment = ho
             };
-            
+
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
