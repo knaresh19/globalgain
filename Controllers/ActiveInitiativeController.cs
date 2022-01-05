@@ -780,7 +780,7 @@ namespace GAIN.Controllers
                         CreatedDate = DateTime.Now,CreatedBy = UserID,ModifiedBy = UserID
                     });
                     db.SaveChanges();
-                    return Content("saved|" + DateTime.Now.Year + KodeNegara + nomerselanjutnya);
+                    return Content("saved|" + YearInitiative + KodeNegara + nomerselanjutnya);
                 }
             }
             else
