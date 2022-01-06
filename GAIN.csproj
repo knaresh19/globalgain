@@ -6264,6 +6264,13 @@
     <Content Include="Views\Shared\_TopProfile2.cshtml" />
     <Content Include="Views\MUsers\UploadProcess.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Web -local.config" />
+    <Content Include="Web -local.Debug.config">
+      <DependentUpon>Web -local.config</DependentUpon>
+    </Content>
+    <Content Include="Web -local.Release.config">
+      <DependentUpon>Web -local.config</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

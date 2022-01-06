@@ -342,3 +342,6 @@ ASALocalRun/
 .localhistory/
 #Web.config
 /Web.config.jenkins
+/Web -local.config
+/Web -local.Debug.config
+/Web -local.Release.config
