@@ -1152,8 +1152,8 @@ function SaveInitiative() {
                 });
 
                 if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
-                    var a = (parseFloat(txTargetFullYear.GetValue()).toFixed(0));
-                    var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
+                    var a = (parseFloat(txTargetFullYear.GetValue()));
+                    var b = (parseFloat(txTarget12.GetValue()));
                     //code change by Sudhish for -ve /+ve
 
                     var originalfullyeartarget = a;
@@ -1177,7 +1177,7 @@ function SaveInitiative() {
                             if (a > b) {
                                 Swal.fire(
                                     'Inconsistent Targets',
-                                    'Target YTD cannot be greater then 12 months target',
+                                    'All Applicable Target of This Year : <strong>' + originalfullyeartarget +'</strong> cannot be Greater Than Target 12 Months : <strong>'+originaltwelevetarget+'</strong>',
                                     'error'
                                 );
                                 return;
@@ -1186,7 +1186,7 @@ function SaveInitiative() {
                             if (!((sum) == (b + 1) || (sum) == b ||(sum+1) == b)) { // tolerance $1
                                 Swal.fire(
                                     'Inconsistent Target',
-                                    'All Applicable Target Cannot Greater Than Target 12 Months',
+                                    'The amount of All Applicable Target (current SUM of input is <strong>' + sumofmonthlytarget +'</strong>) and Target 12 Months (current input as <strong> '+ originaltwelevetarget+'</strong>) need to be aligned',
                                     'error'
                                 );
                                 return;
@@ -1219,8 +1219,8 @@ function SaveInitiative() {
                     months += EndMonth.GetValue().getMonth();
                     months++; // ngitung selisih bulan mulai dan bulan akhir initiative
 
-                    var a = (parseFloat(txTargetFullYear.GetValue()).toFixed(0));
-                    var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
+                    var a = (parseFloat(txTargetFullYear.GetValue()));
+                    var b = (parseFloat(txTarget12.GetValue()));
                     //Added by Sudhish for positive /-ve 
                     var originalfullyeartarget = a;
                     var originaltwelevetarget = b;
@@ -1236,7 +1236,7 @@ function SaveInitiative() {
                             if (a > b) {
                                 Swal.fire(
                                     'Inconsistent Target',
-                                    'All Applicable Target of This Year Cannot Greater Than Target 12 Months',
+                                     'All Applicable Target of This Year : <strong>' + originalfullyeartarget +'</strong> cannot be Greater Than Target 12 Months : <strong>'+originaltwelevetarget+'</strong>',
                                     'error'
                                 );
                                 return;
@@ -1245,7 +1245,7 @@ function SaveInitiative() {
                             if (!((x2 + sum) == (b + 1) || (x2 + sum) == b ||(x2+sum+1) == b)) { // tolerance $1
                                 Swal.fire(
                                     'Inconsistent Target',
-                                    'All Applicable Target Cannot Greater Than Target 12 Months',
+                                    'The amount of All Applicable Target (current SUM of input is <strong>' + sumofmonthlytarget + '</strong>) and Target 12 Months (current input as <strong> ' + originaltwelevetarget + '</strong>) need to be aligned',
                                     'error'
                                 );
                                 return;
