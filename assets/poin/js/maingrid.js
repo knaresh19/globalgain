@@ -18,7 +18,7 @@ $(function () {
         min_py = (+py - 1);
         max_py = (+py);
         StartMonth.SetMinDate(new Date(min_py + '-01-01'));
-        StartMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+        StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
         EndMonth.SetMinDate(new Date(max_py + '-01-01'));
         EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
 
@@ -1269,7 +1269,7 @@ function SaveInitiative() {
                             if (!((x2 + sum) == (b + 1) || (x2 + sum) == b ||(x2+sum+1) == b)) { // tolerance $1
                                 Swal.fire(
                                     'Inconsistent Target',
-                                    'The amount of All Applicable Target (current SUM of input is <strong>' + sumofmonthlytarget + '</strong>) and Target 12 Months (current input as <strong> ' + (originaltwelevetarget-x2) + '</strong>) need to be aligned',
+                                    'The amount of All Applicable Target (current SUM of input is <strong>' + sum + '</strong>) and Target 12 Months (current input as <strong> ' + (b-x2) + '</strong>) need to be aligned',
                                     'error'
                                 );
                                 return;
