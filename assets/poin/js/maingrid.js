@@ -12,6 +12,7 @@ function URLContent(url)
 
 $(function () {
     $("#BtnInitiative").on("click", function () {
+        debugger;
         var min_py = 0; var max_py = 0;
         var py = projectYear;
         min_py = (+py - 1);
@@ -1157,14 +1158,21 @@ function SaveInitiative() {
                 });
 
                 if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
-                    var a = (parseFloat(txTargetFullYear.GetValue()).toFixed(0));
-                    var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
+                    var a = (parseFloat(txTargetFullYear.GetValue()));
+                    var b = (parseFloat(txTarget12.GetValue()));
                     //code change by Sudhish for -ve /+ve
 
                     var originalfullyeartarget = a;
                     var originaltwelevetarget = b;
                     var sumofmonthlytarget = sum;
-                    a = Math.abs(Math.floor(a)); b = Math.abs(Math.floor(b)); sum = Math.abs(Math.floor(sum));
+                    //Need to ABS first then floor
+                    //a = Math.abs(Math.floor(a));
+                    //b = Math.abs(Math.floor(b));
+                    //sum = Math.abs(Math.floor(sum));
+
+                    a = Math.floor(Math.abs(a));
+                    b = Math.floor(Math.abs(b));
+                    sum = Math.floor(Math.abs(sum));
                     //if ((a >= b) || (sum != (b))) {
                     //    Swal.fire(
                     //        'Target 12 Months Less Than Total Target Field',
@@ -1176,22 +1184,22 @@ function SaveInitiative() {
                     //var sign =Math.sign(a)
                     //do the comparison only if signs are equal 
                     if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {
-
+                        debugger;
 
                         if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
-                            if (a > b) {
-                                Swal.fire(
-                                    'Inconsistent Targets',
-                                    'Target YTD cannot be greater then 12 months target',
-                                    'error'
-                                );
-                                return;
-                            }
+                            //if (a > b) {
+                            //    Swal.fire(
+                            //        'Inconsistent Targets',
+                            //        'All Applicable Target of This Year : <strong>' + originalfullyeartarget +'</strong> cannot be Greater Than Target 12 Months : <strong>'+originaltwelevetarget+'</strong>',
+                            //        'error'
+                            //    );
+                            //    return;
+                            //}
 
-                            if (!((sum) == (b + 1) || (sum) == b)) { // tolerance $1
+                            if (!((sum) == (b + 1) || (sum) == b ||(sum+1) == b)) { // tolerance $1
                                 Swal.fire(
                                     'Inconsistent Target',
-                                    'All Applicable Target Cannot Greater Than Target 12 Months',
+                                    'The amount of All Applicable Target (current SUM of input is <strong>' + sumofmonthlytarget +'</strong>) and Target 12 Months (current input as <strong> '+ originaltwelevetarget+'</strong>) need to be aligned',
                                     'error'
                                 );
                                 return;
@@ -1217,6 +1225,7 @@ function SaveInitiative() {
                     }
 
                 } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
+                    debugger;
                     var x1 = StartMonth.GetValue().getMonth();
                     var months;
                     months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
@@ -1224,33 +1233,43 @@ function SaveInitiative() {
                     months += EndMonth.GetValue().getMonth();
                     months++; // ngitung selisih bulan mulai dan bulan akhir initiative
 
-                    var a = (parseFloat(txTargetFullYear.GetValue()).toFixed(0));
-                    var b = (parseFloat(txTarget12.GetValue()).toFixed(0));
+                    var a = (parseFloat(txTargetFullYear.GetValue()));
+                    var b = (parseFloat(txTarget12.GetValue()));
                     //Added by Sudhish for positive /-ve 
                     var originalfullyeartarget = a;
                     var originaltwelevetarget = b;
                     var sumofmonthlytarget = sum;
-                    x1 = Math.abs(x1); x2 = Math.abs(((b / months).toFixed(0)) * (12 - x1));//x2 = ((12 - x1) * Math.abs(Math.floor(targetjan2)));
-                    x2 = Math.abs(Math.floor(x2));
+                    x1 = Math.abs(x1);
+                    x2 = Math.abs(((b / months)) * (12 - x1));//x2 = ((12 - x1) * Math.abs(Math.floor(targetjan2)));
+                    //x2 = Math.abs(Math.floor(x2));
 
-                    a = Math.abs(Math.floor(a)); b = Math.abs(Math.floor(b)); sum = Math.abs(Math.floor(sum));
+                    //a = Math.abs(Math.floor(a));
+                    //b = Math.abs(Math.floor(b));
+                    //sum = Math.abs(Math.floor(sum));
+
+                    //Floor after abs for -ve comparison 
+                    x2 = Math.floor(Math.abs(x2));
+
+                    a = Math.floor(Math.abs(a));
+                    b = Math.floor(Math.abs(b));
+                    sum = Math.floor(Math.abs(sum));
                     //alert('a = ' + a + ' || b = ' + b + ' || sum = ' + sum + ' || x2 = ' + x2 + " || months = " + months + " || (12 - x1) = " + (12 - x1));
                     //if ((a >= b) || ((x2 + sum) > (b + 5))) { // tolerance $5
                     if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
                         if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
-                            if (a > b) {
-                                Swal.fire(
-                                    'Inconsistent Target',
-                                    'All Applicable Target of This Year Cannot Greater Than Target 12 Months',
-                                    'error'
-                                );
-                                return;
-                            }
+                            //if (a > b) {
+                            //    Swal.fire(
+                            //        'Inconsistent Target',
+                            //         'All Applicable Target of This Year : <strong>' + originalfullyeartarget +'</strong> cannot be Greater Than Target 12 Months : <strong>'+originaltwelevetarget+'</strong>',
+                            //        'error'
+                            //    );
+                            //    return;
+                            //}
 
-                            if (!((x2 + sum) == (b + 1) || (x2 + sum) == b)) { // tolerance $1
+                            if (!((x2 + sum) == (b + 1) || (x2 + sum) == b ||(x2+sum+1) == b)) { // tolerance $1
                                 Swal.fire(
                                     'Inconsistent Target',
-                                    'All Applicable Target Cannot Greater Than Target 12 Months',
+                                    'The amount of All Applicable Target (current SUM of input is <strong>' + sumofmonthlytarget + '</strong>) and Target 12 Months (current input as <strong> ' + (originaltwelevetarget-x2) + '</strong>) need to be aligned',
                                     'error'
                                 );
                                 return;
@@ -1274,18 +1293,19 @@ function SaveInitiative() {
                         return;
                     }
                 }
-
+                debugger;
                 var sumtarget = 0;
                 if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
                     var sum = 0;
                     sumtarget = calculateSum();
+                    sumtarget = Math.abs(sumtarget);
                 } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
                     sumtarget = Math.abs(sum);
                     //sumtarget = (((12 - (StartMonth.GetValue().getMonth())) * targetjan2) + sum);
                 }
 
                 //if (Number(xTxTargetFullYear).toFixed(0) == Number(sumtarget).toFixed(0)) {
-                if (Math.floor(Number(xTxTargetFullYear)) == Math.floor(Number(sumtarget))) {
+                if (Math.floor(Math.abs(Number(xTxTargetFullYear))) == Math.floor(Number(sumtarget))) {
                     $.post(URLContent('ActiveInitiative/SaveNew'), {
                         FormID: xFormID,
                         FormStatus: xFormStatus,
