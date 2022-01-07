@@ -1121,7 +1121,7 @@
     }
 </style>
 
-<script type="text/javascript">var user_type = '@profileData.UserType'; var years_right = '@profileData.years_right'; var projectYear = '@profileData.ProjectYear'; var UrlContent = '@Url.Content("~/")'; var SystemYearNow = '@profileData.ProjectYear';</script>
+<script type="text/javascript">var user_type = '@profileData.UserType'; var years_right = '@profileData.years_right'; var projectYear = '@profileData.ProjectYear'; var UrlContent = '@Url.Content("~/")'; var SystemYearNow = '@profileData.ProjectYear'; var UploadDirectory = @Url.Content(System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"]);</script>
 <script src="@Url.Content("~/assets/poin/js/maingrid.js?v=" + DateTime.Now.Ticks.ToString())" type="text/javascript"></script>
 
 @{ ViewBag.Title = "Index";
