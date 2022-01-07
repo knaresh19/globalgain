@@ -144,17 +144,22 @@ $(function () {
             GrdSubCountryPopup.SetText(subCountry);
 
             $.post(URLContent('ActiveInitiative/GetCountryBySub'), { id: subCountryID }, function (data) {
-                var obj;GrdBrandPopup.ClearItems();GrdLegalEntityPopup.ClearItems();
+                var obj2; GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
                 $.each(data[0]["BrandData"], function (key, value) {
-                    value = JSON.stringify(value); obj = JSON.parse(value);
-                    if (obj != null) GrdBrandPopup.AddItem(obj.BrandName, obj.id);
+                    value = JSON.stringify(value); obj2 = JSON.parse(value);
+                    if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
                 });
-                $.each(data[0]["LegalEntityData"], function (key, value) {
-                    value = JSON.stringify(value); obj = JSON.parse(value);
-                    if (obj != null) GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
+
+                GrdBrandPopup.SetText(brand);
+                var brandid = GrdBrandPopup.GetValue();var countryid = $("#GrdCountryVal").val();var subcountryid = GrdSubCountryPopup.GetValue();var costcontrolsiteid = $("#GrdCostControlVal").val();
+                $.post(URLContent('ActiveInitiative/GetLegalFromBrand'), { brandid: brandid, countryid: countryid, subcountryid: subcountryid, costcontrolsiteid: costcontrolsiteid }, function (data) {
+                    var obj3; GrdLegalEntityPopup.ClearItems();
+                    $.each(data[0]["LegalEntityData"], function (key, value) {
+                        value = JSON.stringify(value); obj3 = JSON.parse(value);
+                        if (obj3 != null) GrdLegalEntityPopup.AddItem(obj3.LegalEntityName, obj3.id);
+                    });
+                    GrdLegalEntityPopup.SetText(legal);
                 });
-                GrdBrandPopup.SetText(brand); GrdLegalEntityPopup.SetText(legal);
-                console.log(GrdLegalEntityPopup.GetValue());
             });
             /*GrdSubCountryPopup.SelectIndex(0);*/
             //GrdBrandPopup.ClearItems();
