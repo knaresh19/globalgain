@@ -1269,7 +1269,7 @@ function SaveInitiative() {
                             if (!((x2 + sum) == (b + 1) || (x2 + sum) == b ||(x2+sum+1) == b)) { // tolerance $1
                                 Swal.fire(
                                     'Inconsistent Target',
-                                    'The amount of All Applicable Target (current SUM of input is <strong>' + sum + '</strong>) and Target 12 Months (current input as <strong> ' + (b-x2) + '</strong>) need to be aligned',
+                                    'The amount of All Applicable Target (current SUM of input is <strong>' + (x2 + sum) + '</strong>) and Target 12 Months (current input as <strong> ' + (b) + '</strong>) need to be aligned',
                                     'error'
                                 );
                                 return;
