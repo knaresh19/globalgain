@@ -1340,17 +1340,18 @@ namespace GAIN.Controllers
         }
         public ActionResult removefile(RemoveFilePost PostedData)
         {
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
             string UploadDirectory = System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"];
             string resultFileUrl = Request.MapPath(UploadDirectory + PostedData.Filename);
 
             // ini buat ngapus yang belakangnya ada tanda |
-            db.Database.ExecuteSqlCommand("UPDATE t_initiative SET uploadedfile = REPLACE(UploadedFile,'" + PostedData.Filename + "|" + PostedData.Initiativenumber + "|','') WHERE InitNumber = '" + PostedData.Initiativenumber + "'");
+            db.Database.ExecuteSqlCommand("UPDATE t_initiative SET uploadedfile = REPLACE(UploadedFile,'" + PostedData.Filename + "|" + PostedData.Initiativenumber + "|',''), ModifiedBy = '" + profileData.ID + "' WHERE InitNumber = '" + PostedData.Initiativenumber + "'");
 
             // ini buat ngapus yang depannya ada tanda |
-            db.Database.ExecuteSqlCommand("UPDATE t_initiative SET uploadedfile = REPLACE(UploadedFile,'|" + PostedData.Filename + "|" + PostedData.Initiativenumber + "','') WHERE InitNumber = '" + PostedData.Initiativenumber + "'");
+            db.Database.ExecuteSqlCommand("UPDATE t_initiative SET uploadedfile = REPLACE(UploadedFile,'|" + PostedData.Filename + "|" + PostedData.Initiativenumber + "',''), ModifiedBy = '" + profileData.ID + "' WHERE InitNumber = '" + PostedData.Initiativenumber + "'");
 
             // ini buat ngapus klo depannya gak ada tanda |
-            db.Database.ExecuteSqlCommand("UPDATE t_initiative SET uploadedfile = REPLACE(UploadedFile,'" + PostedData.Filename + "|" + PostedData.Initiativenumber + "','') WHERE InitNumber = '" + PostedData.Initiativenumber + "'");
+            db.Database.ExecuteSqlCommand("UPDATE t_initiative SET uploadedfile = REPLACE(UploadedFile,'" + PostedData.Filename + "|" + PostedData.Initiativenumber + "',''), ModifiedBy = '" + profileData.ID + "' WHERE InitNumber = '" + PostedData.Initiativenumber + "'");
             db.SaveChanges();
 
             if (System.IO.File.Exists(resultFileUrl))
