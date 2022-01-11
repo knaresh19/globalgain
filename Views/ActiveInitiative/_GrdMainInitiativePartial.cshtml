@@ -1297,27 +1297,39 @@
             }
         };
 
-        int currentMonth = DateTime.Today.Month;
+        int currentMonth = DateTime.Today.AddMonths(3).Month;
         List<string> months = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+        string targetkeyword="Target";
+        string achievedkeyword = "Ach";
         settings.CustomUnboundColumnData = (s, e) =>
         {
+            if (tahun == DateTime.Today.Year)
+            {
+
+
+            }
+            else if(tahun != DateTime.Today.Year+1)
+            {
+                currentMonth = 13;
+            }
             decimal? ytdValue = null;
             if (e.Column.FieldName == "YTDTargetUb")
             {
+
                 int c = 1;
                 foreach(string m in months)
                 {
                     if(c < currentMonth)
                     {
-                        if(e.GetListSourceFieldValue("Target" + m) != null)
+                        if(e.GetListSourceFieldValue(targetkeyword + m) != null)
                         {
                             if (ytdValue.HasValue)
                             {
-                                ytdValue += (decimal)e.GetListSourceFieldValue("Target" + m);
+                                ytdValue += (decimal)e.GetListSourceFieldValue(targetkeyword + m);
                             }
                             else
                             {
-                                ytdValue = (decimal)e.GetListSourceFieldValue("Target" + m);
+                                ytdValue = (decimal)e.GetListSourceFieldValue(targetkeyword + m);
                             }
                         } else
                         {
@@ -1331,20 +1343,21 @@
             }
             else if (e.Column.FieldName == "YTDAchievedUb")
             {
+                ytdValue = null;
                 int c = 1;
                 foreach (string m in months)
                 {
                     if (c < currentMonth)
                     {
-                        if (e.GetListSourceFieldValue("Ach" + m) != null)
+                        if (e.GetListSourceFieldValue(achievedkeyword + m) != null)
                         {
                             if (ytdValue.HasValue)
                             {
-                                ytdValue += (decimal)e.GetListSourceFieldValue("Ach" + m);
+                                ytdValue += (decimal)e.GetListSourceFieldValue(achievedkeyword + m);
                             }
                             else
                             {
-                                ytdValue = (decimal)e.GetListSourceFieldValue("Ach" + m);
+                                ytdValue = (decimal)e.GetListSourceFieldValue(achievedkeyword + m);
                             }
                         }
                         else

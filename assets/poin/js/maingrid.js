@@ -1232,7 +1232,8 @@ function SaveInitiative() {
                     months -= StartMonth.GetValue().getMonth();
                     months += EndMonth.GetValue().getMonth();
                     months++; // ngitung selisih bulan mulai dan bulan akhir initiative
-
+                    lastmonth = EndMonth.GetValue().getMonth();
+                    lastmonth++;
                     var a = (parseFloat(txTargetFullYear.GetValue()));
                     var b = (parseFloat(txTarget12.GetValue()));
                     //Added by Sudhish for positive /-ve 
@@ -1269,7 +1270,8 @@ function SaveInitiative() {
                             if (!((x2 + sum) == (b + 1) || (x2 + sum) == b ||(x2+sum+1) == b)) { // tolerance $1
                                 Swal.fire(
                                     'Inconsistent Target',
-                                    'The amount of All Applicable Target (current SUM of input is <strong>' + (x2 + sum) + '</strong>) and Target 12 Months (current input as <strong> ' + (b) + '</strong>) need to be aligned',
+                                    'The amount of All Applicable Target (current SUM of input is <strong>' + (sum) + '</strong>) and current year target <strong>'+Math.floor((b/months)*lastmonth)+
+                                    '</strong> (prorated target 12 month for current year('+b+'/'+months+'*'+lastmonth+')) need to be aligned',
                                     'error'
                                 );
                                 return;
@@ -1533,29 +1535,46 @@ function hitungtahunini() {
 }
 
 function getYtdValue() {
-    const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
-    const savingty = new Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
-    //debugger;
-    var d = new Date(); var m = d.getMonth();var startmon = ((moment(StartMonth.GetValue()).format("M")));
-    if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
-        m = startmon;
-    }
-    var nilai = 0; var hitung = 0; var saving = 0; var hitungsaving = 0;
-    for (var o = 0; o < targetty.length; o++) {
-        if (o < m) {
-            nilai = $("." + targetty[o]).val().replaceAll(",", "");
-            if (nilai != "") {
-                nilai = parseFloat(nilai); hitung = parseFloat(hitung);
-                hitung = (nilai + hitung);
-            }
+    const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec")//, "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
+    const savingty = new Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec")//, "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
+    debugger;
+    //var d = new Date();
+    var d =new Date(2022, 03, 01)
+    var m = d.getMonth(); var startmon = ((moment(StartMonth.GetValue()).format("M")));
+    let offset = -1;
+    let currentyear = d.getFullYear();
+    //if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
+    //    m = startmon;
+    //}
 
-            saving = $("." + savingty[o]).val().replaceAll(",", "");
-            if (saving != "") {
-                saving = parseFloat(saving); hitungsaving = parseFloat(hitungsaving);
-                hitungsaving = (saving + hitungsaving);
+    if (currentyear == projectYear) {
+        // m = startmon;
+        offset = 0;
+    }
+    else  {
+        //m = startmon + 12;
+        offset = 0;
+        m = 12;
+    }
+   /* if (offset > 0) {*/
+        var nilai = 0; var hitung = 0; var saving = 0; var hitungsaving = 0;
+        for (var o = offset; o < targetty.length; o++) {
+            if (o < m) {
+                nilai = $("." + targetty[o]).val().replaceAll(",", "");
+                if (nilai != "") {
+                    nilai = parseFloat(nilai); hitung = parseFloat(hitung);
+                    hitung = (nilai + hitung);
+                }
+
+                saving = $("." + savingty[o]).val().replaceAll(",", "");
+                if (saving != "") {
+                    saving = parseFloat(saving); hitungsaving = parseFloat(hitungsaving);
+                    hitungsaving = (saving + hitungsaving);
+                }
             }
         }
-    }
-    txYTDTargetFullYear.SetValue(hitung);
-    txYTDSavingFullYear.SetValue(hitungsaving);
+        txYTDTargetFullYear.SetValue(hitung);
+        txYTDSavingFullYear.SetValue(hitungsaving);
+   // }
+    
 }
