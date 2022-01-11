@@ -2378,6 +2378,7 @@
     <Content Include="assets\poin\js\jquery.mask.min.js" />
     <Content Include="assets\poin\js\jquery.rollNumber.js" />
     <Content Include="assets\poin\js\jquery.vide.js" />
+    <Content Include="assets\poin\js\maingrid.js" />
     <Content Include="assets\poin\js\main.js" />
     <Content Include="assets\poin\js\moment\moment.min.js" />
     <Content Include="assets\poin\js\sweetalert2.all.min.js" />

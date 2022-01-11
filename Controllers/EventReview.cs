@@ -14,6 +14,7 @@ namespace GAIN.Controllers
         public ActionResult GrdEventReviewPartial()
         {
             var profileData = Session["EventReviewID"] as EventReviewSession;
+            var profileData2 = Session["DefaultGAINSess"] as LoginSession;
 
             //var ID = Int64.Parse(profileData.ID);
             //var model = db.logtables.Where(c => c.id == ID);
@@ -25,11 +26,11 @@ namespace GAIN.Controllers
             {
                 if (initiative.GenKey != null)
                 {
-                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey).ToList();
+                    model = db.logtables.Where(c => (c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey) && c.projectyear == profileData2.ProjectYear).ToList();
                 }
                 else
                 {
-                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber).ToList();
+                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.projectyear == profileData2.ProjectYear).ToList();
                 }
                 ViewBag.Initnumber = initiative.InitNumber;
             } else
@@ -48,17 +49,18 @@ namespace GAIN.Controllers
                 ID = PostedData.ID
             };
             Session["EventReviewID"] = EventReviewSession;
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
 
             var model = new List<logtable>();
             var ID = Int64.Parse(PostedData.ID);
             var initiative = db.t_initiative.Where(c => c.id == ID).FirstOrDefault();
             if (initiative.GenKey != null)
             {
-                model = db.logtables.Where(c => c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey).ToList();
+                model = db.logtables.Where(c => (c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey) && c.projectyear == profileData.ProjectYear).ToList();
             }
             else
             {
-                model = db.logtables.Where(c => c.initnumber == initiative.InitNumber).ToList();
+                model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.projectyear == profileData.ProjectYear).ToList();
             }
 
             //EventReviewSession.ID  = PostedData.ID;

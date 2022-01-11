@@ -3,4 +3,4 @@ runSonar: false
 provisionFor: 
  - master
  - develop
- - test
+ - release
