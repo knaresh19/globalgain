@@ -186,7 +186,7 @@ $(function () {
             min_py = (+py - 1);
             max_py = (+py);
             StartMonth.SetMinDate(new Date(min_py + '-01-01'));
-            StartMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+            StartMonth.SetMaxDate(new Date((max_py ) + '-12-31'));
             EndMonth.SetMinDate(new Date(max_py + '-01-01'));
             EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
             $(".txTarget").prop("disabled", false); $(".txSaving").prop("disabled", false); $(".txTarget").val(''); $(".txSaving").val('');
@@ -341,7 +341,7 @@ function ShowEditWindow(id) {
     min_py = (+py - 1);
     max_py = (+py);
     StartMonth.SetMinDate(new Date(min_py + '-01-01'));
-    StartMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+    StartMonth.SetMaxDate(new Date((max_py) + '-12-31'));
     EndMonth.SetMinDate(new Date(max_py + '-01-01'));
     EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
 
@@ -1032,7 +1032,7 @@ function OnClickEditInitiative(s, e) {
 
 function formatValue(n) {
     debugger;
-    if (n == 0) {
+    if (n === 0) {
         return 0;
     }
     else if (n == null || n == "") {
