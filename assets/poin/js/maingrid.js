@@ -1542,7 +1542,7 @@ function getYtdValue() {
     const savingty = new Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec")//, "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
     debugger;
     //var d = new Date();
-    var d =new Date(2022, 03, 01)
+    var d = new Date();
     var m = d.getMonth(); var startmon = ((moment(StartMonth.GetValue()).format("M")));
     let offset = -1;
     let currentyear = d.getFullYear();

@@ -1297,7 +1297,7 @@
             }
         };
 
-        int currentMonth = DateTime.Today.AddMonths(3).Month;
+        int currentMonth = DateTime.Today.Month;
         List<string> months = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
         string targetkeyword="Target";
         string achievedkeyword = "Ach";
@@ -1308,7 +1308,7 @@
 
 
             }
-            else if(tahun != DateTime.Today.Year+1)
+            else if(tahun != DateTime.Today.Year)
             {
                 currentMonth = 13;
             }
