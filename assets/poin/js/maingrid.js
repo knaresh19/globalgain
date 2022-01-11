@@ -1031,10 +1031,13 @@ function OnClickEditInitiative(s, e) {
 }
 
 function formatValue(n) {
-    if (n == null || n == "") {
-        return "";
-    } else if (n == 0) {
+    debugger;
+    if (n == 0) {
         return 0;
+    }
+    else if (n == null || n == "") {
+        return "";
+    
     } else {
         n = String(n).replaceAll(',', '');
         return parseFloat(n).toFixed(2).replaceAll(/\d(?=(\d{3})+\.)/g, '$&,');
