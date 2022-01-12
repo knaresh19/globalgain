@@ -12,7 +12,6 @@ function URLContent(url)
 
 $(function () {
     $("#BtnInitiative").on("click", function () {
-        debugger;
         var min_py = 0; var max_py = 0;
         var py = projectYear;
         min_py = (+py - 1);
@@ -516,6 +515,7 @@ function ShowEditWindow(id) {
                 $("#chkAuto").prop("disabled", true);
                 $(".txTarget").prop("disabled", true); //prevent Agency User to edit the target except pending initiative
                 StartMonth.clientEnabled = false; EndMonth.clientEnabled = false; //prevent Agency User from selecting different Start / End dates (Except for Pending initiative)
+                txTarget12.clientEnabled = false;
             }
 
             WindowInitiative.Show();
@@ -652,6 +652,7 @@ function OnCloseNewInitiativeWindow() {
     $("input[name='StartMonth']").prop('readonly', false);
     StartMonth.clientEnabled = true;
     EndMonth.clientEnabled = true;
+    txTarget12.clientEnabled = true;
 
     //GrdLegalEntity.SetText = '';
     $.post(URLContent('ActiveInitiative/RemoveSelectedGridLookup'), function (data) {
@@ -1031,7 +1032,6 @@ function OnClickEditInitiative(s, e) {
 }
 
 function formatValue(n) {
-    debugger;
     if (n === 0) {
         return 0;
     }
@@ -1540,7 +1540,6 @@ function hitungtahunini() {
 function getYtdValue() {
     const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec")//, "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
     const savingty = new Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec")//, "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
-    debugger;
     //var d = new Date();
     var d = new Date();
     var m = d.getMonth(); var startmon = ((moment(StartMonth.GetValue()).format("M")));
