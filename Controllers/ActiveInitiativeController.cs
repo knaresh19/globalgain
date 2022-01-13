@@ -437,7 +437,8 @@ namespace GAIN.Controllers
             var profileData = Session["DefaultGAINSess"] as LoginSession; var where = "";
             if (profileData.UserType == 3) //agency
             {
-                var cntrytext = profileData.CountryID.Replace("|", "','");
+                //var cntrytext = profileData.CountryID.Replace("|", "','");
+                var cntrytext = profileData.subcountry_right.Replace("|", "','");
                 int lencntrytext = cntrytext.Length;
                 cntrytext = "(" + cntrytext.Substring(2, (lencntrytext - 4)) + ")";
                 var cntryid = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y' and SubCountryName in " + cntrytext + " ").ToList();
