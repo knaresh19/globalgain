@@ -1305,7 +1305,7 @@ namespace GAIN.Controllers
                         {
                             FileDiDB = filename + "|" + InitiativeNumber;
                         }
-                        db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(UploadedFile, \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
+                        db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
                         db.SaveChanges();
                     }
                     e.CallbackData = filename + "|" + InitiativeNumber;

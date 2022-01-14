@@ -1193,8 +1193,6 @@ function SaveInitiative() {
                     //var sign =Math.sign(a)
                     //do the comparison only if signs are equal 
                     if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {
-                        debugger;
-
                         if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
                             //if (a > b) {
                             //    Swal.fire(
@@ -1304,7 +1302,6 @@ function SaveInitiative() {
                         return;
                     }
                 }
-                debugger;
                 var sumtarget = 0;
                 if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
                     var sum = 0;
