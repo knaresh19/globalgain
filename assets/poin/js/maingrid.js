@@ -897,6 +897,7 @@ function removefile(initiativenumber, filename, btndel) {
 
                 var tmp = $("#summary-uploaded-files").html();
                 if (tmp == "") $("#summary-uploaded-files").html("<tr><td colspan=\"2\"><center>There is no File Uploaded</center></td></tr>");
+                GrdMainInitiative.Refresh();
             });
         }
     });
