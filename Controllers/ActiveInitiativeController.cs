@@ -1291,7 +1291,6 @@ namespace GAIN.Controllers
                     string resultFileUrl = UploadDirectory + resultFileName;
                     string resultFilePath = HttpContext.Request.MapPath(resultFileUrl);
                     e.UploadedFile.SaveAs(resultFilePath);
-                    e.CallbackData = filename;
 
                     string FileDiDB = "";
                     t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
@@ -1309,6 +1308,7 @@ namespace GAIN.Controllers
                         db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = \'" + FileDiDB + "\', ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' ");
                         db.SaveChanges();
                     }
+                    e.CallbackData = filename + "|" + InitiativeNumber;
                 }
             });
             return null;
