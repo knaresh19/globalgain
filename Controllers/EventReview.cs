@@ -1,4 +1,4 @@
-﻿using DevExpress.Web.Mvc;
+using DevExpress.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,11 +56,11 @@ namespace GAIN.Controllers
             var initiative = db.t_initiative.Where(c => c.id == ID).FirstOrDefault();
             if (initiative.GenKey != null)
             {
-                model = db.logtables.Where(c => (c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey) && c.projectyear == profileData.ProjectYear).ToList();
+                model = db.logtables.Where(c => c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey).ToList();
             }
             else
             {
-                model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.projectyear == profileData.ProjectYear).ToList();
+                model = db.logtables.Where(c => c.initnumber == initiative.InitNumber).ToList();
             }
 
             //EventReviewSession.ID  = PostedData.ID;

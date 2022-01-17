@@ -124,7 +124,7 @@ namespace GAIN.Controllers
                 var subcostitemtext = profileData.SubCostItem_right.Replace("|", "','");
                 int lensubcostitem = subcostitemtext.Length;
                 subcostitemtext = "(" + subcostitemtext.Substring(2, (lensubcostitem - 4)) + ")";
-                var subcostitemid = db.mcosttypes.SqlQuery("select id,SubCostName,isActive from msubcost where SubCostName in " + subcostitemtext + " group by id,SubCostName,isActive").ToList();
+                var subcostitemid = db.msubcosts.SqlQuery("select id,SubCostName,isActive from msubcost where SubCostName in " + subcostitemtext + " group by id,SubCostName,isActive").ToList();
                 var subcostitemcondition = "";
                 for (var i = 0; i < subcostitemid.Count(); i++)
                 {
