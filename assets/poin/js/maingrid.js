@@ -841,7 +841,9 @@ function OnClickUpload(s, e) {
                 var output = ""; var arrFileName = obj.UploadedFileName.split("|");
                 if (arrFileName[0] != '') {
                     for (var x = 0; x < arrFileName.length; x++) {
-                        output += "<tr><td width=\"660\"><a href=\"" + UploadDirectory + arrFileName[x] + "\" target=\"_new\" >" + arrFileName[x] + "</td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + InitNumber + "','" + arrFileName[x] + "',this)\" >Remove</button></td></tr>";
+                        if (arrFileName[x] != '')
+                            output += "<tr><td width=\"660\"><a href=\"" + UploadDirectory + arrFileName[x] + "\" target=\"_new\" >" + arrFileName[x] + "</td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + InitNumber + "','" + arrFileName[x] + "',this)\" >Remove</button></td></tr>";
+
                         x++;
                     }
                     $("#summary-uploaded-files").html(output);
@@ -877,7 +879,10 @@ function onUploadControlFileUploadComplete(s, e) {
         if (isisekarang == '<tr><td colspan="2"><center>There is no File Uploaded</center></td></tr>') {
             $("#summary-uploaded-files").html('');
         }
-        $("#summary-uploaded-files").append("<tr><td width='660'><a href=\"" + UploadDirectory + fileName + "\" target=\"_new\">" + fileName + "</a></td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + initiativenumber + "','" + fileName + "',this)\" >Remove</button></td></tr>");
+
+        if (fileName != '')
+            $("#summary-uploaded-files").append("<tr><td width='660'><a href=\"" + UploadDirectory + fileName + "\" target=\"_new\">" + fileName + "</a></td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + initiativenumber + "','" + fileName + "',this)\" >Remove</button></td></tr>");
+
         GrdMainInitiative.Refresh();
     }
 }
@@ -897,6 +902,7 @@ function removefile(initiativenumber, filename, btndel) {
 
                 var tmp = $("#summary-uploaded-files").html();
                 if (tmp == "") $("#summary-uploaded-files").html("<tr><td colspan=\"2\"><center>There is no File Uploaded</center></td></tr>");
+                GrdMainInitiative.Refresh();
             });
         }
     });
@@ -1187,8 +1193,6 @@ function SaveInitiative() {
                     //var sign =Math.sign(a)
                     //do the comparison only if signs are equal 
                     if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {
-                        debugger;
-
                         if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
                             //if (a > b) {
                             //    Swal.fire(
@@ -1298,7 +1302,6 @@ function SaveInitiative() {
                         return;
                     }
                 }
-                debugger;
                 var sumtarget = 0;
                 if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
                     var sum = 0;
