@@ -192,8 +192,8 @@ namespace GAIN.Controllers
 
             //ConsoleLog(" UserType: " + profileData.UserType + "\\n RegionID: " + profileData.RegionID + "\\n CostControlSite: " + profileData.CostControlSite + "\\n Country: " + profileData.CountryID + "\\n Condition: " + where);
 
-            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
-            //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
+           // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
+            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
 
             ViewData["mregions"] = db.mregions.ToList();
             ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y").ToList();
