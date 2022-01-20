@@ -10,6 +10,7 @@ using DevExpress.Spreadsheet;
 using System.Web;
 using System.IO;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace GAIN.Controllers
 {
@@ -51,7 +52,7 @@ namespace GAIN.Controllers
             SetReferenceData();
 
             ClearSomeErrorState();
-            ValidateModel(item);
+            //ValidateModel(item);
 
             item.USER_MIDDLE_NAME = "-";
             item.DEPARTMENT_CODE = "-";
@@ -61,7 +62,7 @@ namespace GAIN.Controllers
                 item.USER_LAST_NAME = "";
             }
 
-            if (ModelState.IsValid)
+            if (TryValidateModel(item))
             {
                 DbEntityValidationResult resultVal = db.Entry(item).GetValidationResult();
                 if (resultVal.IsValid)
@@ -125,7 +126,20 @@ namespace GAIN.Controllers
             SetReferenceData();
 
             ClearSomeErrorState();
-            ValidateModel(item);
+            /*try
+            {
+                ValidateModel(item);
+
+            }
+            catch (InvalidOperationException ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+
+            }*/
 
             item.USER_MIDDLE_NAME = "-";
             item.DEPARTMENT_CODE = "-";
@@ -135,7 +149,7 @@ namespace GAIN.Controllers
                 item.USER_LAST_NAME = "";
             }
 
-            if (ModelState.IsValid)
+            if (TryValidateModel(item))
             {
                 try
                 {
@@ -239,6 +253,9 @@ namespace GAIN.Controllers
             ModelState.Remove("status");
             ModelState.Remove("validity_right");
             ModelState.Remove("confidential_right");
+            ModelState.Remove("USER_MIDDLE_NAME");
+            ModelState.Remove("USER_LAST_NAME");
+
         }
         #endregion
 
