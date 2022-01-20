@@ -489,7 +489,7 @@ function ShowEditWindow(id) {
                 GrdLegalEntityPopup.SetValue(legalentityidx);
             });
             getYtdValue();
-
+            hitungtahunini();
             //var years_right = '@years_right';
             var project_year = projectYear;
 
