@@ -12,11 +12,11 @@ namespace GAIN.Models
         [Display(Name = "First Name")]
         public string USER_FIRST_NAME { get; set; }
 
-        [Required(ErrorMessage = "Middle Name is required")]
+        //[Required(ErrorMessage = "Middle Name is required")]
         [Display(Name = "Middle Name")]
         public string USER_MIDDLE_NAME { get; set; }
 
-        [Required(ErrorMessage = "Last Name is required")]
+        //[Required(ErrorMessage = "Last Name is required")]
         [Display(Name = "Last Name")]
         public string USER_LAST_NAME { get; set; }
 
