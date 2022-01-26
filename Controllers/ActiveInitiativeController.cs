@@ -871,15 +871,30 @@ namespace GAIN.Controllers
                 initdata.AdditionalInfo = TxAdditionalInfo;
                 initdata.PortID = (TxPortName == 0 ? 1 : TxPortName);
                 initdata.VendorName = TxVendorSupp;
-                initdata.TargetJan = targetjan; initdata.TargetFeb = targetfeb; initdata.TargetMar = targetmar; initdata.TargetApr = targetapr; initdata.TargetMay = targetmay; initdata.TargetJun = targetjun;
-                initdata.TargetJul = targetjul; initdata.TargetAug = targetaug; initdata.TargetSep = targetsep; initdata.TargetOct = targetoct; initdata.TargetNov = targetnov; initdata.TargetDec = targetdec;
-                initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
-                initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
+                //Manipulate if this is previous year initiative 
+                if (StartMonth.Year == ProjectYear)
+                {
+                    initdata.TargetJan = targetjan; initdata.TargetFeb = targetfeb; initdata.TargetMar = targetmar; initdata.TargetApr = targetapr; initdata.TargetMay = targetmay; initdata.TargetJun = targetjun;
+                    initdata.TargetJul = targetjul; initdata.TargetAug = targetaug; initdata.TargetSep = targetsep; initdata.TargetOct = targetoct; initdata.TargetNov = targetnov; initdata.TargetDec = targetdec;
+                    initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
+                    initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
 
-                initdata.AchJan = savingjan; initdata.AchFeb = savingfeb; initdata.AchMar = savingmar; initdata.AchApr = savingapr; initdata.AchMay = savingmay; initdata.AchJun = savingjun;
-                initdata.AchJul = savingjul; initdata.AchAug = savingaug; initdata.AchSep = savingsep; initdata.AchOct = savingoct; initdata.AchNov = savingnov; initdata.AchDec = savingdec;
-                initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
-                initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+                    initdata.AchJan = savingjan; initdata.AchFeb = savingfeb; initdata.AchMar = savingmar; initdata.AchApr = savingapr; initdata.AchMay = savingmay; initdata.AchJun = savingjun;
+                    initdata.AchJul = savingjul; initdata.AchAug = savingaug; initdata.AchSep = savingsep; initdata.AchOct = savingoct; initdata.AchNov = savingnov; initdata.AchDec = savingdec;
+                    initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
+                    initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+                }
+                else
+                {
+                    //Capture the records only for the next year 
+                    initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
+                    initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
+
+                    initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
+                    initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+
+
+                }
 
                 //initdata.ModifiedDate = DateTime.Now;
                 initdata.CreatedBy = initdata.CreatedBy;// (initdata.CreatedBy == null ? UserID : initdata.CreatedBy);

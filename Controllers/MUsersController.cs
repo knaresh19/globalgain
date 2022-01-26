@@ -465,55 +465,83 @@ namespace GAIN.Controllers
 
             string[] tokens = TokenBoxExtension.GetSelectedValues<string>("subcountry_right");
             if (tokens.Count() > 0)
+            {
                 model.subcountry_right = string.Join("|", tokens);
+                model.subcountry_right = Formatdata(model.subcountry_right);
+            }
+
             else
                 model.subcountry_right = null;
 
             tokens = TokenBoxExtension.GetSelectedValues<string>("country_right");
             if (tokens.Count() > 0)
+            {
                 model.country_right = string.Join("|", tokens);
+                model.country_right = Formatdata(model.country_right);
+            }
             else
                 model.country_right = null;
 
             tokens = TokenBoxExtension.GetSelectedValues<string>("region_right");
             if (tokens.Count() > 0)
+            {
                 model.region_right = string.Join("|", tokens);
+                model.region_right = Formatdata(model.region_right);
+            }
             else
                 model.region_right = null;
 
             tokens = TokenBoxExtension.GetSelectedValues<string>("subregion_right");
             if (tokens.Count() > 0)
+            {
                 model.subregion_right = string.Join("|", tokens);
+                model.subregion_right = Formatdata(model.subregion_right);
+            }
             else
                 model.subregion_right = null;
 
             tokens = TokenBoxExtension.GetSelectedValues<string>("RegionalOffice_right");
             if (tokens.Count() > 0)
+            {
                 model.RegionalOffice_right = string.Join("|", tokens);
+                model.RegionalOffice_right = Formatdata(model.RegionalOffice_right);
+            }
             else
                 model.RegionalOffice_right = null;
 
             tokens = TokenBoxExtension.GetSelectedValues<string>("Brand_right");
             if (tokens.Count() > 0)
+            {
                 model.Brand_right = string.Join("|", tokens);
+                model.Brand_right = Formatdata(model.Brand_right);
+            }
             else
                 model.Brand_right = null;
 
             tokens = TokenBoxExtension.GetSelectedValues<string>("CostItem_right");
             if (tokens.Count() > 0)
+            {
                 model.CostItem_right = string.Join("|", tokens);
+                model.CostItem_right = Formatdata(model.CostItem_right);
+            }
             else
                 model.CostItem_right = null;
 
             tokens = TokenBoxExtension.GetSelectedValues<string>("SubCostItem_right");
             if (tokens.Count() > 0)
+            {
                 model.SubCostItem_right = string.Join("|", tokens);
+                model.SubCostItem_right = Formatdata(model.SubCostItem_right);
+            }
             else
                 model.SubCostItem_right = null;
 
             tokens = TokenBoxExtension.GetSelectedValues<string>("CostControlSite_right");
             if (tokens.Count() > 0)
+            {
                 model.CostControlSite_right = string.Join("|", tokens);
+                model.CostControlSite_right = Formatdata(model.CostControlSite_right);
+            }
             else
                 model.CostControlSite_right = null;
 
@@ -536,6 +564,19 @@ namespace GAIN.Controllers
                 model.userType = ComboBoxExtension.GetValue<int>("userType");
         }
         #endregion
+        private string Formatdata(string Value)
+        {
+            if(!Value.StartsWith("|"))
+            {
+                Value = "|" + Value;
+            }
+            if(!Value.EndsWith("|"))
+            {
+                Value = Value + "|";
+            }
+
+            return Value;
+        }
 
         #region Dispose
         protected override void Dispose(bool disposing)
