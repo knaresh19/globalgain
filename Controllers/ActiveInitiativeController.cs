@@ -1290,7 +1290,32 @@ namespace GAIN.Controllers
             string UploadDirectory = System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"];
 
             long DefaultMaxFileSize = 1000 * 1048576; // 1000MB
+            //LoginSession profileData = this.Session["DefaultGAINSess"] as LoginSession;
 
+            string filename;
+            string resultFileName;
+            string resultFileUrl;
+            string resultFilePath;
+            // e.UploadedFile.SaveAs(resultFilePath);
+
+            string FileDiDB = "";
+            LoginSession profileData= this.Session["DefaultGAINSess"] as LoginSession; 
+            //t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
+            //if (InitID.InitNumber != null)
+            //{
+            //    if ((InitID.UploadedFile != null) && (InitID.UploadedFile != ""))
+            //    {
+            //        FileDiDB = InitID.UploadedFile;
+            //        FileDiDB += "|" + filename + "|" + InitiativeNumber;
+            //    }
+            //    else
+            //    {
+            //        FileDiDB = filename + "|" + InitiativeNumber;
+            //    }
+            //    db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
+            //    db.SaveChanges();
+            //    db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
+            //db.SaveChanges();
             UploadControlValidationSettings UploadValidationSettings = new DevExpress.Web.UploadControlValidationSettings()
             {
                 AllowedFileExtensions = new string[] { ".txt", ".xls", ".xlsx", ".pdf", ".doc", "docx", ".pptx", ".ppt", ".msg", ".mseg" },
@@ -1301,33 +1326,35 @@ namespace GAIN.Controllers
             {
                 if (e.UploadedFile.IsValid)
                 {
-                    LoginSession profileData = this.Session["DefaultGAINSess"] as LoginSession;
-
-                    string filename = e.UploadedFile.FileName;
-                    string resultFileName = e.UploadedFile.FileName;
-                    string resultFileUrl = UploadDirectory + resultFileName;
-                    string resultFilePath = HttpContext.Request.MapPath(resultFileUrl);
+                   profileData = this.Session["DefaultGAINSess"] as LoginSession;
+                    //e.UploadedFile.fi
+                    filename = e.UploadedFile.FileName;
+                   resultFileName = e.UploadedFile.FileName;
+                     resultFileUrl = UploadDirectory + resultFileName;
+                    resultFilePath = HttpContext.Request.MapPath(resultFileUrl);
                     e.UploadedFile.SaveAs(resultFilePath);
 
-                    string FileDiDB = "";
+                     FileDiDB = "";
                     t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
                     if (InitID.InitNumber != null)
                     {
                         if ((InitID.UploadedFile != null) && (InitID.UploadedFile != ""))
                         {
-                            FileDiDB = InitID.UploadedFile;
-                            FileDiDB += "|" + filename + "|" + InitiativeNumber;
+                           // FileDiDB = InitID.UploadedFile;
+                            FileDiDB +=   filename + "|" + InitiativeNumber;
                         }
                         else
                         {
                             FileDiDB = filename + "|" + InitiativeNumber;
                         }
-                        db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
+                       // db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = \'" + FileDiDB + "\', ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
+                        db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\'");
                         db.SaveChanges();
                     }
                     e.CallbackData = filename + "|" + InitiativeNumber;
                 }
             });
+            //string sqlcommand = "update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ";
             return null;
         }
         public ActionResult SetIDUploadFile(GetInfoByIDModel GetInfo)
