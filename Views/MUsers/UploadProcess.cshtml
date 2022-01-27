@@ -46,7 +46,11 @@
                         foreach (ExportUserPerRowStatus m in Model.row_status)
                         {
                             string rowCls = "success";
-                            if (m.status == "NOK")
+                            if (m.status == "NOUPDATE")
+                            {
+                                rowCls = "warning";
+                            }
+                            else if(m.status == "NOK")
                             {
                                 rowCls = "danger";
                             }
@@ -57,20 +61,24 @@
                                 <td>
                                     @if (m.status == "OK")
                                     {
-                                        Html.ViewContext.Writer.WriteLine("SUCCESS");
+                                        Html.ViewContext.Writer.WriteLine("<span style='color:#09c149;font-weight:bold;' >SUCCESS</span>");
+                                    }
+                                    else if (m.status == "NOUPDATE")
+                                    {
+                                        Html.ViewContext.Writer.WriteLine("<span style='color:#7e807f;font-weight:bold;' >NOT UPDATED</span>");
                                     }
                                     else if (m.status == "EXIST")
                                     {
-                                        Html.ViewContext.Writer.WriteLine("USER EXIST");
+                                        Html.ViewContext.Writer.WriteLine("<span style='color:#FFC300;font-weight:bold;' >USER EXIS</span>T");
                                     }
                                     else
                                     {
-                                        Html.ViewContext.Writer.WriteLine("FAIL");
+                                        Html.ViewContext.Writer.WriteLine("<span style='color:#ff001e;font-weight:bold;' >FAIL</span>");
                                     }
 
                             </td>
                             <td>
-                                @if (m.status == "NOK" || m.status == "EXIST")
+                                @if (m.status == "NOK" || m.status == "NOUPDATE" || m.status == "EXIST")
                                 {
                                     if (m.error_message.Count > 0)
                                     {

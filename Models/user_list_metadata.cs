@@ -24,6 +24,7 @@ namespace GAIN.Models
         [Display(Name = "Country Code")]
         public string COUNTRY_CODE { get; set; }
 
+        [Required(ErrorMessage = "Company Code is required")]
         [Display(Name = "Company Code")]
         public string Company_code { get; set; }
 
