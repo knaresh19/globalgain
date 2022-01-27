@@ -26,11 +26,11 @@ namespace GAIN.Controllers
             {
                 if (initiative.GenKey != null)
                 {
-                    model = db.logtables.Where(c => (c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey) && c.projectyear >= profileData2.ProjectYear).ToList();
+                    model = db.logtables.Where(c => (c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey) && c.projectyear >= (profileData2.ProjectYear - 1)).ToList();
                 }
                 else
                 {
-                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.projectyear >= (profileData2.ProjectYear)-1).ToList();
+                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.projectyear >= (profileData2.ProjectYear-1)).ToList();
                 }
                 ViewBag.Initnumber = initiative.InitNumber;
             } else
