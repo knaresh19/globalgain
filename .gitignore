@@ -345,3 +345,4 @@ ASALocalRun/
 /Web -local.config
 /Web -local.Debug.config
 /Web -local.Release.config
+/MyMonthlyFiles

@@ -12,11 +12,11 @@ namespace GAIN.Models
         [Display(Name = "First Name")]
         public string USER_FIRST_NAME { get; set; }
 
-        [Required(ErrorMessage = "Middle Name is required")]
+        //[Required(ErrorMessage = "Middle Name is required")]
         [Display(Name = "Middle Name")]
         public string USER_MIDDLE_NAME { get; set; }
 
-        [Required(ErrorMessage = "Last Name is required")]
+        //[Required(ErrorMessage = "Last Name is required")]
         [Display(Name = "Last Name")]
         public string USER_LAST_NAME { get; set; }
 
@@ -24,6 +24,7 @@ namespace GAIN.Models
         [Display(Name = "Country Code")]
         public string COUNTRY_CODE { get; set; }
 
+        [Required(ErrorMessage = "Company Code is required")]
         [Display(Name = "Company Code")]
         public string Company_code { get; set; }
 
@@ -43,8 +44,11 @@ namespace GAIN.Models
         public string region_right { get; set; }
 
         [DataType(DataType.EmailAddress)]
-        [RegularExpression(@"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|""(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*"")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])",
-            ErrorMessage = "Username is not correct format")]
+        //[RegularExpression(@"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|""(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*"")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])",
+        //    ErrorMessage = "Username is not correct format")]
+
+        [RegularExpression(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
+            ErrorMessage = "Email ID is not in  correct format")]
         [Display(Name = "Email")]
         public string email { get; set; }
 

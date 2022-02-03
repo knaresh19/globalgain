@@ -26,11 +26,43 @@ namespace GAIN.Controllers
             {
                 if (initiative.GenKey != null)
                 {
-                    model = db.logtables.Where(c => (c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey) && c.projectyear == profileData2.ProjectYear).ToList();
+                    model = db.logtables.Where(c => (c.initnumber == initiative.InitNumber || c.genKey == initiative.GenKey) && c.projectyear >= (profileData2.ProjectYear - 1)).ToList();
                 }
                 else
                 {
-                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.projectyear == profileData2.ProjectYear).ToList();
+                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.projectyear >= (profileData2.ProjectYear-1)).ToList();
+                }
+
+                //manipulate the model accordingly to show the current value for File upload
+                foreach(logtable lt in model)
+                {
+                    if (lt.newValues != null && lt.newValues.Length > 0)
+                    {
+                        if (lt.columnsName.Equals("UploadedFile"))
+                        {
+                            List<string> oldfiles = lt.oldValues != null ? lt.oldValues.Split('|').ToList() : new List<string>();
+                            List<string> newfiles = lt.newValues != null ? lt.newValues.Split('|').ToList() : new List<string>();
+                            List<string> diff;
+                            if (oldfiles.Count > newfiles.Count)
+                            {
+                                lt.columnsName = "RemovedFile";
+                                diff = oldfiles.Except(newfiles).ToList();
+                                diff.Remove(initiative.InitNumber);
+                                lt.newValues = diff.FirstOrDefault();
+                            }
+                            else
+                            {
+                                lt.columnsName = "UploadedFIle";
+                                diff = newfiles.Except(oldfiles).ToList();
+                                diff.Remove(initiative.InitNumber);
+                                lt.newValues = diff.FirstOrDefault();
+                            }
+                            //calculate the new values
+
+                            //empty the old values 
+                            lt.oldValues = string.Empty;
+                        }
+                    }
                 }
                 ViewBag.Initnumber = initiative.InitNumber;
             } else

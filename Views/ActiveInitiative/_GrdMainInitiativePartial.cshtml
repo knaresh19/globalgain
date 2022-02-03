@@ -266,10 +266,12 @@
         {
             c.FieldName = "CostControlID";
             c.Name = "CostControlID";
-            c.Caption = "Cost Control<br/>Site";
-            c.Width = 100;
+            c.Caption = "Cost Control Site";
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.Width = 120;
             c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "CostControlSiteName";
@@ -349,8 +351,9 @@
         {
             c.FieldName = "SubCostCategoryID";
             c.Name = "SubCostCategoryID";
-            c.Caption = "Sub Cost<br/>Item Impacted";
-            c.Width = 200;
+            c.Caption = "Sub Cost Item Impacted";
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.Width = 120;
             c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
@@ -417,26 +420,30 @@
         settings.Columns.Add(c =>
         {
             c.FieldName = "LaraCode";
-            c.Caption = "Lara Charge<br/>Code";
+            c.Caption = "Lara Charge Code";
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
             c.PropertiesEdit.DisplayFormatString = "";
             c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
-            c.Width = 100;
+            c.Width = 120;
         });
         settings.Columns.Add(c =>
         {
             c.FieldName = "TargetTY";
-            c.Caption = "Target 12 Months<br/>(USD)";
+            c.Caption = "Target 12 Months (USD)";
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
-            c.Width = 120;
+            c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "TargetNY";
-            c.Caption = "Target FY Months<br/>(USD)";
+            c.FieldName = "TargetNYUB";
+            c.Caption = "Target FY Months (USD)";
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
-            c.Width = 120;
+            c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
         });
         settings.Columns.Add(c =>
         {
@@ -1027,7 +1034,8 @@
         settings.Columns.Add(c =>
         {
             c.FieldName = "AdditionalInfo";
-            c.Caption = "Additional<br/>Information";
+            c.Caption = "Additional Information";
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
             c.Width = 250;
         });
         settings.Columns.Add(c =>
@@ -1046,8 +1054,9 @@
         settings.Columns.Add(c =>
         {
             c.FieldName = "VendorName";
-            c.Caption = "Vendor /<br/>Supplier";
-            c.Width = 100;
+            c.Caption = "Vendor / Supplier";
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.Width = 120;
         });
         settings.Columns.Add(c =>
         {
@@ -1317,11 +1326,11 @@
             {
 
                 int c = 1;
-                foreach(string m in months)
+                foreach (string m in months)
                 {
-                    if(c < currentMonth)
+                    if (c < currentMonth)
                     {
-                        if(e.GetListSourceFieldValue(targetkeyword + m) != null)
+                        if (e.GetListSourceFieldValue(targetkeyword + m) != null)
                         {
                             if (ytdValue.HasValue)
                             {
@@ -1331,7 +1340,8 @@
                             {
                                 ytdValue = (decimal)e.GetListSourceFieldValue(targetkeyword + m);
                             }
-                        } else
+                        }
+                        else
                         {
                             if (ytdValue == 0 || ytdValue == null)
                                 ytdValue = 0;
@@ -1370,6 +1380,24 @@
                 }
                 e.Value = ytdValue;
             }
+
+            else if (e.Column.FieldName == "TargetNYUB")
+            {
+                ytdValue = 0;
+                foreach (string m in months)
+                {
+                    if (e.GetListSourceFieldValue(targetkeyword + m) != null)
+                    {
+                        ytdValue += (decimal)e.GetListSourceFieldValue(targetkeyword + m);
+                    }
+                    else
+                    {
+                        if (ytdValue == 0 || ytdValue == null)
+                            ytdValue = 0;
+                    }
+                }
+                e.Value = ytdValue;
+            }
         };
 
         settings.ClientSideEvents.EndCallback = "OnEndCallback";
@@ -1380,7 +1408,7 @@
 
         settings.Settings.ShowFooter = true;
         settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TargetTY").DisplayFormat = "{0:N2}";
-        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TargetNY").DisplayFormat = "{0:N2}";
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TargetNYUB").DisplayFormat = "{0:N2}";
 
         settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "YTDTargetUb").DisplayFormat = "{0:N2}";
         settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "YTDAchievedUb").DisplayFormat = "{0:N2}";

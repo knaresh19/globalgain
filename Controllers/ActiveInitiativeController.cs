@@ -8,6 +8,7 @@ using System.Globalization;
 using GAIN.Models;
 using Newtonsoft.Json;
 using DevExpress.Web;
+using DevExpress.Web.Export;
 using DevExpress.XtraCharts;
 
 /*
@@ -124,7 +125,7 @@ namespace GAIN.Controllers
                 var subcostitemtext = profileData.SubCostItem_right.Replace("|", "','");
                 int lensubcostitem = subcostitemtext.Length;
                 subcostitemtext = "(" + subcostitemtext.Substring(2, (lensubcostitem - 4)) + ")";
-                var subcostitemid = db.mcosttypes.SqlQuery("select id,SubCostName,isActive from msubcost where SubCostName in " + subcostitemtext + " group by id,SubCostName,isActive").ToList();
+                var subcostitemid = db.msubcosts.SqlQuery("select id,SubCostName,isActive from msubcost where SubCostName in " + subcostitemtext + " group by id,SubCostName,isActive").ToList();
                 var subcostitemcondition = "";
                 for (var i = 0; i < subcostitemid.Count(); i++)
                 {
@@ -191,8 +192,8 @@ namespace GAIN.Controllers
 
             //ConsoleLog(" UserType: " + profileData.UserType + "\\n RegionID: " + profileData.RegionID + "\\n CostControlSite: " + profileData.CostControlSite + "\\n Country: " + profileData.CountryID + "\\n Condition: " + where);
 
-            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
-            //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
+           // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
+            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
 
             ViewData["mregions"] = db.mregions.ToList();
             ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y").ToList();
@@ -437,7 +438,8 @@ namespace GAIN.Controllers
             var profileData = Session["DefaultGAINSess"] as LoginSession; var where = "";
             if (profileData.UserType == 3) //agency
             {
-                var cntrytext = profileData.CountryID.Replace("|", "','");
+                //var cntrytext = profileData.CountryID.Replace("|", "','");
+                var cntrytext = profileData.subcountry_right.Replace("|", "','");
                 int lencntrytext = cntrytext.Length;
                 cntrytext = "(" + cntrytext.Substring(2, (lencntrytext - 4)) + ")";
                 var cntryid = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y' and SubCountryName in " + cntrytext + " ").ToList();
@@ -869,15 +871,30 @@ namespace GAIN.Controllers
                 initdata.AdditionalInfo = TxAdditionalInfo;
                 initdata.PortID = (TxPortName == 0 ? 1 : TxPortName);
                 initdata.VendorName = TxVendorSupp;
-                initdata.TargetJan = targetjan; initdata.TargetFeb = targetfeb; initdata.TargetMar = targetmar; initdata.TargetApr = targetapr; initdata.TargetMay = targetmay; initdata.TargetJun = targetjun;
-                initdata.TargetJul = targetjul; initdata.TargetAug = targetaug; initdata.TargetSep = targetsep; initdata.TargetOct = targetoct; initdata.TargetNov = targetnov; initdata.TargetDec = targetdec;
-                initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
-                initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
+                //Manipulate if this is previous year initiative 
+                if (StartMonth.Year == ProjectYear)
+                {
+                    initdata.TargetJan = targetjan; initdata.TargetFeb = targetfeb; initdata.TargetMar = targetmar; initdata.TargetApr = targetapr; initdata.TargetMay = targetmay; initdata.TargetJun = targetjun;
+                    initdata.TargetJul = targetjul; initdata.TargetAug = targetaug; initdata.TargetSep = targetsep; initdata.TargetOct = targetoct; initdata.TargetNov = targetnov; initdata.TargetDec = targetdec;
+                    initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
+                    initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
 
-                initdata.AchJan = savingjan; initdata.AchFeb = savingfeb; initdata.AchMar = savingmar; initdata.AchApr = savingapr; initdata.AchMay = savingmay; initdata.AchJun = savingjun;
-                initdata.AchJul = savingjul; initdata.AchAug = savingaug; initdata.AchSep = savingsep; initdata.AchOct = savingoct; initdata.AchNov = savingnov; initdata.AchDec = savingdec;
-                initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
-                initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+                    initdata.AchJan = savingjan; initdata.AchFeb = savingfeb; initdata.AchMar = savingmar; initdata.AchApr = savingapr; initdata.AchMay = savingmay; initdata.AchJun = savingjun;
+                    initdata.AchJul = savingjul; initdata.AchAug = savingaug; initdata.AchSep = savingsep; initdata.AchOct = savingoct; initdata.AchNov = savingnov; initdata.AchDec = savingdec;
+                    initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
+                    initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+                }
+                else
+                {
+                    //Capture the records only for the next year 
+                    initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
+                    initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
+
+                    initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
+                    initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+
+
+                }
 
                 //initdata.ModifiedDate = DateTime.Now;
                 initdata.CreatedBy = initdata.CreatedBy;// (initdata.CreatedBy == null ? UserID : initdata.CreatedBy);
@@ -1273,7 +1290,32 @@ namespace GAIN.Controllers
             string UploadDirectory = System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"];
 
             long DefaultMaxFileSize = 1000 * 1048576; // 1000MB
+            //LoginSession profileData = this.Session["DefaultGAINSess"] as LoginSession;
 
+            string filename;
+            string resultFileName;
+            string resultFileUrl;
+            string resultFilePath;
+            // e.UploadedFile.SaveAs(resultFilePath);
+
+            string FileDiDB = "";
+            LoginSession profileData= this.Session["DefaultGAINSess"] as LoginSession; 
+            //t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
+            //if (InitID.InitNumber != null)
+            //{
+            //    if ((InitID.UploadedFile != null) && (InitID.UploadedFile != ""))
+            //    {
+            //        FileDiDB = InitID.UploadedFile;
+            //        FileDiDB += "|" + filename + "|" + InitiativeNumber;
+            //    }
+            //    else
+            //    {
+            //        FileDiDB = filename + "|" + InitiativeNumber;
+            //    }
+            //    db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
+            //    db.SaveChanges();
+            //    db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
+            //db.SaveChanges();
             UploadControlValidationSettings UploadValidationSettings = new DevExpress.Web.UploadControlValidationSettings()
             {
                 AllowedFileExtensions = new string[] { ".txt", ".xls", ".xlsx", ".pdf", ".doc", "docx", ".pptx", ".ppt", ".msg", ".mseg" },
@@ -1284,33 +1326,35 @@ namespace GAIN.Controllers
             {
                 if (e.UploadedFile.IsValid)
                 {
-                    LoginSession profileData = this.Session["DefaultGAINSess"] as LoginSession;
-
-                    string filename = e.UploadedFile.FileName;
-                    string resultFileName = e.UploadedFile.FileName;
-                    string resultFileUrl = UploadDirectory + resultFileName;
-                    string resultFilePath = HttpContext.Request.MapPath(resultFileUrl);
+                   profileData = this.Session["DefaultGAINSess"] as LoginSession;
+                    //e.UploadedFile.fi
+                    filename = e.UploadedFile.FileName;
+                   resultFileName = e.UploadedFile.FileName;
+                     resultFileUrl = UploadDirectory + resultFileName;
+                    resultFilePath = HttpContext.Request.MapPath(resultFileUrl);
                     e.UploadedFile.SaveAs(resultFilePath);
-                    e.CallbackData = filename;
 
-                    string FileDiDB = "";
+                     FileDiDB = "";
                     t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
                     if (InitID.InitNumber != null)
                     {
                         if ((InitID.UploadedFile != null) && (InitID.UploadedFile != ""))
                         {
-                            FileDiDB = InitID.UploadedFile;
-                            FileDiDB += "|" + filename + "|" + InitiativeNumber;
+                           // FileDiDB = InitID.UploadedFile;
+                            FileDiDB +=   filename + "|" + InitiativeNumber;
                         }
                         else
                         {
                             FileDiDB = filename + "|" + InitiativeNumber;
                         }
-                        db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = \'" + FileDiDB + "\', ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' ");
+                       // db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = \'" + FileDiDB + "\', ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
+                        db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' AND isDeleted = 0");
                         db.SaveChanges();
                     }
+                    e.CallbackData = filename + "|" + InitiativeNumber;
                 }
             });
+            //string sqlcommand = "update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ";
             return null;
         }
         public ActionResult SetIDUploadFile(GetInfoByIDModel GetInfo)

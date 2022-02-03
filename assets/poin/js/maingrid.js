@@ -12,7 +12,6 @@ function URLContent(url)
 
 $(function () {
     $("#BtnInitiative").on("click", function () {
-        debugger;
         var min_py = 0; var max_py = 0;
         var py = projectYear;
         min_py = (+py - 1);
@@ -490,7 +489,7 @@ function ShowEditWindow(id) {
                 GrdLegalEntityPopup.SetValue(legalentityidx);
             });
             getYtdValue();
-
+            hitungtahunini();
             //var years_right = '@years_right';
             var project_year = projectYear;
 
@@ -516,6 +515,7 @@ function ShowEditWindow(id) {
                 $("#chkAuto").prop("disabled", true);
                 $(".txTarget").prop("disabled", true); //prevent Agency User to edit the target except pending initiative
                 StartMonth.clientEnabled = false; EndMonth.clientEnabled = false; //prevent Agency User from selecting different Start / End dates (Except for Pending initiative)
+                txTarget12.clientEnabled = false;
             }
 
             WindowInitiative.Show();
@@ -652,6 +652,7 @@ function OnCloseNewInitiativeWindow() {
     $("input[name='StartMonth']").prop('readonly', false);
     StartMonth.clientEnabled = true;
     EndMonth.clientEnabled = true;
+    txTarget12.clientEnabled = true;
 
     //GrdLegalEntity.SetText = '';
     $.post(URLContent('ActiveInitiative/RemoveSelectedGridLookup'), function (data) {
@@ -840,7 +841,9 @@ function OnClickUpload(s, e) {
                 var output = ""; var arrFileName = obj.UploadedFileName.split("|");
                 if (arrFileName[0] != '') {
                     for (var x = 0; x < arrFileName.length; x++) {
-                        output += "<tr><td width=\"660\"><a href=\"" + UploadDirectory + arrFileName[x] + "\" target=\"_new\" >" + arrFileName[x] + "</td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + InitNumber + "','" + arrFileName[x] + "',this)\" >Remove</button></td></tr>";
+                        if (arrFileName[x] != '')
+                            output += "<tr><td width=\"660\"><a href=\"" + UploadDirectory + arrFileName[x] + "\" target=\"_new\" >" + arrFileName[x] + "</td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + InitNumber + "','" + arrFileName[x] + "',this)\" >Remove</button></td></tr>";
+
                         x++;
                     }
                     $("#summary-uploaded-files").html(output);
@@ -876,7 +879,10 @@ function onUploadControlFileUploadComplete(s, e) {
         if (isisekarang == '<tr><td colspan="2"><center>There is no File Uploaded</center></td></tr>') {
             $("#summary-uploaded-files").html('');
         }
-        $("#summary-uploaded-files").append("<tr><td width='660'><a href=\"" + UploadDirectory + fileName + "\" target=\"_new\">" + fileName + "</a></td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + initiativenumber + "','" + fileName + "',this)\" >Remove</button></td></tr>");
+
+        if (fileName != '')
+            $("#summary-uploaded-files").append("<tr><td width='660'><a href=\"" + UploadDirectory + fileName + "\" target=\"_new\">" + fileName + "</a></td><td><button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"removefile('" + initiativenumber + "','" + fileName + "',this)\" >Remove</button></td></tr>");
+
         GrdMainInitiative.Refresh();
     }
 }
@@ -896,6 +902,7 @@ function removefile(initiativenumber, filename, btndel) {
 
                 var tmp = $("#summary-uploaded-files").html();
                 if (tmp == "") $("#summary-uploaded-files").html("<tr><td colspan=\"2\"><center>There is no File Uploaded</center></td></tr>");
+                GrdMainInitiative.Refresh();
             });
         }
     });
@@ -1031,7 +1038,6 @@ function OnClickEditInitiative(s, e) {
 }
 
 function formatValue(n) {
-    debugger;
     if (n === 0) {
         return 0;
     }
@@ -1187,8 +1193,6 @@ function SaveInitiative() {
                     //var sign =Math.sign(a)
                     //do the comparison only if signs are equal 
                     if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {
-                        debugger;
-
                         if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
                             //if (a > b) {
                             //    Swal.fire(
@@ -1298,7 +1302,6 @@ function SaveInitiative() {
                         return;
                     }
                 }
-                debugger;
                 var sumtarget = 0;
                 if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
                     var sum = 0;
@@ -1540,7 +1543,6 @@ function hitungtahunini() {
 function getYtdValue() {
     const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec")//, "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
     const savingty = new Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec")//, "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
-    debugger;
     //var d = new Date();
     var d = new Date();
     var m = d.getMonth(); var startmon = ((moment(StartMonth.GetValue()).format("M")));

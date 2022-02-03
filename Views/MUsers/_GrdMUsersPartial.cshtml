@@ -28,6 +28,8 @@
         settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
         settings.SettingsBehavior.ConfirmDelete = true;
 
+        settings.CommandColumn.Caption = "Action";
+        settings.CommandColumn.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
         settings.CommandColumn.Visible = true;
         settings.CommandColumn.ShowNewButton = true;
         settings.CommandColumn.ShowDeleteButton = true;
@@ -109,7 +111,7 @@
 
         UserTypeOptionModel UserTypeOptionModel = new UserTypeOptionModel();
         List<SimpleModel> listUserType = UserTypeOptionModel.UserTypeOption();
-        
+
 
         //ListEditItemCollection listBoolean = new ListEditItemCollection {
         //    new ListEditItem{ Text = "Yes", Value = 1},
@@ -128,6 +130,8 @@
                 flSettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
                 flSettings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 700;
                 flSettings.ColCount = 2;
+
+
                 flSettings.Items.Add(i =>
                 {
                     i.FieldName = "username";
@@ -540,12 +544,15 @@
         };
 
 
-        //settings.Columns.Add(c =>
-        //{
-        //    c.FieldName = "user_id";
-        //    c.Width = System.Web.UI.WebControls.Unit.Pixel(0);
-        //    c.EditFormSettings.Visible = DefaultBoolean.False;
-        //});
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "user_id";
+            c.Caption = "#";
+            c.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.Width = System.Web.UI.WebControls.Unit.Pixel(60);
+            c.EditFormSettings.Visible = DefaultBoolean.False;
+        });
         settings.Columns.Add(c =>
         {
             c.FieldName = "username";
