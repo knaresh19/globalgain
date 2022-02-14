@@ -229,6 +229,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Userupload\readme.txt" />
     <Content Include="assets\loginpage\css\azia.css" />
     <Content Include="assets\loginpage\css\azia.min.css" />
     <Content Include="assets\loginpage\js\azia.js" />
@@ -6272,7 +6273,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="assets\poin\vendors\google-code-prettify\bin\" />
     <Folder Include="Content\Upload\" />
     <Folder Include="MyMonthlyFiles\" />

@@ -17,7 +17,6 @@
 *.userprefs
 
 # Build results
-[Aa]pp_[Dd]ata/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
