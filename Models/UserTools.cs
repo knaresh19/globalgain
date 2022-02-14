@@ -51,9 +51,15 @@ namespace GAIN.Models
             RemoveFileWithDelayInternal(key, fullPath, delay, FileSystemRemoveAction);
         }
 
-        private static void RemoveFileWithDelayInternal(string key, string fullPath, int delay, Action<string, object, CacheItemRemovedReason> fileSystemRemoveAction)
+        private static void RemoveFileWithDelayInternal(string fileKey, string fullPath, int delay, CacheItemRemovedCallback removeAction)
         {
-            throw new NotImplementedException();
+            string key = RemoveTaskKeyPrefix + fileKey;
+            if (HttpRuntime.Cache[key] == null)
+            {
+                DateTime absoluteExpiration = DateTime.UtcNow.Add(new TimeSpan(0, delay, 0));
+                HttpRuntime.Cache.Insert(key, fullPath, null, absoluteExpiration,
+                    Cache.NoSlidingExpiration, CacheItemPriority.NotRemovable, removeAction);
+            }
         }
         #endregion
 
@@ -326,7 +332,7 @@ namespace GAIN.Models
                                 {
                                     if (_db.user_list.Any(d => d.username.Trim().ToLower() == user.username.Trim().ToLower()))
                                     {
-                                        itemStatus.error_message.Add(String.Format("Usename {0} already exist.", user.username));
+                                        itemStatus.error_message.Add(String.Format("Username {0} already exist.", user.username));
                                         itemStatus.status = "EXIST";
                                     }
                                     else
