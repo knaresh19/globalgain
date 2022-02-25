@@ -324,12 +324,12 @@ namespace GAIN.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                    ViewData["EditError"] = "ERROR:" + ex.Message.ToString();
                 }
             }
             else
             {
-                ViewBag.Message = "You have not specified a file.";
+                ViewData["EditError"] = "You have not specified a file.";
             }
 
             return View(exportResult);
@@ -564,6 +564,7 @@ namespace GAIN.Controllers
                 model.userType = ComboBoxExtension.GetValue<int>("userType");
         }
         #endregion
+
         private string Formatdata(string Value)
         {
             if(!Value.StartsWith("|"))
