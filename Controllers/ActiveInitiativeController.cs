@@ -24,6 +24,9 @@ namespace GAIN.Controllers
 
         //[Authorize]
         // GET: ActiveInitiative
+        private static readonly log4net.ILog log =
+log4net.LogManager.GetLogger
+(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public ActionResult Index()
         {
             //vwheaderinitiative model = new vwheaderinitiative();
@@ -57,6 +60,7 @@ namespace GAIN.Controllers
         }
         public ActionResult NewInitiative()
         {
+            ViewData["NEWIN"] = "Y";
             return PartialView("_NewInitiative");
         }
         [ValidateInput(false)]
@@ -213,6 +217,7 @@ namespace GAIN.Controllers
             ViewData["Status"] = db.mstatus.Where(c => c.isActive == "Y").ToList();
             ViewData["portName"] = db.mports.ToList();
             ViewData["SourceCategoryName"] = db.msourcecategories.ToList();
+          
 
             foreach (var item in model)
             {
@@ -270,6 +275,7 @@ namespace GAIN.Controllers
                     item.AchNexNov = null;
                     item.AchNexDec = null;
                 }
+               // ViewData["STARTYEAR"] = Convert.ToDateTime(item.StartMonth).Year;
             }
 
             return PartialView("_GrdMainInitiativePartial", model);
@@ -718,191 +724,207 @@ namespace GAIN.Controllers
 
             if (FormStatus == "New")
             {
-                using (GainEntities db = new GainEntities())
+                try
                 {
-                    var tinitiative = db.Set<t_initiative>();
-                    var YearInitiative = profileData.ProjectYear;
-                    Random rand = new Random();
-                    //int InitNextNum = rand.Next(1,999);
-                    //string OutInitNextNum = "00" + InitNextNum.ToString();
-                    string nomerterakhir = "";
-                    t_initiative initz = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara)).FirstOrDefault();
-                    if (initz != null)
-                        nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
-                    else
-                        nomerterakhir = YearInitiative + KodeNegara + "000";
-
-                    nomerterakhir = nomerterakhir.Substring((nomerterakhir.Length - 3), 3);
-                    int nomerurut = (Int32.Parse(nomerterakhir) + 1);
-                    string nomerselanjutnya = ("00" + nomerurut.ToString());
-                    nomerselanjutnya = nomerselanjutnya.Substring((nomerselanjutnya.Length - 3), 3);
-
-                    tinitiative.Add(new t_initiative
+                    using (GainEntities db = new GainEntities())
                     {
-                        InitNumber = YearInitiative + KodeNegara + nomerselanjutnya,
-                        RelatedInitiative = RelatedInitiative,
-                        SourceCategory = SourceCategory,
-                        BrandID = GrdBrand,
-                        RegionID = GrdRegional,
-                        SubRegionID = GrdSubRegion,
-                        ClusterID = GrdCluster,
-                        RegionalOfficeID = GrdRegionalOffice,
-                        CostControlID = GrdCostControl,
-                        LegalEntityID = GrdLegalEntity,
-                        CountryID = GrdCountry,
-                        SubCountryID = GrdSubCountry,
-                        Confidential = CboConfidential,
-                        Description = TxDesc,
-                        ResponsibleFullName = TxResponsibleName,
-                        InitiativeType = GrdInitType,
-                        CostCategoryID = GrdInitCategory,
-                        SubCostCategoryID = GrdSubCost,
-                        ActionTypeID = GrdActionType,
-                        SynergyImpactID = GrdSynImpact,
-                        InitStatus = GrdInitStatus,
-                        isDeleted = 0,
-                        StartMonth = StartMonth,
-                        EndMonth = EndMonth,
-                        LaraCode = TxLaraCode,
-                        TargetTY = TxTarget12,
-                        TargetNY = TxTargetFullYear,
-                        HOValidity = CboHoValidity,
-                        RPOCControl = CboRPOCValidity,
-                        YTDTarget = TxYTDTargetFullYear,
-                        YTDAchieved = TxYTDSavingFullYear,
-                        AgencyComment = TxAgency,
-                        RPOCComment = TxRPOCComment,
-                        HOComment = TxHOComment,
-                        AdditionalInfo = TxAdditionalInfo,
-                        PortID = (TxPortName == 0 ? 1 : TxPortName),
-                        ProjectYear = (short)ProjectYear,
-                        VendorName = TxVendorSupp,
-                        TargetJan = targetjan,
-                        TargetFeb = targetfeb,
-                        TargetMar = targetmar,
-                        TargetApr = targetapr,
-                        TargetMay = targetmay,
-                        TargetJun = targetjun,
-                        TargetJul = targetjul,
-                        TargetAug = targetaug,
-                        TargetSep = targetsep,
-                        TargetOct = targetoct,
-                        TargetNov = targetnov,
-                        TargetDec = targetdec,
-                        TargetNexJan = targetjan2,
-                        TargetNexFeb = targetfeb2,
-                        TargetNexMar = targetmar2,
-                        TargetNexApr = targetapr2,
-                        TargetNexMay = targetmay2,
-                        TargetNexJun = targetjun2,
-                        TargetNexJul = targetjul2,
-                        TargetNexAug = targetaug2,
-                        TargetNexSep = targetsep2,
-                        TargetNexOct = targetoct2,
-                        TargetNexNov = targetnov2,
-                        TargetNexDec = targetdec2,
-                        AchJan = savingjan,
-                        AchFeb = savingfeb,
-                        AchMar = savingmar,
-                        AchApr = savingapr,
-                        AchMay = savingmay,
-                        AchJun = savingjun,
-                        AchJul = savingjul,
-                        AchAug = savingaug,
-                        AchSep = savingsep,
-                        AchOct = savingoct,
-                        AchNov = savingnov,
-                        AchDec = savingdec,
-                        AchNexJan = savingjan2,
-                        AchNexFeb = savingfeb2,
-                        AchNexMar = savingmar2,
-                        AchNexApr = savingapr2,
-                        AchNexMay = savingmay2,
-                        AchNexJun = savingjun2,
-                        AchNexJul = savingjul2,
-                        AchNexAug = savingaug2,
-                        AchNexSep = savingsep2,
-                        AchNexOct = savingoct2,
-                        AchNexNov = savingnov2,
-                        AchNexDec = savingdec2,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = UserID,
-                        ModifiedBy = UserID
-                    });
-                    db.SaveChanges();
-                    return Content("saved|" + YearInitiative + KodeNegara + nomerselanjutnya);
+                        var tinitiative = db.Set<t_initiative>();
+                        var YearInitiative = profileData.ProjectYear;
+                        Random rand = new Random();
+                        //int InitNextNum = rand.Next(1,999);
+                        //string OutInitNextNum = "00" + InitNextNum.ToString();
+                        string nomerterakhir = "";
+                        t_initiative initz = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara)).FirstOrDefault();
+                        if (initz != null)
+                            nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
+                        else
+                            nomerterakhir = YearInitiative + KodeNegara + "000";
+
+                        nomerterakhir = nomerterakhir.Substring((nomerterakhir.Length - 3), 3);
+                        int nomerurut = (Int32.Parse(nomerterakhir) + 1);
+                        string nomerselanjutnya = ("00" + nomerurut.ToString());
+                        nomerselanjutnya = nomerselanjutnya.Substring((nomerselanjutnya.Length - 3), 3);
+
+                        tinitiative.Add(new t_initiative
+                        {
+                            InitNumber = YearInitiative + KodeNegara + nomerselanjutnya,
+                            RelatedInitiative = RelatedInitiative,
+                            SourceCategory = SourceCategory,
+                            BrandID = GrdBrand,
+                            RegionID = GrdRegional,
+                            SubRegionID = GrdSubRegion,
+                            ClusterID = GrdCluster,
+                            RegionalOfficeID = GrdRegionalOffice,
+                            CostControlID = GrdCostControl,
+                            LegalEntityID = GrdLegalEntity,
+                            CountryID = GrdCountry,
+                            SubCountryID = GrdSubCountry,
+                            Confidential = CboConfidential,
+                            Description = TxDesc,
+                            ResponsibleFullName = TxResponsibleName,
+                            InitiativeType = GrdInitType,
+                            CostCategoryID = GrdInitCategory,
+                            SubCostCategoryID = GrdSubCost,
+                            ActionTypeID = GrdActionType,
+                            SynergyImpactID = GrdSynImpact,
+                            InitStatus = GrdInitStatus,
+                            isDeleted = 0,
+                            StartMonth = StartMonth,
+                            EndMonth = EndMonth,
+                            LaraCode = TxLaraCode,
+                            TargetTY = TxTarget12,
+                            TargetNY = TxTargetFullYear,
+                            HOValidity = CboHoValidity,
+                            RPOCControl = CboRPOCValidity,
+                            YTDTarget = TxYTDTargetFullYear,
+                            YTDAchieved = TxYTDSavingFullYear,
+                            AgencyComment = TxAgency,
+                            RPOCComment = TxRPOCComment,
+                            HOComment = TxHOComment,
+                            AdditionalInfo = TxAdditionalInfo,
+                            PortID = (TxPortName == 0 ? 1 : TxPortName),
+                            ProjectYear = (short)ProjectYear,
+                            VendorName = TxVendorSupp,
+                            TargetJan = targetjan,
+                            TargetFeb = targetfeb,
+                            TargetMar = targetmar,
+                            TargetApr = targetapr,
+                            TargetMay = targetmay,
+                            TargetJun = targetjun,
+                            TargetJul = targetjul,
+                            TargetAug = targetaug,
+                            TargetSep = targetsep,
+                            TargetOct = targetoct,
+                            TargetNov = targetnov,
+                            TargetDec = targetdec,
+                            TargetNexJan = targetjan2,
+                            TargetNexFeb = targetfeb2,
+                            TargetNexMar = targetmar2,
+                            TargetNexApr = targetapr2,
+                            TargetNexMay = targetmay2,
+                            TargetNexJun = targetjun2,
+                            TargetNexJul = targetjul2,
+                            TargetNexAug = targetaug2,
+                            TargetNexSep = targetsep2,
+                            TargetNexOct = targetoct2,
+                            TargetNexNov = targetnov2,
+                            TargetNexDec = targetdec2,
+                            AchJan = savingjan,
+                            AchFeb = savingfeb,
+                            AchMar = savingmar,
+                            AchApr = savingapr,
+                            AchMay = savingmay,
+                            AchJun = savingjun,
+                            AchJul = savingjul,
+                            AchAug = savingaug,
+                            AchSep = savingsep,
+                            AchOct = savingoct,
+                            AchNov = savingnov,
+                            AchDec = savingdec,
+                            AchNexJan = savingjan2,
+                            AchNexFeb = savingfeb2,
+                            AchNexMar = savingmar2,
+                            AchNexApr = savingapr2,
+                            AchNexMay = savingmay2,
+                            AchNexJun = savingjun2,
+                            AchNexJul = savingjul2,
+                            AchNexAug = savingaug2,
+                            AchNexSep = savingsep2,
+                            AchNexOct = savingoct2,
+                            AchNexNov = savingnov2,
+                            AchNexDec = savingdec2,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = UserID,
+                            ModifiedBy = UserID
+                        });
+                        db.SaveChanges();
+                        return Content("saved|" + YearInitiative + KodeNegara + nomerselanjutnya);
+                    }
+                }
+                catch(Exception E)
+                {
+                    log.Error("Exception occured in saving new initiative" + E.Message);
+                    return Content("Error occired during Initiative save");
                 }
             }
             else
             {
-                var initdata = db.t_initiative.Where(x => x.id == FormID).FirstOrDefault();
-                initdata.RelatedInitiative = RelatedInitiative;
-                initdata.SourceCategory = SourceCategory;
-                initdata.BrandID = GrdBrand;
-                initdata.RegionID = GrdRegional;
-                initdata.SubRegionID = GrdSubRegion;
-                initdata.ClusterID = GrdCluster;
-                initdata.RegionalOfficeID = GrdRegionalOffice;
-                initdata.CostControlID = GrdCostControl;
-                initdata.LegalEntityID = GrdLegalEntity;
-                initdata.CountryID = GrdCountry;
-                initdata.SubCountryID = GrdSubCountry;
-                initdata.Confidential = CboConfidential;
-                initdata.Description = TxDesc;
-                initdata.ResponsibleFullName = TxResponsibleName;
-                initdata.InitiativeType = GrdInitType;
-                initdata.CostCategoryID = GrdInitCategory;
-                initdata.SubCostCategoryID = GrdSubCost;
-                initdata.ActionTypeID = GrdActionType;
-                initdata.SynergyImpactID = GrdSynImpact;
-                initdata.InitStatus = GrdInitStatus;
-                initdata.StartMonth = StartMonth;
-                initdata.EndMonth = EndMonth;
-                initdata.LaraCode = TxLaraCode;
-                initdata.TargetTY = TxTarget12;
-                initdata.TargetNY = TxTargetFullYear;
-                initdata.HOValidity = CboHoValidity;
-                initdata.RPOCControl = CboRPOCValidity;
-                initdata.YTDTarget = TxYTDTargetFullYear;
-                initdata.YTDAchieved = TxYTDSavingFullYear;
-                initdata.AgencyComment = TxAgency;
-                initdata.RPOCComment = TxRPOCComment;
-                initdata.HOComment = TxHOComment;
-                initdata.AdditionalInfo = TxAdditionalInfo;
-                initdata.PortID = (TxPortName == 0 ? 1 : TxPortName);
-                initdata.VendorName = TxVendorSupp;
-                //Manipulate if this is previous year initiative 
-                if (StartMonth.Year == ProjectYear)
+                try
                 {
-                    initdata.TargetJan = targetjan; initdata.TargetFeb = targetfeb; initdata.TargetMar = targetmar; initdata.TargetApr = targetapr; initdata.TargetMay = targetmay; initdata.TargetJun = targetjun;
-                    initdata.TargetJul = targetjul; initdata.TargetAug = targetaug; initdata.TargetSep = targetsep; initdata.TargetOct = targetoct; initdata.TargetNov = targetnov; initdata.TargetDec = targetdec;
-                    initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
-                    initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
+                    var initdata = db.t_initiative.Where(x => x.id == FormID).FirstOrDefault();
+                    initdata.RelatedInitiative = RelatedInitiative;
+                    initdata.SourceCategory = SourceCategory;
+                    initdata.BrandID = GrdBrand;
+                    initdata.RegionID = GrdRegional;
+                    initdata.SubRegionID = GrdSubRegion;
+                    initdata.ClusterID = GrdCluster;
+                    initdata.RegionalOfficeID = GrdRegionalOffice;
+                    initdata.CostControlID = GrdCostControl;
+                    initdata.LegalEntityID = GrdLegalEntity;
+                    initdata.CountryID = GrdCountry;
+                    initdata.SubCountryID = GrdSubCountry;
+                    initdata.Confidential = CboConfidential;
+                    initdata.Description = TxDesc;
+                    initdata.ResponsibleFullName = TxResponsibleName;
+                    initdata.InitiativeType = GrdInitType;
+                    initdata.CostCategoryID = GrdInitCategory;
+                    initdata.SubCostCategoryID = GrdSubCost;
+                    initdata.ActionTypeID = GrdActionType;
+                    initdata.SynergyImpactID = GrdSynImpact;
+                    initdata.InitStatus = GrdInitStatus;
+                    initdata.StartMonth = StartMonth;
+                    initdata.EndMonth = EndMonth;
+                    initdata.LaraCode = TxLaraCode;
+                    initdata.TargetTY = TxTarget12;
+                    initdata.TargetNY = TxTargetFullYear;
+                    initdata.HOValidity = CboHoValidity;
+                    initdata.RPOCControl = CboRPOCValidity;
+                    initdata.YTDTarget = TxYTDTargetFullYear;
+                    initdata.YTDAchieved = TxYTDSavingFullYear;
+                    initdata.AgencyComment = TxAgency;
+                    initdata.RPOCComment = TxRPOCComment;
+                    initdata.HOComment = TxHOComment;
+                    initdata.AdditionalInfo = TxAdditionalInfo;
+                    initdata.PortID = (TxPortName == 0 ? 1 : TxPortName);
+                    initdata.VendorName = TxVendorSupp;
+                    //Manipulate if this is previous year initiative 
+                    //if (StartMonth.Year == ProjectYear)
+                    //{
+                        initdata.TargetJan = targetjan; initdata.TargetFeb = targetfeb; initdata.TargetMar = targetmar; initdata.TargetApr = targetapr; initdata.TargetMay = targetmay; initdata.TargetJun = targetjun;
+                        initdata.TargetJul = targetjul; initdata.TargetAug = targetaug; initdata.TargetSep = targetsep; initdata.TargetOct = targetoct; initdata.TargetNov = targetnov; initdata.TargetDec = targetdec;
+                        initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
+                        initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
 
-                    initdata.AchJan = savingjan; initdata.AchFeb = savingfeb; initdata.AchMar = savingmar; initdata.AchApr = savingapr; initdata.AchMay = savingmay; initdata.AchJun = savingjun;
-                    initdata.AchJul = savingjul; initdata.AchAug = savingaug; initdata.AchSep = savingsep; initdata.AchOct = savingoct; initdata.AchNov = savingnov; initdata.AchDec = savingdec;
-                    initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
-                    initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+                        initdata.AchJan = savingjan; initdata.AchFeb = savingfeb; initdata.AchMar = savingmar; initdata.AchApr = savingapr; initdata.AchMay = savingmay; initdata.AchJun = savingjun;
+                        initdata.AchJul = savingjul; initdata.AchAug = savingaug; initdata.AchSep = savingsep; initdata.AchOct = savingoct; initdata.AchNov = savingnov; initdata.AchDec = savingdec;
+                        initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
+                        initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+                   // }
+                    //else
+                    //{
+                        //Capture the records only for the next year 
+                        //initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
+                        //initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
+
+                        //initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
+                        //initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+
+
+                    //}
+
+                    //initdata.ModifiedDate = DateTime.Now;
+                    initdata.CreatedBy = initdata.CreatedBy;// (initdata.CreatedBy == null ? UserID : initdata.CreatedBy);
+                    initdata.ModifiedBy = UserID;
+
+                    //initdata.CreatedDate = DateTime.Now;
+                    db.SaveChanges();
+                    return Content("saved|" + initdata.InitNumber);
                 }
-                else
+                catch(Exception E)
                 {
-                    //Capture the records only for the next year 
-                    initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
-                    initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
-
-                    initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
-                    initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
-
-
+                    log.Error("Exception occured during Saving exisisting initiative" + E.Message);
+                    return Content("Error ocuured during initiativeSave");
                 }
-
-                //initdata.ModifiedDate = DateTime.Now;
-                initdata.CreatedBy = initdata.CreatedBy;// (initdata.CreatedBy == null ? UserID : initdata.CreatedBy);
-                initdata.ModifiedBy = UserID;
-
-                //initdata.CreatedDate = DateTime.Now;
-                db.SaveChanges();
-                return Content("saved|" + initdata.InitNumber);
             }
         }
         [HttpPost]
@@ -939,43 +961,50 @@ namespace GAIN.Controllers
             //Session["SubCostCategoryID"] = SubCostCategoryID;
             //Session["ActionTypeID"] = ActionTypeID;
             //Session["SynergyImpactID"] = SynergyImpactID;
+            try
+            {
+                var model = db.vwheaderinitiatives.Where(c => c.id == GetInfo.Id).FirstOrDefault();
+                //var modeldetail = db.t_initative_detail.Where(c => c.id == model.id).FirstOrDefault();
+                var InitiativeNumber = model.InitNumber.ToString();
+                var SubCountryID = model.SubCountryID.ToString();
+                var BrandID = model.BrandID.ToString();
+                //var LegalEntityID = model.LegalEntityID.ToString() + ";" + model.LegalEntityName.ToString();
+                var StatusID = model.InitStatus.ToString();
+                var LegalEntityID = model.LegalEntityID.ToString();
+                var CountryID = model.CountryID.ToString();
+                var RegionID = model.RegionID.ToString();
+                var SubRegionID = model.SubRegionID.ToString();
+                var ClusterID = (model.ClusterID != null ? model.ClusterID : 0);
+                var RegionalOfficeID = model.RegionalOfficeID.ToString();
+                var CostControlID = model.CostControlID.ToString();
+                var InitTypeID = model.InitiativeType.ToString();
+                var CostCategoryID = model.CostCategoryID.ToString();
+                var SubCostCategoryID = model.SubCostCategoryID.ToString();
+                var ActionTypeID = model.ActionTypeID.ToString();
+                var SynergyImpactID = model.SynergyImpactID.ToString();
+                Session["GetInfoByID"] = SubCountryID;
+                Session["BrandID"] = BrandID;
+                Session["StatusID"] = StatusID;
+                Session["LegalEntityID"] = LegalEntityID;
+                Session["CountryID"] = CountryID;
+                Session["RegionID"] = RegionID;
+                Session["SubRegionID"] = SubRegionID;
+                Session["ClusterID"] = ClusterID;
+                Session["RegionalOfficeID"] = RegionalOfficeID;
+                Session["CostControlID"] = CostControlID;
+                Session["InitTypeID"] = InitTypeID;
+                Session["CostCategoryID"] = CostCategoryID;
+                Session["SubCostCategoryID"] = SubCostCategoryID;
+                Session["ActionTypeID"] = ActionTypeID;
+                Session["SynergyImpactID"] = SynergyImpactID;
 
-            var model = db.vwheaderinitiatives.Where(c => c.id == GetInfo.Id).FirstOrDefault();
-            //var modeldetail = db.t_initative_detail.Where(c => c.id == model.id).FirstOrDefault();
-            var InitiativeNumber = model.InitNumber.ToString();
-            var SubCountryID = model.SubCountryID.ToString();
-            var BrandID = model.BrandID.ToString();
-            //var LegalEntityID = model.LegalEntityID.ToString() + ";" + model.LegalEntityName.ToString();
-            var StatusID = model.InitStatus.ToString();
-            var LegalEntityID = model.LegalEntityID.ToString();
-            var CountryID = model.CountryID.ToString();
-            var RegionID = model.RegionID.ToString();
-            var SubRegionID = model.SubRegionID.ToString();
-            var ClusterID = (model.ClusterID != null ? model.ClusterID : 0);
-            var RegionalOfficeID = model.RegionalOfficeID.ToString();
-            var CostControlID = model.CostControlID.ToString();
-            var InitTypeID = model.InitiativeType.ToString();
-            var CostCategoryID = model.CostCategoryID.ToString();
-            var SubCostCategoryID = model.SubCostCategoryID.ToString();
-            var ActionTypeID = model.ActionTypeID.ToString();
-            var SynergyImpactID = model.SynergyImpactID.ToString();
-            Session["GetInfoByID"] = SubCountryID;
-            Session["BrandID"] = BrandID;
-            Session["StatusID"] = StatusID;
-            Session["LegalEntityID"] = LegalEntityID;
-            Session["CountryID"] = CountryID;
-            Session["RegionID"] = RegionID;
-            Session["SubRegionID"] = SubRegionID;
-            Session["ClusterID"] = ClusterID;
-            Session["RegionalOfficeID"] = RegionalOfficeID;
-            Session["CostControlID"] = CostControlID;
-            Session["InitTypeID"] = InitTypeID;
-            Session["CostCategoryID"] = CostCategoryID;
-            Session["SubCostCategoryID"] = SubCostCategoryID;
-            Session["ActionTypeID"] = ActionTypeID;
-            Session["SynergyImpactID"] = SynergyImpactID;
-
-            return Content(JsonConvert.SerializeObject(model));
+                return Content(JsonConvert.SerializeObject(model));
+            }
+            catch(Exception e)
+            {
+                log.Error("Exception occured during GetInfobyID" + e.Message);
+                return Content("Error");
+            }
         }
         [HttpPost]
         public ActionResult RemoveSelectedGridLookup()

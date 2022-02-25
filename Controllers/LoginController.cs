@@ -15,7 +15,9 @@ namespace GAIN.Controllers
         // GET: Login
 
         GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
-
+        private static readonly log4net.ILog log =
+log4net.LogManager.GetLogger
+(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public ActionResult Index(string Messages = null)
         {
             if (Messages != null)
@@ -29,6 +31,7 @@ namespace GAIN.Controllers
         {
             if (ModelState.IsValid)
             {
+               
                 var isRegistered = db.user_list.Where(c => c.username == model.UserName).FirstOrDefault();
                 if (isRegistered != null)
                 {
@@ -55,6 +58,7 @@ namespace GAIN.Controllers
                             istoadmin = (int)isRegistered.istoadmin
                         };
                         this.Session["DefaultGAINSess"] = LoginSession;
+                        log.Debug("log in succesfuly"+LoginSession.ID);
 
                         return RedirectToAction("Index", "Home");
                     }

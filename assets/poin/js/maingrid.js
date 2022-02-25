@@ -16,6 +16,7 @@ $(function () {
         var py = projectYear;
         min_py = (+py - 1);
         max_py = (+py);
+        debugger;
         StartMonth.SetMinDate(new Date(min_py + '-01-01'));
         StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
         EndMonth.SetMinDate(new Date(max_py + '-01-01'));
@@ -387,7 +388,7 @@ function ShowEditWindow(id) {
     CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
     CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
     CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
-
+    debugger;
     $.post(URLContent('ActiveInitiative/GetInfoById'), { Id: id }, function (data) {
         if (data != '') {
             var obj = JSON.parse(data); var SubCountryID = obj.SubCountryID;
@@ -439,13 +440,44 @@ function ShowEditWindow(id) {
             txYTDSavingFullYear.SetValue(obj.YTDAchieved);
 
             OnStartMonthChanged();
+            let startyear = new Date(obj.StartMonth).getFullYear()
+            let nextyear = startyear + 1; 
+            debugger;
+            //Change the labels 
+            $('#ljan').html('Jan-' + startyear);
+            $('#lfeb').html('Feb-' + startyear);
+            $('#lmar').html('Mar-' + startyear);
+            $('#lapr').html('Apr-' + startyear);
+            $('#lmay').html('May-' + startyear);
+            $('#ljun').html('Jun-' + startyear);
+            $('#ljul').html('Jul-' + startyear);
+            $('#laug').html('Aug-' + startyear);
+            $('#lsep').html('Sep-' + startyear);
+            $('#loct').html('Oct-' + startyear);
+            $('#lnov').html('Nov-' + startyear);
+            $('#ldec').html('Dec-' + startyear);
 
-            if ((new Date(obj.StartMonth).getFullYear()) < projectYear) {
+            $('#lnexjan').html('Jan-' + nextyear);
+            $('#lnexfeb').html('Feb-' + nextyear);
+            $('#lnexmar').html('Mar-' + nextyear);
+            $('#lnexapr').html('Apr-' + nextyear);
+            $('#lnexmay').html('May-' + nextyear);
+            $('#lnexjun').html('Jun-' + nextyear);
+            $('#lnexjul').html('Jul-' + nextyear);
+            $('#lnexaug').html('Aug-' + nextyear);
+            $('#lnexsep').html('Sep-' + nextyear);
+            $('#lnexoct').html('Oct-' + nextyear);
+            $('#lnexnov').html('Nov-' + nextyear);
+            $('#lnexdec').html('Dec-' + nextyear);
+
+            //End change the labels 
+            //commented the below if else to show the full initiative figures  
+           /* if ((new Date(obj.StartMonth).getFullYear()) < projectYear) {
                 $(".targetjan").val(formatValue(obj.TargetNexJan)); $(".targetfeb").val(formatValue(obj.TargetNexFeb)); $(".targetmar").val(formatValue(obj.TargetNexMar)); $(".targetapr").val(formatValue(obj.TargetNexApr)); $(".targetmay").val(formatValue(obj.TargetNexMay)); $(".targetjun").val(formatValue(obj.TargetNexJun));
                 $(".targetjul").val(formatValue(obj.TargetNexJul)); $(".targetaug").val(formatValue(obj.TargetNexAug)); $(".targetsep").val(formatValue(obj.TargetNexSep)); $(".targetoct").val(formatValue(obj.TargetNexOct)); $(".targetnov").val(formatValue(obj.TargetNexNov)); $(".targetdec").val(formatValue(obj.TargetNexDec));
                 $(".savingjan").val(formatValue(obj.AchNexJan)); $(".savingfeb").val(formatValue(obj.AchNexFeb)); $(".savingmar").val(formatValue(obj.AchNexMar)); $(".savingapr").val(formatValue(obj.AchNexApr)); $(".savingmay").val(formatValue(obj.AchNexMay)); $(".savingjun").val(formatValue(obj.AchNexJun));
                 $(".savingjul").val(formatValue(obj.AchNexJul)); $(".savingaug").val(formatValue(obj.AchNexAug)); $(".savingsep").val(formatValue(obj.AchNexSep)); $(".savingoct").val(formatValue(obj.AchNexOct)); $(".savingnov").val(formatValue(obj.AchNexNov)); $(".savingdec").val(formatValue(obj.AchNexDec));
-            } else {
+            } else {*/
                 $(".targetjan").val(formatValue(obj.TargetJan)); $(".targetfeb").val(formatValue(obj.TargetFeb)); $(".targetmar").val(formatValue(obj.TargetMar)); $(".targetapr").val(formatValue(obj.TargetApr)); $(".targetmay").val(formatValue(obj.TargetMay)); $(".targetjun").val(formatValue(obj.TargetJun));
                 $(".targetjul").val(formatValue(obj.TargetJul)); $(".targetaug").val(formatValue(obj.TargetAug)); $(".targetsep").val(formatValue(obj.TargetSep)); $(".targetoct").val(formatValue(obj.TargetOct)); $(".targetnov").val(formatValue(obj.TargetNov)); $(".targetdec").val(formatValue(obj.TargetDec));
                 $(".savingjan").val(formatValue(obj.AchJan)); $(".savingfeb").val(formatValue(obj.AchFeb)); $(".savingmar").val(formatValue(obj.AchMar)); $(".savingapr").val(formatValue(obj.AchApr)); $(".savingmay").val(formatValue(obj.AchMay)); $(".savingjun").val(formatValue(obj.AchJun));
@@ -455,7 +487,7 @@ function ShowEditWindow(id) {
                 $(".targetjul2").val(formatValue(obj.TargetNexJul)); $(".targetaug2").val(formatValue(obj.TargetNexAug)); $(".targetsep2").val(formatValue(obj.TargetNexSep)); $(".targetoct2").val(formatValue(obj.TargetNexOct)); $(".targetnov2").val(formatValue(obj.TargetNexNov)); $(".targetdec2").val(formatValue(obj.TargetNexDec));
                 $(".savingjan2").val(formatValue(obj.AchNexJan)); $(".savingfeb2").val(formatValue(obj.AchNexFeb)); $(".savingmar2").val(formatValue(obj.AchNexMar)); $(".savingapr2").val(formatValue(obj.AchNexApr)); $(".savingmay2").val(formatValue(obj.AchNexMay)); $(".savingjun2").val(formatValue(obj.AchNexJun));
                 $(".savingjul2").val(formatValue(obj.AchNexJul)); $(".savingaug2").val(formatValue(obj.AchNexAug)); $(".savingsep2").val(formatValue(obj.AchNexSep)); $(".savingoct2").val(formatValue(obj.AchNexOct)); $(".savingnov2").val(formatValue(obj.AchNexNov)); $(".savingdec2").val(formatValue(obj.AchNexDec));
-            }
+           // }
 
             if (obj.InitStatus == 4) {
                 $(".txSaving").prop("disabled", true);
@@ -924,8 +956,10 @@ function OnEndMonthChanged() {
     } else {
         endmonthValue = EndMonth.GetValue();
     }
+    debugger;
     var targetty = new Array(); var savingty = new Array();
-    if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
+    //remove the IF becasue start month and project year doesnt matter 
+   /* if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {*/
         targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
         savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
 
@@ -954,44 +988,57 @@ function OnEndMonthChanged() {
                 $("." + savingty[i]).prop('disabled', true);
             }
         }
-    } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
-        targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
-        savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
+   // if project year > start year then disable the startyear targets and achievements
+    debugger;
+    let startyear = StartMonth.GetValue().getFullYear();
+    if (projectYear != startyear) {
+        for (var i = 0; i < 12; i++) {
 
-        var endmonth = ((moment(endmonthValue).format("M")) - 1);
-        for (var i = 0; i <= targetty.length; i++) {
-            if (i <= endmonth) {
-                $("." + targetty[i]).prop('disabled', false);
-                $("." + savingty[i]).prop('disabled', false);
-            } else {
-                $("." + targetty[i]).val('');
-                $("." + savingty[i]).val('');
-                $("." + targetty[i]).prop('disabled', true);
-                $("." + savingty[i]).prop('disabled', true);
-            }
-        }
-
-        $("input[name='StartMonth']").prop('disabled', true);
-        $("input[name='StartMonth']").prop('readonly', true);
-        StartMonth.clientEnabled = false;
-    } else if ((new Date(StartMonth.GetValue()).getFullYear()) > projectYear) {
-        targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
-        savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
-
-        var startmonth = ((moment(StartMonth.GetValue()).format("M")) - 1);
-        var endmonth = ((moment(endmonthValue).format("M")));
-        for (var i = 0; i <= targetty.length; i++) {
-            if (i > (+startmonth + 11) && i <= (+endmonth + 11)) {
-                $("." + targetty[i]).prop('disabled', false);
-                $("." + savingty[i]).prop('disabled', false);
-            } else {
-                $("." + targetty[i]).val('');
-                $("." + savingty[i]).val('');
-                $("." + targetty[i]).prop('disabled', true);
-                $("." + savingty[i]).prop('disabled', true);
-            }
+            $("." + targetty[i]).prop('disabled', true);
+            $("." + savingty[i]).prop('disabled', true);
         }
     }
+    //}
+    //else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
+    //    targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
+    //    savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
+
+    //    var endmonth = ((moment(endmonthValue).format("M")) - 1);
+    //    for (var i = 0; i <= targetty.length; i++) {
+    //        if (i <= endmonth) {
+    //            $("." + targetty[i]).prop('disabled', false);
+    //            $("." + savingty[i]).prop('disabled', false);
+    //        } else {
+    //            $("." + targetty[i]).val('');
+    //            $("." + savingty[i]).val('');
+    //            $("." + targetty[i]).prop('disabled', true);
+    //            $("." + savingty[i]).prop('disabled', true);
+    //        }
+    //    }
+
+    //    $("input[name='StartMonth']").prop('disabled', true);
+    //    $("input[name='StartMonth']").prop('readonly', true);
+    //    StartMonth.clientEnabled = false;
+    //}
+   /* else if ((new Date(StartMonth.GetValue()).getFullYear()) > projectYear)*/
+    //{
+    //    targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
+    //    savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
+
+    //    var startmonth = ((moment(StartMonth.GetValue()).format("M")) - 1);
+    //    var endmonth = ((moment(endmonthValue).format("M")));
+    //    for (var i = 0; i <= targetty.length; i++) {
+    //        if (i > (+startmonth + 11) && i <= (+endmonth + 11)) {
+    //            $("." + targetty[i]).prop('disabled', false);
+    //            $("." + savingty[i]).prop('disabled', false);
+    //        } else {
+    //            $("." + targetty[i]).val('');
+    //            $("." + savingty[i]).val('');
+    //            $("." + targetty[i]).prop('disabled', true);
+    //            $("." + savingty[i]).prop('disabled', true);
+    //        }
+    //    }
+    //}
 
     var formstatus; var initstatusvalue; var uType;
     uType = user_type;
@@ -1124,17 +1171,17 @@ function SaveInitiative() {
             var xRelatedInitiative = LblRelatedInitiative.GetValue();
             var xCboWebinarCat = CboWebinarCat.GetValue();
             //var projectYear = '@profileData.ProjectYear';
+            //Comment the below clause to save everything to DB 
+            //if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
+            //    // gak usah disimpen year yang sebelumnya
+            //    var targetjan2 = $(".targetjan").val().replaceAll(",", ""); var targetfeb2 = $(".targetfeb").val().replaceAll(",", ""); var targetmar2 = $(".targetmar").val().replaceAll(",", ""); var targetapr2 = $(".targetapr").val().replaceAll(",", ""); var targetmay2 = $(".targetmay").val().replaceAll(",", "");
+            //    var targetjun2 = $(".targetjun").val().replaceAll(",", ""); var targetjul2 = $(".targetjul").val().replaceAll(",", ""); var targetaug2 = $(".targetaug").val().replaceAll(",", ""); var targetsep2 = $(".targetsep").val().replaceAll(",", ""); var targetoct2 = $(".targetoct").val().replaceAll(",", "");
+            //    var targetnov2 = $(".targetnov").val().replaceAll(",", ""); var targetdec2 = $(".targetdec").val().replaceAll(",", "");
 
-            if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
-                // gak usah disimpen year yang sebelumnya
-                var targetjan2 = $(".targetjan").val().replaceAll(",", ""); var targetfeb2 = $(".targetfeb").val().replaceAll(",", ""); var targetmar2 = $(".targetmar").val().replaceAll(",", ""); var targetapr2 = $(".targetapr").val().replaceAll(",", ""); var targetmay2 = $(".targetmay").val().replaceAll(",", "");
-                var targetjun2 = $(".targetjun").val().replaceAll(",", ""); var targetjul2 = $(".targetjul").val().replaceAll(",", ""); var targetaug2 = $(".targetaug").val().replaceAll(",", ""); var targetsep2 = $(".targetsep").val().replaceAll(",", ""); var targetoct2 = $(".targetoct").val().replaceAll(",", "");
-                var targetnov2 = $(".targetnov").val().replaceAll(",", ""); var targetdec2 = $(".targetdec").val().replaceAll(",", "");
-
-                var savingjan2 = $(".savingjan").val().replaceAll(",", ""); var savingfeb2 = $(".savingfeb").val().replaceAll(",", ""); var savingmar2 = $(".savingmar").val().replaceAll(",", ""); var savingapr2 = $(".savingapr").val().replaceAll(",", ""); var savingmay2 = $(".savingmay").val().replaceAll(",", "");
-                var savingjun2 = $(".savingjun").val().replaceAll(",", ""); var savingjul2 = $(".savingjul").val().replaceAll(",", ""); var savingaug2 = $(".savingaug").val().replaceAll(",", ""); var savingsep2 = $(".savingsep").val().replaceAll(",", ""); var savingoct2 = $(".savingoct").val().replaceAll(",", "");
-                var savingnov2 = $(".savingnov").val().replaceAll(",", ""); var savingdec2 = $(".savingdec").val().replaceAll(",", "");
-            } else {
+            //    var savingjan2 = $(".savingjan").val().replaceAll(",", ""); var savingfeb2 = $(".savingfeb").val().replaceAll(",", ""); var savingmar2 = $(".savingmar").val().replaceAll(",", ""); var savingapr2 = $(".savingapr").val().replaceAll(",", ""); var savingmay2 = $(".savingmay").val().replaceAll(",", "");
+            //    var savingjun2 = $(".savingjun").val().replaceAll(",", ""); var savingjul2 = $(".savingjul").val().replaceAll(",", ""); var savingaug2 = $(".savingaug").val().replaceAll(",", ""); var savingsep2 = $(".savingsep").val().replaceAll(",", ""); var savingoct2 = $(".savingoct").val().replaceAll(",", "");
+            //    var savingnov2 = $(".savingnov").val().replaceAll(",", ""); var savingdec2 = $(".savingdec").val().replaceAll(",", "");
+            //} else {
                 var targetjan = $(".targetjan").val().replaceAll(",", ""); var targetfeb = $(".targetfeb").val().replaceAll(",", ""); var targetmar = $(".targetmar").val().replaceAll(",", ""); var targetapr = $(".targetapr").val().replaceAll(",", ""); var targetmay = $(".targetmay").val().replaceAll(",", "");
                 var targetjun = $(".targetjun").val().replaceAll(",", ""); var targetjul = $(".targetjul").val().replaceAll(",", ""); var targetaug = $(".targetaug").val().replaceAll(",", ""); var targetsep = $(".targetsep").val().replaceAll(",", ""); var targetoct = $(".targetoct").val().replaceAll(",", "");
                 var targetnov = $(".targetnov").val().replaceAll(",", ""); var targetdec = $(".targetdec").val().replaceAll(",", "");
@@ -1148,7 +1195,7 @@ function SaveInitiative() {
                 var savingjan2 = $(".savingjan2").val().replaceAll(",", ""); var savingfeb2 = $(".savingfeb2").val().replaceAll(",", ""); var savingmar2 = $(".savingmar2").val().replaceAll(",", ""); var savingapr2 = $(".savingapr2").val().replaceAll(",", ""); var savingmay2 = $(".savingmay2").val().replaceAll(",", "");
                 var savingjun2 = $(".savingjun2").val().replaceAll(",", ""); var savingjul2 = $(".savingjul2").val().replaceAll(",", ""); var savingaug2 = $(".savingaug2").val().replaceAll(",", ""); var savingsep2 = $(".savingsep2").val().replaceAll(",", ""); var savingoct2 = $(".savingoct2").val().replaceAll(",", "");
                 var savingnov2 = $(".savingnov2").val().replaceAll(",", ""); var savingdec2 = $(".savingdec2").val().replaceAll(",", "");
-            }
+            //}
 
             //alert(xGrdSubCountry + " " + xGrdBrand + " " + xGrdLegalEntity + " " + xGrdCountry + " " + xGrdRegional + " " + xGrdSubRegion + " " + xGrdCluster + " " + xGrdRegionalOffice + " " + xGrdCostControl + " " + xCboConfidential + " " + xGrdInitStatus + " " + xGrdInitType + " " + xGrdInitCategory + " " + xGrdSubCost + " " + xGrdActionType + " " + xGrdSynImpact + " " + xStartMonth + " " + xEndMonth);
 
@@ -1166,7 +1213,7 @@ function SaveInitiative() {
                         sum += parseFloat($(this).val().replaceAll(",", ""));
                 });
 
-                if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
+               // if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
                     var a = (parseFloat(txTargetFullYear.GetValue()));
                     var b = (parseFloat(txTarget12.GetValue()));
                     //code change by Sudhish for -ve /+ve
@@ -1231,77 +1278,79 @@ function SaveInitiative() {
                         return;
                     }
 
-                } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
-                    debugger;
-                    var x1 = StartMonth.GetValue().getMonth();
-                    var months;
-                    months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
-                    months -= StartMonth.GetValue().getMonth();
-                    months += EndMonth.GetValue().getMonth();
-                    months++; // ngitung selisih bulan mulai dan bulan akhir initiative
-                    lastmonth = EndMonth.GetValue().getMonth();
-                    lastmonth++;
-                    var a = (parseFloat(txTargetFullYear.GetValue()));
-                    var b = (parseFloat(txTarget12.GetValue()));
-                    //Added by Sudhish for positive /-ve 
-                    var originalfullyeartarget = a;
-                    var originaltwelevetarget = b;
-                    var sumofmonthlytarget = sum;
-                    x1 = Math.abs(x1);
-                    x2 = Math.abs(((b / months)) * (12 - x1));//x2 = ((12 - x1) * Math.abs(Math.floor(targetjan2)));
-                    //x2 = Math.abs(Math.floor(x2));
+               // }
+                //I think the below is not required since all the values are shown so the alert control should be simple 
+                //else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
+                //    debugger;
+                //    var x1 = StartMonth.GetValue().getMonth();
+                //    var months;
+                //    months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
+                //    months -= StartMonth.GetValue().getMonth();
+                //    months += EndMonth.GetValue().getMonth();
+                //    months++; // ngitung selisih bulan mulai dan bulan akhir initiative
+                //    lastmonth = EndMonth.GetValue().getMonth();
+                //    lastmonth++;
+                //    var a = (parseFloat(txTargetFullYear.GetValue()));
+                //    var b = (parseFloat(txTarget12.GetValue()));
+                //    //Added by Sudhish for positive /-ve 
+                //    var originalfullyeartarget = a;
+                //    var originaltwelevetarget = b;
+                //    var sumofmonthlytarget = sum;
+                //    x1 = Math.abs(x1);
+                //    x2 = Math.abs(((b / months)) * (12 - x1));//x2 = ((12 - x1) * Math.abs(Math.floor(targetjan2)));
+                //    //x2 = Math.abs(Math.floor(x2));
 
-                    //a = Math.abs(Math.floor(a));
-                    //b = Math.abs(Math.floor(b));
-                    //sum = Math.abs(Math.floor(sum));
+                //    //a = Math.abs(Math.floor(a));
+                //    //b = Math.abs(Math.floor(b));
+                //    //sum = Math.abs(Math.floor(sum));
 
-                    //Floor after abs for -ve comparison 
-                    x2 = Math.floor(Math.abs(x2));
+                //    //Floor after abs for -ve comparison 
+                //    x2 = Math.floor(Math.abs(x2));
 
-                    a = Math.floor(Math.abs(a));
-                    b = Math.floor(Math.abs(b));
-                    sum = Math.floor(Math.abs(sum));
-                    //alert('a = ' + a + ' || b = ' + b + ' || sum = ' + sum + ' || x2 = ' + x2 + " || months = " + months + " || (12 - x1) = " + (12 - x1));
-                    //if ((a >= b) || ((x2 + sum) > (b + 5))) { // tolerance $5
-                    if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
-                        if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
-                            //if (a > b) {
-                            //    Swal.fire(
-                            //        'Inconsistent Target',
-                            //         'All Applicable Target of This Year : <strong>' + originalfullyeartarget +'</strong> cannot be Greater Than Target 12 Months : <strong>'+originaltwelevetarget+'</strong>',
-                            //        'error'
-                            //    );
-                            //    return;
-                            //}
+                //    a = Math.floor(Math.abs(a));
+                //    b = Math.floor(Math.abs(b));
+                //    sum = Math.floor(Math.abs(sum));
+                //    //alert('a = ' + a + ' || b = ' + b + ' || sum = ' + sum + ' || x2 = ' + x2 + " || months = " + months + " || (12 - x1) = " + (12 - x1));
+                //    //if ((a >= b) || ((x2 + sum) > (b + 5))) { // tolerance $5
+                //    if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
+                //        if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
+                //            //if (a > b) {
+                //            //    Swal.fire(
+                //            //        'Inconsistent Target',
+                //            //         'All Applicable Target of This Year : <strong>' + originalfullyeartarget +'</strong> cannot be Greater Than Target 12 Months : <strong>'+originaltwelevetarget+'</strong>',
+                //            //        'error'
+                //            //    );
+                //            //    return;
+                //            //}
 
-                            if (!((x2 + sum) == (b + 1) || (x2 + sum) == b ||(x2+sum+1) == b)) { // tolerance $1
-                                Swal.fire(
-                                    'Inconsistent Target',
-                                    'The amount of All Applicable Target (current SUM of input is <strong>' + (sum) + '</strong>) and current year target <strong>'+Math.floor((b/months)*lastmonth)+
-                                    '</strong> (prorated target 12 month for current year('+b+'/'+months+'*'+lastmonth+')) need to be aligned',
-                                    'error'
-                                );
-                                return;
-                            }
-                        }
-                        else {
-                            Swal.fire(
-                                'Inconsistent Target',
-                                'Sum of monthly target and 12 months target,both  should be positive or negative',
-                                'error'
-                            );
-                            return;
-                        }
-                    }
-                    else {
-                        Swal.fire(
-                            'Inconsistent Target',
-                            'Target 12 Months and Target Current Year both should be positive or negative value',
-                            'error'
-                        );
-                        return;
-                    }
-                }
+                //            if (!((x2 + sum) == (b + 1) || (x2 + sum) == b ||(x2+sum+1) == b)) { // tolerance $1
+                //                ////Swal.fire(
+                //                ////    'Inconsistent Target',
+                //                ////    'The amount of All Applicable Target (current SUM of input is <strong>' + (sum) + '</strong>) and current year target <strong>'+Math.floor((b/months)*lastmonth)+
+                //                ////    '</strong> (prorated target 12 month for current year('+b+'/'+months+'*'+lastmonth+')) need to be aligned',
+                //                ////    'error'
+                //                ////);
+                //                //return;
+                //            }
+                //        }
+                //        else {
+                //            Swal.fire(
+                //                'Inconsistent Target',
+                //                'Sum of monthly target and 12 months target,both  should be positive or negative',
+                //                'error'
+                //            );
+                //            return;
+                //        }
+                //    }
+                //    else {
+                //        Swal.fire(
+                //            'Inconsistent Target',
+                //            'Target 12 Months and Target Current Year both should be positive or negative value',
+                //            'error'
+                //        );
+                //        return;
+                //    }
+                //}
                 var sumtarget = 0;
                 if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
                     var sum = 0;
@@ -1311,9 +1360,9 @@ function SaveInitiative() {
                     sumtarget = Math.abs(sum);
                     //sumtarget = (((12 - (StartMonth.GetValue().getMonth())) * targetjan2) + sum);
                 }
-
+                debugger;
                 //if (Number(xTxTargetFullYear).toFixed(0) == Number(sumtarget).toFixed(0)) {
-                if (Math.floor(Math.abs(Number(xTxTargetFullYear))) == Math.floor(Number(sumtarget))) {
+               // if (Math.floor(Math.abs(Number(xTxTargetFullYear))) == Math.floor(Number(sumtarget))) {
                     $.post(URLContent('ActiveInitiative/SaveNew'), {
                         FormID: xFormID,
                         FormStatus: xFormStatus,
@@ -1365,13 +1414,13 @@ function SaveInitiative() {
                             WindowOkSaved.Show();
                         }
                     });
-                } else {
-                    Swal.fire(
-                        'Value is not match',
-                        'Target year (USD) is not match with all applicable monthly target',
-                        'error'
-                    );
-                }
+               // } else {
+                    //Swal.fire(
+                    //    'Value is not match',
+                    //    'Target year (USD) is not match with all applicable monthly target',
+                    //    'error'
+                    //);
+               // }
             }
             else {
                 Swal.fire(
@@ -1386,7 +1435,7 @@ function SaveInitiative() {
 
 function CheckUncheckCalculate() {
     var targetstartselected = false; var targetstartselected2 = true; var startmon;/* var projectYear = '@profileData.ProjectYear';*/ var uType = user_type;
-
+    //Count how many targets are enabled and just divide by total
     if (($('#chkAuto').is(':checked')) && txTargetFullYear.GetValue() != "") {
         if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
             const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
@@ -1398,6 +1447,7 @@ function CheckUncheckCalculate() {
             months++; // ngitung selisih bulan mulai dan bulan akhir initiative
 
             var txTarget12Value; var nilai; var nilai2; var arrnilai = []; var startmon2 = startmon;
+            txTarget12Value = Number(txTarget12.GetValue());
             nilai = Number(txTarget12.GetValue() / months).toFixed(2);
 
             for (var a = 0; a <= months; a++) {
@@ -1427,40 +1477,69 @@ function CheckUncheckCalculate() {
         } else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
             const targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
             const savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
+            //find the sum of previous year 
+            debugger;
 
-            months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
-            months -= StartMonth.GetValue().getMonth();
-            months += EndMonth.GetValue().getMonth();
-            months++; // ngitung selisih bulan mulai dan bulan akhir initiative
+            let previoussum = 0;
+            for (var i = 0; i <= 11; i++) {
 
-            //var months = ((moment(EndMonth.GetValue()).format("M")));
-            var nilai = Number(txTarget12.GetValue() / months).toFixed(2);
-            var endmonth = ((moment(EndMonth.GetValue()).format("M")));
-
-            if ((nilai * months) < Number(txTarget12.GetValue())) {
-                var sisa = Number(txTarget12.GetValue()) - ((+nilai) * (+months));
-                sisa = (Number(sisa)).toFixed(2);
-            } else {
-                sisa = 0;
-            }
-
-            for (var i = 0; i <= targetty.length; i++) {
-                if (i < endmonth) {
-                    if (i == (endmonth - 1)) {
-                        $("." + targetty[i]).val(formatValue((parseFloat(nilai) + parseFloat(sisa))));
-                    } else {
-                        $("." + targetty[i]).val(formatValue(nilai));
+                //previoussum = previoussum + Number($("." + targetty[i]).val());
+               // $("." + targetty[o] + tex).val().replaceAll(",", "");
+                let currentvalue = $("." + targetty[i]).val().replaceAll(",", "");
+                if (currentvalue != "") {
+                    if (targetty[i].length > 0) {
+                        previoussum = previoussum + parseFloat(currentvalue);
                     }
-
-                    $("." + targetty[i]).prop('disabled', false);
-                    $("." + savingty[i]).prop('disabled', false);
-                } else {
-                    $("." + targetty[i]).val('');
-                    $("." + savingty[i]).val('');
-                    $("." + targetty[i]).prop('disabled', true);
-                    $("." + savingty[i]).prop('disabled', true);
                 }
             }
+            previoussum = previoussum.toFixed(2);
+            let balance = txTarget12.GetValue() - previoussum;
+            var endmonth = ((moment(EndMonth.GetValue()).format("M")));
+            var eachmonth = (balance / endmonth).toFixed(2);
+            for (var i = 0; i <= endmonth-1; i++) {
+                $("." + targetty[i + 12]).val(formatValue(parseFloat(eachmonth)));
+            }
+            ////Commented for simplicity 
+            //months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
+            //months -= StartMonth.GetValue().getMonth();
+            //months += EndMonth.GetValue().getMonth();
+            //months++; // ngitung selisih bulan mulai dan bulan akhir initiative
+
+            ////var months = ((moment(EndMonth.GetValue()).format("M")));
+            //var nilai = Number(txTarget12.GetValue() / months).toFixed(2);
+            ////var endmonth = ((moment(EndMonth.GetValue()).format("M")));
+
+            //if ((nilai * months) < Number(txTarget12.GetValue())) {
+            //    var sisa = Number(txTarget12.GetValue()) - ((+nilai) * (+months));
+            //    sisa = (Number(sisa)).toFixed(2);
+            //} else {
+            //    sisa = 0;
+            //}
+
+            //for (var i = 0; i <= targetty.length; i++) {
+            //    if (i < endmonth) {
+            //        if (i == (endmonth - 1)) {
+            //            $("." + targetty[i]).val(formatValue((parseFloat(nilai) + parseFloat(sisa))));
+            //        } else {
+            //            $("." + targetty[i]).val(formatValue(nilai));
+            //        }
+
+            //        $("." + targetty[i]).prop('disabled', false);
+            //        $("." + savingty[i]).prop('disabled', false);
+            //    } else {
+            //        $("." + targetty[i]).val('');
+            //        $("." + savingty[i]).val('');
+            //        $("." + targetty[i]).prop('disabled', true);
+            //        $("." + savingty[i]).prop('disabled', true);
+            //    }
+            //    debugger;
+            //    if ($("." + targetty[i]).prop('disabled'))
+            //        {
+            //        console.log("Hi");
+            //    }
+            //}
+
+            ////End commented for simplicity
 
             $("input[name='StartMonth']").prop('disabled', true);
             $("input[name='StartMonth']").prop('readonly', true);
@@ -1511,7 +1590,18 @@ function CheckUncheckCalculate() {
 }
 
 function hitungtahunini() {
-    const targetty = new Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec");
+    var startyear = new Date(StartMonth.GetValue()).getFullYear();
+    var d = new Date();
+    let currentyear = d.getFullYear();
+    let tex = "";
+    if (startyear === currentyear) {
+
+        tex = "";
+    }
+    else {
+        tex = "2";
+    }
+    const targetty = new Array("targetjan" + tex, "targetfeb" + tex, "targetmar" + tex, "targetapr" + tex, "targetmay" + tex, "targetjun" + tex, "targetjul" + tex, "targetaug" + tex, "targetsep" + tex, "targetoct" + tex, "targetnov" + tex, "targetdec" + tex);
     var d = new Date();
     var m = d.getMonth(); var nilai = 0; var hitung = 0; var saving = 0; var hitungsaving = 0;
     for (var o = 0; o < targetty.length; o++) {
@@ -1545,33 +1635,40 @@ function getYtdValue() {
     const savingty = new Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec")//, "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
     //var d = new Date();
     var d = new Date();
-    var m = d.getMonth(); var startmon = ((moment(StartMonth.GetValue()).format("M")));
+    var m = d.getMonth();
+    debugger;
+    //var startmon = ((moment(StartMonth.GetValue()).format("M")));
+    var endmon = ((moment(StartMonth.GetValue()).format("M")));
+    var startyear = new Date(StartMonth.GetValue()).getFullYear()
     let offset = -1;
     let currentyear = d.getFullYear();
+    var tex = "";
     //if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
     //    m = startmon;
     //}
 
-    if (currentyear == projectYear) {
+    if (currentyear == startyear) {
         // m = startmon;
         offset = 0;
     }
     else  {
         //m = startmon + 12;
         offset = 0;
-        m = 12;
+        //comment this 
+       // m = endmon;
+        tex = "2";
     }
    /* if (offset > 0) {*/
         var nilai = 0; var hitung = 0; var saving = 0; var hitungsaving = 0;
         for (var o = offset; o < targetty.length; o++) {
             if (o < m) {
-                nilai = $("." + targetty[o]).val().replaceAll(",", "");
+                nilai = $("." + targetty[o]+tex).val().replaceAll(",", "");
                 if (nilai != "") {
                     nilai = parseFloat(nilai); hitung = parseFloat(hitung);
                     hitung = (nilai + hitung);
                 }
 
-                saving = $("." + savingty[o]).val().replaceAll(",", "");
+                saving = $("." + savingty[o]+tex).val().replaceAll(",", "");
                 if (saving != "") {
                     saving = parseFloat(saving); hitungsaving = parseFloat(hitungsaving);
                     hitungsaving = (saving + hitungsaving);
