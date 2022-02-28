@@ -78,7 +78,32 @@ $(function () {
         } else {
             $("#btnSave").prop('disabled', true);
         }
-
+        //Change the labels 
+        $('#ljan').html('Jan-' + py);
+        $('#lfeb').html('Feb-' + py);
+        $('#lmar').html('Mar-' + py);
+        $('#lapr').html('Apr-' + py);
+        $('#lmay').html('May-' + py);
+        $('#ljun').html('Jun-' + py);
+        $('#ljul').html('Jul-' + py);
+        $('#laug').html('Aug-' + py);
+        $('#lsep').html('Sep-' + py);
+        $('#loct').html('Oct-' + py);
+        $('#lnov').html('Nov-' + py);
+        $('#ldec').html('Dec-' + py);
+        var npy = parseInt(py)+1;
+        $('#lnexjan').html('Jan-' + npy);
+        $('#lnexfeb').html('Feb-' + npy);
+        $('#lnexmar').html('Mar-' + npy);
+        $('#lnexapr').html('Apr-' + npy);
+        $('#lnexmay').html('May-' + npy);
+        $('#lnexjun').html('Jun-' + npy);
+        $('#lnexjul').html('Jul-' + npy);
+        $('#lnexaug').html('Aug-' + npy);
+        $('#lnexsep').html('Sep-' + npy);
+        $('#lnexoct').html('Oct-' + npy);
+        $('#lnexnov').html('Nov-' + npy);
+        $('#lnexdec').html('Dec-' + npy);
         WindowInitiative.Show();
         /*            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));*/
     });
