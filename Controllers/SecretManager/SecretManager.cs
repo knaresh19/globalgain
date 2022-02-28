@@ -11,7 +11,7 @@ using GAIN.Models;
 
 namespace GAIN.Controllers
 {
-    class clsSecretManager
+   public static class clsSecretManager
     {
 
         /*

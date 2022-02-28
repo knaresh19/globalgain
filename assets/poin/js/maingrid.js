@@ -1459,6 +1459,7 @@ function SaveInitiative() {
 }
 
 function CheckUncheckCalculate() {
+    debugger;
     var targetstartselected = false; var targetstartselected2 = true; var startmon;/* var projectYear = '@profileData.ProjectYear';*/ var uType = user_type;
     //Count how many targets are enabled and just divide by total
     if (($('#chkAuto').is(':checked')) && txTargetFullYear.GetValue() != "") {
@@ -1607,7 +1608,15 @@ function CheckUncheckCalculate() {
             }
         }
     } else {
-        $('.txTarget').val("");
+        const targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
+        for (var i = 0; i < targetty.length; i++) {
+            if ($("." + targetty[i]).prop('disabled')) {
+
+            }
+            else {
+                $("." + targetty[i]).val("");
+            }
+        }
         txTargetFullYear.SetValue("");
     }
     getYtdValue();
