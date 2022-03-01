@@ -1628,12 +1628,28 @@ function hitungtahunini() {
     var d = new Date();
     let currentyear = d.getFullYear();
     let tex = "";
+
+    if (projectYear == startyear) {
+
+        m = 12
+    }
+    else {
+        tex = "2";
+    }
     if (startyear === currentyear) {
 
         tex = "";
     }
     else {
-        tex = "2";
+
+        if (projectYear == startyear) {
+
+            tex = "";
+        }
+        else {
+            tex = "2";
+        }
+        //tex = "2";
     }
     const targetty = new Array("targetjan" + tex, "targetfeb" + tex, "targetmar" + tex, "targetapr" + tex, "targetmay" + tex, "targetjun" + tex, "targetjul" + tex, "targetaug" + tex, "targetsep" + tex, "targetoct" + tex, "targetnov" + tex, "targetdec" + tex);
     var d = new Date();
@@ -1685,12 +1701,20 @@ function getYtdValue() {
         // m = startmon;
         offset = 0;
     }
-    else  {
+    else {
+
+        if (projectYear == startyear) {
+
+            m = 12
+        }
+        else {
+            tex = "2";
+        }
         //m = startmon + 12;
         offset = 0;
         //comment this 
        // m = endmon;
-        tex = "2";
+       
     }
    /* if (offset > 0) {*/
         var nilai = 0; var hitung = 0; var saving = 0; var hitungsaving = 0;
