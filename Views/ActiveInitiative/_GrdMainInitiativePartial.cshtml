@@ -1,6 +1,7 @@
 ﻿@{
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
     var tahun = profileData.ProjectYear;
+    //var startdate = 
 }
 
 @{
@@ -506,13 +507,15 @@
             c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             c.Width = 150;
         });
-
+        
         settings.Columns.AddBand(JanuaryBand =>
         {
+            
             JanuaryBand.Caption = "January " + tahun + "";
             JanuaryBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             JanuaryBand.Columns.Add(c =>
             {
+               // newgrid=c.
                 c.FieldName = "TargetJan";
                 c.Caption = "Target";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
@@ -560,6 +563,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                
             });
             MarchBand.Columns.Add(c =>
             {
