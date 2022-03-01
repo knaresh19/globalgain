@@ -118,7 +118,7 @@ $(function () {
 
     $("#btnSave").on('click', function () {
         //var projectYear = '@profileData.ProjectYear';
-        if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
+        /*if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
             Swal.fire({
                 title: 'Initiative of Previous Year',
                 text: 'This initiative is a previous year initiative. Total sum of month target for current year and next year will not match the initial target 12 months.',
@@ -127,9 +127,10 @@ $(function () {
             }).then((result) => {
                 SaveInitiative();
             });
-        } else {
+        }*/
+        //else {
             SaveInitiative();
-        }
+        //}
     });
 
     $("#btnEditx").on('click', function () {
