@@ -57,7 +57,7 @@ log4net.LogManager.GetLogger
                 request.SecretId = secretName;
                 request.VersionStage = "AWSCURRENT"; // VersionStage defaults to AWSCURRENT if unspecified.
 
-                //GetSecretValueResponse response = null;
+                GetSecretValueResponse response = null;
                 //string response;
 
                 // In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
@@ -66,26 +66,26 @@ log4net.LogManager.GetLogger
 
                 try
                 {
-                    //response = client.GetSecretValueAsync(request).Result;
-                  var response=  cache.GetSecretString(secretName);
-                   
-                    //if (response.SecretString != null)
-                    //{
-                    //    secret = response.SecretString;
+                    response = client.GetSecretValueAsync(request).Result;
+                   // var response = cache.GetSecretString(secretName);
 
-                    //    //obtained the secret 
-                    //    //form the required string 
+                    if (response.SecretString != null)
+                    {
+                        secret = response.SecretString;
 
-                    //    //Console.WriteLine("Decoded binary secret " + secret);
-                    //}
-                    //else
-                    //{
-                    //    memoryStream = response.SecretBinary;
-                    //    StreamReader reader = new StreamReader(memoryStream);
-                    //    string decodedBinarySecret = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(reader.ReadToEnd()));
-                    //    secret = decodedBinarySecret;
-                    //    //Console.WriteLine("Decoded binary secret " + decodedBinarySecret);
-                    //}
+                        //obtained the secret 
+                        //form the required string 
+
+                        //Console.WriteLine("Decoded binary secret " + secret);
+                    }
+                    else
+                    {
+                        memoryStream = response.SecretBinary;
+                        StreamReader reader = new StreamReader(memoryStream);
+                        string decodedBinarySecret = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(reader.ReadToEnd()));
+                        secret = decodedBinarySecret;
+                        //Console.WriteLine("Decoded binary secret " + decodedBinarySecret);
+                    }
                     // Console.ReadLine();
                     if (!response.Equals(string.Empty))
                     {
