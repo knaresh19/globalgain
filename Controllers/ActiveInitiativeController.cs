@@ -17,11 +17,13 @@ using DevExpress.XtraCharts;
 
 namespace GAIN.Controllers
 {
+  
     public class ActiveInitiativeController : MyBaseController
     {
-        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
-        //GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(awsHelper.getConnString());
 
+        //GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
+        //GAIN.Models.GainEntities db = new GAIN.Models.GainEntities("metadata=res://*/Models.GainModel.csdl|res://*/Models.GainModel.ssdl|res://*/Models.GainModel.msl;provider=MySql.Data.MySqlClient;provider connection string='server=127.0.0.1; Port=3306; user id=root;password=admin;Sslmode=none;persistsecurityinfo=True;database=gain_v2;Persist Security Info=True;Convert Zero Datetime=true'");
+        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring("LOCAL"));
         //[Authorize]
         // GET: ActiveInitiative
         private static readonly log4net.ILog log =
