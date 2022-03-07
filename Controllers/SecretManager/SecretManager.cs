@@ -90,7 +90,7 @@ log4net.LogManager.GetLogger
                     if (!response.Equals(string.Empty))
                     {
                        
-                        Secret objdtls = Newtonsoft.Json.JsonConvert.DeserializeObject<Secret>(response.ToString());
+                        Secret objdtls = Newtonsoft.Json.JsonConvert.DeserializeObject<Secret>(secret);
                         //Newtonsoft.Json.Linq.JObject.Parse()
 
                         //secret = string.Format("Data source={0},{4};Initial Catalog={1};User ID={2};Password={3};Connection Timeout=3000", objdtls.host, objdtls.dbname, objdtls.username, objdtls.password, objdtls.port);
