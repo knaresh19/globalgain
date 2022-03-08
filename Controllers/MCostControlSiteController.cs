@@ -1,6 +1,7 @@
 ﻿using DevExpress.Web.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,7 +10,7 @@ namespace GAIN.Controllers
 {
     public class MCostControlSiteController : MyBaseController
     {
-        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
+        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
 
         // GET: MCostControlSite
         public ActionResult Index()

@@ -15,7 +15,7 @@ namespace GAIN.Controllers
             return View();
         }
 
-        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
+        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
 
         [ValidateInput(false)]
         public ActionResult GrdRegionPartial()

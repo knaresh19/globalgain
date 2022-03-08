@@ -14,7 +14,7 @@ namespace GAIN.Controllers
     {
         // GET: Login
 
-        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
+        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
         private static readonly log4net.ILog log =
 log4net.LogManager.GetLogger
 (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -144,7 +144,7 @@ log4net.LogManager.GetLogger
                 return false;
             else
             {
-                using (GainEntities db = new GainEntities())
+                using (GainEntities db = new GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"])))
                 {
                     string pswd = password.Trim();
                     if (isEncrypt)

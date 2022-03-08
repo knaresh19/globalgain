@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using DevExpress.Web;
 using DevExpress.Web.Export;
 using DevExpress.XtraCharts;
+using System.Configuration;
 
 /*
  * Adding comment here
@@ -21,9 +22,9 @@ namespace GAIN.Controllers
     public class ActiveInitiativeController : MyBaseController
     {
 
-        //GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
+        //GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
         //GAIN.Models.GainEntities db = new GAIN.Models.GainEntities("metadata=res://*/Models.GainModel.csdl|res://*/Models.GainModel.ssdl|res://*/Models.GainModel.msl;provider=MySql.Data.MySqlClient;provider connection string='server=127.0.0.1; Port=3306; user id=root;password=admin;Sslmode=none;persistsecurityinfo=True;database=gain_v2;Persist Security Info=True;Convert Zero Datetime=true'");
-        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring("rds-ag-np-406-ganusm"));
+        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
         //[Authorize]
         // GET: ActiveInitiative
         private static readonly log4net.ILog log =
@@ -728,7 +729,7 @@ log4net.LogManager.GetLogger
             {
                 try
                 {
-                    using (GainEntities db = new GainEntities())
+                    using (GainEntities db = new GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"])))
                     {
                         var tinitiative = db.Set<t_initiative>();
                         var YearInitiative = profileData.ProjectYear;
