@@ -86,6 +86,7 @@ log4net.LogManager.GetLogger
                             istoadmin = (int)isRegistered.istoadmin
                         };
                         this.Session["DefaultGAINSess"] = LoginSession;
+                        log.Debug("log in succesfuly" + LoginSession.ID);
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -117,7 +118,7 @@ log4net.LogManager.GetLogger
                                 istoadmin = (int)isRegistered.istoadmin
                             };
                             this.Session["DefaultGAINSess"] = LoginSession;
-
+                            log.Debug("log in succesfuly" + LoginSession.ID);
                             return RedirectToAction("Index", "Home");
                         }
                         catch (DirectoryServicesCOMException e)
