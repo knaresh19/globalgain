@@ -21,7 +21,7 @@ namespace GAIN.Controllers
 
         public MUsersController()
         {
-            db = new GainEntities();
+            db = new GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
         }
 
         // GET: MUsers
@@ -62,6 +62,34 @@ namespace GAIN.Controllers
                 item.USER_LAST_NAME = "";
             }
 
+            if(string.IsNullOrEmpty(item.region_right))
+            {
+                item.region_right = "";
+            }
+            if (string.IsNullOrEmpty(item.subregion_right))
+            {
+                item.subregion_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.RegionalOffice_right))
+            {
+                item.RegionalOffice_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.CostItem_right))
+            {
+                item.CostItem_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.SubCostItem_right))
+            {
+                item.SubCostItem_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.Brand_right))
+            {
+                item.Brand_right = "";
+            }
             if (TryValidateModel(item))
             {
                 DbEntityValidationResult resultVal = db.Entry(item).GetValidationResult();
@@ -147,6 +175,24 @@ namespace GAIN.Controllers
             if (String.IsNullOrEmpty(item.USER_LAST_NAME))
             {
                 item.USER_LAST_NAME = "";
+            }
+            if (string.IsNullOrEmpty(item.RegionalOffice_right))
+            {
+                item.RegionalOffice_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.CostItem_right))
+            {
+                item.CostItem_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.SubCostItem_right))
+            {
+                item.SubCostItem_right = "";
+            }
+            if (string.IsNullOrEmpty(item.Brand_right))
+            {
+                item.Brand_right = "";
             }
 
             if (TryValidateModel(item))

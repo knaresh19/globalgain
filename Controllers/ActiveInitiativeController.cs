@@ -73,7 +73,7 @@ log4net.LogManager.GetLogger
             var where = "";
 
             if (profileData.confidential_right == 0) where += " and Confidential != 'Y'";
-            if (profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0, 1) == "|")
+            if (profileData.RegionalOffice_right!=null && profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0, 1) == "|")
             {
                 var regofficetext = profileData.RegionalOffice_right.Replace("|", "','");
                 int lenRegionalOffice_right = regofficetext.Length;
@@ -127,7 +127,7 @@ log4net.LogManager.GetLogger
                     where += " and a.CostCategoryID in (" + costitemcondition + ")";
                 }
             }
-            if (profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL")
+            if (profileData.SubCostItem_right !=null && profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL" )
             {
                 var subcostitemtext = profileData.SubCostItem_right.Replace("|", "','");
                 int lensubcostitem = subcostitemtext.Length;
