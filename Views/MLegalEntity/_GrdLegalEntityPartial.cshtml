@@ -84,6 +84,37 @@
                 p.BindList(ViewData["CountryList"]);
             });
         });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "SubCountryID";
+            c.Caption = "SubCountryName";
+            c.Width = 200;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "subcountryname";
+                p.ValueField = "id";
+                p.ValueType = typeof(string);
+                p.ClientInstanceName = "CboSubCountry";
+                p.BindList(ViewData["Subcountrylist"]);
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "CostControlSiteID";
+            c.Caption = "CostControlSiteName";
+            c.Width = 200;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "CostControlSiteName";
+                p.ValueField = "id";
+                p.ValueType = typeof(string);
+                p.ClientInstanceName = "Cbocostcontrol";
+                p.BindList(ViewData["Costcontrolsite"]);
+            });
+        });
+
         settings.Columns.Add(c =>
         {
             c.FieldName = "LegalEntityName";

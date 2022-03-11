@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace GAIN.Models
 {
-    public class user_list_metadata
+    public class user_list_metadata 
     {
+        [Required(ErrorMessage  = "User Name is mandatory")]
         [Display(Name = "User Name")]
         public string username { get; set; }
 
@@ -37,6 +39,7 @@ namespace GAIN.Models
         [Display(Name = "Country Right")]
         public string country_right { get; set; }
 
+        [Required(ErrorMessage = "Is to Admin is mandatory")]
         [Display(Name = "Is To Admin")]
         public Nullable<int> istoadmin { get; set; }
 
@@ -54,7 +57,7 @@ namespace GAIN.Models
 
         [Display(Name = "Is New")]
         public Nullable<int> isNew { get; set; }
-
+        [Required(ErrorMessage = "User type is mandatory")]
         [Display(Name = "User Type")]
         public Nullable<int> userType { get; set; }
 
@@ -89,13 +92,37 @@ namespace GAIN.Models
 
         [Display(Name = "Confidential Right")]
         public Nullable<int> confidential_right { get; set; }
-
+        [Required(ErrorMessage = "Year Right is mandatory")]
         [Display(Name = "Year Right")]
         public string years_right { get; set; }
+
+       
     }
 
     [MetadataType(typeof(user_list_metadata))]
-    public partial class user_list
+    public partial class user_list : IValidatableObject
     {
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            //throw new NotImplementedException();
+
+            //if (IsSenior && string.IsNullOrEmpty(Senior.Description))
+
+
+            if (userType == 3 && string.IsNullOrEmpty(subcountry_right))
+            {
+                yield return new ValidationResult("Sub country is Mandatory for Agency users");
+            }
+
+            if (userType == 2 && string.IsNullOrEmpty(region_right))
+            {
+                yield return new ValidationResult("Region_right is Mandatory for Regional users");
+            }
+
+            if (userType == 2 && string.IsNullOrEmpty(RegionalOffice_right))
+            {
+                yield return new ValidationResult("RegionalOffice_right is Mandatory for Regional users");
+            }
+        }
     }
 }

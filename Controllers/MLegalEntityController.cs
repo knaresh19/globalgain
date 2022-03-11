@@ -24,6 +24,8 @@ namespace GAIN.Controllers
             var model = db.mlegalentities;
             ViewData["BrandList"] = db.mbrands.ToList();
             ViewData["CountryList"] = db.mcountries.ToList();
+            ViewData["Subcountrylist"] = db.msubcountries.ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
             return PartialView("_GrdLegalEntityPartial", model.ToList());
         }
 
@@ -48,6 +50,8 @@ namespace GAIN.Controllers
 
             ViewData["BrandList"] = db.mbrands.ToList();
             ViewData["CountryList"] = db.mcountries.ToList();
+            ViewData["Subcountrylist"] = db.msubcountries.ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
             return PartialView("_GrdLegalEntityPartial", model.ToList());
         }
         [HttpPost, ValidateInput(false)]
@@ -64,6 +68,8 @@ namespace GAIN.Controllers
                         modelItem.BrandID = item.BrandID;
                         modelItem.CountryID = item.CountryID;
                         modelItem.LegalEntityName = item.LegalEntityName;
+                        modelItem.SubCountryID = item.SubCountryID;
+                        modelItem.CostControlSiteID = item.CostControlSiteID;
                         db.SaveChanges();
                     }
                 }
@@ -100,6 +106,8 @@ namespace GAIN.Controllers
 
             ViewData["BrandList"] = db.mbrands.ToList();
             ViewData["CountryList"] = db.mcountries.ToList();
+            ViewData["Subcountrylist"] = db.msubcountries.ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
             return PartialView("_GrdLegalEntityPartial", model.ToList());
         }
     }
