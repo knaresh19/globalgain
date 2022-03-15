@@ -91,7 +91,7 @@ log4net.LogManager.GetLogger
                     where += " and a.RegionalOfficeID in (" + RegionalOffice_rightcondition + ")";
                 }
             }
-            if (profileData.Brand_right != "" && profileData.Brand_right != "ALL")
+            if (profileData.Brand_right != "" && (profileData.Brand_right != "ALL"|| profileData.Brand_right !="|ALL|"))
             {
                 var brandtext = profileData.Brand_right.Replace("|", "','");
                 int lenbrand = brandtext.Length;
@@ -109,7 +109,7 @@ log4net.LogManager.GetLogger
                     where += " and a.BrandID in (" + brandcondition + ")";
                 }
             }
-            if (profileData.CostItem_right != "" && profileData.CostItem_right != "ALL")
+            if (profileData.CostItem_right != "" && (profileData.CostItem_right != "ALL" || profileData.CostItem_right != "|ALL|"))
             {
                 var costitemtext = profileData.CostItem_right.Replace("|", "','");
                 int lencostitem = costitemtext.Length;
@@ -149,7 +149,7 @@ log4net.LogManager.GetLogger
 
             if (profileData.UserType == 2)  //rpoc
             {
-                if (profileData.RegionID != "" && profileData.RegionID != "ALL")
+                if (profileData.RegionID != "" && (profileData.RegionID != "|ALL|" || profileData.RegionID !="ALL"))
                 {
                     var rpoctext = profileData.RegionID.Replace("|", "','");
                     int lenrpoc = rpoctext.Length;
@@ -165,7 +165,7 @@ log4net.LogManager.GetLogger
                 }
                 else
                 {
-                    if (profileData.CostControlSite != "ALL")
+                    if (profileData.CostControlSite != "|ALL|" || profileData.RegionID != "ALL")
                     {
                         var cctext = profileData.CostControlSite.Replace("|", "','");
                         int lencctext = cctext.Length;
