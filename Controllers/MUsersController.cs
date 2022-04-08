@@ -90,6 +90,9 @@ namespace GAIN.Controllers
             {
                 item.Brand_right = "";
             }
+            //Copy the cost control site right to cost control site
+
+            item.costcontrolsite = item.CostControlSite_right;
             if (TryValidateModel(item))
             {
                 DbEntityValidationResult resultVal = db.Entry(item).GetValidationResult();
@@ -220,8 +223,8 @@ namespace GAIN.Controllers
                         modelItem.region_right = item.region_right;
                         modelItem.subregion_right = item.subregion_right;
                         modelItem.RegionalOffice_right = item.RegionalOffice_right;
-                        modelItem.costcontrolsite = item.costcontrolsite;
-
+                        //modelItem.costcontrolsite = item.costcontrolsite;
+                        modelItem.costcontrolsite = item.CostControlSite_right;
                         modelItem.CostControlSite_right = item.CostControlSite_right;
                         modelItem.Brand_right = item.Brand_right;
                         modelItem.CostItem_right = item.CostItem_right;

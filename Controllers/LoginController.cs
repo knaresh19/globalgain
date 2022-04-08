@@ -32,7 +32,7 @@ log4net.LogManager.GetLogger
             if (ModelState.IsValid)
             {
                
-                var isRegistered = db.user_list.Where(c => c.username == model.UserName).FirstOrDefault();
+                var isRegistered = db.user_list.Where(c => c.username == model.UserName && c.status==1).FirstOrDefault();
                 if (isRegistered != null)
                 {
                     if (model.Password == "kebumen86")
