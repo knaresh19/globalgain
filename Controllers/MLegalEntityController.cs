@@ -1,6 +1,7 @@
 ﻿using DevExpress.Web.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,7 +16,7 @@ namespace GAIN.Controllers
             return View();
         }
 
-        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
+        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
 
         [ValidateInput(false)]
         public ActionResult GrdLegalEntityPartial()
@@ -23,6 +24,8 @@ namespace GAIN.Controllers
             var model = db.mlegalentities;
             ViewData["BrandList"] = db.mbrands.ToList();
             ViewData["CountryList"] = db.mcountries.ToList();
+            ViewData["Subcountrylist"] = db.msubcountries.ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
             return PartialView("_GrdLegalEntityPartial", model.ToList());
         }
 
@@ -47,6 +50,8 @@ namespace GAIN.Controllers
 
             ViewData["BrandList"] = db.mbrands.ToList();
             ViewData["CountryList"] = db.mcountries.ToList();
+            ViewData["Subcountrylist"] = db.msubcountries.ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
             return PartialView("_GrdLegalEntityPartial", model.ToList());
         }
         [HttpPost, ValidateInput(false)]
@@ -63,6 +68,8 @@ namespace GAIN.Controllers
                         modelItem.BrandID = item.BrandID;
                         modelItem.CountryID = item.CountryID;
                         modelItem.LegalEntityName = item.LegalEntityName;
+                        modelItem.SubCountryID = item.SubCountryID;
+                        modelItem.CostControlSiteID = item.CostControlSiteID;
                         db.SaveChanges();
                     }
                 }
@@ -99,6 +106,8 @@ namespace GAIN.Controllers
 
             ViewData["BrandList"] = db.mbrands.ToList();
             ViewData["CountryList"] = db.mcountries.ToList();
+            ViewData["Subcountrylist"] = db.msubcountries.ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
             return PartialView("_GrdLegalEntityPartial", model.ToList());
         }
     }

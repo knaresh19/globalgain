@@ -21,7 +21,7 @@ namespace GAIN.Controllers
 
         public MUsersController()
         {
-            db = new GainEntities();
+            db = new GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
         }
 
         // GET: MUsers
@@ -62,6 +62,37 @@ namespace GAIN.Controllers
                 item.USER_LAST_NAME = "";
             }
 
+            if(string.IsNullOrEmpty(item.region_right))
+            {
+                item.region_right = "";
+            }
+            if (string.IsNullOrEmpty(item.subregion_right))
+            {
+                item.subregion_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.RegionalOffice_right))
+            {
+                item.RegionalOffice_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.CostItem_right))
+            {
+                item.CostItem_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.SubCostItem_right))
+            {
+                item.SubCostItem_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.Brand_right))
+            {
+                item.Brand_right = "";
+            }
+            //Copy the cost control site right to cost control site
+
+            item.costcontrolsite = item.CostControlSite_right;
             if (TryValidateModel(item))
             {
                 DbEntityValidationResult resultVal = db.Entry(item).GetValidationResult();
@@ -148,6 +179,24 @@ namespace GAIN.Controllers
             {
                 item.USER_LAST_NAME = "";
             }
+            if (string.IsNullOrEmpty(item.RegionalOffice_right))
+            {
+                item.RegionalOffice_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.CostItem_right))
+            {
+                item.CostItem_right = "";
+            }
+
+            if (string.IsNullOrEmpty(item.SubCostItem_right))
+            {
+                item.SubCostItem_right = "";
+            }
+            if (string.IsNullOrEmpty(item.Brand_right))
+            {
+                item.Brand_right = "";
+            }
 
             if (TryValidateModel(item))
             {
@@ -174,8 +223,8 @@ namespace GAIN.Controllers
                         modelItem.region_right = item.region_right;
                         modelItem.subregion_right = item.subregion_right;
                         modelItem.RegionalOffice_right = item.RegionalOffice_right;
-                        modelItem.costcontrolsite = item.costcontrolsite;
-
+                        //modelItem.costcontrolsite = item.costcontrolsite;
+                        modelItem.costcontrolsite = item.CostControlSite_right;
                         modelItem.CostControlSite_right = item.CostControlSite_right;
                         modelItem.Brand_right = item.Brand_right;
                         modelItem.CostItem_right = item.CostItem_right;

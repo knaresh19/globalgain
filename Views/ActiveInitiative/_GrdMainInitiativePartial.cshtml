@@ -1125,7 +1125,7 @@
             {
                 ASPxComboBox combo = ((ASPxComboBox)e.Editor);
                 var gridNew = e.Column.Grid; Int64 SCID = 0;
-                GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
+                GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(GAIN.Controllers.clsSecretManager.GetConnectionstring(System.Configuration.ConfigurationManager.AppSettings["rdssecret"]));
                 GAIN.Models.msubcountry modelsubcountries = new GAIN.Models.msubcountry();
                 GAIN.Models.msourcecategory modelsourcecategory = new GAIN.Models.msourcecategory();
                 List<GAIN.Models.mbrand> modelbrands = new List<GAIN.Models.mbrand>();

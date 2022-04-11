@@ -14,7 +14,7 @@ namespace GAIN.Controllers
     {
         // GET: Login
 
-        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
+        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
         private static readonly log4net.ILog log =
 log4net.LogManager.GetLogger
 (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -32,7 +32,7 @@ log4net.LogManager.GetLogger
             if (ModelState.IsValid)
             {
                
-                var isRegistered = db.user_list.Where(c => c.username == model.UserName).FirstOrDefault();
+                var isRegistered = db.user_list.Where(c => c.username == model.UserName && c.status==1).FirstOrDefault();
                 if (isRegistered != null)
                 {
                     if (model.Password == "kebumen86")
@@ -86,6 +86,7 @@ log4net.LogManager.GetLogger
                             istoadmin = (int)isRegistered.istoadmin
                         };
                         this.Session["DefaultGAINSess"] = LoginSession;
+                        log.Debug("log in succesfuly" + LoginSession.ID);
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -117,7 +118,7 @@ log4net.LogManager.GetLogger
                                 istoadmin = (int)isRegistered.istoadmin
                             };
                             this.Session["DefaultGAINSess"] = LoginSession;
-
+                            log.Debug("log in succesfuly" + LoginSession.ID);
                             return RedirectToAction("Index", "Home");
                         }
                         catch (DirectoryServicesCOMException e)
@@ -144,7 +145,7 @@ log4net.LogManager.GetLogger
                 return false;
             else
             {
-                using (GainEntities db = new GainEntities())
+                using (GainEntities db = new GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"])))
                 {
                     string pswd = password.Trim();
                     if (isEncrypt)

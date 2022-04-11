@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using DevExpress.Web;
 using DevExpress.Web.Export;
 using DevExpress.XtraCharts;
+using System.Configuration;
 
 /*
  * Adding comment here
@@ -17,11 +18,13 @@ using DevExpress.XtraCharts;
 
 namespace GAIN.Controllers
 {
+  
     public class ActiveInitiativeController : MyBaseController
     {
-        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
-        //GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(awsHelper.getConnString());
 
+        //GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
+        //GAIN.Models.GainEntities db = new GAIN.Models.GainEntities("metadata=res://*/Models.GainModel.csdl|res://*/Models.GainModel.ssdl|res://*/Models.GainModel.msl;provider=MySql.Data.MySqlClient;provider connection string='server=127.0.0.1; Port=3306; user id=root;password=admin;Sslmode=none;persistsecurityinfo=True;database=gain_v2;Persist Security Info=True;Convert Zero Datetime=true'");
+        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
         //[Authorize]
         // GET: ActiveInitiative
         private static readonly log4net.ILog log =
@@ -70,7 +73,7 @@ log4net.LogManager.GetLogger
             var where = "";
 
             if (profileData.confidential_right == 0) where += " and Confidential != 'Y'";
-            if (profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0, 1) == "|")
+            if (profileData.RegionalOffice_right!=null && profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0, 1) == "|")
             {
                 var regofficetext = profileData.RegionalOffice_right.Replace("|", "','");
                 int lenRegionalOffice_right = regofficetext.Length;
@@ -88,7 +91,7 @@ log4net.LogManager.GetLogger
                     where += " and a.RegionalOfficeID in (" + RegionalOffice_rightcondition + ")";
                 }
             }
-            if (profileData.Brand_right != "" && profileData.Brand_right != "ALL")
+            if (profileData.Brand_right!=null && profileData.Brand_right != "" && (profileData.Brand_right != "ALL" && profileData.Brand_right !="|ALL|"))
             {
                 var brandtext = profileData.Brand_right.Replace("|", "','");
                 int lenbrand = brandtext.Length;
@@ -106,7 +109,7 @@ log4net.LogManager.GetLogger
                     where += " and a.BrandID in (" + brandcondition + ")";
                 }
             }
-            if (profileData.CostItem_right != "" && profileData.CostItem_right != "ALL")
+            if (profileData.CostItem_right!=null &&   profileData.CostItem_right != "" && (profileData.CostItem_right != "ALL" && profileData.CostItem_right != "|ALL|"))
             {
                 var costitemtext = profileData.CostItem_right.Replace("|", "','");
                 int lencostitem = costitemtext.Length;
@@ -124,7 +127,7 @@ log4net.LogManager.GetLogger
                     where += " and a.CostCategoryID in (" + costitemcondition + ")";
                 }
             }
-            if (profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL")
+            if (profileData.SubCostItem_right !=null && profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL" )
             {
                 var subcostitemtext = profileData.SubCostItem_right.Replace("|", "','");
                 int lensubcostitem = subcostitemtext.Length;
@@ -146,7 +149,7 @@ log4net.LogManager.GetLogger
 
             if (profileData.UserType == 2)  //rpoc
             {
-                if (profileData.RegionID != "" && profileData.RegionID != "ALL")
+                if (profileData.RegionID!=null && profileData.RegionID != null &&  profileData.RegionID != "" && (profileData.RegionID != "|ALL|" && profileData.RegionID !="ALL"))
                 {
                     var rpoctext = profileData.RegionID.Replace("|", "','");
                     int lenrpoc = rpoctext.Length;
@@ -162,7 +165,7 @@ log4net.LogManager.GetLogger
                 }
                 else
                 {
-                    if (profileData.CostControlSite != "ALL")
+                    if (profileData.CostControlSite!=null &&   profileData.CostControlSite != "|ALL|" && profileData.CostControlSite != "ALL")
                     {
                         var cctext = profileData.CostControlSite.Replace("|", "','");
                         int lencctext = cctext.Length;
@@ -726,7 +729,7 @@ log4net.LogManager.GetLogger
             {
                 try
                 {
-                    using (GainEntities db = new GainEntities())
+                    using (GainEntities db = new GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"])))
                     {
                         var tinitiative = db.Set<t_initiative>();
                         var YearInitiative = profileData.ProjectYear;

@@ -19,6 +19,11 @@ namespace GAIN.Models
             : base("name=GainEntities")
         {
         }
+
+        public GainEntities(string connectionstring):base(connectionstring)
+        {
+
+        }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -5,12 +5,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GAIN.Models;
+using System.Configuration;
 
 namespace GAIN.Controllers
 {
     public class ChangePerInitiativeController : MyBaseController
     {
-        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities();
+        GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
         // GET: ChangePerInitiativeList
         public ActionResult Index()
         {
