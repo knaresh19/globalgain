@@ -116,6 +116,10 @@ $(function () {
         hitungtahunini();
     });
 
+    $(".targetjan2, .targetfeb2, .targetmar2, .targetapr2, .targetmay2, .targetjun2, .targetjul2, .targetaug2, .targetsep2, .targetoct2, .targetnov2, .targetdec2").on("change", function () {
+        hitungtahunini();
+    });
+
     $("#btnSave").on('click', function () {
         //var projectYear = '@profileData.ProjectYear';
         /*if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
@@ -1265,7 +1269,8 @@ function SaveInitiative() {
                     //}
                     //var sign =Math.sign(a)
                     //do the comparison only if signs are equal 
-                    if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {
+                debugger;
+                   /* if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {*/
                         if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
                             //if (a > b) {
                             //    Swal.fire(
@@ -1286,6 +1291,7 @@ function SaveInitiative() {
                             }
                         }
                         else {
+                            debugger;
                             Swal.fire(
                                 'Inconsistent Target',
                                 'Sum of monthly target and 12 months target,both  should be positive or negative',
@@ -1293,16 +1299,17 @@ function SaveInitiative() {
                             );
                             return;
                         }
-                    }
+                    //}
 
-                    else {
-                        Swal.fire(
-                            'Inconsistent Target',
-                            'Target 12 Months and Target Current Year both should be positive or negative value',
-                            'error'
-                        );
-                        return;
-                    }
+                    //else {
+                    //    debugger;
+                    //    Swal.fire(
+                    //        'Inconsistent Target',
+                    //        'Target 12 Months and Target Current Year both should be positive or negative value',
+                    //        'error'
+                    //    );
+                    //    return;
+                    //}
 
                // }
                 //I think the below is not required since all the values are shown so the alert control should be simple 
@@ -1433,6 +1440,7 @@ function SaveInitiative() {
                         savingjan: savingjan, savingfeb: savingfeb, savingmar: savingmar, savingapr: savingapr, savingmay: savingmay, savingjun: savingjun, savingjul: savingjul, savingaug: savingaug, savingsep: savingsep, savingoct: savingoct, savingnov: savingnov, savingdec: savingdec,
                         savingjan2: savingjan2, savingfeb2: savingfeb2, savingmar2: savingmar2, savingapr2: savingapr2, savingmay2: savingmay2, savingjun2: savingjun2, savingjul2: savingjul2, savingaug2: savingaug2, savingsep2: savingsep2, savingoct2: savingoct2, savingnov2: savingnov2, savingdec2: savingdec2
                     }, function (data) {
+                        debugger;
                         if (data.substring(0, 5) == "saved") {
                             if (xFormStatus == "New") $("#initsukses").html("New Initiative Number: " + data.substring(6, data.length)); else $("#initsukses").html("Initiative successfully saved!");
                             $("#btnEdit").click(); $("#btnClose").click();
