@@ -60,7 +60,7 @@
         {
             c.FieldName = "countryid";
             c.Caption = "Country Name";
-            c.Width = 500;
+            c.Width = 200;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "countryname";
@@ -68,13 +68,14 @@
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "CountryBrand";
                 p.BindList(ViewData["CountryList"]);
+                p.ClientSideEvents.SelectedIndexChanged = "OnSelectedIndexChanged";
             });
         });
         settings.Columns.Add(c =>
         {
             c.FieldName = "brandid";
             c.Caption = "Brand Name";
-            c.Width = 1000;
+            c.Width = 200;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "brandname";
@@ -82,6 +83,21 @@
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "BrandCountry";
                 p.BindList(ViewData["BrandList"]);
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "subcountryid";
+            c.Caption = "Sub Country";
+            c.Width = 200;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "SubCountryName";
+                p.ValueField = "id";
+                p.ValueType = typeof(string);
+                p.ClientInstanceName = "BrandSubCountry";
+                p.BindList(ViewData["Subcountry"]);
             });
         });
     });

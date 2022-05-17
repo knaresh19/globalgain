@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GAIN.Models;
 
 namespace GAIN.Controllers
 {
@@ -23,7 +24,8 @@ namespace GAIN.Controllers
         {
             var model = db.mbrandcountries;
             ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["BrandList"] = db.mbrands.ToList().Distinct();
+            ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdBrandCountryPartial", model.ToList());
         }
 
@@ -48,6 +50,7 @@ namespace GAIN.Controllers
 
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdBrandCountryPartial", model.ToList());
         }
         [HttpPost, ValidateInput(false)]
@@ -76,6 +79,7 @@ namespace GAIN.Controllers
 
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdBrandCountryPartial", model.ToList());
         }
         [HttpPost, ValidateInput(false)]
@@ -98,7 +102,42 @@ namespace GAIN.Controllers
             }
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdBrandCountryPartial", model.ToList());
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult Getsubcountrybycountry(int CountryId)
+        {
+            
+            //var costcontrolid = db.t_subctry_costcntrlsite.Where(sc => sc.subcountryid == subcountryID && sc.brandid==brandId).FirstOrDefault().costcontrolid;
+            //ml.Costcontrolsite = db.mcostcontrolsites.Where(c => c.id == costcontrolid).Select(s => s.CostControlSiteName).FirstOrDefault();
+            ////var costcontrolsite = (from costcontrol in db.t_subctry_costcntrlsite
+            ////                       join costcontrolsites in db.mcostcontrolsites
+            ////                       on costcontrol.costcontrolid equals costcontrolsites.id
+            ////                       where costcontrol.subcountryid == subcountryID &&
+            ////                       costcontrol.brandid == brandId
+            ////                       select costcontrolsites.id).FirstOrDefault();
+            // ml.Costcontrolsite = db.mcostcontrolsites.Select(x=>x.)
+            //var country = (from subcountries in db.msubcountries
+            //               join countries in db.mcountries
+            //               on subcountries.CountryID equals countries.id
+            //               where subcountries.id == subcountryID
+            //               select countries.id).FirstOrDefault();
+            //var subcountrylist = from subcountries in db.msubcountries
+            //                     where subcountries.CountryID == CountryId
+            //                     select subcountries;
+            List<SubCountryList> SubCountryList = new List<SubCountryList>();
+
+            SubCountryList = (from subcountries in db.msubcountries
+                             where subcountries.CountryID == CountryId
+                             select subcountries).ToList().Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+
+            //ml.Countryname = country.ToString();
+            //ml.Costcontrolsite = costcontrolsite.ToString();
+            //lst_me.Add(ml);
+            //List<db.msubcountries> GDSC = new List<>();
+            return Json(SubCountryList, JsonRequestBehavior.AllowGet);
         }
     }
 }

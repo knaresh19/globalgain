@@ -3,7 +3,54 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutTable.cshtml";
 }
+<script type="text/javascript">
+    debugger;
+   
+    function OnSelectedIndexChanged(s, e) {
+        debugger
 
+        BrandSubCountry.ClearItems();
+        $.ajax({
+            url: '@Url.Action("Getsubcountrybycountry")',
+            type: "POST",
+            dataType: "json",
+            data: { CountryId: s.GetValue()},
+            success: function (data) {
+                debugger;
+                $.each(data, function (key, value) {
+                    debugger;
+                    value = JSON.stringify(value); obj = JSON.parse(value);
+                    if (obj != null) BrandSubCountry.AddItem(obj.SubCountryName, obj.id);
+                });
+
+                //$.each(data[0]["LegalEntityData"],
+                //    function (key, value) {
+                //        value = JSON.stringify(value);
+                //        obj = JSON.parse(value);
+                //        if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
+                //    });
+                //LegalEntityID.SelectIndex(0);
+                //debugger;
+                //value = JSON.stringify(data);
+                //obj = JSON.parse(value);
+                //if (obj != null) {
+
+                //    x = obj[0].Countryname;
+
+                //    GrdLegalEntity.GetEditor('CountryID').SetValue(x);
+                //    GrdLegalEntity.GetEditor('CostControlSiteID').SetValue(obj[0].Costcontrolsite);
+                //}
+                //    });
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert('Request Status: ' + xhr.status + '; Status Text: ' + textStatus + '; Error: ' + errorThrown);
+            }
+        });
+
+    }
+   
+</script>
 @Html.Partial("_ViewKebutuhanDevExpress")
 
 @Html.Partial("_StyleMaster")
