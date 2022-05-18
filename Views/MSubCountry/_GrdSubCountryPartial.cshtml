@@ -76,6 +76,13 @@
             c.Caption = "Sub Country Name";
             c.Width = 1000;
         });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "CountryCode";
+            c.Caption = "Sub Country code ";
+            c.Width = 50;
+        });
     });
     if (ViewData["EditError"] != null)
     {

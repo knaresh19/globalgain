@@ -37,6 +37,7 @@ namespace GAIN.Controllers
             {
                 try
                 {
+                    item.msubcountry.isActive = "Y";
                     model.Add(item);
                     db.SaveChanges();
                 }
