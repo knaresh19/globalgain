@@ -124,6 +124,7 @@
     <Compile Include="Models\mactiontype.cs">
       <DependentUpon>GainModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MasterLegalentity.cs" />
     <Compile Include="Models\mbrand.cs">
       <DependentUpon>GainModel.tt</DependentUpon>
     </Compile>

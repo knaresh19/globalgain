@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GAIN.Models;
 
 namespace GAIN.Controllers
 {
@@ -109,6 +110,31 @@ namespace GAIN.Controllers
             ViewData["Subcountrylist"] = db.msubcountries.ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
             return PartialView("_GrdLegalEntityPartial", model.ToList());
+        }
+        [HttpPost]
+        public ActionResult Getdetailsbysubcountry(int subcountryID, int brandId)
+        {
+            List<MasterLegalentity> lst_me = new List<MasterLegalentity>();
+            MasterLegalentity ml = new MasterLegalentity();
+            //var costcontrolid = db.t_subctry_costcntrlsite.Where(sc => sc.subcountryid == subcountryID && sc.brandid==brandId).FirstOrDefault().costcontrolid;
+            //ml.Costcontrolsite = db.mcostcontrolsites.Where(c => c.id == costcontrolid).Select(s => s.CostControlSiteName).FirstOrDefault();
+            var costcontrolsite = (from costcontrol in db.t_subctry_costcntrlsite
+                                   join costcontrolsites in db.mcostcontrolsites
+                                   on costcontrol.costcontrolid equals costcontrolsites.id
+                                   where costcontrol.subcountryid == subcountryID &&
+                                   costcontrol.brandid == brandId
+                                   select costcontrolsites.id).FirstOrDefault();
+            // ml.Costcontrolsite = db.mcostcontrolsites.Select(x=>x.)
+            var country = (from subcountries in db.msubcountries
+                           join countries in db.mcountries
+                           on subcountries.CountryID equals countries.id
+                           where subcountries.id == subcountryID
+                           select countries.id).FirstOrDefault();
+                             
+            ml.Countryname = country.ToString();
+            ml.Costcontrolsite = costcontrolsite.ToString();
+            lst_me.Add(ml);
+            return Json(lst_me);
         }
     }
 }

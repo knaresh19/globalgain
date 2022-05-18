@@ -1,4 +1,5 @@
 ﻿
+
 @{
     var grid = Html.DevExpress().GridView(settings =>
     {
@@ -75,13 +76,15 @@
             c.FieldName = "CountryID";
             c.Caption = "Country Name";
             c.Width = 200;
+            c.ReadOnly = true;
             c.EditorProperties().ComboBox(p =>
             {
-                p.TextField = "countryname";
+                p.TextField = "CountryName";
                 p.ValueField = "id";
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "CboCountry";
                 p.BindList(ViewData["CountryList"]);
+
             });
         });
 
@@ -97,6 +100,7 @@
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "CboSubCountry";
                 p.BindList(ViewData["Subcountrylist"]);
+                p.ClientSideEvents.SelectedIndexChanged = "OnSelectedIndexChanged";
             });
         });
 
@@ -105,13 +109,15 @@
             c.FieldName = "CostControlSiteID";
             c.Caption = "CostControlSiteName";
             c.Width = 200;
+            c.ReadOnly = true;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "CostControlSiteName";
                 p.ValueField = "id";
                 p.ValueType = typeof(string);
-                p.ClientInstanceName = "Cbocostcontrol";
+                p.ClientInstanceName = "CboCostcontrolsite";
                 p.BindList(ViewData["Costcontrolsite"]);
+
             });
         });
 
@@ -121,6 +127,15 @@
             c.Caption = "Legal Entity Name";
             c.Width = 1000;
         });
+
+        settings.CellEditorInitialize = (sender, e) =>
+        {
+            //if (e.Column.FieldName == "CountryID")
+            //{
+            //    MVCxGridView g = sender as MVCxGridView;
+            //    e.Editor.Enabled = false;
+            //}
+        };
     });
     if (ViewData["EditError"] != null)
     {

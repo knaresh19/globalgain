@@ -318,7 +318,8 @@ function OnBrandChanged(s, e) {
     var countryid = CountryID.GetValue();
     $.post(URLContent('ActiveInitiative/GetLegalFromBrand'), { brandid: id, countryid: countryid }, function (data) {
         var obj; LegalEntityID.ClearItems();
-        $.each(data[0]["LegalEntityData"], function (key, value) {
+        $.each(data[0]["LegalEntityData"],
+            function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
         });

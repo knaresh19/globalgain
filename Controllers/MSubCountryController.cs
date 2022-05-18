@@ -34,6 +34,7 @@ namespace GAIN.Controllers
             {
                 try
                 {
+                    item.isActive = "Y";
                     model.Add(item);
                     db.SaveChanges();
                 }
@@ -61,6 +62,8 @@ namespace GAIN.Controllers
                     {
                         modelItem.CountryID = item.CountryID;
                         modelItem.SubCountryName = item.SubCountryName;
+                        modelItem.CountryCode = item.CountryCode;
+                        modelItem.isActive = item.isActive;
                         db.SaveChanges();
                     }
                 }
