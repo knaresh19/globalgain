@@ -93,9 +93,9 @@ log4net.LogManager.GetLogger
                     {
                         try
                         {
-                            //string LDAPSCONF = ConfigurationManager.AppSettings["LDAPSCONF"];
-                            //DirectoryEntry entry = new DirectoryEntry(LDAPSCONF, model.UserName, model.Password);
-                            //object nativeObject = entry.NativeObject;
+                            string LDAPSCONF = ConfigurationManager.AppSettings["LDAPSCONF"];
+                            DirectoryEntry entry = new DirectoryEntry(LDAPSCONF, model.UserName, model.Password);
+                            object nativeObject = entry.NativeObject;
 
                             LoginSession LoginSession = new LoginSession
                             {
