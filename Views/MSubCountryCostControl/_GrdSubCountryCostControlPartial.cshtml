@@ -1,19 +1,26 @@
 @{
     var grid = Html.DevExpress().GridView(settings =>
     {
-        settings.Name = "GrdBrand";
-        settings.CallbackRouteValues = new { Controller = "MBrand", Action = "GrdBrandPartial" };
+        settings.Name = "GrdSubCountryCostControl";
+        settings.CallbackRouteValues = new { Controller = "MSubCountryCostControl", Action = "GrdSubCountryCostControlPartial" };
 
-        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "MBrand", Action = "GrdBrandPartialAddNew" };
-        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "MBrand", Action = "GrdBrandPartialUpdate" };
-        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "MBrand", Action = "GrdBrandPartialDelete" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "MSubCountryCostControl", Action = "GrdSubCountryCostControlPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "MSubCountryCostControl", Action = "GrdSubCountryCostControlPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "MSubCountryCostControl", Action = "GrdSubCountryCostControlPartialDelete" };
         settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
         settings.SettingsBehavior.ConfirmDelete = true;
 
+        settings.SettingsResizing.ColumnResizeMode = ColumnResizeMode.Control;
+        settings.SettingsResizing.Visualization = ResizingMode.Live;
+
         settings.CommandColumn.Visible = true;
+        settings.CommandColumn.Width = 100;
         settings.CommandColumn.ShowNewButton = true;
         settings.CommandColumn.ShowDeleteButton = true;
         settings.CommandColumn.ShowEditButton = true;
+
+        settings.SettingsPager.PageSize = 10;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
 
         settings.SettingsCommandButton.EditButton.RenderMode = GridCommandButtonRenderMode.Image;
         settings.SettingsCommandButton.EditButton.Image.IconID = "icoEdit";
@@ -38,9 +45,6 @@
 
         settings.KeyFieldName = "id";
 
-        settings.SettingsPager.PageSize = 10;
-        settings.SettingsPager.PageSizeItemSettings.Visible = true;
-
         settings.SettingsPager.Visible = true;
         settings.Settings.ShowGroupPanel = false;
         settings.Settings.ShowFilterRow = true;
@@ -54,25 +58,51 @@
 
         settings.Columns.Add(c =>
         {
-            c.FieldName = "brandname";
-            c.Caption = "Brand Name :";
-            c.Width = 5000;
-        });
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "isActive";
-            c.Caption = "Is Active :";
-            c.Width = 5000;
+            c.FieldName = "subcountryid";
+            c.Caption = "Sub Country";
+            c.Width = 200;
             c.EditorProperties().ComboBox(p =>
             {
-                p.TextField = "isActive";
+                p.TextField = "SubCountryName";
                 p.ValueField = "id";
-                p.Items.Add("Yes", "Y");
-                p.Items.Add("No", "N");
                 p.ValueType = typeof(string);
-                //p.BindList(ViewData["BrandList"]);
+                p.ClientInstanceName = "BrandSubCountry";
+                p.BindList(ViewData["Subcountry"]);
             });
         });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "costcontrolid";
+            c.Caption = "CostControlSiteName";
+            c.Width = 200;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "CostControlSiteName";
+                p.ValueField = "id";
+                p.ValueType = typeof(string);
+                p.ClientInstanceName = "CboCostcontrolsite";
+                p.BindList(ViewData["Costcontrolsite"]);
+
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "brandid";
+            c.Caption = "Brand Name";
+            c.Width = 200;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "brandname";
+                p.ValueField = "id";
+                p.ValueType = typeof(string);
+                p.ClientInstanceName = "BrandCountry";
+                p.BindList(ViewData["BrandList"]);
+            });
+        });
+
+
     });
     if (ViewData["EditError"] != null)
     {

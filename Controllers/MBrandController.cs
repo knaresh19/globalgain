@@ -22,6 +22,7 @@ namespace GAIN.Controllers
         public ActionResult GrdBrandPartial()
         {
             var model = db.mbrands;
+            ViewData["BrandList"] = db.mbrands.ToList();
             return PartialView("_GrdBrandPartial", model.ToList());
         }
 
@@ -57,6 +58,7 @@ namespace GAIN.Controllers
                     if (modelItem != null)
                     {
                         modelItem.brandname = item.brandname;
+                        modelItem.isActive = item.isActive;
                         db.SaveChanges();
                     }
                 }

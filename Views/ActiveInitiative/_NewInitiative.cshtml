@@ -3,7 +3,7 @@
     var user_type = profileData.UserType;
     var years_right = profileData.years_right;
     var projectYear = profileData.ProjectYear;
-   
+
 }
 
 <style type="text/css">
@@ -503,18 +503,18 @@
                     <table width="100%">
                         <tr style="height:20px;">
                             <td width="150">DETAILS</td>
-                            <td id ="ljan" width="150">Jan-@projectYear</td>
-                            <td id ="lfeb" width="150">Feb-@projectYear</td>
-                            <td id ="lmar" width="150">Mar-@projectYear</td>
-                            <td id ="lapr" width="150">Apr-@projectYear</td>
-                            <td id ="lmay" width="150">May-@projectYear</td>
-                            <td id ="ljun" width="150">Jun-@projectYear</td>
-                            <td id ="ljul" width="150">Jul-@projectYear</td>
-                            <td id ="laug" width="150">Aug-@projectYear</td>
-                            <td id ="lsep" width="150">Sep-@projectYear</td>
-                            <td id ="loct" width="150">Oct-@projectYear</td>
-                            <td id ="lnov" width="150">Nov-@projectYear</td>
-                            <td id ="ldec" width="150">Dec-@projectYear</td>
+                            <td id="ljan" width="150">Jan-@projectYear</td>
+                            <td id="lfeb" width="150">Feb-@projectYear</td>
+                            <td id="lmar" width="150">Mar-@projectYear</td>
+                            <td id="lapr" width="150">Apr-@projectYear</td>
+                            <td id="lmay" width="150">May-@projectYear</td>
+                            <td id="ljun" width="150">Jun-@projectYear</td>
+                            <td id="ljul" width="150">Jul-@projectYear</td>
+                            <td id="laug" width="150">Aug-@projectYear</td>
+                            <td id="lsep" width="150">Sep-@projectYear</td>
+                            <td id="loct" width="150">Oct-@projectYear</td>
+                            <td id="lnov" width="150">Nov-@projectYear</td>
+                            <td id="ldec" width="150">Dec-@projectYear</td>
                         </tr>
                         <tr style="height:20px;">&nbsp;</tr>
                         <tr style="height:20px;">
@@ -562,7 +562,7 @@
                 <div class="span12">
                     <table width="100%">
                         <tr style="height:20px;">
-                            <td  width="150">DETAILS</td>
+                            <td width="150">DETAILS</td>
                             <td id="lnexjan" width="150">Jan-@(projectYear+1)</td>
                             <td id="lnexfeb" width="150">Feb-@(projectYear+1)</td>
                             <td id="lnexmar" width="150">Mar-@(projectYear+1)</td>
@@ -579,18 +579,18 @@
                         <tr style="height:20px;">&nbsp;</tr>
                         <tr style="height:20px;">
                             <td>Monthly Target</td>
-                            <td><input class="txTarget targetjan2" name="targetjan2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetfeb2" name="targetfeb2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetmar2" name="targetmar2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetapr2" name="targetapr2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetmay2" name="targetmay2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetjun2" name="targetjun2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetjul2" name="targetjul2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetaug2" name="targetaug2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetsep2" name="targetsep2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetoct2" name="targetoct2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetnov2" name="targetnov2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetdec2" name="targetdec2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetjan2" name="targetjan2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetfeb2" name="targetfeb2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetmar2" name="targetmar2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetapr2" name="targetapr2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetmay2" name="targetmay2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetjun2" name="targetjun2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetjul2" name="targetjul2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetaug2" name="targetaug2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetsep2" name="targetsep2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetoct2" name="targetoct2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetnov2" name="targetnov2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            <td><input class="txTarget targetdec2" name="targetdec2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
                         </tr>
                         <tr style="height:20px;">&nbsp;</tr>
                         <tr style="height:20px;">

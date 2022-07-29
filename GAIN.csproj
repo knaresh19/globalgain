@@ -53,6 +53,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActiveInitiativeController.cs" />
+    <Compile Include="Controllers\MSubCountryCostControlController.cs" />
     <Compile Include="Controllers\MyBaseController.cs" />
     <Compile Include="Controllers\SecretManager\SecretManager.cs" />
     <Compile Include="Controllers\SubCostActionType.cs" />
@@ -6268,6 +6269,8 @@
     <Content Include="Views\Shared\_TopProfile2.cshtml" />
     <Content Include="Views\MUsers\UploadProcess.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\MSubCountryCostControl\_GrdSubCountryCostControlPartial.cshtml" />
+    <Content Include="Views\MSubCountryCostControl\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

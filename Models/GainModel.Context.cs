@@ -25,11 +25,7 @@ namespace GAIN.Models
 
         }
     
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
+          
         public virtual DbSet<logtable> logtables { get; set; }
         public virtual DbSet<maccess_menu> maccess_menu { get; set; }
         public virtual DbSet<mactiontype> mactiontypes { get; set; }
@@ -66,5 +62,166 @@ namespace GAIN.Models
         public virtual DbSet<vwsummarydashboarddetail> vwsummarydashboarddetails { get; set; }
         public virtual DbSet<vwtopcategory> vwtopcategories { get; set; }
         public virtual DbSet<vwtypeofsaving> vwtypeofsavings { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //Legal Entity Refrence
+            modelBuilder.Entity<mbrand>()
+               .HasOptional(j => j.mlegalentities)
+               .WithMany()
+               .HasForeignKey(j=>j.id)
+               .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mcostcontrolsite>()
+               .HasOptional(j => j.mlegalentities)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mcountry>()
+               .HasOptional(j => j.mlegalentities)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+            modelBuilder.Entity<msubcountry>()
+               .HasOptional(j => j.mlegalentities)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+            
+            //For mCountry
+            modelBuilder.Entity<mregion>()
+               .HasOptional(j => j.mcountries)
+               .WithMany()
+               .WillCascadeOnDelete(true);
+            modelBuilder.Entity<msubregion>()
+              .HasOptional(j => j.mcountries)
+              .WithMany()
+              .WillCascadeOnDelete(true);
+            
+            //For mSubCountry
+            modelBuilder.Entity<mcountry>()
+               .HasOptional(j => j.msubcountries)
+               .WithMany()
+               .WillCascadeOnDelete(true);
+            
+            //For mSubRegion 
+            modelBuilder.Entity<mregion>()
+              .HasOptional(j => j.msubregions)
+              .WithMany()
+              .WillCascadeOnDelete(true);
+
+            //For Regional Office
+            modelBuilder.Entity<mbrand>()
+               .HasOptional(j => j.mregional_office)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mregion>()
+               .HasOptional(j => j.mregional_office)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mcountry>()
+               .HasOptional(j => j.mregional_office)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+            modelBuilder.Entity<msubcountry>()
+               .HasOptional(j => j.mregional_office)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+
+            //FOr mBrandCountry
+            modelBuilder.Entity<mcountry>()
+               .HasOptional(j => j.mbrandcountries)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mbrand>()
+               .HasOptional(j => j.mbrandcountries)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+            modelBuilder.Entity<msubcountry>()
+               .HasOptional(j => j.mbrandcountries)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+
+            //mCluster Table
+            modelBuilder.Entity<mregion>()
+               .HasOptional(j => j.mclusters)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+            modelBuilder.Entity<msubregion>()
+               .HasOptional(j => j.mclusters)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
+
+            //t_initative
+            modelBuilder.Entity<mcountry>()
+              .HasOptional(j => j.t_initiative)
+              .WithMany()
+              .HasForeignKey(j => j.id)
+              .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mbrand>()
+              .HasOptional(j => j.t_initiative)
+              .WithMany()
+              .HasForeignKey(j => j.id)
+              .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mcluster>()
+              .HasOptional(j => j.t_initiative)
+              .WithMany()
+              .HasForeignKey(j => j.id)
+              .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mcostcontrolsite>()
+              .HasOptional(j => j.t_initiative)
+              .WithMany()
+              .HasForeignKey(j => j.id)
+              .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mlegalentity>()
+              .HasOptional(j => j.t_initiative)
+              .WithMany()
+              .HasForeignKey(j => j.id)
+              .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mport>()
+              .HasOptional(j => j.t_initiative)
+              .WithMany()
+              .HasForeignKey(j => j.id)
+              .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mregion>()
+              .HasOptional(j => j.t_initiative)
+              .WithMany()
+              .HasForeignKey(j => j.id)
+              .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mstatu>()
+              .HasOptional(j => j.t_initiative)
+              .WithMany()
+              .HasForeignKey(j => j.id)
+              .WillCascadeOnDelete(true);
+            modelBuilder.Entity<msubcountry>()
+              .HasOptional(j => j.t_initiative)
+              .WithMany()
+              .HasForeignKey(j => j.id)
+              .WillCascadeOnDelete(true);
+            modelBuilder.Entity<msubregion>()
+              .HasOptional(j => j.t_initiative)
+              .WithMany()
+              .HasForeignKey(j => j.id)
+              .WillCascadeOnDelete(true);
+            modelBuilder.Entity<mregional_office>()
+              .HasOptional(j => j.t_initiative)
+              .WithMany()
+              .HasForeignKey(j => j.id)
+              .WillCascadeOnDelete(true);
+
+
+
+            base.OnModelCreating(modelBuilder);
+
+            //throw new UnintentionalCodeFirstException();
+        }
     }
 }
