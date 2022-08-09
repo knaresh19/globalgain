@@ -816,7 +816,14 @@ function OnBrandPopupChanged(s, e) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
         });
+        $.each(data[0]["CostControlSiteData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) {
+                $("#GrdCostControlVal").val(obj.id); $("#GrdCostControl").val(obj.CostControlSiteName);
+            }
+        });
         GrdLegalEntityPopup.SelectIndex(0);
+
     });
 }
 

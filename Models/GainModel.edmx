@@ -49,6 +49,8 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="brandname" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="isActive" Type="enum" Nullable="false" />
+		 <Property Name="isDeleted" Type="enum" Nullable="false" />
+			
         </EntityType>
         <EntityType Name="mbrandcountry">
           <Key>
@@ -1648,6 +1650,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           <NavigationProperty Name="mlegalentities" Relationship="Self.fk_LegalBrandID" FromRole="mbrand" ToRole="mlegalentity" />
           <NavigationProperty Name="t_subctry_costcntrlsite" Relationship="Self.fk_subcountry_brnd" FromRole="mbrand" ToRole="t_subctry_costcntrlsite" />
           <Property Name="isActive" Type="String" Nullable="false" MaxLength="65532" FixedLength="false" Unicode="false" />
+		  <Property Name="isDeleted" Type="String" Nullable="false" MaxLength="65532" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="mbrandcountry">
           <Key>
@@ -3133,6 +3136,7 @@ FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="brandname" ColumnName="brandname" />
+				<ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

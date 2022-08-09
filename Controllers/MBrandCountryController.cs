@@ -24,7 +24,7 @@ namespace GAIN.Controllers
         {
             var model = db.mbrandcountries;
             ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList().Distinct();
+            ViewData["BrandList"] = db.mbrands.Where(s => s.isDeleted == "N").ToList().Distinct();
             ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdBrandCountryPartial", model.ToList());
         }
@@ -37,7 +37,7 @@ namespace GAIN.Controllers
             {
                 try
                 {
-                   // item.msubcountry.isActive = "Y";
+                    item.msubcountry.isActive = "Y";
                     model.Add(item);
                     db.SaveChanges();
                 }
@@ -50,7 +50,7 @@ namespace GAIN.Controllers
                 ViewData["EditError"] = "Please, correct all errors.";
 
             ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["BrandList"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
             ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdBrandCountryPartial", model.ToList());
         }
@@ -67,6 +67,7 @@ namespace GAIN.Controllers
                     {
                         modelItem.brandid = item.brandid;
                         modelItem.countryid = item.countryid;
+                        modelItem.subcountryid = item.subcountryid;
                         db.SaveChanges();
                     }
                 }
@@ -79,7 +80,7 @@ namespace GAIN.Controllers
                 ViewData["EditError"] = "Please, correct all errors.";
 
             ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["BrandList"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
             ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdBrandCountryPartial", model.ToList());
         }
@@ -102,7 +103,7 @@ namespace GAIN.Controllers
                 }
             }
             ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["BrandList"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
             ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdBrandCountryPartial", model.ToList());
         }

@@ -24,7 +24,7 @@ namespace GAIN.Controllers
         {
             var model = db.t_subctry_costcntrlsite;
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList().Distinct();
+            ViewData["BrandList"] = db.mbrands.Where(s => s.isDeleted == "N").ToList().Distinct();
             ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdSubCountryCostControlPartial", model.ToList());
         }
@@ -50,7 +50,7 @@ namespace GAIN.Controllers
                 ViewData["EditError"] = "Please, correct all errors.";
 
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["BrandList"] = db.mbrands.Where(s => s.isDeleted == "N").ToList();
             ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdSubCountryCostControlPartial", model.ToList());
         }
@@ -80,7 +80,7 @@ namespace GAIN.Controllers
                 ViewData["EditError"] = "Please, correct all errors.";
 
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["BrandList"] = db.mbrands.Where(s => s.isDeleted == "N").ToList();
             ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdSubCountryCostControlPartial", model.ToList());
         }
@@ -103,7 +103,7 @@ namespace GAIN.Controllers
                 }
             }
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["BrandList"] = db.mbrands.Where(s => s.isDeleted == "N").ToList();
             ViewData["Subcountry"] = db.msubcountries.ToList();
             return PartialView("_GrdSubCountryCostControlPartial", model.ToList());
         }

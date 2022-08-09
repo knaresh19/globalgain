@@ -61,6 +61,7 @@
             c.FieldName = "RegionID";
             c.Caption = "Region Name";
             c.Width = 200;
+            c.ReadOnly = true;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "regionname";
@@ -68,6 +69,7 @@
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "CboRegion";
                 p.BindList(ViewData["RegionList"]);
+
             });
         });
         settings.Columns.Add(c =>
@@ -82,6 +84,7 @@
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "CboSubRegion";
                 p.BindList(ViewData["SubRegionList"]);
+                p.ClientSideEvents.SelectedIndexChanged = "OnSelectedIndexChanged";
             });
         });
         settings.Columns.Add(c =>

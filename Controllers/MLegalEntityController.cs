@@ -23,7 +23,7 @@ namespace GAIN.Controllers
         public ActionResult GrdLegalEntityPartial()
         {
             var model = db.mlegalentities;
-            ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["BrandList"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["Subcountrylist"] = db.msubcountries.ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
@@ -49,7 +49,7 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please, correct all errors.";
 
-            ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["BrandList"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["Subcountrylist"] = db.msubcountries.ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
@@ -82,7 +82,7 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please, correct all errors.";
 
-            ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["BrandList"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
             ViewData["CountryList"] = db.mcountries.ToList();
             return PartialView("_GrdLegalEntityPartial", model.ToList());
         }
@@ -105,7 +105,7 @@ namespace GAIN.Controllers
                 }
             }
 
-            ViewData["BrandList"] = db.mbrands.ToList();
+            ViewData["BrandList"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["Subcountrylist"] = db.msubcountries.ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();

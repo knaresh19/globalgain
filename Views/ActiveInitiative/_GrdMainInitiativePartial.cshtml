@@ -1169,7 +1169,7 @@
                         gridNew = e.Column.Grid;
                         SCID = (long)gridNew.GetRowValuesByKeyValue(e.KeyValue, "CountryID");
 
-                        modelbrands = db.mbrands.SqlQuery("SELECT b.id,b.brandname FROM mbrandcountry a LEFT JOIN mbrand b ON a.brandid = b.id WHERE countryid = " + SCID).ToList();
+                        modelbrands = db.mbrands.SqlQuery("SELECT b.id,b.brandname FROM mbrandcountry a LEFT JOIN mbrand b ON a.brandid = b.id WHERE countryid = " + SCID + "And b.isDeleted='N'").ToList();
 
                         combo.Items.Clear();
                         foreach (var v in modelbrands)
