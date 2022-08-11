@@ -83,6 +83,7 @@ namespace GAIN.Controllers
                     var item = model.FirstOrDefault(it => it.id == itemx.id);
                     if (item != null)
                         item.isDeleted="Y";  //For Soft delete.
+                    item.isActive = "N";
                         // model.Remove(item);
                     db.SaveChanges();
                 }
