@@ -548,7 +548,7 @@ function ShowEditWindow(id) {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
                     if (obj != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
                 });
-                GrdSubCountryPopup.SelectIndex(0); GrdBrandPopup.SelectIndex(0); //GrdLegalEntityPopup.SelectIndex(0);
+                GrdSubCountryPopup.SelectIndex(0); GrdBrandPopup.SelectIndex(0); GrdLegalEntityPopup.SelectIndex(0);
                 GrdLegalEntityPopup.SetValue(legalentityidx);
             });
             getYtdValue();
@@ -774,6 +774,10 @@ function OnSubCountryPopupChanged(s, e) {
                 $("#GrdCountryVal").val(obj.id); $("#GrdCountry").val(obj.CountryName);
             }
         });
+        $.each(data[0]["LegalEntityData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
+        });
         $.each(data[0]["RegionData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) {
@@ -852,6 +856,7 @@ function OnSubCostPopupChanged(s, e) {
 }
 
 function OnGrdInitCategoryPopupChanged(s, e) {
+    debugger;
     var id = GrdInitType.GetValue(); var id2 = s.GetValue(); var id3 = GrdBrandPopup.GetValue();
     $.post(URLContent('ActiveInitiative/GetItemFromCostCategory'), { id: id, id2: id2, id3: id3 }, function (data) {
         var obj; GrdSubCost.ClearItems();

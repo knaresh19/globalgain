@@ -847,7 +847,7 @@ log4net.LogManager.GetLogger
                 catch(Exception E)
                 {
                     log.Error("Exception occured in saving new initiative" + E.Message);
-                    return Content("Error occired during Initiative save");
+                    return Content("Error occured during Initiative save");
                 }
             }
             else

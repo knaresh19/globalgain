@@ -22,11 +22,12 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdBrandCountryPartial()
         {
-            var model = db.mbrandcountries;
+           List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
             ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["BrandList"] = db.mbrands.Where(s => s.isDeleted == "N").ToList().Distinct();
+            ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdBrandCountryPartial", model.ToList());
+            var model = db.mbrandcountries.ToList().Where(P =>lst.Any(s=>s.id==P.brandid));
+            return PartialView("_GrdBrandCountryPartial", model);
         }
 
         [HttpPost, ValidateInput(false)]
