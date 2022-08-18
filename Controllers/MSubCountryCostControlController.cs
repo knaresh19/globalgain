@@ -53,7 +53,7 @@ namespace GAIN.Controllers
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
             ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.Where(P => lst.Any(s => s.id == P.brandid)));
+            return PartialView("_GrdSubCountryCostControlPartial", model.ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCountryCostControlPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subctry_costcntrlsite item)

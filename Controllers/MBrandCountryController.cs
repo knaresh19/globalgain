@@ -53,7 +53,7 @@ namespace GAIN.Controllers
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
+            return PartialView("_GrdBrandCountryPartial", model.ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdBrandCountryPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mbrandcountry item)
