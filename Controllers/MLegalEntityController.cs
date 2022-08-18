@@ -54,7 +54,7 @@ namespace GAIN.Controllers
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["Subcountrylist"] = db.msubcountries.ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            return PartialView("_GrdLegalEntityPartial", model.Where(P => lst.Any(s => s.id == P.BrandID)));
+            return PartialView("_GrdLegalEntityPartial", model.ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdLegalEntityPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mlegalentity item)
