@@ -549,7 +549,7 @@ function ShowEditWindow(id) {
                     if (obj != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
                 });
                 GrdSubCountryPopup.SelectIndex(0); GrdBrandPopup.SelectIndex(0); GrdLegalEntityPopup.SelectIndex(0);
-                GrdLegalEntityPopup.SetValue(legalentityidx);
+                //GrdLegalEntityPopup.SetValue(legalentityidx);
             });
             getYtdValue();
             hitungtahunini();
@@ -768,16 +768,18 @@ function OnSubCountryPopupChanged(s, e) {
                 GrdBrandPopup.AddItem(obj.BrandName, obj.id);
             }
         });
+        debugger;
+        GrdLegalEntityPopup.AddItem("[ Please Select ]", 0);
+        $.each(data[0]["LegalEntityData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
+        });
         $.each(data[0]["CountryData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) {
                 $("#GrdCountryVal").val(obj.id); $("#GrdCountry").val(obj.CountryName);
             }
-        });
-        $.each(data[0]["LegalEntityData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
-        });
+        });       
         $.each(data[0]["RegionData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) {
