@@ -26,8 +26,8 @@ namespace GAIN.Controllers
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            var model = db.mbrandcountries.ToList().Where(P =>lst.Any(s=>s.id==P.brandid));
-            return PartialView("_GrdBrandCountryPartial", model);
+            var model = db.mbrandcountries;
+            return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
         }
 
         [HttpPost, ValidateInput(false)]
@@ -49,11 +49,11 @@ namespace GAIN.Controllers
             }
             else
                 ViewData["EditError"] = "Please, correct all errors.";
-
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
             ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
+            ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdBrandCountryPartial", model.ToList());
+            return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdBrandCountryPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mbrandcountry item)
@@ -80,10 +80,11 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please, correct all errors.";
 
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
             ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
+            ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdBrandCountryPartial", model.ToList());
+            return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdBrandCountryPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mbrandcountry itemx )
@@ -103,10 +104,11 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
             ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["BrandList"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
+            ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdBrandCountryPartial", model.ToList());
+            return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
         }
 
         [HttpPost, ValidateInput(false)]

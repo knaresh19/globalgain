@@ -22,10 +22,11 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdSubCountryCostControlPartial()
         {
-            var model = db.t_subctry_costcntrlsite;
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            ViewData["BrandList"] = db.mbrands.Where(s => s.isDeleted == "N").ToList().Distinct();
+            ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
+            var model = db.t_subctry_costcntrlsite.ToList().Where(P => lst.Any(s => s.id == P.brandid));
             return PartialView("_GrdSubCountryCostControlPartial", model.ToList());
         }
 
@@ -48,11 +49,11 @@ namespace GAIN.Controllers
             }
             else
                 ViewData["EditError"] = "Please, correct all errors.";
-
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            ViewData["BrandList"] = db.mbrands.Where(s => s.isDeleted == "N").ToList();
+            ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.ToList());
+            return PartialView("_GrdSubCountryCostControlPartial", model.Where(P => lst.Any(s => s.id == P.brandid)));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCountryCostControlPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subctry_costcntrlsite item)
@@ -78,11 +79,11 @@ namespace GAIN.Controllers
             }
             else
                 ViewData["EditError"] = "Please, correct all errors.";
-
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            ViewData["BrandList"] = db.mbrands.Where(s => s.isDeleted == "N").ToList();
+            ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.ToList());
+            return PartialView("_GrdSubCountryCostControlPartial", model.Where(P => lst.Any(s => s.id == P.brandid)));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCountryCostControlPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subctry_costcntrlsite itemx )
@@ -102,10 +103,11 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            ViewData["BrandList"] = db.mbrands.Where(s => s.isDeleted == "N").ToList();
+            ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.ToList());
+            return PartialView("_GrdSubCountryCostControlPartial", model.Where(P => lst.Any(s => s.id == P.brandid)));
         }
 
         [HttpPost, ValidateInput(false)]
