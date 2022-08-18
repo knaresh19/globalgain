@@ -53,7 +53,8 @@ namespace GAIN.Controllers
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
             ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.ToList());
+            //model = (System.Data.Entity.DbSet<t_subctry_costcntrlsite>)model.Where(P => lst.Any(s => s.id == P.brandid));
+            return PartialView("_GrdSubCountryCostControlPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCountryCostControlPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subctry_costcntrlsite item)
@@ -83,7 +84,7 @@ namespace GAIN.Controllers
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
             ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.Where(P => lst.Any(s => s.id == P.brandid)));
+            return PartialView("_GrdSubCountryCostControlPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCountryCostControlPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subctry_costcntrlsite itemx )
@@ -107,7 +108,7 @@ namespace GAIN.Controllers
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
             ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.Where(P => lst.Any(s => s.id == P.brandid)));
+            return PartialView("_GrdSubCountryCostControlPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
         }
 
         [HttpPost, ValidateInput(false)]
