@@ -179,11 +179,11 @@ $(function () {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
                     if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
                 });
-
+                debugger;
                 GrdBrandPopup.SetText(brand);
                 var brandid = GrdBrandPopup.GetValue();var countryid = $("#GrdCountryVal").val();var subcountryid = GrdSubCountryPopup.GetValue();var costcontrolsiteid = $("#GrdCostControlVal").val();
                 $.post(URLContent('ActiveInitiative/GetLegalFromBrand'), { brandid: brandid, countryid: countryid, subcountryid: subcountryid, costcontrolsiteid: costcontrolsiteid }, function (data) {
-                    var obj3; GrdLegalEntityPopup.ClearItems();
+                    var obj3; 
                     $.each(data[0]["LegalEntityData"], function (key, value) {
                         value = JSON.stringify(value); obj3 = JSON.parse(value);
                         if (obj3 != null) GrdLegalEntityPopup.AddItem(obj3.LegalEntityName, obj3.id);
@@ -268,6 +268,7 @@ function OnCostCategoryChanged(s, e) {
 }
 
 function OnSubCountryChanged(s, e) {
+    debugger;
     var id = s.GetValue(); /*var teks = s.GetText();*/
     $.post(URLContent('ActiveInitiative/GetCountryBySub'), { id: id }, function (data) {
         var obj; CountryID.ClearItems(); BrandID.ClearItems(); RegionID.ClearItems(); SubRegionID.ClearItems(); ClusterID.ClearItems(); RegionalOfficeID.ClearItems(); CostControlID.ClearItems();
@@ -279,6 +280,10 @@ function OnSubCountryChanged(s, e) {
         $.each(data[0]["BrandData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) BrandID.AddItem(obj.BrandName, obj.id);
+        });
+        $.each(data[0]["LegalEntityData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
         });
         $.each(data[0]["RegionData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
@@ -299,11 +304,7 @@ function OnSubCountryChanged(s, e) {
         $.each(data[0]["CostControlSiteData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) CostControlID.AddItem(obj.CostControlSiteName, obj.id);
-        });
-        $.each(data[0]["LegalEntityData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
-        });
+        });        
         $.each(data[0]["TypeInitiativeData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) InitiativeType.AddItem(obj.SavingTypeName, obj.id);
@@ -535,6 +536,7 @@ function ShowEditWindow(id) {
 
             $.post(URLContent('ActiveInitiative/GetCountryBySub'), { Id: SubCountryID, Id2: id }, function (data) {
                 var obj2;
+                debugger;
                 GrdSubCountryPopup.ClearItems(); GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
                 $.each(data[0]["SubCountryData"], function (key, value) {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
@@ -772,7 +774,9 @@ function OnSubCountryPopupChanged(s, e) {
         GrdLegalEntityPopup.AddItem("[ Please Select ]", 0);
         $.each(data[0]["LegalEntityData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
+            if (obj != null) {
+                GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
+            }
         });
         $.each(data[0]["CountryData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
