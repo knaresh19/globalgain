@@ -378,6 +378,7 @@ function ShowEditWindow(id) {
     EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
 
     $("#FormStatus").val("Edit");
+    debugger;
     $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: id }, function (data) {
         var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); GrdSubCost.ClearItems();
         var uType = user_type;
@@ -452,6 +453,8 @@ function ShowEditWindow(id) {
             $("#TxResponsibleName").val(obj.ResponsibleFullName);
             $("#TxLaraCode").val(obj.LaraCode);
             $("#TxDesc").val(obj.Description);
+            $("#GrdBrandPopup").val(obj.brandname);
+            $("#GrdLegalEntityPopup").val(obj.LegalEntityName);
             GrdInitStatus.SetValue(obj.InitStatus);
             TxPortName.SetValue(obj.PortID);
             GrdInitType.SetValue(obj.InitiativeType);
@@ -470,11 +473,13 @@ function ShowEditWindow(id) {
             txTargetFullYear.SetValue(obj.TargetNY);
             txYTDTargetFullYear.SetValue(obj.YTDTarget);
             txYTDSavingFullYear.SetValue(obj.YTDAchieved);
-
+            GrdBrandPopup.SetValue(obj.BrandID);
+            GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
+            debugger;
             OnStartMonthChanged();
             let startyear = new Date(obj.StartMonth).getFullYear()
             let nextyear = startyear + 1; 
-            debugger;
+            
             //Change the labels 
             $('#ljan').html('Jan-' + startyear);
             $('#lfeb').html('Feb-' + startyear);
@@ -533,7 +538,7 @@ function ShowEditWindow(id) {
             var legalentityidx = obj.LegalEntityID;
             //GrdInitStatus.GetGridView().Refresh();
             //GrdInitType.GetGridView().Refresh();
-
+            var brandId = obj.BrandID;
             $.post(URLContent('ActiveInitiative/GetCountryBySub'), { Id: SubCountryID, Id2: id }, function (data) {
                 var obj2;
                 debugger;
@@ -546,12 +551,14 @@ function ShowEditWindow(id) {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
                     if (obj != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
                 });
+                debugger;
                 $.each(data[0]["LegalEntityData"], function (key, value) {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
                     if (obj != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
                 });
                 GrdSubCountryPopup.SelectIndex(0); GrdBrandPopup.SelectIndex(0); GrdLegalEntityPopup.SelectIndex(0);
-                //GrdLegalEntityPopup.SetValue(legalentityidx);
+                GrdBrandPopup.SetValue(brandId);
+                GrdLegalEntityPopup.SetValue(legalentityidx);
             });
             getYtdValue();
             hitungtahunini();
@@ -1005,7 +1012,7 @@ function OnEndMonthChanged() {
     } else {
         endmonthValue = EndMonth.GetValue();
     }
-    debugger;
+    
     var targetty = new Array(); var savingty = new Array();
     //remove the IF becasue start month and project year doesnt matter 
    /* if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {*/
@@ -1038,7 +1045,7 @@ function OnEndMonthChanged() {
             }
         }
    // if project year > start year then disable the startyear targets and achievements
-    debugger;
+    
     let startyear = StartMonth.GetValue().getFullYear();
     if (projectYear != startyear) {
         for (var i = 0; i < 12; i++) {
@@ -1288,7 +1295,7 @@ function SaveInitiative() {
                     //}
                     //var sign =Math.sign(a)
                     //do the comparison only if signs are equal 
-                debugger;
+                
                    /* if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {*/
                         if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
                             //if (a > b) {
