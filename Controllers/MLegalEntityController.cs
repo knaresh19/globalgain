@@ -22,12 +22,13 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdLegalEntityPartial()
         {
-            var model = db.mlegalentities;
-            ViewData["BrandList"] = db.mbrands.ToList();
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();            
+            ViewData["BrandList"] = lst;
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["Subcountrylist"] = db.msubcountries.ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            return PartialView("_GrdLegalEntityPartial", model.ToList());
+            var model = db.mlegalentities.ToList();
+            return PartialView("_GrdLegalEntityPartial", model.ToList().Where(P => lst.Any(s => s.id == P.BrandID)));
         }
 
         [HttpPost, ValidateInput(false)]
@@ -48,12 +49,13 @@ namespace GAIN.Controllers
             }
             else
                 ViewData["EditError"] = "Please, correct all errors.";
-
-            ViewData["BrandList"] = db.mbrands.ToList();
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
+            ViewData["BrandList"] = lst;
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["Subcountrylist"] = db.msubcountries.ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            return PartialView("_GrdLegalEntityPartial", model.ToList());
+            //model = (System.Data.Entity.DbSet<mlegalentity>)model.Where(P => lst.Any(s => s.id == P.BrandID));
+            return PartialView("_GrdLegalEntityPartial", model.ToList().Where(P => lst.Any(s => s.id == P.BrandID)));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdLegalEntityPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mlegalentity item)
@@ -81,10 +83,12 @@ namespace GAIN.Controllers
             }
             else
                 ViewData["EditError"] = "Please, correct all errors.";
-
-            ViewData["BrandList"] = db.mbrands.ToList();
+           
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
+            ViewData["BrandList"] = lst;
             ViewData["CountryList"] = db.mcountries.ToList();
-            return PartialView("_GrdLegalEntityPartial", model.ToList());
+            //model = (System.Data.Entity.DbSet<mlegalentity>)model.Where(P => lst.Any(s => s.id == P.BrandID));
+            return PartialView("_GrdLegalEntityPartial", model.ToList().Where(P => lst.Any(s => s.id == P.BrandID)));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdLegalEntityPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mlegalentity itemx)
@@ -104,12 +108,13 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-
-            ViewData["BrandList"] = db.mbrands.ToList();
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
+            ViewData["BrandList"] = lst;
             ViewData["CountryList"] = db.mcountries.ToList();
             ViewData["Subcountrylist"] = db.msubcountries.ToList();
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            return PartialView("_GrdLegalEntityPartial", model.ToList());
+           // model = (System.Data.Entity.DbSet<mlegalentity>)model.Where(P => lst.Any(s => s.id == P.BrandID));
+            return PartialView("_GrdLegalEntityPartial", model.ToList().Where(P => lst.Any(s => s.id == P.BrandID)));
         }
         [HttpPost]
         public ActionResult Getdetailsbysubcountry(int subcountryID, int brandId)

@@ -25,7 +25,7 @@ namespace GAIN.Controllers
             ViewData["SavingTypeName"] = db.msavingtypes.ToList();
             ViewData["CostTypeName"] = db.mcosttypes.ToList();
             ViewData["SubCostName"] = db.msubcosts.ToList();
-            ViewData["BrandName"] = db.mbrands.ToList();
+            ViewData["BrandName"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
             return PartialView("_GrdSubCostBrandPartial", model.ToList());
         }
 

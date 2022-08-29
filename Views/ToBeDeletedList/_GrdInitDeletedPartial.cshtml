@@ -55,7 +55,7 @@
         //});
 
 
-settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.EnableClientSideExportAPI = true;
 
         settings.SettingsPager.Visible = true;
         settings.Settings.ShowGroupPanel = true;
@@ -84,8 +84,8 @@ settings.SettingsExport.EnableClientSideExportAPI = true;
         settings.SettingsExport.RightMargin = 0;
         settings.SettingsExport.Styles.Cell.Font.Size = 8;
 
-#region column
-settings.Columns.Add(c =>
+        #region column
+        settings.Columns.Add(c =>
         {
             c.FieldName = "InitNumber";
             c.Width = 100;
@@ -114,8 +114,8 @@ settings.Columns.Add(c =>
                 p.ValueField = "id";
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "SubCountryID";
-        //p.ClientSideEvents.SelectedIndexChanged = "OnSubCountryChanged";
-        p.BindList(ViewData["SubCountryName"]);
+                //p.ClientSideEvents.SelectedIndexChanged = "OnSubCountryChanged";
+                p.BindList(ViewData["SubCountryName"]);
             });
         });
         settings.Columns.Add(c =>
@@ -132,8 +132,8 @@ settings.Columns.Add(c =>
                 p.ValueField = "id";
                 p.ClientInstanceName = "BrandID";
                 p.ValueType = typeof(string);
-        //p.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
-        p.BindList(ViewData["brandname"]);
+                //p.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
+                p.BindList(ViewData["brandname"]);
             });
         });
         settings.Columns.Add(c =>
@@ -281,8 +281,8 @@ settings.Columns.Add(c =>
                 p.TextField = "SavingTypeName";
                 p.ValueField = "id";
                 p.ClientInstanceName = "InitiativeType";
-        //p.ClientSideEvents.SelectedIndexChanged = "OnInitiativeTypeChanged";
-        p.ValueType = typeof(string);
+                //p.ClientSideEvents.SelectedIndexChanged = "OnInitiativeTypeChanged";
+                p.ValueType = typeof(string);
                 p.BindList(ViewData["SavingTypeName"]);
             });
         });
@@ -298,8 +298,8 @@ settings.Columns.Add(c =>
                 p.TextField = "CostTypeName";
                 p.ValueField = "id";
                 p.ClientInstanceName = "CostCategoryID";
-        //p.ClientSideEvents.SelectedIndexChanged = "OnCostCategoryChanged";
-        p.ValueType = typeof(string);
+                //p.ClientSideEvents.SelectedIndexChanged = "OnCostCategoryChanged";
+                p.ValueType = typeof(string);
                 p.BindList(ViewData["CostTypeName"]);
             });
         });
@@ -350,8 +350,8 @@ settings.Columns.Add(c =>
                 p.BindList(ViewData["SynImpactName"]);
             });
         });
-//settings.Columns.Add("StartMonth").Width = 200;
-settings.Columns.Add(c =>
+        //settings.Columns.Add("StartMonth").Width = 200;
+        settings.Columns.Add(c =>
         {
             c.FieldName = "StartMonth";
             c.ColumnType = MVCxGridViewColumnType.DateEdit;
@@ -359,8 +359,8 @@ settings.Columns.Add(c =>
             c.Width = 200;
             c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         });
-//settings.Columns.Add("EndMonth").Width = 200;
-settings.Columns.Add(c =>
+        //settings.Columns.Add("EndMonth").Width = 200;
+        settings.Columns.Add(c =>
         {
             c.FieldName = "EndMonth";
             c.ColumnType = MVCxGridViewColumnType.DateEdit;
@@ -1032,7 +1032,7 @@ settings.Columns.Add(c =>
             c.Width = 390;
             c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         });
-#endregion
+        #endregion
 
         //Context Menu here
         settings.SettingsContextMenu.Enabled = true;
@@ -1067,13 +1067,13 @@ settings.Columns.Add(c =>
                         combo.TextField = "SubCountryName";
                         combo.ValueField = "id";
                         combo.ClientInstanceName = "SubCountryID";
-                //combo.ClientSideEvents.SelectedIndexChanged = "OnSubCountryChanged";
-                break;
+                        //combo.ClientSideEvents.SelectedIndexChanged = "OnSubCountryChanged";
+                        break;
                     case "BrandID":
                         gridNew = e.Column.Grid;
                         SCID = (long)gridNew.GetRowValuesByKeyValue(e.KeyValue, "CountryID");
 
-                        modelbrands = db.mbrands.SqlQuery("SELECT b.id,b.brandname FROM mbrandcountry a LEFT JOIN mbrand b ON a.brandid = b.id WHERE countryid = " + SCID).ToList();
+                        modelbrands = db.mbrands.SqlQuery("SELECT b.id,b.brandname FROM mbrandcountry a LEFT JOIN mbrand b ON a.brandid = b.id WHERE countryid = " + SCID + "And b.isDeleted='N'").ToList();
 
                         combo.Items.Clear();
                         foreach (var v in modelbrands)
@@ -1083,8 +1083,8 @@ settings.Columns.Add(c =>
                         combo.TextField = "brandname";
                         combo.ValueField = "id";
                         combo.ClientInstanceName = "BrandID";
-                //combo.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
-                break;
+                        //combo.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
+                        break;
                     case "CountryID":
                         gridNew = e.Column.Grid;
                         SCID = (long)gridNew.GetRowValuesByKeyValue(e.KeyValue, "CountryID");
@@ -1219,7 +1219,7 @@ settings.Columns.Add(c =>
         //settings.ClientSideEvents.ContextMenuItemClick = "onContextMenuItemFormGridViewClick";
         //settings.ClientSideEvents.Init = "OnInit";
         settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
-        
+
 
         //settings.ClientSideEvents.EndCallback = "OnEndCallback";
         //settings.ClientSideEvents.RowDblClick = "onRowDoubleClick";

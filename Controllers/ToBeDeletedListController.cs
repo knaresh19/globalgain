@@ -140,7 +140,7 @@ namespace GAIN.Controllers
         private void SetSetupData()
         {
             ViewData["mregions"] = db.mregions.ToList();
-            ViewData["brandname"] = db.mbrands.ToList();
+            ViewData["brandname"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
             ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").ToList();
             ViewData["mregional_office"] = db.mregional_office.Where(c => c.RegionalOffice_Name != "").ToList();

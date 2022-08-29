@@ -96,7 +96,7 @@ log4net.LogManager.GetLogger
                 var brandtext = profileData.Brand_right.Replace("|", "','");
                 int lenbrand = brandtext.Length;
                 brandtext = "(" + brandtext.Substring(2, (lenbrand - 4)) + ")";
-                var brandid = db.mbrands.SqlQuery("select id,brandname,isActive from mbrand where brandname in " + brandtext + " group by id,brandname").ToList();
+                var brandid = db.mbrands.SqlQuery("select id,brandname,isActive,a.isDeleted from mbrand where brandname in " + brandtext + " group by id,brandname").ToList();
                 var brandcondition = "";
                 for (var i = 0; i < brandid.Count(); i++)
                 {
@@ -203,7 +203,7 @@ log4net.LogManager.GetLogger
             model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
 
             ViewData["mregions"] = db.mregions.ToList();
-            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y").ToList();
+            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y" && c.isDeleted=="N").ToList();
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
             //ViewData["mcluster"] = db.mclusters.SqlQuery("SELECT * FROM mcluster where ClusterName != \'\'").ToList();
             ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
@@ -382,7 +382,7 @@ log4net.LogManager.GetLogger
             }
 
             ViewData["mregions"] = db.mregions.ToList();
-            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y").ToList();
+            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y" && c.isDeleted == "N").ToList();
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
             ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
             ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office").GroupBy(g => g.RegionalOffice_Name).Select(s => new { RegionalOffice_Name = s.Key }).ToList();
@@ -847,7 +847,7 @@ log4net.LogManager.GetLogger
                 catch(Exception E)
                 {
                     log.Error("Exception occured in saving new initiative" + E.Message);
-                    return Content("Error occired during Initiative save");
+                    return Content("Error occured during Initiative save");
                 }
             }
             else
@@ -1101,11 +1101,12 @@ log4net.LogManager.GetLogger
             CountryList = db.mcountries.Where(c => c.id == CountryID).Select(s => new CountryList { id = s.id, CountryName = s.CountryName }).ToList();
             if (GetInfo.Id2 == 0)
             {
-                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive,a.isDeleted FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and a.isDeleted='N' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
             }
             else
             {
-                BrandList = db.mbrands.Where(c => c.id == modelinitiative.BrandID && c.isActive == "Y").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                // BrandList = db.mbrands.Where(c => c.id == modelinitiative.BrandID && c.isActive == "Y").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive,a.isDeleted FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and a.isDeleted='N' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
             }
             RegionList = db.mregions.Where(c => c.id == RegionID).Select(s => new RegionList { id = s.id, RegionName = s.RegionName }).ToList();
             SubRegionList = db.msubregions.Where(c => c.id == SubRegionID).Select(s => new SubRegionList { id = s.id, SubRegionName = s.SubRegionName }).ToList();
@@ -1228,11 +1229,16 @@ log4net.LogManager.GetLogger
         public ActionResult GetLegalFromBrand(Models.GetInfoByBrandIDModel GetInfo)
         {
             List<LegalEntityList> LegalEntity = new List<LegalEntityList>();
-            LegalEntity = db.mlegalentities.Where(c => c.BrandID == GetInfo.BrandID && c.CountryID == GetInfo.CountryID && c.SubCountryID == GetInfo.SubCountryID && c.CostControlSiteID == GetInfo.CostControlSiteID).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
+            List<CostControlList> CostControl = new List<CostControlList>();
+            var costControlId = db.mlegalentities.Where(le => le.CountryID == GetInfo.CountryID && le.BrandID == GetInfo.BrandID && le.SubCountryID == GetInfo.SubCountryID).FirstOrDefault().CostControlSiteID;
+            CostControl = db.mcostcontrolsites.Where(c => c.id == costControlId).Select(s => new CostControlList { id = s.id, CostControlSiteName = s.CostControlSiteName }).ToList();
+            LegalEntity = db.mlegalentities.Where(c => c.BrandID == GetInfo.BrandID && c.CountryID == GetInfo.CountryID && c.SubCountryID == GetInfo.SubCountryID && c.CostControlSiteID == costControlId).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
             List<GetDataFromSubCountry> GDSC = new List<GetDataFromSubCountry>();
             GDSC.Add(new GetDataFromSubCountry
             {
-                LegalEntityData = LegalEntity
+                LegalEntityData = LegalEntity,
+                CostControlSiteData = CostControl
+
             });
             return Json(GDSC, JsonRequestBehavior.AllowGet);
         }

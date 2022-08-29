@@ -1,4 +1,5 @@
 ﻿using DevExpress.Web.Mvc;
+using GAIN.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -102,5 +103,22 @@ namespace GAIN.Controllers
             ViewData["SubRegionList"] = db.msubregions.ToList();
             return PartialView("_GrdCountryPartial", model.ToList());
         }
+
+
+        [HttpPost]
+        public ActionResult GetRegionDetailsbySubRegion(int subRegionID)
+        {
+            List<MasterCountry> lst_me = new List<MasterCountry>();
+            MasterCountry ml = new MasterCountry();            
+            var region_name = (from subregion in db.msubregions
+                           join region in db.mregions
+                           on subregion.RegionID equals region.id
+                           where subregion.id ==  subRegionID
+                           select region.id).FirstOrDefault();
+            ml.RegionName = region_name.ToString();
+            lst_me.Add(ml);
+            return Json(lst_me);
+        }
+
     }
 }

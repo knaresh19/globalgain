@@ -1,13 +1,12 @@
-﻿
 @{
     var grid = Html.DevExpress().GridView(settings =>
     {
-        settings.Name = "GrdCountry";
-        settings.CallbackRouteValues = new { Controller = "MCountry", Action = "GrdCountryPartial" };
+        settings.Name = "GrdSubCountryCostControl";
+        settings.CallbackRouteValues = new { Controller = "MSubCountryCostControl", Action = "GrdSubCountryCostControlPartial" };
 
-        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "MCountry", Action = "GrdCountryPartialAddNew" };
-        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "MCountry", Action = "GrdCountryPartialUpdate" };
-        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "MCountry", Action = "GrdCountryPartialDelete" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "MSubCountryCostControl", Action = "GrdSubCountryCostControlPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "MSubCountryCostControl", Action = "GrdSubCountryCostControlPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "MSubCountryCostControl", Action = "GrdSubCountryCostControlPartialDelete" };
         settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
         settings.SettingsBehavior.ConfirmDelete = true;
 
@@ -19,6 +18,7 @@
         settings.CommandColumn.ShowNewButton = true;
         settings.CommandColumn.ShowDeleteButton = true;
         settings.CommandColumn.ShowEditButton = true;
+
         settings.SettingsPager.PageSize = 10;
         settings.SettingsPager.PageSizeItemSettings.Visible = true;
 
@@ -58,41 +58,51 @@
 
         settings.Columns.Add(c =>
         {
-            c.FieldName = "RegionID";
-            c.Caption = "Region Name";
+            c.FieldName = "subcountryid";
+            c.Caption = "Sub Country";
             c.Width = 200;
-            c.ReadOnly = true;
             c.EditorProperties().ComboBox(p =>
             {
-                p.TextField = "regionname";
+                p.TextField = "SubCountryName";
                 p.ValueField = "id";
                 p.ValueType = typeof(string);
-                p.ClientInstanceName = "CboRegion";
-                p.BindList(ViewData["RegionList"]);
+                p.ClientInstanceName = "BrandSubCountry";
+                p.BindList(ViewData["Subcountry"]);
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "costcontrolid";
+            c.Caption = "CostControlSiteName";
+            c.Width = 200;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "CostControlSiteName";
+                p.ValueField = "id";
+                p.ValueType = typeof(string);
+                p.ClientInstanceName = "CboCostcontrolsite";
+                p.BindList(ViewData["Costcontrolsite"]);
 
             });
         });
+
         settings.Columns.Add(c =>
         {
-            c.FieldName = "SubRegionID";
-            c.Caption = "Sub Region Name";
+            c.FieldName = "brandid";
+            c.Caption = "Brand Name";
             c.Width = 200;
             c.EditorProperties().ComboBox(p =>
             {
-                p.TextField = "subregionname";
+                p.TextField = "brandname";
                 p.ValueField = "id";
                 p.ValueType = typeof(string);
-                p.ClientInstanceName = "CboSubRegion";
-                p.BindList(ViewData["SubRegionList"]);
-                p.ClientSideEvents.SelectedIndexChanged = "OnSelectedIndexChanged";
+                p.ClientInstanceName = "BrandCountry";
+                p.BindList(ViewData["BrandList"]);
             });
         });
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "CountryName";
-            c.Caption = "Country Name";
-            c.Width = 1000;
-        });
+
+
     });
     if (ViewData["EditError"] != null)
     {

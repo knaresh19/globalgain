@@ -21,7 +21,8 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdBrandPartial()
         {
-            var model = db.mbrands;
+            var model = db.mbrands.Where(s => s.isDeleted == "N");
+            ViewData["BrandList"] = model.ToList().Where(s => s.isDeleted == "N");
             return PartialView("_GrdBrandPartial", model.ToList());
         }
 
@@ -33,6 +34,7 @@ namespace GAIN.Controllers
             {
                 try
                 {
+                    item.isDeleted = "N";
                     model.Add(item);
                     db.SaveChanges();
                 }
@@ -43,12 +45,12 @@ namespace GAIN.Controllers
             }
             else
                 ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdBrandPartial", model.ToList());
+            return PartialView("_GrdBrandPartial", model.ToList().Where(s => s.isDeleted == "N"));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdBrandPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mbrand item)
         {
-            var model = db.mbrands;
+            var model = db.mbrands.Where(s => s.isDeleted == "N");
             if (ModelState.IsValid)
             {
                 try
@@ -57,6 +59,7 @@ namespace GAIN.Controllers
                     if (modelItem != null)
                     {
                         modelItem.brandname = item.brandname;
+                        modelItem.isActive = item.isActive;
                         db.SaveChanges();
                     }
                 }
@@ -72,14 +75,16 @@ namespace GAIN.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdBrandPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mbrand itemx)
         {
-            var model = db.mbrands;
+            var model = db.mbrands.Where(s => s.isDeleted == "N");
             if (itemx.id >= 0)
             {
                 try
                 {
                     var item = model.FirstOrDefault(it => it.id == itemx.id);
                     if (item != null)
-                        model.Remove(item);
+                        item.isDeleted="Y";  //For Soft delete.
+                    item.isActive = "N";
+                        // model.Remove(item);
                     db.SaveChanges();
                 }
                 catch (Exception e)
