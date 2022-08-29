@@ -1295,7 +1295,11 @@ function SaveInitiative() {
                     //}
                     //var sign =Math.sign(a)
                     //do the comparison only if signs are equal 
+<<<<<<< assets/poin/js/maingrid.js
                 
+=======
+                debugger;
+>>>>>>> assets/poin/js/maingrid.js
                    /* if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {*/
                         if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
                             //if (a > b) {
@@ -1316,8 +1320,7 @@ function SaveInitiative() {
                                 return;
                             }
                         }
-                        else {
-                            debugger;
+                        else {                            
                             Swal.fire(
                                 'Inconsistent Target',
                                 'Sum of monthly target and 12 months target,both  should be positive or negative',
