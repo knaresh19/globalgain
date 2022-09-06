@@ -5,8 +5,7 @@
 ////    var projectYear = profileData.ProjectYear;
 ////}
 
-function URLContent(url)
-{
+function URLContent(url) {
     return UrlContent + url;
 }
 
@@ -91,7 +90,7 @@ $(function () {
         $('#loct').html('Oct-' + py);
         $('#lnov').html('Nov-' + py);
         $('#ldec').html('Dec-' + py);
-        var npy = parseInt(py)+1;
+        var npy = parseInt(py) + 1;
         $('#lnexjan').html('Jan-' + npy);
         $('#lnexfeb').html('Feb-' + npy);
         $('#lnexmar').html('Mar-' + npy);
@@ -133,7 +132,7 @@ $(function () {
             });
         }*/
         //else {
-            SaveInitiative();
+        SaveInitiative();
         //}
     });
 
@@ -179,11 +178,11 @@ $(function () {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
                     if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
                 });
-                debugger;
+
                 GrdBrandPopup.SetText(brand);
-                var brandid = GrdBrandPopup.GetValue();var countryid = $("#GrdCountryVal").val();var subcountryid = GrdSubCountryPopup.GetValue();var costcontrolsiteid = $("#GrdCostControlVal").val();
+                var brandid = GrdBrandPopup.GetValue(); var countryid = $("#GrdCountryVal").val(); var subcountryid = GrdSubCountryPopup.GetValue(); var costcontrolsiteid = $("#GrdCostControlVal").val();
                 $.post(URLContent('ActiveInitiative/GetLegalFromBrand'), { brandid: brandid, countryid: countryid, subcountryid: subcountryid, costcontrolsiteid: costcontrolsiteid }, function (data) {
-                    var obj3; 
+                    var obj3; GrdLegalEntityPopup.ClearItems();
                     $.each(data[0]["LegalEntityData"], function (key, value) {
                         value = JSON.stringify(value); obj3 = JSON.parse(value);
                         if (obj3 != null) GrdLegalEntityPopup.AddItem(obj3.LegalEntityName, obj3.id);
@@ -216,7 +215,7 @@ $(function () {
             min_py = (+py - 1);
             max_py = (+py);
             StartMonth.SetMinDate(new Date(min_py + '-01-01'));
-            StartMonth.SetMaxDate(new Date((max_py ) + '-12-31'));
+            StartMonth.SetMaxDate(new Date((max_py) + '-12-31'));
             EndMonth.SetMinDate(new Date(max_py + '-01-01'));
             EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
             $(".txTarget").prop("disabled", false); $(".txSaving").prop("disabled", false); $(".txTarget").val(''); $(".txSaving").val('');
@@ -268,7 +267,6 @@ function OnCostCategoryChanged(s, e) {
 }
 
 function OnSubCountryChanged(s, e) {
-    debugger;
     var id = s.GetValue(); /*var teks = s.GetText();*/
     $.post(URLContent('ActiveInitiative/GetCountryBySub'), { id: id }, function (data) {
         var obj; CountryID.ClearItems(); BrandID.ClearItems(); RegionID.ClearItems(); SubRegionID.ClearItems(); ClusterID.ClearItems(); RegionalOfficeID.ClearItems(); CostControlID.ClearItems();
@@ -280,10 +278,6 @@ function OnSubCountryChanged(s, e) {
         $.each(data[0]["BrandData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) BrandID.AddItem(obj.BrandName, obj.id);
-        });
-        $.each(data[0]["LegalEntityData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
         });
         $.each(data[0]["RegionData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
@@ -304,7 +298,11 @@ function OnSubCountryChanged(s, e) {
         $.each(data[0]["CostControlSiteData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) CostControlID.AddItem(obj.CostControlSiteName, obj.id);
-        });        
+        });
+        $.each(data[0]["LegalEntityData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
+        });
         $.each(data[0]["TypeInitiativeData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) InitiativeType.AddItem(obj.SavingTypeName, obj.id);
@@ -321,9 +319,9 @@ function OnBrandChanged(s, e) {
         var obj; LegalEntityID.ClearItems();
         $.each(data[0]["LegalEntityData"],
             function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
-        });
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
+            });
         LegalEntityID.SelectIndex(0);
     });
 }
@@ -378,7 +376,6 @@ function ShowEditWindow(id) {
     EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
 
     $("#FormStatus").val("Edit");
-    debugger;
     $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: id }, function (data) {
         var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); GrdSubCost.ClearItems();
         var uType = user_type;
@@ -453,8 +450,6 @@ function ShowEditWindow(id) {
             $("#TxResponsibleName").val(obj.ResponsibleFullName);
             $("#TxLaraCode").val(obj.LaraCode);
             $("#TxDesc").val(obj.Description);
-            $("#GrdBrandPopup").val(obj.brandname);
-            $("#GrdLegalEntityPopup").val(obj.LegalEntityName);
             GrdInitStatus.SetValue(obj.InitStatus);
             TxPortName.SetValue(obj.PortID);
             GrdInitType.SetValue(obj.InitiativeType);
@@ -473,13 +468,11 @@ function ShowEditWindow(id) {
             txTargetFullYear.SetValue(obj.TargetNY);
             txYTDTargetFullYear.SetValue(obj.YTDTarget);
             txYTDSavingFullYear.SetValue(obj.YTDAchieved);
-            GrdBrandPopup.SetValue(obj.BrandID);
-            GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
-            debugger;
+
             OnStartMonthChanged();
             let startyear = new Date(obj.StartMonth).getFullYear()
-            let nextyear = startyear + 1; 
-            
+            let nextyear = startyear + 1;
+            debugger;
             //Change the labels 
             $('#ljan').html('Jan-' + startyear);
             $('#lfeb').html('Feb-' + startyear);
@@ -509,22 +502,22 @@ function ShowEditWindow(id) {
 
             //End change the labels 
             //commented the below if else to show the full initiative figures  
-           /* if ((new Date(obj.StartMonth).getFullYear()) < projectYear) {
-                $(".targetjan").val(formatValue(obj.TargetNexJan)); $(".targetfeb").val(formatValue(obj.TargetNexFeb)); $(".targetmar").val(formatValue(obj.TargetNexMar)); $(".targetapr").val(formatValue(obj.TargetNexApr)); $(".targetmay").val(formatValue(obj.TargetNexMay)); $(".targetjun").val(formatValue(obj.TargetNexJun));
-                $(".targetjul").val(formatValue(obj.TargetNexJul)); $(".targetaug").val(formatValue(obj.TargetNexAug)); $(".targetsep").val(formatValue(obj.TargetNexSep)); $(".targetoct").val(formatValue(obj.TargetNexOct)); $(".targetnov").val(formatValue(obj.TargetNexNov)); $(".targetdec").val(formatValue(obj.TargetNexDec));
-                $(".savingjan").val(formatValue(obj.AchNexJan)); $(".savingfeb").val(formatValue(obj.AchNexFeb)); $(".savingmar").val(formatValue(obj.AchNexMar)); $(".savingapr").val(formatValue(obj.AchNexApr)); $(".savingmay").val(formatValue(obj.AchNexMay)); $(".savingjun").val(formatValue(obj.AchNexJun));
-                $(".savingjul").val(formatValue(obj.AchNexJul)); $(".savingaug").val(formatValue(obj.AchNexAug)); $(".savingsep").val(formatValue(obj.AchNexSep)); $(".savingoct").val(formatValue(obj.AchNexOct)); $(".savingnov").val(formatValue(obj.AchNexNov)); $(".savingdec").val(formatValue(obj.AchNexDec));
-            } else {*/
-                $(".targetjan").val(formatValue(obj.TargetJan)); $(".targetfeb").val(formatValue(obj.TargetFeb)); $(".targetmar").val(formatValue(obj.TargetMar)); $(".targetapr").val(formatValue(obj.TargetApr)); $(".targetmay").val(formatValue(obj.TargetMay)); $(".targetjun").val(formatValue(obj.TargetJun));
-                $(".targetjul").val(formatValue(obj.TargetJul)); $(".targetaug").val(formatValue(obj.TargetAug)); $(".targetsep").val(formatValue(obj.TargetSep)); $(".targetoct").val(formatValue(obj.TargetOct)); $(".targetnov").val(formatValue(obj.TargetNov)); $(".targetdec").val(formatValue(obj.TargetDec));
-                $(".savingjan").val(formatValue(obj.AchJan)); $(".savingfeb").val(formatValue(obj.AchFeb)); $(".savingmar").val(formatValue(obj.AchMar)); $(".savingapr").val(formatValue(obj.AchApr)); $(".savingmay").val(formatValue(obj.AchMay)); $(".savingjun").val(formatValue(obj.AchJun));
-                $(".savingjul").val(formatValue(obj.AchJul)); $(".savingaug").val(formatValue(obj.AchAug)); $(".savingsep").val(formatValue(obj.AchSep)); $(".savingoct").val(formatValue(obj.AchOct)); $(".savingnov").val(formatValue(obj.AchNov)); $(".savingdec").val(formatValue(obj.AchDec));
+            /* if ((new Date(obj.StartMonth).getFullYear()) < projectYear) {
+                 $(".targetjan").val(formatValue(obj.TargetNexJan)); $(".targetfeb").val(formatValue(obj.TargetNexFeb)); $(".targetmar").val(formatValue(obj.TargetNexMar)); $(".targetapr").val(formatValue(obj.TargetNexApr)); $(".targetmay").val(formatValue(obj.TargetNexMay)); $(".targetjun").val(formatValue(obj.TargetNexJun));
+                 $(".targetjul").val(formatValue(obj.TargetNexJul)); $(".targetaug").val(formatValue(obj.TargetNexAug)); $(".targetsep").val(formatValue(obj.TargetNexSep)); $(".targetoct").val(formatValue(obj.TargetNexOct)); $(".targetnov").val(formatValue(obj.TargetNexNov)); $(".targetdec").val(formatValue(obj.TargetNexDec));
+                 $(".savingjan").val(formatValue(obj.AchNexJan)); $(".savingfeb").val(formatValue(obj.AchNexFeb)); $(".savingmar").val(formatValue(obj.AchNexMar)); $(".savingapr").val(formatValue(obj.AchNexApr)); $(".savingmay").val(formatValue(obj.AchNexMay)); $(".savingjun").val(formatValue(obj.AchNexJun));
+                 $(".savingjul").val(formatValue(obj.AchNexJul)); $(".savingaug").val(formatValue(obj.AchNexAug)); $(".savingsep").val(formatValue(obj.AchNexSep)); $(".savingoct").val(formatValue(obj.AchNexOct)); $(".savingnov").val(formatValue(obj.AchNexNov)); $(".savingdec").val(formatValue(obj.AchNexDec));
+             } else {*/
+            $(".targetjan").val(formatValue(obj.TargetJan)); $(".targetfeb").val(formatValue(obj.TargetFeb)); $(".targetmar").val(formatValue(obj.TargetMar)); $(".targetapr").val(formatValue(obj.TargetApr)); $(".targetmay").val(formatValue(obj.TargetMay)); $(".targetjun").val(formatValue(obj.TargetJun));
+            $(".targetjul").val(formatValue(obj.TargetJul)); $(".targetaug").val(formatValue(obj.TargetAug)); $(".targetsep").val(formatValue(obj.TargetSep)); $(".targetoct").val(formatValue(obj.TargetOct)); $(".targetnov").val(formatValue(obj.TargetNov)); $(".targetdec").val(formatValue(obj.TargetDec));
+            $(".savingjan").val(formatValue(obj.AchJan)); $(".savingfeb").val(formatValue(obj.AchFeb)); $(".savingmar").val(formatValue(obj.AchMar)); $(".savingapr").val(formatValue(obj.AchApr)); $(".savingmay").val(formatValue(obj.AchMay)); $(".savingjun").val(formatValue(obj.AchJun));
+            $(".savingjul").val(formatValue(obj.AchJul)); $(".savingaug").val(formatValue(obj.AchAug)); $(".savingsep").val(formatValue(obj.AchSep)); $(".savingoct").val(formatValue(obj.AchOct)); $(".savingnov").val(formatValue(obj.AchNov)); $(".savingdec").val(formatValue(obj.AchDec));
 
-                $(".targetjan2").val(formatValue(obj.TargetNexJan)); $(".targetfeb2").val(formatValue(obj.TargetNexFeb)); $(".targetmar2").val(formatValue(obj.TargetNexMar)); $(".targetapr2").val(formatValue(obj.TargetNexApr)); $(".targetmay2").val(formatValue(obj.TargetNexMay)); $(".targetjun2").val(formatValue(obj.TargetNexJun));
-                $(".targetjul2").val(formatValue(obj.TargetNexJul)); $(".targetaug2").val(formatValue(obj.TargetNexAug)); $(".targetsep2").val(formatValue(obj.TargetNexSep)); $(".targetoct2").val(formatValue(obj.TargetNexOct)); $(".targetnov2").val(formatValue(obj.TargetNexNov)); $(".targetdec2").val(formatValue(obj.TargetNexDec));
-                $(".savingjan2").val(formatValue(obj.AchNexJan)); $(".savingfeb2").val(formatValue(obj.AchNexFeb)); $(".savingmar2").val(formatValue(obj.AchNexMar)); $(".savingapr2").val(formatValue(obj.AchNexApr)); $(".savingmay2").val(formatValue(obj.AchNexMay)); $(".savingjun2").val(formatValue(obj.AchNexJun));
-                $(".savingjul2").val(formatValue(obj.AchNexJul)); $(".savingaug2").val(formatValue(obj.AchNexAug)); $(".savingsep2").val(formatValue(obj.AchNexSep)); $(".savingoct2").val(formatValue(obj.AchNexOct)); $(".savingnov2").val(formatValue(obj.AchNexNov)); $(".savingdec2").val(formatValue(obj.AchNexDec));
-           // }
+            $(".targetjan2").val(formatValue(obj.TargetNexJan)); $(".targetfeb2").val(formatValue(obj.TargetNexFeb)); $(".targetmar2").val(formatValue(obj.TargetNexMar)); $(".targetapr2").val(formatValue(obj.TargetNexApr)); $(".targetmay2").val(formatValue(obj.TargetNexMay)); $(".targetjun2").val(formatValue(obj.TargetNexJun));
+            $(".targetjul2").val(formatValue(obj.TargetNexJul)); $(".targetaug2").val(formatValue(obj.TargetNexAug)); $(".targetsep2").val(formatValue(obj.TargetNexSep)); $(".targetoct2").val(formatValue(obj.TargetNexOct)); $(".targetnov2").val(formatValue(obj.TargetNexNov)); $(".targetdec2").val(formatValue(obj.TargetNexDec));
+            $(".savingjan2").val(formatValue(obj.AchNexJan)); $(".savingfeb2").val(formatValue(obj.AchNexFeb)); $(".savingmar2").val(formatValue(obj.AchNexMar)); $(".savingapr2").val(formatValue(obj.AchNexApr)); $(".savingmay2").val(formatValue(obj.AchNexMay)); $(".savingjun2").val(formatValue(obj.AchNexJun));
+            $(".savingjul2").val(formatValue(obj.AchNexJul)); $(".savingaug2").val(formatValue(obj.AchNexAug)); $(".savingsep2").val(formatValue(obj.AchNexSep)); $(".savingoct2").val(formatValue(obj.AchNexOct)); $(".savingnov2").val(formatValue(obj.AchNexNov)); $(".savingdec2").val(formatValue(obj.AchNexDec));
+            // }
 
             if (obj.InitStatus == 4) {
                 $(".txSaving").prop("disabled", true);
@@ -538,10 +531,9 @@ function ShowEditWindow(id) {
             var legalentityidx = obj.LegalEntityID;
             //GrdInitStatus.GetGridView().Refresh();
             //GrdInitType.GetGridView().Refresh();
-            var brandId = obj.BrandID;
+
             $.post(URLContent('ActiveInitiative/GetCountryBySub'), { Id: SubCountryID, Id2: id }, function (data) {
                 var obj2;
-                debugger;
                 GrdSubCountryPopup.ClearItems(); GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
                 $.each(data[0]["SubCountryData"], function (key, value) {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
@@ -551,13 +543,11 @@ function ShowEditWindow(id) {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
                     if (obj != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
                 });
-                debugger;
                 $.each(data[0]["LegalEntityData"], function (key, value) {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
                     if (obj != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
                 });
-                GrdSubCountryPopup.SelectIndex(0); GrdBrandPopup.SelectIndex(0); GrdLegalEntityPopup.SelectIndex(0);
-                GrdBrandPopup.SetValue(brandId);
+                GrdSubCountryPopup.SelectIndex(0); GrdBrandPopup.SelectIndex(0); //GrdLegalEntityPopup.SelectIndex(0);
                 GrdLegalEntityPopup.SetValue(legalentityidx);
             });
             getYtdValue();
@@ -777,20 +767,12 @@ function OnSubCountryPopupChanged(s, e) {
                 GrdBrandPopup.AddItem(obj.BrandName, obj.id);
             }
         });
-        debugger;
-        GrdLegalEntityPopup.AddItem("[ Please Select ]", 0);
-        $.each(data[0]["LegalEntityData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) {
-                GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
-            }
-        });
         $.each(data[0]["CountryData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) {
                 $("#GrdCountryVal").val(obj.id); $("#GrdCountry").val(obj.CountryName);
             }
-        });       
+        });
         $.each(data[0]["RegionData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) {
@@ -833,14 +815,7 @@ function OnBrandPopupChanged(s, e) {
             value = JSON.stringify(value); obj = JSON.parse(value);
             if (obj != null) GrdLegalEntityPopup.AddItem(obj.LegalEntityName, obj.id);
         });
-        $.each(data[0]["CostControlSiteData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) {
-                $("#GrdCostControlVal").val(obj.id); $("#GrdCostControl").val(obj.CostControlSiteName);
-            }
-        });
         GrdLegalEntityPopup.SelectIndex(0);
-
     });
 }
 
@@ -869,7 +844,6 @@ function OnSubCostPopupChanged(s, e) {
 }
 
 function OnGrdInitCategoryPopupChanged(s, e) {
-    debugger;
     var id = GrdInitType.GetValue(); var id2 = s.GetValue(); var id3 = GrdBrandPopup.GetValue();
     $.post(URLContent('ActiveInitiative/GetItemFromCostCategory'), { id: id, id2: id2, id3: id3 }, function (data) {
         var obj; GrdSubCost.ClearItems();
@@ -1012,40 +986,40 @@ function OnEndMonthChanged() {
     } else {
         endmonthValue = EndMonth.GetValue();
     }
-    
+    debugger;
     var targetty = new Array(); var savingty = new Array();
     //remove the IF becasue start month and project year doesnt matter 
-   /* if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {*/
-        targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
-        savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
+    /* if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {*/
+    targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
+    savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
 
-        startmon = ((moment(StartMonth.GetValue()).format("M")) - 1);
-        var months; var x = 0;
-        months = (endmonthValue.getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
-        months -= StartMonth.GetValue().getMonth();
-        months += endmonthValue.getMonth();
-        months++; // ngitung selisih bulan mulai dan bulan akhir initiative
+    startmon = ((moment(StartMonth.GetValue()).format("M")) - 1);
+    var months; var x = 0;
+    months = (endmonthValue.getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
+    months -= StartMonth.GetValue().getMonth();
+    months += endmonthValue.getMonth();
+    months++; // ngitung selisih bulan mulai dan bulan akhir initiative
 
-        for (var i = 0; i <= targetty.length; i++) {
-            if (i >= startmon && x < months) {
-                targetstartselected = true;
-            } else {
-                targetstartselected = false;
-            }
-
-            if (targetstartselected == true) {
-                $("." + targetty[i]).prop('disabled', false);
-                $("." + savingty[i]).prop('disabled', false);
-                x++;
-            } else {
-                $("." + targetty[i]).val('');
-                $("." + savingty[i]).val('');
-                $("." + targetty[i]).prop('disabled', true);
-                $("." + savingty[i]).prop('disabled', true);
-            }
+    for (var i = 0; i <= targetty.length; i++) {
+        if (i >= startmon && x < months) {
+            targetstartselected = true;
+        } else {
+            targetstartselected = false;
         }
-   // if project year > start year then disable the startyear targets and achievements
-    
+
+        if (targetstartselected == true) {
+            $("." + targetty[i]).prop('disabled', false);
+            $("." + savingty[i]).prop('disabled', false);
+            x++;
+        } else {
+            $("." + targetty[i]).val('');
+            $("." + savingty[i]).val('');
+            $("." + targetty[i]).prop('disabled', true);
+            $("." + savingty[i]).prop('disabled', true);
+        }
+    }
+    // if project year > start year then disable the startyear targets and achievements
+    debugger;
     let startyear = StartMonth.GetValue().getFullYear();
     if (projectYear != startyear) {
         for (var i = 0; i < 12; i++) {
@@ -1076,7 +1050,7 @@ function OnEndMonthChanged() {
     //    $("input[name='StartMonth']").prop('readonly', true);
     //    StartMonth.clientEnabled = false;
     //}
-   /* else if ((new Date(StartMonth.GetValue()).getFullYear()) > projectYear)*/
+    /* else if ((new Date(StartMonth.GetValue()).getFullYear()) > projectYear)*/
     //{
     //    targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
     //    savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
@@ -1146,7 +1120,7 @@ function formatValue(n) {
     }
     else if (n == null || n == "") {
         return "";
-    
+
     } else {
         n = String(n).replaceAll(',', '');
         return parseFloat(n).toFixed(2).replaceAll(/\d(?=(\d{3})+\.)/g, '$&,');
@@ -1238,19 +1212,19 @@ function SaveInitiative() {
             //    var savingjun2 = $(".savingjun").val().replaceAll(",", ""); var savingjul2 = $(".savingjul").val().replaceAll(",", ""); var savingaug2 = $(".savingaug").val().replaceAll(",", ""); var savingsep2 = $(".savingsep").val().replaceAll(",", ""); var savingoct2 = $(".savingoct").val().replaceAll(",", "");
             //    var savingnov2 = $(".savingnov").val().replaceAll(",", ""); var savingdec2 = $(".savingdec").val().replaceAll(",", "");
             //} else {
-                var targetjan = $(".targetjan").val().replaceAll(",", ""); var targetfeb = $(".targetfeb").val().replaceAll(",", ""); var targetmar = $(".targetmar").val().replaceAll(",", ""); var targetapr = $(".targetapr").val().replaceAll(",", ""); var targetmay = $(".targetmay").val().replaceAll(",", "");
-                var targetjun = $(".targetjun").val().replaceAll(",", ""); var targetjul = $(".targetjul").val().replaceAll(",", ""); var targetaug = $(".targetaug").val().replaceAll(",", ""); var targetsep = $(".targetsep").val().replaceAll(",", ""); var targetoct = $(".targetoct").val().replaceAll(",", "");
-                var targetnov = $(".targetnov").val().replaceAll(",", ""); var targetdec = $(".targetdec").val().replaceAll(",", "");
-                var targetjan2 = $(".targetjan2").val().replaceAll(",", ""); var targetfeb2 = $(".targetfeb2").val().replaceAll(",", ""); var targetmar2 = $(".targetmar2").val().replaceAll(",", ""); var targetapr2 = $(".targetapr2").val().replaceAll(",", ""); var targetmay2 = $(".targetmay2").val().replaceAll(",", "");
-                var targetjun2 = $(".targetjun2").val().replaceAll(",", ""); var targetjul2 = $(".targetjul2").val().replaceAll(",", ""); var targetaug2 = $(".targetaug2").val().replaceAll(",", ""); var targetsep2 = $(".targetsep2").val().replaceAll(",", ""); var targetoct2 = $(".targetoct2").val().replaceAll(",", "");
-                var targetnov2 = $(".targetnov2").val().replaceAll(",", ""); var targetdec2 = $(".targetdec2").val().replaceAll(",", "");
+            var targetjan = $(".targetjan").val().replaceAll(",", ""); var targetfeb = $(".targetfeb").val().replaceAll(",", ""); var targetmar = $(".targetmar").val().replaceAll(",", ""); var targetapr = $(".targetapr").val().replaceAll(",", ""); var targetmay = $(".targetmay").val().replaceAll(",", "");
+            var targetjun = $(".targetjun").val().replaceAll(",", ""); var targetjul = $(".targetjul").val().replaceAll(",", ""); var targetaug = $(".targetaug").val().replaceAll(",", ""); var targetsep = $(".targetsep").val().replaceAll(",", ""); var targetoct = $(".targetoct").val().replaceAll(",", "");
+            var targetnov = $(".targetnov").val().replaceAll(",", ""); var targetdec = $(".targetdec").val().replaceAll(",", "");
+            var targetjan2 = $(".targetjan2").val().replaceAll(",", ""); var targetfeb2 = $(".targetfeb2").val().replaceAll(",", ""); var targetmar2 = $(".targetmar2").val().replaceAll(",", ""); var targetapr2 = $(".targetapr2").val().replaceAll(",", ""); var targetmay2 = $(".targetmay2").val().replaceAll(",", "");
+            var targetjun2 = $(".targetjun2").val().replaceAll(",", ""); var targetjul2 = $(".targetjul2").val().replaceAll(",", ""); var targetaug2 = $(".targetaug2").val().replaceAll(",", ""); var targetsep2 = $(".targetsep2").val().replaceAll(",", ""); var targetoct2 = $(".targetoct2").val().replaceAll(",", "");
+            var targetnov2 = $(".targetnov2").val().replaceAll(",", ""); var targetdec2 = $(".targetdec2").val().replaceAll(",", "");
 
-                var savingjan = $(".savingjan").val().replaceAll(",", ""); var savingfeb = $(".savingfeb").val().replaceAll(",", ""); var savingmar = $(".savingmar").val().replaceAll(",", ""); var savingapr = $(".savingapr").val().replaceAll(",", ""); var savingmay = $(".savingmay").val().replaceAll(",", "");
-                var savingjun = $(".savingjun").val().replaceAll(",", ""); var savingjul = $(".savingjul").val().replaceAll(",", ""); var savingaug = $(".savingaug").val().replaceAll(",", ""); var savingsep = $(".savingsep").val().replaceAll(",", ""); var savingoct = $(".savingoct").val().replaceAll(",", "");
-                var savingnov = $(".savingnov").val().replaceAll(",", ""); var savingdec = $(".savingdec").val().replaceAll(",", "");
-                var savingjan2 = $(".savingjan2").val().replaceAll(",", ""); var savingfeb2 = $(".savingfeb2").val().replaceAll(",", ""); var savingmar2 = $(".savingmar2").val().replaceAll(",", ""); var savingapr2 = $(".savingapr2").val().replaceAll(",", ""); var savingmay2 = $(".savingmay2").val().replaceAll(",", "");
-                var savingjun2 = $(".savingjun2").val().replaceAll(",", ""); var savingjul2 = $(".savingjul2").val().replaceAll(",", ""); var savingaug2 = $(".savingaug2").val().replaceAll(",", ""); var savingsep2 = $(".savingsep2").val().replaceAll(",", ""); var savingoct2 = $(".savingoct2").val().replaceAll(",", "");
-                var savingnov2 = $(".savingnov2").val().replaceAll(",", ""); var savingdec2 = $(".savingdec2").val().replaceAll(",", "");
+            var savingjan = $(".savingjan").val().replaceAll(",", ""); var savingfeb = $(".savingfeb").val().replaceAll(",", ""); var savingmar = $(".savingmar").val().replaceAll(",", ""); var savingapr = $(".savingapr").val().replaceAll(",", ""); var savingmay = $(".savingmay").val().replaceAll(",", "");
+            var savingjun = $(".savingjun").val().replaceAll(",", ""); var savingjul = $(".savingjul").val().replaceAll(",", ""); var savingaug = $(".savingaug").val().replaceAll(",", ""); var savingsep = $(".savingsep").val().replaceAll(",", ""); var savingoct = $(".savingoct").val().replaceAll(",", "");
+            var savingnov = $(".savingnov").val().replaceAll(",", ""); var savingdec = $(".savingdec").val().replaceAll(",", "");
+            var savingjan2 = $(".savingjan2").val().replaceAll(",", ""); var savingfeb2 = $(".savingfeb2").val().replaceAll(",", ""); var savingmar2 = $(".savingmar2").val().replaceAll(",", ""); var savingapr2 = $(".savingapr2").val().replaceAll(",", ""); var savingmay2 = $(".savingmay2").val().replaceAll(",", "");
+            var savingjun2 = $(".savingjun2").val().replaceAll(",", ""); var savingjul2 = $(".savingjul2").val().replaceAll(",", ""); var savingaug2 = $(".savingaug2").val().replaceAll(",", ""); var savingsep2 = $(".savingsep2").val().replaceAll(",", ""); var savingoct2 = $(".savingoct2").val().replaceAll(",", "");
+            var savingnov2 = $(".savingnov2").val().replaceAll(",", ""); var savingdec2 = $(".savingdec2").val().replaceAll(",", "");
             //}
 
             //alert(xGrdSubCountry + " " + xGrdBrand + " " + xGrdLegalEntity + " " + xGrdCountry + " " + xGrdRegional + " " + xGrdSubRegion + " " + xGrdCluster + " " + xGrdRegionalOffice + " " + xGrdCostControl + " " + xCboConfidential + " " + xGrdInitStatus + " " + xGrdInitType + " " + xGrdInitCategory + " " + xGrdSubCost + " " + xGrdActionType + " " + xGrdSynImpact + " " + xStartMonth + " " + xEndMonth);
@@ -1269,78 +1243,75 @@ function SaveInitiative() {
                         sum += parseFloat($(this).val().replaceAll(",", ""));
                 });
 
-               // if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
-                    var a = (parseFloat(txTargetFullYear.GetValue()));
-                    var b = (parseFloat(txTarget12.GetValue()));
-                    //code change by Sudhish for -ve /+ve
+                // if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
+                var a = (parseFloat(txTargetFullYear.GetValue()));
+                var b = (parseFloat(txTarget12.GetValue()));
+                //code change by Sudhish for -ve /+ve
 
-                    var originalfullyeartarget = a;
-                    var originaltwelevetarget = b;
-                    var sumofmonthlytarget = sum;
-                    //Need to ABS first then floor
-                    //a = Math.abs(Math.floor(a));
-                    //b = Math.abs(Math.floor(b));
-                    //sum = Math.abs(Math.floor(sum));
+                var originalfullyeartarget = a;
+                var originaltwelevetarget = b;
+                var sumofmonthlytarget = sum;
+                //Need to ABS first then floor
+                //a = Math.abs(Math.floor(a));
+                //b = Math.abs(Math.floor(b));
+                //sum = Math.abs(Math.floor(sum));
 
-                    a = Math.floor(Math.abs(a));
-                    b = Math.floor(Math.abs(b));
-                    sum = Math.floor(Math.abs(sum));
-                    //if ((a >= b) || (sum != (b))) {
-                    //    Swal.fire(
-                    //        'Target 12 Months Less Than Total Target Field',
-                    //        'Target This Year Cannot Greater Than Target 12 Months and Target 12 Months Cannot Less Than Total Monthly Target Field',
-                    //        'error'
-                    //    );
-                    //    return;
-                    //}
-                    //var sign =Math.sign(a)
-                    //do the comparison only if signs are equal 
-<<<<<<< assets/poin/js/maingrid.js
-                
-=======
+                a = Math.floor(Math.abs(a));
+                b = Math.floor(Math.abs(b));
+                sum = Math.floor(Math.abs(sum));
+                //if ((a >= b) || (sum != (b))) {
+                //    Swal.fire(
+                //        'Target 12 Months Less Than Total Target Field',
+                //        'Target This Year Cannot Greater Than Target 12 Months and Target 12 Months Cannot Less Than Total Monthly Target Field',
+                //        'error'
+                //    );
+                //    return;
+                //}
+                //var sign =Math.sign(a)
+                //do the comparison only if signs are equal 
                 debugger;
->>>>>>> assets/poin/js/maingrid.js
-                   /* if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {*/
-                        if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
-                            //if (a > b) {
-                            //    Swal.fire(
-                            //        'Inconsistent Targets',
-                            //        'All Applicable Target of This Year : <strong>' + originalfullyeartarget +'</strong> cannot be Greater Than Target 12 Months : <strong>'+originaltwelevetarget+'</strong>',
-                            //        'error'
-                            //    );
-                            //    return;
-                            //}
-
-                            if (!((sum) == (b + 1) || (sum) == b ||(sum+1) == b)) { // tolerance $1
-                                Swal.fire(
-                                    'Inconsistent Target',
-                                    'The amount of All Applicable Target (current SUM of input is <strong>' + sumofmonthlytarget +'</strong>) and Target 12 Months (current input as <strong> '+ originaltwelevetarget+'</strong>) need to be aligned',
-                                    'error'
-                                );
-                                return;
-                            }
-                        }
-                        else {                            
-                            Swal.fire(
-                                'Inconsistent Target',
-                                'Sum of monthly target and 12 months target,both  should be positive or negative',
-                                'error'
-                            );
-                            return;
-                        }
-                    //}
-
-                    //else {
-                    //    debugger;
+                /* if (Math.sign(originaltwelevetarget) == Math.sign(originalfullyeartarget)) {*/
+                if (Math.sign(originaltwelevetarget) == Math.sign(sumofmonthlytarget)) {
+                    //if (a > b) {
                     //    Swal.fire(
-                    //        'Inconsistent Target',
-                    //        'Target 12 Months and Target Current Year both should be positive or negative value',
+                    //        'Inconsistent Targets',
+                    //        'All Applicable Target of This Year : <strong>' + originalfullyeartarget +'</strong> cannot be Greater Than Target 12 Months : <strong>'+originaltwelevetarget+'</strong>',
                     //        'error'
                     //    );
                     //    return;
                     //}
 
-               // }
+                    if (!((sum) == (b + 1) || (sum) == b || (sum + 1) == b)) { // tolerance $1
+                        Swal.fire(
+                            'Inconsistent Target',
+                            'The amount of All Applicable Target (current SUM of input is <strong>' + sumofmonthlytarget + '</strong>) and Target 12 Months (current input as <strong> ' + originaltwelevetarget + '</strong>) need to be aligned',
+                            'error'
+                        );
+                        return;
+                    }
+                }
+                else {
+                    debugger;
+                    Swal.fire(
+                        'Inconsistent Target',
+                        'Sum of monthly target and 12 months target,both  should be positive or negative',
+                        'error'
+                    );
+                    return;
+                }
+                //}
+
+                //else {
+                //    debugger;
+                //    Swal.fire(
+                //        'Inconsistent Target',
+                //        'Target 12 Months and Target Current Year both should be positive or negative value',
+                //        'error'
+                //    );
+                //    return;
+                //}
+
+                // }
                 //I think the below is not required since all the values are shown so the alert control should be simple 
                 //else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
                 //    debugger;
@@ -1424,66 +1395,66 @@ function SaveInitiative() {
                 }
                 debugger;
                 //if (Number(xTxTargetFullYear).toFixed(0) == Number(sumtarget).toFixed(0)) {
-               // if (Math.floor(Math.abs(Number(xTxTargetFullYear))) == Math.floor(Number(sumtarget))) {
-                    $.post(URLContent('ActiveInitiative/SaveNew'), {
-                        FormID: xFormID,
-                        FormStatus: xFormStatus,
-                        GrdSubCountry: xGrdSubCountry,
-                        GrdBrand: xGrdBrand,
-                        GrdLegalEntity: xGrdLegalEntity,
-                        GrdCountry: xGrdCountry,
-                        GrdRegional: xGrdRegional,
-                        GrdSubRegion: xGrdSubRegion,
-                        GrdCluster: xGrdCluster,
-                        GrdRegionalOffice: xGrdRegionalOffice,
-                        GrdCostControl: xGrdCostControl,
-                        CboConfidential: xCboConfidential,
-                        TxResponsibleName: xTxResponsibleName,
-                        TxDesc: xTxDesc,
-                        GrdInitStatus: xGrdInitStatus,
-                        TxLaraCode: xTxLaraCode,
-                        TxPortName: xTxPortName,
-                        TxVendorSupp: xTxVendorSupp,
-                        TxAdditionalInfo: xTxAdditionalInfo,
-                        GrdInitType: xGrdInitType,
-                        GrdInitCategory: xGrdInitCategory,
-                        GrdSubCost: xGrdSubCost,
-                        GrdActionType: xGrdActionType,
-                        GrdSynImpact: xGrdSynImpact,
-                        StartMonth: xStartMonth,
-                        EndMonth: xEndMonth,
-                        TxAgency: xTxAgency,
-                        TxRPOCComment: xTxRPOCComment,
-                        TxHOComment: xTxHOComment,
-                        CboHoValidity: xCboHoValidity,
-                        CboRPOCValidity: xCboRPOCValidity,
-                        TxTarget12: xTxTarget12,
-                        TxTargetFullYear: xTxTargetFullYear,
-                        TxYTDTargetFullYear: xTxYTDTargetFullYear,
-                        TxYTDSavingFullYear: xTxYTDSavingFullYear,
-                        ProjectYear: xProjectYear,
-                        RelatedInitiative: xRelatedInitiative,
-                        SourceCategory: xCboWebinarCat,
-                        targetjan: targetjan, targetfeb: targetfeb, targetmar: targetmar, targetapr: targetapr, targetmay: targetmay, targetjun: targetjun, targetjul: targetjul, targetaug: targetaug, targetsep: targetsep, targetoct: targetoct, targetnov: targetnov, targetdec: targetdec,
-                        targetjan2: targetjan2, targetfeb2: targetfeb2, targetmar2: targetmar2, targetapr2: targetapr2, targetmay2: targetmay2, targetjun2: targetjun2, targetjul2: targetjul2, targetaug2: targetaug2, targetsep2: targetsep2, targetoct2: targetoct2, targetnov2: targetnov2, targetdec2: targetdec2,
-                        savingjan: savingjan, savingfeb: savingfeb, savingmar: savingmar, savingapr: savingapr, savingmay: savingmay, savingjun: savingjun, savingjul: savingjul, savingaug: savingaug, savingsep: savingsep, savingoct: savingoct, savingnov: savingnov, savingdec: savingdec,
-                        savingjan2: savingjan2, savingfeb2: savingfeb2, savingmar2: savingmar2, savingapr2: savingapr2, savingmay2: savingmay2, savingjun2: savingjun2, savingjul2: savingjul2, savingaug2: savingaug2, savingsep2: savingsep2, savingoct2: savingoct2, savingnov2: savingnov2, savingdec2: savingdec2
-                    }, function (data) {
-                        debugger;
-                        if (data.substring(0, 5) == "saved") {
-                            if (xFormStatus == "New") $("#initsukses").html("New Initiative Number: " + data.substring(6, data.length)); else $("#initsukses").html("Initiative successfully saved!");
-                            $("#btnEdit").click(); $("#btnClose").click();
-                            WindowInitiative.Hide();
-                            WindowOkSaved.Show();
-                        }
-                    });
-               // } else {
-                    //Swal.fire(
-                    //    'Value is not match',
-                    //    'Target year (USD) is not match with all applicable monthly target',
-                    //    'error'
-                    //);
-               // }
+                // if (Math.floor(Math.abs(Number(xTxTargetFullYear))) == Math.floor(Number(sumtarget))) {
+                $.post(URLContent('ActiveInitiative/SaveNew'), {
+                    FormID: xFormID,
+                    FormStatus: xFormStatus,
+                    GrdSubCountry: xGrdSubCountry,
+                    GrdBrand: xGrdBrand,
+                    GrdLegalEntity: xGrdLegalEntity,
+                    GrdCountry: xGrdCountry,
+                    GrdRegional: xGrdRegional,
+                    GrdSubRegion: xGrdSubRegion,
+                    GrdCluster: xGrdCluster,
+                    GrdRegionalOffice: xGrdRegionalOffice,
+                    GrdCostControl: xGrdCostControl,
+                    CboConfidential: xCboConfidential,
+                    TxResponsibleName: xTxResponsibleName,
+                    TxDesc: xTxDesc,
+                    GrdInitStatus: xGrdInitStatus,
+                    TxLaraCode: xTxLaraCode,
+                    TxPortName: xTxPortName,
+                    TxVendorSupp: xTxVendorSupp,
+                    TxAdditionalInfo: xTxAdditionalInfo,
+                    GrdInitType: xGrdInitType,
+                    GrdInitCategory: xGrdInitCategory,
+                    GrdSubCost: xGrdSubCost,
+                    GrdActionType: xGrdActionType,
+                    GrdSynImpact: xGrdSynImpact,
+                    StartMonth: xStartMonth,
+                    EndMonth: xEndMonth,
+                    TxAgency: xTxAgency,
+                    TxRPOCComment: xTxRPOCComment,
+                    TxHOComment: xTxHOComment,
+                    CboHoValidity: xCboHoValidity,
+                    CboRPOCValidity: xCboRPOCValidity,
+                    TxTarget12: xTxTarget12,
+                    TxTargetFullYear: xTxTargetFullYear,
+                    TxYTDTargetFullYear: xTxYTDTargetFullYear,
+                    TxYTDSavingFullYear: xTxYTDSavingFullYear,
+                    ProjectYear: xProjectYear,
+                    RelatedInitiative: xRelatedInitiative,
+                    SourceCategory: xCboWebinarCat,
+                    targetjan: targetjan, targetfeb: targetfeb, targetmar: targetmar, targetapr: targetapr, targetmay: targetmay, targetjun: targetjun, targetjul: targetjul, targetaug: targetaug, targetsep: targetsep, targetoct: targetoct, targetnov: targetnov, targetdec: targetdec,
+                    targetjan2: targetjan2, targetfeb2: targetfeb2, targetmar2: targetmar2, targetapr2: targetapr2, targetmay2: targetmay2, targetjun2: targetjun2, targetjul2: targetjul2, targetaug2: targetaug2, targetsep2: targetsep2, targetoct2: targetoct2, targetnov2: targetnov2, targetdec2: targetdec2,
+                    savingjan: savingjan, savingfeb: savingfeb, savingmar: savingmar, savingapr: savingapr, savingmay: savingmay, savingjun: savingjun, savingjul: savingjul, savingaug: savingaug, savingsep: savingsep, savingoct: savingoct, savingnov: savingnov, savingdec: savingdec,
+                    savingjan2: savingjan2, savingfeb2: savingfeb2, savingmar2: savingmar2, savingapr2: savingapr2, savingmay2: savingmay2, savingjun2: savingjun2, savingjul2: savingjul2, savingaug2: savingaug2, savingsep2: savingsep2, savingoct2: savingoct2, savingnov2: savingnov2, savingdec2: savingdec2
+                }, function (data) {
+                    debugger;
+                    if (data.substring(0, 5) == "saved") {
+                        if (xFormStatus == "New") $("#initsukses").html("New Initiative Number: " + data.substring(6, data.length)); else $("#initsukses").html("Initiative successfully saved!");
+                        $("#btnEdit").click(); $("#btnClose").click();
+                        WindowInitiative.Hide();
+                        WindowOkSaved.Show();
+                    }
+                });
+                // } else {
+                //Swal.fire(
+                //    'Value is not match',
+                //    'Target year (USD) is not match with all applicable monthly target',
+                //    'error'
+                //);
+                // }
             }
             else {
                 Swal.fire(
@@ -1548,7 +1519,7 @@ function CheckUncheckCalculate() {
             for (var i = 0; i <= 11; i++) {
 
                 //previoussum = previoussum + Number($("." + targetty[i]).val());
-               // $("." + targetty[o] + tex).val().replaceAll(",", "");
+                // $("." + targetty[o] + tex).val().replaceAll(",", "");
                 let currentvalue = $("." + targetty[i]).val().replaceAll(",", "");
                 if (currentvalue != "") {
                     if (targetty[i].length > 0) {
@@ -1560,7 +1531,7 @@ function CheckUncheckCalculate() {
             let balance = txTarget12.GetValue() - previoussum;
             var endmonth = ((moment(EndMonth.GetValue()).format("M")));
             var eachmonth = (balance / endmonth).toFixed(2);
-            for (var i = 0; i <= endmonth-1; i++) {
+            for (var i = 0; i <= endmonth - 1; i++) {
                 $("." + targetty[i + 12]).val(formatValue(parseFloat(eachmonth)));
             }
             ////Commented for simplicity 
@@ -1751,28 +1722,28 @@ function getYtdValue() {
         //m = startmon + 12;
         offset = 0;
         //comment this 
-       // m = endmon;
-       
-    }
-   /* if (offset > 0) {*/
-        var nilai = 0; var hitung = 0; var saving = 0; var hitungsaving = 0;
-        for (var o = offset; o < targetty.length; o++) {
-            if (o < m) {
-                nilai = $("." + targetty[o]+tex).val().replaceAll(",", "");
-                if (nilai != "") {
-                    nilai = parseFloat(nilai); hitung = parseFloat(hitung);
-                    hitung = (nilai + hitung);
-                }
+        // m = endmon;
 
-                saving = $("." + savingty[o]+tex).val().replaceAll(",", "");
-                if (saving != "") {
-                    saving = parseFloat(saving); hitungsaving = parseFloat(hitungsaving);
-                    hitungsaving = (saving + hitungsaving);
-                }
+    }
+    /* if (offset > 0) {*/
+    var nilai = 0; var hitung = 0; var saving = 0; var hitungsaving = 0;
+    for (var o = offset; o < targetty.length; o++) {
+        if (o < m) {
+            nilai = $("." + targetty[o] + tex).val().replaceAll(",", "");
+            if (nilai != "") {
+                nilai = parseFloat(nilai); hitung = parseFloat(hitung);
+                hitung = (nilai + hitung);
+            }
+
+            saving = $("." + savingty[o] + tex).val().replaceAll(",", "");
+            if (saving != "") {
+                saving = parseFloat(saving); hitungsaving = parseFloat(hitungsaving);
+                hitungsaving = (saving + hitungsaving);
             }
         }
-        txYTDTargetFullYear.SetValue(hitung);
-        txYTDSavingFullYear.SetValue(hitungsaving);
-   // }
-    
+    }
+    txYTDTargetFullYear.SetValue(hitung);
+    txYTDSavingFullYear.SetValue(hitungsaving);
+    // }
+
 }
