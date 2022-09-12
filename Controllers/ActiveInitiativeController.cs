@@ -1,4 +1,4 @@
-﻿using DevExpress.Web.Mvc;
+using DevExpress.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ using System.Configuration;
 
 namespace GAIN.Controllers
 {
-
+  
     public class ActiveInitiativeController : MyBaseController
     {
 
@@ -73,7 +73,7 @@ log4net.LogManager.GetLogger
             var where = "";
 
             if (profileData.confidential_right == 0) where += " and Confidential != 'Y'";
-            if (profileData.RegionalOffice_right != null && profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0, 1) == "|")
+            if (profileData.RegionalOffice_right!=null && profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0, 1) == "|")
             {
                 var regofficetext = profileData.RegionalOffice_right.Replace("|", "','");
                 int lenRegionalOffice_right = regofficetext.Length;
@@ -91,12 +91,12 @@ log4net.LogManager.GetLogger
                     where += " and a.RegionalOfficeID in (" + RegionalOffice_rightcondition + ")";
                 }
             }
-            if (profileData.Brand_right != null && profileData.Brand_right != "" && (profileData.Brand_right != "ALL" && profileData.Brand_right != "|ALL|"))
+            if (profileData.Brand_right!=null && profileData.Brand_right != "" && (profileData.Brand_right != "ALL" && profileData.Brand_right !="|ALL|"))
             {
                 var brandtext = profileData.Brand_right.Replace("|", "','");
                 int lenbrand = brandtext.Length;
                 brandtext = "(" + brandtext.Substring(2, (lenbrand - 4)) + ")";
-                var brandid = db.mbrands.SqlQuery("select id,brandname,isActive from mbrand where brandname in " + brandtext + " group by id,brandname").ToList();
+                var brandid = db.mbrands.SqlQuery("select id,brandname,isActive,a.isDeleted from mbrand where brandname in " + brandtext + " group by id,brandname").ToList();
                 var brandcondition = "";
                 for (var i = 0; i < brandid.Count(); i++)
                 {
@@ -109,7 +109,7 @@ log4net.LogManager.GetLogger
                     where += " and a.BrandID in (" + brandcondition + ")";
                 }
             }
-            if (profileData.CostItem_right != null && profileData.CostItem_right != "" && (profileData.CostItem_right != "ALL" && profileData.CostItem_right != "|ALL|"))
+            if (profileData.CostItem_right!=null &&   profileData.CostItem_right != "" && (profileData.CostItem_right != "ALL" && profileData.CostItem_right != "|ALL|"))
             {
                 var costitemtext = profileData.CostItem_right.Replace("|", "','");
                 int lencostitem = costitemtext.Length;
@@ -127,7 +127,7 @@ log4net.LogManager.GetLogger
                     where += " and a.CostCategoryID in (" + costitemcondition + ")";
                 }
             }
-            if (profileData.SubCostItem_right != null && profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL")
+            if (profileData.SubCostItem_right !=null && profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL" )
             {
                 var subcostitemtext = profileData.SubCostItem_right.Replace("|", "','");
                 int lensubcostitem = subcostitemtext.Length;
@@ -149,7 +149,7 @@ log4net.LogManager.GetLogger
 
             if (profileData.UserType == 2)  //rpoc
             {
-                if (profileData.RegionID != null && profileData.RegionID != null && profileData.RegionID != "" && (profileData.RegionID != "|ALL|" && profileData.RegionID != "ALL"))
+                if (profileData.RegionID!=null && profileData.RegionID != null &&  profileData.RegionID != "" && (profileData.RegionID != "|ALL|" && profileData.RegionID !="ALL"))
                 {
                     var rpoctext = profileData.RegionID.Replace("|", "','");
                     int lenrpoc = rpoctext.Length;
@@ -165,7 +165,7 @@ log4net.LogManager.GetLogger
                 }
                 else
                 {
-                    if (profileData.CostControlSite != null && profileData.CostControlSite != "|ALL|" && profileData.CostControlSite != "ALL")
+                    if (profileData.CostControlSite!=null &&   profileData.CostControlSite != "|ALL|" && profileData.CostControlSite != "ALL")
                     {
                         var cctext = profileData.CostControlSite.Replace("|", "','");
                         int lencctext = cctext.Length;
@@ -199,11 +199,11 @@ log4net.LogManager.GetLogger
 
             //ConsoleLog(" UserType: " + profileData.UserType + "\\n RegionID: " + profileData.RegionID + "\\n CostControlSite: " + profileData.CostControlSite + "\\n Country: " + profileData.CountryID + "\\n Condition: " + where);
 
-            // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
+           // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
             model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
 
             ViewData["mregions"] = db.mregions.ToList();
-            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y").ToList();
+            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y" && c.isDeleted=="N").ToList();
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
             //ViewData["mcluster"] = db.mclusters.SqlQuery("SELECT * FROM mcluster where ClusterName != \'\'").ToList();
             ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
@@ -220,7 +220,7 @@ log4net.LogManager.GetLogger
             ViewData["Status"] = db.mstatus.Where(c => c.isActive == "Y").ToList();
             ViewData["portName"] = db.mports.ToList();
             ViewData["SourceCategoryName"] = db.msourcecategories.ToList();
-
+          
 
             foreach (var item in model)
             {
@@ -278,7 +278,7 @@ log4net.LogManager.GetLogger
                     item.AchNexNov = null;
                     item.AchNexDec = null;
                 }
-                // ViewData["STARTYEAR"] = Convert.ToDateTime(item.StartMonth).Year;
+               // ViewData["STARTYEAR"] = Convert.ToDateTime(item.StartMonth).Year;
             }
 
             return PartialView("_GrdMainInitiativePartial", model);
@@ -382,7 +382,7 @@ log4net.LogManager.GetLogger
             }
 
             ViewData["mregions"] = db.mregions.ToList();
-            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y").ToList();
+            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y" && c.isDeleted == "N").ToList();
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
             ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
             ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office").GroupBy(g => g.RegionalOffice_Name).Select(s => new { RegionalOffice_Name = s.Key }).ToList();
@@ -844,10 +844,10 @@ log4net.LogManager.GetLogger
                         return Content("saved|" + YearInitiative + KodeNegara + nomerselanjutnya);
                     }
                 }
-                catch (Exception E)
+                catch(Exception E)
                 {
                     log.Error("Exception occured in saving new initiative" + E.Message);
-                    return Content("Error occired during Initiative save");
+                    return Content("Error occured during Initiative save");
                 }
             }
             else
@@ -893,24 +893,24 @@ log4net.LogManager.GetLogger
                     //Manipulate if this is previous year initiative 
                     //if (StartMonth.Year == ProjectYear)
                     //{
-                    initdata.TargetJan = targetjan; initdata.TargetFeb = targetfeb; initdata.TargetMar = targetmar; initdata.TargetApr = targetapr; initdata.TargetMay = targetmay; initdata.TargetJun = targetjun;
-                    initdata.TargetJul = targetjul; initdata.TargetAug = targetaug; initdata.TargetSep = targetsep; initdata.TargetOct = targetoct; initdata.TargetNov = targetnov; initdata.TargetDec = targetdec;
-                    initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
-                    initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
+                        initdata.TargetJan = targetjan; initdata.TargetFeb = targetfeb; initdata.TargetMar = targetmar; initdata.TargetApr = targetapr; initdata.TargetMay = targetmay; initdata.TargetJun = targetjun;
+                        initdata.TargetJul = targetjul; initdata.TargetAug = targetaug; initdata.TargetSep = targetsep; initdata.TargetOct = targetoct; initdata.TargetNov = targetnov; initdata.TargetDec = targetdec;
+                        initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
+                        initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
 
-                    initdata.AchJan = savingjan; initdata.AchFeb = savingfeb; initdata.AchMar = savingmar; initdata.AchApr = savingapr; initdata.AchMay = savingmay; initdata.AchJun = savingjun;
-                    initdata.AchJul = savingjul; initdata.AchAug = savingaug; initdata.AchSep = savingsep; initdata.AchOct = savingoct; initdata.AchNov = savingnov; initdata.AchDec = savingdec;
-                    initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
-                    initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
-                    // }
+                        initdata.AchJan = savingjan; initdata.AchFeb = savingfeb; initdata.AchMar = savingmar; initdata.AchApr = savingapr; initdata.AchMay = savingmay; initdata.AchJun = savingjun;
+                        initdata.AchJul = savingjul; initdata.AchAug = savingaug; initdata.AchSep = savingsep; initdata.AchOct = savingoct; initdata.AchNov = savingnov; initdata.AchDec = savingdec;
+                        initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
+                        initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+                   // }
                     //else
                     //{
-                    //Capture the records only for the next year 
-                    //initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
-                    //initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
+                        //Capture the records only for the next year 
+                        //initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
+                        //initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
 
-                    //initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
-                    //initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+                        //initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
+                        //initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
 
 
                     //}
@@ -923,7 +923,7 @@ log4net.LogManager.GetLogger
                     db.SaveChanges();
                     return Content("saved|" + initdata.InitNumber);
                 }
-                catch (Exception E)
+                catch(Exception E)
                 {
                     log.Error("Exception occured during Saving exisisting initiative" + E.Message);
                     return Content("Error ocuured during initiativeSave");
@@ -1003,7 +1003,7 @@ log4net.LogManager.GetLogger
 
                 return Content(JsonConvert.SerializeObject(model));
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 log.Error("Exception occured during GetInfobyID" + e.Message);
                 return Content("Error");
@@ -1101,11 +1101,12 @@ log4net.LogManager.GetLogger
             CountryList = db.mcountries.Where(c => c.id == CountryID).Select(s => new CountryList { id = s.id, CountryName = s.CountryName }).ToList();
             if (GetInfo.Id2 == 0)
             {
-                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive,a.isDeleted FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and a.isDeleted='N' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
             }
             else
             {
-                BrandList = db.mbrands.Where(c => c.id == modelinitiative.BrandID && c.isActive == "Y").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                // BrandList = db.mbrands.Where(c => c.id == modelinitiative.BrandID && c.isActive == "Y").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive,a.isDeleted FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and a.isDeleted='N' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
             }
             RegionList = db.mregions.Where(c => c.id == RegionID).Select(s => new RegionList { id = s.id, RegionName = s.RegionName }).ToList();
             SubRegionList = db.msubregions.Where(c => c.id == SubRegionID).Select(s => new SubRegionList { id = s.id, SubRegionName = s.SubRegionName }).ToList();
@@ -1113,7 +1114,7 @@ log4net.LogManager.GetLogger
             RegionalOfficeList = db.mregional_office.Where(ro => ro.RegionID == RegionID && ro.CountryID == CountryID).Select(s => new RegionalOfficeList { id = s.id, RegionalOfficeName = s.RegionalOffice_Name }).ToList();
             var costcontrolid = db.t_subctry_costcntrlsite.Where(sc => sc.subcountryid == SubCountryID).FirstOrDefault().costcontrolid;
             CostControlList = db.mcostcontrolsites.Where(c => c.id == costcontrolid).Select(s => new CostControlList { id = s.id, CostControlSiteName = s.CostControlSiteName }).ToList();
-            LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID && le.BrandID == BrandIDx && le.SubCountryID == SubCountryID && le.CostControlSiteID == costcontrolid).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
+            LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID && le.BrandID == BrandIDx && le.SubCountryID == SubCountryID).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
             //LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
             if (modelinitiative != null)
             {
@@ -1206,7 +1207,7 @@ log4net.LogManager.GetLogger
             ClusterList = db.mclusters.Where(cl => cl.CountryID == CountryID && cl.RegionID == RegionID && cl.SubRegionID == SubRegionID && cl.ClusterName != "").Select(s => new ClusterList { id = s.id, ClusterName = s.ClusterName }).ToList();
             RegionalOfficeList = db.mregional_office.Where(ro => ro.RegionID == RegionID && ro.CountryID == CountryID).Select(s => new RegionalOfficeList { id = s.id, RegionalOfficeName = s.RegionalOffice_Name }).ToList();
             CostControlList = db.mcostcontrolsites.Select(s => new CostControlList { id = s.id, CostControlSiteName = s.CostControlSiteName }).ToList();
-            LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID && le.BrandID == BrandIDx).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
+            LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID && le.SubCountryID== SubCountryID && le.BrandID == BrandIDx).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
             TypeInitiativeList = db.msavingtypes.Where(st => st.id == modelinitiative.InitiativeType).Select(s => new TypeInitiativeList { id = s.id, SavingTypeName = s.SavingTypeName }).ToList();
 
             GDSC.Add(new GetDataFromSubCountry
@@ -1228,11 +1229,16 @@ log4net.LogManager.GetLogger
         public ActionResult GetLegalFromBrand(Models.GetInfoByBrandIDModel GetInfo)
         {
             List<LegalEntityList> LegalEntity = new List<LegalEntityList>();
-            LegalEntity = db.mlegalentities.Where(c => c.BrandID == GetInfo.BrandID && c.CountryID == GetInfo.CountryID && c.SubCountryID == GetInfo.SubCountryID && c.CostControlSiteID == GetInfo.CostControlSiteID).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
+            List<CostControlList> CostControl = new List<CostControlList>();
+            var costControlId = db.mlegalentities.Where(le => le.CountryID == GetInfo.CountryID && le.BrandID == GetInfo.BrandID && le.SubCountryID == GetInfo.SubCountryID).FirstOrDefault().CostControlSiteID;
+            CostControl = db.mcostcontrolsites.Where(c => c.id == costControlId).Select(s => new CostControlList { id = s.id, CostControlSiteName = s.CostControlSiteName }).ToList();
+            LegalEntity = db.mlegalentities.Where(c => c.BrandID == GetInfo.BrandID && c.CountryID == GetInfo.CountryID && c.SubCountryID == GetInfo.SubCountryID && c.CostControlSiteID == costControlId).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
             List<GetDataFromSubCountry> GDSC = new List<GetDataFromSubCountry>();
             GDSC.Add(new GetDataFromSubCountry
             {
-                LegalEntityData = LegalEntity
+                LegalEntityData = LegalEntity,
+                CostControlSiteData = CostControl
+
             });
             return Json(GDSC, JsonRequestBehavior.AllowGet);
         }
@@ -1331,7 +1337,7 @@ log4net.LogManager.GetLogger
             // e.UploadedFile.SaveAs(resultFilePath);
 
             string FileDiDB = "";
-            LoginSession profileData = this.Session["DefaultGAINSess"] as LoginSession;
+            LoginSession profileData= this.Session["DefaultGAINSess"] as LoginSession; 
             //t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
             //if (InitID.InitNumber != null)
             //{
@@ -1358,28 +1364,28 @@ log4net.LogManager.GetLogger
             {
                 if (e.UploadedFile.IsValid)
                 {
-                    profileData = this.Session["DefaultGAINSess"] as LoginSession;
+                   profileData = this.Session["DefaultGAINSess"] as LoginSession;
                     //e.UploadedFile.fi
                     filename = e.UploadedFile.FileName;
-                    resultFileName = e.UploadedFile.FileName;
-                    resultFileUrl = UploadDirectory + resultFileName;
+                   resultFileName = e.UploadedFile.FileName;
+                     resultFileUrl = UploadDirectory + resultFileName;
                     resultFilePath = HttpContext.Request.MapPath(resultFileUrl);
                     e.UploadedFile.SaveAs(resultFilePath);
 
-                    FileDiDB = "";
+                     FileDiDB = "";
                     t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
                     if (InitID.InitNumber != null)
                     {
                         if ((InitID.UploadedFile != null) && (InitID.UploadedFile != ""))
                         {
-                            // FileDiDB = InitID.UploadedFile;
-                            FileDiDB += filename + "|" + InitiativeNumber;
+                           // FileDiDB = InitID.UploadedFile;
+                            FileDiDB +=   filename + "|" + InitiativeNumber;
                         }
                         else
                         {
                             FileDiDB = filename + "|" + InitiativeNumber;
                         }
-                        // db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = \'" + FileDiDB + "\', ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
+                       // db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = \'" + FileDiDB + "\', ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
                         db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' AND isDeleted = 0");
                         db.SaveChanges();
                     }
