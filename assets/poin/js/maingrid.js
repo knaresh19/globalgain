@@ -1769,6 +1769,6 @@ function getYtdValue() {
     }
     txYTDTargetFullYear.SetValue(hitung);
     txYTDSavingFullYear.SetValue(hitungsaving);
-    // }
+ 
 
 }
