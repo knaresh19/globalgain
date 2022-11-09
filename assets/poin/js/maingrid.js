@@ -15,7 +15,7 @@ $(function () {
         var py = projectYear;
         min_py = (+py - 1);
         max_py = (+py);
-        debugger;
+        ////debugger;;
         StartMonth.SetMinDate(new Date(min_py + '-01-01'));
         StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
         EndMonth.SetMinDate(new Date(max_py + '-01-01'));
@@ -60,7 +60,12 @@ $(function () {
                 value = JSON.stringify(value); obj = JSON.parse(value);
                 if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
             });
-            GrdInitType.SelectIndex(0); GrdActionType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
+            if (projectYear > 2022) {
+                GrdActionType.clientEnabled = false;
+                GrdActionType.SelectIndex(1);
+            }
+            else { GrdActionType.SelectIndex(0); }
+            GrdInitType.SelectIndex(0);  GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
         });
         CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
         CboWebinarCat.AddItem("");
@@ -178,7 +183,241 @@ $(function () {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
                     if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
                 });
-                debugger;
+                ////debugger;;
+                GrdBrandPopup.SetText(brand);
+                var brandid = GrdBrandPopup.GetValue(); var countryid = $("#GrdCountryVal").val(); var subcountryid = GrdSubCountryPopup.GetValue(); var costcontrolsiteid = $("#GrdCostControlVal").val();
+                $.post(URLContent('ActiveInitiative/GetLegalFromBrand'), { brandid: brandid, countryid: countryid, subcountryid: subcountryid, costcontrolsiteid: costcontrolsiteid }, function (data) {
+                    var obj3;
+                    $.each(data[0]["LegalEntityData"], function (key, value) {
+                        value = JSON.stringify(value); obj3 = JSON.parse(value);
+                        if (obj3 != null) GrdLegalEntityPopup.AddItem(obj3.LegalEntityName, obj3.id);
+                    });
+                    GrdLegalEntityPopup.SetText(legal);
+                });
+            });
+            /*GrdSubCountryPopup.SelectIndex(0);*/
+            //GrdBrandPopup.ClearItems();
+            //GrdLegalEntityPopup.ClearItems();
+            //$('#GrdCountry').val(''); $('#GrdCountryVal').val('');
+            //$('#GrdRegional').val(''); $('#GrdRegionalVal').val('');
+            //$('#GrdSubRegion').val(''); $('#GrdSubRegionVal').val('');
+            //$('#GrdCluster').val(''); $('#GrdClusterVal').val('');
+            //$('#GrdRegionalOffice').val(''); $('#GrdRegionalOfficeVal').val('');
+            //$('#GrdCostControl').val(''); $('#GrdCostControlVal').val('');
+
+            //var years_right = '@years_right';
+            var project_year = projectYear;
+
+            if (years_right.includes(project_year)) {
+                $("#btnSave").prop('disabled', false);
+            } else {
+                $("#btnSave").prop('disabled', true);
+            }
+
+            StartMonth.SetValue(); EndMonth.SetValue();
+            var min_py = 0; var max_py = 0;
+            var py = projectYear;
+            min_py = (+py - 1);
+            max_py = (+py);
+            StartMonth.SetMinDate(new Date(min_py + '-01-01'));
+            StartMonth.SetMaxDate(new Date((max_py) + '-12-31'));
+            EndMonth.SetMinDate(new Date(max_py + '-01-01'));
+            EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+            $(".txTarget").prop("disabled", false); $(".txSaving").prop("disabled", false); $(".txTarget").val(''); $(".txSaving").val('');
+            txTarget12.SetValue(""); txTargetFullYear.SetValue(""); txYTDTargetFullYear.SetValue(""); txYTDSavingFullYear.SetValue("");
+
+            StartMonth.clientEnabled = true;
+            EndMonth.clientEnabled = true;
+            $('#chkAuto').prop('disabled', false);
+        });
+        Swal.fire(
+            'Duplicated Successfully',
+            'Initiative has been duplicated successfully. You can save it now.',
+            'success'
+        );
+    });
+
+    setTimeout(function () {
+        UpdateFigureWidget(GrdMainInitiative);
+    }, 300);
+
+});
+
+$(function () {
+    $("#BtnProcurementInitiative").on("click", function () {
+        var min_py = 0; var max_py = 0;
+        var py = projectYear;
+        min_py = (+py - 1);
+        max_py = (+py);
+        ////debugger;;
+        StartMonth.SetMinDate(new Date(min_py + '-01-01'));
+        StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
+        EndMonth.SetMinDate(new Date(max_py + '-01-01'));
+        EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+
+        $.post(URLContent('ActiveInitiative/GrdSubCountryPartial'), { Id: null }, function (data) {
+            var obj; GrdSubCountryPopup.ClearItems();
+            GrdSubCountryPopup.AddItem("[Please Select]", null);
+            $.each(data[0]["SubCountryData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
+            });
+            GrdSubCountryPopup.SelectIndex(0);
+        });
+        $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: null }, function (data) {
+            var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); CboWebinarCat.ClearItems();
+            $.each(data[0]["SavingTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdInitType.AddItem(obj.SavingTypeName, obj.id);
+            });
+            $.each(data[0]["ActionTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+            });
+            $.each(data[0]["SynImpactData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
+            });
+            $.each(data[0]["InitStatusData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdInitStatus.AddItem(obj.Status, obj.id);
+            });
+            $.each(data[0]["PortNameData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) TxPortName.AddItem(obj.PortName, obj.id);
+            });
+            $.each(data[0]["MCostTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
+            });
+            $.each(data[0]["MSourceCategory"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
+            });
+            if (projectYear > 2022) {
+                GrdActionType.clientEnabled = false;
+                GrdActionType.SelectIndex(2);
+            }
+            else { GrdActionType.SelectIndex(0); }
+            GrdInitType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
+        });
+        CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
+        CboWebinarCat.AddItem("");
+        CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
+        CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
+        $("#FormStatus").val("New");
+        $("#btnDuplicate").prop("disabled", true);
+
+        //var years_right = years_right;
+        var project_year = projectYear;
+
+        if (years_right.includes(project_year)) {
+            $("#btnSave").prop('disabled', false);
+        } else {
+            $("#btnSave").prop('disabled', true);
+        }
+        //Change the labels 
+        $('#ljan').html('Jan-' + py);
+        $('#lfeb').html('Feb-' + py);
+        $('#lmar').html('Mar-' + py);
+        $('#lapr').html('Apr-' + py);
+        $('#lmay').html('May-' + py);
+        $('#ljun').html('Jun-' + py);
+        $('#ljul').html('Jul-' + py);
+        $('#laug').html('Aug-' + py);
+        $('#lsep').html('Sep-' + py);
+        $('#loct').html('Oct-' + py);
+        $('#lnov').html('Nov-' + py);
+        $('#ldec').html('Dec-' + py);
+        var npy = parseInt(py) + 1;
+        $('#lnexjan').html('Jan-' + npy);
+        $('#lnexfeb').html('Feb-' + npy);
+        $('#lnexmar').html('Mar-' + npy);
+        $('#lnexapr').html('Apr-' + npy);
+        $('#lnexmay').html('May-' + npy);
+        $('#lnexjun').html('Jun-' + npy);
+        $('#lnexjul').html('Jul-' + npy);
+        $('#lnexaug').html('Aug-' + npy);
+        $('#lnexsep').html('Sep-' + npy);
+        $('#lnexoct').html('Oct-' + npy);
+        $('#lnexnov').html('Nov-' + npy);
+        $('#lnexdec').html('Dec-' + npy);
+        WindowInitiative.Show();
+        /*            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));*/
+    });
+
+    $(".txSaving, .txTarget").on("change", function () {
+        $(this).val(formatValue($(this).val()));
+    });
+
+    $(".targetjan, .targetfeb, .targetmar, .targetapr, .targetmay, .targetjun, .targetjul, .targetaug, .targetsep, .targetoct, .targetnov, .targetdec").on("change", function () {
+        hitungtahunini();
+    });
+
+    $(".targetjan2, .targetfeb2, .targetmar2, .targetapr2, .targetmay2, .targetjun2, .targetjul2, .targetaug2, .targetsep2, .targetoct2, .targetnov2, .targetdec2").on("change", function () {
+        hitungtahunini();
+    });
+
+    $("#btnSave").on('click', function () {
+        //var projectYear = '@profileData.ProjectYear';
+        /*if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
+            Swal.fire({
+                title: 'Initiative of Previous Year',
+                text: 'This initiative is a previous year initiative. Total sum of month target for current year and next year will not match the initial target 12 months.',
+                icon: 'warning',
+                showCancelButton: false
+            }).then((result) => {
+                SaveInitiative();
+            });
+        }*/
+        //else {
+        SaveInitiative();
+        //}
+    });
+
+    $("#btnEditx").on('click', function () {
+        var n = $(this).text();
+        if (n === "Cancel") {
+            $(this).text("Edit");
+            $("#chkAuto").prop('disabled', true);
+            CheckUncheck();
+        } else if (n === "Edit") {
+            $(this).text("Cancel");
+            $("#chkAuto").prop('disabled', false);
+            CheckUncheck();
+        }
+    });
+
+    $("#btnClose").on('click', function () {
+        $('.txTarget').prop('disabled', false);
+        $('.txTarget').prop('readonly', false);
+        WindowInitiative.Hide();
+    });
+
+    $("#btnDuplicate").on("click", function () {
+        var subCountry = GrdSubCountryPopup.GetText();
+        var subCountryID = GrdSubCountryPopup.GetValue();
+        var brand = GrdBrandPopup.GetText();
+        var legal = GrdLegalEntityPopup.GetText();
+        $("#FormStatus").val("New");
+        $("#LblInitiative").text("DUP-0001");
+        $("#btnDuplicate").prop("disabled", true);
+        $.post(URLContent('ActiveInitiative/GrdSubCountryPartial'), { Id: null }, function (data) {
+            var obj; GrdSubCountryPopup.ClearItems();
+            $.each(data[0]["SubCountryData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
+            });
+
+            GrdSubCountryPopup.SetText(subCountry);
+
+            $.post(URLContent('ActiveInitiative/GetCountryBySub'), { id: subCountryID }, function (data) {
+                var obj2; GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
+                $.each(data[0]["BrandData"], function (key, value) {
+                    value = JSON.stringify(value); obj2 = JSON.parse(value);
+                    if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
+                });
+                ////debugger;;
                 GrdBrandPopup.SetText(brand);
                 var brandid = GrdBrandPopup.GetValue(); var countryid = $("#GrdCountryVal").val(); var subcountryid = GrdSubCountryPopup.GetValue(); var costcontrolsiteid = $("#GrdCostControlVal").val();
                 $.post(URLContent('ActiveInitiative/GetLegalFromBrand'), { brandid: brandid, countryid: countryid, subcountryid: subcountryid, costcontrolsiteid: costcontrolsiteid }, function (data) {
@@ -267,7 +506,7 @@ function OnCostCategoryChanged(s, e) {
 }
 
 function OnSubCountryChanged(s, e) {
-    debugger;
+    //debugger;;
     var id = s.GetValue(); /*var teks = s.GetText();*/
     $.post(URLContent('ActiveInitiative/GetCountryBySub'), { id: id }, function (data) {
         var obj; CountryID.ClearItems(); BrandID.ClearItems(); RegionID.ClearItems(); SubRegionID.ClearItems(); ClusterID.ClearItems(); RegionalOfficeID.ClearItems(); CostControlID.ClearItems();
@@ -377,53 +616,139 @@ function ShowEditWindow(id) {
     EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
 
     $("#FormStatus").val("Edit");
-    debugger;
-    $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: id }, function (data) {
-        var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); GrdSubCost.ClearItems();
-        var uType = user_type;
-        CboWebinarCat.ClearItems();
-        $.each(data[0]["SavingTypeData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) GrdInitType.AddItem(obj.SavingTypeName, obj.id);
-        });
-        $.each(data[0]["ActionTypeData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
-        });
-        $.each(data[0]["SynImpactData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
-        });
-        $.each(data[0]["InitStatusData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) GrdInitStatus.AddItem(obj.Status, obj.id);
-        });
-        $.each(data[0]["PortNameData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) TxPortName.AddItem(obj.PortName, obj.id);
-        });
-        $.each(data[0]["MCostTypeData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
-        });
-        $.each(data[0]["MSubCostData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) GrdSubCost.AddItem(obj.SubCostName, obj.id);
-        });
-        $.each(data[0]["MSourceCategory"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
-        });
-        GrdInitType.SelectIndex(0); GrdActionType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); GrdSubCost.SelectIndex(0); CboWebinarCat.SelectIndex(0);
-    });
+    //debugger;;
+
+    var GrdInit_Type = 0, GrdAction_Type = 0, GrdSyn_Impact = 0, GrdInit_Status = 0, TxPort_Name = 0;
+    var GrdInit_Category = 0, CboWebinar_Cat = 0, Grd_SubCost =0;
 
     CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
     CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
     CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
-    debugger;
+    //debugger;;
     $.post(URLContent('ActiveInitiative/GetInfoById'), { Id: id }, function (data) {
         if (data != '') {
             var obj = JSON.parse(data); var SubCountryID = obj.SubCountryID;
+
+            GrdInit_Type = obj.InitiativeType;
+            GrdAction_Type = obj.ActionTypeID;
+            GrdSyn_Impact = obj.SynergyImpactID;
+            GrdInit_Status = obj.InitStatus;
+            TxPort_Name = obj.PortID;
+            GrdInit_Category = obj.CostCategoryID;
+            CboWebinar_Cat = obj.SourceCategory;
+            Grd_SubCost = obj.SubCostCategoryID;
+
+           
+          
+            //GrdInitType.SetValue(obj.InitiativeType);
+            //GrdActionType.SetValue(obj.ActionTypeID);
+            //GrdSynImpact.SetValue(obj.SynergyImpactID);
+            //GrdInitStatus.SetValue(obj.InitStatus);
+            //TxPortName.SetValue(obj.PortID);
+            //GrdInitCategory.SetValue(obj.CostCategoryID);
+            //GrdSubCost.SetValue(obj.SubCostCategoryID);
+            //CboWebinarCat.SetValue(obj.SourceCategory);
+          
+
+            $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: id }, function (DDdata) {
+                var obj1; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); GrdSubCost.ClearItems();
+                var uType = user_type;
+                CboWebinarCat.ClearItems();
+                $.each(DDdata[0]["SavingTypeData"], function (key, dd_value) {
+                    dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
+                    if (obj1 != null) GrdInitType.AddItem(obj1.SavingTypeName, obj1.id);
+                });
+                $.each(DDdata[0]["ActionTypeData"], function (key, dd_value) {
+                    dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
+                    if (obj1 != null) GrdActionType.AddItem(obj1.ActionTypeName, obj1.id);
+                    console.log(obj1.id);
+                });
+                $.each(DDdata[0]["SynImpactData"], function (key, dd_value) {
+                    dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
+                    if (obj1 != null) GrdSynImpact.AddItem(obj1.SynImpactName, obj1.id);
+                });
+                $.each(DDdata[0]["InitStatusData"], function (key, dd_value) {
+                    dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
+                    if (obj1 != null) GrdInitStatus.AddItem(obj1.Status, obj1.id);
+                });
+                $.each(DDdata[0]["PortNameData"], function (key, dd_value) {
+                    dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
+                    if (obj1 != null) TxPortName.AddItem(obj1.PortName, obj1.id);
+                });
+                $.each(DDdata[0]["MCostTypeData"], function (key, dd_value) {
+                    dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
+                    if (obj1 != null) GrdInitCategory.AddItem(obj1.CostTypeName, obj1.id);
+                });
+                $.each(DDdata[0]["MSubCostData"], function (key, dd_value) {
+                    dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
+                    if (obj1 != null) GrdSubCost.AddItem(obj1.SubCostName, obj1.id);
+                });
+                $.each(DDdata[0]["MSourceCategory"], function (key, dd_value) {
+                    dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
+                    if (obj1 != null) CboWebinarCat.AddItem(obj1.categoryname, obj1.id);
+                });
+
+                if (GrdInit_Type != null)
+                    GrdInitType.SelectIndex(GrdInit_Type);
+                else
+                    GrdInitType.SelectIndex(0);
+
+                if (GrdAction_Type != null)
+                    GrdActionType.SelectIndex(GrdAction_Type);
+                else
+                    GrdActionType.SelectIndex(0);
+
+                if (GrdSyn_Impact != null)
+                    GrdSynImpact.SelectIndex(GrdSyn_Impact);
+                else
+                    GrdSynImpact.SelectIndex(0);
+
+                if (GrdInit_Status != null)
+                    GrdInitStatus.SelectIndex(GrdInit_Status);
+                else
+                    GrdInitStatus.SelectIndex(0);
+
+                if (TxPort_Name != null)
+                    TxPortName.SelectIndex(TxPort_Name);
+                else
+                    TxPortName.SelectIndex(0);
+
+                if (GrdInit_Category != null)
+                    GrdInitCategory.SelectIndex(GrdInit_Category);
+                else
+                    GrdInitCategory.SelectIndex(0);
+
+                if (CboWebinar_Cat != null)
+                    CboWebinarCat.SelectIndex(CboWebinar_Cat);
+                else
+                    CboWebinarCat.SelectIndex(0);
+
+                if (Grd_SubCost != null)
+                    GrdSubCost.SelectIndex(Grd_SubCost);
+                else
+                    GrdSubCost.SelectIndex(0);
+
+              // GrdSubCost.SelectIndex(0);
+
+
+               
+                TxPortName.SetValue(obj.PortID);
+                GrdInitType.SetValue(obj.InitiativeType);
+                GrdActionType.SetValue(obj.ActionTypeID);
+                GrdSynImpact.SetValue(obj.SynergyImpactID);
+                GrdInitStatus.SetValue(obj.InitStatus);
+                GrdInitCategory.SetValue(obj.CostCategoryID);
+                CboWebinarCat.SetValue(obj.SourceCategory);
+                GrdSubCost.SetValue(obj.SubCostCategoryID);
+               
+
+              
+
+                // GrdInitType.SelectIndex(0); GrdActionType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0);
+                //TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); GrdSubCost.SelectIndex(0); CboWebinarCat.SelectIndex(0);
+            });
+
+
             var uType = user_type; /*var projectYear = projectYear;*/
             //console.log("ShowEditWindow->SubCountryID = " + obj.SubCountryID);
             $("#FormID").val(obj.id);
@@ -445,7 +770,7 @@ function ShowEditWindow(id) {
             CboWebinarCat.SetValue(obj.SourceCategory);
             $("#GrdCostControl").val(obj.CostControlSiteName);
             $("#GrdCostControlVal").val(obj.CostControlID);
-            //$("#GrdInitCategory").val(obj.CostTypeName);
+            $("#GrdInitCategory").val(obj.CostTypeName);
             //$("#GrdSubCost").val(obj.SubCostName);
             $("#GrdActionType").val(obj.ActionTypeName);
             $("#GrdSynImpact").val(obj.SynImpactName);
@@ -474,7 +799,7 @@ function ShowEditWindow(id) {
             txYTDSavingFullYear.SetValue(obj.YTDAchieved);
             GrdBrandPopup.SetValue(obj.BrandID);
             GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
-            debugger;
+            ////debugger;;
             OnStartMonthChanged();
             let startyear = new Date(obj.StartMonth).getFullYear()
             let nextyear = startyear + 1;
@@ -540,7 +865,7 @@ function ShowEditWindow(id) {
             var brandId = obj.BrandID;
             $.post(URLContent('ActiveInitiative/GetCountryBySub'), { Id: SubCountryID, Id2: id }, function (data) {
                 var obj2;
-                debugger;
+                ////debugger;;
                 GrdSubCountryPopup.ClearItems(); GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
                 $.each(data[0]["SubCountryData"], function (key, value) {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
@@ -550,7 +875,7 @@ function ShowEditWindow(id) {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
                     if (obj != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
                 });
-                debugger;
+                ////debugger;;
                 $.each(data[0]["LegalEntityData"], function (key, value) {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
                     if (obj != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
@@ -643,7 +968,7 @@ function doDeleteReport(id) {
                 SuccessMsg("Report successfully deleted.");
             }
             else if (response.status == 'fail') {
-                isThereNewRecord = false;
+                isThereNewRecord = false;            BtnProcurementIniti
                 FailMsg(response.error_message);
             }
             else {
@@ -733,6 +1058,13 @@ function OnCloseNewInitiativeWindow() {
 }
 
 function OnInit(s, e) {
+    if (projectYear > 2022) {
+        BtnProcurementInitiative.hidden = false;
+    }
+    else {
+        BtnProcurementInitiative.hidden = true;    
+    }
+
     GrdSubCountryPopup.SelectIndex(0);
     AdjustSize();
 }
@@ -757,6 +1089,8 @@ function AdjustSize() {
 function BtnExportXls() {
     GrdMainInitiative.ExportTo("Xls");
 }
+ 
+
 
 function BtnExportPdf() {
     GrdMainInitiative.ExportTo("Pdf");
@@ -776,7 +1110,7 @@ function OnSubCountryPopupChanged(s, e) {
                 GrdBrandPopup.AddItem(obj.BrandName, obj.id);
             }
         });
-        debugger;
+        ////debugger;;
         GrdLegalEntityPopup.AddItem("[ Please Select ]", 0);
         $.each(data[0]["LegalEntityData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
@@ -868,7 +1202,7 @@ function OnSubCostPopupChanged(s, e) {
 }
 
 function OnGrdInitCategoryPopupChanged(s, e) {
-    debugger;
+    //debugger;;
     var id = GrdInitType.GetValue(); var id2 = s.GetValue(); var id3 = GrdBrandPopup.GetValue();
     $.post(URLContent('ActiveInitiative/GetItemFromCostCategory'), { id: id, id2: id2, id3: id3 }, function (data) {
         var obj; GrdSubCost.ClearItems();
@@ -882,9 +1216,12 @@ function OnGrdInitCategoryPopupChanged(s, e) {
 
 function OnCboYearChanged(s, e) {
     var id = s.GetText();//s.GetValue();
+
+  
     $.post(URLContent('ActiveInitiative/ProjectYear'), { Id: id }, function () {
         window.location.reload();
     });
+    
 }
 
 function OnClickEventReview(s, e) {
@@ -1316,7 +1653,7 @@ function SaveInitiative() {
                     }
                 }
                 else {
-                    debugger;
+                    ////debugger;;
                     Swal.fire(
                         'Inconsistent Target',
                         'Sum of monthly target and 12 months target,both  should be positive or negative',
@@ -1327,7 +1664,7 @@ function SaveInitiative() {
                 //}
 
                 //else {
-                //    debugger;
+                //    //debugger;;
                 //    Swal.fire(
                 //        'Inconsistent Target',
                 //        'Target 12 Months and Target Current Year both should be positive or negative value',
@@ -1339,7 +1676,7 @@ function SaveInitiative() {
                 // }
                 //I think the below is not required since all the values are shown so the alert control should be simple 
                 //else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
-                //    debugger;
+                //    //debugger;;
                 //    var x1 = StartMonth.GetValue().getMonth();
                 //    var months;
                 //    months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
@@ -1418,7 +1755,7 @@ function SaveInitiative() {
                     sumtarget = Math.abs(sum);
                     //sumtarget = (((12 - (StartMonth.GetValue().getMonth())) * targetjan2) + sum);
                 }
-                debugger;
+                ////debugger;;
                 //if (Number(xTxTargetFullYear).toFixed(0) == Number(sumtarget).toFixed(0)) {
                 // if (Math.floor(Math.abs(Number(xTxTargetFullYear))) == Math.floor(Number(sumtarget))) {
                 $.post(URLContent('ActiveInitiative/SaveNew'), {
@@ -1465,7 +1802,7 @@ function SaveInitiative() {
                     savingjan: savingjan, savingfeb: savingfeb, savingmar: savingmar, savingapr: savingapr, savingmay: savingmay, savingjun: savingjun, savingjul: savingjul, savingaug: savingaug, savingsep: savingsep, savingoct: savingoct, savingnov: savingnov, savingdec: savingdec,
                     savingjan2: savingjan2, savingfeb2: savingfeb2, savingmar2: savingmar2, savingapr2: savingapr2, savingmay2: savingmay2, savingjun2: savingjun2, savingjul2: savingjul2, savingaug2: savingaug2, savingsep2: savingsep2, savingoct2: savingoct2, savingnov2: savingnov2, savingdec2: savingdec2
                 }, function (data) {
-                    debugger;
+                    ////debugger;;
                     if (data.substring(0, 5) == "saved") {
                         if (xFormStatus == "New") $("#initsukses").html("New Initiative Number: " + data.substring(6, data.length)); else $("#initsukses").html("Initiative successfully saved!");
                         $("#btnEdit").click(); $("#btnClose").click();
@@ -1493,7 +1830,7 @@ function SaveInitiative() {
 }
 
 function CheckUncheckCalculate() {
-    debugger;
+    //debugger;;
     var targetstartselected = false; var targetstartselected2 = true; var startmon;/* var projectYear = '@profileData.ProjectYear';*/ var uType = user_type;
     //Count how many targets are enabled and just divide by total
     if (($('#chkAuto').is(':checked')) && txTargetFullYear.GetValue() != "") {
@@ -1538,7 +1875,7 @@ function CheckUncheckCalculate() {
             const targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
             const savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
             //find the sum of previous year 
-            debugger;
+            ////debugger;;
 
             let previoussum = 0;
             for (var i = 0; i <= 11; i++) {
@@ -1592,7 +1929,7 @@ function CheckUncheckCalculate() {
             //        $("." + targetty[i]).prop('disabled', true);
             //        $("." + savingty[i]).prop('disabled', true);
             //    }
-            //    debugger;
+            //    //debugger;;
             //    if ($("." + targetty[i]).prop('disabled'))
             //        {
             //        console.log("Hi");
@@ -1720,7 +2057,7 @@ function getYtdValue() {
     //var d = new Date();
     var d = new Date();
     var m = d.getMonth();
-    debugger;
+    //debugger;;
     //var startmon = ((moment(StartMonth.GetValue()).format("M")));
     var endmon = ((moment(StartMonth.GetValue()).format("M")));
     var startyear = new Date(StartMonth.GetValue()).getFullYear()
