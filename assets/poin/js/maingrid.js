@@ -61,7 +61,7 @@ $(function () {
                 if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
             });
             if (projectYear > 2022) {
-                GrdActionType.clientEnabled = false;
+              //  GrdActionType.clientEnabled = false;
                 GrdActionType.SelectIndex(1);
             }
             else { GrdActionType.SelectIndex(0); }
@@ -638,7 +638,9 @@ function ShowEditWindow(id) {
             CboWebinar_Cat = obj.SourceCategory;
             Grd_SubCost = obj.SubCostCategoryID;
 
-           
+            var brandId = obj.BrandID;
+             var legalentityidx = obj.LegalEntityID;
+
           
             //GrdInitType.SetValue(obj.InitiativeType);
             //GrdActionType.SetValue(obj.ActionTypeID);
@@ -749,6 +751,30 @@ function ShowEditWindow(id) {
             });
 
 
+            $.post(URLContent('ActiveInitiative/GetCountryBySub'), { Id: SubCountryID, Id2: id }, function (D_data) {
+                var obj2;
+                ////debugger;;
+                GrdSubCountryPopup.ClearItems(); GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
+                $.each(D_data[0]["SubCountryData"], function (key, d_value) {
+                    d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
+                    if (obj2 != null) GrdSubCountryPopup.AddItem(obj2.SubCountryName, obj2.id);
+                });
+                $.each(D_data[0]["BrandData"], function (key, d_value) {
+                    d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
+                    if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
+                });
+                ////debugger;;
+                $.each(D_data[0]["LegalEntityData"], function (key, d_value) {
+                    d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
+                    if (obj2 != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
+                });
+
+                GrdSubCountryPopup.SelectIndex(SubCountryID); GrdBrandPopup.SelectIndex(brandId); GrdLegalEntityPopup.SelectIndex(legalentityidx);
+                GrdSubCountryPopup.SetValue(obj.SubCountryID);
+                GrdBrandPopup.SetValue(obj.BrandID);
+                GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
+            });
+
             var uType = user_type; /*var projectYear = projectYear;*/
             //console.log("ShowEditWindow->SubCountryID = " + obj.SubCountryID);
             $("#FormID").val(obj.id);
@@ -797,6 +823,10 @@ function ShowEditWindow(id) {
             txTargetFullYear.SetValue(obj.TargetNY);
             txYTDTargetFullYear.SetValue(obj.YTDTarget);
             txYTDSavingFullYear.SetValue(obj.YTDAchieved);
+            GrdBrandPopup.SetValue(obj.BrandID);
+            GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
+
+            GrdSubCountryPopup.SetValue(obj.SubCountryID);
             GrdBrandPopup.SetValue(obj.BrandID);
             GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
             ////debugger;;
@@ -859,31 +889,10 @@ function ShowEditWindow(id) {
                 $("#btnSave").prop("disabled", true);
             }
 
-            var legalentityidx = obj.LegalEntityID;
             //GrdInitStatus.GetGridView().Refresh();
             //GrdInitType.GetGridView().Refresh();
-            var brandId = obj.BrandID;
-            $.post(URLContent('ActiveInitiative/GetCountryBySub'), { Id: SubCountryID, Id2: id }, function (data) {
-                var obj2;
-                ////debugger;;
-                GrdSubCountryPopup.ClearItems(); GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
-                $.each(data[0]["SubCountryData"], function (key, value) {
-                    value = JSON.stringify(value); obj2 = JSON.parse(value);
-                    if (obj != null) GrdSubCountryPopup.AddItem(obj2.SubCountryName, obj2.id);
-                });
-                $.each(data[0]["BrandData"], function (key, value) {
-                    value = JSON.stringify(value); obj2 = JSON.parse(value);
-                    if (obj != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
-                });
-                ////debugger;;
-                $.each(data[0]["LegalEntityData"], function (key, value) {
-                    value = JSON.stringify(value); obj2 = JSON.parse(value);
-                    if (obj != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
-                });
-                GrdSubCountryPopup.SelectIndex(0); GrdBrandPopup.SelectIndex(0); GrdLegalEntityPopup.SelectIndex(0);
-                GrdBrandPopup.SetValue(brandId);
-                GrdLegalEntityPopup.SetValue(legalentityidx);
-            });
+           
+           
             getYtdValue();
             hitungtahunini();
             //var years_right = '@years_right';
