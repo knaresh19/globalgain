@@ -1060,9 +1060,13 @@ function OnCloseNewInitiativeWindow() {
 function OnInit(s, e) {
     if (projectYear > 2022) {
         BtnProcurementInitiative.hidden = false;
+        BtnInitiative.innerText = "Create Operational Optimization";
+
     }
     else {
-        BtnProcurementInitiative.hidden = true;    
+        BtnProcurementInitiative.hidden = true;   
+        BtnInitiative.innerText = "Create New";
+
     }
 
     GrdSubCountryPopup.SelectIndex(0);
