@@ -651,29 +651,7 @@ function ShowEditWindow(id) {
             //GrdSubCost.SetValue(obj.SubCostCategoryID);
             //CboWebinarCat.SetValue(obj.SourceCategory);
 
-            $.post(URLContent('ActiveInitiative/GetCountryBySub'), { Id: SubCountryID, Id2: id }, function (D_data) {
-                var obj2;
-                ////debugger;;
-                GrdSubCountryPopup.ClearItems(); GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
-                $.each(D_data[0]["SubCountryData"], function (key, d_value) {
-                    d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
-                    if (obj2 != null) GrdSubCountryPopup.AddItem(obj2.SubCountryName, obj2.id);
-                });
-                $.each(D_data[0]["BrandData"], function (key, d_value) {
-                    d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
-                    if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
-                });
-                ////debugger;;
-                $.each(D_data[0]["LegalEntityData"], function (key, d_value) {
-                    d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
-                    if (obj2 != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
-                });
-
-                GrdSubCountryPopup.SelectIndex(SubCountryID); GrdBrandPopup.SelectIndex(brandId); GrdLegalEntityPopup.SelectIndex(legalentityidx);
-                GrdSubCountryPopup.SetValue(obj.SubCountryID);
-                GrdBrandPopup.SetValue(obj.BrandID);
-                GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
-            });
+          
 
             $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: id }, function (DDdata) {
                 var obj1; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); GrdSubCost.ClearItems();
@@ -712,6 +690,32 @@ function ShowEditWindow(id) {
                     dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
                     if (obj1 != null) CboWebinarCat.AddItem(obj1.categoryname, obj1.id);
                 });
+
+
+                $.post(URLContent('ActiveInitiative/GetCountryBySub'), { Id: SubCountryID, Id2: id }, function (D_data) {
+                    var obj2;
+                    ////debugger;;
+                    GrdSubCountryPopup.ClearItems(); GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
+                    $.each(D_data[0]["SubCountryData"], function (key, d_value) {
+                        d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
+                        if (obj2 != null) GrdSubCountryPopup.AddItem(obj2.SubCountryName, obj2.id);
+                    });
+                    $.each(D_data[0]["BrandData"], function (key, d_value) {
+                        d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
+                        if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
+                    });
+                    ////debugger;;
+                    $.each(D_data[0]["LegalEntityData"], function (key, d_value) {
+                        d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
+                        if (obj2 != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
+                    });
+
+                    GrdSubCountryPopup.SelectIndex(SubCountryID); GrdBrandPopup.SelectIndex(brandId); GrdLegalEntityPopup.SelectIndex(legalentityidx);
+                    GrdSubCountryPopup.SetValue(obj.SubCountryID);
+                    GrdBrandPopup.SetValue(obj.BrandID);
+                    GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
+                });
+
 
                 if (GrdInit_Type != null)
                     GrdInitType.SelectIndex(GrdInit_Type);
@@ -773,16 +777,29 @@ function ShowEditWindow(id) {
                 //TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); GrdSubCost.SelectIndex(0); CboWebinarCat.SelectIndex(0);
             });
 
-
-
+     
             var uType = user_type; /*var projectYear = projectYear;*/
             //console.log("ShowEditWindow->SubCountryID = " + obj.SubCountryID);
             $("#FormID").val(obj.id);
             $("#LblInitiative").text(obj.InitNumber);
             LblRelatedInitiative.SetValue(obj.RelatedInitiative);
-            $("#GrdSubCountryPopup").val(obj.SubCountryName);
-            $("#GrdBrandPopup").val(obj.brandname);
-            $("#GrdLegalEntityPopup").val(obj.LegalEntityName);
+
+            //$("#GrdSubCountryPopup").val(obj.SubCountryName);
+            //$("#GrdBrandPopup").val(obj.brandname);
+            //$("#GrdLegalEntityPopup").val(obj.LegalEntityName);
+
+
+            //$("#TxPortName").val(obj.SubCountryName);
+           // $("#GrdInitType").val(obj.brandname);
+            //$("#GrdActionType").val(obj.LegalEntityName);
+            //$("#GrdSynImpact").val(obj.SubCountryName);
+            //$("#GrdInitStatus").val(obj.brandname);
+            //$("#CboWebinarCat").val(obj.LegalEntityName);
+            //$("#GrdInitCategory").val(obj.LegalEntityName);
+            // $("#GrdSubCost").val(obj.SubCostName);
+
+
+
 
             $("#GrdCountry").val(obj.CountryName);
             $("#GrdCountryVal").val(obj.CountryID);
@@ -809,13 +826,16 @@ function ShowEditWindow(id) {
             $("#TxDesc").val(obj.Description);
             $("#GrdBrandPopup").val(obj.brandname);
             $("#GrdLegalEntityPopup").val(obj.LegalEntityName);
-            GrdInitStatus.SetValue(obj.InitStatus);
-            TxPortName.SetValue(obj.PortID);
-            GrdInitType.SetValue(obj.InitiativeType);
-            GrdInitCategory.SetValue(obj.CostCategoryID);
-            GrdSubCost.SetValue(obj.SubCostCategoryID);
-            GrdActionType.SetValue(obj.ActionTypeID);
-            GrdSynImpact.SetValue(obj.SynergyImpactID);
+
+
+            //GrdInitStatus.SetValue(obj.InitStatus);
+            //TxPortName.SetValue(obj.PortID);
+            //GrdInitType.SetValue(obj.InitiativeType);
+            //GrdInitCategory.SetValue(obj.CostCategoryID);
+            //GrdSubCost.SetValue(obj.SubCostCategoryID);
+            //GrdActionType.SetValue(obj.ActionTypeID);
+            //GrdSynImpact.SetValue(obj.SynergyImpactID);
+
             $("#TxVendorSupp").val(obj.VendorName);
             $("#TxAdditionalInfo").val(obj.AdditionalInfo);
             $("#TxAgency").val(obj.AgencyComment);
@@ -830,10 +850,11 @@ function ShowEditWindow(id) {
             GrdBrandPopup.SetValue(obj.BrandID);
             GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
 
-            GrdSubCountryPopup.SetValue(obj.SubCountryID);
-            GrdBrandPopup.SetValue(obj.BrandID);
-            GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
-            ////debugger;;
+            //GrdSubCountryPopup.SetValue(obj.SubCountryID);
+            //GrdBrandPopup.SetValue(obj.BrandID);
+            //GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
+
+            //debugger;;
             OnStartMonthChanged();
             let startyear = new Date(obj.StartMonth).getFullYear()
             let nextyear = startyear + 1;
