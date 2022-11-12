@@ -925,7 +925,7 @@ log4net.LogManager.GetLogger
                 }
                 catch(Exception E)
                 {
-                    log.Error("Exception occured during Saving exisisting initiative" + E.Message);
+                    log.Error("Exception occured during Saving exisisting initiative" + E);
                     return Content("Error ocuured during initiativeSave");
                 }
             }
