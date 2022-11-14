@@ -3932,7 +3932,7 @@
     <Content Include="assets\poin\vendors\echarts\webpack.config.js" />
     <Content Include="assets\poin\vendors\eve\e.html" />
     <Content Include="assets\poin\vendors\eve\eve.js" />
-        <Content Include="assets\poin\vendors\fastclick\lib\fastclick.min.js">
+        <Content Include="assets\poin\vendors\fastclick\lib\fastclick.min.js" />
     <Content Include="assets\poin\vendors\fastclick\lib\fastclick.js" />
     <Content Include="assets\poin\vendors\flot-spline\js\jquery.flot.spline.js" />
     <Content Include="assets\poin\vendors\flot-spline\js\jquery.flot.spline.min.js" />
