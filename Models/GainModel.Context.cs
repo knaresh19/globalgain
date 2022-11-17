@@ -56,6 +56,9 @@ namespace GAIN.Models
         public virtual DbSet<t_subcostinitiative> t_subcostinitiative { get; set; }
         public virtual DbSet<t_subctry_costcntrlsite> t_subctry_costcntrlsite { get; set; }
         public virtual DbSet<user_list> user_list { get; set; }
+
+        public virtual DbSet<t_initiative_calcs> t_initiative_calcs { get; set; }
+
         public virtual DbSet<vwagency> vwagencies { get; set; }
         public virtual DbSet<vwheaderinitiative> vwheaderinitiatives { get; set; }
         public virtual DbSet<vwsummarydashboard> vwsummarydashboards { get; set; }
@@ -217,6 +220,11 @@ namespace GAIN.Models
               .HasForeignKey(j => j.id)
               .WillCascadeOnDelete(true);
 
+            //modelBuilder.Entity<t_initiative>()
+            //  .HasOptional(j => j.t_initiative_calcs)
+            //  .WithMany()
+            //  .HasForeignKey(j => j.id)
+            //  .WillCascadeOnDelete(true);
 
 
             base.OnModelCreating(modelBuilder);

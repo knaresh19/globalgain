@@ -76,6 +76,12 @@
             c.Caption = "Sub Region Name";
             c.Width = 1000;
         });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "InitYear";
+            c.Caption = "Year";
+            c.Width = 500;
+        });
     });
     if (ViewData["EditError"] != null)
     {

@@ -18,7 +18,9 @@ namespace GAIN.Models
         public long subcountryid { get; set; }
         public long costcontrolid { get; set; }
         public Nullable<long> brandid { get; set; }
-    
+        public long InitYear { get; set; }
+
+
         public virtual mbrand mbrand { get; set; }
         public virtual mcostcontrolsite mcostcontrolsite { get; set; }
         public virtual msubcountry msubcountry { get; set; }

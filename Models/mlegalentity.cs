@@ -26,7 +26,9 @@ namespace GAIN.Models
         public string LegalEntityName { get; set; }
         public Nullable<long> SubCountryID { get; set; }
         public Nullable<long> CostControlSiteID { get; set; }
-    
+        public long InitYear { get; set; }
+
+
         public virtual mbrand mbrand { get; set; }
         public virtual mcostcontrolsite mcostcontrolsite { get; set; }
         public virtual mcountry mcountry { get; set; }

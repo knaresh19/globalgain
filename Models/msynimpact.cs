@@ -17,5 +17,7 @@ namespace GAIN.Models
         public long id { get; set; }
         public string SynImpactName { get; set; }
         public string isActive { get; set; }
+        public long InitYear { get; set; }
+
     }
 }

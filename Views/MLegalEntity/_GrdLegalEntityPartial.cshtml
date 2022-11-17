@@ -125,9 +125,14 @@
         {
             c.FieldName = "LegalEntityName";
             c.Caption = "Legal Entity Name";
-            c.Width = 1000;
+            c.Width = 200;
         });
-
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "InitYear";
+            c.Caption = "Year";
+            c.Width = 200;
+        });
         settings.CellEditorInitialize = (sender, e) =>
         {
             //if (e.Column.FieldName == "CountryID")

@@ -88,7 +88,13 @@
         {
             c.FieldName = "RegionalOffice_Name";
             c.Caption = "Regional Office Name";
-            c.Width = 1000;
+            c.Width = 600;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "InitYear";
+            c.Caption = "Year";
+            c.Width = 200;
         });
     });
     if (ViewData["EditError"] != null)

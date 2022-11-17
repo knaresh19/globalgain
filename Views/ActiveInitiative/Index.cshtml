@@ -1,4 +1,4 @@
-@{
+﻿@{
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
     string UploadDirectory = System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"];
     var years_right = profileData.years_right;
@@ -19,6 +19,7 @@
         new StyleSheet { ExtensionSuite = ExtensionSuite.GridView },
         //new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList },
         new StyleSheet { ExtensionSuite = ExtensionSuite.Dashboard }
+
     )
 
 @Html.DevExpress().GetScripts(
@@ -35,54 +36,10 @@
         new Script { ExtensionSuite = ExtensionSuite.GridView },
         //new Script { ExtensionSuite = ExtensionSuite.TreeList },
         new Script { ExtensionSuite = ExtensionSuite.Dashboard }
+
     )
 
 <link rel="stylesheet" href="@Url.Content("~/assets/poin/css/main.css?v=" + DateTime.Now.Ticks.ToString())">
-<!--<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_1.css")">
-
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_10.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_11.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_12.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_13.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_14.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_15.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_16.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_17.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_18.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_19.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_20.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_21.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_22.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_23.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_24.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_25.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_26.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_27.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_28.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_29.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_30.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_31.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_32.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_33.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_34.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_35.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_36.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_37.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_38.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_39.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_40.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_41.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_42.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_43.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_44.css")">-->
-@*<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_45.css")">*@
-<!--<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_46.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_47.css")">-->
-@*<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_48.css")">*@
-@*<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_49.css")">*@
-<!--<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_50.css")">
-<link rel="stylesheet" href="@Url.Content("~/assets/poin/DevEpress/CSS/DXR_51.css")">-->
-
 
 
 
@@ -663,6 +620,7 @@
 <script type="text/javascript">var user_type = '@profileData.UserType'; var years_right = '@profileData.years_right'; var projectYear = '@profileData.ProjectYear'; var UrlContent = '@Url.Content("~/")'; var SystemYearNow = '@profileData.ProjectYear'; var UploadDirectory = @Url.Content(System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"]);</script>
 <script src="@Url.Content("~/assets/poin/js/maingrid.js?v=" + DateTime.Now.Ticks.ToString())" type="text/javascript"></script>
 
+
 @{ ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutTable.cshtml"; }
 <div class="row" style="display: block;">
@@ -673,15 +631,16 @@
                 <div class="col-md-1 col-sm-1  ">
                     @Html.Action("CboYear")
                 </div>
-                <div class="col-md-10a col-sm-10">
-                    <br />
+                <div class="col-md-1 col-sm-1  ">
+                    @Html.Action("CboMonth")
+                </div>
+                <div class="col-md-9a col-sm-9">
                     <div style="float:left;">
                         @*<a id="BtnInitiative" class="btn btn-app btn-primary"><i class="fa fa-edit"></i> Add New</a>&nbsp;
                             <a class="btn btn-app btn-success" id="BtnExportXls" onclick="BtnExportXls();"><i class="fa fa-file-excel-o"></i> Export Excel</a>&nbsp;
                             <a class="btn btn-app btn-danger" id="BtnExportPdf" onclick="BtnExportPdf();"><i class="fa fa-file-pdf-o"></i> Export PDF</a>&nbsp;*@
                         <button class="btn btn-primary" id="BtnInitiative" style="font-size:9pt;color:white;background-color:#007bff;"><i class="fa fa-edit"></i> Create New</button>
-                        <button class="btn btn-primary" id="BtnProcurementInitiative" style="font-size:9pt;color:white;background-color:#007bff;"><i class="fa fa-edit"></i> Create Procurement</button>
-
+                        <button class="btn btn-primary" id="BtnProcurement" style="font-size:9pt;color:white;background-color:#007bff;"><i class="fa fa-edit"></i> Procurement</button>
                         <button class="btn btn-success" id="BtnExportXls" onclick="BtnExportXls();" style="font-size:9pt;color:white;background-color:#26B99A;"><i class="fa fa-file-excel-o"></i> Export Excel</button>
 
                         @*<button class="btn btn-danger" id="BtnExportPdf" onclick="BtnExportPdf();" style="font-size:9pt;color:white;background-color:#dc3545;"><i class="fa fa-file-pdf-o"></i> Export PDF</button>*@

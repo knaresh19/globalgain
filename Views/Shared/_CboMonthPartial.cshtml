@@ -1,0 +1,16 @@
+@Html.DevExpress().ComboBox(settings =>
+{
+    settings.Name = "CboMonth";
+    settings.ControlStyle.CssClass = "ComboCSS";
+    settings.Properties.CallbackPageSize = 15;
+    settings.Properties.TextField = "month";    
+    settings.Properties.ValueField = "id";
+    settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnCboMonthChanged";
+}).BindList(Model).GetHtml()
+
+<script type="text/javascript">
+    @{ var profileData = Session["DefaultGAINSess"] as GAIN.Models.LoginSession; }
+    $(function () {
+        CboMonth.SetValue(@profileData.ProjectMonth);
+    });
+</script>

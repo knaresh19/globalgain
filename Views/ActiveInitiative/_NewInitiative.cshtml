@@ -2,7 +2,9 @@
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
     var user_type = profileData.UserType;
     var years_right = profileData.years_right;
+    var projectMonth = profileData.ProjectMonth;
     var projectYear = profileData.ProjectYear;
+    var currentYear = DateTime.Now.Year < 2023 ? 2023 : DateTime.Now.Year;
 
 }
 
@@ -10,9 +12,23 @@
     .btn {
         font-size: 13px;
     }
+
+    .blank_row {
+        height: 10px !important; /* overwrites any other rules */
+        background-color: #FFFFFF;
+    }
+
+    .year_td {
+        width: inherit;
+    }
+
+    .monthly_Calcs_input {
+        width: 80%;
+    }
 </style>
 
 <div class="row-fluid">
+    @Html.Hidden("isProcurement")
     <div class="widget-box">
         <div class="widget-content">
             <div class="row-fluid">
@@ -22,7 +38,7 @@
                     @Html.DevExpress().Label(settings =>
                {
                    settings.Name = "LblInitiative";
-                   settings.Text = @projectYear + "XX####";
+                   settings.Text = @projectYear + "XX###K#";
                    settings.ControlStyle.Font.Bold = true;
                    settings.ControlStyle.Font.Size = 12;
                }).GetHtml()
@@ -53,7 +69,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdSubCountryPopup";
                                         //settings.ClientEnabled = false;
-                                        settings.Width = 190;
+                            settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCountryPopupChanged";
                         }).GetHtml();
                     }
@@ -69,7 +85,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdBrandPopup";
                                         //settings.ClientEnabled = false;
-                                        settings.Width = 190;
+                            settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnBrandPopupChanged";
                         }).GetHtml();
                     }
@@ -85,7 +101,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdLegalEntityPopup";
                                         //settings.ClientEnabled = false;
-                                        settings.Width = 190;
+                            settings.Width = 190;
                         }).GetHtml();
                     }
                     @*@Html.Action("GrdLegalEntityPartial")*@
@@ -168,7 +184,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdInitStatus";
                                         //settings.ClientEnabled = false;
-                                        settings.Width = 190;
+                            settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnInitStatusChanged";
                         }).GetHtml();
                     }
@@ -194,9 +210,9 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "TxPortName";
                                         //settings.ClientEnabled = false;
-                                        settings.Width = 190;
+                            settings.Width = 190;
                                         //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnGrdInitTypeChanged";
-                                    }).GetHtml();
+                        }).GetHtml();
                     }
                     @*<input class="inputan-popup" disabled="disabled" type="text" id="TxPortName" style="font-size: 8pt;" />*@
                     @*@Html.DevExpress().TextBox(settings =>
@@ -247,7 +263,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdInitType";
                                         //settings.ClientEnabled = false;
-                                        settings.Width = 190;
+                            settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnGrdInitTypeChanged";
                         }).GetHtml();
                     }
@@ -263,7 +279,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(380);
                             settings.Properties.ClientInstanceName = "GrdInitCategory";
                                         //settings.ClientEnabled = false;
-                                        settings.Width = 380;
+                            settings.Width = 380;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnGrdInitCategoryPopupChanged";
                         }).GetHtml();
                     }
@@ -280,7 +296,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdSubCost";
                                         //settings.ClientEnabled = false;
-                                        settings.Width = 380;
+                            settings.Width = 380;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCostPopupChanged";
                         }).GetHtml();
                     }
@@ -297,9 +313,9 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdActionType";
                                         //settings.ClientEnabled = false;
-                                        settings.Width = 190;
-                                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCountryPopupChanged";
-                                    }).GetHtml();
+                            settings.Width = 190;
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnActionTypePopupChanged";
+                        }).GetHtml();
                     }
                     @*<input class="inputan-popup" type="text" id="GrdActionType" disabled="disabled" style="font-size: 8pt;" />*@
                     @*@Html.Action("GrdActionTypePartial")*@
@@ -314,9 +330,9 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdSynImpact";
                                         //settings.ClientEnabled = false;
-                                        settings.Width = 190;
+                            settings.Width = 190;
                                         //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCountryPopupChanged";
-                                    }).GetHtml();
+                        }).GetHtml();
                     }
                     @*@Html.Action("GrdSynImpactPartial")*@
                 </div>
@@ -428,192 +444,1135 @@
     </div>
 </div>
 
-<div class="row-fluid">
-    <div class="widget-box">
-        <div class="widget-content">
-            <div class="row-fluid">
-                <div class="span2a">
-                    <center>
-                        @*<input disabled="disabled" id="chkAuto" type="checkbox" checked="checked" onchange="CheckUncheckCalculate();" />*@
-                        <input id="chkAuto" type="checkbox" onchange="CheckUncheckCalculate();" />
-                        Auto Calculate?
-                    </center>
-                </div>
-                <div class="span2a">
-                    Target 12 Months (USD)<font color="red">*</font>
-                    @Html.DevExpress().TextBox(settings =>
-               {
-                   settings.Name = "txTarget12";
-                   //settings.ClientEnabled = false;
-                   settings.Width = 190;
-                   settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
-                   settings.Properties.NullText = " ";
-                   settings.Properties.NullDisplayText = " ";
-                   settings.Properties.DisplayFormatString = "#,###.##";
-                   settings.Properties.DisplayFormatInEditMode = true;
-                   settings.Properties.ClientSideEvents.LostFocus = "";
-               }).GetHtml()
-                </div>
-                <div class="span2a">
-                    Target @(projectYear) (USD)<font color="red">*</font>
-                    @Html.DevExpress().TextBox(settings =>
-               {
-                   settings.Name = "txTargetFullYear";
-                   settings.ClientEnabled = false;
-                   settings.Width = 190;
-                   settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
-                   settings.Properties.NullText = " ";
-                   settings.Properties.NullDisplayText = " ";
-                   settings.Properties.DisplayFormatString = "#,###.##";
-                   settings.Properties.DisplayFormatInEditMode = true;
-               }).GetHtml()
-                </div>
-                <div class="span2a">
-                    YTD Target @(projectYear) (USD)
-                    @Html.DevExpress().TextBox(settings =>
-               {
-                   settings.Name = "txYTDTargetFullYear";
-                   settings.ClientEnabled = false;
-                   settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
-                   settings.Properties.DisplayFormatString = "#,###.##";
-                   settings.Width = 190;
-               }).GetHtml()
-                </div>
-                <div class="span2a">
-                    YTD Saving @(projectYear) (USD)
-                    @Html.DevExpress().TextBox(settings =>
-               {
-                   settings.Name = "txYTDSavingFullYear";
-                   settings.ClientEnabled = false;
-                   settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
-                   settings.Properties.DisplayFormatString = "#,###.##";
-                   settings.Width = 190;
-               }).GetHtml()
+<div id="_divOptimization">
+
+    <div class="row-fluid">
+        <div class="widget-box">
+            <div class="widget-content">
+                <div class="row-fluid">
+                    <div class="span2a">
+                        <center>
+                            @*<input disabled="disabled" id="chkAuto" type="checkbox" checked="checked" onchange="CheckUncheckCalculate();" />*@
+                            <input id="chkAuto" type="checkbox" onchange="CheckUncheckCalculate();" />
+                            Auto Calculate?
+                        </center>
+                    </div>
+                    <div class="span2a">
+                        Target 12 Months (USD)<font color="red">*</font>
+                        @Html.DevExpress().TextBox(settings =>
+                   {
+                       settings.Name = "txTarget12";
+                       //settings.ClientEnabled = false;
+                       settings.Width = 190;
+                       settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                       settings.Properties.NullText = " ";
+                       settings.Properties.NullDisplayText = " ";
+                       settings.Properties.DisplayFormatString = "#,###.##";
+                       settings.Properties.DisplayFormatInEditMode = true;
+                       settings.Properties.ClientSideEvents.LostFocus = "";
+                   }).GetHtml()
+                    </div>
+                    <div class="span2a">
+                        Target @(projectYear) (USD)<font color="red">*</font>
+                        @Html.DevExpress().TextBox(settings =>
+                   {
+                       settings.Name = "txTargetFullYear";
+                       settings.ClientEnabled = false;
+                       settings.Width = 190;
+                       settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                       settings.Properties.NullText = " ";
+                       settings.Properties.NullDisplayText = " ";
+                       settings.Properties.DisplayFormatString = "#,###.##";
+                       settings.Properties.DisplayFormatInEditMode = true;
+                   }).GetHtml()
+                    </div>
+                    <div class="span2a">
+                        YTD Target @(projectYear) (USD)
+                        @Html.DevExpress().TextBox(settings =>
+                   {
+                       settings.Name = "txYTDTargetFullYear";
+                       settings.ClientEnabled = false;
+                       settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                       settings.Properties.DisplayFormatString = "#,###.##";
+                       settings.Width = 190;
+                   }).GetHtml()
+                    </div>
+                    <div class="span2a">
+                        YTD Saving @(projectYear) (USD)
+                        @Html.DevExpress().TextBox(settings =>
+                   {
+                       settings.Name = "txYTDSavingFullYear";
+                       settings.ClientEnabled = false;
+                       settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                       settings.Properties.DisplayFormatString = "#,###.##";
+                       settings.Width = 190;
+                   }).GetHtml()
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="row-fluid">
+        <div class="widget-box">
+            <div class="widget-content">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <table width="100%">
+                            <tr style="height:20px;">
+                                <td width="150">DETAILS</td>
+                                <td id="ljan" width="150">Jan-@projectYear</td>
+                                <td id="lfeb" width="150">Feb-@projectYear</td>
+                                <td id="lmar" width="150">Mar-@projectYear</td>
+                                <td id="lapr" width="150">Apr-@projectYear</td>
+                                <td id="lmay" width="150">May-@projectYear</td>
+                                <td id="ljun" width="150">Jun-@projectYear</td>
+                                <td id="ljul" width="150">Jul-@projectYear</td>
+                                <td id="laug" width="150">Aug-@projectYear</td>
+                                <td id="lsep" width="150">Sep-@projectYear</td>
+                                <td id="loct" width="150">Oct-@projectYear</td>
+                                <td id="lnov" width="150">Nov-@projectYear</td>
+                                <td id="ldec" width="150">Dec-@projectYear</td>
+                            </tr>
+                            <tr style="height:20px;">&nbsp;</tr>
+                            <tr style="height:20px;">
+                                <td>Monthly Target</td>
+                                <td><input class="txTarget targetjan" name="targetjan" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetfeb" name="targetfeb" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetmar" name="targetmar" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetapr" name="targetapr" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetmay" name="targetmay" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetjun" name="targetjun" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetjul" name="targetjul" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetaug" name="targetaug" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetsep" name="targetsep" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetoct" name="targetoct" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetnov" name="targetnov" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetdec" name="targetdec" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            </tr>
+                            <tr style="height:20px;">&nbsp;</tr>
+                            <tr style="height:20px;">
+                                <td>Monthly Saving</td>
+                                <td><input class="txSaving savingjan" name="savingjan" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingfeb" name="savingfeb" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingmar" name="savingmar" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingapr" name="savingapr" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingmay" name="savingmay" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingjun" name="savingjun" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingjul" name="savingjul" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingaug" name="savingaug" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingsep" name="savingsep" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingoct" name="savingoct" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingnov" name="savingnov" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingdec" name="savingdec" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="widget-box">
+            <div class="widget-content">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <table width="100%">
+                            <tr style="height:20px;">
+                                <td width="150">DETAILS</td>
+                                <td id="lnexjan" width="150">Jan-@(projectYear + 1)</td>
+                                <td id="lnexfeb" width="150">Feb-@(projectYear + 1)</td>
+                                <td id="lnexmar" width="150">Mar-@(projectYear + 1)</td>
+                                <td id="lnexapr" width="150">Apr-@(projectYear + 1)</td>
+                                <td id="lnexmay" width="150">May-@(projectYear + 1)</td>
+                                <td id="lnexjun" width="150">Jun-@(projectYear + 1)</td>
+                                <td id="lnexjul" width="150">Jul-@(projectYear + 1)</td>
+                                <td id="lnexaug" width="150">Aug-@(projectYear + 1)</td>
+                                <td id="lnexsep" width="150">Sep-@(projectYear + 1)</td>
+                                <td id="lnexoct" width="150">Oct-@(projectYear + 1)</td>
+                                <td id="lnexnov" width="150">Nov-@(projectYear + 1)</td>
+                                <td id="lnexdec" width="150">Dec-@(projectYear + 1)</td>
+                            </tr>
+                            <tr style="height:20px;">&nbsp;</tr>
+                            <tr style="height:20px;">
+                                <td>Monthly Target</td>
+                                <td><input class="txTarget targetjan2" name="targetjan2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetfeb2" name="targetfeb2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetmar2" name="targetmar2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetapr2" name="targetapr2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetmay2" name="targetmay2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetjun2" name="targetjun2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetjul2" name="targetjul2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetaug2" name="targetaug2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetsep2" name="targetsep2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetoct2" name="targetoct2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetnov2" name="targetnov2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetdec2" name="targetdec2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                            </tr>
+                            <tr style="height:20px;">&nbsp;</tr>
+                            <tr style="height:20px;">
+                                <td>Monthly Saving</td>
+                                <td><input class="txSaving savingjan2" name="savingjan2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingfeb2" name="savingfeb2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingmar2" name="savingmar2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingapr2" name="savingapr2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingmay2" name="savingmay2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingjun2" name="savingjun2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingjul2" name="savingjul2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingaug2" name="savingaug2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingsep2" name="savingsep2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingoct2" name="savingoct2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingnov2" name="savingnov2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingdec2" name="savingdec2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<div class="row-fluid">
-    <div class="widget-box">
-        <div class="widget-content">
-            <div class="row-fluid">
+<div id="_divProcurement" style="display:none">
+    <div class="row-fluid">
+        <div class="widget-box">
+            <div class="widget-content">
+
+
+                <div class="row-fluid">
+                    <div class="widget-box">
+                        <div class="widget-content">
+                            <div class="span12">
+                                <div class="span2a">
+                                    Unit of volumes<font color="red">*</font>:
+                                    @{ var CboUnitOfVolume = Html.DevExpress().ComboBox(settings =>
+                                          {
+
+                                              settings.Name = "CboUnitOfVolume";
+                                              settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
+
+                                              settings.Properties.Items.Add("NONE", "");
+                                              settings.Properties.Items.Add("TEU INLAND");
+                                              settings.Properties.Items.Add("TEU SHIPPING");
+                                              settings.Properties.Items.Add("TC INLAND");
+                                              settings.Properties.Items.Add("TC SHIPPING");
+                                              settings.Properties.Items.Add("OTHERS");
+
+                                          }).GetHtml();}
+                                </div>
+                                <div class="span2a">
+                                    Actuals Volumes N-1<font color="red">*</font>:
+                                    @{
+                                        var txt_Input_Actuals_Volumes_Nmin1 = Html.DevExpress().TextBox(settings =>
+                                        {
+
+                                            settings.Name = "txt_Input_Actuals_Volumes_Nmin1";
+                                            settings.Width = 190;
+                                            settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                            settings.Properties.NullText = " ";
+                                            settings.Properties.NullDisplayText = " ";
+                                            settings.Properties.DisplayFormatString = "#,###.##";
+                                            settings.Properties.DisplayFormatInEditMode = true;
+                                            settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                        }).GetHtml();
+                                    }
+                                </div>
+                                <div class="span2a">
+                                    Target Volumes N<font color="red">*</font>:
+                                    @{
+                                        var txt_Input_Target_Volumes = Html.DevExpress().TextBox(settings =>
+                                        {
+
+                                            settings.Name = "txt_Input_Target_Volumes";
+                                            settings.Width = 190;
+                                            settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                            settings.Properties.NullText = " ";
+                                            settings.Properties.NullDisplayText = " ";
+                                            settings.Properties.DisplayFormatString = "#,###.##";
+                                            settings.Properties.DisplayFormatInEditMode = true;
+                                            settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                        }).GetHtml();
+                                    }
+                                </div>
+                                <div class="span2a">
+                                    Actuals Volumes N:
+                                    @{
+                                        var txt_Total_Actual_volume_N = Html.DevExpress().TextBox(settings =>
+                                        {
+
+                                            settings.Name = "txt_Total_Actual_volume_N";
+                                            settings.Width = 190;
+                                            settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                            settings.Properties.NullText = " ";
+                                            settings.Properties.NullDisplayText = " ";
+                                            settings.Properties.DisplayFormatString = "#,###.##";
+                                            settings.Properties.DisplayFormatInEditMode = false;
+                                            settings.Properties.ValidationSettings.Display = Display.Dynamic;
+                                            settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                        }).GetHtml();
+                                    }
+                                </div>
+                                @*</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-fluid">
+                                        <div class="widget-box">
+                                            <div class="widget-content">
+                                                <div class="span12">*@
+                                <div class="span2a">
+                                    Spend N-1<font color="red">*</font>:
+                                    @{
+                                        var txt_Spend_Nmin1 = Html.DevExpress().TextBox(settings =>
+                                        {
+
+                                            settings.Name = "txt_Spend_Nmin1";
+                                            settings.Width = 190;
+                                            settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                            settings.Properties.NullText = " ";
+                                            settings.Properties.NullDisplayText = " ";
+                                            settings.Properties.DisplayFormatString = "#,###.##";
+                                            settings.Properties.DisplayFormatInEditMode = true;
+                                            settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                        }).GetHtml();
+                                    }
+                                </div>
+                                <div class="span2a">
+                                    Spend N<font color="red">*</font>:
+                                    @{
+                                        var txt_Spend_N = Html.DevExpress().TextBox(settings =>
+                                        {
+
+                                            settings.Name = "txt_Spend_N";
+                                            settings.Width = 190;
+                                            settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                            settings.Properties.NullText = " ";
+                                            settings.Properties.NullDisplayText = " ";
+                                            settings.Properties.DisplayFormatString = "#,###.##";
+                                            settings.Properties.DisplayFormatInEditMode = true;
+                                            settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                        }).GetHtml();
+
+                                    }
+                                </div>
+                                <div class="span2a">
+                                    CPI:
+                                    @{
+                                        var txt_CPI = Html.DevExpress().TextBox(settings =>
+                                        {
+
+                                            settings.Name = "txt_CPI";
+                                            settings.Width = 190;
+                                            settings.Properties.NullText = " ";
+                                            settings.Properties.NullDisplayText = " ";
+                                            settings.Properties.DisplayFormatString = "#,###.##";
+                                            settings.Properties.DisplayFormatInEditMode = true;
+                                            settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                        }).GetHtml();
+
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="widget-box">
+            <div class="widget-content">
                 <div class="span12">
-                    <table width="100%">
-                        <tr style="height:20px;">
-                            <td width="150">DETAILS</td>
-                            <td id="ljan" width="150">Jan-@projectYear</td>
-                            <td id="lfeb" width="150">Feb-@projectYear</td>
-                            <td id="lmar" width="150">Mar-@projectYear</td>
-                            <td id="lapr" width="150">Apr-@projectYear</td>
-                            <td id="lmay" width="150">May-@projectYear</td>
-                            <td id="ljun" width="150">Jun-@projectYear</td>
-                            <td id="ljul" width="150">Jul-@projectYear</td>
-                            <td id="laug" width="150">Aug-@projectYear</td>
-                            <td id="lsep" width="150">Sep-@projectYear</td>
-                            <td id="loct" width="150">Oct-@projectYear</td>
-                            <td id="lnov" width="150">Nov-@projectYear</td>
-                            <td id="ldec" width="150">Dec-@projectYear</td>
+                    <table class="row-fluid" width="100%">
+                        <tr>
+                            <td width="16%">Jan-@currentYear</td>
+                            <td id="_Jan" width="7%">Jan-@currentYear</td>
+                            <td id="_Feb" width="7%">Feb-@currentYear</td>
+                            <td id="_Mar" width="7%">Mar-@currentYear</td>
+                            <td id="_Apr" width="7%">Apr-@currentYear</td>
+                            <td id="_May" width="7%">May-@currentYear</td>
+                            <td id="_Jun" width="7%">Jun-@currentYear</td>
+                            <td id="_Jul" width="7%">Jul-@currentYear</td>
+                            <td id="_Aug" width="7%">Aug-@currentYear</td>
+                            <td id="_Sep" width="7%">Sep-@currentYear</td>
+                            <td id="_Oct" width="7%">Oct-@currentYear</td>
+                            <td id="_Nov" width="7%">Nov-@currentYear</td>
+                            <td id="_Dec" width="7%">Dec-@currentYear</td>
                         </tr>
-                        <tr style="height:20px;">&nbsp;</tr>
-                        <tr style="height:20px;">
-                            <td>Monthly Target</td>
-                            <td><input class="txTarget targetjan" name="targetjan" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetfeb" name="targetfeb" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetmar" name="targetmar" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetapr" name="targetapr" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetmay" name="targetmay" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetjun" name="targetjun" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetjul" name="targetjul" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetaug" name="targetaug" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetsep" name="targetsep" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetoct" name="targetoct" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetnov" name="targetnov" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetdec" name="targetdec" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                        <tr>
+                            <td width="150">Actual volume N-1</td>
+                            <td id="_Actual_volume_Nmin1_Jan" class=" year_td"><input id="Actual_volume_Nmin1_Jan" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Feb" class=" year_td"><input id="Actual_volume_Nmin1_Feb" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Mar" class=" year_td"><input id="Actual_volume_Nmin1_Mar" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Apr" class=" year_td"><input id="Actual_volume_Nmin1_Apr" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_May" class=" year_td"><input id="Actual_volume_Nmin1_May" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Jun" class=" year_td"><input id="Actual_volume_Nmin1_Jun" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Jul" class=" year_td"><input id="Actual_volume_Nmin1_Jul" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Aug" class=" year_td"><input id="Actual_volume_Nmin1_Aug" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Sep" class=" year_td"><input id="Actual_volume_Nmin1_Sep" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Oct" class=" year_td"><input id="Actual_volume_Nmin1_Oct" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Nov" class=" year_td"><input id="Actual_volume_Nmin1_Nov" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Dec" class=" year_td"><input id="Actual_volume_Nmin1_Dec" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+
                         </tr>
-                        <tr style="height:20px;">&nbsp;</tr>
-                        <tr style="height:20px;">
-                            <td>Monthly Saving</td>
-                            <td><input class="txSaving savingjan" name="savingjan" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingfeb" name="savingfeb" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingmar" name="savingmar" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingapr" name="savingapr" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingmay" name="savingmay" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingjun" name="savingjun" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingjul" name="savingjul" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingaug" name="savingaug" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingsep" name="savingsep" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingoct" name="savingoct" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingnov" name="savingnov" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingdec" name="savingdec" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                        <tr>
+                            <td width="150">Target  volume N</td>
+                            <td id="_Target_Volumes_Jan" class=" year_td"><input id="Target_Volumes_Jan" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Target_Volumes_Feb" class=" year_td"><input id="Target_Volumes_Feb" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Target_Volumes_Mar" class=" year_td"><input id="Target_Volumes_Mar" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Target_Volumes_Apr" class=" year_td"><input id="Target_Volumes_Apr" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Target_Volumes_May" class=" year_td"><input id="Target_Volumes_May" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Target_Volumes_Jun" class=" year_td"><input id="Target_Volumes_Jun" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Target_Volumes_Jul" class=" year_td"><input id="Target_Volumes_Jul" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Target_Volumes_Aug" class=" year_td"><input id="Target_Volumes_Aug" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Target_Volumes_Sep" class=" year_td"><input id="Target_Volumes_Sep" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Target_Volumes_Oct" class=" year_td"><input id="Target_Volumes_Oct" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Target_Volumes_Nov" class=" year_td"><input id="Target_Volumes_Nov" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                            <td id="_Target_Volumes_Dec" class=" year_td"><input id="Target_Volumes_Dec" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+
+                        </tr>
+                        <tr>
+                            <td width="150">Actual volume N</td>
+                            <td id="_Actual_volume_N_Jan" class=" year_td">
+
+                                @{
+                                    var txt_janActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_janActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+                                }
+                            </td>
+                            <td id="_Actual_volume_N_Feb" class=" year_td">
+                                @*<input id="Actual_volume_N_Feb" class="monthly_Calcs_input" type="text" />*@
+                                @{
+                                    var txt_febActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_febActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_Actual_volume_N_Mar" class=" year_td">
+                                @*<input id="Actual_volume_N_Mar" class="monthly_Calcs_input" type="text" />*@
+                                @{
+                                    var txt_marActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_marActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_Actual_volume_N_Apr" class=" year_td">
+                                @*<input id="Actual_volume_N_Apr" class="monthly_Calcs_input" type="text" />*@
+                                @{
+                                    var txt_aprActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_aprActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_Actual_volume_N_May" class=" year_td">
+                                @*<input id="Actual_volume_N_May" class="monthly_Calcs_input" type="text" />*@
+                                @{
+                                    var txt_mayActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_mayActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_Actual_volume_N_Jun" class=" year_td">
+                                @*<input id="Actual_volume_N_Jun" class="monthly_Calcs_input" type="text" />*@
+                                @{
+                                    var txt_junActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_junActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_Actual_volume_N_Jul" class=" year_td">
+                                @*<input id="Actual_volume_N_Jul" class="monthly_Calcs_input" type="text" />*@
+                                @{
+                                    var txt_julActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_julActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_Actual_volume_N_Aug" class=" year_td">
+                                @*<input id="Actual_volume_N_Aug" class="monthly_Calcs_input" type="text" />*@
+                                @{
+                                    var txt_augActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_augActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_Actual_volume_N_Sep" class=" year_td">
+                                @*<input id="Actual_volume_N_Sep" class="monthly_Calcs_input" type="text" />*@
+                                @{
+                                    var txt_sepActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_sepActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_Actual_volume_N_Oct" class=" year_td">
+                                @*<input id="Actual_volume_N_Oct" class="monthly_Calcs_input" type="text" />*@
+                                @{
+                                    var txt_octActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_octActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+
+                            <td id="_Actual_volume_N_Nov" class=" year_td">
+                                @*<input id="Actual_volume_N_Nov" class="monthly_Calcs_input" type="text" />*@
+                                @{
+                                    var txt_novActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_novActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_Actual_volume_N_Dec" class=" year_td">
+                                @*<input id="Actual_volume_N_Dec" class="monthly_Calcs_input" type="text" />*@
+                                @{
+                                    var txt_decActual_volume_N = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_decActual_volume_N";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="row-fluid">
-    <div class="widget-box">
-        <div class="widget-content">
-            <div class="row-fluid">
+    <div class="row-fluid">
+        <div class="widget-box">
+            <div class="widget-content">
                 <div class="span12">
                     <table width="100%">
-                        <tr style="height:20px;">
-                            <td width="150">DETAILS</td>
-                            <td id="lnexjan" width="150">Jan-@(projectYear+1)</td>
-                            <td id="lnexfeb" width="150">Feb-@(projectYear+1)</td>
-                            <td id="lnexmar" width="150">Mar-@(projectYear+1)</td>
-                            <td id="lnexapr" width="150">Apr-@(projectYear+1)</td>
-                            <td id="lnexmay" width="150">May-@(projectYear+1)</td>
-                            <td id="lnexjun" width="150">Jun-@(projectYear+1)</td>
-                            <td id="lnexjul" width="150">Jul-@(projectYear+1)</td>
-                            <td id="lnexaug" width="150">Aug-@(projectYear+1)</td>
-                            <td id="lnexsep" width="150">Sep-@(projectYear+1)</td>
-                            <td id="lnexoct" width="150">Oct-@(projectYear+1)</td>
-                            <td id="lnexnov" width="150">Nov-@(projectYear+1)</td>
-                            <td id="lnexdec" width="150">Dec-@(projectYear+1)</td>
+                        <tr>
+                            <td id="_N_FY_Sec_PRICE_EF" class="font-weight-bold" width="9%">
+                                N FY Secured
+                                (PRICE EFFECT)
+                            </td>
+                            <td id="_N_FY_Sec_VOLUME_EF" class="font-weight-bold" width="9%">
+                                N FY Secured
+                                (VOLUME EFFECT)
+                            </td>
+                            <td id="_N_FY_Secured" class="font-weight-bold" width="9%">
+                                N FY Secured
+                                (TOTAL EFFECT)
+                            </td>
+                            <td id="_N_YTD_Sec_PRICE_EF" class="font-weight-bold" width="9%">
+                                N YTD Secured
+                                (PRICE EFFECT)
+                            </td>
+                            <td id="_N_YTD_Sec_VOLUME_EF" class="font-weight-bold" width="9%">
+                                N YTD Secured
+                                (VOLUME EFFECT)
+                            </td>
+                            <td id="_N_YTD_Secured" class="font-weight-bold" width="9%">
+                                N YTD Secured
+                                (TOTAL EFFECT)
+                            </td>
+                            <td id="_YTD_Achieved_PRICE_EF" class="font-weight-bold" width="9%">YTD Achieved (PRICE EFFECT)</td>
+                            <td id="_YTD_Achieved_VOLUME_EF" class="font-weight-bold" width="9%">YTD Achieved (VOLUME EFFECT)</td>
+                            <td id="_YTD_achieved" class="font-weight-bold" width="9%">YTD Achieved (TOTAL EFFECT)</td>
+                            <td id="_YTD_Cost_Avoid_Vs_CPI" class="font-weight-bold" width="9%">YTD Cost Avoidance Vs CPI</td>
+                            <td id="_FY_Cost_Avoid_Vs_CPI" class="font-weight-bold" width="9%">FY Cost Avoidance Vs CPI</td>
+
                         </tr>
-                        <tr style="height:20px;">&nbsp;</tr>
-                        <tr style="height:20px;">
-                            <td>Monthly Target</td>
-                            <td><input class="txTarget targetjan2" name="targetjan2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetfeb2" name="targetfeb2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetmar2" name="targetmar2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetapr2" name="targetapr2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetmay2" name="targetmay2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetjun2" name="targetjun2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetjul2" name="targetjul2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetaug2" name="targetaug2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetsep2" name="targetsep2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetoct2" name="targetoct2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetnov2" name="targetnov2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txTarget targetdec2" name="targetdec2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                        </tr>
-                        <tr style="height:20px;">&nbsp;</tr>
-                        <tr style="height:20px;">
-                            <td>Monthly Saving</td>
-                            <td><input class="txSaving savingjan2" name="savingjan2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingfeb2" name="savingfeb2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingmar2" name="savingmar2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingapr2" name="savingapr2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingmay2" name="savingmay2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingjun2" name="savingjun2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingjul2" name="savingjul2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingaug2" name="savingaug2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingsep2" name="savingsep2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingoct2" name="savingoct2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingnov2" name="savingnov2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                            <td><input class="txSaving savingdec2" name="savingdec2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                        <tr>
+                            <td id="_txt_N_FY_Sec_PRICE_EF" class="year_td">
+                                @*<input id="txt_N_FY_Sec_PRICE_EF" class="monthly_Calcs_input" disabled="disabled" type="text" />*@
+                                @{
+                                    var txt_N_FY_Sec_PRICE_EF = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_N_FY_Sec_PRICE_EF";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_txt_N_FY_Sec_VOLUME_EF" class="year_td">
+                                @*<input id="txt_N_FY_Sec_VOLUME_EF" class="monthly_Calcs_input" disabled="disabled" type="text" />*@
+                                @{
+                                    var txt_N_FY_Sec_VOLUME_EF = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_N_FY_Sec_VOLUME_EF";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_txt_N_FY_Secured" class="year_td">
+                                @*<input id="txt_N_FY_Secured" class="monthly_Calcs_input" disabled="disabled" type="text" />*@
+                                @{
+                                    var txt_N_FY_Secured = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_N_FY_Secured";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_txt_N_YTD_Sec_PRICE_EF" class="year_td">
+                                @*<input id="txt_N_YTD_Sec_PRICE_EF" class="monthly_Calcs_input" disabled="disabled" type="text" />*@
+                                @{
+                                    var txt_N_YTD_Sec_PRICE_EF = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_N_YTD_Sec_PRICE_EF";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_txt_N_YTD_Sec_VOLUME_EF" class="year_td">
+                                @*<input id="txt_N_YTD_Sec_VOLUME_EF" class="monthly_Calcs_input" disabled="disabled" type="text" />*@
+                                @{
+                                    var txt_N_YTD_Sec_VOLUME_EF = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_N_YTD_Sec_VOLUME_EF";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_txt_N_YTD_Secured" class="year_td">
+                                @*<input id="txt_N_YTD_Secured" class="monthly_Calcs_input" disabled="disabled" type="text" />*@
+                                @{
+                                    var txt_N_YTD_Secured = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_N_YTD_Secured";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_txt_YTD_Achieved_PRICE_EF" class="year_td">
+                                @*<input id="txt_YTD_Achieved_PRICE_EF" class="monthly_Calcs_input" disabled="disabled" type="text" />*@
+                                @{
+                                    var txt_YTD_Achieved_PRICE_EF = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_YTD_Achieved_PRICE_EF";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_txt_YTD_Achieved_VOLUME_EF" class="year_td">
+                                @*<input id="txt_YTD_Achieved_VOLUME_EF" class="monthly_Calcs_input" disabled="disabled" type="text" />*@
+                                @{
+                                    var txt_YTD_Achieved_VOLUME_EF = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_YTD_Achieved_VOLUME_EF";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_txt_YTD_achieved" class="year_td"><input id="txt_YTD_achieved" class="monthly_Calcs_input" disabled="disabled" type="text" value="@{txt_YTD_Achieved_VOLUME_EF.ToHtmlString(); }" /></td>
+                            <td id="_txt_YTD_Cost_Avoid_Vs_CPI" class="year_td">
+                                @*<input id="txt_YTD_Cost_Avoid_Vs_CPI" class="monthly_Calcs_input" disabled="disabled" type="text" />*@
+                                @{
+                                    var txt_YTD_Cost_Avoid_Vs_CPI = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_YTD_Cost_Avoid_Vs_CPI";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
+                            <td id="_txt_FY_Cost_Avoid_Vs_CPI" class="year_td">
+                                @*<input id="txt_FY_Cost_Avoid_Vs_CPI" class="monthly_Calcs_input" disabled="disabled" type="text" />*@
+                                @{
+                                    var txt_FY_Cost_Avoid_Vs_CPI = Html.DevExpress().TextBox(settings =>
+                                    {
+
+                                        settings.Name = "txt_FY_Cost_Avoid_Vs_CPI";
+                                        settings.Width = 135;
+                                        settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                                        settings.Properties.NullText = " ";
+                                        settings.Properties.NullDisplayText = " ";
+                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatInEditMode = true;
+                                        settings.Properties.ClientSideEvents.LostFocus = "";
+
+                                    }).GetHtml();
+
+                                }
+                            </td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="row-fluid">
+        <div class="widget-box">
+            <div class="widget-content">
+                <div class="span12">
+                    <button data-toggle="modal" width="100%" class="btn btn-light btn-outline-secondary" data-target="#BackEnd_Calcs">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="BackEnd_Calcs" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Backend Calculations</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div>
+
+                        <div class="row-fluid">
+                            <div class="widget-box">
+                                <div class="widget-content">
+                                    <div class="span12">
+                                        <table width="100%">
+                                            <tr>
+                                                <td id="tname" class="font-weight-bold" width="18%">Target  CPU N</td>
+                                                <td id="_Jan" width="6%">Jan-@currentYear</td>
+                                                <td id="_Feb" width="6%">Feb-@currentYear</td>
+                                                <td id="_Mar" width="6%">Mar-@currentYear</td>
+                                                <td id="_Apr" width="6%">Apr-@currentYear</td>
+                                                <td id="_May" width="6%">May-@currentYear</td>
+                                                <td id="_Jun" width="6%">Jun-@currentYear</td>
+                                                <td id="_Jul" width="6%">Jul-@currentYear</td>
+                                                <td id="_Aug" width="6%">Aug-@currentYear</td>
+                                                <td id="_Sep" width="6%">Sep-@currentYear</td>
+                                                <td id="_Oct" width="6%">Oct-@currentYear</td>
+                                                <td id="_Nov" width="6%">Nov-@currentYear</td>
+                                                <td id="_Dec" width="6%">Dec-@currentYear</td>
+                                                <td id="_total" width="10%">Total N</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="150" class="font-weight-bold">CPU</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="150">Actual CPU N-1</td>
+                                                <td id="_Actual_CPU_Nmin1_Jan" class=" year_td"><input id="Actual_CPU_Nmin1_Jan" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Feb" class=" year_td"><input id="Actual_CPU_Nmin1_Feb" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Mar" class=" year_td"><input id="Actual_CPU_Nmin1_Mar" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Apr" class=" year_td"><input id="Actual_CPU_Nmin1_Apr" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_May" class=" year_td"><input id="Actual_CPU_Nmin1_May" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Jun" class=" year_td"><input id="Actual_CPU_Nmin1_Jun" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Jul" class=" year_td"><input id="Actual_CPU_Nmin1_Jul" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Aug" class=" year_td"><input id="Actual_CPU_Nmin1_Aug" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Sep" class=" year_td"><input id="Actual_CPU_Nmin1_Sep" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Oct" class=" year_td"><input id="Actual_CPU_Nmin1_Oct" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Nov" class=" year_td"><input id="Actual_CPU_Nmin1_Nov" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Dec" class=" year_td"><input id="Actual_CPU_Nmin1_Dec" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Total" class=" year_td"><input id="Actual_CPU_Nmin1_Total" class="monthly_Calcs_input" type="text" /></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td width="150">Target  CPU N</td>
+                                                <td id="_Target_CPU_N_Jan" class=" year_td"><input id="Target_CPU_N_Jan" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Feb" class=" year_td"><input id="Target_CPU_N_Feb" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Mar" class=" year_td"><input id="Target_CPU_N_Mar" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Apr" class=" year_td"><input id="Target_CPU_N_Apr" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_May" class=" year_td"><input id="Target_CPU_N_May" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Jun" class=" year_td"><input id="Target_CPU_N_Jun" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Jul" class=" year_td"><input id="Target_CPU_N_Jul" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Aug" class=" year_td"><input id="Target_CPU_N_Aug" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Sep" class=" year_td"><input id="Target_CPU_N_Sep" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Oct" class=" year_td"><input id="Target_CPU_N_Oct" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Nov" class=" year_td"><input id="Target_CPU_N_Nov" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Dec" class=" year_td"><input id="Target_CPU_N_Dec" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Total" class=" year_td"><input id="Target_CPU_N_Total" class="monthly_Calcs_input" type="text" /></td>
+
+
+                                            </tr>
+                                            <tr class="blank_row"></tr>
+                                            <tr>
+                                                <td width="150" class="font-weight-bold">Achievement</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="150">Price effect</td>
+                                                <td id="_A_Price_effect_Jan" class=" year_td"><input id="A_Price_effect_Jan" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_Feb" class=" year_td"><input id="A_Price_effect_Feb" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_Mar" class=" year_td"><input id="A_Price_effect_Mar" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_Apr" class=" year_td"><input id="A_Price_effect_Apr" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_May" class=" year_td"><input id="A_Price_effect_May" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_Jun" class=" year_td"><input id="A_Price_effect_Jun" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_Jul" class=" year_td"><input id="A_Price_effect_Jul" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_Aug" class=" year_td"><input id="A_Price_effect_Aug" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_Sep" class=" year_td"><input id="A_Price_effect_Sep" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_Oct" class=" year_td"><input id="A_Price_effect_Oct" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_Nov" class=" year_td"><input id="A_Price_effect_Nov" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_Dec" class=" year_td"><input id="A_Price_effect_Dec" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Price_effect_Total" class=" year_td"><input id="A_Price_effect_Total" class="monthly_Calcs_input" type="text" /></td>
+
+
+                                            </tr>
+                                            <tr>
+                                                <td width="150">Volume Effect</td>
+                                                <td id="_A_Volume_Effect_Jan" class=" year_td"><input id="A_Volume_Effect_Jan" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Feb" class=" year_td"><input id="A_Volume_Effect_Feb" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Mar" class=" year_td"><input id="A_Volume_Effect_Mar" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Apr" class=" year_td"><input id="A_Volume_Effect_Apr" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_May" class=" year_td"><input id="A_Volume_Effect_May" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Jun" class=" year_td"><input id="A_Volume_Effect_Jun" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Jul" class=" year_td"><input id="A_Volume_Effect_Jul" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Aug" class=" year_td"><input id="A_Volume_Effect_Aug" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Sep" class=" year_td"><input id="A_Volume_Effect_Sep" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Oct" class=" year_td"><input id="A_Volume_Effect_Oct" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Nov" class=" year_td"><input id="A_Volume_Effect_Nov" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Dec" class=" year_td"><input id="A_Volume_Effect_Dec" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Total" class=" year_td"><input id="A_Volume_Effect_Total" class="monthly_Calcs_input" type="text" /></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td width="150">Total Achievement</td>
+                                                <td id="_Achievement_Jan" class=" year_td"><input id="Achievement_Jan" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_Feb" class=" year_td"><input id="Achievement_Feb" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_Mar" class=" year_td"><input id="Achievement_Mar" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_Apr" class=" year_td"><input id="Achievement_Apr" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_May" class=" year_td"><input id="Achievement_May" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_Jun" class=" year_td"><input id="Achievement_Jun" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_Jul" class=" year_td"><input id="Achievement_Jul" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_Aug" class=" year_td"><input id="Achievement_Aug" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_Sep" class=" year_td"><input id="Achievement_Sep" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_Oct" class=" year_td"><input id="Achievement_Oct" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_Nov" class=" year_td"><input id="Achievement_Nov" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_Dec" class=" year_td"><input id="Achievement_Dec" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Achievement_Total" class=" year_td"><input id="Achievement_Total" class="monthly_Calcs_input" type="text" /></td>
+
+                                            </tr>
+                                            <tr class="blank_row"></tr>
+                                            <tr>
+                                                <td width="150" class="font-weight-bold">Secured Target</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="150">Price effect</td>
+                                                <td id="_ST_Price_effect_Jan" class=" year_td"><input id="ST_Price_effect_Jan" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_Feb" class=" year_td"><input id="ST_Price_effect_Feb" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_Mar" class=" year_td"><input id="ST_Price_effect_Mar" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_Apr" class=" year_td"><input id="ST_Price_effect_Apr" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_May" class=" year_td"><input id="ST_Price_effect_May" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_Jun" class=" year_td"><input id="ST_Price_effect_Jun" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_Jul" class=" year_td"><input id="ST_Price_effect_Jul" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_Aug" class=" year_td"><input id="ST_Price_effect_Aug" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_Sep" class=" year_td"><input id="ST_Price_effect_Sep" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_Oct" class=" year_td"><input id="ST_Price_effect_Oct" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_Nov" class=" year_td"><input id="ST_Price_effect_Nov" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_Dec" class=" year_td"><input id="ST_Price_effect_Dec" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Price_effect_Total" class=" year_td"><input id="ST_Price_effect_Total" class="monthly_Calcs_input" type="text" /></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td width="150">Volume Effect</td>
+                                                <td id="_ST_Volume_Effect_Jan" class=" year_td"><input id="ST_Volume_Effect_Jan" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Feb" class=" year_td"><input id="ST_Volume_Effect_Feb" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Mar" class=" year_td"><input id="ST_Volume_Effect_Mar" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Apr" class=" year_td"><input id="ST_Volume_Effect_Apr" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_May" class=" year_td"><input id="ST_Volume_Effect_May" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Jun" class=" year_td"><input id="ST_Volume_Effect_Jun" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Jul" class=" year_td"><input id="ST_Volume_Effect_Jul" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Aug" class=" year_td"><input id="ST_Volume_Effect_Aug" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Sep" class=" year_td"><input id="ST_Volume_Effect_Sep" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Oct" class=" year_td"><input id="ST_Volume_Effect_Oct" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Nov" class=" year_td"><input id="ST_Volume_Effect_Nov" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Dec" class=" year_td"><input id="ST_Volume_Effect_Dec" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Total" class=" year_td"><input id="ST_Volume_Effect_Total" class="monthly_Calcs_input" type="text" /></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td width="150" class="font-weight-bold">FY Secured Target</td>
+                                                <td id="_FY_Secured_Target_Jan" class=" year_td"><input id="FY_Secured_Target_Jan" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_Feb" class=" year_td"><input id="FY_Secured_Target_Feb" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_Mar" class=" year_td"><input id="FY_Secured_Target_Mar" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_Apr" class=" year_td"><input id="FY_Secured_Target_Apr" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_May" class=" year_td"><input id="FY_Secured_Target_May" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_Jun" class=" year_td"><input id="FY_Secured_Target_Jun" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_Jul" class=" year_td"><input id="FY_Secured_Target_Jul" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_Aug" class=" year_td"><input id="FY_Secured_Target_Aug" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_Sep" class=" year_td"><input id="FY_Secured_Target_Sep" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_Oct" class=" year_td"><input id="FY_Secured_Target_Oct" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_Nov" class=" year_td"><input id="FY_Secured_Target_Nov" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_Dec" class=" year_td"><input id="FY_Secured_Target_Dec" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_FY_Secured_Target_Total" class=" year_td"><input id="FY_Secured_Target_Total" class="monthly_Calcs_input" type="text" /></td>
+
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="widget-box">
+                                <div class="widget-content">
+                                    <div class="span12">
+                                        <table width="100%">
+                                            <tr>
+                                                <td id="_tname1" class="font-weight-bold" width="18%">AVOIDANCE Vs. CPI</td>
+                                                <td id="_Jan1" width="6%">Jan-@currentYear</td>
+                                                <td id="_Feb1" width="6%">Feb-@currentYear</td>
+                                                <td id="_Mar1" width="6%">Mar-@currentYear</td>
+                                                <td id="_Apr1" width="6%">Apr-@currentYear</td>
+                                                <td id="_May1" width="6%">May-@currentYear</td>
+                                                <td id="_Jun1" width="6%">Jun-@currentYear</td>
+                                                <td id="_Jul1" width="6%">Jul-@currentYear</td>
+                                                <td id="_Aug1" width="6%">Aug-@currentYear</td>
+                                                <td id="_Sep1" width="6%">Sep-@currentYear</td>
+                                                <td id="_Oct1" width="6%">Oct-@currentYear</td>
+                                                <td id="_Nov1" width="6%">Nov-@currentYear</td>
+                                                <td id="_Dec1" width="6%">Dec-@currentYear</td>
+                                                <td id="_total1" width="10%">Total N</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="150">CPI Effect only</td>
+                                                <td id="_CPI_Effect_Jan" class=" year_td"><input id="CPI_Effect_Jan" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_Feb" class=" year_td"><input id="CPI_Effect_Feb" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_Mar" class=" year_td"><input id="CPI_Effect_Mar" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_Apr" class=" year_td"><input id="CPI_Effect_Apr" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_May" class=" year_td"><input id="CPI_Effect_May" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_Jun" class=" year_td"><input id="CPI_Effect_Jun" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_Jul" class=" year_td"><input id="CPI_Effect_Jul" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_Aug" class=" year_td"><input id="CPI_Effect_Aug" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_Sep" class=" year_td"><input id="CPI_Effect_Sep" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_Oct" class=" year_td"><input id="CPI_Effect_Oct" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_Nov" class=" year_td"><input id="CPI_Effect_Nov" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_Dec" class=" year_td"><input id="CPI_Effect_Dec" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_CPI_Effect_Total" class=" year_td"><input id="CPI_Effect_Total" class="monthly_Calcs_input" type="text" /></td>
+
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
+
 
 <div class="row-fluid">
     <div class="widget-box">

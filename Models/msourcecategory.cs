@@ -16,5 +16,7 @@ namespace GAIN.Models
     {
         public long id { get; set; }
         public string categoryname { get; set; }
+        public long InitYear { get; set; }
+
     }
 }

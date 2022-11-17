@@ -26,7 +26,9 @@ namespace GAIN.Models
         public string RegionalOffice_Name { get; set; }
         public Nullable<long> SubCountryID { get; set; }
         public Nullable<long> BrandID { get; set; }
-    
+        public long InitYear { get; set; }
+
+
         public virtual mbrand mbrand { get; set; }
         public virtual mcountry mcountry { get; set; }
         public virtual mregion mregion { get; set; }

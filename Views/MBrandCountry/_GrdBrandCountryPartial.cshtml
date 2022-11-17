@@ -60,7 +60,7 @@
         {
             c.FieldName = "countryid";
             c.Caption = "Country Name";
-            c.Width = 200;
+            c.Width = 350;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "countryname";
@@ -75,7 +75,7 @@
         {
             c.FieldName = "brandid";
             c.Caption = "Brand Name";
-            c.Width = 200;
+            c.Width = 350;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "brandname";
@@ -90,7 +90,7 @@
         {
             c.FieldName = "subcountryid";
             c.Caption = "Sub Country";
-            c.Width = 200;
+            c.Width = 350;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "SubCountryName";
@@ -99,6 +99,12 @@
                 p.ClientInstanceName = "BrandSubCountry";
                 p.BindList(ViewData["Subcountry"]);
             });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "InitYear";
+            c.Caption = "Year";
+            c.Width = 350;
         });
     });
     if (ViewData["EditError"] != null)

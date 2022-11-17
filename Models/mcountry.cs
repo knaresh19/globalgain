@@ -28,7 +28,9 @@ namespace GAIN.Models
         public Nullable<long> RegionID { get; set; }
         public Nullable<long> SubRegionID { get; set; }
         public string CountryName { get; set; }
-    
+        public long InitYear { get; set; }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<mbrandcountry> mbrandcountries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

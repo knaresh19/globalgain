@@ -373,36 +373,6 @@
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
-
-					<Property Name="Unit_of_volumes" Type="varchar" MaxLength="50" />
-					<Property Name="Input_Actuals_Volumes_Nmin1" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="Input_Target_Volumes" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="Total_Actual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="Spend_Nmin1" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="Spend_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="CPI" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="janActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="febActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="marActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="aprActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="mayActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="junActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="julActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="augActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="sepActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="octActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="novActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="decActual_volume_N" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="N_FY_Sec_PRICE_EF" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="N_FY_Sec_VOLUME_EF" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="N_YTD_Sec_PRICE_EF" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="N_YTD_Sec_VOLUME_EF" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="YTD_Achieved_PRICE_EF" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="YTD_Achieved_VOLUME_EF" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="YTD_Cost_Avoid_Vs_CPI" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="FY_Cost_Avoid_Vs_CPI" Type="decimal" Precision="15" Scale="2"/>
-					<Property Name="isProcurement" Type="int" />
-
         </EntityType>
         <EntityType Name="t_subcostactiontype">
           <Key>
@@ -561,72 +531,37 @@ warning 6002: The table/view 'def.gain2.vwheaderinitiative' does not have a prim
           <Property Name="EndMonth" Type="date" />
           <Property Name="LaraCode" Type="varchar" MaxLength="50" />
           <Property Name="TargetTY" Type="decimal" Precision="10" Scale="2" />
-
-					<Property Name="N_FY_Sec_PRICE_EF" Type="decimal" Precision="15" Scale="2" />
-					<Property Name="N_FY_Sec_VOLUME_EF" Type="decimal" Precision="15" Scale="2" />
-					<Property Name="Unit_of_volumes" Type="varchar" MaxLength="50" />
-					<Property Name="Input_Actuals_Volumes_Nmin1" Type="decimal" Precision="15" Scale="2" />
-					<Property Name="Input_Target_Volumes" Type="decimal" Precision="15" Scale="2" />
-					<Property Name="Total_Actual_volume_N" Type="decimal" Precision="15" Scale="2" />
-					<Property Name="Spend_Nmin1" Type="decimal" Precision="15" Scale="2" />
-					<Property Name="Spend_N" Type="decimal" Precision="15" Scale="2" />
-					<Property Name="CPI" Type="decimal" Precision="15" Scale="2" />
-
           <Property Name="TargetNY" Type="decimal" Precision="10" Scale="2" />
           <Property Name="HOValidity" Type="enum" />
           <Property Name="RPOCControl" Type="enum" />
           <Property Name="InitStatus" Type="bigint" />
           <Property Name="Status" Type="varchar" MaxLength="200" />
-
-					<Property Name="N_YTD_Sec_PRICE_EF" Type="decimal" Precision="15" Scale="2" />
-					<Property Name="N_YTD_Sec_VOLUME_EF" Type="decimal" Precision="15" Scale="2" />
-
           <Property Name="YTDTarget" Type="decimal" Precision="10" Scale="2" />
-
-					<Property Name="YTD_Achieved_PRICE_EF" Type="decimal" Precision="15" Scale="2" />
-					<Property Name="YTD_Achieved_VOLUME_EF" Type="decimal" Precision="15" Scale="2" />
-
           <Property Name="YTDAchieved" Type="decimal" Precision="10" Scale="2" />
-
-					<Property Name="YTD_Cost_Avoid_Vs_CPI" Type="decimal" Precision="15" Scale="2" />
-					<Property Name="FY_Cost_Avoid_Vs_CPI" Type="decimal" Precision="15" Scale="2" />
-
           <Property Name="TargetJan" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchJan" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="janActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetFeb" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchFeb" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="febActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetMar" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchMar" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="marActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetApr" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchApr" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="aprActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetMay" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchMay" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="mayActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetJun" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchJun" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="junActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetJul" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchJul" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="julActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetAug" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchAug" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="augActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetSep" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchSep" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="sepActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetOct" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchOct" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="octActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetNov" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchNov" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="novActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetDec" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchDec" Type="decimal" Precision="10" Scale="2" />
-					<Property Name="decActual_volume_N" Type="decimal" Precision="15" Scale="2" />
           <Property Name="TargetNexJan" Type="decimal" Precision="10" Scale="2" />
           <Property Name="AchNexJan" Type="decimal" Precision="10" Scale="2" />
           <Property Name="TargetNexFeb" Type="decimal" Precision="10" Scale="2" />
@@ -665,7 +600,6 @@ warning 6002: The table/view 'def.gain2.vwheaderinitiative' does not have a prim
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="213" />
-					<Property Name="isProcurement" Type="int"/>
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'def.gain2.vwsummarydashboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -742,123 +676,6 @@ warning 6002: The table/view 'def.gain2.vwtopcategory' does not have a primary k
           <Property Name="YTDAchieved" Type="decimal" Precision="43" Scale="2" Nullable="false" />
           <Property Name="YTDTarget" Type="decimal" Precision="43" Scale="2" Nullable="false" />
         </EntityType>
-
-				<EntityType Name="t_initiative_calcs">
-					<Key>
-						<PropertyRef Name="id" />
-					</Key>
-					<Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-					<Property Name="t_initiative_ID" Type="bigint" Nullable="false" />
-					<Property Name="jan_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="feb_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="march_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="apr_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="may_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jun_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jul_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="aug_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="sep_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="oct_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="nov_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="dec_Actual_CPU_Nmin1" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jan_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="feb_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="march_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="apr_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="may_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jun_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jul_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="aug_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="sep_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="oct_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="nov_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="dec_Target_CPU_N" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jan_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="feb_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="march_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="apr_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="may_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jun_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jul_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="aug_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="sep_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="oct_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="nov_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="dec_A_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jan_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="feb_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="march_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="apr_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="may_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jun_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jul_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="aug_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="sep_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="oct_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="nov_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="dec_A_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jan_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="feb_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="march_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="apr_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="may_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jun_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jul_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="aug_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="sep_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="oct_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="nov_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="dec_Achievement" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jan_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="feb_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="march_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="apr_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="may_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jun_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jul_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="aug_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="sep_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="oct_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="nov_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="dec_ST_Price_effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jan_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="feb_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="march_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="apr_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="may_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jun_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jul_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="aug_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="sep_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="oct_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="nov_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="dec_ST_Volume_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jan_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="feb_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="march_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="apr_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="may_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jun_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jul_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="aug_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="sep_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="oct_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="nov_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="dec_FY_Secured_Target" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jan_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="feb_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="march_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="apr_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="may_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jun_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="jul_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="aug_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="sep_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="oct_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="nov_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-					<Property Name="dec_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
-
-				</EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwtypeofsaving">
@@ -1414,18 +1231,6 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-				<Association Name="fk_t_initiative_ID">
-					<End Role="t_initiative" Type="Self.t_initiative" Multiplicity="1" />
-					<End Role="t_initiative_calcs" Type="Self.t_initiative_calcs" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="t_initiative">
-							<PropertyRef Name="id" />
-						</Principal>
-						<Dependent Role="t_initiative_calcs">
-							<PropertyRef Name="t_initiative_ID" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
         <EntityContainer Name="GainModelStoreContainer">
           <EntitySet Name="logtable" EntityType="Self.logtable" Schema="gain2" store:Type="Tables" />
           <EntitySet Name="maccess_menu" EntityType="Self.maccess_menu" Schema="gain2" store:Type="Tables" />
@@ -1457,10 +1262,8 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
           <EntitySet Name="t_subcostinitiative" EntityType="Self.t_subcostinitiative" Schema="gain2" store:Type="Tables" />
           <EntitySet Name="t_subctry_costcntrlsite" EntityType="Self.t_subctry_costcntrlsite" Schema="gain2" store:Type="Tables" />
           <EntitySet Name="user_list" EntityType="Self.user_list" Schema="gain2" store:Type="Tables" />
-					<EntitySet Name="t_initiative_calcs" EntityType="Self.t_initiative_calcs" Schema="gain2" store:Type="Tables" />
           <EntitySet Name="vwagency" EntityType="Self.vwagency" store:Type="Views" store:Schema="gain2">
-						<DefiningQuery>
-							SELECT
+            <DefiningQuery>SELECT
 `vwagency`.`id`, 
 `vwagency`.`CostTypeName`, 
 `vwagency`.`projectyear`, 
@@ -1473,12 +1276,10 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 `vwagency`.`ytdachieved`, 
 `vwagency`.`percentytd`, 
 `vwagency`.`gap`
-							FROM `vwagency` AS `vwagency`
-						</DefiningQuery>
+FROM `vwagency` AS `vwagency`</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwheaderinitiative" EntityType="Self.vwheaderinitiative" store:Type="Views" store:Schema="gain2">
-						<DefiningQuery>
-							SELECT
+            <DefiningQuery>SELECT
 `vwheaderinitiative`.`id`, 
 `vwheaderinitiative`.`InitNumber`, 
 `vwheaderinitiative`.`SourceCategory`, 
@@ -1517,117 +1318,54 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 `vwheaderinitiative`.`StartMonth`, 
 `vwheaderinitiative`.`EndMonth`, 
 `vwheaderinitiative`.`LaraCode`, 
-
 `vwheaderinitiative`.`TargetTY`, 
-
-							`vwheaderinitiative`.`N_FY_Sec_PRICE_EF`,
-							`vwheaderinitiative`.`N_FY_Sec_VOLUME_EF`,
-							`vwheaderinitiative`.`Unit_of_volumes`,
-							`vwheaderinitiative`.`Input_Actuals_Volumes_Nmin1`,
-							`vwheaderinitiative`.`Input_Target_Volumes`,
-							`vwheaderinitiative`.`Total_Actual_volume_N`,
-							`vwheaderinitiative`.`Spend_Nmin1`,
-							`vwheaderinitiative`.`Spend_N`,
-							`vwheaderinitiative`.`CPI`,
-
 `vwheaderinitiative`.`TargetNY`, 
 `vwheaderinitiative`.`HOValidity`, 
 `vwheaderinitiative`.`RPOCControl`, 
 `vwheaderinitiative`.`InitStatus`, 
 `vwheaderinitiative`.`Status`, 
-
-							`vwheaderinitiative`.`N_YTD_Sec_PRICE_EF`,
-							`vwheaderinitiative`.`N_YTD_Sec_VOLUME_EF`,
-
 `vwheaderinitiative`.`YTDTarget`, 
-
-							`vwheaderinitiative`.`YTD_Achieved_PRICE_EF`,
-							`vwheaderinitiative`.`YTD_Achieved_VOLUME_EF`,
-
 `vwheaderinitiative`.`YTDAchieved`, 
-
-							`vwheaderinitiative`.`YTD_Cost_Avoid_Vs_CPI`,
-							`vwheaderinitiative`.`FY_Cost_Avoid_Vs_CPI`,
-
 `vwheaderinitiative`.`TargetJan`, 
 `vwheaderinitiative`.`AchJan`, 
-							`vwheaderinitiative`.`janActual_volume_N`,
-
 `vwheaderinitiative`.`TargetFeb`, 
 `vwheaderinitiative`.`AchFeb`, 
-							`vwheaderinitiative`.`febActual_volume_N`,
-
 `vwheaderinitiative`.`TargetMar`, 
 `vwheaderinitiative`.`AchMar`, 
-							`vwheaderinitiative`.`marActual_volume_N`,
-
 `vwheaderinitiative`.`TargetApr`, 
 `vwheaderinitiative`.`AchApr`, 
-							`vwheaderinitiative`.`aprActual_volume_N`,
-
 `vwheaderinitiative`.`TargetMay`, 
 `vwheaderinitiative`.`AchMay`, 
-							`vwheaderinitiative`.`mayActual_volume_N`,
-
 `vwheaderinitiative`.`TargetJun`, 
 `vwheaderinitiative`.`AchJun`, 
-							`vwheaderinitiative`.`junActual_volume_N`,
-
-
 `vwheaderinitiative`.`TargetJul`, 
 `vwheaderinitiative`.`AchJul`, 
-							`vwheaderinitiative`.`julActual_volume_N`,
-
 `vwheaderinitiative`.`TargetAug`, 
 `vwheaderinitiative`.`AchAug`, 
-							`vwheaderinitiative`.`augActual_volume_N`,
-
 `vwheaderinitiative`.`TargetSep`, 
 `vwheaderinitiative`.`AchSep`, 
-							`vwheaderinitiative`.`sepActual_volume_N`,
-
 `vwheaderinitiative`.`TargetOct`, 
 `vwheaderinitiative`.`AchOct`, 
-							`vwheaderinitiative`.`octActual_volume_N`,
-
 `vwheaderinitiative`.`TargetNov`, 
 `vwheaderinitiative`.`AchNov`, 
-							`vwheaderinitiative`.`novActual_volume_N`,
-
 `vwheaderinitiative`.`TargetDec`, 
 `vwheaderinitiative`.`AchDec`, 
 `vwheaderinitiative`.`TargetNexJan`, 
 `vwheaderinitiative`.`AchNexJan`, 
-
-
 `vwheaderinitiative`.`TargetNexFeb`, 
 `vwheaderinitiative`.`AchNexFeb`, 
-
-
 `vwheaderinitiative`.`TargetNexMar`, 
 `vwheaderinitiative`.`AchNexMar`, 
-
-
 `vwheaderinitiative`.`TargetNexApr`, 
 `vwheaderinitiative`.`AchNexApr`, 
-
-
 `vwheaderinitiative`.`TargetNexMay`, 
 `vwheaderinitiative`.`AchNexMay`, 
-
-
 `vwheaderinitiative`.`TargetNexJun`, 
 `vwheaderinitiative`.`AchNexJun`, 
-
-
 `vwheaderinitiative`.`TargetNexJul`, 
 `vwheaderinitiative`.`AchNexJul`, 
-
-
 `vwheaderinitiative`.`TargetNexAug`, 
 `vwheaderinitiative`.`AchNexAug`, 
-
-
 `vwheaderinitiative`.`TargetNexSep`, 
 `vwheaderinitiative`.`AchNexSep`, 
 `vwheaderinitiative`.`TargetNexOct`, 
@@ -1649,14 +1387,11 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 `vwheaderinitiative`.`CreatedDate`, 
 `vwheaderinitiative`.`CreatedBy`, 
 `vwheaderinitiative`.`ModifiedDate`, 
-							`vwheaderinitiative`.`isProcurement`,
 `vwheaderinitiative`.`ModifiedBy`
-							FROM `vwheaderinitiative` AS `vwheaderinitiative`
-						</DefiningQuery>
+FROM `vwheaderinitiative` AS `vwheaderinitiative`</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwsummarydashboard" EntityType="Self.vwsummarydashboard" store:Type="Views" store:Schema="gain2">
-						<DefiningQuery>
-							SELECT
+            <DefiningQuery>SELECT
 `vwsummarydashboard`.`id`, 
 `vwsummarydashboard`.`RegionName`, 
 `vwsummarydashboard`.`CountryName`, 
@@ -1670,12 +1405,10 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 `vwsummarydashboard`.`YTDAchSaving`, 
 `vwsummarydashboard`.`percentytd`, 
 `vwsummarydashboard`.`gap`
-							FROM `vwsummarydashboard` AS `vwsummarydashboard`
-						</DefiningQuery>
+FROM `vwsummarydashboard` AS `vwsummarydashboard`</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwsummarydashboarddetail" EntityType="Self.vwsummarydashboarddetail" store:Type="Views" store:Schema="gain2">
-						<DefiningQuery>
-							SELECT
+            <DefiningQuery>SELECT
 `vwsummarydashboarddetail`.`id`, 
 `vwsummarydashboarddetail`.`RegionName`, 
 `vwsummarydashboarddetail`.`CountryName`, 
@@ -1689,32 +1422,27 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 `vwsummarydashboarddetail`.`YTDAchSaving`, 
 `vwsummarydashboarddetail`.`percentytd`, 
 `vwsummarydashboarddetail`.`gap`
-							FROM `vwsummarydashboarddetail` AS `vwsummarydashboarddetail`
-						</DefiningQuery>
+FROM `vwsummarydashboarddetail` AS `vwsummarydashboarddetail`</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwtopcategory" EntityType="Self.vwtopcategory" store:Type="Views" store:Schema="gain2">
-						<DefiningQuery>
-							SELECT
+            <DefiningQuery>SELECT
 `vwtopcategory`.`id`, 
 `vwtopcategory`.`CostTypeName`, 
 `vwtopcategory`.`projectyear`, 
 `vwtopcategory`.`prcnt`, 
 `vwtopcategory`.`YTDAchieved`, 
 `vwtopcategory`.`YTDTarget`
-							FROM `vwtopcategory` AS `vwtopcategory`
-						</DefiningQuery>
+FROM `vwtopcategory` AS `vwtopcategory`</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwtypeofsaving" EntityType="Self.vwtypeofsaving" store:Type="Views" store:Schema="gain2">
-						<DefiningQuery>
-							SELECT
+            <DefiningQuery>SELECT
 `vwtypeofsaving`.`id`, 
 `vwtypeofsaving`.`SavingTypeName`, 
 `vwtypeofsaving`.`projectyear`, 
 `vwtypeofsaving`.`prcnt`, 
 `vwtypeofsaving`.`YTDAchieved`, 
 `vwtypeofsaving`.`YTDTarget`
-							FROM `vwtypeofsaving` AS `vwtypeofsaving`
-						</DefiningQuery>
+FROM `vwtypeofsaving` AS `vwtypeofsaving`</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="fk_access_menu_roles1" Association="Self.fk_access_menu_roles1">
             <End Role="mroles" EntitySet="mroles" />
@@ -1896,13 +1624,8 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
             <End Role="mmenu" EntitySet="mmenu" />
             <End Role="mmenu1" EntitySet="mmenu" />
           </AssociationSet>
-					<AssociationSet Name="fk_t_initiative_ID" Association="Self.fk_t_initiative_ID">
-						<End Role="t_initiative" EntitySet="t_initiative" />
-						<End Role="t_initiative_calcs" EntitySet="t_initiative_calcs" />
-					</AssociationSet>
         </EntityContainer>
-			</Schema>
-		</edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GainModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2340,38 +2063,6 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-
-
-					<Property Name="Unit_of_volumes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="Input_Actuals_Volumes_Nmin1" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="Input_Target_Volumes" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="Total_Actual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="Spend_Nmin1" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="Spend_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="CPI" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="janActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="febActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="marActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="aprActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="mayActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="junActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="julActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="augActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="sepActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="octActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="novActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="decActual_volume_N" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="N_FY_Sec_PRICE_EF" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="N_FY_Sec_VOLUME_EF" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="N_YTD_Sec_PRICE_EF" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="N_YTD_Sec_VOLUME_EF" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="YTD_Achieved_PRICE_EF" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="YTD_Achieved_VOLUME_EF" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="YTD_Cost_Avoid_Vs_CPI" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="FY_Cost_Avoid_Vs_CPI" Type="Decimal" Precision="15" Scale="2" />
-					<Property Name="isProcurement" Type="Int32" />
-
-
           <NavigationProperty Name="mbrand" Relationship="Self.fk_initbrand" FromRole="t_initiative" ToRole="mbrand" />
           <NavigationProperty Name="mcluster" Relationship="Self.fk_initcluster" FromRole="t_initiative" ToRole="mcluster" />
           <NavigationProperty Name="mcostcontrolsite" Relationship="Self.fk_initcostcontrol" FromRole="t_initiative" ToRole="mcostcontrolsite" />
@@ -2383,7 +2074,6 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
           <NavigationProperty Name="mstatu" Relationship="Self.fk_initstatus" FromRole="t_initiative" ToRole="mstatus" />
           <NavigationProperty Name="msubcountry" Relationship="Self.fk_initsubcountry" FromRole="t_initiative" ToRole="msubcountry" />
           <NavigationProperty Name="msubregion" Relationship="Self.fk_initsubregion" FromRole="t_initiative" ToRole="msubregion" />
-					<NavigationProperty Name="t_initiative_calcs" Relationship="Self.fk_t_initiative_ID" FromRole="t_initiative" ToRole="t_initiative_calcs" />
         </EntityType>
         <EntityType Name="t_subcostactiontype">
           <Key>
@@ -2478,128 +2168,6 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
           <Property Name="confidential_right" Type="Int32" />
           <Property Name="years_right" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
         </EntityType>
-
-
-				<EntityType Name="t_initiative_calcs">
-					<Key>
-						<PropertyRef Name="id" />
-					</Key>
-					<Property Name="id" Type="Int64" Nullable="false"  annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="t_initiative_ID" Type="Int64" Nullable="false" />
-					
-					<Property Name="jan_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="feb_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="march_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="apr_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="may_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="jun_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="jul_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="aug_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="sep_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="oct_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="nov_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="dec_Actual_CPU_Nmin1" Type="Decimal" Nullable="false" />
-					<Property Name="jan_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="feb_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="march_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="apr_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="may_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="jun_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="jul_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="aug_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="sep_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="oct_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="nov_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="dec_Target_CPU_N" Type="Decimal" Nullable="false" />
-					<Property Name="jan_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="feb_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="march_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="apr_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="may_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="jun_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="jul_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="aug_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="sep_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="oct_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="nov_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="dec_A_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="jan_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="feb_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="march_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="apr_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="may_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="jun_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="jul_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="aug_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="sep_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="oct_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="nov_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="dec_A_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="jan_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="feb_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="march_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="apr_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="may_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="jun_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="jul_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="aug_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="sep_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="oct_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="nov_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="dec_Achievement" Type="Decimal" Nullable="false" />
-					<Property Name="jan_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="feb_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="march_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="apr_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="may_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="jun_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="jul_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="aug_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="sep_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="oct_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="nov_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="dec_ST_Price_effect" Type="Decimal" Nullable="false" />
-					<Property Name="jan_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="feb_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="march_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="apr_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="may_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="jun_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="jul_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="aug_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="sep_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="oct_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="nov_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="dec_ST_Volume_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="jan_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="feb_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="march_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="apr_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="may_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="jun_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="jul_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="aug_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="sep_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="oct_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="nov_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="dec_FY_Secured_Target" Type="Decimal" Nullable="false" />
-					<Property Name="jan_CPI_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="feb_CPI_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="march_CPI_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="apr_CPI_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="may_CPI_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="jun_CPI_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="jul_CPI_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="aug_CPI_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="sep_CPI_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="oct_CPI_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="nov_CPI_Effect" Type="Decimal" Nullable="false" />
-					<Property Name="dec_CPI_Effect" Type="Decimal" Nullable="false" />
-
-
-					<NavigationProperty Name="t_initiative" Relationship="Self.fk_t_initiative_ID" FromRole="t_initiative_calcs" ToRole="t_initiative" />
-				</EntityType>
-				
         <EntityType Name="vwagency">
           <Key>
             <PropertyRef Name="id" />
@@ -2672,83 +2240,37 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
           <Property Name="EndMonth" Type="DateTime" />
           <Property Name="LaraCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TargetTY" Type="Decimal" />
-
-					<Property Name="N_FY_Sec_PRICE_EF" Type="Decimal" />
-					<Property Name="N_FY_Sec_VOLUME_EF" Type="Decimal" />
-					<Property Name="Unit_of_volumes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="Input_Actuals_Volumes_Nmin1" Type="Decimal" />
-					<Property Name="Input_Target_Volumes" Type="Decimal" />
-					<Property Name="Total_Actual_volume_N" Type="Decimal" />
-					<Property Name="Spend_Nmin1" Type="Decimal" />
-					<Property Name="Spend_N" Type="Decimal" />
-					<Property Name="CPI" Type="Decimal" />
-
           <Property Name="TargetNY" Type="Decimal" />
           <Property Name="HOValidity" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
           <Property Name="RPOCControl" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
           <Property Name="InitStatus" Type="Int64" />
-
           <Property Name="Status" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-					<Property Name="N_YTD_Sec_PRICE_EF" Type="Decimal" />
-					<Property Name="N_YTD_Sec_VOLUME_EF" Type="Decimal" />
-
           <Property Name="YTDTarget" Type="Decimal" />
-					<Property Name="YTD_Achieved_PRICE_EF" Type="Decimal" />
-					<Property Name="YTD_Achieved_VOLUME_EF" Type="Decimal" />
-
           <Property Name="YTDAchieved" Type="Decimal" />
-					<Property Name="YTD_Cost_Avoid_Vs_CPI" Type="Decimal" />
-					<Property Name="FY_Cost_Avoid_Vs_CPI" Type="Decimal" />
-
-
           <Property Name="TargetJan" Type="Decimal" />
           <Property Name="AchJan" Type="Decimal" />
-					<Property Name="janActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetFeb" Type="Decimal" />
           <Property Name="AchFeb" Type="Decimal" />
-					<Property Name="febActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetMar" Type="Decimal" />
           <Property Name="AchMar" Type="Decimal" />
-					<Property Name="marActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetApr" Type="Decimal" />
           <Property Name="AchApr" Type="Decimal" />
-					<Property Name="aprActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetMay" Type="Decimal" />
           <Property Name="AchMay" Type="Decimal" />
-					<Property Name="mayActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetJun" Type="Decimal" />
           <Property Name="AchJun" Type="Decimal" />
-					<Property Name="junActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetJul" Type="Decimal" />
           <Property Name="AchJul" Type="Decimal" />
-					<Property Name="julActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetAug" Type="Decimal" />
           <Property Name="AchAug" Type="Decimal" />
-					<Property Name="augActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetSep" Type="Decimal" />
           <Property Name="AchSep" Type="Decimal" />
-					<Property Name="sepActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetOct" Type="Decimal" />
           <Property Name="AchOct" Type="Decimal" />
-					<Property Name="octActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetNov" Type="Decimal" />
           <Property Name="AchNov" Type="Decimal" />
-					<Property Name="novActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetDec" Type="Decimal" />
           <Property Name="AchDec" Type="Decimal" />
-					<Property Name="decActual_volume_N" Type="Decimal" />
-
           <Property Name="TargetNexJan" Type="Decimal" />
           <Property Name="AchNexJan" Type="Decimal" />
           <Property Name="TargetNexFeb" Type="Decimal" />
@@ -2787,7 +2309,6 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ModifiedBy" Type="String" MaxLength="213" FixedLength="false" Unicode="false" />
-					<Property Name="isProcurement" Type="Int32" />
         </EntityType>
         <EntityType Name="vwsummarydashboard">
           <Key>
@@ -3411,20 +2932,6 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-
-				<Association Name="fk_t_initiative_ID">
-					<End Role="t_initiative" Type="Self.t_initiative" Multiplicity="1" />
-					<End Role="t_initiative_calcs" Type="Self.t_initiative_calcs" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="t_initiative">
-							<PropertyRef Name="id" />
-						</Principal>
-						<Dependent Role="t_initiative_calcs">
-							<PropertyRef Name="t_initiative_ID" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				
         <EntityContainer Name="GainEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="logtables" EntityType="Self.logtable" />
           <EntitySet Name="maccess_menu" EntityType="Self.maccess_menu" />
@@ -3456,10 +2963,6 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
           <EntitySet Name="t_subcostinitiative" EntityType="Self.t_subcostinitiative" />
           <EntitySet Name="t_subctry_costcntrlsite" EntityType="Self.t_subctry_costcntrlsite" />
           <EntitySet Name="user_list" EntityType="Self.user_list" />
-					
-					<EntitySet Name="t_initiative_calcs" EntityType="Self.t_initiative_calcs" />
-					
-					
           <EntitySet Name="vwagencies" EntityType="Self.vwagency" />
           <EntitySet Name="vwheaderinitiatives" EntityType="Self.vwheaderinitiative" />
           <EntitySet Name="vwsummarydashboards" EntityType="Self.vwsummarydashboard" />
@@ -3646,12 +3149,6 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
             <End Role="msubregion" EntitySet="msubregions" />
             <End Role="t_initiative" EntitySet="t_initiative" />
           </AssociationSet>
-					
-					<AssociationSet Name="fk_t_initiative_ID" Association="Self.fk_t_initiative_ID">
-						<End Role="t_initiative" EntitySet="t_initiative" />
-						<End Role="t_initiative_calcs" EntitySet="t_initiative_calcs" />
-					</AssociationSet>
-					
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -4047,35 +3544,6 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
              
-								<ScalarProperty Name="Unit_of_volumes" ColumnName="Unit_of_volumes" />
-								<ScalarProperty Name="Input_Actuals_Volumes_Nmin1" ColumnName="Input_Actuals_Volumes_Nmin1" />
-								<ScalarProperty Name="Input_Target_Volumes" ColumnName="Input_Target_Volumes" />
-								<ScalarProperty Name="Total_Actual_volume_N" ColumnName="Total_Actual_volume_N" />
-								<ScalarProperty Name="Spend_Nmin1" ColumnName="Spend_Nmin1" />
-								<ScalarProperty Name="Spend_N" ColumnName="Spend_N" />
-								<ScalarProperty Name="CPI" ColumnName="CPI" />
-								<ScalarProperty Name="janActual_volume_N" ColumnName="janActual_volume_N" />
-								<ScalarProperty Name="febActual_volume_N" ColumnName="febActual_volume_N" />
-								<ScalarProperty Name="marActual_volume_N" ColumnName="marActual_volume_N" />
-								<ScalarProperty Name="aprActual_volume_N" ColumnName="aprActual_volume_N" />
-								<ScalarProperty Name="mayActual_volume_N" ColumnName="mayActual_volume_N" />
-								<ScalarProperty Name="junActual_volume_N" ColumnName="junActual_volume_N" />
-								<ScalarProperty Name="julActual_volume_N" ColumnName="julActual_volume_N" />
-								<ScalarProperty Name="augActual_volume_N" ColumnName="augActual_volume_N" />
-								<ScalarProperty Name="sepActual_volume_N" ColumnName="sepActual_volume_N" />
-								<ScalarProperty Name="octActual_volume_N" ColumnName="octActual_volume_N" />
-								<ScalarProperty Name="novActual_volume_N" ColumnName="novActual_volume_N" />
-								<ScalarProperty Name="decActual_volume_N" ColumnName="decActual_volume_N" />
-								<ScalarProperty Name="N_FY_Sec_PRICE_EF" ColumnName="N_FY_Sec_PRICE_EF" />
-								<ScalarProperty Name="N_FY_Sec_VOLUME_EF" ColumnName="N_FY_Sec_VOLUME_EF" />
-								<ScalarProperty Name="N_YTD_Sec_PRICE_EF" ColumnName="N_YTD_Sec_PRICE_EF" />
-								<ScalarProperty Name="N_YTD_Sec_VOLUME_EF" ColumnName="N_YTD_Sec_VOLUME_EF" />
-								<ScalarProperty Name="YTD_Achieved_PRICE_EF" ColumnName="YTD_Achieved_PRICE_EF" />
-								<ScalarProperty Name="YTD_Achieved_VOLUME_EF" ColumnName="YTD_Achieved_VOLUME_EF" />
-								<ScalarProperty Name="YTD_Cost_Avoid_Vs_CPI" ColumnName="YTD_Cost_Avoid_Vs_CPI" />
-								<ScalarProperty Name="FY_Cost_Avoid_Vs_CPI" ColumnName="FY_Cost_Avoid_Vs_CPI" />
-								<ScalarProperty Name="isProcurement" ColumnName="isProcurement" />
-
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -4165,126 +3633,6 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-
-					<EntitySetMapping Name="t_initiative_calcs">
-						<EntityTypeMapping TypeName="GainModel.t_initiative_calcs">
-							<MappingFragment StoreEntitySet="t_initiative_calcs">
-								<ScalarProperty Name="id" ColumnName="id" />
-								<ScalarProperty Name="t_initiative_ID" ColumnName="t_initiative_ID" />
-								
-								<ScalarProperty Name="jan_Actual_CPU_Nmin1" ColumnName="jan_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="feb_Actual_CPU_Nmin1" ColumnName="feb_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="march_Actual_CPU_Nmin1" ColumnName="march_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="apr_Actual_CPU_Nmin1" ColumnName="apr_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="may_Actual_CPU_Nmin1" ColumnName="may_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="jun_Actual_CPU_Nmin1" ColumnName="jun_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="jul_Actual_CPU_Nmin1" ColumnName="jul_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="aug_Actual_CPU_Nmin1" ColumnName="aug_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="sep_Actual_CPU_Nmin1" ColumnName="sep_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="oct_Actual_CPU_Nmin1" ColumnName="oct_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="nov_Actual_CPU_Nmin1" ColumnName="nov_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="dec_Actual_CPU_Nmin1" ColumnName="dec_Actual_CPU_Nmin1" />
-								<ScalarProperty Name="jan_Target_CPU_N" ColumnName="jan_Target_CPU_N" />
-								<ScalarProperty Name="feb_Target_CPU_N" ColumnName="feb_Target_CPU_N" />
-								<ScalarProperty Name="march_Target_CPU_N" ColumnName="march_Target_CPU_N" />
-								<ScalarProperty Name="apr_Target_CPU_N" ColumnName="apr_Target_CPU_N" />
-								<ScalarProperty Name="may_Target_CPU_N" ColumnName="may_Target_CPU_N" />
-								<ScalarProperty Name="jun_Target_CPU_N" ColumnName="jun_Target_CPU_N" />
-								<ScalarProperty Name="jul_Target_CPU_N" ColumnName="jul_Target_CPU_N" />
-								<ScalarProperty Name="aug_Target_CPU_N" ColumnName="aug_Target_CPU_N" />
-								<ScalarProperty Name="sep_Target_CPU_N" ColumnName="sep_Target_CPU_N" />
-								<ScalarProperty Name="oct_Target_CPU_N" ColumnName="oct_Target_CPU_N" />
-								<ScalarProperty Name="nov_Target_CPU_N" ColumnName="nov_Target_CPU_N" />
-								<ScalarProperty Name="dec_Target_CPU_N" ColumnName="dec_Target_CPU_N" />
-								<ScalarProperty Name="jan_A_Price_effect" ColumnName="jan_A_Price_effect" />
-								<ScalarProperty Name="feb_A_Price_effect" ColumnName="feb_A_Price_effect" />
-								<ScalarProperty Name="march_A_Price_effect" ColumnName="march_A_Price_effect" />
-								<ScalarProperty Name="apr_A_Price_effect" ColumnName="apr_A_Price_effect" />
-								<ScalarProperty Name="may_A_Price_effect" ColumnName="may_A_Price_effect" />
-								<ScalarProperty Name="jun_A_Price_effect" ColumnName="jun_A_Price_effect" />
-								<ScalarProperty Name="jul_A_Price_effect" ColumnName="jul_A_Price_effect" />
-								<ScalarProperty Name="aug_A_Price_effect" ColumnName="aug_A_Price_effect" />
-								<ScalarProperty Name="sep_A_Price_effect" ColumnName="sep_A_Price_effect" />
-								<ScalarProperty Name="oct_A_Price_effect" ColumnName="oct_A_Price_effect" />
-								<ScalarProperty Name="nov_A_Price_effect" ColumnName="nov_A_Price_effect" />
-								<ScalarProperty Name="dec_A_Price_effect" ColumnName="dec_A_Price_effect" />
-								<ScalarProperty Name="jan_A_Volume_Effect" ColumnName="jan_A_Volume_Effect" />
-								<ScalarProperty Name="feb_A_Volume_Effect" ColumnName="feb_A_Volume_Effect" />
-								<ScalarProperty Name="march_A_Volume_Effect" ColumnName="march_A_Volume_Effect" />
-								<ScalarProperty Name="apr_A_Volume_Effect" ColumnName="apr_A_Volume_Effect" />
-								<ScalarProperty Name="may_A_Volume_Effect" ColumnName="may_A_Volume_Effect" />
-								<ScalarProperty Name="jun_A_Volume_Effect" ColumnName="jun_A_Volume_Effect" />
-								<ScalarProperty Name="jul_A_Volume_Effect" ColumnName="jul_A_Volume_Effect" />
-								<ScalarProperty Name="aug_A_Volume_Effect" ColumnName="aug_A_Volume_Effect" />
-								<ScalarProperty Name="sep_A_Volume_Effect" ColumnName="sep_A_Volume_Effect" />
-								<ScalarProperty Name="oct_A_Volume_Effect" ColumnName="oct_A_Volume_Effect" />
-								<ScalarProperty Name="nov_A_Volume_Effect" ColumnName="nov_A_Volume_Effect" />
-								<ScalarProperty Name="dec_A_Volume_Effect" ColumnName="dec_A_Volume_Effect" />
-								<ScalarProperty Name="jan_Achievement" ColumnName="jan_Achievement" />
-								<ScalarProperty Name="feb_Achievement" ColumnName="feb_Achievement" />
-								<ScalarProperty Name="march_Achievement" ColumnName="march_Achievement" />
-								<ScalarProperty Name="apr_Achievement" ColumnName="apr_Achievement" />
-								<ScalarProperty Name="may_Achievement" ColumnName="may_Achievement" />
-								<ScalarProperty Name="jun_Achievement" ColumnName="jun_Achievement" />
-								<ScalarProperty Name="jul_Achievement" ColumnName="jul_Achievement" />
-								<ScalarProperty Name="aug_Achievement" ColumnName="aug_Achievement" />
-								<ScalarProperty Name="sep_Achievement" ColumnName="sep_Achievement" />
-								<ScalarProperty Name="oct_Achievement" ColumnName="oct_Achievement" />
-								<ScalarProperty Name="nov_Achievement" ColumnName="nov_Achievement" />
-								<ScalarProperty Name="dec_Achievement" ColumnName="dec_Achievement" />
-								<ScalarProperty Name="jan_ST_Price_effect" ColumnName="jan_ST_Price_effect" />
-								<ScalarProperty Name="feb_ST_Price_effect" ColumnName="feb_ST_Price_effect" />
-								<ScalarProperty Name="march_ST_Price_effect" ColumnName="march_ST_Price_effect" />
-								<ScalarProperty Name="apr_ST_Price_effect" ColumnName="apr_ST_Price_effect" />
-								<ScalarProperty Name="may_ST_Price_effect" ColumnName="may_ST_Price_effect" />
-								<ScalarProperty Name="jun_ST_Price_effect" ColumnName="jun_ST_Price_effect" />
-								<ScalarProperty Name="jul_ST_Price_effect" ColumnName="jul_ST_Price_effect" />
-								<ScalarProperty Name="aug_ST_Price_effect" ColumnName="aug_ST_Price_effect" />
-								<ScalarProperty Name="sep_ST_Price_effect" ColumnName="sep_ST_Price_effect" />
-								<ScalarProperty Name="oct_ST_Price_effect" ColumnName="oct_ST_Price_effect" />
-								<ScalarProperty Name="nov_ST_Price_effect" ColumnName="nov_ST_Price_effect" />
-								<ScalarProperty Name="dec_ST_Price_effect" ColumnName="dec_ST_Price_effect" />
-								<ScalarProperty Name="jan_ST_Volume_Effect" ColumnName="jan_ST_Volume_Effect" />
-								<ScalarProperty Name="feb_ST_Volume_Effect" ColumnName="feb_ST_Volume_Effect" />
-								<ScalarProperty Name="march_ST_Volume_Effect" ColumnName="march_ST_Volume_Effect" />
-								<ScalarProperty Name="apr_ST_Volume_Effect" ColumnName="apr_ST_Volume_Effect" />
-								<ScalarProperty Name="may_ST_Volume_Effect" ColumnName="may_ST_Volume_Effect" />
-								<ScalarProperty Name="jun_ST_Volume_Effect" ColumnName="jun_ST_Volume_Effect" />
-								<ScalarProperty Name="jul_ST_Volume_Effect" ColumnName="jul_ST_Volume_Effect" />
-								<ScalarProperty Name="aug_ST_Volume_Effect" ColumnName="aug_ST_Volume_Effect" />
-								<ScalarProperty Name="sep_ST_Volume_Effect" ColumnName="sep_ST_Volume_Effect" />
-								<ScalarProperty Name="oct_ST_Volume_Effect" ColumnName="oct_ST_Volume_Effect" />
-								<ScalarProperty Name="nov_ST_Volume_Effect" ColumnName="nov_ST_Volume_Effect" />
-								<ScalarProperty Name="dec_ST_Volume_Effect" ColumnName="dec_ST_Volume_Effect" />
-								<ScalarProperty Name="jan_FY_Secured_Target" ColumnName="jan_FY_Secured_Target" />
-								<ScalarProperty Name="feb_FY_Secured_Target" ColumnName="feb_FY_Secured_Target" />
-								<ScalarProperty Name="march_FY_Secured_Target" ColumnName="march_FY_Secured_Target" />
-								<ScalarProperty Name="apr_FY_Secured_Target" ColumnName="apr_FY_Secured_Target" />
-								<ScalarProperty Name="may_FY_Secured_Target" ColumnName="may_FY_Secured_Target" />
-								<ScalarProperty Name="jun_FY_Secured_Target" ColumnName="jun_FY_Secured_Target" />
-								<ScalarProperty Name="jul_FY_Secured_Target" ColumnName="jul_FY_Secured_Target" />
-								<ScalarProperty Name="aug_FY_Secured_Target" ColumnName="aug_FY_Secured_Target" />
-								<ScalarProperty Name="sep_FY_Secured_Target" ColumnName="sep_FY_Secured_Target" />
-								<ScalarProperty Name="oct_FY_Secured_Target" ColumnName="oct_FY_Secured_Target" />
-								<ScalarProperty Name="nov_FY_Secured_Target" ColumnName="nov_FY_Secured_Target" />
-								<ScalarProperty Name="dec_FY_Secured_Target" ColumnName="dec_FY_Secured_Target" />
-								<ScalarProperty Name="jan_CPI_Effect" ColumnName="jan_CPI_Effect" />
-								<ScalarProperty Name="feb_CPI_Effect" ColumnName="feb_CPI_Effect" />
-								<ScalarProperty Name="march_CPI_Effect" ColumnName="march_CPI_Effect" />
-								<ScalarProperty Name="apr_CPI_Effect" ColumnName="apr_CPI_Effect" />
-								<ScalarProperty Name="may_CPI_Effect" ColumnName="may_CPI_Effect" />
-								<ScalarProperty Name="jun_CPI_Effect" ColumnName="jun_CPI_Effect" />
-								<ScalarProperty Name="jul_CPI_Effect" ColumnName="jul_CPI_Effect" />
-								<ScalarProperty Name="aug_CPI_Effect" ColumnName="aug_CPI_Effect" />
-								<ScalarProperty Name="sep_CPI_Effect" ColumnName="sep_CPI_Effect" />
-								<ScalarProperty Name="oct_CPI_Effect" ColumnName="oct_CPI_Effect" />
-								<ScalarProperty Name="nov_CPI_Effect" ColumnName="nov_CPI_Effect" />
-								<ScalarProperty Name="dec_CPI_Effect" ColumnName="dec_CPI_Effect" />
-
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
-					
           <EntitySetMapping Name="vwagencies">
             <EntityTypeMapping TypeName="GainModel.vwagency">
               <MappingFragment StoreEntitySet="vwagency">
@@ -4345,79 +3693,37 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
                 <ScalarProperty Name="EndMonth" ColumnName="EndMonth" />
                 <ScalarProperty Name="LaraCode" ColumnName="LaraCode" />
                 <ScalarProperty Name="TargetTY" ColumnName="TargetTY" />
-								<ScalarProperty Name="N_FY_Sec_PRICE_EF" ColumnName="N_FY_Sec_PRICE_EF" />
-								<ScalarProperty Name="N_FY_Sec_VOLUME_EF" ColumnName="N_FY_Sec_VOLUME_EF" />
-								<ScalarProperty Name="Unit_of_volumes" ColumnName="Unit_of_volumes" />
-								<ScalarProperty Name="Input_Actuals_Volumes_Nmin1" ColumnName="Input_Actuals_Volumes_Nmin1" />
-								<ScalarProperty Name="Input_Target_Volumes" ColumnName="Input_Target_Volumes" />
-								<ScalarProperty Name="Total_Actual_volume_N" ColumnName="Total_Actual_volume_N" />
-								<ScalarProperty Name="Spend_Nmin1" ColumnName="Spend_Nmin1" />
-								<ScalarProperty Name="Spend_N" ColumnName="Spend_N" />
-								<ScalarProperty Name="CPI" ColumnName="CPI" />
-
                 <ScalarProperty Name="TargetNY" ColumnName="TargetNY" />
                 <ScalarProperty Name="HOValidity" ColumnName="HOValidity" />
                 <ScalarProperty Name="RPOCControl" ColumnName="RPOCControl" />
                 <ScalarProperty Name="InitStatus" ColumnName="InitStatus" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-								<ScalarProperty Name="N_YTD_Sec_PRICE_EF" ColumnName="N_YTD_Sec_PRICE_EF" />
-								<ScalarProperty Name="N_YTD_Sec_VOLUME_EF" ColumnName="N_YTD_Sec_VOLUME_EF" />
-
                 <ScalarProperty Name="YTDTarget" ColumnName="YTDTarget" />
-								<ScalarProperty Name="YTD_Achieved_PRICE_EF" ColumnName="YTD_Achieved_PRICE_EF" />
-								<ScalarProperty Name="YTD_Achieved_VOLUME_EF" ColumnName="YTD_Achieved_VOLUME_EF" />
-
                 <ScalarProperty Name="YTDAchieved" ColumnName="YTDAchieved" />
-								<ScalarProperty Name="YTD_Cost_Avoid_Vs_CPI" ColumnName="YTD_Cost_Avoid_Vs_CPI" />
-								<ScalarProperty Name="FY_Cost_Avoid_Vs_CPI" ColumnName="FY_Cost_Avoid_Vs_CPI" />
-
                 <ScalarProperty Name="TargetJan" ColumnName="TargetJan" />
                 <ScalarProperty Name="AchJan" ColumnName="AchJan" />
-								<ScalarProperty Name="janActual_volume_N" ColumnName="janActual_volume_N" />
-
                 <ScalarProperty Name="TargetFeb" ColumnName="TargetFeb" />
                 <ScalarProperty Name="AchFeb" ColumnName="AchFeb" />
-								<ScalarProperty Name="febActual_volume_N" ColumnName="febActual_volume_N" />
-
                 <ScalarProperty Name="TargetMar" ColumnName="TargetMar" />
                 <ScalarProperty Name="AchMar" ColumnName="AchMar" />
-								<ScalarProperty Name="marActual_volume_N" ColumnName="marActual_volume_N" />
-
                 <ScalarProperty Name="TargetApr" ColumnName="TargetApr" />
                 <ScalarProperty Name="AchApr" ColumnName="AchApr" />
-								<ScalarProperty Name="aprActual_volume_N" ColumnName="aprActual_volume_N" />
-
                 <ScalarProperty Name="TargetMay" ColumnName="TargetMay" />
                 <ScalarProperty Name="AchMay" ColumnName="AchMay" />
-								<ScalarProperty Name="mayActual_volume_N" ColumnName="mayActual_volume_N" />
-
                 <ScalarProperty Name="TargetJun" ColumnName="TargetJun" />
                 <ScalarProperty Name="AchJun" ColumnName="AchJun" />
-								<ScalarProperty Name="junActual_volume_N" ColumnName="junActual_volume_N" />
-
                 <ScalarProperty Name="TargetJul" ColumnName="TargetJul" />
                 <ScalarProperty Name="AchJul" ColumnName="AchJul" />
-								<ScalarProperty Name="julActual_volume_N" ColumnName="julActual_volume_N" />
-
                 <ScalarProperty Name="TargetAug" ColumnName="TargetAug" />
                 <ScalarProperty Name="AchAug" ColumnName="AchAug" />
-								<ScalarProperty Name="augActual_volume_N" ColumnName="augActual_volume_N" />
-
                 <ScalarProperty Name="TargetSep" ColumnName="TargetSep" />
                 <ScalarProperty Name="AchSep" ColumnName="AchSep" />
-								<ScalarProperty Name="sepActual_volume_N" ColumnName="sepActual_volume_N" />
-
                 <ScalarProperty Name="TargetOct" ColumnName="TargetOct" />
                 <ScalarProperty Name="AchOct" ColumnName="AchOct" />
-								<ScalarProperty Name="octActual_volume_N" ColumnName="octActual_volume_N" />
-
                 <ScalarProperty Name="TargetNov" ColumnName="TargetNov" />
                 <ScalarProperty Name="AchNov" ColumnName="AchNov" />
-								<ScalarProperty Name="novActual_volume_N" ColumnName="novActual_volume_N" />
-
                 <ScalarProperty Name="TargetDec" ColumnName="TargetDec" />
                 <ScalarProperty Name="AchDec" ColumnName="AchDec" />
-								<ScalarProperty Name="decActual_volume_N" ColumnName="decActual_volume_N" />
                 <ScalarProperty Name="TargetNexJan" ColumnName="TargetNexJan" />
                 <ScalarProperty Name="AchNexJan" ColumnName="AchNexJan" />
                 <ScalarProperty Name="TargetNexFeb" ColumnName="TargetNexFeb" />
@@ -4456,7 +3762,6 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-								<ScalarProperty Name="isProcurement" ColumnName="isProcurement" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

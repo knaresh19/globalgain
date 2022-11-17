@@ -1,6 +1,7 @@
 ﻿@{
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
     var tahun = profileData.ProjectYear;
+    var projectMonth = profileData.ProjectMonth;
     //var startdate = 
 }
 
@@ -86,6 +87,7 @@
 
         settings.SettingsPager.PageSize = 10;
         settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        //settings.SettingsPager.Mode = GridViewPagerMode.EndlessPaging;
 
         settings.EnableRowsCache = false;
         settings.SettingsCookies.Enabled = false;
@@ -422,15 +424,6 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "LaraCode";
-            c.Caption = "Lara Charge Code";
-            c.HeaderStyle.Wrap = DefaultBoolean.True;
-            c.PropertiesEdit.DisplayFormatString = "";
-            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
-            c.Width = 120;
-        });
-        settings.Columns.Add(c =>
-        {
             c.FieldName = "TargetTY";
             c.Caption = "Target 12 Months (USD)";
             c.HeaderStyle.Wrap = DefaultBoolean.True;
@@ -438,6 +431,84 @@
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
         });
+
+        #region enh153-2 region 1
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "N_FY_Sec_PRICE_EF";
+            c.Caption = "N FY Secured (PRICE EFFECT)";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "N_FY_Sec_VOLUME_EF";
+            c.Caption = "N FY Secured (VOLUME EFFECT)";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Unit_of_volumes";
+            c.Caption = "Unit of volumes";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Input_Actuals_Volumes_Nmin1";
+            c.Caption = "Actuals Volumes N-1";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Input_Target_Volumes";
+            c.Caption = "Target Volumes N";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Total_Actual_volume_N";
+            c.Caption = "Actuals Volumes N";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Spend_Nmin1";
+            c.Caption = "$ SPEND N-1";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Spend_N";
+            c.Caption = "$ SPEND N";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "CPI";
+            c.Caption = "Consumer Price index";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        #endregion
         settings.Columns.Add(c =>
         {
             c.FieldName = "TargetNYUB";
@@ -493,6 +564,25 @@
                 p.BindList(ViewData["Status"]);
             });
         });
+
+        #region ENH153-2 region 2
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "N_YTD_Sec_PRICE_EF";
+            c.Caption = "N YTD Secured (PRICE EFFECT)";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "N_YTD_Sec_VOLUME_EF";
+            c.Caption = "N YTD Secured (VOLUME EFFECT)";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        #endregion
         settings.Columns.Add(c =>
         {
             c.FieldName = "YTDTargetUb";
@@ -501,6 +591,26 @@
             c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             c.Width = 100;
         });
+
+        #region ENH153-2 region 3
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "YTD_Achieved_PRICE_EF";
+            c.Caption = "YTD Achieved (PRICE EFFECT)";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "YTD_Achieved_VOLUME_EF";
+            c.Caption = "YTD Achieved (VOLUME EFFECT)";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        #endregion
+
         settings.Columns.Add(c =>
         {
             c.FieldName = "YTDAchievedUb";
@@ -509,6 +619,25 @@
             c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             c.Width = 150;
         });
+
+        #region ENH153-2 region 4
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "YTD_Cost_Avoid_Vs_CPI";
+            c.Caption = "YTD Cost Avoidance Vs CPI";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "FY_Cost_Avoid_Vs_CPI";
+            c.Caption = "FY Cost Avoidance Vs CPI";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+        #endregion
 
         settings.Columns.AddBand(JanuaryBand =>
         {
@@ -532,6 +661,14 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            JanuaryBand.Columns.Add(c =>
+            {
+                c.FieldName = "janActual_volume_N";
+                c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
         });
         settings.Columns.AddBand(FebruaryBand =>
         {
@@ -549,6 +686,14 @@
             {
                 c.FieldName = "AchFeb";
                 c.Caption = "Achieved";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
+            FebruaryBand.Columns.Add(c =>
+            {
+                c.FieldName = "febActual_volume_N";
+                c.Caption = "Actual Volumes";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
@@ -575,6 +720,14 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            MarchBand.Columns.Add(c =>
+            {
+                c.FieldName = "marActual_volume_N";
+                c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
         });
         settings.Columns.AddBand(AprilBand =>
         {
@@ -592,6 +745,14 @@
             {
                 c.FieldName = "AchApr";
                 c.Caption = "Achieved";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
+            AprilBand.Columns.Add(c =>
+            {
+                c.FieldName = "aprActual_volume_N";
+                c.Caption = "Actual Volumes";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
@@ -617,6 +778,14 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            MayBand.Columns.Add(c =>
+            {
+                c.FieldName = "mayActual_volume_N";
+                c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
         });
         settings.Columns.AddBand(JunBand =>
         {
@@ -638,6 +807,14 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.Width = 100;
             });
+            JunBand.Columns.Add(c =>
+            {
+                c.FieldName = "junActual_volume_N";
+                c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
         });
         settings.Columns.AddBand(JulBand =>
         {
@@ -655,6 +832,14 @@
             {
                 c.FieldName = "AchJul";
                 c.Caption = "Achieved";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
+            JulBand.Columns.Add(c =>
+            {
+                c.FieldName = "julActual_volume_N";
+                c.Caption = "Actual Volumes";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
@@ -680,6 +865,14 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            AugBand.Columns.Add(c =>
+            {
+                c.FieldName = "augActual_volume_N";
+                c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
         });
         settings.Columns.AddBand(SepBand =>
         {
@@ -697,6 +890,14 @@
             {
                 c.FieldName = "AchSep";
                 c.Caption = "Achieved";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
+            SepBand.Columns.Add(c =>
+            {
+                c.FieldName = "sepActual_volume_N";
+                c.Caption = "Actual Volumes";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
@@ -722,6 +923,14 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            OctBand.Columns.Add(c =>
+            {
+                c.FieldName = "octActual_volume_N";
+                c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
         });
         settings.Columns.AddBand(NovBand =>
         {
@@ -739,6 +948,14 @@
             {
                 c.FieldName = "AchNov";
                 c.Caption = "Achieved";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
+            NovBand.Columns.Add(c =>
+            {
+                c.FieldName = "novActual_volume_N";
+                c.Caption = "Actual Volumes";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
@@ -764,10 +981,19 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            DecBand.Columns.Add(c =>
+            {
+                c.FieldName = "decActual_volume_N";
+                c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+            });
         });
 
         settings.Columns.AddBand(JanuaryNexBand =>
         {
+            JanuaryNexBand.Visible = false;
             JanuaryNexBand.Caption = "January " + (tahun + 1) + "";
             JanuaryNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             JanuaryNexBand.Columns.Add(c =>
@@ -789,6 +1015,7 @@
         });
         settings.Columns.AddBand(FebruaryNexBand =>
         {
+            FebruaryNexBand.Visible = false;
             FebruaryNexBand.Caption = "February " + (tahun + 1) + "";
             FebruaryNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             FebruaryNexBand.Columns.Add(c =>
@@ -810,6 +1037,7 @@
         });
         settings.Columns.AddBand(MarchNexBand =>
         {
+            MarchNexBand.Visible = false;
             MarchNexBand.Caption = "March " + (tahun + 1) + "";
             MarchNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             MarchNexBand.Columns.Add(c =>
@@ -831,6 +1059,7 @@
         });
         settings.Columns.AddBand(AprilNexBand =>
         {
+            AprilNexBand.Visible = false;
             AprilNexBand.Caption = "April " + (tahun + 1) + "";
             AprilNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             AprilNexBand.Columns.Add(c =>
@@ -852,6 +1081,7 @@
         });
         settings.Columns.AddBand(MayNexBand =>
         {
+            MayNexBand.Visible = false;
             MayNexBand.Caption = "May " + (tahun + 1) + "";
             MayNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             MayNexBand.Columns.Add(c =>
@@ -873,6 +1103,7 @@
         });
         settings.Columns.AddBand(JunNexBand =>
         {
+            JunNexBand.Visible = false;
             JunNexBand.Caption = "June " + (tahun + 1) + "";
             JunNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             JunNexBand.Columns.Add(c =>
@@ -894,6 +1125,7 @@
         });
         settings.Columns.AddBand(JulNexBand =>
         {
+            JulNexBand.Visible = false;
             JulNexBand.Caption = "July " + (tahun + 1) + "";
             JulNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             JulNexBand.Columns.Add(c =>
@@ -915,6 +1147,7 @@
         });
         settings.Columns.AddBand(AugNexBand =>
         {
+            AugNexBand.Visible = false;
             AugNexBand.Caption = "August " + (tahun + 1) + "";
             AugNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             AugNexBand.Columns.Add(c =>
@@ -936,6 +1169,7 @@
         });
         settings.Columns.AddBand(SepNexBand =>
         {
+            SepNexBand.Visible = false;
             SepNexBand.Caption = "September " + (tahun + 1) + "";
             SepNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             SepNexBand.Columns.Add(c =>
@@ -957,6 +1191,7 @@
         });
         settings.Columns.AddBand(OctNexBand =>
         {
+            OctNexBand.Visible = false;
             OctNexBand.Caption = "October " + (tahun + 1) + "";
             OctNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             OctNexBand.Columns.Add(c =>
@@ -978,6 +1213,7 @@
         });
         settings.Columns.AddBand(NovNexBand =>
         {
+            NovNexBand.Visible = false;
             NovNexBand.Caption = "November " + (tahun + 1) + "";
             NovNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             NovNexBand.Columns.Add(c =>
@@ -999,6 +1235,7 @@
         });
         settings.Columns.AddBand(DecNexBand =>
         {
+            DecNexBand.Visible = false;
             DecNexBand.Caption = "December " + (tahun + 1) + "";
             DecNexBand.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             DecNexBand.Columns.Add(c =>
@@ -1312,7 +1549,8 @@
             }
         };
 
-        int currentMonth = DateTime.Today.Month;
+        //int currentMonth = DateTime.Today.Month;
+        int currentMonth = projectMonth;
         List<string> months = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
         string targetkeyword="Target";
         string achievedkeyword = "Ach";

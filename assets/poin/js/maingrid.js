@@ -11,11 +11,127 @@ function URLContent(url) {
 
 $(function () {
     $("#BtnInitiative").on("click", function () {
+
+        $('#isProcurement').val('0');
+        clear_Procurement_BackCalcs();
+
         var min_py = 0; var max_py = 0;
         var py = projectYear;
         min_py = (+py - 1);
         max_py = (+py);
-        ////debugger;;
+
+        // debugger;
+        StartMonth.SetMinDate(new Date(min_py + '-01-01'));
+        StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
+        EndMonth.SetMinDate(new Date(max_py + '-01-01'));
+        EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+
+        if (projectYear > 2022) { StartMonth.SetMinDate(new Date((max_py) + '-01-01')); }
+
+
+        $.post(URLContent('ActiveInitiative/GrdSubCountryPartial'), { Id: null }, function (data) {
+            var obj; GrdSubCountryPopup.ClearItems();
+            GrdSubCountryPopup.AddItem("[Please Select]", null);
+            $.each(data[0]["SubCountryData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
+            });
+            GrdSubCountryPopup.SelectIndex(0);
+        });
+        $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: null }, function (data) {
+            var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); CboWebinarCat.ClearItems();
+            $.each(data[0]["SavingTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdInitType.AddItem(obj.SavingTypeName, obj.id);
+            });
+            $.each(data[0]["ActionTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+            });
+            $.each(data[0]["SynImpactData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
+            });
+            $.each(data[0]["InitStatusData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdInitStatus.AddItem(obj.Status, obj.id);
+            });
+            $.each(data[0]["PortNameData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) TxPortName.AddItem(obj.PortName, obj.id);
+            });
+            $.each(data[0]["MCostTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
+            });
+            $.each(data[0]["MSourceCategory"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
+            });
+            if (projectYear > 2022) {
+               GrdActionType.clientEnabled = false;
+                GrdActionType.SelectIndex(1);
+            }
+            else { GrdActionType.SelectIndex(0); }
+
+            GrdInitType.SelectIndex(0);  GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
+        });
+        CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
+        CboWebinarCat.AddItem("");
+        CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
+        CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
+        $("#FormStatus").val("New");
+        $("#btnDuplicate").prop("disabled", true);
+
+        //var years_right = years_right;
+        var project_year = projectYear;
+
+        if (years_right.includes(project_year)) {
+            $("#btnSave").prop('disabled', false);
+        } else {
+            $("#btnSave").prop('disabled', true);
+        }
+        //Change the labels 
+        $('#ljan').html('Jan-' + py);
+        $('#lfeb').html('Feb-' + py);
+        $('#lmar').html('Mar-' + py);
+        $('#lapr').html('Apr-' + py);
+        $('#lmay').html('May-' + py);
+        $('#ljun').html('Jun-' + py);
+        $('#ljul').html('Jul-' + py);
+        $('#laug').html('Aug-' + py);
+        $('#lsep').html('Sep-' + py);
+        $('#loct').html('Oct-' + py);
+        $('#lnov').html('Nov-' + py);
+        $('#ldec').html('Dec-' + py);
+        var npy = parseInt(py) + 1;
+        $('#lnexjan').html('Jan-' + npy);
+        $('#lnexfeb').html('Feb-' + npy);
+        $('#lnexmar').html('Mar-' + npy);
+        $('#lnexapr').html('Apr-' + npy);
+        $('#lnexmay').html('May-' + npy);
+        $('#lnexjun').html('Jun-' + npy);
+        $('#lnexjul').html('Jul-' + npy);
+        $('#lnexaug').html('Aug-' + npy);
+        $('#lnexsep').html('Sep-' + npy);
+        $('#lnexoct').html('Oct-' + npy);
+        $('#lnexnov').html('Nov-' + npy);
+        $('#lnexdec').html('Dec-' + npy);
+
+        $('#_divProcurement').prop('style', 'display:none');
+        $('#_divOptimization').prop('style', 'display:block');
+        WindowInitiative.Show();
+        /*            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));*/
+    });
+    $('#BtnProcurement').on("click", function () {
+
+        $('#isProcurement').val('1');
+        clear_Procurement_BackCalcs();
+        var min_py = 0; var max_py = 0;
+        var py = projectYear;
+        min_py = (+py - 1);
+        max_py = (+py);
+        debugger;
         StartMonth.SetMinDate(new Date(min_py + '-01-01'));
         StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
         EndMonth.SetMinDate(new Date(max_py + '-01-01'));
@@ -60,11 +176,255 @@ $(function () {
                 value = JSON.stringify(value); obj = JSON.parse(value);
                 if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
             });
+
             if (projectYear > 2022) {
-              //  GrdActionType.clientEnabled = false;
+                GrdActionType.clientEnabled = false;
+                GrdActionType.SelectIndex(2);
+            }
+            else { GrdActionType.SelectIndex(0); }
+            GrdInitType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
+        });
+        CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
+        CboWebinarCat.AddItem("");
+        CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
+        CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
+        $("#FormStatus").val("New");
+        $("#btnDuplicate").prop("disabled", true);
+
+        //var years_right = years_right;
+        var project_year = projectYear;
+
+        if (years_right.includes(project_year)) {
+            $("#btnSave").prop('disabled', false);
+        } else {
+            $("#btnSave").prop('disabled', true);
+        }
+        //Change the labels 
+        $('#ljan').html('Jan-' + py);
+        $('#lfeb').html('Feb-' + py);
+        $('#lmar').html('Mar-' + py);
+        $('#lapr').html('Apr-' + py);
+        $('#lmay').html('May-' + py);
+        $('#ljun').html('Jun-' + py);
+        $('#ljul').html('Jul-' + py);
+        $('#laug').html('Aug-' + py);
+        $('#lsep').html('Sep-' + py);
+        $('#loct').html('Oct-' + py);
+        $('#lnov').html('Nov-' + py);
+        $('#ldec').html('Dec-' + py);
+        var npy = parseInt(py) + 1;
+        $('#lnexjan').html('Jan-' + npy);
+        $('#lnexfeb').html('Feb-' + npy);
+        $('#lnexmar').html('Mar-' + npy);
+        $('#lnexapr').html('Apr-' + npy);
+        $('#lnexmay').html('May-' + npy);
+        $('#lnexjun').html('Jun-' + npy);
+        $('#lnexjul').html('Jul-' + npy);
+        $('#lnexaug').html('Aug-' + npy);
+        $('#lnexsep').html('Sep-' + npy);
+        $('#lnexoct').html('Oct-' + npy);
+        $('#lnexnov').html('Nov-' + npy);
+        $('#lnexdec').html('Dec-' + npy);
+
+        $('#_divProcurement').prop('style', 'display:block');
+        $('#_divOptimization').prop('style', 'display:none');
+        WindowInitiative.Show();
+        /*            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));*/
+    });
+
+    $(".txSaving, .txTarget").on("change", function () {
+        $(this).val(formatValue($(this).val()));
+    });
+
+    $(".targetjan, .targetfeb, .targetmar, .targetapr, .targetmay, .targetjun, .targetjul, .targetaug, .targetsep, .targetoct, .targetnov, .targetdec").on("change", function () {
+        hitungtahunini();
+    });
+
+    $(".targetjan2, .targetfeb2, .targetmar2, .targetapr2, .targetmay2, .targetjun2, .targetjul2, .targetaug2, .targetsep2, .targetoct2, .targetnov2, .targetdec2").on("change", function () {
+        hitungtahunini();
+    });
+
+    $("#btnSave").on('click', function () {
+        //var projectYear = '@profileData.ProjectYear';
+        /*if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
+            Swal.fire({
+                title: 'Initiative of Previous Year',
+                text: 'This initiative is a previous year initiative. Total sum of month target for current year and next year will not match the initial target 12 months.',
+                icon: 'warning',
+                showCancelButton: false
+            }).then((result) => {
+                SaveInitiative();
+            });
+        }*/
+        //else {
+        SaveInitiative();
+        //}
+    });
+
+    $("#btnEditx").on('click', function () {
+        var n = $(this).text();
+        if (n === "Cancel") {
+            $(this).text("Edit");
+            $("#chkAuto").prop('disabled', true);
+            CheckUncheck();
+        } else if (n === "Edit") {
+            $(this).text("Cancel");
+            $("#chkAuto").prop('disabled', false);
+            CheckUncheck();
+        }
+    });
+
+    $("#btnClose").on('click', function () {
+        $('.txTarget').prop('disabled', false);
+        $('.txTarget').prop('readonly', false);
+        WindowInitiative.Hide();
+    });
+
+    $("#btnDuplicate").on("click", function () {
+        var subCountry = GrdSubCountryPopup.GetText();
+        var subCountryID = GrdSubCountryPopup.GetValue();
+        var brand = GrdBrandPopup.GetText();
+        var legal = GrdLegalEntityPopup.GetText();
+        $("#FormStatus").val("New");
+        $("#LblInitiative").text("DUP-0001");
+        $("#btnDuplicate").prop("disabled", true);
+        $.post(URLContent('ActiveInitiative/GrdSubCountryPartial'), { Id: null }, function (data) {
+            var obj; GrdSubCountryPopup.ClearItems();
+            $.each(data[0]["SubCountryData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
+            });
+
+            GrdSubCountryPopup.SetText(subCountry);
+
+            $.post(URLContent('ActiveInitiative/GetCountryBySub'), { id: subCountryID }, function (data) {
+                var obj2; GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
+                $.each(data[0]["BrandData"], function (key, value) {
+                    value = JSON.stringify(value); obj2 = JSON.parse(value);
+                    if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
+                });
+                // debugger;
+                GrdBrandPopup.SetText(brand);
+                var brandid = GrdBrandPopup.GetValue(); var countryid = $("#GrdCountryVal").val(); var subcountryid = GrdSubCountryPopup.GetValue(); var costcontrolsiteid = $("#GrdCostControlVal").val();
+                $.post(URLContent('ActiveInitiative/GetLegalFromBrand'), { brandid: brandid, countryid: countryid, subcountryid: subcountryid, costcontrolsiteid: costcontrolsiteid }, function (data) {
+                    var obj3;
+                    $.each(data[0]["LegalEntityData"], function (key, value) {
+                        value = JSON.stringify(value); obj3 = JSON.parse(value);
+                        if (obj3 != null) GrdLegalEntityPopup.AddItem(obj3.LegalEntityName, obj3.id);
+                    });
+                    GrdLegalEntityPopup.SetText(legal);
+                });
+            });
+            /*GrdSubCountryPopup.SelectIndex(0);*/
+            //GrdBrandPopup.ClearItems();
+            //GrdLegalEntityPopup.ClearItems();
+            //$('#GrdCountry').val(''); $('#GrdCountryVal').val('');
+            //$('#GrdRegional').val(''); $('#GrdRegionalVal').val('');
+            //$('#GrdSubRegion').val(''); $('#GrdSubRegionVal').val('');
+            //$('#GrdCluster').val(''); $('#GrdClusterVal').val('');
+            //$('#GrdRegionalOffice').val(''); $('#GrdRegionalOfficeVal').val('');
+            //$('#GrdCostControl').val(''); $('#GrdCostControlVal').val('');
+
+            //var years_right = '@years_right';
+            var project_year = projectYear;
+
+            if (years_right.includes(project_year)) {
+                $("#btnSave").prop('disabled', false);
+            } else {
+                $("#btnSave").prop('disabled', true);
+            }
+
+            StartMonth.SetValue(); EndMonth.SetValue();
+            var min_py = 0; var max_py = 0;
+            var py = projectYear;
+            min_py = (+py - 1);
+            max_py = (+py);
+            StartMonth.SetMinDate(new Date(min_py + '-01-01'));
+            StartMonth.SetMaxDate(new Date((max_py) + '-12-31'));
+            EndMonth.SetMinDate(new Date(max_py + '-01-01'));
+            EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+            $(".txTarget").prop("disabled", false); $(".txSaving").prop("disabled", false); $(".txTarget").val(''); $(".txSaving").val('');
+            txTarget12.SetValue(""); txTargetFullYear.SetValue(""); txYTDTargetFullYear.SetValue(""); txYTDSavingFullYear.SetValue("");
+
+            StartMonth.clientEnabled = true;
+            EndMonth.clientEnabled = true;
+            $('#chkAuto').prop('disabled', false);
+        });
+        Swal.fire(
+            'Duplicated Successfully',
+            'Initiative has been duplicated successfully. You can save it now.',
+            'success'
+        );
+    });
+
+    setTimeout(function () {
+        UpdateFigureWidget(GrdMainInitiative);
+    }, 300);
+
+});
+
+
+$(function () {
+    $("#BtnProcurementInitiative").on("click", function () {
+        var min_py = 0; var max_py = 0;
+        var py = projectYear;
+        min_py = (+py - 1);
+        max_py = (+py);
+
+        // debugger;
+        StartMonth.SetMinDate(new Date(min_py + '-01-01'));
+        StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
+        EndMonth.SetMinDate(new Date(max_py + '-01-01'));
+        EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+
+        if (projectYear > 2022) { StartMonth.SetMinDate(new Date((max_py) + '-01-01')); }
+
+
+        $.post(URLContent('ActiveInitiative/GrdSubCountryPartial'), { Id: null }, function (data) {
+            var obj; GrdSubCountryPopup.ClearItems();
+            GrdSubCountryPopup.AddItem("[Please Select]", null);
+            $.each(data[0]["SubCountryData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
+            });
+            GrdSubCountryPopup.SelectIndex(0);
+        });
+        $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: null }, function (data) {
+            var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); CboWebinarCat.ClearItems();
+            $.each(data[0]["SavingTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdInitType.AddItem(obj.SavingTypeName, obj.id);
+            });
+            $.each(data[0]["ActionTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+            });
+            $.each(data[0]["SynImpactData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
+            });
+            $.each(data[0]["InitStatusData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdInitStatus.AddItem(obj.Status, obj.id);
+            });
+            $.each(data[0]["PortNameData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) TxPortName.AddItem(obj.PortName, obj.id);
+            });
+            $.each(data[0]["MCostTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
+            });
+            $.each(data[0]["MSourceCategory"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
+            });
+            if (projectYear > 2022) {
+                //  GrdActionType.clientEnabled = false;
                 GrdActionType.SelectIndex(1);
             }
             else { GrdActionType.SelectIndex(0); }
+
             GrdInitType.SelectIndex(0);  GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
         });
         CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
@@ -183,7 +543,7 @@ $(function () {
                     value = JSON.stringify(value); obj2 = JSON.parse(value);
                     if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
                 });
-                ////debugger;;
+                // debugger;
                 GrdBrandPopup.SetText(brand);
                 var brandid = GrdBrandPopup.GetValue(); var countryid = $("#GrdCountryVal").val(); var subcountryid = GrdSubCountryPopup.GetValue(); var costcontrolsiteid = $("#GrdCostControlVal").val();
                 $.post(URLContent('ActiveInitiative/GetLegalFromBrand'), { brandid: brandid, countryid: countryid, subcountryid: subcountryid, costcontrolsiteid: costcontrolsiteid }, function (data) {
@@ -243,239 +603,120 @@ $(function () {
 
 });
 
-$(function () {
-    $("#BtnProcurementInitiative").on("click", function () {
-        var min_py = 0; var max_py = 0;
-        var py = projectYear;
-        min_py = (+py - 1);
-        max_py = (+py);
-        ////debugger;;
-        StartMonth.SetMinDate(new Date(min_py + '-01-01'));
-        StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
-        EndMonth.SetMinDate(new Date(max_py + '-01-01'));
-        EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+function clear_Procurement_BackCalcs() {
+    $('#Actual_CPU_Nmin1_Jan').val('');
+    $('#Actual_CPU_Nmin1_Feb').val('');
+    $('#Actual_CPU_Nmin1_Mar').val('');
+    $('#Actual_CPU_Nmin1_Apr').val('');
+    $('#Actual_CPU_Nmin1_May').val('');
+    $('#Actual_CPU_Nmin1_Jun').val('');
+    $('#Actual_CPU_Nmin1_Jul').val('');
+    $('#Actual_CPU_Nmin1_Aug').val('');
+    $('#Actual_CPU_Nmin1_Sep').val('');
+    $('#Actual_CPU_Nmin1_Oct').val('');
+    $('#Actual_CPU_Nmin1_Nov').val('');
+    $('#Actual_CPU_Nmin1_Dec').val('');
+    $('#Target_CPU_N_Jan').val('');
+    $('#Target_CPU_N_Feb').val('');
+    $('#Target_CPU_N_Mar').val('');
+    $('#Target_CPU_N_Apr').val('');
+    $('#Target_CPU_N_May').val('');
+    $('#Target_CPU_N_Jun').val('');
+    $('#Target_CPU_N_Jul').val('');
+    $('#Target_CPU_N_Aug').val('');
+    $('#Target_CPU_N_Sep').val('');
+    $('#Target_CPU_N_Oct').val('');
+    $('#Target_CPU_N_Nov').val('');
+    $('#Target_CPU_N_Dec').val('');
+    $('#A_Price_effect_Jan').val('');
+    $('#A_Price_effect_Feb').val('');
+    $('#A_Price_effect_Mar').val('');
+    $('#A_Price_effect_Apr').val('');
+    $('#A_Price_effect_May').val('');
+    $('#A_Price_effect_Jun').val('');
+    $('#A_Price_effect_Jul').val('');
+    $('#A_Price_effect_Aug').val('');
+    $('#A_Price_effect_Sep').val('');
+    $('#A_Price_effect_Oct').val('');
+    $('#A_Price_effect_Nov').val('');
+    $('#A_Price_effect_Dec').val('');
+    $('#A_Volume_Effect_Jan').val('');
+    $('#A_Volume_Effect_Feb').val('');
+    $('#A_Volume_Effect_Mar').val('');
+    $('#A_Volume_Effect_Apr').val('');
+    $('#A_Volume_Effect_May').val('');
+    $('#A_Volume_Effect_Jun').val('');
+    $('#A_Volume_Effect_Jul').val('');
+    $('#A_Volume_Effect_Aug').val('');
+    $('#A_Volume_Effect_Sep').val('');
+    $('#A_Volume_Effect_Oct').val('');
+    $('#A_Volume_Effect_Nov').val('');
+    $('#A_Volume_Effect_Dec').val('');
+    $('#Achievement_Jan').val('');
+    $('#Achievement_Feb').val('');
+    $('#Achievement_Mar').val('');
+    $('#Achievement_Apr').val('');
+    $('#Achievement_May').val('');
+    $('#Achievement_Jun').val('');
+    $('#Achievement_Jul').val('');
+    $('#Achievement_Aug').val('');
+    $('#Achievement_Sep').val('');
+    $('#Achievement_Oct').val('');
+    $('#Achievement_Nov').val('');
+    $('#Achievement_Dec').val('');
+    $('#ST_Price_effect_Jan').val('');
+    $('#ST_Price_effect_Feb').val('');
+    $('#ST_Price_effect_Mar').val('');
+    $('#ST_Price_effect_Apr').val('');
+    $('#ST_Price_effect_May').val('');
+    $('#ST_Price_effect_Jun').val('');
+    $('#ST_Price_effect_Jul').val('');
+    $('#ST_Price_effect_Aug').val('');
+    $('#ST_Price_effect_Sep').val('');
+    $('#ST_Price_effect_Oct').val('');
+    $('#ST_Price_effect_Nov').val('');
+    $('#ST_Price_effect_Dec').val('');
+    $('#ST_Volume_Effect_Jan').val('');
+    $('#ST_Volume_Effect_Feb').val('');
+    $('#ST_Volume_Effect_Mar').val('');
+    $('#ST_Volume_Effect_Apr').val('');
+    $('#ST_Volume_Effect_May').val('');
+    $('#ST_Volume_Effect_Jun').val('');
+    $('#ST_Volume_Effect_Jul').val('');
+    $('#ST_Volume_Effect_Aug').val('');
+    $('#ST_Volume_Effect_Sep').val('');
+    $('#ST_Volume_Effect_Oct').val('');
+    $('#ST_Volume_Effect_Nov').val('');
+    $('#ST_Volume_Effect_Dec').val('');
+    $('#FY_Secured_Target_Jan').val('');
+    $('#FY_Secured_Target_Feb').val('');
+    $('#FY_Secured_Target_Mar').val('');
+    $('#FY_Secured_Target_Apr').val('');
+    $('#FY_Secured_Target_May').val('');
+    $('#FY_Secured_Target_Jun').val('');
+    $('#FY_Secured_Target_Jul').val('');
+    $('#FY_Secured_Target_Aug').val('');
+    $('#FY_Secured_Target_Sep').val('');
+    $('#FY_Secured_Target_Oct').val('');
+    $('#FY_Secured_Target_Nov').val('');
+    $('#FY_Secured_Target_Dec').val('');
+    $('#CPI_Effect_Jan').val('');
+    $('#CPI_Effect_Feb').val('');
+    $('#CPI_Effect_Mar').val('');
+    $('#CPI_Effect_Apr').val('');
+    $('#CPI_Effect_May').val('');
+    $('#CPI_Effect_Jun').val('');
+    $('#CPI_Effect_Jul').val('');
+    $('#CPI_Effect_Aug').val('');
+    $('#CPI_Effect_Sep').val('');
+    $('#CPI_Effect_Oct').val('');
+    $('#CPI_Effect_Nov').val('');
+    $('#CPI_Effect_Dec').val('');
 
-        $.post(URLContent('ActiveInitiative/GrdSubCountryPartial'), { Id: null }, function (data) {
-            var obj; GrdSubCountryPopup.ClearItems();
-            GrdSubCountryPopup.AddItem("[Please Select]", null);
-            $.each(data[0]["SubCountryData"], function (key, value) {
-                value = JSON.stringify(value); obj = JSON.parse(value);
-                if (obj != null) GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
-            });
-            GrdSubCountryPopup.SelectIndex(0);
-        });
-        $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: null }, function (data) {
-            var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); CboWebinarCat.ClearItems();
-            $.each(data[0]["SavingTypeData"], function (key, value) {
-                value = JSON.stringify(value); obj = JSON.parse(value);
-                if (obj != null) GrdInitType.AddItem(obj.SavingTypeName, obj.id);
-            });
-            $.each(data[0]["ActionTypeData"], function (key, value) {
-                value = JSON.stringify(value); obj = JSON.parse(value);
-                if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
-            });
-            $.each(data[0]["SynImpactData"], function (key, value) {
-                value = JSON.stringify(value); obj = JSON.parse(value);
-                if (obj != null) GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
-            });
-            $.each(data[0]["InitStatusData"], function (key, value) {
-                value = JSON.stringify(value); obj = JSON.parse(value);
-                if (obj != null) GrdInitStatus.AddItem(obj.Status, obj.id);
-            });
-            $.each(data[0]["PortNameData"], function (key, value) {
-                value = JSON.stringify(value); obj = JSON.parse(value);
-                if (obj != null) TxPortName.AddItem(obj.PortName, obj.id);
-            });
-            $.each(data[0]["MCostTypeData"], function (key, value) {
-                value = JSON.stringify(value); obj = JSON.parse(value);
-                if (obj != null) GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
-            });
-            $.each(data[0]["MSourceCategory"], function (key, value) {
-                value = JSON.stringify(value); obj = JSON.parse(value);
-                if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
-            });
-            if (projectYear > 2022) {
-                GrdActionType.clientEnabled = false;
-                GrdActionType.SelectIndex(2);
-            }
-            else { GrdActionType.SelectIndex(0); }
-            GrdInitType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
-        });
-        CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
-        CboWebinarCat.AddItem("");
-        CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
-        CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
-        $("#FormStatus").val("New");
-        $("#btnDuplicate").prop("disabled", true);
+}
+function clear_Procurement_fields() {
 
-        //var years_right = years_right;
-        var project_year = projectYear;
-
-        if (years_right.includes(project_year)) {
-            $("#btnSave").prop('disabled', false);
-        } else {
-            $("#btnSave").prop('disabled', true);
-        }
-        //Change the labels 
-        $('#ljan').html('Jan-' + py);
-        $('#lfeb').html('Feb-' + py);
-        $('#lmar').html('Mar-' + py);
-        $('#lapr').html('Apr-' + py);
-        $('#lmay').html('May-' + py);
-        $('#ljun').html('Jun-' + py);
-        $('#ljul').html('Jul-' + py);
-        $('#laug').html('Aug-' + py);
-        $('#lsep').html('Sep-' + py);
-        $('#loct').html('Oct-' + py);
-        $('#lnov').html('Nov-' + py);
-        $('#ldec').html('Dec-' + py);
-        var npy = parseInt(py) + 1;
-        $('#lnexjan').html('Jan-' + npy);
-        $('#lnexfeb').html('Feb-' + npy);
-        $('#lnexmar').html('Mar-' + npy);
-        $('#lnexapr').html('Apr-' + npy);
-        $('#lnexmay').html('May-' + npy);
-        $('#lnexjun').html('Jun-' + npy);
-        $('#lnexjul').html('Jul-' + npy);
-        $('#lnexaug').html('Aug-' + npy);
-        $('#lnexsep').html('Sep-' + npy);
-        $('#lnexoct').html('Oct-' + npy);
-        $('#lnexnov').html('Nov-' + npy);
-        $('#lnexdec').html('Dec-' + npy);
-        WindowInitiative.Show();
-        /*            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));*/
-    });
-
-    $(".txSaving, .txTarget").on("change", function () {
-        $(this).val(formatValue($(this).val()));
-    });
-
-    $(".targetjan, .targetfeb, .targetmar, .targetapr, .targetmay, .targetjun, .targetjul, .targetaug, .targetsep, .targetoct, .targetnov, .targetdec").on("change", function () {
-        hitungtahunini();
-    });
-
-    $(".targetjan2, .targetfeb2, .targetmar2, .targetapr2, .targetmay2, .targetjun2, .targetjul2, .targetaug2, .targetsep2, .targetoct2, .targetnov2, .targetdec2").on("change", function () {
-        hitungtahunini();
-    });
-
-    $("#btnSave").on('click', function () {
-        //var projectYear = '@profileData.ProjectYear';
-        /*if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
-            Swal.fire({
-                title: 'Initiative of Previous Year',
-                text: 'This initiative is a previous year initiative. Total sum of month target for current year and next year will not match the initial target 12 months.',
-                icon: 'warning',
-                showCancelButton: false
-            }).then((result) => {
-                SaveInitiative();
-            });
-        }*/
-        //else {
-        SaveInitiative();
-        //}
-    });
-
-    $("#btnEditx").on('click', function () {
-        var n = $(this).text();
-        if (n === "Cancel") {
-            $(this).text("Edit");
-            $("#chkAuto").prop('disabled', true);
-            CheckUncheck();
-        } else if (n === "Edit") {
-            $(this).text("Cancel");
-            $("#chkAuto").prop('disabled', false);
-            CheckUncheck();
-        }
-    });
-
-    $("#btnClose").on('click', function () {
-        $('.txTarget').prop('disabled', false);
-        $('.txTarget').prop('readonly', false);
-        WindowInitiative.Hide();
-    });
-
-    $("#btnDuplicate").on("click", function () {
-        var subCountry = GrdSubCountryPopup.GetText();
-        var subCountryID = GrdSubCountryPopup.GetValue();
-        var brand = GrdBrandPopup.GetText();
-        var legal = GrdLegalEntityPopup.GetText();
-        $("#FormStatus").val("New");
-        $("#LblInitiative").text("DUP-0001");
-        $("#btnDuplicate").prop("disabled", true);
-        $.post(URLContent('ActiveInitiative/GrdSubCountryPartial'), { Id: null }, function (data) {
-            var obj; GrdSubCountryPopup.ClearItems();
-            $.each(data[0]["SubCountryData"], function (key, value) {
-                value = JSON.stringify(value); obj = JSON.parse(value);
-                GrdSubCountryPopup.AddItem(obj.SubCountryName, obj.id);
-            });
-
-            GrdSubCountryPopup.SetText(subCountry);
-
-            $.post(URLContent('ActiveInitiative/GetCountryBySub'), { id: subCountryID }, function (data) {
-                var obj2; GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
-                $.each(data[0]["BrandData"], function (key, value) {
-                    value = JSON.stringify(value); obj2 = JSON.parse(value);
-                    if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
-                });
-                ////debugger;;
-                GrdBrandPopup.SetText(brand);
-                var brandid = GrdBrandPopup.GetValue(); var countryid = $("#GrdCountryVal").val(); var subcountryid = GrdSubCountryPopup.GetValue(); var costcontrolsiteid = $("#GrdCostControlVal").val();
-                $.post(URLContent('ActiveInitiative/GetLegalFromBrand'), { brandid: brandid, countryid: countryid, subcountryid: subcountryid, costcontrolsiteid: costcontrolsiteid }, function (data) {
-                    var obj3;
-                    $.each(data[0]["LegalEntityData"], function (key, value) {
-                        value = JSON.stringify(value); obj3 = JSON.parse(value);
-                        if (obj3 != null) GrdLegalEntityPopup.AddItem(obj3.LegalEntityName, obj3.id);
-                    });
-                    GrdLegalEntityPopup.SetText(legal);
-                });
-            });
-            /*GrdSubCountryPopup.SelectIndex(0);*/
-            //GrdBrandPopup.ClearItems();
-            //GrdLegalEntityPopup.ClearItems();
-            //$('#GrdCountry').val(''); $('#GrdCountryVal').val('');
-            //$('#GrdRegional').val(''); $('#GrdRegionalVal').val('');
-            //$('#GrdSubRegion').val(''); $('#GrdSubRegionVal').val('');
-            //$('#GrdCluster').val(''); $('#GrdClusterVal').val('');
-            //$('#GrdRegionalOffice').val(''); $('#GrdRegionalOfficeVal').val('');
-            //$('#GrdCostControl').val(''); $('#GrdCostControlVal').val('');
-
-            //var years_right = '@years_right';
-            var project_year = projectYear;
-
-            if (years_right.includes(project_year)) {
-                $("#btnSave").prop('disabled', false);
-            } else {
-                $("#btnSave").prop('disabled', true);
-            }
-
-            StartMonth.SetValue(); EndMonth.SetValue();
-            var min_py = 0; var max_py = 0;
-            var py = projectYear;
-            min_py = (+py - 1);
-            max_py = (+py);
-            StartMonth.SetMinDate(new Date(min_py + '-01-01'));
-            StartMonth.SetMaxDate(new Date((max_py) + '-12-31'));
-            EndMonth.SetMinDate(new Date(max_py + '-01-01'));
-            EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
-            $(".txTarget").prop("disabled", false); $(".txSaving").prop("disabled", false); $(".txTarget").val(''); $(".txSaving").val('');
-            txTarget12.SetValue(""); txTargetFullYear.SetValue(""); txYTDTargetFullYear.SetValue(""); txYTDSavingFullYear.SetValue("");
-
-            StartMonth.clientEnabled = true;
-            EndMonth.clientEnabled = true;
-            $('#chkAuto').prop('disabled', false);
-        });
-        Swal.fire(
-            'Duplicated Successfully',
-            'Initiative has been duplicated successfully. You can save it now.',
-            'success'
-        );
-    });
-
-    setTimeout(function () {
-        UpdateFigureWidget(GrdMainInitiative);
-    }, 300);
-
-});
+}
 
 function OnInitiativeTypeChanged(s, e) {
     var id = s.GetValue();
@@ -506,7 +747,7 @@ function OnCostCategoryChanged(s, e) {
 }
 
 function OnSubCountryChanged(s, e) {
-    //debugger;;
+    // debugger;
     var id = s.GetValue(); /*var teks = s.GetText();*/
     $.post(URLContent('ActiveInitiative/GetCountryBySub'), { id: id }, function (data) {
         var obj; CountryID.ClearItems(); BrandID.ClearItems(); RegionID.ClearItems(); SubRegionID.ClearItems(); ClusterID.ClearItems(); RegionalOfficeID.ClearItems(); CostControlID.ClearItems();
@@ -614,20 +855,29 @@ function ShowEditWindow(id) {
     StartMonth.SetMaxDate(new Date((max_py) + '-12-31'));
     EndMonth.SetMinDate(new Date(max_py + '-01-01'));
     EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
-
-    $("#FormStatus").val("Edit");
-    //debugger;;
+    if (projectYear > 2022)
+    { StartMonth.SetMinDate(new Date((max_py) + '-12-31')); }
 
     var GrdInit_Type = 0, GrdAction_Type = 0, GrdSyn_Impact = 0, GrdInit_Status = 0, TxPort_Name = 0;
-    var GrdInit_Category = 0, CboWebinar_Cat = 0, Grd_SubCost =0;
+    var GrdInit_Category = 0, CboWebinar_Cat = 0, Grd_SubCost = 0;
+
+
+    $("#FormStatus").val("Edit");
+    // debugger;
+
+
+
 
     CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
     CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
     CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
-    //debugger;;
+    // debugger;
     $.post(URLContent('ActiveInitiative/GetInfoById'), { Id: id }, function (data) {
         if (data != '') {
             var obj = JSON.parse(data); var SubCountryID = obj.SubCountryID;
+
+            var isProcurement = obj.isProcurement;
+ var isProcurement = obj.isProcurement;
 
             GrdInit_Type = obj.InitiativeType;
             GrdAction_Type = obj.ActionTypeID;
@@ -639,19 +889,9 @@ function ShowEditWindow(id) {
             Grd_SubCost = obj.SubCostCategoryID;
 
             var brandId = obj.BrandID;
-             var legalentityidx = obj.LegalEntityID;
+            var legalentityidx = obj.LegalEntityID;
 
-          
-            //GrdInitType.SetValue(obj.InitiativeType);
-            //GrdActionType.SetValue(obj.ActionTypeID);
-            //GrdSynImpact.SetValue(obj.SynergyImpactID);
-            //GrdInitStatus.SetValue(obj.InitStatus);
-            //TxPortName.SetValue(obj.PortID);
-            //GrdInitCategory.SetValue(obj.CostCategoryID);
-            //GrdSubCost.SetValue(obj.SubCostCategoryID);
-            //CboWebinarCat.SetValue(obj.SourceCategory);
 
-          
 
             $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: id }, function (DDdata) {
                 var obj1; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); GrdSubCost.ClearItems();
@@ -694,7 +934,7 @@ function ShowEditWindow(id) {
 
                 $.post(URLContent('ActiveInitiative/GetCountryBySub'), { Id: SubCountryID, Id2: id }, function (D_data) {
                     var obj2;
-                    ////debugger;;
+                    ////// debugger;;
                     GrdSubCountryPopup.ClearItems(); GrdBrandPopup.ClearItems(); GrdLegalEntityPopup.ClearItems();
                     $.each(D_data[0]["SubCountryData"], function (key, d_value) {
                         d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
@@ -704,7 +944,7 @@ function ShowEditWindow(id) {
                         d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
                         if (obj2 != null) GrdBrandPopup.AddItem(obj2.BrandName, obj2.id);
                     });
-                    ////debugger;;
+                    ////// debugger;;
                     $.each(D_data[0]["LegalEntityData"], function (key, d_value) {
                         d_value = JSON.stringify(d_value); obj2 = JSON.parse(d_value);
                         if (obj2 != null) GrdLegalEntityPopup.AddItem(obj2.LegalEntityName, obj2.id);
@@ -757,10 +997,10 @@ function ShowEditWindow(id) {
                 else
                     GrdSubCost.SelectIndex(0);
 
-              // GrdSubCost.SelectIndex(0);
+                // GrdSubCost.SelectIndex(0);
 
 
-               
+
                 TxPortName.SetValue(obj.PortID);
                 GrdInitType.SetValue(obj.InitiativeType);
                 GrdActionType.SetValue(obj.ActionTypeID);
@@ -769,38 +1009,20 @@ function ShowEditWindow(id) {
                 GrdInitCategory.SetValue(obj.CostCategoryID);
                 CboWebinarCat.SetValue(obj.SourceCategory);
                 GrdSubCost.SetValue(obj.SubCostCategoryID);
-               
 
-              
+
+
 
                 // GrdInitType.SelectIndex(0); GrdActionType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0);
                 //TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); GrdSubCost.SelectIndex(0); CboWebinarCat.SelectIndex(0);
             });
 
-     
+
             var uType = user_type; /*var projectYear = projectYear;*/
             //console.log("ShowEditWindow->SubCountryID = " + obj.SubCountryID);
             $("#FormID").val(obj.id);
             $("#LblInitiative").text(obj.InitNumber);
             LblRelatedInitiative.SetValue(obj.RelatedInitiative);
-
-            //$("#GrdSubCountryPopup").val(obj.SubCountryName);
-            //$("#GrdBrandPopup").val(obj.brandname);
-            //$("#GrdLegalEntityPopup").val(obj.LegalEntityName);
-
-
-            //$("#TxPortName").val(obj.SubCountryName);
-           // $("#GrdInitType").val(obj.brandname);
-            //$("#GrdActionType").val(obj.LegalEntityName);
-            //$("#GrdSynImpact").val(obj.SubCountryName);
-            //$("#GrdInitStatus").val(obj.brandname);
-            //$("#CboWebinarCat").val(obj.LegalEntityName);
-            //$("#GrdInitCategory").val(obj.LegalEntityName);
-            // $("#GrdSubCost").val(obj.SubCostName);
-
-
-
-
             $("#GrdCountry").val(obj.CountryName);
             $("#GrdCountryVal").val(obj.CountryID);
             $("#GrdRegional").val(obj.RegionName);
@@ -817,7 +1039,7 @@ function ShowEditWindow(id) {
             CboWebinarCat.SetValue(obj.SourceCategory);
             $("#GrdCostControl").val(obj.CostControlSiteName);
             $("#GrdCostControlVal").val(obj.CostControlID);
-            $("#GrdInitCategory").val(obj.CostTypeName);
+            //$("#GrdInitCategory").val(obj.CostTypeName);
             //$("#GrdSubCost").val(obj.SubCostName);
             $("#GrdActionType").val(obj.ActionTypeName);
             $("#GrdSynImpact").val(obj.SynImpactName);
@@ -826,16 +1048,13 @@ function ShowEditWindow(id) {
             $("#TxDesc").val(obj.Description);
             $("#GrdBrandPopup").val(obj.brandname);
             $("#GrdLegalEntityPopup").val(obj.LegalEntityName);
-
-
-            //GrdInitStatus.SetValue(obj.InitStatus);
-            //TxPortName.SetValue(obj.PortID);
-            //GrdInitType.SetValue(obj.InitiativeType);
-            //GrdInitCategory.SetValue(obj.CostCategoryID);
-            //GrdSubCost.SetValue(obj.SubCostCategoryID);
-            //GrdActionType.SetValue(obj.ActionTypeID);
-            //GrdSynImpact.SetValue(obj.SynergyImpactID);
-
+            GrdInitStatus.SetValue(obj.InitStatus);
+            TxPortName.SetValue(obj.PortID);
+            GrdInitType.SetValue(obj.InitiativeType);
+            GrdInitCategory.SetValue(obj.CostCategoryID);
+            GrdSubCost.SetValue(obj.SubCostCategoryID);
+            GrdActionType.SetValue(obj.ActionTypeID);
+            GrdSynImpact.SetValue(obj.SynergyImpactID);
             $("#TxVendorSupp").val(obj.VendorName);
             $("#TxAdditionalInfo").val(obj.AdditionalInfo);
             $("#TxAgency").val(obj.AgencyComment);
@@ -850,16 +1069,54 @@ function ShowEditWindow(id) {
             GrdBrandPopup.SetValue(obj.BrandID);
             GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
 
-            //GrdSubCountryPopup.SetValue(obj.SubCountryID);
-            //GrdBrandPopup.SetValue(obj.BrandID);
-            //GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
 
-            //debugger;;
+            //ENH153-2 Procurement fields 
+            if (isProcurement == 1) {
+
+                CboUnitOfVolume.SetText(obj.Unit_of_volumes);
+                txt_Input_Actuals_Volumes_Nmin1.SetValue(obj.Input_Actuals_Volumes_Nmin1);
+                txt_Input_Target_Volumes.SetValue(obj.Input_Target_Volumes);
+                txt_Total_Actual_volume_N.SetValue(obj.Total_Actual_volume_N);
+                txt_Spend_Nmin1.SetValue(obj.Spend_Nmin1);
+                txt_Spend_N.SetValue(obj.Spend_N);
+                txt_CPI.SetValue(obj.CPI);
+                txt_janActual_volume_N.SetValue(obj.janActual_volume_N);
+                txt_febActual_volume_N.SetValue(obj.febActual_volume_N);
+                txt_marActual_volume_N.SetValue(obj.marActual_volume_N);
+                txt_aprActual_volume_N.SetValue(obj.aprActual_volume_N);
+                txt_mayActual_volume_N.SetValue(obj.mayActual_volume_N);
+                txt_junActual_volume_N.SetValue(obj.junActual_volume_N);
+                txt_julActual_volume_N.SetValue(obj.julActual_volume_N);
+                txt_augActual_volume_N.SetValue(obj.augActual_volume_N);
+                txt_sepActual_volume_N.SetValue(obj.sepActual_volume_N);
+                txt_octActual_volume_N.SetValue(obj.octActual_volume_N);
+                txt_novActual_volume_N.SetValue(obj.novActual_volume_N);
+                txt_decActual_volume_N.SetValue(obj.decActual_volume_N);
+
+                txt_N_FY_Sec_PRICE_EF.SetValue(obj.N_FY_Sec_PRICE_EF);
+                txt_N_FY_Sec_VOLUME_EF.SetValue(obj.N_FY_Sec_VOLUME_EF);
+                txt_N_FY_Secured.SetValue(parseFloat(obj.N_FY_Sec_PRICE_EF) + parseFloat(obj.N_FY_Sec_VOLUME_EF));
+
+                txt_N_YTD_Sec_PRICE_EF.SetValue(obj.N_YTD_Sec_PRICE_EF);
+                txt_N_YTD_Sec_VOLUME_EF.SetValue(obj.N_YTD_Sec_VOLUME_EF);
+                txt_N_YTD_Secured.SetValue(parseFloat(obj.N_YTD_Sec_PRICE_EF) + parseFloat(obj.N_YTD_Sec_VOLUME_EF));
+
+                txt_YTD_Achieved_PRICE_EF.SetValue(obj.YTD_Achieved_PRICE_EF);
+                txt_YTD_Achieved_VOLUME_EF.SetValue(obj.YTD_Achieved_VOLUME_EF);
+                $('#txt_YTD_achieved').val(parseFloat(obj.YTD_Achieved_PRICE_EF) + parseFloat(obj.YTD_Achieved_VOLUME_EF));
+
+                txt_YTD_Cost_Avoid_Vs_CPI.SetValue(obj.YTD_Cost_Avoid_Vs_CPI);
+                txt_FY_Cost_Avoid_Vs_CPI.SetValue(obj.FY_Cost_Avoid_Vs_CPI);
+            }
+
+            //ENH153-2 Procurement fields 
+            // debugger;
             OnStartMonthChanged();
             let startyear = new Date(obj.StartMonth).getFullYear()
             let nextyear = startyear + 1;
 
             //Change the labels 
+            if (isProcurement != 1) {
             $('#ljan').html('Jan-' + startyear);
             $('#lfeb').html('Feb-' + startyear);
             $('#lmar').html('Mar-' + startyear);
@@ -905,6 +1162,7 @@ function ShowEditWindow(id) {
             $(".savingjul2").val(formatValue(obj.AchNexJul)); $(".savingaug2").val(formatValue(obj.AchNexAug)); $(".savingsep2").val(formatValue(obj.AchNexSep)); $(".savingoct2").val(formatValue(obj.AchNexOct)); $(".savingnov2").val(formatValue(obj.AchNexNov)); $(".savingdec2").val(formatValue(obj.AchNexDec));
             // }
 
+            }
             if (obj.InitStatus == 4) {
                 $(".txSaving").prop("disabled", true);
             } else if (obj.InitStatus == 1 && uType == 3) {
@@ -914,10 +1172,11 @@ function ShowEditWindow(id) {
                 $("#btnSave").prop("disabled", true);
             }
 
+            var legalentityidx = obj.LegalEntityID;
             //GrdInitStatus.GetGridView().Refresh();
             //GrdInitType.GetGridView().Refresh();
-           
-           
+            var brandId = obj.BrandID;
+       
             getYtdValue();
             hitungtahunini();
             //var years_right = '@years_right';
@@ -941,12 +1200,133 @@ function ShowEditWindow(id) {
             var formstatus; var initstatusvalue;
             formstatus = $("#FormStatus").val();
             initstatusvalue = GrdInitStatus.GetValue();
-            if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4") {
+            if (uType == 3 && formstatus == "Edit" && (initstatusvalue != "4" || initstatusvalue != "15")) {
                 $("#chkAuto").prop("disabled", true);
                 $(".txTarget").prop("disabled", true); //prevent Agency User to edit the target except pending initiative
                 StartMonth.clientEnabled = false; EndMonth.clientEnabled = false; //prevent Agency User from selecting different Start / End dates (Except for Pending initiative)
                 txTarget12.clientEnabled = false;
             }
+
+            //ENH153-2 back end calculation
+            if (isProcurement == 1) {
+                $.post(URLContent('ActiveInitiative/getProcuementCalcs'), { id: id }, function (procurement_data) {
+                    if (procurement_data != null) {
+
+                        $('#Actual_CPU_Nmin1_Jan').val(procurement_data.jan_Actual_CPU_Nmin1);
+                        $('#Actual_CPU_Nmin1_Feb').val(procurement_data.feb_Actual_CPU_Nmin1);
+                        $('#Actual_CPU_Nmin1_Mar').val(procurement_data.march_Actual_CPU_Nmin1);
+                        $('#Actual_CPU_Nmin1_Apr').val(procurement_data.apr_Actual_CPU_Nmin1);
+                        $('#Actual_CPU_Nmin1_May').val(procurement_data.may_Actual_CPU_Nmin1);
+                        $('#Actual_CPU_Nmin1_Jun').val(procurement_data.jun_Actual_CPU_Nmin1);
+                        $('#Actual_CPU_Nmin1_Jul').val(procurement_data.jul_Actual_CPU_Nmin1);
+                        $('#Actual_CPU_Nmin1_Aug').val(procurement_data.aug_Actual_CPU_Nmin1);
+                        $('#Actual_CPU_Nmin1_Sep').val(procurement_data.sep_Actual_CPU_Nmin1);
+                        $('#Actual_CPU_Nmin1_Oct').val(procurement_data.oct_Actual_CPU_Nmin1);
+                        $('#Actual_CPU_Nmin1_Nov').val(procurement_data.nov_Actual_CPU_Nmin1);
+                        $('#Actual_CPU_Nmin1_Dec').val(procurement_data.dec_Actual_CPU_Nmin1);
+                        $('#Target_CPU_N_Jan').val(procurement_data.jan_Target_CPU_N);
+                        $('#Target_CPU_N_Feb').val(procurement_data.feb_Target_CPU_N);
+                        $('#Target_CPU_N_Mar').val(procurement_data.march_Target_CPU_N);
+                        $('#Target_CPU_N_Apr').val(procurement_data.apr_Target_CPU_N);
+                        $('#Target_CPU_N_May').val(procurement_data.may_Target_CPU_N);
+                        $('#Target_CPU_N_Jun').val(procurement_data.jun_Target_CPU_N);
+                        $('#Target_CPU_N_Jul').val(procurement_data.jul_Target_CPU_N);
+                        $('#Target_CPU_N_Aug').val(procurement_data.aug_Target_CPU_N);
+                        $('#Target_CPU_N_Sep').val(procurement_data.sep_Target_CPU_N);
+                        $('#Target_CPU_N_Oct').val(procurement_data.oct_Target_CPU_N);
+                        $('#Target_CPU_N_Nov').val(procurement_data.nov_Target_CPU_N);
+                        $('#Target_CPU_N_Dec').val(procurement_data.dec_Target_CPU_N);
+                        $('#A_Price_effect_Jan').val(procurement_data.jan_A_Price_effect);
+                        $('#A_Price_effect_Feb').val(procurement_data.feb_A_Price_effect);
+                        $('#A_Price_effect_Mar').val(procurement_data.march_A_Price_effect);
+                        $('#A_Price_effect_Apr').val(procurement_data.apr_A_Price_effect);
+                        $('#A_Price_effect_May').val(procurement_data.may_A_Price_effect);
+                        $('#A_Price_effect_Jun').val(procurement_data.jun_A_Price_effect);
+                        $('#A_Price_effect_Jul').val(procurement_data.jul_A_Price_effect);
+                        $('#A_Price_effect_Aug').val(procurement_data.aug_A_Price_effect);
+                        $('#A_Price_effect_Sep').val(procurement_data.sep_A_Price_effect);
+                        $('#A_Price_effect_Oct').val(procurement_data.oct_A_Price_effect);
+                        $('#A_Price_effect_Nov').val(procurement_data.nov_A_Price_effect);
+                        $('#A_Price_effect_Dec').val(procurement_data.dec_A_Price_effect);
+                        $('#A_Volume_Effect_Jan').val(procurement_data.jan_A_Volume_Effect);
+                        $('#A_Volume_Effect_Feb').val(procurement_data.feb_A_Volume_Effect);
+                        $('#A_Volume_Effect_Mar').val(procurement_data.march_A_Volume_Effect);
+                        $('#A_Volume_Effect_Apr').val(procurement_data.apr_A_Volume_Effect);
+                        $('#A_Volume_Effect_May').val(procurement_data.may_A_Volume_Effect);
+                        $('#A_Volume_Effect_Jun').val(procurement_data.jun_A_Volume_Effect);
+                        $('#A_Volume_Effect_Jul').val(procurement_data.jul_A_Volume_Effect);
+                        $('#A_Volume_Effect_Aug').val(procurement_data.aug_A_Volume_Effect);
+                        $('#A_Volume_Effect_Sep').val(procurement_data.sep_A_Volume_Effect);
+                        $('#A_Volume_Effect_Oct').val(procurement_data.oct_A_Volume_Effect);
+                        $('#A_Volume_Effect_Nov').val(procurement_data.nov_A_Volume_Effect);
+                        $('#A_Volume_Effect_Dec').val(procurement_data.dec_A_Volume_Effect);
+                        $('#Achievement_Jan').val(procurement_data.jan_Achievement);
+                        $('#Achievement_Feb').val(procurement_data.feb_Achievement);
+                        $('#Achievement_Mar').val(procurement_data.march_Achievement);
+                        $('#Achievement_Apr').val(procurement_data.apr_Achievement);
+                        $('#Achievement_May').val(procurement_data.may_Achievement);
+                        $('#Achievement_Jun').val(procurement_data.jun_Achievement);
+                        $('#Achievement_Jul').val(procurement_data.jul_Achievement);
+                        $('#Achievement_Aug').val(procurement_data.aug_Achievement);
+                        $('#Achievement_Sep').val(procurement_data.sep_Achievement);
+                        $('#Achievement_Oct').val(procurement_data.oct_Achievement);
+                        $('#Achievement_Nov').val(procurement_data.nov_Achievement);
+                        $('#Achievement_Dec').val(procurement_data.dec_Achievement);
+                        $('#ST_Price_effect_Jan').val(procurement_data.jan_ST_Price_effect);
+                        $('#ST_Price_effect_Feb').val(procurement_data.feb_ST_Price_effect);
+                        $('#ST_Price_effect_Mar').val(procurement_data.march_ST_Price_effect);
+                        $('#ST_Price_effect_Apr').val(procurement_data.apr_ST_Price_effect);
+                        $('#ST_Price_effect_May').val(procurement_data.may_ST_Price_effect);
+                        $('#ST_Price_effect_Jun').val(procurement_data.jun_ST_Price_effect);
+                        $('#ST_Price_effect_Jul').val(procurement_data.jul_ST_Price_effect);
+                        $('#ST_Price_effect_Aug').val(procurement_data.aug_ST_Price_effect);
+                        $('#ST_Price_effect_Sep').val(procurement_data.sep_ST_Price_effect);
+                        $('#ST_Price_effect_Oct').val(procurement_data.oct_ST_Price_effect);
+                        $('#ST_Price_effect_Nov').val(procurement_data.nov_ST_Price_effect);
+                        $('#ST_Price_effect_Dec').val(procurement_data.dec_ST_Price_effect);
+                        $('#ST_Volume_Effect_Jan').val(procurement_data.jan_ST_Volume_Effect);
+                        $('#ST_Volume_Effect_Feb').val(procurement_data.feb_ST_Volume_Effect);
+                        $('#ST_Volume_Effect_Mar').val(procurement_data.march_ST_Volume_Effect);
+                        $('#ST_Volume_Effect_Apr').val(procurement_data.apr_ST_Volume_Effect);
+                        $('#ST_Volume_Effect_May').val(procurement_data.may_ST_Volume_Effect);
+                        $('#ST_Volume_Effect_Jun').val(procurement_data.jun_ST_Volume_Effect);
+                        $('#ST_Volume_Effect_Jul').val(procurement_data.jul_ST_Volume_Effect);
+                        $('#ST_Volume_Effect_Aug').val(procurement_data.aug_ST_Volume_Effect);
+                        $('#ST_Volume_Effect_Sep').val(procurement_data.sep_ST_Volume_Effect);
+                        $('#ST_Volume_Effect_Oct').val(procurement_data.oct_ST_Volume_Effect);
+                        $('#ST_Volume_Effect_Nov').val(procurement_data.nov_ST_Volume_Effect);
+                        $('#ST_Volume_Effect_Dec').val(procurement_data.dec_ST_Volume_Effect);
+                        $('#FY_Secured_Target_Jan').val(procurement_data.jan_FY_Secured_Target);
+                        $('#FY_Secured_Target_Feb').val(procurement_data.feb_FY_Secured_Target);
+                        $('#FY_Secured_Target_Mar').val(procurement_data.march_FY_Secured_Target);
+                        $('#FY_Secured_Target_Apr').val(procurement_data.apr_FY_Secured_Target);
+                        $('#FY_Secured_Target_May').val(procurement_data.may_FY_Secured_Target);
+                        $('#FY_Secured_Target_Jun').val(procurement_data.jun_FY_Secured_Target);
+                        $('#FY_Secured_Target_Jul').val(procurement_data.jul_FY_Secured_Target);
+                        $('#FY_Secured_Target_Aug').val(procurement_data.aug_FY_Secured_Target);
+                        $('#FY_Secured_Target_Sep').val(procurement_data.sep_FY_Secured_Target);
+                        $('#FY_Secured_Target_Oct').val(procurement_data.oct_FY_Secured_Target);
+                        $('#FY_Secured_Target_Nov').val(procurement_data.nov_FY_Secured_Target);
+                        $('#FY_Secured_Target_Dec').val(procurement_data.dec_FY_Secured_Target);
+                        $('#CPI_Effect_Jan').val(procurement_data.jan_CPI_Effect);
+                        $('#CPI_Effect_Feb').val(procurement_data.feb_CPI_Effect);
+                        $('#CPI_Effect_Mar').val(procurement_data.march_CPI_Effect);
+                        $('#CPI_Effect_Apr').val(procurement_data.apr_CPI_Effect);
+                        $('#CPI_Effect_May').val(procurement_data.may_CPI_Effect);
+                        $('#CPI_Effect_Jun').val(procurement_data.jun_CPI_Effect);
+                        $('#CPI_Effect_Jul').val(procurement_data.jul_CPI_Effect);
+                        $('#CPI_Effect_Aug').val(procurement_data.aug_CPI_Effect);
+                        $('#CPI_Effect_Sep').val(procurement_data.sep_CPI_Effect);
+                        $('#CPI_Effect_Oct').val(procurement_data.oct_CPI_Effect);
+                        $('#CPI_Effect_Nov').val(procurement_data.nov_CPI_Effect);
+                        $('#CPI_Effect_Dec').val(procurement_data.dec_CPI_Effect);
+
+
+                    }
+                });
+            }
+            //ENH153-2 
+
 
             WindowInitiative.Show();
         }
@@ -1002,7 +1382,7 @@ function doDeleteReport(id) {
                 SuccessMsg("Report successfully deleted.");
             }
             else if (response.status == 'fail') {
-                isThereNewRecord = false;            BtnProcurementIniti
+                isThereNewRecord = false;
                 FailMsg(response.error_message);
             }
             else {
@@ -1093,16 +1473,13 @@ function OnCloseNewInitiativeWindow() {
 
 function OnInit(s, e) {
     if (projectYear > 2022) {
-        BtnProcurementInitiative.hidden = false;
+        BtnProcurement.hidden = false;
         BtnInitiative.innerText = "Create Operational Optimization";
-
     }
     else {
-        BtnProcurementInitiative.hidden = true;   
+        BtnProcurement.hidden = true;
         BtnInitiative.innerText = "Create New";
-
     }
-
     GrdSubCountryPopup.SelectIndex(0);
     AdjustSize();
 }
@@ -1127,11 +1504,30 @@ function AdjustSize() {
 function BtnExportXls() {
     GrdMainInitiative.ExportTo("Xls");
 }
- 
-
 
 function BtnExportPdf() {
     GrdMainInitiative.ExportTo("Pdf");
+}
+
+function OnActionTypePopupChanged(s, e) {
+    //debugger
+    var selectedItem = s.prevInputValue;
+    //if (selectedItem == "Optimization / Efficiencys") {
+    //    if ($('#_divOptimization') != null) {
+    //        $('#_divOptimization').prop('style', 'display:block')
+    //    }
+    //    if ($('#_divProcurement') != null) {
+    //        $('#_divProcurement').prop('style', 'display:none')
+    //    }
+    //}
+    //else {
+    //    if ($('#_divOptimization') != null) {
+    //        $('#_divOptimization').prop('style', 'display:none')
+    //    }
+    //    if ($('#_divProcurement') != null) {
+    //        $('#_divProcurement').prop('style', 'display:block')
+    //    }
+    //}
 }
 
 function OnSubCountryPopupChanged(s, e) {
@@ -1148,7 +1544,7 @@ function OnSubCountryPopupChanged(s, e) {
                 GrdBrandPopup.AddItem(obj.BrandName, obj.id);
             }
         });
-        ////debugger;;
+        // debugger;
         GrdLegalEntityPopup.AddItem("[ Please Select ]", 0);
         $.each(data[0]["LegalEntityData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
@@ -1229,18 +1625,32 @@ function OnGrdInitTypeChanged(s, e) {
 
 function OnSubCostPopupChanged(s, e) {
     var id = s.GetValue();
-    $.post(URLContent('ActiveInitiative/GetItemFromSubCost'), { id: id }, function (data) {
-        var obj; GrdActionType.ClearItems();
-        $.each(data[0]["ActionTypeData"], function (key, value) {
-            value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+    var xisProcurement = $('#isProcurement').val();
+
+
+    if (projectYear <= 2022) {
+    //    //  $("$GrdActionType").prop('disabled', false);
+
+    //    if (xisProcurement == 0)
+    //        GrdActionType.SelectIndex(43);
+    //    else
+    //        GrdActionType.SelectIndex(51);
+    //}
+    //else {
+        $.post(URLContent('ActiveInitiative/GetItemFromSubCost'), { id: id }, function (data) {
+            var obj; GrdActionType.ClearItems();
+            $.each(data[0]["ActionTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+            });
+            GrdActionType.SelectIndex(0);
         });
-        GrdActionType.SelectIndex(0);
-    });
+       // GrdActionType.SelectIndex(0);
+    };
 }
 
 function OnGrdInitCategoryPopupChanged(s, e) {
-    //debugger;;
+    // debugger;
     var id = GrdInitType.GetValue(); var id2 = s.GetValue(); var id3 = GrdBrandPopup.GetValue();
     $.post(URLContent('ActiveInitiative/GetItemFromCostCategory'), { id: id, id2: id2, id3: id3 }, function (data) {
         var obj; GrdSubCost.ClearItems();
@@ -1254,12 +1664,16 @@ function OnGrdInitCategoryPopupChanged(s, e) {
 
 function OnCboYearChanged(s, e) {
     var id = s.GetText();//s.GetValue();
-
-  
     $.post(URLContent('ActiveInitiative/ProjectYear'), { Id: id }, function () {
+        // window.location.reload();
+    });
+}
+
+function OnCboMonthChanged(s, e) {
+    var id = s.GetValue();//s.GetValue();
+    $.post(URLContent('ActiveInitiative/ProjectMonth'), { Id: id }, function () {
         window.location.reload();
     });
-    
 }
 
 function OnClickEventReview(s, e) {
@@ -1474,7 +1888,7 @@ function OnEndMonthChanged() {
     uType = user_type;
     formstatus = $("#FormStatus").val();
     initstatusvalue = GrdInitStatus.GetValue();
-    if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4") {
+    if (uType == 3 && formstatus == "Edit" && (initstatusvalue != "4" || initstatusvalue != "15") ) {
         $("#chkAuto").prop("disabled", true);
         $(".txTarget").prop("disabled", true);
     }
@@ -1560,6 +1974,7 @@ function SaveInitiative() {
         confirmButtonText: 'Save'
     }).then((result) => {
         if (result.isConfirmed) {
+            var xisProcurement = $('#isProcurement').val();
             var xFormStatus = $("#FormStatus").val();
             var xFormID = $("#FormID").val();
             var xGrdSubCountry = GrdSubCountryPopup.GetValue();
@@ -1600,6 +2015,150 @@ function SaveInitiative() {
             var xProjectYear = CboYear.GetText();
             var xRelatedInitiative = LblRelatedInitiative.GetValue();
             var xCboWebinarCat = CboWebinarCat.GetValue();
+
+            //ENH153-2 procurment properties get field value in variable
+            var xUnit_of_volumes = CboUnitOfVolume.GetValue();
+            var xInput_Actuals_Volumes_Nmin1 = txt_Input_Actuals_Volumes_Nmin1.GetValue();
+            var xInput_Target_Volumes = txt_Input_Target_Volumes.GetValue();
+            var xTotal_Actual_volume_N = txt_Total_Actual_volume_N.GetValue();
+            var xSpend_Nmin1 = txt_Spend_Nmin1.GetValue();
+            var xSpend_N = txt_Spend_N.GetValue();
+            var xCPI = txt_CPI.GetValue();
+            var xjanActual_volume_N = txt_janActual_volume_N.GetValue();
+            var xfebActual_volume_N = txt_febActual_volume_N.GetValue();
+            var xmarActual_volume_N = txt_marActual_volume_N.GetValue();
+            var xaprActual_volume_N = txt_aprActual_volume_N.GetValue();
+            var xmayActual_volume_N = txt_mayActual_volume_N.GetValue();
+            var xjunActual_volume_N = txt_junActual_volume_N.GetValue();
+            var xjulActual_volume_N = txt_julActual_volume_N.GetValue();
+            var xaugActual_volume_N = txt_augActual_volume_N.GetValue();
+            var xsepActual_volume_N = txt_sepActual_volume_N.GetValue();
+            var xoctActual_volume_N = txt_octActual_volume_N.GetValue();
+            var xnovActual_volume_N = txt_novActual_volume_N.GetValue();
+            var xdecActual_volume_N = txt_decActual_volume_N.GetValue();
+            var xN_FY_Sec_PRICE_EF = txt_N_FY_Sec_PRICE_EF.GetValue();
+            var xN_FY_Sec_VOLUME_EF = txt_N_FY_Sec_VOLUME_EF.GetValue();
+            var xN_YTD_Sec_PRICE_EF = txt_N_YTD_Sec_PRICE_EF.GetValue();
+            var xN_YTD_Sec_VOLUME_EF = txt_N_YTD_Sec_VOLUME_EF.GetValue();
+            var xYTD_Achieved_PRICE_EF = txt_YTD_Achieved_PRICE_EF.GetValue();
+            var xYTD_Achieved_VOLUME_EF = txt_YTD_Achieved_VOLUME_EF.GetValue();
+            var xYTD_Cost_Avoid_Vs_CPI = txt_YTD_Cost_Avoid_Vs_CPI.GetValue();
+            var xFY_Cost_Avoid_Vs_CPI = txt_FY_Cost_Avoid_Vs_CPI.GetValue();
+            //ENH153-2 procurment properties get field value in variable
+
+            //ENH153-2 procurment back end calculation get field value in variable
+            
+            var xjan_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Jan').val();
+            var xfeb_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Feb').val();
+            var xmarch_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Mar').val();
+            var xapr_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Apr').val();
+            var xmay_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_May').val();
+            var xjun_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Jun').val();
+            var xjul_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Jul').val();
+            var xaug_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Aug').val();
+            var xsep_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Sep').val();
+            var xoct_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Oct').val();
+            var xnov_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Nov').val();
+            var xdec_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Dec').val();
+            var xjan_Target_CPU_N = $('#Target_CPU_N_Jan').val();
+            var xfeb_Target_CPU_N = $('#Target_CPU_N_Feb').val();
+            var xmarch_Target_CPU_N = $('#Target_CPU_N_Mar').val();
+            var xapr_Target_CPU_N = $('#Target_CPU_N_Apr').val();
+            var xmay_Target_CPU_N = $('#Target_CPU_N_May').val();
+            var xjun_Target_CPU_N = $('#Target_CPU_N_Jun').val();
+            var xjul_Target_CPU_N = $('#Target_CPU_N_Jul').val();
+            var xaug_Target_CPU_N = $('#Target_CPU_N_Aug').val();
+            var xsep_Target_CPU_N = $('#Target_CPU_N_Sep').val();
+            var xoct_Target_CPU_N = $('#Target_CPU_N_Oct').val();
+            var xnov_Target_CPU_N = $('#Target_CPU_N_Nov').val();
+            var xdec_Target_CPU_N = $('#Target_CPU_N_Dec').val();
+            var xjan_A_Price_effect = $('#A_Price_effect_Jan').val();
+            var xfeb_A_Price_effect = $('#A_Price_effect_Feb').val();
+            var xmarch_A_Price_effect = $('#A_Price_effect_Mar').val();
+            var xapr_A_Price_effect = $('#A_Price_effect_Apr').val();
+            var xmay_A_Price_effect = $('#A_Price_effect_May').val();
+            var xjun_A_Price_effect = $('#A_Price_effect_Jun').val();
+            var xjul_A_Price_effect = $('#A_Price_effect_Jul').val();
+            var xaug_A_Price_effect = $('#A_Price_effect_Aug').val();
+            var xsep_A_Price_effect = $('#A_Price_effect_Sep').val();
+            var xoct_A_Price_effect = $('#A_Price_effect_Oct').val();
+            var xnov_A_Price_effect = $('#A_Price_effect_Nov').val();
+            var xdec_A_Price_effect = $('#A_Price_effect_Dec').val();
+            var xjan_A_Volume_Effect = $('#A_Volume_Effect_Jan').val();
+            var xfeb_A_Volume_Effect = $('#A_Volume_Effect_Feb').val();
+            var xmarch_A_Volume_Effect = $('#A_Volume_Effect_Mar').val();
+            var xapr_A_Volume_Effect = $('#A_Volume_Effect_Apr').val();
+            var xmay_A_Volume_Effect = $('#A_Volume_Effect_May').val();
+            var xjun_A_Volume_Effect = $('#A_Volume_Effect_Jun').val();
+            var xjul_A_Volume_Effect = $('#A_Volume_Effect_Jul').val();
+            var xaug_A_Volume_Effect = $('#A_Volume_Effect_Aug').val();
+            var xsep_A_Volume_Effect = $('#A_Volume_Effect_Sep').val();
+            var xoct_A_Volume_Effect = $('#A_Volume_Effect_Oct').val();
+            var xnov_A_Volume_Effect = $('#A_Volume_Effect_Nov').val();
+            var xdec_A_Volume_Effect = $('#A_Volume_Effect_Dec').val();
+            var xjan_Achievement = $('#Achievement_Jan').val();
+            var xfeb_Achievement = $('#Achievement_Feb').val();
+            var xmarch_Achievement = $('#Achievement_Mar').val();
+            var xapr_Achievement = $('#Achievement_Apr').val();
+            var xmay_Achievement = $('#Achievement_May').val();
+            var xjun_Achievement = $('#Achievement_Jun').val();
+            var xjul_Achievement = $('#Achievement_Jul').val();
+            var xaug_Achievement = $('#Achievement_Aug').val();
+            var xsep_Achievement = $('#Achievement_Sep').val();
+            var xoct_Achievement = $('#Achievement_Oct').val();
+            var xnov_Achievement = $('#Achievement_Nov').val();
+            var xdec_Achievement = $('#Achievement_Dec').val();
+            var xjan_ST_Price_effect = $('#ST_Price_effect_Jan').val();
+            var xfeb_ST_Price_effect = $('#ST_Price_effect_Feb').val();
+            var xmarch_ST_Price_effect = $('#ST_Price_effect_Mar').val();
+            var xapr_ST_Price_effect = $('#ST_Price_effect_Apr').val();
+            var xmay_ST_Price_effect = $('#ST_Price_effect_May').val();
+            var xjun_ST_Price_effect = $('#ST_Price_effect_Jun').val();
+            var xjul_ST_Price_effect = $('#ST_Price_effect_Jul').val();
+            var xaug_ST_Price_effect = $('#ST_Price_effect_Aug').val();
+            var xsep_ST_Price_effect = $('#ST_Price_effect_Sep').val();
+            var xoct_ST_Price_effect = $('#ST_Price_effect_Oct').val();
+            var xnov_ST_Price_effect = $('#ST_Price_effect_Nov').val();
+            var xdec_ST_Price_effect = $('#ST_Price_effect_Dec').val();
+            var xjan_ST_Volume_Effect = $('#ST_Volume_Effect_Jan').val();
+            var xfeb_ST_Volume_Effect = $('#ST_Volume_Effect_Feb').val();
+            var xmarch_ST_Volume_Effect = $('#ST_Volume_Effect_Mar').val();
+            var xapr_ST_Volume_Effect = $('#ST_Volume_Effect_Apr').val();
+            var xmay_ST_Volume_Effect = $('#ST_Volume_Effect_May').val();
+            var xjun_ST_Volume_Effect = $('#ST_Volume_Effect_Jun').val();
+            var xjul_ST_Volume_Effect = $('#ST_Volume_Effect_Jul').val();
+            var xaug_ST_Volume_Effect = $('#ST_Volume_Effect_Aug').val();
+            var xsep_ST_Volume_Effect = $('#ST_Volume_Effect_Sep').val();
+            var xoct_ST_Volume_Effect = $('#ST_Volume_Effect_Oct').val();
+            var xnov_ST_Volume_Effect = $('#ST_Volume_Effect_Nov').val();
+            var xdec_ST_Volume_Effect = $('#ST_Volume_Effect_Dec').val();
+            var xjan_FY_Secured_Target = $('#FY_Secured_Target_Jan').val();
+            var xfeb_FY_Secured_Target = $('#FY_Secured_Target_Feb').val();
+            var xmarch_FY_Secured_Target = $('#FY_Secured_Target_Mar').val();
+            var xapr_FY_Secured_Target = $('#FY_Secured_Target_Apr').val();
+            var xmay_FY_Secured_Target = $('#FY_Secured_Target_May').val();
+            var xjun_FY_Secured_Target = $('#FY_Secured_Target_Jun').val();
+            var xjul_FY_Secured_Target = $('#FY_Secured_Target_Jul').val();
+            var xaug_FY_Secured_Target = $('#FY_Secured_Target_Aug').val();
+            var xsep_FY_Secured_Target = $('#FY_Secured_Target_Sep').val();
+            var xoct_FY_Secured_Target = $('#FY_Secured_Target_Oct').val();
+            var xnov_FY_Secured_Target = $('#FY_Secured_Target_Nov').val();
+            var xdec_FY_Secured_Target = $('#FY_Secured_Target_Dec').val();
+            var xjan_CPI_Effect = $('#CPI_Effect_Jan').val();
+            var xfeb_CPI_Effect = $('#CPI_Effect_Feb').val();
+            var xmarch_CPI_Effect = $('#CPI_Effect_Mar').val();
+            var xapr_CPI_Effect = $('#CPI_Effect_Apr').val();
+            var xmay_CPI_Effect = $('#CPI_Effect_May').val();
+            var xjun_CPI_Effect = $('#CPI_Effect_Jun').val();
+            var xjul_CPI_Effect = $('#CPI_Effect_Jul').val();
+            var xaug_CPI_Effect = $('#CPI_Effect_Aug').val();
+            var xsep_CPI_Effect = $('#CPI_Effect_Sep').val();
+            var xoct_CPI_Effect = $('#CPI_Effect_Oct').val();
+            var xnov_CPI_Effect = $('#CPI_Effect_Nov').val();
+            var xdec_CPI_Effect = $('#CPI_Effect_Dec').val();
+
+            //ENH153-2 procurment back end calculation get field value in variable
+
             //var projectYear = '@profileData.ProjectYear';
             //Comment the below clause to save everything to DB 
             //if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
@@ -1691,7 +2250,7 @@ function SaveInitiative() {
                     }
                 }
                 else {
-                    ////debugger;;
+                    // debugger;
                     Swal.fire(
                         'Inconsistent Target',
                         'Sum of monthly target and 12 months target,both  should be positive or negative',
@@ -1702,7 +2261,7 @@ function SaveInitiative() {
                 //}
 
                 //else {
-                //    //debugger;;
+                //    // debugger;
                 //    Swal.fire(
                 //        'Inconsistent Target',
                 //        'Target 12 Months and Target Current Year both should be positive or negative value',
@@ -1714,7 +2273,7 @@ function SaveInitiative() {
                 // }
                 //I think the below is not required since all the values are shown so the alert control should be simple 
                 //else if ((new Date(StartMonth.GetValue()).getFullYear()) < projectYear) {
-                //    //debugger;;
+                //    // debugger;
                 //    var x1 = StartMonth.GetValue().getMonth();
                 //    var months;
                 //    months = (EndMonth.GetValue().getFullYear() - StartMonth.GetValue().getFullYear()) * 12;
@@ -1793,7 +2352,7 @@ function SaveInitiative() {
                     sumtarget = Math.abs(sum);
                     //sumtarget = (((12 - (StartMonth.GetValue().getMonth())) * targetjan2) + sum);
                 }
-                ////debugger;;
+                // debugger;
                 //if (Number(xTxTargetFullYear).toFixed(0) == Number(sumtarget).toFixed(0)) {
                 // if (Math.floor(Math.abs(Number(xTxTargetFullYear))) == Math.floor(Number(sumtarget))) {
                 $.post(URLContent('ActiveInitiative/SaveNew'), {
@@ -1838,9 +2397,149 @@ function SaveInitiative() {
                     targetjan: targetjan, targetfeb: targetfeb, targetmar: targetmar, targetapr: targetapr, targetmay: targetmay, targetjun: targetjun, targetjul: targetjul, targetaug: targetaug, targetsep: targetsep, targetoct: targetoct, targetnov: targetnov, targetdec: targetdec,
                     targetjan2: targetjan2, targetfeb2: targetfeb2, targetmar2: targetmar2, targetapr2: targetapr2, targetmay2: targetmay2, targetjun2: targetjun2, targetjul2: targetjul2, targetaug2: targetaug2, targetsep2: targetsep2, targetoct2: targetoct2, targetnov2: targetnov2, targetdec2: targetdec2,
                     savingjan: savingjan, savingfeb: savingfeb, savingmar: savingmar, savingapr: savingapr, savingmay: savingmay, savingjun: savingjun, savingjul: savingjul, savingaug: savingaug, savingsep: savingsep, savingoct: savingoct, savingnov: savingnov, savingdec: savingdec,
-                    savingjan2: savingjan2, savingfeb2: savingfeb2, savingmar2: savingmar2, savingapr2: savingapr2, savingmay2: savingmay2, savingjun2: savingjun2, savingjul2: savingjul2, savingaug2: savingaug2, savingsep2: savingsep2, savingoct2: savingoct2, savingnov2: savingnov2, savingdec2: savingdec2
+                    savingjan2: savingjan2, savingfeb2: savingfeb2, savingmar2: savingmar2, savingapr2: savingapr2, savingmay2: savingmay2, savingjun2: savingjun2, savingjul2: savingjul2, savingaug2: savingaug2, savingsep2: savingsep2, savingoct2: savingoct2, savingnov2: savingnov2, savingdec2: savingdec2,
+                    Unit_of_volumes: xUnit_of_volumes,
+                    Input_Actuals_Volumes_Nmin1: xInput_Actuals_Volumes_Nmin1,
+                    Input_Target_Volumes: xInput_Target_Volumes,
+                    Total_Actual_volume_N: xTotal_Actual_volume_N,
+                    Spend_Nmin1: xSpend_Nmin1,
+                    Spend_N: xSpend_N,
+                    CPI: xCPI,
+                    janActual_volume_N: xjanActual_volume_N,
+                    febActual_volume_N: xfebActual_volume_N,
+                    marActual_volume_N: xmarActual_volume_N,
+                    aprActual_volume_N: xaprActual_volume_N,
+                    mayActual_volume_N: xmayActual_volume_N,
+                    junActual_volume_N: xjunActual_volume_N,
+                    julActual_volume_N: xjulActual_volume_N,
+                    augActual_volume_N: xaugActual_volume_N,
+                    sepActual_volume_N: xsepActual_volume_N,
+                    octActual_volume_N: xoctActual_volume_N,
+                    novActual_volume_N: xnovActual_volume_N,
+                    decActual_volume_N: xdecActual_volume_N,
+                    N_FY_Sec_PRICE_EF: xN_FY_Sec_PRICE_EF,
+                    N_FY_Sec_VOLUME_EF: xN_FY_Sec_VOLUME_EF,
+                    N_YTD_Sec_PRICE_EF: xN_YTD_Sec_PRICE_EF,
+                    N_YTD_Sec_VOLUME_EF: xN_YTD_Sec_VOLUME_EF,
+                    YTD_Achieved_PRICE_EF: xYTD_Achieved_PRICE_EF,
+                    YTD_Achieved_VOLUME_EF: xYTD_Achieved_VOLUME_EF,
+                    YTD_Cost_Avoid_Vs_CPI: xYTD_Cost_Avoid_Vs_CPI,
+                    FY_Cost_Avoid_Vs_CPI: xFY_Cost_Avoid_Vs_CPI,
+                    isProcurement: xisProcurement,
+                    _t_initiative_calcs: {
+                        
+                        jan_Actual_CPU_Nmin1: xjan_Actual_CPU_Nmin1,
+                        feb_Actual_CPU_Nmin1: xfeb_Actual_CPU_Nmin1,
+                        march_Actual_CPU_Nmin1: xmarch_Actual_CPU_Nmin1,
+                        apr_Actual_CPU_Nmin1: xapr_Actual_CPU_Nmin1,
+                        may_Actual_CPU_Nmin1: xmay_Actual_CPU_Nmin1,
+                        jun_Actual_CPU_Nmin1: xjun_Actual_CPU_Nmin1,
+                        jul_Actual_CPU_Nmin1: xjul_Actual_CPU_Nmin1,
+                        aug_Actual_CPU_Nmin1: xaug_Actual_CPU_Nmin1,
+                        sep_Actual_CPU_Nmin1: xsep_Actual_CPU_Nmin1,
+                        oct_Actual_CPU_Nmin1: xoct_Actual_CPU_Nmin1,
+                        nov_Actual_CPU_Nmin1: xnov_Actual_CPU_Nmin1,
+                        dec_Actual_CPU_Nmin1: xdec_Actual_CPU_Nmin1,
+                        jan_Target_CPU_N: xjan_Target_CPU_N,
+                        feb_Target_CPU_N: xfeb_Target_CPU_N,
+                        march_Target_CPU_N: xmarch_Target_CPU_N,
+                        apr_Target_CPU_N: xapr_Target_CPU_N,
+                        may_Target_CPU_N: xmay_Target_CPU_N,
+                        jun_Target_CPU_N: xjun_Target_CPU_N,
+                        jul_Target_CPU_N: xjul_Target_CPU_N,
+                        aug_Target_CPU_N: xaug_Target_CPU_N,
+                        sep_Target_CPU_N: xsep_Target_CPU_N,
+                        oct_Target_CPU_N: xoct_Target_CPU_N,
+                        nov_Target_CPU_N: xnov_Target_CPU_N,
+                        dec_Target_CPU_N: xdec_Target_CPU_N,
+                        jan_A_Price_effect: xjan_A_Price_effect,
+                        feb_A_Price_effect: xfeb_A_Price_effect,
+                        march_A_Price_effect: xmarch_A_Price_effect,
+                        apr_A_Price_effect: xapr_A_Price_effect,
+                        may_A_Price_effect: xmay_A_Price_effect,
+                        jun_A_Price_effect: xjun_A_Price_effect,
+                        jul_A_Price_effect: xjul_A_Price_effect,
+                        aug_A_Price_effect: xaug_A_Price_effect,
+                        sep_A_Price_effect: xsep_A_Price_effect,
+                        oct_A_Price_effect: xoct_A_Price_effect,
+                        nov_A_Price_effect: xnov_A_Price_effect,
+                        dec_A_Price_effect: xdec_A_Price_effect,
+                        jan_A_Volume_Effect: xjan_A_Volume_Effect,
+                        feb_A_Volume_Effect: xfeb_A_Volume_Effect,
+                        march_A_Volume_Effect: xmarch_A_Volume_Effect,
+                        apr_A_Volume_Effect: xapr_A_Volume_Effect,
+                        may_A_Volume_Effect: xmay_A_Volume_Effect,
+                        jun_A_Volume_Effect: xjun_A_Volume_Effect,
+                        jul_A_Volume_Effect: xjul_A_Volume_Effect,
+                        aug_A_Volume_Effect: xaug_A_Volume_Effect,
+                        sep_A_Volume_Effect: xsep_A_Volume_Effect,
+                        oct_A_Volume_Effect: xoct_A_Volume_Effect,
+                        nov_A_Volume_Effect: xnov_A_Volume_Effect,
+                        dec_A_Volume_Effect: xdec_A_Volume_Effect,
+                        jan_Achievement: xjan_Achievement,
+                        feb_Achievement: xfeb_Achievement,
+                        march_Achievement: xmarch_Achievement,
+                        apr_Achievement: xapr_Achievement,
+                        may_Achievement: xmay_Achievement,
+                        jun_Achievement: xjun_Achievement,
+                        jul_Achievement: xjul_Achievement,
+                        aug_Achievement: xaug_Achievement,
+                        sep_Achievement: xsep_Achievement,
+                        oct_Achievement: xoct_Achievement,
+                        nov_Achievement: xnov_Achievement,
+                        dec_Achievement: xdec_Achievement,
+                        jan_ST_Price_effect: xjan_ST_Price_effect,
+                        feb_ST_Price_effect: xfeb_ST_Price_effect,
+                        march_ST_Price_effect: xmarch_ST_Price_effect,
+                        apr_ST_Price_effect: xapr_ST_Price_effect,
+                        may_ST_Price_effect: xmay_ST_Price_effect,
+                        jun_ST_Price_effect: xjun_ST_Price_effect,
+                        jul_ST_Price_effect: xjul_ST_Price_effect,
+                        aug_ST_Price_effect: xaug_ST_Price_effect,
+                        sep_ST_Price_effect: xsep_ST_Price_effect,
+                        oct_ST_Price_effect: xoct_ST_Price_effect,
+                        nov_ST_Price_effect: xnov_ST_Price_effect,
+                        dec_ST_Price_effect: xdec_ST_Price_effect,
+                        jan_ST_Volume_Effect: xjan_ST_Volume_Effect,
+                        feb_ST_Volume_Effect: xfeb_ST_Volume_Effect,
+                        march_ST_Volume_Effect: xmarch_ST_Volume_Effect,
+                        apr_ST_Volume_Effect: xapr_ST_Volume_Effect,
+                        may_ST_Volume_Effect: xmay_ST_Volume_Effect,
+                        jun_ST_Volume_Effect: xjun_ST_Volume_Effect,
+                        jul_ST_Volume_Effect: xjul_ST_Volume_Effect,
+                        aug_ST_Volume_Effect: xaug_ST_Volume_Effect,
+                        sep_ST_Volume_Effect: xsep_ST_Volume_Effect,
+                        oct_ST_Volume_Effect: xoct_ST_Volume_Effect,
+                        nov_ST_Volume_Effect: xnov_ST_Volume_Effect,
+                        dec_ST_Volume_Effect: xdec_ST_Volume_Effect,
+                        jan_FY_Secured_Target: xjan_FY_Secured_Target,
+                        feb_FY_Secured_Target: xfeb_FY_Secured_Target,
+                        march_FY_Secured_Target: xmarch_FY_Secured_Target,
+                        apr_FY_Secured_Target: xapr_FY_Secured_Target,
+                        may_FY_Secured_Target: xmay_FY_Secured_Target,
+                        jun_FY_Secured_Target: xjun_FY_Secured_Target,
+                        jul_FY_Secured_Target: xjul_FY_Secured_Target,
+                        aug_FY_Secured_Target: xaug_FY_Secured_Target,
+                        sep_FY_Secured_Target: xsep_FY_Secured_Target,
+                        oct_FY_Secured_Target: xoct_FY_Secured_Target,
+                        nov_FY_Secured_Target: xnov_FY_Secured_Target,
+                        dec_FY_Secured_Target: xdec_FY_Secured_Target,
+                        jan_CPI_Effect: xjan_CPI_Effect,
+                        feb_CPI_Effect: xfeb_CPI_Effect,
+                        march_CPI_Effect: xmarch_CPI_Effect,
+                        apr_CPI_Effect: xapr_CPI_Effect,
+                        may_CPI_Effect: xmay_CPI_Effect,
+                        jun_CPI_Effect: xjun_CPI_Effect,
+                        jul_CPI_Effect: xjul_CPI_Effect,
+                        aug_CPI_Effect: xaug_CPI_Effect,
+                        sep_CPI_Effect: xsep_CPI_Effect,
+                        oct_CPI_Effect: xoct_CPI_Effect,
+                        nov_CPI_Effect: xnov_CPI_Effect,
+                        dec_CPI_Effect: xdec_CPI_Effect
+
+                    }
                 }, function (data) {
-                    ////debugger;;
+                    // debugger;
                     if (data.substring(0, 5) == "saved") {
                         if (xFormStatus == "New") $("#initsukses").html("New Initiative Number: " + data.substring(6, data.length)); else $("#initsukses").html("Initiative successfully saved!");
                         $("#btnEdit").click(); $("#btnClose").click();
@@ -1868,7 +2567,7 @@ function SaveInitiative() {
 }
 
 function CheckUncheckCalculate() {
-    //debugger;;
+    // debugger;
     var targetstartselected = false; var targetstartselected2 = true; var startmon;/* var projectYear = '@profileData.ProjectYear';*/ var uType = user_type;
     //Count how many targets are enabled and just divide by total
     if (($('#chkAuto').is(':checked')) && txTargetFullYear.GetValue() != "") {
@@ -1913,7 +2612,7 @@ function CheckUncheckCalculate() {
             const targetty = Array("targetjan", "targetfeb", "targetmar", "targetapr", "targetmay", "targetjun", "targetjul", "targetaug", "targetsep", "targetoct", "targetnov", "targetdec", "targetjan2", "targetfeb2", "targetmar2", "targetapr2", "targetmay2", "targetjun2", "targetjul2", "targetaug2", "targetsep2", "targetoct2", "targetnov2", "targetdec2");
             const savingty = Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec", "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
             //find the sum of previous year 
-            ////debugger;;
+            // debugger;
 
             let previoussum = 0;
             for (var i = 0; i <= 11; i++) {
@@ -1967,7 +2666,7 @@ function CheckUncheckCalculate() {
             //        $("." + targetty[i]).prop('disabled', true);
             //        $("." + savingty[i]).prop('disabled', true);
             //    }
-            //    //debugger;;
+            //    // debugger;
             //    if ($("." + targetty[i]).prop('disabled'))
             //        {
             //        console.log("Hi");
@@ -2095,7 +2794,7 @@ function getYtdValue() {
     //var d = new Date();
     var d = new Date();
     var m = d.getMonth();
-    //debugger;;
+    // debugger;
     //var startmon = ((moment(StartMonth.GetValue()).format("M")));
     var endmon = ((moment(StartMonth.GetValue()).format("M")));
     var startyear = new Date(StartMonth.GetValue()).getFullYear()
@@ -2144,6 +2843,6 @@ function getYtdValue() {
     }
     txYTDTargetFullYear.SetValue(hitung);
     txYTDSavingFullYear.SetValue(hitungsaving);
- 
+
 
 }

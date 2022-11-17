@@ -25,7 +25,9 @@ namespace GAIN.Models
         public long id { get; set; }
         public string SubCostName { get; set; }
         public string isActive { get; set; }
-    
+        public long InitYear { get; set; }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_subcostinitiative> t_subcostinitiative { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

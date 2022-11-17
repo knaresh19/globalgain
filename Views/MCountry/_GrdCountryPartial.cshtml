@@ -91,7 +91,13 @@
         {
             c.FieldName = "CountryName";
             c.Caption = "Country Name";
-            c.Width = 1000;
+            c.Width = 200;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "InitYear";
+            c.Caption = "Year";
+            c.Width = 200;
         });
     });
     if (ViewData["EditError"] != null)

@@ -41,6 +41,7 @@ log4net.LogManager.GetLogger
                         {
                             ID = model.UserName,
                             ProjectYear = DateTime.Now.Year,
+                            ProjectMonth = DateTime.Now.Month,
                             UserType = (int)isRegistered.userType,
                             CountryCode = isRegistered.COUNTRY_CODE,
                             RegionID = isRegistered.region_right,
@@ -69,6 +70,7 @@ log4net.LogManager.GetLogger
                         {
                             ID = model.UserName,
                             ProjectYear = DateTime.Now.Year,
+                            ProjectMonth = DateTime.Now.Month,
                             UserType = (int)isRegistered.userType,
                             CountryCode = isRegistered.COUNTRY_CODE,
                             RegionID = isRegistered.region_right,
@@ -94,13 +96,14 @@ log4net.LogManager.GetLogger
                         try
                         {
                             string LDAPSCONF = ConfigurationManager.AppSettings["LDAPSCONF"];
-                            DirectoryEntry entry = new DirectoryEntry(LDAPSCONF, model.UserName, model.Password);
-                            object nativeObject = entry.NativeObject;
+                            //DirectoryEntry entry = new DirectoryEntry(LDAPSCONF, model.UserName, model.Password);
+                            //object nativeObject = entry.NativeObject;
 
                             LoginSession LoginSession = new LoginSession
                             {
                                 ID = model.UserName,
                                 ProjectYear = DateTime.Now.Year,
+                                ProjectMonth = DateTime.Now.Month,
                                 UserType = (int)isRegistered.userType,
                                 CountryCode = isRegistered.COUNTRY_CODE,
                                 RegionID = isRegistered.region_right,

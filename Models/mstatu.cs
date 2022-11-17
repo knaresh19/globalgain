@@ -23,7 +23,9 @@ namespace GAIN.Models
         public long id { get; set; }
         public string Status { get; set; }
         public string isActive { get; set; }
-    
+        public long InitYear { get; set; }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_initiative> t_initiative { get; set; }
     }

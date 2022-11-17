@@ -56,11 +56,41 @@ log4net.LogManager.GetLogger
                 validity_right = profileData.validity_right,
                 confidential_right = profileData.confidential_right,
                 years_right = profileData.years_right,
-                istoadmin = profileData.istoadmin
+                istoadmin = profileData.istoadmin,
+                ProjectMonth = profileData.ProjectMonth
             };
             Session["DefaultGAINSess"] = LoginSession;
             return Content("Ok");
         }
+        public ActionResult ProjectMonth(Models.GetInfoByIDModel GetInfo)
+        {
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
+            LoginSession LoginSession = new LoginSession
+            {
+                ID = profileData.ID,
+                ProjectYear = profileData.ProjectYear,
+                UserType = profileData.UserType,
+                CountryCode = profileData.CountryCode,
+                RegionID = profileData.RegionID,
+                CountryID = profileData.CountryID,
+                CostControlSite = profileData.CostControlSite,
+                subcountry_right = profileData.subcountry_right,
+                RegionalOffice_right = profileData.RegionalOffice_right,
+                CostControlSite_right = profileData.CostControlSite_right,
+                Brand_right = profileData.Brand_right,
+                CostItem_right = profileData.CostItem_right,
+                SubCostItem_right = profileData.SubCostItem_right,
+                validity_right = profileData.validity_right,
+                confidential_right = profileData.confidential_right,
+                years_right = profileData.years_right,
+                istoadmin = profileData.istoadmin,
+                ProjectMonth = Convert.ToInt32(GetInfo.Id)
+
+            };
+            Session["DefaultGAINSess"] = LoginSession;
+            return Content("Ok");
+        }
+
         public ActionResult NewInitiative()
         {
             ViewData["NEWIN"] = "Y";
@@ -70,7 +100,15 @@ log4net.LogManager.GetLogger
         public ActionResult GrdMainInitiativePartial() // Main Function to show data in Main Grid
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
+
+
+            var projYear = profileData.ProjectYear;
+            if (profileData.ProjectYear < 2023)
+                profileData.ProjectYear = 2022;
+
+
             var where = "";
+
 
             if (profileData.confidential_right == 0) where += " and Confidential != 'Y'";
             if (profileData.RegionalOffice_right!=null && profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0, 1) == "|")
@@ -78,7 +116,7 @@ log4net.LogManager.GetLogger
                 var regofficetext = profileData.RegionalOffice_right.Replace("|", "','");
                 int lenRegionalOffice_right = regofficetext.Length;
                 regofficetext = "(" + regofficetext.Substring(2, (lenRegionalOffice_right - 4)) + ")";
-                var RegionalOffice_rightid = db.mregional_office.SqlQuery("select id,RegionID,CountryID,RegionalOffice_Name,SubCountryID,BrandID from mregional_office where RegionalOffice_Name in " + regofficetext + " group by id,RegionID,CountryID,RegionalOffice_Name,SubCountryID,BrandID").ToList();
+                var RegionalOffice_rightid = db.mregional_office.SqlQuery("select id,RegionID,CountryID,RegionalOffice_Name,SubCountryID,BrandID ,InitYear from mregional_office where RegionalOffice_Name in " + regofficetext + " and InitYear =" + projYear + " group by id,RegionID,CountryID,RegionalOffice_Name,SubCountryID,BrandID").ToList();
                 var RegionalOffice_rightcondition = "";
                 for (var i = 0; i < RegionalOffice_rightid.Count(); i++)
                 {
@@ -96,7 +134,7 @@ log4net.LogManager.GetLogger
                 var brandtext = profileData.Brand_right.Replace("|", "','");
                 int lenbrand = brandtext.Length;
                 brandtext = "(" + brandtext.Substring(2, (lenbrand - 4)) + ")";
-                var brandid = db.mbrands.SqlQuery("select id,brandname,isActive,isDeleted from mbrand where brandname in " + brandtext + " group by id,brandname").ToList();
+                var brandid = db.mbrands.SqlQuery("select id,brandname,isActive,isDeleted from mbrand where brandname in " + brandtext + " and InitYear =" + projYear + " group by id,brandname").ToList();
                 var brandcondition = "";
                 for (var i = 0; i < brandid.Count(); i++)
                 {
@@ -114,7 +152,7 @@ log4net.LogManager.GetLogger
                 var costitemtext = profileData.CostItem_right.Replace("|", "','");
                 int lencostitem = costitemtext.Length;
                 costitemtext = "(" + costitemtext.Substring(2, (lencostitem - 4)) + ")";
-                var costitemid = db.mcosttypes.SqlQuery("select id,CostTypeName,isActive from mcosttype where CostTypeName in " + costitemtext + " group by id,CostTypeName,isActive").ToList();
+                var costitemid = db.mcosttypes.SqlQuery("select id,CostTypeName,isActive from mcosttype where CostTypeName in " + costitemtext + " and InitYear =" + projYear + " group by id,CostTypeName,isActive").ToList();
                 var costitemcondition = "";
                 for (var i = 0; i < costitemid.Count(); i++)
                 {
@@ -129,10 +167,12 @@ log4net.LogManager.GetLogger
             }
             if (profileData.SubCostItem_right !=null && profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL" )
             {
+
+
                 var subcostitemtext = profileData.SubCostItem_right.Replace("|", "','");
                 int lensubcostitem = subcostitemtext.Length;
                 subcostitemtext = "(" + subcostitemtext.Substring(2, (lensubcostitem - 4)) + ")";
-                var subcostitemid = db.msubcosts.SqlQuery("select id,SubCostName,isActive from msubcost where SubCostName in " + subcostitemtext + " group by id,SubCostName,isActive").ToList();
+                var subcostitemid = db.msubcosts.SqlQuery("select id,SubCostName,isActive , InitYear from msubcost where SubCostName in " + subcostitemtext + "   and InitYear =" + projYear + " group by id,SubCostName,isActive").ToList();
                 var subcostitemcondition = "";
                 for (var i = 0; i < subcostitemid.Count(); i++)
                 {
@@ -154,7 +194,7 @@ log4net.LogManager.GetLogger
                     var rpoctext = profileData.RegionID.Replace("|", "','");
                     int lenrpoc = rpoctext.Length;
                     rpoctext = "(" + rpoctext.Substring(2, (lenrpoc - 4)) + ")";
-                    var rpocid = db.mregions.SqlQuery("select id,RegionName,isActive from mregion where RegionName in " + rpoctext + " group by id,RegionName,isActive").ToList();
+                    var rpocid = db.mregions.SqlQuery("select id,RegionName,isActive from mregion where RegionName in " + rpoctext + " and InitYear =" + projYear + " group by id,RegionName,isActive").ToList();
                     var rpoccondition = "";
                     for (var i = 0; i < rpocid.Count(); i++)
                     {
@@ -170,7 +210,7 @@ log4net.LogManager.GetLogger
                         var cctext = profileData.CostControlSite.Replace("|", "','");
                         int lencctext = cctext.Length;
                         cctext = "(" + cctext.Substring(2, (lencctext - 4)) + ")";
-                        var ccid = db.mcostcontrolsites.SqlQuery("SELECT id,CostControlSiteName FROM mcostcontrolsite WHERE CostControlSiteName IN " + cctext + " group by id,CostControlSiteName ").ToList();
+                        var ccid = db.mcostcontrolsites.SqlQuery("SELECT id,CostControlSiteName FROM mcostcontrolsite WHERE CostControlSiteName IN " + cctext + " and InitYear =" + projYear + " group by id,CostControlSiteName ").ToList();
                         var cccondition = "";
                         for (var i = 0; i < ccid.Count(); i++)
                         {
@@ -186,7 +226,7 @@ log4net.LogManager.GetLogger
                 var cntrytext = profileData.subcountry_right.Replace("|", "','");
                 int lencntrytext = cntrytext.Length;
                 cntrytext = "(" + cntrytext.Substring(2, (lencntrytext - 4)) + ")";
-                var cntryid = db.msubcountries.SqlQuery("SELECT id,CountryID,SubCountryName,CountryCode,isActive FROM msubcountry WHERE SubCountryName IN " + cntrytext + " group by id,CountryID,SubCountryName,CountryCode,isActive").ToList();
+                var cntryid = db.msubcountries.SqlQuery("SELECT id,CountryID,SubCountryName,CountryCode,isActive , InitYear FROM msubcountry WHERE SubCountryName IN " + cntrytext + " and InitYear =" + projYear + " group by id,CountryID,SubCountryName,CountryCode,isActive").ToList();
                 var cntryidcondition = "(";
                 for (var i = 0; i < cntryid.Count(); i++)
                 {
@@ -200,26 +240,28 @@ log4net.LogManager.GetLogger
             //ConsoleLog(" UserType: " + profileData.UserType + "\\n RegionID: " + profileData.RegionID + "\\n CostControlSite: " + profileData.CostControlSite + "\\n Country: " + profileData.CountryID + "\\n Condition: " + where);
 
            // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
-            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
+            //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
 
-            ViewData["mregions"] = db.mregions.ToList();
-            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y" && c.isDeleted=="N").ToList();
-            ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
+            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "')  order by CreatedDate desc").ToList();
+
+            ViewData["mregions"] = db.mregions.Where(c => c.InitYear == projYear).ToList();
+            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y" && c.isDeleted == "N" && c.InitYear == projYear).ToList();
+            ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "" && c.InitYear == projYear).ToList();
             //ViewData["mcluster"] = db.mclusters.SqlQuery("SELECT * FROM mcluster where ClusterName != \'\'").ToList();
-            ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
-            ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office").GroupBy(g => g.RegionalOffice_Name).Select(s => new { RegionalOffice_Name = s.Key }).ToList();
-            ViewData["CostControlSiteName"] = db.mcostcontrolsites.Where(c => c.CostControlSiteName != "").ToList();
-            ViewData["CountryName"] = db.mcountries.Where(c => c.CountryName != "").ToList();
-            ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "" && c.isActive == "Y").ToList();
-            ViewData["LegalEntityName"] = db.mlegalentities.GroupBy(g => g.LegalEntityName).Select(s => new { LegalEntityName = s.Key }).ToList();
-            ViewData["SavingTypeName"] = db.msavingtypes.Where(c => c.isActive == "Y").ToList();
-            ViewData["CostTypeName"] = db.mcosttypes.Where(c => c.isActive == "Y").ToList();
-            ViewData["SubCostName"] = db.msubcosts.Where(c => c.isActive == "Y").ToList();
-            ViewData["ActionTypeName"] = db.mactiontypes.Where(c => c.isActive == "Y").ToList();
-            ViewData["SynImpactName"] = db.msynimpacts.Where(c => c.isActive == "Y").ToList();
-            ViewData["Status"] = db.mstatus.Where(c => c.isActive == "Y").ToList();
-            ViewData["portName"] = db.mports.ToList();
-            ViewData["SourceCategoryName"] = db.msourcecategories.ToList();
+            ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "" && c.InitYear == projYear).GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
+            ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office where InitYear=" + projYear + "").GroupBy(g => g.RegionalOffice_Name).Select(s => new { RegionalOffice_Name = s.Key }).ToList();
+            ViewData["CostControlSiteName"] = db.mcostcontrolsites.Where(c => c.CostControlSiteName != "" && c.InitYear == projYear).ToList();
+            ViewData["CountryName"] = db.mcountries.Where(c => c.CountryName != "" && c.InitYear == projYear).ToList();
+            ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "" && c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["LegalEntityName"] = db.mlegalentities.Where(c => c.InitYear == projYear).GroupBy(g => g.LegalEntityName).Select(s => new { LegalEntityName = s.Key }).ToList();
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["ActionTypeName"] = db.mactiontypes.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["SynImpactName"] = db.msynimpacts.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["Status"] = db.mstatus.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["portName"] = db.mports.Where(c => c.InitYear == projYear).ToList();
+            ViewData["SourceCategoryName"] = db.msourcecategories.Where(c => c.InitYear == projYear).ToList();
           
 
             foreach (var item in model)
@@ -444,34 +486,42 @@ log4net.LogManager.GetLogger
         }
         public ActionResult GrdSubCountryPartial(Models.GetInfoByIDModel GetInfo)
         {
+
             var profileData = Session["DefaultGAINSess"] as LoginSession; var where = "";
+            var projYear = profileData.ProjectYear;
+            if (profileData.ProjectYear < 2023)
+                profileData.ProjectYear = 2022;
+
             if (profileData.UserType == 3) //agency
             {
                 //var cntrytext = profileData.CountryID.Replace("|", "','");
+
                 var cntrytext = profileData.subcountry_right.Replace("|", "','");
                 int lencntrytext = cntrytext.Length;
                 cntrytext = "(" + cntrytext.Substring(2, (lencntrytext - 4)) + ")";
-                var cntryid = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y' and SubCountryName in " + cntrytext + " ").ToList();
+                var cntryid = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive , Inityear from msubcountry where SubCountryName is not null and isActive = 'Y' and SubCountryName in " + cntrytext + " and  Inityear = " + projYear + "").ToList();
                 var cntryidcondition = "(";
                 for (var i = 0; i < cntryid.Count(); i++)
                 {
                     cntryidcondition += cntryid[i].id.ToString() + ",";
                 }
                 cntryidcondition = cntryidcondition.Substring(0, cntryidcondition.Length - 1);
-
-                //where += " and a.CountryID in " + cntryidcondition + ")";
+                if (cntryid.Count() > 0)
                 where += cntryidcondition + ")";
+                else
+                    where += "";
+                //where += " and a.CountryID in " + cntryidcondition + ")";
+
             }
 
             //db.Configuration.ProxyCreationEnabled = false;
             //var model = db.msubcountries.ToList();
 
             List<SubCountryList> model = new List<SubCountryList>();
-            model = db.msubcountries.Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
-
+            model = db.msubcountries.ToList().Where(c => c.InitYear == projYear).Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName, InitYear = s.InitYear }).ToList();
             if (GetInfo.Id != 0)
             {
-                model = db.msubcountries.Where(c => c.id == GetInfo.Id && c.isActive == "Y" && !(string.IsNullOrEmpty(c.SubCountryName))).Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                model = db.msubcountries.Where(c => c.id == GetInfo.Id && c.InitYear == projYear && c.isActive == "Y" && !(string.IsNullOrEmpty(c.SubCountryName))).Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
                 //model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y' and id = " + GetInfo.Id + " ").ToList();
             }
             else
@@ -479,11 +529,17 @@ log4net.LogManager.GetLogger
                 if (profileData.UserType == 3) //agency
                 {
                     //model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName) && c.CountryCode   && c.isActive == "Y").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
-                    model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y' and id in " + where + " ").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                    // model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive ,InitYear from msubcountry where SubCountryName is not null and isActive = 'Y' and InitYear = " + projYear + " and id in ( " + where + " ").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                    if (string.IsNullOrEmpty(where))
+                        model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive ,InitYear from msubcountry where SubCountryName is not null and isActive = 'Y' and InitYear = " + projYear + "").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                    else
+                        model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive ,InitYear from msubcountry where SubCountryName is not null and isActive = 'Y' and InitYear = " + projYear + " and id in ( " + where + " ").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                    // model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName) && c.isActive == "Y" && c.InitYear == projYear).Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+
                 }
                 else
                 {
-                    model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName) && c.isActive == "Y").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+                    model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName) && c.isActive == "Y" && c.InitYear == projYear).Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
                     //model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive from msubcountry where SubCountryName is not null and isActive = 'Y';").ToList();
                 }
             }
@@ -725,6 +781,153 @@ log4net.LogManager.GetLogger
             decimal? savingnov = NewInitiative.savingnov; decimal? savingnov2 = NewInitiative.savingnov2;
             decimal? savingdec = NewInitiative.savingdec; decimal? savingdec2 = NewInitiative.savingdec2;
 
+            #region new properties enh153-2 Mapping from view to variables
+
+            string Unit_of_volumes = NewInitiative.Unit_of_volumes;
+            decimal? Input_Actuals_Volumes_Nmin1 = NewInitiative.Input_Actuals_Volumes_Nmin1 == null ? 0 : NewInitiative.Input_Actuals_Volumes_Nmin1;
+            decimal? Input_Target_Volumes = NewInitiative.Input_Target_Volumes == null ? 0 : NewInitiative.Input_Target_Volumes;
+            decimal? Total_Actual_volume_N = NewInitiative.Total_Actual_volume_N == null ? 0 : NewInitiative.Total_Actual_volume_N;
+            decimal? Spend_Nmin1 = NewInitiative.Spend_Nmin1 == null ? 0 : NewInitiative.Spend_Nmin1;
+            decimal? Spend_N = NewInitiative.Spend_N == null ? 0 : NewInitiative.Spend_N;
+            decimal? CPI = NewInitiative.CPI == null ? 0 : NewInitiative.CPI;
+
+            decimal? janActual_volume_N = NewInitiative.janActual_volume_N == null ? 0 : NewInitiative.janActual_volume_N;
+            decimal? febActual_volume_N = NewInitiative.febActual_volume_N == null ? 0 : NewInitiative.febActual_volume_N;
+            decimal? marActual_volume_N = NewInitiative.marActual_volume_N == null ? 0 : NewInitiative.marActual_volume_N;
+            decimal? aprActual_volume_N = NewInitiative.aprActual_volume_N == null ? 0 : NewInitiative.aprActual_volume_N;
+            decimal? mayActual_volume_N = NewInitiative.mayActual_volume_N == null ? 0 : NewInitiative.mayActual_volume_N;
+            decimal? junActual_volume_N = NewInitiative.junActual_volume_N == null ? 0 : NewInitiative.junActual_volume_N;
+            decimal? julActual_volume_N = NewInitiative.julActual_volume_N == null ? 0 : NewInitiative.julActual_volume_N;
+            decimal? augActual_volume_N = NewInitiative.augActual_volume_N == null ? 0 : NewInitiative.augActual_volume_N;
+            decimal? sepActual_volume_N = NewInitiative.sepActual_volume_N == null ? 0 : NewInitiative.sepActual_volume_N;
+            decimal? octActual_volume_N = NewInitiative.octActual_volume_N == null ? 0 : NewInitiative.octActual_volume_N;
+            decimal? novActual_volume_N = NewInitiative.novActual_volume_N == null ? 0 : NewInitiative.novActual_volume_N;
+            decimal? decActual_volume_N = NewInitiative.decActual_volume_N == null ? 0 : NewInitiative.decActual_volume_N;
+            decimal? N_FY_Sec_PRICE_EF = NewInitiative.N_FY_Sec_PRICE_EF == null ? 0 : NewInitiative.N_FY_Sec_PRICE_EF;
+            decimal? N_FY_Sec_VOLUME_EF = NewInitiative.N_FY_Sec_VOLUME_EF == null ? 0 : NewInitiative.N_FY_Sec_VOLUME_EF;
+            decimal? N_YTD_Sec_PRICE_EF = NewInitiative.N_YTD_Sec_PRICE_EF == null ? 0 : NewInitiative.N_YTD_Sec_PRICE_EF;
+            decimal? N_YTD_Sec_VOLUME_EF = NewInitiative.N_YTD_Sec_VOLUME_EF == null ? 0 : NewInitiative.N_YTD_Sec_VOLUME_EF;
+            decimal? YTD_Achieved_PRICE_EF = NewInitiative.YTD_Achieved_PRICE_EF == null ? 0 : NewInitiative.YTD_Achieved_PRICE_EF;
+            decimal? YTD_Achieved_VOLUME_EF = NewInitiative.YTD_Achieved_VOLUME_EF == null ? 0 : NewInitiative.YTD_Achieved_VOLUME_EF;
+            decimal? YTD_Cost_Avoid_Vs_CPI = NewInitiative.YTD_Cost_Avoid_Vs_CPI == null ? 0 : NewInitiative.YTD_Cost_Avoid_Vs_CPI;
+            decimal? FY_Cost_Avoid_Vs_CPI = NewInitiative.FY_Cost_Avoid_Vs_CPI == null ? 0 : NewInitiative.FY_Cost_Avoid_Vs_CPI;
+            t_initiative_calcs _t_initiative_calcs = NewInitiative._t_initiative_calcs;
+            int isProcurement = NewInitiative.isProcurement;
+            #endregion
+
+            #region new properties backend calculation enh153-2 Mapping from view to variables
+
+            decimal jan_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.jan_Actual_CPU_Nmin1;
+            decimal feb_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.feb_Actual_CPU_Nmin1;
+            decimal march_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.march_Actual_CPU_Nmin1;
+            decimal apr_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.apr_Actual_CPU_Nmin1;
+            decimal may_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.may_Actual_CPU_Nmin1;
+            decimal jun_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.jun_Actual_CPU_Nmin1;
+            decimal jul_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.jul_Actual_CPU_Nmin1;
+            decimal aug_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.aug_Actual_CPU_Nmin1;
+            decimal sep_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.sep_Actual_CPU_Nmin1;
+            decimal oct_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.oct_Actual_CPU_Nmin1;
+            decimal nov_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.nov_Actual_CPU_Nmin1;
+            decimal dec_Actual_CPU_Nmin1 = NewInitiative._t_initiative_calcs.dec_Actual_CPU_Nmin1;
+            decimal jan_Target_CPU_N = NewInitiative._t_initiative_calcs.jan_Target_CPU_N;
+            decimal feb_Target_CPU_N = NewInitiative._t_initiative_calcs.feb_Target_CPU_N;
+            decimal march_Target_CPU_N = NewInitiative._t_initiative_calcs.march_Target_CPU_N;
+            decimal apr_Target_CPU_N = NewInitiative._t_initiative_calcs.apr_Target_CPU_N;
+            decimal may_Target_CPU_N = NewInitiative._t_initiative_calcs.may_Target_CPU_N;
+            decimal jun_Target_CPU_N = NewInitiative._t_initiative_calcs.jun_Target_CPU_N;
+            decimal jul_Target_CPU_N = NewInitiative._t_initiative_calcs.jul_Target_CPU_N;
+            decimal aug_Target_CPU_N = NewInitiative._t_initiative_calcs.aug_Target_CPU_N;
+            decimal sep_Target_CPU_N = NewInitiative._t_initiative_calcs.sep_Target_CPU_N;
+            decimal oct_Target_CPU_N = NewInitiative._t_initiative_calcs.oct_Target_CPU_N;
+            decimal nov_Target_CPU_N = NewInitiative._t_initiative_calcs.nov_Target_CPU_N;
+            decimal dec_Target_CPU_N = NewInitiative._t_initiative_calcs.dec_Target_CPU_N;
+            decimal jan_A_Price_effect = NewInitiative._t_initiative_calcs.jan_A_Price_effect;
+            decimal feb_A_Price_effect = NewInitiative._t_initiative_calcs.feb_A_Price_effect;
+            decimal march_A_Price_effect = NewInitiative._t_initiative_calcs.march_A_Price_effect;
+            decimal apr_A_Price_effect = NewInitiative._t_initiative_calcs.apr_A_Price_effect;
+            decimal may_A_Price_effect = NewInitiative._t_initiative_calcs.may_A_Price_effect;
+            decimal jun_A_Price_effect = NewInitiative._t_initiative_calcs.jun_A_Price_effect;
+            decimal jul_A_Price_effect = NewInitiative._t_initiative_calcs.jul_A_Price_effect;
+            decimal aug_A_Price_effect = NewInitiative._t_initiative_calcs.aug_A_Price_effect;
+            decimal sep_A_Price_effect = NewInitiative._t_initiative_calcs.sep_A_Price_effect;
+            decimal oct_A_Price_effect = NewInitiative._t_initiative_calcs.oct_A_Price_effect;
+            decimal nov_A_Price_effect = NewInitiative._t_initiative_calcs.nov_A_Price_effect;
+            decimal dec_A_Price_effect = NewInitiative._t_initiative_calcs.dec_A_Price_effect;
+            decimal jan_A_Volume_Effect = NewInitiative._t_initiative_calcs.jan_A_Volume_Effect;
+            decimal feb_A_Volume_Effect = NewInitiative._t_initiative_calcs.feb_A_Volume_Effect;
+            decimal march_A_Volume_Effect = NewInitiative._t_initiative_calcs.march_A_Volume_Effect;
+            decimal apr_A_Volume_Effect = NewInitiative._t_initiative_calcs.apr_A_Volume_Effect;
+            decimal may_A_Volume_Effect = NewInitiative._t_initiative_calcs.may_A_Volume_Effect;
+            decimal jun_A_Volume_Effect = NewInitiative._t_initiative_calcs.jun_A_Volume_Effect;
+            decimal jul_A_Volume_Effect = NewInitiative._t_initiative_calcs.jul_A_Volume_Effect;
+            decimal aug_A_Volume_Effect = NewInitiative._t_initiative_calcs.aug_A_Volume_Effect;
+            decimal sep_A_Volume_Effect = NewInitiative._t_initiative_calcs.sep_A_Volume_Effect;
+            decimal oct_A_Volume_Effect = NewInitiative._t_initiative_calcs.oct_A_Volume_Effect;
+            decimal nov_A_Volume_Effect = NewInitiative._t_initiative_calcs.nov_A_Volume_Effect;
+            decimal dec_A_Volume_Effect = NewInitiative._t_initiative_calcs.dec_A_Volume_Effect;
+            decimal jan_Achievement = NewInitiative._t_initiative_calcs.jan_Achievement;
+            decimal feb_Achievement = NewInitiative._t_initiative_calcs.feb_Achievement;
+            decimal march_Achievement = NewInitiative._t_initiative_calcs.march_Achievement;
+            decimal apr_Achievement = NewInitiative._t_initiative_calcs.apr_Achievement;
+            decimal may_Achievement = NewInitiative._t_initiative_calcs.may_Achievement;
+            decimal jun_Achievement = NewInitiative._t_initiative_calcs.jun_Achievement;
+            decimal jul_Achievement = NewInitiative._t_initiative_calcs.jul_Achievement;
+            decimal aug_Achievement = NewInitiative._t_initiative_calcs.aug_Achievement;
+            decimal sep_Achievement = NewInitiative._t_initiative_calcs.sep_Achievement;
+            decimal oct_Achievement = NewInitiative._t_initiative_calcs.oct_Achievement;
+            decimal nov_Achievement = NewInitiative._t_initiative_calcs.nov_Achievement;
+            decimal dec_Achievement = NewInitiative._t_initiative_calcs.dec_Achievement;
+            decimal jan_ST_Price_effect = NewInitiative._t_initiative_calcs.jan_ST_Price_effect;
+            decimal feb_ST_Price_effect = NewInitiative._t_initiative_calcs.feb_ST_Price_effect;
+            decimal march_ST_Price_effect = NewInitiative._t_initiative_calcs.march_ST_Price_effect;
+            decimal apr_ST_Price_effect = NewInitiative._t_initiative_calcs.apr_ST_Price_effect;
+            decimal may_ST_Price_effect = NewInitiative._t_initiative_calcs.may_ST_Price_effect;
+            decimal jun_ST_Price_effect = NewInitiative._t_initiative_calcs.jun_ST_Price_effect;
+            decimal jul_ST_Price_effect = NewInitiative._t_initiative_calcs.jul_ST_Price_effect;
+            decimal aug_ST_Price_effect = NewInitiative._t_initiative_calcs.aug_ST_Price_effect;
+            decimal sep_ST_Price_effect = NewInitiative._t_initiative_calcs.sep_ST_Price_effect;
+            decimal oct_ST_Price_effect = NewInitiative._t_initiative_calcs.oct_ST_Price_effect;
+            decimal nov_ST_Price_effect = NewInitiative._t_initiative_calcs.nov_ST_Price_effect;
+            decimal dec_ST_Price_effect = NewInitiative._t_initiative_calcs.dec_ST_Price_effect;
+            decimal jan_ST_Volume_Effect = NewInitiative._t_initiative_calcs.jan_ST_Volume_Effect;
+            decimal feb_ST_Volume_Effect = NewInitiative._t_initiative_calcs.feb_ST_Volume_Effect;
+            decimal march_ST_Volume_Effect = NewInitiative._t_initiative_calcs.march_ST_Volume_Effect;
+            decimal apr_ST_Volume_Effect = NewInitiative._t_initiative_calcs.apr_ST_Volume_Effect;
+            decimal may_ST_Volume_Effect = NewInitiative._t_initiative_calcs.may_ST_Volume_Effect;
+            decimal jun_ST_Volume_Effect = NewInitiative._t_initiative_calcs.jun_ST_Volume_Effect;
+            decimal jul_ST_Volume_Effect = NewInitiative._t_initiative_calcs.jul_ST_Volume_Effect;
+            decimal aug_ST_Volume_Effect = NewInitiative._t_initiative_calcs.aug_ST_Volume_Effect;
+            decimal sep_ST_Volume_Effect = NewInitiative._t_initiative_calcs.sep_ST_Volume_Effect;
+            decimal oct_ST_Volume_Effect = NewInitiative._t_initiative_calcs.oct_ST_Volume_Effect;
+            decimal nov_ST_Volume_Effect = NewInitiative._t_initiative_calcs.nov_ST_Volume_Effect;
+            decimal dec_ST_Volume_Effect = NewInitiative._t_initiative_calcs.dec_ST_Volume_Effect;
+            decimal jan_FY_Secured_Target = NewInitiative._t_initiative_calcs.jan_FY_Secured_Target;
+            decimal feb_FY_Secured_Target = NewInitiative._t_initiative_calcs.feb_FY_Secured_Target;
+            decimal march_FY_Secured_Target = NewInitiative._t_initiative_calcs.march_FY_Secured_Target;
+            decimal apr_FY_Secured_Target = NewInitiative._t_initiative_calcs.apr_FY_Secured_Target;
+            decimal may_FY_Secured_Target = NewInitiative._t_initiative_calcs.may_FY_Secured_Target;
+            decimal jun_FY_Secured_Target = NewInitiative._t_initiative_calcs.jun_FY_Secured_Target;
+            decimal jul_FY_Secured_Target = NewInitiative._t_initiative_calcs.jul_FY_Secured_Target;
+            decimal aug_FY_Secured_Target = NewInitiative._t_initiative_calcs.aug_FY_Secured_Target;
+            decimal sep_FY_Secured_Target = NewInitiative._t_initiative_calcs.sep_FY_Secured_Target;
+            decimal oct_FY_Secured_Target = NewInitiative._t_initiative_calcs.oct_FY_Secured_Target;
+            decimal nov_FY_Secured_Target = NewInitiative._t_initiative_calcs.nov_FY_Secured_Target;
+            decimal dec_FY_Secured_Target = NewInitiative._t_initiative_calcs.dec_FY_Secured_Target;
+            decimal jan_CPI_Effect = NewInitiative._t_initiative_calcs.jan_CPI_Effect;
+            decimal feb_CPI_Effect = NewInitiative._t_initiative_calcs.feb_CPI_Effect;
+            decimal march_CPI_Effect = NewInitiative._t_initiative_calcs.march_CPI_Effect;
+            decimal apr_CPI_Effect = NewInitiative._t_initiative_calcs.apr_CPI_Effect;
+            decimal may_CPI_Effect = NewInitiative._t_initiative_calcs.may_CPI_Effect;
+            decimal jun_CPI_Effect = NewInitiative._t_initiative_calcs.jun_CPI_Effect;
+            decimal jul_CPI_Effect = NewInitiative._t_initiative_calcs.jul_CPI_Effect;
+            decimal aug_CPI_Effect = NewInitiative._t_initiative_calcs.aug_CPI_Effect;
+            decimal sep_CPI_Effect = NewInitiative._t_initiative_calcs.sep_CPI_Effect;
+            decimal oct_CPI_Effect = NewInitiative._t_initiative_calcs.oct_CPI_Effect;
+            decimal nov_CPI_Effect = NewInitiative._t_initiative_calcs.nov_CPI_Effect;
+            decimal dec_CPI_Effect = NewInitiative._t_initiative_calcs.dec_CPI_Effect;
+
+
+            #endregion
             if (FormStatus == "New")
             {
                 try
@@ -732,6 +935,7 @@ log4net.LogManager.GetLogger
                     using (GainEntities db = new GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"])))
                     {
                         var tinitiative = db.Set<t_initiative>();
+                        var t_initiative_calcs = db.Set<t_initiative_calcs>();
                         var YearInitiative = profileData.ProjectYear;
                         Random rand = new Random();
                         //int InitNextNum = rand.Next(1,999);
@@ -748,6 +952,9 @@ log4net.LogManager.GetLogger
                         string nomerselanjutnya = ("00" + nomerurut.ToString());
                         nomerselanjutnya = nomerselanjutnya.Substring((nomerselanjutnya.Length - 3), 3);
 
+                        if (isProcurement != 1)
+                        {
+                            #region normal initiative save
                         tinitiative.Add(new t_initiative
                         {
                             InitNumber = YearInitiative + KodeNegara + nomerselanjutnya,
@@ -838,8 +1045,287 @@ log4net.LogManager.GetLogger
                             AchNexDec = savingdec2,
                             CreatedDate = DateTime.Now,
                             CreatedBy = UserID,
-                            ModifiedBy = UserID
+                                ModifiedBy = UserID,
+
+                                #region inserting new properties enh153-2
+                                Unit_of_volumes = Unit_of_volumes,
+                                Input_Actuals_Volumes_Nmin1 = Input_Actuals_Volumes_Nmin1,
+                                Input_Target_Volumes = Input_Target_Volumes,
+                                Total_Actual_volume_N = Total_Actual_volume_N,
+                                Spend_Nmin1 = Spend_Nmin1,
+                                Spend_N = Spend_N,
+                                CPI = CPI,
+                                janActual_volume_N = janActual_volume_N,
+                                febActual_volume_N = febActual_volume_N,
+                                marActual_volume_N = marActual_volume_N,
+                                aprActual_volume_N = aprActual_volume_N,
+                                mayActual_volume_N = mayActual_volume_N,
+                                junActual_volume_N = junActual_volume_N,
+                                julActual_volume_N = julActual_volume_N,
+                                augActual_volume_N = augActual_volume_N,
+                                sepActual_volume_N = sepActual_volume_N,
+                                octActual_volume_N = octActual_volume_N,
+                                novActual_volume_N = novActual_volume_N,
+                                decActual_volume_N = decActual_volume_N,
+                                N_FY_Sec_PRICE_EF = N_FY_Sec_PRICE_EF,
+                                N_FY_Sec_VOLUME_EF = N_FY_Sec_VOLUME_EF,
+                                N_YTD_Sec_PRICE_EF = N_YTD_Sec_PRICE_EF,
+                                N_YTD_Sec_VOLUME_EF = N_YTD_Sec_VOLUME_EF,
+                                YTD_Achieved_PRICE_EF = YTD_Achieved_PRICE_EF,
+                                YTD_Achieved_VOLUME_EF = YTD_Achieved_VOLUME_EF,
+                                YTD_Cost_Avoid_Vs_CPI = YTD_Cost_Avoid_Vs_CPI,
+                                FY_Cost_Avoid_Vs_CPI = FY_Cost_Avoid_Vs_CPI,
+                                isProcurement = isProcurement
+                                #endregion
+
                         });
+                            //db.SaveChanges(); 
+                            #endregion
+                        }
+                        else
+                        {
+                            #region Procurement initiative save
+                            t_initiative_calcs.Add(new t_initiative_calcs
+                            {
+                                t_initiative = new t_initiative
+                                {
+                                    InitNumber = YearInitiative + KodeNegara + nomerselanjutnya,
+                                    RelatedInitiative = RelatedInitiative,
+                                    SourceCategory = SourceCategory,
+                                    BrandID = GrdBrand,
+                                    RegionID = GrdRegional,
+                                    SubRegionID = GrdSubRegion,
+                                    ClusterID = GrdCluster,
+                                    RegionalOfficeID = GrdRegionalOffice,
+                                    CostControlID = GrdCostControl,
+                                    LegalEntityID = GrdLegalEntity,
+                                    CountryID = GrdCountry,
+                                    SubCountryID = GrdSubCountry,
+                                    Confidential = CboConfidential,
+                                    Description = TxDesc,
+                                    ResponsibleFullName = TxResponsibleName,
+                                    InitiativeType = GrdInitType,
+                                    CostCategoryID = GrdInitCategory,
+                                    SubCostCategoryID = GrdSubCost,
+                                    ActionTypeID = GrdActionType,
+                                    SynergyImpactID = GrdSynImpact,
+                                    InitStatus = GrdInitStatus,
+                                    isDeleted = 0,
+                                    StartMonth = StartMonth,
+                                    EndMonth = EndMonth,
+                                    LaraCode = TxLaraCode,
+                                    TargetTY = TxTarget12,
+                                    TargetNY = TxTargetFullYear,
+                                    HOValidity = CboHoValidity,
+                                    RPOCControl = CboRPOCValidity,
+                                    YTDTarget = TxYTDTargetFullYear,
+                                    YTDAchieved = TxYTDSavingFullYear,
+                                    AgencyComment = TxAgency,
+                                    RPOCComment = TxRPOCComment,
+                                    HOComment = TxHOComment,
+                                    AdditionalInfo = TxAdditionalInfo,
+                                    PortID = (TxPortName == 0 ? 1 : TxPortName),
+                                    ProjectYear = (short)ProjectYear,
+                                    VendorName = TxVendorSupp,
+                                    TargetJan = targetjan,
+                                    TargetFeb = targetfeb,
+                                    TargetMar = targetmar,
+                                    TargetApr = targetapr,
+                                    TargetMay = targetmay,
+                                    TargetJun = targetjun,
+                                    TargetJul = targetjul,
+                                    TargetAug = targetaug,
+                                    TargetSep = targetsep,
+                                    TargetOct = targetoct,
+                                    TargetNov = targetnov,
+                                    TargetDec = targetdec,
+                                    TargetNexJan = targetjan2,
+                                    TargetNexFeb = targetfeb2,
+                                    TargetNexMar = targetmar2,
+                                    TargetNexApr = targetapr2,
+                                    TargetNexMay = targetmay2,
+                                    TargetNexJun = targetjun2,
+                                    TargetNexJul = targetjul2,
+                                    TargetNexAug = targetaug2,
+                                    TargetNexSep = targetsep2,
+                                    TargetNexOct = targetoct2,
+                                    TargetNexNov = targetnov2,
+                                    TargetNexDec = targetdec2,
+                                    AchJan = savingjan,
+                                    AchFeb = savingfeb,
+                                    AchMar = savingmar,
+                                    AchApr = savingapr,
+                                    AchMay = savingmay,
+                                    AchJun = savingjun,
+                                    AchJul = savingjul,
+                                    AchAug = savingaug,
+                                    AchSep = savingsep,
+                                    AchOct = savingoct,
+                                    AchNov = savingnov,
+                                    AchDec = savingdec,
+                                    AchNexJan = savingjan2,
+                                    AchNexFeb = savingfeb2,
+                                    AchNexMar = savingmar2,
+                                    AchNexApr = savingapr2,
+                                    AchNexMay = savingmay2,
+                                    AchNexJun = savingjun2,
+                                    AchNexJul = savingjul2,
+                                    AchNexAug = savingaug2,
+                                    AchNexSep = savingsep2,
+                                    AchNexOct = savingoct2,
+                                    AchNexNov = savingnov2,
+                                    AchNexDec = savingdec2,
+                                    CreatedDate = DateTime.Now,
+                                    CreatedBy = UserID,
+                                    ModifiedBy = UserID,
+
+                                    #region inserting new properties enh153-2
+                                    Unit_of_volumes = Unit_of_volumes,
+                                    Input_Actuals_Volumes_Nmin1 = Input_Actuals_Volumes_Nmin1,
+                                    Input_Target_Volumes = Input_Target_Volumes,
+                                    Total_Actual_volume_N = Total_Actual_volume_N,
+                                    Spend_Nmin1 = Spend_Nmin1,
+                                    Spend_N = Spend_N,
+                                    CPI = CPI,
+                                    janActual_volume_N = janActual_volume_N,
+                                    febActual_volume_N = febActual_volume_N,
+                                    marActual_volume_N = marActual_volume_N,
+                                    aprActual_volume_N = aprActual_volume_N,
+                                    mayActual_volume_N = mayActual_volume_N,
+                                    junActual_volume_N = junActual_volume_N,
+                                    julActual_volume_N = julActual_volume_N,
+                                    augActual_volume_N = augActual_volume_N,
+                                    sepActual_volume_N = sepActual_volume_N,
+                                    octActual_volume_N = octActual_volume_N,
+                                    novActual_volume_N = novActual_volume_N,
+                                    decActual_volume_N = decActual_volume_N,
+                                    N_FY_Sec_PRICE_EF = N_FY_Sec_PRICE_EF,
+                                    N_FY_Sec_VOLUME_EF = N_FY_Sec_VOLUME_EF,
+                                    N_YTD_Sec_PRICE_EF = N_YTD_Sec_PRICE_EF,
+                                    N_YTD_Sec_VOLUME_EF = N_YTD_Sec_VOLUME_EF,
+                                    YTD_Achieved_PRICE_EF = YTD_Achieved_PRICE_EF,
+                                    YTD_Achieved_VOLUME_EF = YTD_Achieved_VOLUME_EF,
+                                    YTD_Cost_Avoid_Vs_CPI = YTD_Cost_Avoid_Vs_CPI,
+                                    FY_Cost_Avoid_Vs_CPI = FY_Cost_Avoid_Vs_CPI,
+                                    isProcurement = isProcurement
+
+                                    #endregion
+
+                                },
+                                jan_Actual_CPU_Nmin1 = jan_Actual_CPU_Nmin1,
+                                feb_Actual_CPU_Nmin1 = feb_Actual_CPU_Nmin1,
+                                march_Actual_CPU_Nmin1 = march_Actual_CPU_Nmin1,
+                                apr_Actual_CPU_Nmin1 = apr_Actual_CPU_Nmin1,
+                                may_Actual_CPU_Nmin1 = may_Actual_CPU_Nmin1,
+                                jun_Actual_CPU_Nmin1 = jun_Actual_CPU_Nmin1,
+                                jul_Actual_CPU_Nmin1 = jul_Actual_CPU_Nmin1,
+                                aug_Actual_CPU_Nmin1 = aug_Actual_CPU_Nmin1,
+                                sep_Actual_CPU_Nmin1 = sep_Actual_CPU_Nmin1,
+                                oct_Actual_CPU_Nmin1 = oct_Actual_CPU_Nmin1,
+                                nov_Actual_CPU_Nmin1 = nov_Actual_CPU_Nmin1,
+                                dec_Actual_CPU_Nmin1 = dec_Actual_CPU_Nmin1,
+                                jan_Target_CPU_N = jan_Target_CPU_N,
+                                feb_Target_CPU_N = feb_Target_CPU_N,
+                                march_Target_CPU_N = march_Target_CPU_N,
+                                apr_Target_CPU_N = apr_Target_CPU_N,
+                                may_Target_CPU_N = may_Target_CPU_N,
+                                jun_Target_CPU_N = jun_Target_CPU_N,
+                                jul_Target_CPU_N = jul_Target_CPU_N,
+                                aug_Target_CPU_N = aug_Target_CPU_N,
+                                sep_Target_CPU_N = sep_Target_CPU_N,
+                                oct_Target_CPU_N = oct_Target_CPU_N,
+                                nov_Target_CPU_N = nov_Target_CPU_N,
+                                dec_Target_CPU_N = dec_Target_CPU_N,
+                                jan_A_Price_effect = jan_A_Price_effect,
+                                feb_A_Price_effect = feb_A_Price_effect,
+                                march_A_Price_effect = march_A_Price_effect,
+                                apr_A_Price_effect = apr_A_Price_effect,
+                                may_A_Price_effect = may_A_Price_effect,
+                                jun_A_Price_effect = jun_A_Price_effect,
+                                jul_A_Price_effect = jul_A_Price_effect,
+                                aug_A_Price_effect = aug_A_Price_effect,
+                                sep_A_Price_effect = sep_A_Price_effect,
+                                oct_A_Price_effect = oct_A_Price_effect,
+                                nov_A_Price_effect = nov_A_Price_effect,
+                                dec_A_Price_effect = dec_A_Price_effect,
+                                jan_A_Volume_Effect = jan_A_Volume_Effect,
+                                feb_A_Volume_Effect = feb_A_Volume_Effect,
+                                march_A_Volume_Effect = march_A_Volume_Effect,
+                                apr_A_Volume_Effect = apr_A_Volume_Effect,
+                                may_A_Volume_Effect = may_A_Volume_Effect,
+                                jun_A_Volume_Effect = jun_A_Volume_Effect,
+                                jul_A_Volume_Effect = jul_A_Volume_Effect,
+                                aug_A_Volume_Effect = aug_A_Volume_Effect,
+                                sep_A_Volume_Effect = sep_A_Volume_Effect,
+                                oct_A_Volume_Effect = oct_A_Volume_Effect,
+                                nov_A_Volume_Effect = nov_A_Volume_Effect,
+                                dec_A_Volume_Effect = dec_A_Volume_Effect,
+                                jan_Achievement = jan_Achievement,
+                                feb_Achievement = feb_Achievement,
+                                march_Achievement = march_Achievement,
+                                apr_Achievement = apr_Achievement,
+                                may_Achievement = may_Achievement,
+                                jun_Achievement = jun_Achievement,
+                                jul_Achievement = jul_Achievement,
+                                aug_Achievement = aug_Achievement,
+                                sep_Achievement = sep_Achievement,
+                                oct_Achievement = oct_Achievement,
+                                nov_Achievement = nov_Achievement,
+                                dec_Achievement = dec_Achievement,
+                                jan_ST_Price_effect = jan_ST_Price_effect,
+                                feb_ST_Price_effect = feb_ST_Price_effect,
+                                march_ST_Price_effect = march_ST_Price_effect,
+                                apr_ST_Price_effect = apr_ST_Price_effect,
+                                may_ST_Price_effect = may_ST_Price_effect,
+                                jun_ST_Price_effect = jun_ST_Price_effect,
+                                jul_ST_Price_effect = jul_ST_Price_effect,
+                                aug_ST_Price_effect = aug_ST_Price_effect,
+                                sep_ST_Price_effect = sep_ST_Price_effect,
+                                oct_ST_Price_effect = oct_ST_Price_effect,
+                                nov_ST_Price_effect = nov_ST_Price_effect,
+                                dec_ST_Price_effect = dec_ST_Price_effect,
+                                jan_ST_Volume_Effect = jan_ST_Volume_Effect,
+                                feb_ST_Volume_Effect = feb_ST_Volume_Effect,
+                                march_ST_Volume_Effect = march_ST_Volume_Effect,
+                                apr_ST_Volume_Effect = apr_ST_Volume_Effect,
+                                may_ST_Volume_Effect = may_ST_Volume_Effect,
+                                jun_ST_Volume_Effect = jun_ST_Volume_Effect,
+                                jul_ST_Volume_Effect = jul_ST_Volume_Effect,
+                                aug_ST_Volume_Effect = aug_ST_Volume_Effect,
+                                sep_ST_Volume_Effect = sep_ST_Volume_Effect,
+                                oct_ST_Volume_Effect = oct_ST_Volume_Effect,
+                                nov_ST_Volume_Effect = nov_ST_Volume_Effect,
+                                dec_ST_Volume_Effect = dec_ST_Volume_Effect,
+                                jan_FY_Secured_Target = jan_FY_Secured_Target,
+                                feb_FY_Secured_Target = feb_FY_Secured_Target,
+                                march_FY_Secured_Target = march_FY_Secured_Target,
+                                apr_FY_Secured_Target = apr_FY_Secured_Target,
+                                may_FY_Secured_Target = may_FY_Secured_Target,
+                                jun_FY_Secured_Target = jun_FY_Secured_Target,
+                                jul_FY_Secured_Target = jul_FY_Secured_Target,
+                                aug_FY_Secured_Target = aug_FY_Secured_Target,
+                                sep_FY_Secured_Target = sep_FY_Secured_Target,
+                                oct_FY_Secured_Target = oct_FY_Secured_Target,
+                                nov_FY_Secured_Target = nov_FY_Secured_Target,
+                                dec_FY_Secured_Target = dec_FY_Secured_Target,
+                                jan_CPI_Effect = jan_CPI_Effect,
+                                feb_CPI_Effect = feb_CPI_Effect,
+                                march_CPI_Effect = march_CPI_Effect,
+                                apr_CPI_Effect = apr_CPI_Effect,
+                                may_CPI_Effect = may_CPI_Effect,
+                                jun_CPI_Effect = jun_CPI_Effect,
+                                jul_CPI_Effect = jul_CPI_Effect,
+                                aug_CPI_Effect = aug_CPI_Effect,
+                                sep_CPI_Effect = sep_CPI_Effect,
+                                oct_CPI_Effect = oct_CPI_Effect,
+                                nov_CPI_Effect = nov_CPI_Effect,
+                                dec_CPI_Effect = dec_CPI_Effect
+
+                            });
+                            #endregion
+
+                        }
+
                         db.SaveChanges();
                         return Content("saved|" + YearInitiative + KodeNegara + nomerselanjutnya);
                     }
@@ -916,16 +1402,159 @@ log4net.LogManager.GetLogger
                     //}
 
                     //initdata.ModifiedDate = DateTime.Now;
+
+                    #region updating new properties enh153-2
+                    initdata.Unit_of_volumes = Unit_of_volumes;
+                    initdata.Input_Actuals_Volumes_Nmin1 = Input_Actuals_Volumes_Nmin1;
+                    initdata.Input_Target_Volumes = Input_Target_Volumes;
+                    initdata.Total_Actual_volume_N = Total_Actual_volume_N;
+                    initdata.Spend_Nmin1 = Spend_Nmin1;
+                    initdata.Spend_N = Spend_N;
+                    initdata.CPI = CPI;
+                    initdata.janActual_volume_N = janActual_volume_N;
+                    initdata.febActual_volume_N = febActual_volume_N;
+                    initdata.marActual_volume_N = marActual_volume_N;
+                    initdata.aprActual_volume_N = aprActual_volume_N;
+                    initdata.mayActual_volume_N = mayActual_volume_N;
+                    initdata.junActual_volume_N = junActual_volume_N;
+                    initdata.julActual_volume_N = julActual_volume_N;
+                    initdata.augActual_volume_N = augActual_volume_N;
+                    initdata.sepActual_volume_N = sepActual_volume_N;
+                    initdata.octActual_volume_N = octActual_volume_N;
+                    initdata.novActual_volume_N = novActual_volume_N;
+                    initdata.decActual_volume_N = decActual_volume_N;
+                    initdata.N_FY_Sec_PRICE_EF = N_FY_Sec_PRICE_EF;
+                    initdata.N_FY_Sec_VOLUME_EF = N_FY_Sec_VOLUME_EF;
+                    initdata.N_YTD_Sec_PRICE_EF = N_YTD_Sec_PRICE_EF;
+                    initdata.N_YTD_Sec_VOLUME_EF = N_YTD_Sec_VOLUME_EF;
+                    initdata.YTD_Achieved_PRICE_EF = YTD_Achieved_PRICE_EF;
+                    initdata.YTD_Achieved_VOLUME_EF = YTD_Achieved_VOLUME_EF;
+                    initdata.YTD_Cost_Avoid_Vs_CPI = YTD_Cost_Avoid_Vs_CPI;
+                    initdata.FY_Cost_Avoid_Vs_CPI = FY_Cost_Avoid_Vs_CPI;
+
+                    #endregion
                     initdata.CreatedBy = initdata.CreatedBy;// (initdata.CreatedBy == null ? UserID : initdata.CreatedBy);
                     initdata.ModifiedBy = UserID;
+                    if (isProcurement == 1)
+                    {
+                        var initdata_procure = db.t_initiative_calcs.Where(x => x.t_initiative_ID == FormID).FirstOrDefault();
+                        initdata_procure.jan_Actual_CPU_Nmin1 = jan_Actual_CPU_Nmin1;
+                        initdata_procure.feb_Actual_CPU_Nmin1 = feb_Actual_CPU_Nmin1;
+                        initdata_procure.march_Actual_CPU_Nmin1 = march_Actual_CPU_Nmin1;
+                        initdata_procure.apr_Actual_CPU_Nmin1 = apr_Actual_CPU_Nmin1;
+                        initdata_procure.may_Actual_CPU_Nmin1 = may_Actual_CPU_Nmin1;
+                        initdata_procure.jun_Actual_CPU_Nmin1 = jun_Actual_CPU_Nmin1;
+                        initdata_procure.jul_Actual_CPU_Nmin1 = jul_Actual_CPU_Nmin1;
+                        initdata_procure.aug_Actual_CPU_Nmin1 = aug_Actual_CPU_Nmin1;
+                        initdata_procure.sep_Actual_CPU_Nmin1 = sep_Actual_CPU_Nmin1;
+                        initdata_procure.oct_Actual_CPU_Nmin1 = oct_Actual_CPU_Nmin1;
+                        initdata_procure.nov_Actual_CPU_Nmin1 = nov_Actual_CPU_Nmin1;
+                        initdata_procure.dec_Actual_CPU_Nmin1 = dec_Actual_CPU_Nmin1;
+                        initdata_procure.jan_Target_CPU_N = jan_Target_CPU_N;
+                        initdata_procure.feb_Target_CPU_N = feb_Target_CPU_N;
+                        initdata_procure.march_Target_CPU_N = march_Target_CPU_N;
+                        initdata_procure.apr_Target_CPU_N = apr_Target_CPU_N;
+                        initdata_procure.may_Target_CPU_N = may_Target_CPU_N;
+                        initdata_procure.jun_Target_CPU_N = jun_Target_CPU_N;
+                        initdata_procure.jul_Target_CPU_N = jul_Target_CPU_N;
+                        initdata_procure.aug_Target_CPU_N = aug_Target_CPU_N;
+                        initdata_procure.sep_Target_CPU_N = sep_Target_CPU_N;
+                        initdata_procure.oct_Target_CPU_N = oct_Target_CPU_N;
+                        initdata_procure.nov_Target_CPU_N = nov_Target_CPU_N;
+                        initdata_procure.dec_Target_CPU_N = dec_Target_CPU_N;
+                        initdata_procure.jan_A_Price_effect = jan_A_Price_effect;
+                        initdata_procure.feb_A_Price_effect = feb_A_Price_effect;
+                        initdata_procure.march_A_Price_effect = march_A_Price_effect;
+                        initdata_procure.apr_A_Price_effect = apr_A_Price_effect;
+                        initdata_procure.may_A_Price_effect = may_A_Price_effect;
+                        initdata_procure.jun_A_Price_effect = jun_A_Price_effect;
+                        initdata_procure.jul_A_Price_effect = jul_A_Price_effect;
+                        initdata_procure.aug_A_Price_effect = aug_A_Price_effect;
+                        initdata_procure.sep_A_Price_effect = sep_A_Price_effect;
+                        initdata_procure.oct_A_Price_effect = oct_A_Price_effect;
+                        initdata_procure.nov_A_Price_effect = nov_A_Price_effect;
+                        initdata_procure.dec_A_Price_effect = dec_A_Price_effect;
+                        initdata_procure.jan_A_Volume_Effect = jan_A_Volume_Effect;
+                        initdata_procure.feb_A_Volume_Effect = feb_A_Volume_Effect;
+                        initdata_procure.march_A_Volume_Effect = march_A_Volume_Effect;
+                        initdata_procure.apr_A_Volume_Effect = apr_A_Volume_Effect;
+                        initdata_procure.may_A_Volume_Effect = may_A_Volume_Effect;
+                        initdata_procure.jun_A_Volume_Effect = jun_A_Volume_Effect;
+                        initdata_procure.jul_A_Volume_Effect = jul_A_Volume_Effect;
+                        initdata_procure.aug_A_Volume_Effect = aug_A_Volume_Effect;
+                        initdata_procure.sep_A_Volume_Effect = sep_A_Volume_Effect;
+                        initdata_procure.oct_A_Volume_Effect = oct_A_Volume_Effect;
+                        initdata_procure.nov_A_Volume_Effect = nov_A_Volume_Effect;
+                        initdata_procure.dec_A_Volume_Effect = dec_A_Volume_Effect;
+                        initdata_procure.jan_Achievement = jan_Achievement;
+                        initdata_procure.feb_Achievement = feb_Achievement;
+                        initdata_procure.march_Achievement = march_Achievement;
+                        initdata_procure.apr_Achievement = apr_Achievement;
+                        initdata_procure.may_Achievement = may_Achievement;
+                        initdata_procure.jun_Achievement = jun_Achievement;
+                        initdata_procure.jul_Achievement = jul_Achievement;
+                        initdata_procure.aug_Achievement = aug_Achievement;
+                        initdata_procure.sep_Achievement = sep_Achievement;
+                        initdata_procure.oct_Achievement = oct_Achievement;
+                        initdata_procure.nov_Achievement = nov_Achievement;
+                        initdata_procure.dec_Achievement = dec_Achievement;
+                        initdata_procure.jan_ST_Price_effect = jan_ST_Price_effect;
+                        initdata_procure.feb_ST_Price_effect = feb_ST_Price_effect;
+                        initdata_procure.march_ST_Price_effect = march_ST_Price_effect;
+                        initdata_procure.apr_ST_Price_effect = apr_ST_Price_effect;
+                        initdata_procure.may_ST_Price_effect = may_ST_Price_effect;
+                        initdata_procure.jun_ST_Price_effect = jun_ST_Price_effect;
+                        initdata_procure.jul_ST_Price_effect = jul_ST_Price_effect;
+                        initdata_procure.aug_ST_Price_effect = aug_ST_Price_effect;
+                        initdata_procure.sep_ST_Price_effect = sep_ST_Price_effect;
+                        initdata_procure.oct_ST_Price_effect = oct_ST_Price_effect;
+                        initdata_procure.nov_ST_Price_effect = nov_ST_Price_effect;
+                        initdata_procure.dec_ST_Price_effect = dec_ST_Price_effect;
+                        initdata_procure.jan_ST_Volume_Effect = jan_ST_Volume_Effect;
+                        initdata_procure.feb_ST_Volume_Effect = feb_ST_Volume_Effect;
+                        initdata_procure.march_ST_Volume_Effect = march_ST_Volume_Effect;
+                        initdata_procure.apr_ST_Volume_Effect = apr_ST_Volume_Effect;
+                        initdata_procure.may_ST_Volume_Effect = may_ST_Volume_Effect;
+                        initdata_procure.jun_ST_Volume_Effect = jun_ST_Volume_Effect;
+                        initdata_procure.jul_ST_Volume_Effect = jul_ST_Volume_Effect;
+                        initdata_procure.aug_ST_Volume_Effect = aug_ST_Volume_Effect;
+                        initdata_procure.sep_ST_Volume_Effect = sep_ST_Volume_Effect;
+                        initdata_procure.oct_ST_Volume_Effect = oct_ST_Volume_Effect;
+                        initdata_procure.nov_ST_Volume_Effect = nov_ST_Volume_Effect;
+                        initdata_procure.dec_ST_Volume_Effect = dec_ST_Volume_Effect;
+                        initdata_procure.jan_FY_Secured_Target = jan_FY_Secured_Target;
+                        initdata_procure.feb_FY_Secured_Target = feb_FY_Secured_Target;
+                        initdata_procure.march_FY_Secured_Target = march_FY_Secured_Target;
+                        initdata_procure.apr_FY_Secured_Target = apr_FY_Secured_Target;
+                        initdata_procure.may_FY_Secured_Target = may_FY_Secured_Target;
+                        initdata_procure.jun_FY_Secured_Target = jun_FY_Secured_Target;
+                        initdata_procure.jul_FY_Secured_Target = jul_FY_Secured_Target;
+                        initdata_procure.aug_FY_Secured_Target = aug_FY_Secured_Target;
+                        initdata_procure.sep_FY_Secured_Target = sep_FY_Secured_Target;
+                        initdata_procure.oct_FY_Secured_Target = oct_FY_Secured_Target;
+                        initdata_procure.nov_FY_Secured_Target = nov_FY_Secured_Target;
+                        initdata_procure.dec_FY_Secured_Target = dec_FY_Secured_Target;
+                        initdata_procure.jan_CPI_Effect = jan_CPI_Effect;
+                        initdata_procure.feb_CPI_Effect = feb_CPI_Effect;
+                        initdata_procure.march_CPI_Effect = march_CPI_Effect;
+                        initdata_procure.apr_CPI_Effect = apr_CPI_Effect;
+                        initdata_procure.may_CPI_Effect = may_CPI_Effect;
+                        initdata_procure.jun_CPI_Effect = jun_CPI_Effect;
+                        initdata_procure.jul_CPI_Effect = jul_CPI_Effect;
+                        initdata_procure.aug_CPI_Effect = aug_CPI_Effect;
+                        initdata_procure.sep_CPI_Effect = sep_CPI_Effect;
+                        initdata_procure.oct_CPI_Effect = oct_CPI_Effect;
+                        initdata_procure.nov_CPI_Effect = nov_CPI_Effect;
+                        initdata_procure.dec_CPI_Effect = dec_CPI_Effect;
 
+                    }
                     //initdata.CreatedDate = DateTime.Now;
                     db.SaveChanges();
                     return Content("saved|" + initdata.InitNumber);
                 }
                 catch(Exception E)
                 {
-                    log.Error("Exception occured during Saving exisisting initiative" + E);
+                    log.Error("Exception occured during Saving exisisting initiative" + E.Message);
                     return Content("Error ocuured during initiativeSave");
                 }
             }
@@ -985,6 +1614,7 @@ log4net.LogManager.GetLogger
                 var SubCostCategoryID = model.SubCostCategoryID.ToString();
                 var ActionTypeID = model.ActionTypeID.ToString();
                 var SynergyImpactID = model.SynergyImpactID.ToString();
+                var isProcurement = model.isProcurement;
                 Session["GetInfoByID"] = SubCountryID;
                 Session["BrandID"] = BrandID;
                 Session["StatusID"] = StatusID;
@@ -1101,12 +1731,12 @@ log4net.LogManager.GetLogger
             CountryList = db.mcountries.Where(c => c.id == CountryID).Select(s => new CountryList { id = s.id, CountryName = s.CountryName }).ToList();
             if (GetInfo.Id2 == 0)
             {
-                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive,a.isDeleted FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and a.isDeleted='N' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive,a.isDeleted ,a.InitYear FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and a.isDeleted='N' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
             }
             else
             {
                 // BrandList = db.mbrands.Where(c => c.id == modelinitiative.BrandID && c.isActive == "Y").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
-                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive,a.isDeleted FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and a.isDeleted='N' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive,a.isDeleted ,a.InitYear FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and a.isDeleted='N' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
             }
             RegionList = db.mregions.Where(c => c.id == RegionID).Select(s => new RegionList { id = s.id, RegionName = s.RegionName }).ToList();
             SubRegionList = db.msubregions.Where(c => c.id == SubRegionID).Select(s => new SubRegionList { id = s.id, SubRegionName = s.SubRegionName }).ToList();
@@ -1162,6 +1792,142 @@ log4net.LogManager.GetLogger
 
             return Json(GDSC, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult GetAllDll(Models.GetInfoByIDModel GetInfo)
+        {
+            msubcountry modelsubcountry = new msubcountry();
+            mcountry modelcountry = new mcountry();
+            mregion modelregion = new mregion();
+            t_initiative modelinitiative = new t_initiative();
+
+            if (GetInfo.Id2 != 0)
+                modelsubcountry = db.msubcountries.Where(sc => sc.id == GetInfo.Id2).FirstOrDefault();
+            else
+                modelsubcountry = db.msubcountries.FirstOrDefault();
+
+            if (GetInfo.Id == 0)
+            {
+                modelinitiative = db.t_initiative.Where(init => init.SubCountryID == GetInfo.Id2).FirstOrDefault();
+            }
+            else
+            {
+                modelinitiative = db.t_initiative.Where(init => init.id == GetInfo.Id).FirstOrDefault();
+            }
+
+            var brandcountry = new mbrandcountry();
+            Int64 CountryID = (long)modelsubcountry.CountryID;
+            Int64 SubCountryID = (long)modelsubcountry.id;
+            Int64 BrandIDx = 0;
+            if (modelinitiative != null)
+            {
+                if (modelinitiative.BrandID.HasValue)
+                {
+                    BrandIDx = (long)modelinitiative.BrandID;
+                }
+                else
+                {
+                    brandcountry = db.mbrandcountries.Where(c => c.subcountryid == SubCountryID).FirstOrDefault();
+                    BrandIDx = brandcountry.brandid;
+                }
+            }
+            else
+            {
+                brandcountry = db.mbrandcountries.Where(c => c.subcountryid == SubCountryID).FirstOrDefault();
+                BrandIDx = brandcountry.brandid;
+            }
+
+            modelcountry = db.mcountries.Where(c => c.id == CountryID).FirstOrDefault();
+            Int64 RegionID = (long)modelcountry.RegionID;
+            Int64 SubRegionID = (long)modelcountry.SubRegionID;
+
+            //List<GeneralEntity> GeneralList = new List<GeneralEntity>();
+            //GeneralList = db.mcountries.Select(s => new GeneralEntity { id = s.id, def = s.CountryName }).ToList();
+
+            List<GetAllData> GDSC = new List<GetAllData>();
+            List<SubCountryList> SubCountryList = new List<SubCountryList>();
+            List<CountryList> CountryList = new List<CountryList>();
+            List<BrandList> BrandList = new List<BrandList>();
+            List<RegionList> RegionList = new List<RegionList>();
+            List<SubRegionList> SubRegionList = new List<SubRegionList>();
+            List<ClusterList> ClusterList = new List<ClusterList>();
+            List<RegionalOfficeList> RegionalOfficeList = new List<RegionalOfficeList>();
+            List<CostControlList> CostControlList = new List<CostControlList>();
+            List<LegalEntityList> LegalEntityList = new List<LegalEntityList>();
+            List<TypeInitiativeList> TypeInitiativeList = new List<TypeInitiativeList>();
+
+            db.Configuration.ProxyCreationEnabled = false;
+            SubCountryList = db.msubcountries.Where(c => c.id == SubCountryID && c.isActive == "Y").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
+            CountryList = db.mcountries.Where(c => c.id == CountryID).Select(s => new CountryList { id = s.id, CountryName = s.CountryName }).ToList();
+            if (GetInfo.Id2 == 0)
+            {
+                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive,a.isDeleted ,a.InitYear FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and a.isDeleted='N' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+            }
+            else
+            {
+                // BrandList = db.mbrands.Where(c => c.id == modelinitiative.BrandID && c.isActive == "Y").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+                BrandList = db.mbrands.SqlQuery("SELECT a.id,a.brandname,c.CountryName,d.SubCountryName,a.isActive,a.isDeleted ,a.InitYear FROM mbrand a LEFT JOIN mbrandcountry b ON a.id = b.brandid LEFT JOIN mcountry c ON b.countryid=c.id LEFT JOIN msubcountry d ON d.CountryID = c.id AND d.id = b.subcountryid WHERE a.isActive = 'Y' and a.isDeleted='N' and c.id = " + CountryID + " AND d.id = " + SubCountryID + " ORDER BY c.CountryName,d.SubCountryName asc").Select(s => new BrandList { id = s.id, BrandName = s.brandname }).ToList();
+            }
+            RegionList = db.mregions.Where(c => c.id == RegionID).Select(s => new RegionList { id = s.id, RegionName = s.RegionName }).ToList();
+            SubRegionList = db.msubregions.Where(c => c.id == SubRegionID).Select(s => new SubRegionList { id = s.id, SubRegionName = s.SubRegionName }).ToList();
+            ClusterList = db.mclusters.Where(cl => cl.CountryID == CountryID && cl.RegionID == RegionID && cl.SubRegionID == SubRegionID && cl.ClusterName != "").Select(s => new ClusterList { id = s.id, ClusterName = s.ClusterName }).ToList();
+            RegionalOfficeList = db.mregional_office.Where(ro => ro.RegionID == RegionID && ro.CountryID == CountryID).Select(s => new RegionalOfficeList { id = s.id, RegionalOfficeName = s.RegionalOffice_Name }).ToList();
+            var costcontrolid = db.t_subctry_costcntrlsite.Where(sc => sc.subcountryid == SubCountryID).FirstOrDefault().costcontrolid;
+            CostControlList = db.mcostcontrolsites.Where(c => c.id == costcontrolid).Select(s => new CostControlList { id = s.id, CostControlSiteName = s.CostControlSiteName }).ToList();
+            LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID && le.BrandID == BrandIDx && le.SubCountryID == SubCountryID).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
+            //LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
+            if (modelinitiative != null)
+            {
+                TypeInitiativeList = db.msavingtypes.Where(st => st.id == modelinitiative.InitiativeType).Select(s => new TypeInitiativeList { id = s.id, SavingTypeName = s.SavingTypeName }).ToList();
+            }
+            else
+            {
+                TypeInitiativeList = db.msavingtypes.Select(s => new TypeInitiativeList { id = s.id, SavingTypeName = s.SavingTypeName }).ToList();
+            }
+
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
+            var projYear = profileData.ProjectYear;
+            if (profileData.ProjectYear < 2023)
+                profileData.ProjectYear = 2022;
+
+            db.Configuration.ProxyCreationEnabled = false;
+
+            if (GetInfo.Id > 0)
+            {
+                var model = db.vwheaderinitiatives.Where(c => c.id == GetInfo.Id).FirstOrDefault();
+
+                GDSC.Add(new GetAllData
+                {
+                    SavingTypeData = db.msavingtypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SavingTypeName,\'\' as isActive ,\'0\' AS  InitYear UNION ALL Select id, SavingTypeName,isActive  , InitYear From msavingtype where isActive = 'Y' and InitYear =" + projYear + "").ToList(),
+                    ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName, \'\' as isActive ,\'0\' AS  InitYear UNION ALL Select id, ActionTypeName, isActive ,InitYear From mactiontype where isActive = 'Y' and InitYear =" + projYear + "").ToList(),
+                    SynImpactData = db.msynimpacts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SynImpactName, \'\' as isActive ,\'0\' AS  InitYear UNION ALL Select id, SynImpactName, isActive ,InitYear From msynimpact where isActive = 'Y' and InitYear =" + projYear + "").ToList(),
+                    InitStatusData = db.mstatus.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS Status, \'\' AS isActive , \'0\' AS  InitYear UNION ALL Select id, Status, isActive , InitYear From mstatus where isActive ='Y' and InitYear =" + projYear + "; ").ToList(),
+                    PortNameData = db.mports.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS PortName , \'0\' AS  InitYear UNION ALL Select id, PortName , InitYear From mport  where InitYear =" + projYear + "").ToList(),
+
+                    MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname  ,\'0\' AS  InitYear UNION ALL SELECT id, categoryname ,InitYear FROM msourcecategory  where InitYear =" + projYear + "").ToList(),
+
+
+
+                    MSubCostData = db.msubcosts.SqlQuery("SELECT b.id,b.SubCostName,b.isActive ,  InitYear  FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " AND a.costtypeid = " + model.CostCategoryID + " AND a.brandid = " + model.BrandID + " and b.isActive = 'Y' and  b.InitYear =" + projYear + "  GROUP BY b.id,b.SubCostName; ").ToList(),
+                    //  MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname UNION ALL SELECT id, categoryname FROM msourcecategory").ToList()
+
+                    MCostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive,\'0\' AS  InitYear  UNION ALL SELECT b.id, b.CostTypeName,b.isActive , b.InitYear FROM t_subcostinitiative a LEFT JOIN mcosttype b ON a.costitemid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " and b.isActive = 'Y' and  b.InitYear =" + projYear + " GROUP BY b.id, b.CostTypeName; ").ToList(),
+
+                    SubCountryData = SubCountryList,
+                    CountryData = CountryList,
+                    BrandData = BrandList,
+                    RegionData = RegionList,
+                    SubRegionData = SubRegionList,
+                    ClusterData = ClusterList,
+                    RegionalOfficeData = RegionalOfficeList,
+                    CostControlSiteData = CostControlList,
+                    LegalEntityData = LegalEntityList,
+                    TypeInitiativeData = TypeInitiativeList
+                });
+
+            }
+
+            return Json(GDSC, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult GetCountryBySub2(Models.GetInfoByIDModel GetInfo)
         {
             msubcountry modelsubcountry = new msubcountry();
@@ -1250,38 +2016,48 @@ log4net.LogManager.GetLogger
             db.Configuration.ProxyCreationEnabled = false;
             GDFI.Add(new GetItemCategoryDataFromInitiative
             {
-                CostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive UNION ALL SELECT b.id, b.CostTypeName, b.isActive FROM t_subcostinitiative a LEFT JOIN mcosttype b ON a.costitemid = b.id WHERE a.savingtypeid = " + SCID + " and b.isActive = \'Y\' GROUP BY b.id, b.CostTypeName").ToList()
+                CostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive , \'0\' AS  InitYear UNION ALL SELECT b.id, b.CostTypeName, b.isActive , b.InitYear FROM t_subcostinitiative a LEFT JOIN mcosttype b ON a.costitemid = b.id WHERE a.savingtypeid = " + SCID + " and b.isActive = \'Y\' GROUP BY b.id, b.CostTypeName").ToList()
             });
             return Json(GDFI, JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetItemFromSubCost(Models.GetInfoByIDModel GetInfo)
         {
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
+            var projYear = profileData.ProjectYear;
             long SCID = GetInfo.Id;
             List<GetItemCategoryDataFromInitiative> GDFI = new List<GetItemCategoryDataFromInitiative>();
 
             db.Configuration.ProxyCreationEnabled = false;
             GDFI.Add(new GetItemCategoryDataFromInitiative
             {
-                ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName,\'\' as isActive UNION ALL SELECT c.id, c.ActionTypeName,c.isActive FROM t_subcostactiontype a LEFT JOIN msubcost b ON a.subcostid = b.id LEFT JOIN mactiontype c ON a.actiontypeid = c.id WHERE b.id = " + SCID + " and c.isActive = \'Y\';").ToList()
+                ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName,\'\' as isActive , \'0\' AS  InitYear UNION ALL SELECT c.id, c.ActionTypeName,c.isActive , c.InitYear FROM t_subcostactiontype a LEFT JOIN msubcost b ON a.subcostid = b.id LEFT JOIN mactiontype c ON a.actiontypeid = c.id WHERE b.id = " + SCID + " and c.isActive = \'Y\' and c.InitYear =" + projYear + "").ToList()
             });
             return Json(GDFI, JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetItemFromCostCategory(Models.GetInfoByIDModel GetInfo)
         {
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
+            var projYear = profileData.ProjectYear;
             long SCID = GetInfo.Id; long SCID2 = GetInfo.Id2; long SCID3 = GetInfo.Id3;
             List<GetItemSubCategoryDataFromCategory> GDFC = new List<GetItemSubCategoryDataFromCategory>();
 
             db.Configuration.ProxyCreationEnabled = false;
             GDFC.Add(new GetItemSubCategoryDataFromCategory
             {
-                SubCostData = db.msubcosts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SubCostName, \'\' as isActive UNION ALL SELECT b.id,b.SubCostName,b.isActive FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + SCID + " AND a.costtypeid = " + SCID2 + " AND a.brandid = " + SCID3 + " and b.isActive = \'Y\' GROUP BY b.id, b.SubCostName").ToList(),
-                ActionTypeData = db.mactiontypes.SqlQuery("SELECT a.actiontypeid AS id,c.ActionTypeName, b.isActive FROM t_cost_actiontype a LEFT JOIN mcosttype b ON a.costitemid = b.id LEFT JOIN mactiontype c ON a.actiontypeid = c.id WHERE a.costitemid = " + SCID2 + " and c.isActive = \'Y\'; ").ToList()
+                SubCostData = db.msubcosts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SubCostName, \'\' as isActive ,\'0\' AS  InitYear UNION ALL SELECT b.id,b.SubCostName,b.isActive , b.InitYear FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + SCID + " AND a.costtypeid = " + SCID2 + " AND a.brandid = " + SCID3 + " and b.isActive = \'Y\' GROUP BY b.id, b.SubCostName").ToList(),
+                //  ActionTypeData = db.mactiontypes.SqlQuery("SELECT a.actiontypeid AS id,c.ActionTypeName, b.isActive ,  c.inityear FROM t_cost_actiontype a LEFT JOIN mcosttype b ON a.costitemid = b.id LEFT JOIN mactiontype c ON a.actiontypeid = c.id WHERE a.costitemid = " + SCID2 + " and c.isActive = \'Y\'; ").ToList()
             });
             return Json(GDFC, JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetInfoForPopUp(Models.GetInfoByIDModel GetInfo)
         {
             List<OutInitiative> GIFP = new List<OutInitiative>();
+
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
+            var projYear = profileData.ProjectYear;
+            if (profileData.ProjectYear < 2023)
+                profileData.ProjectYear = 2022;
+
 
             db.Configuration.ProxyCreationEnabled = false;
             if (GetInfo.Id > 0)
@@ -1290,27 +2066,40 @@ log4net.LogManager.GetLogger
 
                 GIFP.Add(new OutInitiative
                 {
-                    SavingTypeData = db.msavingtypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SavingTypeName,\'\' as isActive UNION ALL Select id, SavingTypeName,isActive From msavingtype where isActive = 'Y' ").ToList(),
-                    ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName, \'\' as isActive UNION ALL Select id, ActionTypeName, isActive From mactiontype where isActive = 'Y' ").ToList(),
-                    SynImpactData = db.msynimpacts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SynImpactName, \'\' as isActive UNION ALL Select id, SynImpactName, isActive From msynimpact where isActive = 'Y' ").ToList(),
-                    InitStatusData = db.mstatus.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS Status, \'\' AS isActive UNION ALL Select id, Status, isActive From mstatus where isActive ='Y'; ").ToList(),
-                    PortNameData = db.mports.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS PortName UNION ALL Select id, PortName From mport").ToList(),
-                    MCostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive UNION ALL SELECT b.id, b.CostTypeName,b.isActive FROM t_subcostinitiative a LEFT JOIN mcosttype b ON a.costitemid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " and b.isActive = 'Y' GROUP BY b.id, b.CostTypeName; ").ToList(),
-                    MSubCostData = db.msubcosts.SqlQuery("SELECT b.id,b.SubCostName,b.isActive FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " AND a.costtypeid = " + model.CostCategoryID + " AND a.brandid = " + model.BrandID + " and b.isActive = 'Y' GROUP BY b.id,b.SubCostName; ").ToList(),
-                    MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname UNION ALL SELECT id, categoryname FROM msourcecategory").ToList()
+                    SavingTypeData = db.msavingtypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SavingTypeName,\'\' as isActive ,\'0\' AS  InitYear UNION ALL Select id, SavingTypeName,isActive  , InitYear From msavingtype where isActive = 'Y' and InitYear =" + projYear + "").ToList(),
+                    ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName, \'\' as isActive ,\'0\' AS  InitYear UNION ALL Select id, ActionTypeName, isActive ,InitYear From mactiontype where isActive = 'Y' and InitYear =" + projYear + "").ToList(),
+                    SynImpactData = db.msynimpacts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SynImpactName, \'\' as isActive ,\'0\' AS  InitYear UNION ALL Select id, SynImpactName, isActive ,InitYear From msynimpact where isActive = 'Y' and InitYear =" + projYear + "").ToList(),
+                    InitStatusData = db.mstatus.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS Status, \'\' AS isActive , \'0\' AS  InitYear UNION ALL Select id, Status, isActive , InitYear From mstatus where isActive ='Y' and InitYear =" + projYear + "; ").ToList(),
+                    PortNameData = db.mports.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS PortName , \'0\' AS  InitYear UNION ALL Select id, PortName , InitYear From mport  where InitYear =" + projYear + "").ToList(),
+
+                    MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname  ,\'0\' AS  InitYear UNION ALL SELECT id, categoryname ,InitYear FROM msourcecategory  where InitYear =" + projYear + "").ToList(),
+
+
+
+                    MSubCostData = db.msubcosts.SqlQuery("SELECT b.id,b.SubCostName,b.isActive ,  b.InitYear  FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " AND a.costtypeid = " + model.CostCategoryID + " AND a.brandid = " + model.BrandID + " and b.isActive = 'Y' and  b.InitYear =" + projYear + "  GROUP BY b.id,b.SubCostName; ").ToList(),
+                    //  MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname UNION ALL SELECT id, categoryname FROM msourcecategory").ToList()
+
+                    MCostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive,\'0\' AS  InitYear  UNION ALL SELECT b.id, b.CostTypeName,b.isActive , b.InitYear FROM t_subcostinitiative a LEFT JOIN mcosttype b ON a.costitemid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " and b.isActive = 'Y' and  b.InitYear =" + projYear + " GROUP BY b.id, b.CostTypeName; ").ToList(),
+
+                    //MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname ,\'0\' AS  InitYear UNION ALL SELECT id, categoryname , InitYear FROM msourcecategory where  InitYear =" + projYear + "").ToList()
                 });
             }
             else
             {
                 GIFP.Add(new OutInitiative
                 {
-                    SavingTypeData = db.msavingtypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SavingTypeName, \'\' as isActive UNION ALL Select id, SavingTypeName,isActive From msavingtype where isActive = 'Y' ").ToList(),
-                    ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName, \'\' as isActive UNION ALL Select id, ActionTypeName,isActive From mactiontype where isActive = 'Y' ").ToList(),
-                    SynImpactData = db.msynimpacts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SynImpactName,\'\' as isActive UNION ALL Select id, SynImpactName,isActive From msynimpact where isActive = 'Y' ").ToList(),
-                    InitStatusData = db.mstatus.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS Status, \'\' AS isActive UNION ALL Select id, Status, isActive From mstatus where isActive ='Y'").ToList(),
-                    PortNameData = db.mports.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS PortName UNION ALL Select id, PortName From mport").ToList(),
-                    MCostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive UNION ALL Select id, CostTypeName, isActive From mcosttype where isActive = 'Y' ").ToList(),
-                    MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname UNION ALL SELECT id, categoryname FROM msourcecategory").ToList()
+                    SavingTypeData = db.msavingtypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SavingTypeName,\'\' as isActive ,\'0\' AS  InitYear UNION ALL Select id, SavingTypeName,isActive  , InitYear From msavingtype where isActive = 'Y' and InitYear =" + projYear + "").ToList(),
+                    ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName, \'\' as isActive ,\'0\' AS  InitYear UNION ALL Select id, ActionTypeName, isActive ,InitYear From mactiontype where isActive = 'Y' and InitYear =" + projYear + "").ToList(),
+                    SynImpactData = db.msynimpacts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SynImpactName, \'\' as isActive ,\'0\' AS  InitYear UNION ALL Select id, SynImpactName, isActive ,InitYear From msynimpact where isActive = 'Y' and InitYear =" + projYear + "").ToList(),
+
+                    //  SavingTypeData = db.msavingtypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SavingTypeName, \'\' as isActive UNION ALL Select id, SavingTypeName,isActive From msavingtype where isActive = 'Y' ").ToList(),
+                    // ActionTypeData = db.mactiontypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS ActionTypeName, \'\' as isActive UNION ALL Select id, ActionTypeName,isActive From mactiontype where isActive = 'Y' ").ToList(),
+                    //  SynImpactData = db.msynimpacts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SynImpactName,\'\' as isActive UNION ALL Select id, SynImpactName,isActive From msynimpact where isActive = 'Y' ").ToList(),
+
+                    InitStatusData = db.mstatus.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS Status, \'\' AS isActive , \'0\' AS  InitYear  UNION ALL Select id, Status, isActive ,InitYear From mstatus where isActive ='Y' and InitYear =" + projYear + "").ToList(),
+                    PortNameData = db.mports.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS PortName , \'0\' AS  InitYear UNION ALL Select id, PortName ,InitYear From mport where InitYear =" + projYear + "").ToList(),
+                    MCostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive ,\'0\' AS  InitYear UNION ALL Select id, CostTypeName, isActive ,InitYear From mcosttype where isActive = 'Y' and InitYear =" + projYear + " ").ToList(),
+                    MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname ,\'0\' AS  InitYear UNION ALL SELECT id, categoryname , InitYear FROM msourcecategory where  InitYear =" + projYear + "").ToList()
                 });
             }
             return Json(GIFP, JsonRequestBehavior.AllowGet);
@@ -1319,6 +2108,38 @@ log4net.LogManager.GetLogger
         {
             List<myear> model = db.myears.Where(c => c.yrStatus == 1).ToList();
             return PartialView("~/Views/Shared/_CboYearPartial.cshtml", model);
+        }
+        public ActionResult CboMonth()
+        {
+            List<mMonth> model = new List<mMonth>();
+
+            //model.Add(new mMonth(1, "jan"));
+            //model.Add(new mMonth(2, "feb"));
+            //model.Add(new mMonth(3, "mar"));
+            //model.Add(new mMonth(4, "apr"));
+            //model.Add(new mMonth(5, "may"));
+            //model.Add(new mMonth(6, "jun"));
+            //model.Add(new mMonth(7, "jul"));
+            //model.Add(new mMonth(8, "aug"));
+            //model.Add(new mMonth(9, "sep"));
+            //model.Add(new mMonth(10, "oct"));
+            //model.Add(new mMonth(11, "nov"));
+            //model.Add(new mMonth(12, "dec"));
+
+            model.Add(new mMonth(1, "JAN"));
+            model.Add(new mMonth(2, "FEB"));
+            model.Add(new mMonth(3, "MAR"));
+            model.Add(new mMonth(4, "APR"));
+            model.Add(new mMonth(5, "MAY"));
+            model.Add(new mMonth(6, "JUN"));
+            model.Add(new mMonth(7, "JUL"));
+            model.Add(new mMonth(8, "AUG"));
+            model.Add(new mMonth(9, "SEP"));
+            model.Add(new mMonth(10, "OCT"));
+            model.Add(new mMonth(11, "NOV"));
+            model.Add(new mMonth(12, "DEC"));
+
+            return PartialView("~/Views/Shared/_CboMonthPartial.cshtml", model);
         }
         public ActionResult MultiFileReportUpload(object container)
         {
@@ -1463,5 +2284,151 @@ log4net.LogManager.GetLogger
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        #region ENH153-2
+
+        public ActionResult getProcuementCalcs(GetInfoByIDModel GetInfo)
+        {
+
+            long t_initiative_id = GetInfo.Id;
+
+            t_initiative_calcs model = db.t_initiative_calcs.Where(x => x.t_initiative_ID == t_initiative_id).FirstOrDefault();
+            //List<t_initiative_calcs> model = db.t_initiative_calcs.Where(x => x.t_initiative_ID == t_initiative_id).ToList();
+
+            //List<t_initiative_calcs> result = new List<t_initiative_calcs>();
+
+            //foreach (t_initiative_calcs _model in model)
+            //{
+            //    t_initiative_calcs _result = new t_initiative_calcs
+            //    {
+            //        id = _model.id,
+            //        t_initiative_ID = _model.t_initiative_ID,
+            //        jan_Actual_CPU_Nmin1 = _model.jan_Actual_CPU_Nmin1
+            //    };
+
+            //    result.Add(_result);
+            //}
+
+            t_initiative_calcs result = new t_initiative_calcs();
+
+            if (model != null)
+            {
+                result.id = model.id;
+                result.t_initiative_ID = model.t_initiative_ID;
+
+                result.jan_Actual_CPU_Nmin1 = model.jan_Actual_CPU_Nmin1;
+                result.feb_Actual_CPU_Nmin1 = model.feb_Actual_CPU_Nmin1;
+                result.march_Actual_CPU_Nmin1 = model.march_Actual_CPU_Nmin1;
+                result.apr_Actual_CPU_Nmin1 = model.apr_Actual_CPU_Nmin1;
+                result.may_Actual_CPU_Nmin1 = model.may_Actual_CPU_Nmin1;
+                result.jun_Actual_CPU_Nmin1 = model.jun_Actual_CPU_Nmin1;
+                result.jul_Actual_CPU_Nmin1 = model.jul_Actual_CPU_Nmin1;
+                result.aug_Actual_CPU_Nmin1 = model.aug_Actual_CPU_Nmin1;
+                result.sep_Actual_CPU_Nmin1 = model.sep_Actual_CPU_Nmin1;
+                result.oct_Actual_CPU_Nmin1 = model.oct_Actual_CPU_Nmin1;
+                result.nov_Actual_CPU_Nmin1 = model.nov_Actual_CPU_Nmin1;
+                result.dec_Actual_CPU_Nmin1 = model.dec_Actual_CPU_Nmin1;
+                result.jan_Target_CPU_N = model.jan_Target_CPU_N;
+                result.feb_Target_CPU_N = model.feb_Target_CPU_N;
+                result.march_Target_CPU_N = model.march_Target_CPU_N;
+                result.apr_Target_CPU_N = model.apr_Target_CPU_N;
+                result.may_Target_CPU_N = model.may_Target_CPU_N;
+                result.jun_Target_CPU_N = model.jun_Target_CPU_N;
+                result.jul_Target_CPU_N = model.jul_Target_CPU_N;
+                result.aug_Target_CPU_N = model.aug_Target_CPU_N;
+                result.sep_Target_CPU_N = model.sep_Target_CPU_N;
+                result.oct_Target_CPU_N = model.oct_Target_CPU_N;
+                result.nov_Target_CPU_N = model.nov_Target_CPU_N;
+                result.dec_Target_CPU_N = model.dec_Target_CPU_N;
+                result.jan_A_Price_effect = model.jan_A_Price_effect;
+                result.feb_A_Price_effect = model.feb_A_Price_effect;
+                result.march_A_Price_effect = model.march_A_Price_effect;
+                result.apr_A_Price_effect = model.apr_A_Price_effect;
+                result.may_A_Price_effect = model.may_A_Price_effect;
+                result.jun_A_Price_effect = model.jun_A_Price_effect;
+                result.jul_A_Price_effect = model.jul_A_Price_effect;
+                result.aug_A_Price_effect = model.aug_A_Price_effect;
+                result.sep_A_Price_effect = model.sep_A_Price_effect;
+                result.oct_A_Price_effect = model.oct_A_Price_effect;
+                result.nov_A_Price_effect = model.nov_A_Price_effect;
+                result.dec_A_Price_effect = model.dec_A_Price_effect;
+                result.jan_A_Volume_Effect = model.jan_A_Volume_Effect;
+                result.feb_A_Volume_Effect = model.feb_A_Volume_Effect;
+                result.march_A_Volume_Effect = model.march_A_Volume_Effect;
+                result.apr_A_Volume_Effect = model.apr_A_Volume_Effect;
+                result.may_A_Volume_Effect = model.may_A_Volume_Effect;
+                result.jun_A_Volume_Effect = model.jun_A_Volume_Effect;
+                result.jul_A_Volume_Effect = model.jul_A_Volume_Effect;
+                result.aug_A_Volume_Effect = model.aug_A_Volume_Effect;
+                result.sep_A_Volume_Effect = model.sep_A_Volume_Effect;
+                result.oct_A_Volume_Effect = model.oct_A_Volume_Effect;
+                result.nov_A_Volume_Effect = model.nov_A_Volume_Effect;
+                result.dec_A_Volume_Effect = model.dec_A_Volume_Effect;
+                result.jan_Achievement = model.jan_Achievement;
+                result.feb_Achievement = model.feb_Achievement;
+                result.march_Achievement = model.march_Achievement;
+                result.apr_Achievement = model.apr_Achievement;
+                result.may_Achievement = model.may_Achievement;
+                result.jun_Achievement = model.jun_Achievement;
+                result.jul_Achievement = model.jul_Achievement;
+                result.aug_Achievement = model.aug_Achievement;
+                result.sep_Achievement = model.sep_Achievement;
+                result.oct_Achievement = model.oct_Achievement;
+                result.nov_Achievement = model.nov_Achievement;
+                result.dec_Achievement = model.dec_Achievement;
+                result.jan_ST_Price_effect = model.jan_ST_Price_effect;
+                result.feb_ST_Price_effect = model.feb_ST_Price_effect;
+                result.march_ST_Price_effect = model.march_ST_Price_effect;
+                result.apr_ST_Price_effect = model.apr_ST_Price_effect;
+                result.may_ST_Price_effect = model.may_ST_Price_effect;
+                result.jun_ST_Price_effect = model.jun_ST_Price_effect;
+                result.jul_ST_Price_effect = model.jul_ST_Price_effect;
+                result.aug_ST_Price_effect = model.aug_ST_Price_effect;
+                result.sep_ST_Price_effect = model.sep_ST_Price_effect;
+                result.oct_ST_Price_effect = model.oct_ST_Price_effect;
+                result.nov_ST_Price_effect = model.nov_ST_Price_effect;
+                result.dec_ST_Price_effect = model.dec_ST_Price_effect;
+                result.jan_ST_Volume_Effect = model.jan_ST_Volume_Effect;
+                result.feb_ST_Volume_Effect = model.feb_ST_Volume_Effect;
+                result.march_ST_Volume_Effect = model.march_ST_Volume_Effect;
+                result.apr_ST_Volume_Effect = model.apr_ST_Volume_Effect;
+                result.may_ST_Volume_Effect = model.may_ST_Volume_Effect;
+                result.jun_ST_Volume_Effect = model.jun_ST_Volume_Effect;
+                result.jul_ST_Volume_Effect = model.jul_ST_Volume_Effect;
+                result.aug_ST_Volume_Effect = model.aug_ST_Volume_Effect;
+                result.sep_ST_Volume_Effect = model.sep_ST_Volume_Effect;
+                result.oct_ST_Volume_Effect = model.oct_ST_Volume_Effect;
+                result.nov_ST_Volume_Effect = model.nov_ST_Volume_Effect;
+                result.dec_ST_Volume_Effect = model.dec_ST_Volume_Effect;
+                result.jan_FY_Secured_Target = model.jan_FY_Secured_Target;
+                result.feb_FY_Secured_Target = model.feb_FY_Secured_Target;
+                result.march_FY_Secured_Target = model.march_FY_Secured_Target;
+                result.apr_FY_Secured_Target = model.apr_FY_Secured_Target;
+                result.may_FY_Secured_Target = model.may_FY_Secured_Target;
+                result.jun_FY_Secured_Target = model.jun_FY_Secured_Target;
+                result.jul_FY_Secured_Target = model.jul_FY_Secured_Target;
+                result.aug_FY_Secured_Target = model.aug_FY_Secured_Target;
+                result.sep_FY_Secured_Target = model.sep_FY_Secured_Target;
+                result.oct_FY_Secured_Target = model.oct_FY_Secured_Target;
+                result.nov_FY_Secured_Target = model.nov_FY_Secured_Target;
+                result.dec_FY_Secured_Target = model.dec_FY_Secured_Target;
+                result.jan_CPI_Effect = model.jan_CPI_Effect;
+                result.feb_CPI_Effect = model.feb_CPI_Effect;
+                result.march_CPI_Effect = model.march_CPI_Effect;
+                result.apr_CPI_Effect = model.apr_CPI_Effect;
+                result.may_CPI_Effect = model.may_CPI_Effect;
+                result.jun_CPI_Effect = model.jun_CPI_Effect;
+                result.jul_CPI_Effect = model.jul_CPI_Effect;
+                result.aug_CPI_Effect = model.aug_CPI_Effect;
+                result.sep_CPI_Effect = model.sep_CPI_Effect;
+                result.oct_CPI_Effect = model.oct_CPI_Effect;
+                result.nov_CPI_Effect = model.nov_CPI_Effect;
+                result.dec_CPI_Effect = model.dec_CPI_Effect;
+
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 }
