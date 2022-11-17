@@ -935,7 +935,8 @@ function ShowEditWindow(id) {
             var obj = JSON.parse(data); var SubCountryID = obj.SubCountryID;
 
             var isProcurement = obj.isProcurement;
- var isProcurement = obj.isProcurement;
+            if (isProcurement == null) { isProcurement = 0; }
+            $('#isProcurement').val(isProcurement)
 
             GrdInit_Type = obj.InitiativeType;
             GrdAction_Type = obj.ActionTypeID;
