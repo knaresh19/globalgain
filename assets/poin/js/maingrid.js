@@ -14,6 +14,7 @@ $(function () {
 
         $('#isProcurement').val('0');
         clear_Procurement_BackCalcs();
+        clear_Procurement_fields();
 
         var min_py = 0; var max_py = 0;
         var py = projectYear;
@@ -127,6 +128,7 @@ $(function () {
 
         $('#isProcurement').val('1');
         clear_Procurement_BackCalcs();
+        clear_Procurement_fields();
         var min_py = 0; var max_py = 0;
         var py = projectYear;
         min_py = (+py - 1);
@@ -715,6 +717,62 @@ function clear_Procurement_BackCalcs() {
 
 }
 function clear_Procurement_fields() {
+    CboUnitOfVolume.SetValue('NONE');
+    txt_Input_Actuals_Volumes_Nmin1.SetValue();
+    txt_Input_Target_Volumes.SetValue();
+    txt_Total_Actual_volume_N.SetValue();
+    txt_Spend_Nmin1.SetValue();
+    txt_Spend_N.SetValue();
+    txt_CPI.SetValue();
+    txt_janActual_volume_N.SetValue();
+    txt_febActual_volume_N.SetValue();
+    txt_marActual_volume_N.SetValue();
+    txt_aprActual_volume_N.SetValue();
+    txt_mayActual_volume_N.SetValue();
+    txt_junActual_volume_N.SetValue();
+    txt_julActual_volume_N.SetValue();
+    txt_augActual_volume_N.SetValue();
+    txt_sepActual_volume_N.SetValue();
+    txt_octActual_volume_N.SetValue();
+    txt_novActual_volume_N.SetValue();
+    txt_decActual_volume_N.SetValue();
+    txt_N_FY_Sec_PRICE_EF.SetValue();
+    txt_N_FY_Sec_VOLUME_EF.SetValue();
+    txt_N_YTD_Sec_PRICE_EF.SetValue();
+    txt_N_YTD_Sec_VOLUME_EF.SetValue();
+    txt_YTD_Achieved_PRICE_EF.SetValue();
+    txt_YTD_Achieved_VOLUME_EF.SetValue();
+    txt_YTD_Cost_Avoid_Vs_CPI.SetValue();
+    txt_FY_Cost_Avoid_Vs_CPI.SetValue();
+    txt_N_FY_Secured.SetValue();
+    txt_N_YTD_Secured.SetValue();
+
+    $('#txt_YTD_achieved').val('');
+    $('#Actual_volume_Nmin1_Jan').val('');
+    $('#Actual_volume_Nmin1_Feb').val('');
+    $('#Actual_volume_Nmin1_Mar').val('');
+    $('#Actual_volume_Nmin1_Apr').val('');
+    $('#Actual_volume_Nmin1_May').val('');
+    $('#Actual_volume_Nmin1_Jun').val('');
+    $('#Actual_volume_Nmin1_Jul').val('');
+    $('#Actual_volume_Nmin1_Aug').val('');
+    $('#Actual_volume_Nmin1_Sep').val('');
+    $('#Actual_volume_Nmin1_Oct').val('');
+    $('#Actual_volume_Nmin1_Nov').val('');
+    $('#Actual_volume_Nmin1_Dec').val('');
+    $('#Target_Volumes_Jan').val('');
+    $('#Target_Volumes_Feb').val('');
+    $('#Target_Volumes_Mar').val('');
+    $('#Target_Volumes_Apr').val('');
+    $('#Target_Volumes_May').val('');
+    $('#Target_Volumes_Jun').val('');
+    $('#Target_Volumes_Jul').val('');
+    $('#Target_Volumes_Aug').val('');
+    $('#Target_Volumes_Sep').val('');
+    $('#Target_Volumes_Oct').val('');
+    $('#Target_Volumes_Nov').val('');
+    $('#Target_Volumes_Dec').val('');
+
 
 }
 
@@ -1325,6 +1383,15 @@ function ShowEditWindow(id) {
                     }
                 });
             }
+
+            if (isProcurement == 1) {
+                $('#_divOptimization').prop('style', 'display:none')
+                $('#_divProcurement').prop('style', 'display:block')
+            }
+            else {
+                $('#_divOptimization').prop('style', 'display:block')
+                $('#_divProcurement').prop('style', 'display:none')
+            }
             //ENH153-2 
 
 
@@ -1665,7 +1732,7 @@ function OnGrdInitCategoryPopupChanged(s, e) {
 function OnCboYearChanged(s, e) {
     var id = s.GetText();//s.GetValue();
     $.post(URLContent('ActiveInitiative/ProjectYear'), { Id: id }, function () {
-        // window.location.reload();
+        window.location.reload();
     });
 }
 
