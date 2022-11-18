@@ -134,7 +134,7 @@ log4net.LogManager.GetLogger
                 var brandtext = profileData.Brand_right.Replace("|", "','");
                 int lenbrand = brandtext.Length;
                 brandtext = "(" + brandtext.Substring(2, (lenbrand - 4)) + ")";
-                var brandid = db.mbrands.SqlQuery("select id,brandname,isActive,isDeleted from mbrand where brandname in " + brandtext + " and InitYear =" + projYear + " group by id,brandname").ToList();
+                var brandid = db.mbrands.SqlQuery("select id,brandname,isActive,isDeleted , InitYear from mbrand where brandname in " + brandtext + " and InitYear =" + projYear + " group by id,brandname").ToList();
                 var brandcondition = "";
                 for (var i = 0; i < brandid.Count(); i++)
                 {
@@ -242,27 +242,45 @@ log4net.LogManager.GetLogger
            // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
             //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
 
-            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "')  order by CreatedDate desc").ToList();
-
-            ViewData["mregions"] = db.mregions.Where(c => c.InitYear == projYear).ToList();
-            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y" && c.isDeleted == "N" && c.InitYear == projYear).ToList();
-            ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "" && c.InitYear == projYear).ToList();
+            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth)='" + profileData.ProjectYear + "')order by CreatedDate desc").ToList();
+            ViewData["mregions_DD"] = db.mregions.Where(c => c.InitYear == projYear).ToList();
+            ViewData["brandname_DD"] = db.mbrands.Where(c => c.isActive == "Y" && c.isDeleted == "N" && c.InitYear == projYear).ToList();
+            ViewData["msubregion_DD"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "" && c.InitYear == projYear).ToList();
             //ViewData["mcluster"] = db.mclusters.SqlQuery("SELECT * FROM mcluster where ClusterName != \'\'").ToList();
-            ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "" && c.InitYear == projYear).GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
-            ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office where InitYear=" + projYear + "").GroupBy(g => g.RegionalOffice_Name).Select(s => new { RegionalOffice_Name = s.Key }).ToList();
-            ViewData["CostControlSiteName"] = db.mcostcontrolsites.Where(c => c.CostControlSiteName != "" && c.InitYear == projYear).ToList();
-            ViewData["CountryName"] = db.mcountries.Where(c => c.CountryName != "" && c.InitYear == projYear).ToList();
-            ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "" && c.isActive == "Y" && c.InitYear == projYear).ToList();
-            ViewData["LegalEntityName"] = db.mlegalentities.Where(c => c.InitYear == projYear).GroupBy(g => g.LegalEntityName).Select(s => new { LegalEntityName = s.Key }).ToList();
-            ViewData["SavingTypeName"] = db.msavingtypes.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
-            ViewData["CostTypeName"] = db.mcosttypes.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
-            ViewData["SubCostName"] = db.msubcosts.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
-            ViewData["ActionTypeName"] = db.mactiontypes.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
-            ViewData["SynImpactName"] = db.msynimpacts.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
-            ViewData["Status"] = db.mstatus.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
-            ViewData["portName"] = db.mports.Where(c => c.InitYear == projYear).ToList();
-            ViewData["SourceCategoryName"] = db.msourcecategories.Where(c => c.InitYear == projYear).ToList();
-          
+            ViewData["mcluster_DD"] = db.mclusters.Where(c => c.ClusterName != "" && c.InitYear == projYear).GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
+            ViewData["mregional_office_DD"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office where InitYear=" + projYear + "").GroupBy(g => g.RegionalOffice_Name).Select(s => new { RegionalOffice_Name = s.Key }).ToList();
+            ViewData["CostControlSiteName_DD"] = db.mcostcontrolsites.Where(c => c.CostControlSiteName != "" && c.InitYear == projYear).ToList();
+            ViewData["CountryName_DD"] = db.mcountries.Where(c => c.CountryName != "" && c.InitYear == projYear).ToList();
+            ViewData["SubCountryName_DD"] = db.msubcountries.Where(c => c.SubCountryName != "" && c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["LegalEntityName_DD"] = db.mlegalentities.Where(c => c.InitYear == projYear).GroupBy(g => g.LegalEntityName).Select(s => new { LegalEntityName = s.Key }).ToList();
+            ViewData["SavingTypeName_DD"] = db.msavingtypes.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["CostTypeName_DD"] = db.mcosttypes.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["SubCostName_DD"] = db.msubcosts.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["ActionTypeName_DD"] = db.mactiontypes.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["SynImpactName_DD"] = db.msynimpacts.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["Status_DD"] = db.mstatus.Where(c => c.isActive == "Y" && c.InitYear == projYear).ToList();
+            ViewData["portName_DD"] = db.mports.Where(c => c.InitYear == projYear).ToList();
+            ViewData["SourceCategoryName_DD"] = db.msourcecategories.Where(c => c.InitYear == projYear).ToList();
+
+
+            ViewData["mregions"] = db.mregions.ToList();
+            ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y" && c.isDeleted == "N").ToList();
+            ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
+            //ViewData["mcluster"] = db.mclusters.SqlQuery("SELECT * FROM mcluster where ClusterName != \'\'").ToList();
+            ViewData["mcluster"] = db.mclusters.Where(c => c.ClusterName != "").GroupBy(g => g.ClusterName).Select(s => new { ClusterName = s.Key }).ToList();
+            ViewData["mregional_office"] = db.mregional_office.SqlQuery("SELECT * FROM mregional_office").GroupBy(g => g.RegionalOffice_Name).Select(s => new { RegionalOffice_Name = s.Key }).ToList();
+            ViewData["CostControlSiteName"] = db.mcostcontrolsites.Where(c => c.CostControlSiteName != "").ToList();
+            ViewData["CountryName"] = db.mcountries.Where(c => c.CountryName != "").ToList();
+            ViewData["SubCountryName"] = db.msubcountries.Where(c => c.SubCountryName != "" && c.isActive == "Y").ToList();
+            ViewData["LegalEntityName"] = db.mlegalentities.GroupBy(g => g.LegalEntityName).Select(s => new { LegalEntityName = s.Key }).ToList();
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(c => c.isActive == "Y").ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(c => c.isActive == "Y").ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(c => c.isActive == "Y").ToList();
+            ViewData["ActionTypeName"] = db.mactiontypes.Where(c => c.isActive == "Y").ToList();
+            ViewData["SynImpactName"] = db.msynimpacts.Where(c => c.isActive == "Y").ToList();
+            ViewData["Status"] = db.mstatus.Where(c => c.isActive == "Y").ToList();
+            ViewData["portName"] = db.mports.ToList();
+            ViewData["SourceCategoryName"] = db.msourcecategories.ToList();
 
             foreach (var item in model)
             {
