@@ -500,7 +500,7 @@ log4net.LogManager.GetLogger
                 int lencntrytext = cntrytext.Length;
                 cntrytext = "(" + cntrytext.Substring(2, (lencntrytext - 4)) + ")";
                 var cntryid = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive , Inityear from msubcountry where SubCountryName is not null and isActive = 'Y' and SubCountryName in " + cntrytext + " and  Inityear = " + projYear + "").ToList();
-                var cntryidcondition = "(";
+                var cntryidcondition = "";
                 for (var i = 0; i < cntryid.Count(); i++)
                 {
                     cntryidcondition += cntryid[i].id.ToString() + ",";
@@ -533,6 +533,7 @@ log4net.LogManager.GetLogger
                     if (string.IsNullOrEmpty(where))
                         model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive ,InitYear from msubcountry where SubCountryName is not null and isActive = 'Y' and InitYear = " + projYear + "").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
                     else
+
                         model = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive ,InitYear from msubcountry where SubCountryName is not null and isActive = 'Y' and InitYear = " + projYear + " and id in ( " + where + " ").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
                     // model = db.msubcountries.Where(c => !string.IsNullOrEmpty(c.SubCountryName) && c.isActive == "Y" && c.InitYear == projYear).Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
 
