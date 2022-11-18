@@ -6272,6 +6272,7 @@
     <Content Include="Views\YTDPerformance\_GrdYTDPerformanceDetailPartial.cshtml" />
     <Content Include="Views\TopCategory\_ChartPartial.cshtml" />
     <Content Include="Views\Shared\_CboYearPartial.cshtml" />
+    <Content Include="Views\Shared\_CboMonthPartial.cshtml" />
     <Content Include="Views\ActiveInitiative\_EventReview.cshtml" />
     <Content Include="Views\ActiveInitiative\_Comment.cshtml" />
     <Content Include="Views\ActiveInitiative\_GrdEventReviewPartial.cshtml" />
