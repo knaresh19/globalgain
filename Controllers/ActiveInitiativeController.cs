@@ -500,7 +500,7 @@ log4net.LogManager.GetLogger
                 int lencntrytext = cntrytext.Length;
                 cntrytext = "(" + cntrytext.Substring(2, (lencntrytext - 4)) + ")";
                 var cntryid = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive , Inityear from msubcountry where SubCountryName is not null and isActive = 'Y' and SubCountryName in " + cntrytext + " and  Inityear = " + projYear + "").ToList();
-                var cntryidcondition = "(";
+                var cntryidcondition = "";
                 for (var i = 0; i < cntryid.Count(); i++)
                 {
                     cntryidcondition += cntryid[i].id.ToString() + ",";
