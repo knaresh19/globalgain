@@ -69,12 +69,12 @@ $(function () {
                 if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
             });
             if (projectYear > 2022) {
-               GrdActionType.clientEnabled = false;
+                GrdActionType.clientEnabled = false;
                 GrdActionType.SelectIndex(1);
             }
             else { GrdActionType.SelectIndex(0); }
 
-            GrdInitType.SelectIndex(0);  GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
+            GrdInitType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
         });
         CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
         CboWebinarCat.AddItem("");
@@ -425,7 +425,7 @@ $(function () {
             }
             else { GrdActionType.SelectIndex(0); }
 
-            GrdInitType.SelectIndex(0);  GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
+            GrdInitType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
         });
         CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
         CboWebinarCat.AddItem("");
@@ -855,8 +855,7 @@ function ShowEditWindow(id) {
     StartMonth.SetMaxDate(new Date((max_py) + '-12-31'));
     EndMonth.SetMinDate(new Date(max_py + '-01-01'));
     EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
-    if (projectYear > 2022)
-    { StartMonth.SetMinDate(new Date((max_py) + '-12-31')); }
+    if (projectYear > 2022) { StartMonth.SetMinDate(new Date((max_py) + '-12-31')); }
 
     var GrdInit_Type = 0, GrdAction_Type = 0, GrdSyn_Impact = 0, GrdInit_Status = 0, TxPort_Name = 0;
     var GrdInit_Category = 0, CboWebinar_Cat = 0, Grd_SubCost = 0;
@@ -877,7 +876,7 @@ function ShowEditWindow(id) {
             var obj = JSON.parse(data); var SubCountryID = obj.SubCountryID;
 
             var isProcurement = obj.isProcurement;
- var isProcurement = obj.isProcurement;
+            var isProcurement = obj.isProcurement;
 
             GrdInit_Type = obj.InitiativeType;
             GrdAction_Type = obj.ActionTypeID;
@@ -1117,50 +1116,50 @@ function ShowEditWindow(id) {
 
             //Change the labels 
             if (isProcurement != 1) {
-            $('#ljan').html('Jan-' + startyear);
-            $('#lfeb').html('Feb-' + startyear);
-            $('#lmar').html('Mar-' + startyear);
-            $('#lapr').html('Apr-' + startyear);
-            $('#lmay').html('May-' + startyear);
-            $('#ljun').html('Jun-' + startyear);
-            $('#ljul').html('Jul-' + startyear);
-            $('#laug').html('Aug-' + startyear);
-            $('#lsep').html('Sep-' + startyear);
-            $('#loct').html('Oct-' + startyear);
-            $('#lnov').html('Nov-' + startyear);
-            $('#ldec').html('Dec-' + startyear);
+                $('#ljan').html('Jan-' + startyear);
+                $('#lfeb').html('Feb-' + startyear);
+                $('#lmar').html('Mar-' + startyear);
+                $('#lapr').html('Apr-' + startyear);
+                $('#lmay').html('May-' + startyear);
+                $('#ljun').html('Jun-' + startyear);
+                $('#ljul').html('Jul-' + startyear);
+                $('#laug').html('Aug-' + startyear);
+                $('#lsep').html('Sep-' + startyear);
+                $('#loct').html('Oct-' + startyear);
+                $('#lnov').html('Nov-' + startyear);
+                $('#ldec').html('Dec-' + startyear);
 
-            $('#lnexjan').html('Jan-' + nextyear);
-            $('#lnexfeb').html('Feb-' + nextyear);
-            $('#lnexmar').html('Mar-' + nextyear);
-            $('#lnexapr').html('Apr-' + nextyear);
-            $('#lnexmay').html('May-' + nextyear);
-            $('#lnexjun').html('Jun-' + nextyear);
-            $('#lnexjul').html('Jul-' + nextyear);
-            $('#lnexaug').html('Aug-' + nextyear);
-            $('#lnexsep').html('Sep-' + nextyear);
-            $('#lnexoct').html('Oct-' + nextyear);
-            $('#lnexnov').html('Nov-' + nextyear);
-            $('#lnexdec').html('Dec-' + nextyear);
+                $('#lnexjan').html('Jan-' + nextyear);
+                $('#lnexfeb').html('Feb-' + nextyear);
+                $('#lnexmar').html('Mar-' + nextyear);
+                $('#lnexapr').html('Apr-' + nextyear);
+                $('#lnexmay').html('May-' + nextyear);
+                $('#lnexjun').html('Jun-' + nextyear);
+                $('#lnexjul').html('Jul-' + nextyear);
+                $('#lnexaug').html('Aug-' + nextyear);
+                $('#lnexsep').html('Sep-' + nextyear);
+                $('#lnexoct').html('Oct-' + nextyear);
+                $('#lnexnov').html('Nov-' + nextyear);
+                $('#lnexdec').html('Dec-' + nextyear);
 
-            //End change the labels 
-            //commented the below if else to show the full initiative figures  
-            /* if ((new Date(obj.StartMonth).getFullYear()) < projectYear) {
-                 $(".targetjan").val(formatValue(obj.TargetNexJan)); $(".targetfeb").val(formatValue(obj.TargetNexFeb)); $(".targetmar").val(formatValue(obj.TargetNexMar)); $(".targetapr").val(formatValue(obj.TargetNexApr)); $(".targetmay").val(formatValue(obj.TargetNexMay)); $(".targetjun").val(formatValue(obj.TargetNexJun));
-                 $(".targetjul").val(formatValue(obj.TargetNexJul)); $(".targetaug").val(formatValue(obj.TargetNexAug)); $(".targetsep").val(formatValue(obj.TargetNexSep)); $(".targetoct").val(formatValue(obj.TargetNexOct)); $(".targetnov").val(formatValue(obj.TargetNexNov)); $(".targetdec").val(formatValue(obj.TargetNexDec));
-                 $(".savingjan").val(formatValue(obj.AchNexJan)); $(".savingfeb").val(formatValue(obj.AchNexFeb)); $(".savingmar").val(formatValue(obj.AchNexMar)); $(".savingapr").val(formatValue(obj.AchNexApr)); $(".savingmay").val(formatValue(obj.AchNexMay)); $(".savingjun").val(formatValue(obj.AchNexJun));
-                 $(".savingjul").val(formatValue(obj.AchNexJul)); $(".savingaug").val(formatValue(obj.AchNexAug)); $(".savingsep").val(formatValue(obj.AchNexSep)); $(".savingoct").val(formatValue(obj.AchNexOct)); $(".savingnov").val(formatValue(obj.AchNexNov)); $(".savingdec").val(formatValue(obj.AchNexDec));
-             } else {*/
-            $(".targetjan").val(formatValue(obj.TargetJan)); $(".targetfeb").val(formatValue(obj.TargetFeb)); $(".targetmar").val(formatValue(obj.TargetMar)); $(".targetapr").val(formatValue(obj.TargetApr)); $(".targetmay").val(formatValue(obj.TargetMay)); $(".targetjun").val(formatValue(obj.TargetJun));
-            $(".targetjul").val(formatValue(obj.TargetJul)); $(".targetaug").val(formatValue(obj.TargetAug)); $(".targetsep").val(formatValue(obj.TargetSep)); $(".targetoct").val(formatValue(obj.TargetOct)); $(".targetnov").val(formatValue(obj.TargetNov)); $(".targetdec").val(formatValue(obj.TargetDec));
-            $(".savingjan").val(formatValue(obj.AchJan)); $(".savingfeb").val(formatValue(obj.AchFeb)); $(".savingmar").val(formatValue(obj.AchMar)); $(".savingapr").val(formatValue(obj.AchApr)); $(".savingmay").val(formatValue(obj.AchMay)); $(".savingjun").val(formatValue(obj.AchJun));
-            $(".savingjul").val(formatValue(obj.AchJul)); $(".savingaug").val(formatValue(obj.AchAug)); $(".savingsep").val(formatValue(obj.AchSep)); $(".savingoct").val(formatValue(obj.AchOct)); $(".savingnov").val(formatValue(obj.AchNov)); $(".savingdec").val(formatValue(obj.AchDec));
+                //End change the labels 
+                //commented the below if else to show the full initiative figures  
+                /* if ((new Date(obj.StartMonth).getFullYear()) < projectYear) {
+                     $(".targetjan").val(formatValue(obj.TargetNexJan)); $(".targetfeb").val(formatValue(obj.TargetNexFeb)); $(".targetmar").val(formatValue(obj.TargetNexMar)); $(".targetapr").val(formatValue(obj.TargetNexApr)); $(".targetmay").val(formatValue(obj.TargetNexMay)); $(".targetjun").val(formatValue(obj.TargetNexJun));
+                     $(".targetjul").val(formatValue(obj.TargetNexJul)); $(".targetaug").val(formatValue(obj.TargetNexAug)); $(".targetsep").val(formatValue(obj.TargetNexSep)); $(".targetoct").val(formatValue(obj.TargetNexOct)); $(".targetnov").val(formatValue(obj.TargetNexNov)); $(".targetdec").val(formatValue(obj.TargetNexDec));
+                     $(".savingjan").val(formatValue(obj.AchNexJan)); $(".savingfeb").val(formatValue(obj.AchNexFeb)); $(".savingmar").val(formatValue(obj.AchNexMar)); $(".savingapr").val(formatValue(obj.AchNexApr)); $(".savingmay").val(formatValue(obj.AchNexMay)); $(".savingjun").val(formatValue(obj.AchNexJun));
+                     $(".savingjul").val(formatValue(obj.AchNexJul)); $(".savingaug").val(formatValue(obj.AchNexAug)); $(".savingsep").val(formatValue(obj.AchNexSep)); $(".savingoct").val(formatValue(obj.AchNexOct)); $(".savingnov").val(formatValue(obj.AchNexNov)); $(".savingdec").val(formatValue(obj.AchNexDec));
+                 } else {*/
+                $(".targetjan").val(formatValue(obj.TargetJan)); $(".targetfeb").val(formatValue(obj.TargetFeb)); $(".targetmar").val(formatValue(obj.TargetMar)); $(".targetapr").val(formatValue(obj.TargetApr)); $(".targetmay").val(formatValue(obj.TargetMay)); $(".targetjun").val(formatValue(obj.TargetJun));
+                $(".targetjul").val(formatValue(obj.TargetJul)); $(".targetaug").val(formatValue(obj.TargetAug)); $(".targetsep").val(formatValue(obj.TargetSep)); $(".targetoct").val(formatValue(obj.TargetOct)); $(".targetnov").val(formatValue(obj.TargetNov)); $(".targetdec").val(formatValue(obj.TargetDec));
+                $(".savingjan").val(formatValue(obj.AchJan)); $(".savingfeb").val(formatValue(obj.AchFeb)); $(".savingmar").val(formatValue(obj.AchMar)); $(".savingapr").val(formatValue(obj.AchApr)); $(".savingmay").val(formatValue(obj.AchMay)); $(".savingjun").val(formatValue(obj.AchJun));
+                $(".savingjul").val(formatValue(obj.AchJul)); $(".savingaug").val(formatValue(obj.AchAug)); $(".savingsep").val(formatValue(obj.AchSep)); $(".savingoct").val(formatValue(obj.AchOct)); $(".savingnov").val(formatValue(obj.AchNov)); $(".savingdec").val(formatValue(obj.AchDec));
 
-            $(".targetjan2").val(formatValue(obj.TargetNexJan)); $(".targetfeb2").val(formatValue(obj.TargetNexFeb)); $(".targetmar2").val(formatValue(obj.TargetNexMar)); $(".targetapr2").val(formatValue(obj.TargetNexApr)); $(".targetmay2").val(formatValue(obj.TargetNexMay)); $(".targetjun2").val(formatValue(obj.TargetNexJun));
-            $(".targetjul2").val(formatValue(obj.TargetNexJul)); $(".targetaug2").val(formatValue(obj.TargetNexAug)); $(".targetsep2").val(formatValue(obj.TargetNexSep)); $(".targetoct2").val(formatValue(obj.TargetNexOct)); $(".targetnov2").val(formatValue(obj.TargetNexNov)); $(".targetdec2").val(formatValue(obj.TargetNexDec));
-            $(".savingjan2").val(formatValue(obj.AchNexJan)); $(".savingfeb2").val(formatValue(obj.AchNexFeb)); $(".savingmar2").val(formatValue(obj.AchNexMar)); $(".savingapr2").val(formatValue(obj.AchNexApr)); $(".savingmay2").val(formatValue(obj.AchNexMay)); $(".savingjun2").val(formatValue(obj.AchNexJun));
-            $(".savingjul2").val(formatValue(obj.AchNexJul)); $(".savingaug2").val(formatValue(obj.AchNexAug)); $(".savingsep2").val(formatValue(obj.AchNexSep)); $(".savingoct2").val(formatValue(obj.AchNexOct)); $(".savingnov2").val(formatValue(obj.AchNexNov)); $(".savingdec2").val(formatValue(obj.AchNexDec));
-            // }
+                $(".targetjan2").val(formatValue(obj.TargetNexJan)); $(".targetfeb2").val(formatValue(obj.TargetNexFeb)); $(".targetmar2").val(formatValue(obj.TargetNexMar)); $(".targetapr2").val(formatValue(obj.TargetNexApr)); $(".targetmay2").val(formatValue(obj.TargetNexMay)); $(".targetjun2").val(formatValue(obj.TargetNexJun));
+                $(".targetjul2").val(formatValue(obj.TargetNexJul)); $(".targetaug2").val(formatValue(obj.TargetNexAug)); $(".targetsep2").val(formatValue(obj.TargetNexSep)); $(".targetoct2").val(formatValue(obj.TargetNexOct)); $(".targetnov2").val(formatValue(obj.TargetNexNov)); $(".targetdec2").val(formatValue(obj.TargetNexDec));
+                $(".savingjan2").val(formatValue(obj.AchNexJan)); $(".savingfeb2").val(formatValue(obj.AchNexFeb)); $(".savingmar2").val(formatValue(obj.AchNexMar)); $(".savingapr2").val(formatValue(obj.AchNexApr)); $(".savingmay2").val(formatValue(obj.AchNexMay)); $(".savingjun2").val(formatValue(obj.AchNexJun));
+                $(".savingjul2").val(formatValue(obj.AchNexJul)); $(".savingaug2").val(formatValue(obj.AchNexAug)); $(".savingsep2").val(formatValue(obj.AchNexSep)); $(".savingoct2").val(formatValue(obj.AchNexOct)); $(".savingnov2").val(formatValue(obj.AchNexNov)); $(".savingdec2").val(formatValue(obj.AchNexDec));
+                // }
 
             }
             if (obj.InitStatus == 4) {
@@ -1176,7 +1175,7 @@ function ShowEditWindow(id) {
             //GrdInitStatus.GetGridView().Refresh();
             //GrdInitType.GetGridView().Refresh();
             var brandId = obj.BrandID;
-       
+
             getYtdValue();
             hitungtahunini();
             //var years_right = '@years_right';
@@ -1200,11 +1199,44 @@ function ShowEditWindow(id) {
             var formstatus; var initstatusvalue;
             formstatus = $("#FormStatus").val();
             initstatusvalue = GrdInitStatus.GetValue();
-            if (uType == 3 && formstatus == "Edit" && (initstatusvalue != "4" || initstatusvalue != "15")) {
+            if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4" ) {
                 $("#chkAuto").prop("disabled", true);
                 $(".txTarget").prop("disabled", true); //prevent Agency User to edit the target except pending initiative
                 StartMonth.clientEnabled = false; EndMonth.clientEnabled = false; //prevent Agency User from selecting different Start / End dates (Except for Pending initiative)
                 txTarget12.clientEnabled = false;
+            }
+            if (uType == 3 && formstatus == "Edit" && (initstatusvalue == "4" || initstatusvalue == "15")) {
+
+
+                var targetjan = $(".targetjan").val().replaceAll(",", ""); var targetfeb = $(".targetfeb").val().replaceAll(",", ""); var targetmar = $(".targetmar").val().replaceAll(",", ""); var targetapr = $(".targetapr").val().replaceAll(",", ""); var targetmay = $(".targetmay").val().replaceAll(",", "");
+                var targetjun = $(".targetjun").val().replaceAll(",", ""); var targetjul = $(".targetjul").val().replaceAll(",", ""); var targetaug = $(".targetaug").val().replaceAll(",", ""); var targetsep = $(".targetsep").val().replaceAll(",", ""); var targetoct = $(".targetoct").val().replaceAll(",", "");
+                var targetnov = $(".targetnov").val().replaceAll(",", ""); var targetdec = $(".targetdec").val().replaceAll(",", "");
+
+
+                if (targetjan.length>1)
+                    $(".targetjan").prop("disabled", false);
+                if (targetfeb.length > 1)
+                    $(".targetfeb").prop("disabled", false);
+                if (targetmar.length > 1)
+                    $(".targetmar").prop("disabled", false);
+                if (targetapr.length > 1)
+                    $(".targetapr").prop("disabled", false);
+                if (targetmay.length > 1)
+                    $(".targetmay").prop("disabled", false);
+                if (targetjun.length > 1)
+                    $(".targetjun").prop("disabled", false);
+                if (targetjul.length > 1)
+                    $(".targetjul").prop("disabled", false);
+                if (targetaug.length > 1)
+                    $(".targetaug").prop("disabled", false);
+                if (targetsep.length > 1)
+                    $(".targetsep").prop("disabled", false);
+                if (targetoct.length > 1)
+                    $(".targetoct").prop("disabled", false);
+                if (targetnov.length > 1)
+                    $(".targetnov").prop("disabled", false);
+                if (targetdec.length > 1)
+                    $(".targetdec").prop("disabled", false);
             }
 
             //ENH153-2 back end calculation
@@ -1629,14 +1661,14 @@ function OnSubCostPopupChanged(s, e) {
 
 
     if (projectYear <= 2022) {
-    //    //  $("$GrdActionType").prop('disabled', false);
+        //    //  $("$GrdActionType").prop('disabled', false);
 
-    //    if (xisProcurement == 0)
-    //        GrdActionType.SelectIndex(43);
-    //    else
-    //        GrdActionType.SelectIndex(51);
-    //}
-    //else {
+        //    if (xisProcurement == 0)
+        //        GrdActionType.SelectIndex(43);
+        //    else
+        //        GrdActionType.SelectIndex(51);
+        //}
+        //else {
         $.post(URLContent('ActiveInitiative/GetItemFromSubCost'), { id: id }, function (data) {
             var obj; GrdActionType.ClearItems();
             $.each(data[0]["ActionTypeData"], function (key, value) {
@@ -1645,7 +1677,7 @@ function OnSubCostPopupChanged(s, e) {
             });
             GrdActionType.SelectIndex(0);
         });
-       // GrdActionType.SelectIndex(0);
+        // GrdActionType.SelectIndex(0);
     };
 }
 
@@ -1883,15 +1915,6 @@ function OnEndMonthChanged() {
     //        }
     //    }
     //}
-
-    var formstatus; var initstatusvalue; var uType;
-    uType = user_type;
-    formstatus = $("#FormStatus").val();
-    initstatusvalue = GrdInitStatus.GetValue();
-    if (uType == 3 && formstatus == "Edit" && (initstatusvalue != "4" || initstatusvalue != "15") ) {
-        $("#chkAuto").prop("disabled", true);
-        $(".txTarget").prop("disabled", true);
-    }
 }
 
 function OnInitStatusChanged(s, e) {
@@ -2047,7 +2070,7 @@ function SaveInitiative() {
             //ENH153-2 procurment properties get field value in variable
 
             //ENH153-2 procurment back end calculation get field value in variable
-            
+
             var xjan_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Jan').val();
             var xfeb_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Feb').val();
             var xmarch_Actual_CPU_Nmin1 = $('#Actual_CPU_Nmin1_Mar').val();
@@ -2427,7 +2450,7 @@ function SaveInitiative() {
                     FY_Cost_Avoid_Vs_CPI: xFY_Cost_Avoid_Vs_CPI,
                     isProcurement: xisProcurement,
                     _t_initiative_calcs: {
-                        
+
                         jan_Actual_CPU_Nmin1: xjan_Actual_CPU_Nmin1,
                         feb_Actual_CPU_Nmin1: xfeb_Actual_CPU_Nmin1,
                         march_Actual_CPU_Nmin1: xmarch_Actual_CPU_Nmin1,
