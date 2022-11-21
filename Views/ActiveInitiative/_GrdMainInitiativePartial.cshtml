@@ -1,4 +1,4 @@
-﻿@{
+@{
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
     var tahun = profileData.ProjectYear;
     var projectMonth = profileData.ProjectMonth;
@@ -138,7 +138,7 @@
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "SourceCategoryID";
                 //p.ClientSideEvents.SelectedIndexChanged = "OnSubCountryChanged";
-                p.BindList(ViewData["SourceCategoryName_DD"]);
+                p.BindList(ViewData["SourceCategoryName"]);
             });
         });
         settings.Columns.Add(c =>
@@ -157,7 +157,7 @@
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "SubCountryID";
                 p.ClientSideEvents.SelectedIndexChanged = "OnSubCountryChanged";
-                p.BindList(ViewData["SubCountryName_DD"]);
+                p.BindList(ViewData["SubCountryName"]);
             });
             c.SetFooterTemplateContent(p =>
             {
@@ -179,7 +179,7 @@
                 p.ClientInstanceName = "BrandID";
                 p.ValueType = typeof(string);
                 p.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
-                p.BindList(ViewData["brandname_DD"]);
+                p.BindList(ViewData["brandname"]);
             });
         });
         settings.Columns.Add(c =>
@@ -196,7 +196,7 @@
                 p.ValueField = "id";
                 p.ClientInstanceName = "CountryID";
                 p.ValueType = typeof(string);
-                p.BindList(ViewData["CountryName_DD"]);
+                p.BindList(ViewData["CountryName"]);
             });
         });
         settings.Columns.Add(c =>
@@ -213,7 +213,7 @@
                 p.ValueField = "id";
                 p.ClientInstanceName = "RegionID";
                 p.ValueType = typeof(string);
-                p.BindList(ViewData["mregions_DD"]);
+                p.BindList(ViewData["mregions"]);
             });
         });
         settings.Columns.Add(c =>
@@ -229,7 +229,7 @@
                 p.ValueField = "id";
                 p.ClientInstanceName = "SubRegionID";
                 p.ValueType = typeof(string);
-                p.BindList(ViewData["msubregion_DD"]);
+                p.BindList(ViewData["msubregion"]);
             });
         });
         settings.Columns.Add(c =>
@@ -245,7 +245,7 @@
                 p.ValueField = "ClusterName";
                 p.ClientInstanceName = "ClusterID";
                 p.ValueType = typeof(string);
-                p.BindList(ViewData["mcluster_DD"]);
+                p.BindList(ViewData["mcluster"]);
             });
         });
         settings.Columns.Add(c =>
@@ -262,7 +262,7 @@
                 p.ValueField = "RegionalOffice_Name";
                 p.ClientInstanceName = "RegionalOfficeID";
                 p.ValueType = typeof(string);
-                p.BindList(ViewData["mregional_office_DD"]);
+                p.BindList(ViewData["mregional_office"]);
             });
         });
         settings.Columns.Add(c =>
@@ -282,7 +282,7 @@
                 p.ClientInstanceName = "CostControlID";
                 p.ValueType = typeof(string);
                 p.DropDownHeight = 0;
-                p.BindList(ViewData["CostControlSiteName_DD"]);
+                p.BindList(ViewData["CostControlSiteName"]);
                 //p.ButtonStyle = 
             });
         });
@@ -300,7 +300,7 @@
                 p.ValueField = "LegalEntityName";
                 p.ClientInstanceName = "LegalEntityID";
                 p.ValueType = typeof(string);
-                p.BindList(ViewData["LegalEntityName_DD"]);
+                p.BindList(ViewData["LegalEntityName"]);
             });
         });
         settings.Columns.Add(c =>
@@ -349,7 +349,7 @@
                 p.ClientInstanceName = "CostCategoryID";
                 p.ClientSideEvents.SelectedIndexChanged = "OnCostCategoryChanged";
                 p.ValueType = typeof(string);
-                p.BindList(ViewData["CostTypeName_DD"]);
+                p.BindList(ViewData["CostTypeName"]);
             });
         });
         settings.Columns.Add(c =>
@@ -366,7 +366,7 @@
                 p.ValueField = "id";
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "SubCostCategoryID";
-                p.BindList(ViewData["SubCostName_DD"]);
+                p.BindList(ViewData["SubCostName"]);
             });
         });
         settings.Columns.Add(c =>
@@ -382,7 +382,7 @@
                 p.ValueField = "id";
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "ActionTypeID";
-                p.BindList(ViewData["ActionTypeName_DD"]);
+                p.BindList(ViewData["ActionTypeName"]);
             });
         });
         settings.Columns.Add(c =>
@@ -561,7 +561,7 @@
                 p.TextField = "Status";
                 p.ValueField = "id";
                 p.ValueType = typeof(string);
-                p.BindList(ViewData["Status_DD"]);
+                p.BindList(ViewData["Status"]);
             });
         });
 
@@ -1291,7 +1291,7 @@
                 p.TextField = "portName";
                 p.ValueField = "id";
                 p.ValueType = typeof(string);
-                p.BindList(ViewData["portName_DD"]);
+                p.BindList(ViewData["portName"]);
             });
         });
         settings.Columns.Add(c =>
