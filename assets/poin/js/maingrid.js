@@ -1697,7 +1697,7 @@ function OnGrdInitCategoryPopupChanged(s, e) {
 function OnCboYearChanged(s, e) {
     var id = s.GetText();//s.GetValue();
     $.post(URLContent('ActiveInitiative/ProjectYear'), { Id: id }, function () {
-        // window.location.reload();
+         window.location.reload();
     });
 }
 

@@ -2155,18 +2155,19 @@ log4net.LogManager.GetLogger
             //model.Add(new mMonth(11, "nov"));
             //model.Add(new mMonth(12, "dec"));
 
-            model.Add(new mMonth(1, "JAN"));
-            model.Add(new mMonth(2, "FEB"));
-            model.Add(new mMonth(3, "MAR"));
-            model.Add(new mMonth(4, "APR"));
+            model.Add(new mMonth(1,"JANUARY"));
+            model.Add(new mMonth(2,"FEBRUARY"));
+            model.Add(new mMonth(3,"MARCH"));
+            model.Add(new mMonth(4,"APRIL"));
             model.Add(new mMonth(5, "MAY"));
-            model.Add(new mMonth(6, "JUN"));
-            model.Add(new mMonth(7, "JUL"));
-            model.Add(new mMonth(8, "AUG"));
-            model.Add(new mMonth(9, "SEP"));
-            model.Add(new mMonth(10, "OCT"));
-            model.Add(new mMonth(11, "NOV"));
-            model.Add(new mMonth(12, "DEC"));
+            model.Add(new mMonth(6,"JUNE"));
+            model.Add(new mMonth(7,"JULY"));
+            model.Add(new mMonth(8,"AUGUST"));
+            model.Add(new mMonth(9,"SEPTEMBER"));
+            model.Add(new mMonth(10,"OCTOBER"));
+            model.Add(new mMonth(11,"NOVEMBER"));
+            model.Add(new mMonth(12,"DECEMBER"));
+
 
             return PartialView("~/Views/Shared/_CboMonthPartial.cshtml", model);
         }

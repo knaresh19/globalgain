@@ -2,6 +2,7 @@
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
     var tahun = profileData.ProjectYear;
     var projectMonth = profileData.ProjectMonth;
+    bool isVisible = tahun >= 2023 ? true : false ;
     //var startdate = 
 }
 
@@ -440,6 +441,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
 
         settings.Columns.Add(c =>
@@ -449,6 +451,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
 
         settings.Columns.Add(c =>
@@ -458,6 +461,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
 
         settings.Columns.Add(c =>
@@ -467,6 +471,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         settings.Columns.Add(c =>
         {
@@ -475,6 +480,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         settings.Columns.Add(c =>
         {
@@ -483,6 +489,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         settings.Columns.Add(c =>
         {
@@ -491,6 +498,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         settings.Columns.Add(c =>
         {
@@ -499,6 +507,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         settings.Columns.Add(c =>
         {
@@ -507,6 +516,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         #endregion
         settings.Columns.Add(c =>
@@ -531,6 +541,7 @@
                 p.Items.Add("Y");
                 p.Items.Add("N");
             });
+            c.Visible = false;
         });
         settings.Columns.Add(c =>
         {
@@ -573,6 +584,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         settings.Columns.Add(c =>
         {
@@ -581,6 +593,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         #endregion
         settings.Columns.Add(c =>
@@ -600,6 +613,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         settings.Columns.Add(c =>
         {
@@ -608,6 +622,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         #endregion
 
@@ -628,6 +643,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         settings.Columns.Add(c =>
         {
@@ -636,6 +652,7 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
         #endregion
 
@@ -668,6 +685,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
         settings.Columns.AddBand(FebruaryBand =>
@@ -697,6 +715,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
         settings.Columns.AddBand(MarchBand =>
@@ -727,6 +746,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
         settings.Columns.AddBand(AprilBand =>
@@ -756,6 +776,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
         settings.Columns.AddBand(MayBand =>
@@ -785,6 +806,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
         settings.Columns.AddBand(JunBand =>
@@ -814,6 +836,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
         settings.Columns.AddBand(JulBand =>
@@ -843,6 +866,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
         settings.Columns.AddBand(AugBand =>
@@ -872,6 +896,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
         settings.Columns.AddBand(SepBand =>
@@ -901,6 +926,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
         settings.Columns.AddBand(OctBand =>
@@ -930,6 +956,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
         settings.Columns.AddBand(NovBand =>
@@ -959,6 +986,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
         settings.Columns.AddBand(DecBand =>
@@ -988,6 +1016,7 @@
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
+                c.Visible = isVisible;
             });
         });
 
