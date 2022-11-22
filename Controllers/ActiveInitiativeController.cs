@@ -962,7 +962,8 @@ log4net.LogManager.GetLogger
                         string nomerterakhir = "";
                         t_initiative initz = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara)).FirstOrDefault();
                         if (initz != null)
-                            nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
+                            //nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
+                            nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara)).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
                         else
                             nomerterakhir = YearInitiative + KodeNegara + "000";
 
