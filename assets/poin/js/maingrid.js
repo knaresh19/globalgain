@@ -3,6 +3,7 @@
 ////    var user_type = profileData.UserType;
 ////    var years_right = profileData.years_right;
 ////    var projectYear = profileData.ProjectYear;
+////    var projectMonth = profileData.ProjectMonth;
 ////}
 
 function URLContent(url) {
@@ -133,7 +134,7 @@ $(function () {
         var py = projectYear;
         min_py = (+py - 1);
         max_py = (+py);
-        debugger;
+        //debugger;
         StartMonth.SetMinDate(new Date(min_py + '-01-01'));
         StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
         EndMonth.SetMinDate(new Date(max_py + '-01-01'));
@@ -606,114 +607,114 @@ $(function () {
 });
 
 function clear_Procurement_BackCalcs() {
-    $('#Actual_CPU_Nmin1_Jan').val('');
-    $('#Actual_CPU_Nmin1_Feb').val('');
-    $('#Actual_CPU_Nmin1_Mar').val('');
-    $('#Actual_CPU_Nmin1_Apr').val('');
-    $('#Actual_CPU_Nmin1_May').val('');
-    $('#Actual_CPU_Nmin1_Jun').val('');
-    $('#Actual_CPU_Nmin1_Jul').val('');
-    $('#Actual_CPU_Nmin1_Aug').val('');
-    $('#Actual_CPU_Nmin1_Sep').val('');
-    $('#Actual_CPU_Nmin1_Oct').val('');
-    $('#Actual_CPU_Nmin1_Nov').val('');
-    $('#Actual_CPU_Nmin1_Dec').val('');
-    $('#Target_CPU_N_Jan').val('');
-    $('#Target_CPU_N_Feb').val('');
-    $('#Target_CPU_N_Mar').val('');
-    $('#Target_CPU_N_Apr').val('');
-    $('#Target_CPU_N_May').val('');
-    $('#Target_CPU_N_Jun').val('');
-    $('#Target_CPU_N_Jul').val('');
-    $('#Target_CPU_N_Aug').val('');
-    $('#Target_CPU_N_Sep').val('');
-    $('#Target_CPU_N_Oct').val('');
-    $('#Target_CPU_N_Nov').val('');
-    $('#Target_CPU_N_Dec').val('');
-    $('#A_Price_effect_Jan').val('');
-    $('#A_Price_effect_Feb').val('');
-    $('#A_Price_effect_Mar').val('');
-    $('#A_Price_effect_Apr').val('');
-    $('#A_Price_effect_May').val('');
-    $('#A_Price_effect_Jun').val('');
-    $('#A_Price_effect_Jul').val('');
-    $('#A_Price_effect_Aug').val('');
-    $('#A_Price_effect_Sep').val('');
-    $('#A_Price_effect_Oct').val('');
-    $('#A_Price_effect_Nov').val('');
-    $('#A_Price_effect_Dec').val('');
-    $('#A_Volume_Effect_Jan').val('');
-    $('#A_Volume_Effect_Feb').val('');
-    $('#A_Volume_Effect_Mar').val('');
-    $('#A_Volume_Effect_Apr').val('');
-    $('#A_Volume_Effect_May').val('');
-    $('#A_Volume_Effect_Jun').val('');
-    $('#A_Volume_Effect_Jul').val('');
-    $('#A_Volume_Effect_Aug').val('');
-    $('#A_Volume_Effect_Sep').val('');
-    $('#A_Volume_Effect_Oct').val('');
-    $('#A_Volume_Effect_Nov').val('');
-    $('#A_Volume_Effect_Dec').val('');
-    $('#Achievement_Jan').val('');
-    $('#Achievement_Feb').val('');
-    $('#Achievement_Mar').val('');
-    $('#Achievement_Apr').val('');
-    $('#Achievement_May').val('');
-    $('#Achievement_Jun').val('');
-    $('#Achievement_Jul').val('');
-    $('#Achievement_Aug').val('');
-    $('#Achievement_Sep').val('');
-    $('#Achievement_Oct').val('');
-    $('#Achievement_Nov').val('');
-    $('#Achievement_Dec').val('');
-    $('#ST_Price_effect_Jan').val('');
-    $('#ST_Price_effect_Feb').val('');
-    $('#ST_Price_effect_Mar').val('');
-    $('#ST_Price_effect_Apr').val('');
-    $('#ST_Price_effect_May').val('');
-    $('#ST_Price_effect_Jun').val('');
-    $('#ST_Price_effect_Jul').val('');
-    $('#ST_Price_effect_Aug').val('');
-    $('#ST_Price_effect_Sep').val('');
-    $('#ST_Price_effect_Oct').val('');
-    $('#ST_Price_effect_Nov').val('');
-    $('#ST_Price_effect_Dec').val('');
-    $('#ST_Volume_Effect_Jan').val('');
-    $('#ST_Volume_Effect_Feb').val('');
-    $('#ST_Volume_Effect_Mar').val('');
-    $('#ST_Volume_Effect_Apr').val('');
-    $('#ST_Volume_Effect_May').val('');
-    $('#ST_Volume_Effect_Jun').val('');
-    $('#ST_Volume_Effect_Jul').val('');
-    $('#ST_Volume_Effect_Aug').val('');
-    $('#ST_Volume_Effect_Sep').val('');
-    $('#ST_Volume_Effect_Oct').val('');
-    $('#ST_Volume_Effect_Nov').val('');
-    $('#ST_Volume_Effect_Dec').val('');
-    $('#FY_Secured_Target_Jan').val('');
-    $('#FY_Secured_Target_Feb').val('');
-    $('#FY_Secured_Target_Mar').val('');
-    $('#FY_Secured_Target_Apr').val('');
-    $('#FY_Secured_Target_May').val('');
-    $('#FY_Secured_Target_Jun').val('');
-    $('#FY_Secured_Target_Jul').val('');
-    $('#FY_Secured_Target_Aug').val('');
-    $('#FY_Secured_Target_Sep').val('');
-    $('#FY_Secured_Target_Oct').val('');
-    $('#FY_Secured_Target_Nov').val('');
-    $('#FY_Secured_Target_Dec').val('');
-    $('#CPI_Effect_Jan').val('');
-    $('#CPI_Effect_Feb').val('');
-    $('#CPI_Effect_Mar').val('');
-    $('#CPI_Effect_Apr').val('');
-    $('#CPI_Effect_May').val('');
-    $('#CPI_Effect_Jun').val('');
-    $('#CPI_Effect_Jul').val('');
-    $('#CPI_Effect_Aug').val('');
-    $('#CPI_Effect_Sep').val('');
-    $('#CPI_Effect_Oct').val('');
-    $('#CPI_Effect_Nov').val('');
-    $('#CPI_Effect_Dec').val('');
+    $('#Actual_CPU_Nmin1_Jan').val('0');
+    $('#Actual_CPU_Nmin1_Feb').val('0');
+    $('#Actual_CPU_Nmin1_Mar').val('0');
+    $('#Actual_CPU_Nmin1_Apr').val('0');
+    $('#Actual_CPU_Nmin1_May').val('0');
+    $('#Actual_CPU_Nmin1_Jun').val('0');
+    $('#Actual_CPU_Nmin1_Jul').val('0');
+    $('#Actual_CPU_Nmin1_Aug').val('0');
+    $('#Actual_CPU_Nmin1_Sep').val('0');
+    $('#Actual_CPU_Nmin1_Oct').val('0');
+    $('#Actual_CPU_Nmin1_Nov').val('0');
+    $('#Actual_CPU_Nmin1_Dec').val('0');
+    $('#Target_CPU_N_Jan').val('0');
+    $('#Target_CPU_N_Feb').val('0');
+    $('#Target_CPU_N_Mar').val('0');
+    $('#Target_CPU_N_Apr').val('0');
+    $('#Target_CPU_N_May').val('0');
+    $('#Target_CPU_N_Jun').val('0');
+    $('#Target_CPU_N_Jul').val('0');
+    $('#Target_CPU_N_Aug').val('0');
+    $('#Target_CPU_N_Sep').val('0');
+    $('#Target_CPU_N_Oct').val('0');
+    $('#Target_CPU_N_Nov').val('0');
+    $('#Target_CPU_N_Dec').val('0');
+    $('#A_Price_effect_Jan').val('0');
+    $('#A_Price_effect_Feb').val('0');
+    $('#A_Price_effect_Mar').val('0');
+    $('#A_Price_effect_Apr').val('0');
+    $('#A_Price_effect_May').val('0');
+    $('#A_Price_effect_Jun').val('0');
+    $('#A_Price_effect_Jul').val('0');
+    $('#A_Price_effect_Aug').val('0');
+    $('#A_Price_effect_Sep').val('0');
+    $('#A_Price_effect_Oct').val('0');
+    $('#A_Price_effect_Nov').val('0');
+    $('#A_Price_effect_Dec').val('0');
+    $('#A_Volume_Effect_Jan').val('0');
+    $('#A_Volume_Effect_Feb').val('0');
+    $('#A_Volume_Effect_Mar').val('0');
+    $('#A_Volume_Effect_Apr').val('0');
+    $('#A_Volume_Effect_May').val('0');
+    $('#A_Volume_Effect_Jun').val('0');
+    $('#A_Volume_Effect_Jul').val('0');
+    $('#A_Volume_Effect_Aug').val('0');
+    $('#A_Volume_Effect_Sep').val('0');
+    $('#A_Volume_Effect_Oct').val('0');
+    $('#A_Volume_Effect_Nov').val('0');
+    $('#A_Volume_Effect_Dec').val('0');
+    $('#Achievement_Jan').val('0');
+    $('#Achievement_Feb').val('0');
+    $('#Achievement_Mar').val('0');
+    $('#Achievement_Apr').val('0');
+    $('#Achievement_May').val('0');
+    $('#Achievement_Jun').val('0');
+    $('#Achievement_Jul').val('0');
+    $('#Achievement_Aug').val('0');
+    $('#Achievement_Sep').val('0');
+    $('#Achievement_Oct').val('0');
+    $('#Achievement_Nov').val('0');
+    $('#Achievement_Dec').val('0');
+    $('#ST_Price_effect_Jan').val('0');
+    $('#ST_Price_effect_Feb').val('0');
+    $('#ST_Price_effect_Mar').val('0');
+    $('#ST_Price_effect_Apr').val('0');
+    $('#ST_Price_effect_May').val('0');
+    $('#ST_Price_effect_Jun').val('0');
+    $('#ST_Price_effect_Jul').val('0');
+    $('#ST_Price_effect_Aug').val('0');
+    $('#ST_Price_effect_Sep').val('0');
+    $('#ST_Price_effect_Oct').val('0');
+    $('#ST_Price_effect_Nov').val('0');
+    $('#ST_Price_effect_Dec').val('0');
+    $('#ST_Volume_Effect_Jan').val('0');
+    $('#ST_Volume_Effect_Feb').val('0');
+    $('#ST_Volume_Effect_Mar').val('0');
+    $('#ST_Volume_Effect_Apr').val('0');
+    $('#ST_Volume_Effect_May').val('0');
+    $('#ST_Volume_Effect_Jun').val('0');
+    $('#ST_Volume_Effect_Jul').val('0');
+    $('#ST_Volume_Effect_Aug').val('0');
+    $('#ST_Volume_Effect_Sep').val('0');
+    $('#ST_Volume_Effect_Oct').val('0');
+    $('#ST_Volume_Effect_Nov').val('0');
+    $('#ST_Volume_Effect_Dec').val('0');
+    $('#FY_Secured_Target_Jan').val('0');
+    $('#FY_Secured_Target_Feb').val('0');
+    $('#FY_Secured_Target_Mar').val('0');
+    $('#FY_Secured_Target_Apr').val('0');
+    $('#FY_Secured_Target_May').val('0');
+    $('#FY_Secured_Target_Jun').val('0');
+    $('#FY_Secured_Target_Jul').val('0');
+    $('#FY_Secured_Target_Aug').val('0');
+    $('#FY_Secured_Target_Sep').val('0');
+    $('#FY_Secured_Target_Oct').val('0');
+    $('#FY_Secured_Target_Nov').val('0');
+    $('#FY_Secured_Target_Dec').val('0');
+    $('#CPI_Effect_Jan').val('0');
+    $('#CPI_Effect_Feb').val('0');
+    $('#CPI_Effect_Mar').val('0');
+    $('#CPI_Effect_Apr').val('0');
+    $('#CPI_Effect_May').val('0');
+    $('#CPI_Effect_Jun').val('0');
+    $('#CPI_Effect_Jul').val('0');
+    $('#CPI_Effect_Aug').val('0');
+    $('#CPI_Effect_Sep').val('0');
+    $('#CPI_Effect_Oct').val('0');
+    $('#CPI_Effect_Nov').val('0');
+    $('#CPI_Effect_Dec').val('0');
 
 }
 function clear_Procurement_fields() {
@@ -747,7 +748,9 @@ function clear_Procurement_fields() {
     txt_N_FY_Secured.SetValue();
     txt_N_YTD_Secured.SetValue();
 
-    $('#txt_YTD_achieved').val('');
+    txt_YTD_achieved.SetValue();
+    //$('#txt_YTD_achieved').val('');
+
     $('#Actual_volume_Nmin1_Jan').val('');
     $('#Actual_volume_Nmin1_Feb').val('');
     $('#Actual_volume_Nmin1_Mar').val('');
@@ -774,6 +777,62 @@ function clear_Procurement_fields() {
     $('#Target_Volumes_Dec').val('');
 
 
+}
+
+function isAll_Procurement_Mandatory_fields_entered() {
+    var isFlag = false;
+
+    //ENH153-2 procurment properties get field value in variable
+    var xUnit_of_volumes = CboUnitOfVolume.GetValue();
+    var xInput_Actuals_Volumes_Nmin1 = txt_Input_Actuals_Volumes_Nmin1.GetValue();
+    var xInput_Target_Volumes = txt_Input_Target_Volumes.GetValue();
+    var xTotal_Actual_volume_N = txt_Total_Actual_volume_N.GetValue();
+    var xSpend_Nmin1 = txt_Spend_Nmin1.GetValue();
+    var xSpend_N = txt_Spend_N.GetValue();
+    var xCPI = txt_CPI.GetValue();
+    var xjanActual_volume_N = txt_janActual_volume_N.GetValue();
+    var xfebActual_volume_N = txt_febActual_volume_N.GetValue();
+    var xmarActual_volume_N = txt_marActual_volume_N.GetValue();
+    var xaprActual_volume_N = txt_aprActual_volume_N.GetValue();
+    var xmayActual_volume_N = txt_mayActual_volume_N.GetValue();
+    var xjunActual_volume_N = txt_junActual_volume_N.GetValue();
+    var xjulActual_volume_N = txt_julActual_volume_N.GetValue();
+    var xaugActual_volume_N = txt_augActual_volume_N.GetValue();
+    var xsepActual_volume_N = txt_sepActual_volume_N.GetValue();
+    var xoctActual_volume_N = txt_octActual_volume_N.GetValue();
+    var xnovActual_volume_N = txt_novActual_volume_N.GetValue();
+    var xdecActual_volume_N = txt_decActual_volume_N.GetValue();
+    var xN_FY_Sec_PRICE_EF = txt_N_FY_Sec_PRICE_EF.GetValue();
+    var xN_FY_Sec_VOLUME_EF = txt_N_FY_Sec_VOLUME_EF.GetValue();
+    var xN_YTD_Sec_PRICE_EF = txt_N_YTD_Sec_PRICE_EF.GetValue();
+    var xN_YTD_Sec_VOLUME_EF = txt_N_YTD_Sec_VOLUME_EF.GetValue();
+    var xYTD_Achieved_PRICE_EF = txt_YTD_Achieved_PRICE_EF.GetValue();
+    var xYTD_Achieved_VOLUME_EF = txt_YTD_Achieved_VOLUME_EF.GetValue();
+    var xYTD_Cost_Avoid_Vs_CPI = txt_YTD_Cost_Avoid_Vs_CPI.GetValue();
+    var xFY_Cost_Avoid_Vs_CPI = txt_FY_Cost_Avoid_Vs_CPI.GetValue();
+    //ENH153-2 procurment properties get field value in variable
+
+    if ((xUnit_of_volumes != null && xUnit_of_volumes != '') && (xInput_Actuals_Volumes_Nmin1 != null && xInput_Actuals_Volumes_Nmin1 != '') &&
+        (xInput_Target_Volumes != null && xInput_Target_Volumes != '') && (xTotal_Actual_volume_N != null && xTotal_Actual_volume_N != '') &&
+        (xSpend_Nmin1 != null && xSpend_Nmin1 != '') && (xSpend_N != null && xSpend_N != '') &&
+        (xCPI != null && xCPI != '') && (xjanActual_volume_N != null && xjanActual_volume_N != '') &&
+        (xfebActual_volume_N != null && xfebActual_volume_N != '') && (xmarActual_volume_N != null && xmarActual_volume_N != '') &&
+        (xaprActual_volume_N != null && xaprActual_volume_N != '') && (xmayActual_volume_N != null && xmayActual_volume_N != '') &&
+        (xjunActual_volume_N != null && xjunActual_volume_N != '') && (xjulActual_volume_N != null && xjulActual_volume_N != '') &&
+        (xaugActual_volume_N != null && xaugActual_volume_N != '') && (xsepActual_volume_N != null && xsepActual_volume_N != '') &&
+        (xoctActual_volume_N != null && xoctActual_volume_N != '') && (xnovActual_volume_N != null && xnovActual_volume_N != '') &&
+        (xdecActual_volume_N != null && xdecActual_volume_N != '') && (xN_FY_Sec_PRICE_EF != null && xN_FY_Sec_PRICE_EF != '') &&
+        (xN_FY_Sec_VOLUME_EF != null && xN_FY_Sec_VOLUME_EF != '') && (xN_YTD_Sec_PRICE_EF != null && xN_YTD_Sec_PRICE_EF != '') &&
+        (xN_YTD_Sec_VOLUME_EF != null && xN_YTD_Sec_VOLUME_EF != '') && (xYTD_Achieved_PRICE_EF != null && xYTD_Achieved_PRICE_EF != '') &&
+        (xYTD_Achieved_VOLUME_EF != null && xYTD_Achieved_VOLUME_EF != '') && (xYTD_Cost_Avoid_Vs_CPI != null && xYTD_Cost_Avoid_Vs_CPI != '') &&
+        (xFY_Cost_Avoid_Vs_CPI != null && xFY_Cost_Avoid_Vs_CPI != '')) {
+        isFlag = true;
+    }
+    else {
+        isFlag = false;
+    }
+
+    return isFlag;
 }
 
 function OnInitiativeTypeChanged(s, e) {
@@ -1165,7 +1224,9 @@ function ShowEditWindow(id) {
 
                 txt_YTD_Achieved_PRICE_EF.SetValue(obj.YTD_Achieved_PRICE_EF);
                 txt_YTD_Achieved_VOLUME_EF.SetValue(obj.YTD_Achieved_VOLUME_EF);
-                $('#txt_YTD_achieved').val(parseFloat(obj.YTD_Achieved_PRICE_EF) + parseFloat(obj.YTD_Achieved_VOLUME_EF));
+
+                //$('#txt_YTD_achieved').val(parseFloat(obj.YTD_Achieved_PRICE_EF) + parseFloat(obj.YTD_Achieved_VOLUME_EF));
+                txt_YTD_achieved.SetValue(parseFloat(obj.YTD_Achieved_PRICE_EF) + parseFloat(obj.YTD_Achieved_VOLUME_EF));
 
                 txt_YTD_Cost_Avoid_Vs_CPI.SetValue(obj.YTD_Cost_Avoid_Vs_CPI);
                 txt_FY_Cost_Avoid_Vs_CPI.SetValue(obj.FY_Cost_Avoid_Vs_CPI);
@@ -1262,7 +1323,7 @@ function ShowEditWindow(id) {
             var formstatus; var initstatusvalue;
             formstatus = $("#FormStatus").val();
             initstatusvalue = GrdInitStatus.GetValue();
-            if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4" ) {
+            if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4") {
                 $("#chkAuto").prop("disabled", true);
                 $(".txTarget").prop("disabled", true); //prevent Agency User to edit the target except pending initiative
                 StartMonth.clientEnabled = false; EndMonth.clientEnabled = false; //prevent Agency User from selecting different Start / End dates (Except for Pending initiative)
@@ -1276,7 +1337,7 @@ function ShowEditWindow(id) {
                 var targetnov = $(".targetnov").val().replaceAll(",", ""); var targetdec = $(".targetdec").val().replaceAll(",", "");
 
 
-                if (targetjan.length>1)
+                if (targetjan.length > 1)
                     $(".targetjan").prop("disabled", false);
                 if (targetfeb.length > 1)
                     $(".targetfeb").prop("disabled", false);
@@ -1422,12 +1483,18 @@ function ShowEditWindow(id) {
             }
 
             if (isProcurement == 1) {
-                $('#_divOptimization').prop('style', 'display:none')
-                $('#_divProcurement').prop('style', 'display:block')
+
+                calculate_Procurement_Field();
+
+                $('#_divOptimization').prop('style', 'display:none');
+                $('#_divProcurement').prop('style', 'display:block');
             }
             else {
-                $('#_divOptimization').prop('style', 'display:block')
-                $('#_divProcurement').prop('style', 'display:none')
+
+                clear_Procurement_fields();
+                clear_Procurement_BackCalcs();
+                $('#_divOptimization').prop('style', 'display:block');
+                $('#_divProcurement').prop('style', 'display:none');
             }
             //ENH153-2 
 
@@ -1769,7 +1836,7 @@ function OnGrdInitCategoryPopupChanged(s, e) {
 function OnCboYearChanged(s, e) {
     var id = s.GetText();//s.GetValue();
     $.post(URLContent('ActiveInitiative/ProjectYear'), { Id: id }, function () {
-         window.location.reload();
+        window.location.reload();
     });
 }
 
@@ -1894,6 +1961,17 @@ function OnStartMonthChanged() {
     var awal = StartMonth.GetValue();
     var dt = new Date(awal.getFullYear(), awal.getMonth() + 11, 1);
     EndMonth.SetMaxDate(dt);
+
+    //ENH153-2 calculations caller
+    calculate_Actual_CPU_Nmin1();
+    calculate_Target_CPU_N();
+    calculate_A_Price_effect();
+    calculate_A_Volume_Effect();
+
+    calculate_ST_Price_effect();
+    calculate_ST_Volume_Effect();
+    calculate_CPI_Effect();
+    //ENH153-2 calculations caller
 }
 
 function OnEndMonthChanged() {
@@ -1987,6 +2065,17 @@ function OnEndMonthChanged() {
     //        }
     //    }
     //}
+
+    //ENH153-2 calculations caller
+    calculate_Actual_CPU_Nmin1();
+    calculate_Target_CPU_N();
+    calculate_A_Price_effect();
+    calculate_A_Volume_Effect();
+
+    calculate_ST_Price_effect();
+    calculate_ST_Volume_Effect();
+    calculate_CPI_Effect();
+    //ENH153-2 calculations caller
 }
 
 function OnInitStatusChanged(s, e) {
@@ -2288,6 +2377,8 @@ function SaveInitiative() {
                 xGrdSubRegion != null && xGrdCluster != null && xGrdRegionalOffice != null && xGrdCostControl != null && xCboConfidential != null &&
                 xGrdInitStatus > 0 && xGrdInitType > 0 && xGrdInitCategory > 0 && xGrdSubCost > 0 && xGrdActionType > 0 &&
                 xGrdSynImpact > 0 && xStartMonth != null && xEndMonth != null
+                &&
+                isAll_Procurement_Mandatory_fields_entered()
             ) {
                 var sum = 0; var x2 = 0;
                 $(".txTarget").each(function () {
@@ -2888,7 +2979,8 @@ function getYtdValue() {
     const savingty = new Array("savingjan", "savingfeb", "savingmar", "savingapr", "savingmay", "savingjun", "savingjul", "savingaug", "savingsep", "savingoct", "savingnov", "savingdec")//, "savingjan2", "savingfeb2", "savingmar2", "savingapr2", "savingmay2", "savingjun2", "savingjul2", "savingaug2", "savingsep2", "savingoct2", "savingnov2", "savingdec2");
     //var d = new Date();
     var d = new Date();
-    var m = d.getMonth();
+    //var m = d.getMonth();
+    var m = projectMonth - 1;
     // debugger;
     //var startmon = ((moment(StartMonth.GetValue()).format("M")));
     var endmon = ((moment(StartMonth.GetValue()).format("M")));
@@ -2908,7 +3000,8 @@ function getYtdValue() {
 
         if (projectYear == startyear) {
 
-            m = 12
+            //m = 12
+            m = projectMonth - 1;
         }
         else {
             tex = "2";
@@ -2941,3 +3034,2158 @@ function getYtdValue() {
 
 
 }
+
+
+
+
+
+
+
+//ENH153-2 calculations
+
+
+function calculate_Procurement_Field()
+{
+    Input_Actuals_Volumes_Nmin1_keyUp();
+    Input_Target_Volumes_keyUp();
+    txt_Spend_Nmin1_KeyUp();
+    calculate_txt_Total_Actual_volume_N();
+}
+
+function Input_Actuals_Volumes_Nmin1_keyUp() {
+    var xInput_Actuals_Volumes_Nmin1 = txt_Input_Actuals_Volumes_Nmin1.GetValue();
+    if (xInput_Actuals_Volumes_Nmin1 != null) {
+        if (xInput_Actuals_Volumes_Nmin1 != '0' && xInput_Actuals_Volumes_Nmin1 != '0.') {
+            var int_xInput_Actuals_Volumes_Nmin1 = parseInt(xInput_Actuals_Volumes_Nmin1);
+            var Actual_volume_Nmin1 = (int_xInput_Actuals_Volumes_Nmin1 / 12);
+
+            Actual_volume_Nmin1 = Actual_volume_Nmin1.toFixed(2);
+
+            $('#Actual_volume_Nmin1_Jan').val(Actual_volume_Nmin1);
+            $('#Actual_volume_Nmin1_Feb').val(Actual_volume_Nmin1);
+            $('#Actual_volume_Nmin1_Mar').val(Actual_volume_Nmin1);
+            $('#Actual_volume_Nmin1_Apr').val(Actual_volume_Nmin1);
+            $('#Actual_volume_Nmin1_May').val(Actual_volume_Nmin1);
+            $('#Actual_volume_Nmin1_Jun').val(Actual_volume_Nmin1);
+            $('#Actual_volume_Nmin1_Jul').val(Actual_volume_Nmin1);
+            $('#Actual_volume_Nmin1_Aug').val(Actual_volume_Nmin1);
+            $('#Actual_volume_Nmin1_Sep').val(Actual_volume_Nmin1);
+            $('#Actual_volume_Nmin1_Oct').val(Actual_volume_Nmin1);
+            $('#Actual_volume_Nmin1_Nov').val(Actual_volume_Nmin1);
+            $('#Actual_volume_Nmin1_Dec').val(Actual_volume_Nmin1);
+
+            //ENH153-2 calculations caller
+            calculate_Actual_CPU_Nmin1();
+            calculate_Target_CPU_N();
+            calculate_A_Price_effect();
+            calculate_A_Volume_Effect();
+
+            calculate_ST_Price_effect();
+            calculate_ST_Volume_Effect();
+            calculate_CPI_Effect();
+            //ENH153-2 calculations caller
+        }
+    }
+}
+
+function Input_Target_Volumes_keyUp() {
+    var xInput_Target_Volumes = txt_Input_Target_Volumes.GetValue();
+    if (xInput_Target_Volumes != null) {
+        if (xInput_Target_Volumes != '0' && xInput_Target_Volumes != '0.') {
+            var int_xInput_Target_Volumes = parseInt(xInput_Target_Volumes);
+            var Target_Volumes = (int_xInput_Target_Volumes / 12);
+
+            Target_Volumes = parseFloat(Target_Volumes).toFixed(_toFixed);
+
+            $('#Target_Volumes_Jan').val(Target_Volumes);
+            $('#Target_Volumes_Feb').val(Target_Volumes);
+            $('#Target_Volumes_Mar').val(Target_Volumes);
+            $('#Target_Volumes_Apr').val(Target_Volumes);
+            $('#Target_Volumes_May').val(Target_Volumes);
+            $('#Target_Volumes_Jun').val(Target_Volumes);
+            $('#Target_Volumes_Jul').val(Target_Volumes);
+            $('#Target_Volumes_Aug').val(Target_Volumes);
+            $('#Target_Volumes_Sep').val(Target_Volumes);
+            $('#Target_Volumes_Oct').val(Target_Volumes);
+            $('#Target_Volumes_Nov').val(Target_Volumes);
+            $('#Target_Volumes_Dec').val(Target_Volumes);
+
+            //ENH153-2 calculations caller
+            calculate_Actual_CPU_Nmin1();
+            calculate_Target_CPU_N();
+            calculate_A_Price_effect();
+            calculate_A_Volume_Effect();
+
+            calculate_ST_Price_effect();
+            calculate_ST_Volume_Effect();
+            calculate_CPI_Effect();
+            //ENH153-2 calculations caller
+        }
+    }
+}
+
+function txt_Spend_Nmin1_KeyUp() {
+    var xSpend_Nmin1 = txt_Spend_Nmin1.GetValue();
+
+    if (xSpend_Nmin1 != null) {
+
+        if (xSpend_Nmin1 != '0' && xSpend_Nmin1 != '0.') {
+            var float_xSpend_Nmin1 = parseFloat(xSpend_Nmin1);
+
+            //ENH153-2 calculations caller
+            calculate_Actual_CPU_Nmin1();
+            calculate_Target_CPU_N();
+            calculate_A_Price_effect();
+            calculate_A_Volume_Effect();
+
+            calculate_ST_Price_effect();
+            calculate_ST_Volume_Effect();
+            calculate_CPI_Effect();
+            //ENH153-2 calculations caller
+        }
+    }
+}
+
+function Actual_volume_N_keyUp() {
+    calculate_Procurement_Field();
+}
+
+function calculate_txt_Total_Actual_volume_N() {
+    if ((txt_janActual_volume_N != null &&
+        txt_febActual_volume_N != null &&
+        txt_marActual_volume_N != null &&
+        txt_aprActual_volume_N != null &&
+        txt_mayActual_volume_N != null &&
+        txt_junActual_volume_N != null &&
+        txt_julActual_volume_N != null &&
+        txt_augActual_volume_N != null &&
+        txt_sepActual_volume_N != null &&
+        txt_octActual_volume_N != null &&
+        txt_novActual_volume_N != null &&
+        txt_decActual_volume_N != null)) {
+
+        var xtxt_Total_Actual_volume_N = (parseFloat(txt_janActual_volume_N.GetValue()) +
+            parseFloat(txt_febActual_volume_N.GetValue()) +
+            parseFloat(txt_marActual_volume_N.GetValue()) +
+            parseFloat(txt_aprActual_volume_N.GetValue()) +
+            parseFloat(txt_mayActual_volume_N.GetValue()) +
+            parseFloat(txt_junActual_volume_N.GetValue()) +
+            parseFloat(txt_julActual_volume_N.GetValue()) +
+            parseFloat(txt_augActual_volume_N.GetValue()) +
+            parseFloat(txt_sepActual_volume_N.GetValue()) +
+            parseFloat(txt_octActual_volume_N.GetValue()) +
+            parseFloat(txt_novActual_volume_N.GetValue()) +
+            parseFloat(txt_decActual_volume_N.GetValue()));
+
+        txt_Total_Actual_volume_N.SetValue(parseFloat(xtxt_Total_Actual_volume_N).toFixed(_toFixed));
+    }
+}
+//POP UP Calcs
+
+function calculate_Actual_CPU_Nmin1() {
+    var xInput_Actuals_Volumes_Nmin1 = txt_Input_Actuals_Volumes_Nmin1.GetValue();
+    var xSpend_Nmin1 = txt_Spend_Nmin1.GetValue();
+
+    if (xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+
+        if ((xInput_Actuals_Volumes_Nmin1 != '0' && xInput_Actuals_Volumes_Nmin1 != '0.') && (xSpend_Nmin1 != '0' && xSpend_Nmin1 != '0.')) {
+            var float_xInput_Actuals_Volumes_Nmin1 = parseFloat(xInput_Actuals_Volumes_Nmin1);
+            var float_xSpend_Nmin1 = parseFloat(xSpend_Nmin1);
+
+            var Actual_CPU_Nmin1 = float_xSpend_Nmin1 / float_xInput_Actuals_Volumes_Nmin1;
+
+            Actual_CPU_Nmin1 = parseFloat(Actual_CPU_Nmin1).toFixed(_toFixed);
+
+            $('#Actual_CPU_Nmin1_Jan').val(Actual_CPU_Nmin1);
+            $('#Actual_CPU_Nmin1_Feb').val(Actual_CPU_Nmin1);
+            $('#Actual_CPU_Nmin1_Mar').val(Actual_CPU_Nmin1);
+            $('#Actual_CPU_Nmin1_Apr').val(Actual_CPU_Nmin1);
+            $('#Actual_CPU_Nmin1_May').val(Actual_CPU_Nmin1);
+            $('#Actual_CPU_Nmin1_Jun').val(Actual_CPU_Nmin1);
+            $('#Actual_CPU_Nmin1_Jul').val(Actual_CPU_Nmin1);
+            $('#Actual_CPU_Nmin1_Aug').val(Actual_CPU_Nmin1);
+            $('#Actual_CPU_Nmin1_Sep').val(Actual_CPU_Nmin1);
+            $('#Actual_CPU_Nmin1_Oct').val(Actual_CPU_Nmin1);
+            $('#Actual_CPU_Nmin1_Nov').val(Actual_CPU_Nmin1);
+            $('#Actual_CPU_Nmin1_Dec').val(Actual_CPU_Nmin1);
+
+        }
+
+    }
+
+    calculate_Actual_CPU_Nmin1_Total();
+}
+
+function calculate_Actual_CPU_Nmin1_Total() {
+    if (($('#Actual_CPU_Nmin1_Jan') != null &&
+        $('#Actual_CPU_Nmin1_Feb') != null &&
+        $('#Actual_CPU_Nmin1_Mar') != null &&
+        $('#Actual_CPU_Nmin1_Apr') != null &&
+        $('#Actual_CPU_Nmin1_May') != null &&
+        $('#Actual_CPU_Nmin1_Jun') != null &&
+        $('#Actual_CPU_Nmin1_Jul') != null &&
+        $('#Actual_CPU_Nmin1_Aug') != null &&
+        $('#Actual_CPU_Nmin1_Sep') != null &&
+        $('#Actual_CPU_Nmin1_Oct') != null &&
+        $('#Actual_CPU_Nmin1_Nov') != null &&
+        $('#Actual_CPU_Nmin1_Dec') != null)) {
+
+        var xActual_CPU_Nmin1_Total = (parseFloat($('#Actual_CPU_Nmin1_Jan').val()) +
+            parseFloat($('#Actual_CPU_Nmin1_Feb').val()) +
+            parseFloat($('#Actual_CPU_Nmin1_Mar').val()) +
+            parseFloat($('#Actual_CPU_Nmin1_Apr').val()) +
+            parseFloat($('#Actual_CPU_Nmin1_May').val()) +
+            parseFloat($('#Actual_CPU_Nmin1_Jun').val()) +
+            parseFloat($('#Actual_CPU_Nmin1_Jul').val()) +
+            parseFloat($('#Actual_CPU_Nmin1_Aug').val()) +
+            parseFloat($('#Actual_CPU_Nmin1_Sep').val()) +
+            parseFloat($('#Actual_CPU_Nmin1_Oct').val()) +
+            parseFloat($('#Actual_CPU_Nmin1_Nov').val()) +
+            parseFloat($('#Actual_CPU_Nmin1_Dec').val()));
+
+        $('#Actual_CPU_Nmin1_Total').val(parseFloat(xActual_CPU_Nmin1_Total / 12).toFixed(2));
+    }
+}
+
+
+function isAll_InputGiven_for_Target_CPU_N() {
+    var is_flag = false;
+
+    var xSpend_N = parseFloat(txt_Spend_N.GetValue());
+    var _year = new Date(StartMonth.GetValue()).getFullYear();
+
+
+    if (xSpend_N != null) {
+        if (xSpend_N != '0.' && xSpend_N != '0' && xSpend_N != '') {
+            is_flag = true;
+        }
+        else {
+            is_flag = false;
+        }
+    }
+    else {
+        is_flag = false;
+    }
+    if (is_flag) {
+        if (_year < 2023) {
+            is_flag = false;
+        }
+        else {
+            is_flag = true;
+        }
+    }
+
+    return is_flag;
+}
+
+function calculate_Target_CPU_N() {
+
+    //if(1st jan of current year<Start month , -- if true -- ActualCPU N-1 jan  , 
+    //-- else -- (('$ SPEND N' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N)) /(13-MONTH(Start month)))/Target  volume N)
+
+    var xSpend_N = parseFloat(txt_Spend_N.GetValue());
+    var _year = new Date(StartMonth.GetValue()).getFullYear();
+
+    //selected start Month - Month
+    var selected_StartMonth = new Date(StartMonth.GetValue()).getMonth() + 1;
+
+    //selected start Month - Year
+    var Start_Month_year = parseInt(new Date(StartMonth.GetValue()).getMonth() + 1 + String(_year));
+
+    var x13_minus_StartMonth = 13 - parseInt(selected_StartMonth);
+
+    if (isAll_InputGiven_for_Target_CPU_N()) {
+
+
+        //Target_CPU_N_Jan
+        var thisMonth_year = parseInt(1 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Jan').val($('#Actual_CPU_Nmin1_Jan').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_Jan = parseFloat($('#Actual_CPU_Nmin1_Jan').val());
+            var xTarget_Volumes_Jan = parseFloat($('#Target_Volumes_Jan').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_Jan * (selected_StartMonth - 1) * xTarget_Volumes_Jan));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_Jan > 0) {
+                formula4 = formula3 / xTarget_Volumes_Jan;
+            }
+
+            $('#Target_CPU_N_Jan').val(formula4.toFixed(_toFixed));
+        }
+
+
+        formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
+        //Target_CPU_N_Feb
+        var thisMonth_year = parseInt(2 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Feb').val($('#Actual_CPU_Nmin1_Feb').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_Feb = parseFloat($('#Actual_CPU_Nmin1_Feb').val());
+            var xTarget_Volumes_Feb = parseFloat($('#Target_Volumes_Feb').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_Feb * (selected_StartMonth - 1) * xTarget_Volumes_Feb));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_Feb > 0) {
+                formula4 = formula3 / xTarget_Volumes_Feb;
+            }
+
+            $('#Target_CPU_N_Feb').val(formula4);
+        }
+
+        formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
+        //Target_CPU_N_Mar
+        var thisMonth_year = parseInt(3 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Mar').val($('#Actual_CPU_Nmin1_Mar').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_Mar = parseFloat($('#Actual_CPU_Nmin1_Mar').val());
+            var xTarget_Volumes_Mar = parseFloat($('#Target_Volumes_Mar').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_Mar * (selected_StartMonth - 1) * xTarget_Volumes_Mar));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_Mar > 0) {
+                formula4 = formula3 / xTarget_Volumes_Mar;
+            }
+
+            $('#Target_CPU_N_Mar').val(formula4);
+        }
+
+        formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
+        //Target_CPU_N_Apr
+        var thisMonth_year = parseInt(4 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Apr').val($('#Actual_CPU_Nmin1_Apr').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_Apr = parseFloat($('#Actual_CPU_Nmin1_Apr').val());
+            var xTarget_Volumes_Apr = parseFloat($('#Target_Volumes_Apr').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_Apr * (selected_StartMonth - 1) * xTarget_Volumes_Apr));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_Apr > 0) {
+                formula4 = formula3 / xTarget_Volumes_Apr;
+            }
+
+            $('#Target_CPU_N_Apr').val(formula4);
+        }
+
+        formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
+        //Target_CPU_N_May
+        var thisMonth_year = parseInt(5 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_May').val($('#Actual_CPU_Nmin1_May').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_May = parseFloat($('#Actual_CPU_Nmin1_May').val());
+            var xTarget_Volumes_May = parseFloat($('#Target_Volumes_May').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_May * (selected_StartMonth - 1) * xTarget_Volumes_May));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_May > 0) {
+                formula4 = formula3 / xTarget_Volumes_May;
+            }
+
+            $('#Target_CPU_N_May').val(formula4);
+        }
+
+        formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
+        //Target_CPU_N_Jun
+        var thisMonth_year = parseInt(6 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Jun').val($('#Actual_CPU_Nmin1_Jun').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_Jun = parseFloat($('#Actual_CPU_Nmin1_Jun').val());
+            var xTarget_Volumes_Jun = parseFloat($('#Target_Volumes_Jun').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_Jun * (selected_StartMonth - 1) * xTarget_Volumes_Jun));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_Jun > 0) {
+                formula4 = formula3 / xTarget_Volumes_Jun;
+            }
+
+            $('#Target_CPU_N_Jun').val(formula4);
+        }
+
+        formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
+        //Target_CPU_N_Jul
+        var thisMonth_year = parseInt(7 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Jul').val($('#Actual_CPU_Nmin1_Jul').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_Jul = parseFloat($('#Actual_CPU_Nmin1_Jul').val());
+            var xTarget_Volumes_Jul = parseFloat($('#Target_Volumes_Jul').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_Jul * (selected_StartMonth - 1) * xTarget_Volumes_Jul));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_Jul > 0) {
+                formula4 = formula3 / xTarget_Volumes_Jul;
+            }
+
+            $('#Target_CPU_N_Jul').val(formula4);
+        }
+
+        formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
+        //Target_CPU_N_Aug
+        var thisMonth_year = parseInt(8 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Aug').val($('#Actual_CPU_Nmin1_Aug').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_Aug = parseFloat($('#Actual_CPU_Nmin1_Aug').val());
+            var xTarget_Volumes_Aug = parseFloat($('#Target_Volumes_Aug').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_Aug * (selected_StartMonth - 1) * xTarget_Volumes_Aug));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_Aug > 0) {
+                formula4 = formula3 / xTarget_Volumes_Aug;
+            }
+
+            $('#Target_CPU_N_Aug').val(formula4);
+        }
+
+        formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
+        //Target_CPU_N_Sep
+        var thisMonth_year = parseInt(9 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Sep').val($('#Actual_CPU_Nmin1_Sep').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_Sep = parseFloat($('#Actual_CPU_Nmin1_Sep').val());
+            var xTarget_Volumes_Sep = parseFloat($('#Target_Volumes_Sep').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_Sep * (selected_StartMonth - 1) * xTarget_Volumes_Sep));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_Sep > 0) {
+                formula4 = formula3 / xTarget_Volumes_Sep;
+            }
+
+            $('#Target_CPU_N_Sep').val(formula4);
+        }
+
+        formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
+        //Target_CPU_N_Oct
+        var thisMonth_year = parseInt(10 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Oct').val($('#Actual_CPU_Nmin1_Oct').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_Oct = parseFloat($('#Actual_CPU_Nmin1_Oct').val());
+            var xTarget_Volumes_Oct = parseFloat($('#Target_Volumes_Oct').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_Oct * (selected_StartMonth - 1) * xTarget_Volumes_Oct));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_Oct > 0) {
+                formula4 = formula3 / xTarget_Volumes_Oct;
+            }
+
+            $('#Target_CPU_N_Oct').val(formula4);
+        }
+
+        formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
+        //Target_CPU_N_Nov
+        var thisMonth_year = parseInt(11 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Nov').val($('#Actual_CPU_Nmin1_Nov').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_Nov = parseFloat($('#Actual_CPU_Nmin1_Nov').val());
+            var xTarget_Volumes_Nov = parseFloat($('#Target_Volumes_Nov').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_Nov * (selected_StartMonth - 1) * xTarget_Volumes_Nov));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_Nov > 0) {
+                formula4 = formula3 / xTarget_Volumes_Nov;
+            }
+
+            $('#Target_CPU_N_Nov').val(formula4);
+        }
+
+        formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
+        //Target_CPU_N_Dec
+        var thisMonth_year = parseInt(12 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Dec').val($('#Actual_CPU_Nmin1_Dec').val());
+        }
+        else {
+
+            var xActual_CPU_Nmin1_Dec = parseFloat($('#Actual_CPU_Nmin1_Dec').val());
+            var xTarget_Volumes_Dec = parseFloat($('#Target_Volumes_Dec').val());
+
+            //1st formula '$ SPEND N - 1' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N
+            var formula1 = parseFloat(xSpend_N - (xActual_CPU_Nmin1_Dec * (selected_StartMonth - 1) * xTarget_Volumes_Dec));
+
+            //2nd formula (13-MONTH($L$9)) i.e. (13-MONTH(Start month))
+            var formula2 = parseFloat(x13_minus_StartMonth);
+
+            //3rd formula 3 = Formula 1 / Formula 2
+            var formula3 = 0;
+            if (x13_minus_StartMonth > 0) {
+                formula3 = formula1 / formula2;
+            }
+
+            //Formula 4 = Formula 3 / Target  volume N
+            var formula4 = 0;
+            if (xTarget_Volumes_Dec > 0) {
+                formula4 = formula3 / xTarget_Volumes_Dec;
+            }
+
+            $('#Target_CPU_N_Dec').val(formula4);
+        }
+    }
+
+    calculate_Target_CPU_N_Total();
+}
+
+function calculate_Target_CPU_N_Total() {
+
+    if (($('#Target_CPU_N_Jan') != null &&
+        $('#Target_CPU_N_Feb') != null &&
+        $('#Target_CPU_N_Mar') != null &&
+        $('#Target_CPU_N_Apr') != null &&
+        $('#Target_CPU_N_May') != null &&
+        $('#Target_CPU_N_Jun') != null &&
+        $('#Target_CPU_N_Jul') != null &&
+        $('#Target_CPU_N_Aug') != null &&
+        $('#Target_CPU_N_Sep') != null &&
+        $('#Target_CPU_N_Oct') != null &&
+        $('#Target_CPU_N_Nov') != null &&
+        $('#Target_CPU_N_Dec') != null)) {
+        var xTarget_CPU_N_Total = (parseFloat($('#Target_CPU_N_Jan').val()) +
+            parseFloat($('#Target_CPU_N_Feb').val()) +
+            parseFloat($('#Target_CPU_N_Mar').val()) +
+            parseFloat($('#Target_CPU_N_Apr').val()) +
+            parseFloat($('#Target_CPU_N_May').val()) +
+            parseFloat($('#Target_CPU_N_Jun').val()) +
+            parseFloat($('#Target_CPU_N_Jul').val()) +
+            parseFloat($('#Target_CPU_N_Aug').val()) +
+            parseFloat($('#Target_CPU_N_Sep').val()) +
+            parseFloat($('#Target_CPU_N_Oct').val()) +
+            parseFloat($('#Target_CPU_N_Nov').val()) +
+            parseFloat($('#Target_CPU_N_Dec').val()));
+
+        $('#Target_CPU_N_Total').val(parseFloat((xTarget_CPU_N_Total) / 12).toFixed(2));
+
+    }
+}
+
+
+//Acheivement START
+
+function isAll_InputGiven_for_A_Price_effect() {
+    var isFlag = false;
+
+    var _SYear = new Date(StartMonth.GetValue()).getFullYear();
+    var _EYear = new Date(EndMonth.GetValue()).getFullYear();
+
+    if (_SYear < 2023) {
+        isFlag = false;
+    }
+    else {
+        isFlag = true;
+    }
+
+    if (isFlag) {
+        if (_EYear < 2023) {
+            isFlag = false;
+        }
+        else {
+            isFlag = true;
+        }
+    }
+
+    return isFlag
+}
+
+function calculate_A_Price_effect() {
+    //=+IF(OR(C15<$L$9,C15>$L$10),0,(((C31-C30)*C18)))
+    //if(1st jan of current year<Start month OR 1st jan of current year > End Month, -- if true -- 0 ,
+    // -- else -- (((Target CPU N -Actual CPU N-1)* Actual volume N ))
+    if (isAll_InputGiven_for_A_Price_effect()) {
+
+        var _SYear = new Date(StartMonth.GetValue()).getFullYear();
+        //selected start Month - Month
+        var selected_StartMonth = new Date(StartMonth.GetValue()).getMonth() + 1;
+        //selected start Month & Year
+        var Start_Month_year = parseInt(new Date(StartMonth.GetValue()).getMonth() + 1 + String(_SYear));
+
+
+        var _EYear = new Date(EndMonth.GetValue()).getFullYear();
+        //selected End Month - Month
+        var selected_EndMonth = new Date(EndMonth.GetValue()).getMonth() + 1;
+        //selected Start Month & Year
+        var End_Month_year = parseInt(new Date(EndMonth.GetValue()).getMonth() + 1 + String(_EYear));
+
+        //A_Price_effect_Jan
+        var monthIndex = 1;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_Jan').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xjan_Target_CPU_N = parseFloat($('#Target_CPU_N_Jan').val());
+            var xjan_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jan').val());
+            var xjanActual_volume_N = parseFloat(txt_janActual_volume_N.GetValue());
+
+            var formula1 = (((xjan_Target_CPU_N - xjan_Actual_CPU_Nmin1) * xjanActual_volume_N));
+
+            $('#A_Price_effect_Jan').val(formula1);
+        }
+
+        //A_Price_effect_Feb
+        var monthIndex = 2;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_Feb').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xfeb_Target_CPU_N = parseFloat($('#Target_CPU_N_Feb').val());
+            var xfeb_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Feb').val());
+            var xfebActual_volume_N = parseFloat(txt_febActual_volume_N.GetValue());
+
+            var formula2 = (((xfeb_Target_CPU_N - xfeb_Actual_CPU_Nmin1) * xfebActual_volume_N));
+
+            $('#A_Price_effect_Feb').val(formula2);
+        }
+        //A_Price_effect_Mar
+        var monthIndex = 3;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_Mar').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xmarch_Target_CPU_N = parseFloat($('#Target_CPU_N_Mar').val());
+            var xmarch_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Mar').val());
+            var xmarActual_volume_N = parseFloat(txt_marActual_volume_N.GetValue());
+
+            var formula3 = (((xmarch_Target_CPU_N - xmarch_Actual_CPU_Nmin1) * xmarActual_volume_N));
+
+            $('#A_Price_effect_Mar').val(formula3);
+        }
+        //A_Price_effect_Apr
+        var monthIndex = 4;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_Apr').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xapr_Target_CPU_N = parseFloat($('#Target_CPU_N_Apr').val());
+            var xapr_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Apr').val());
+            var xaprActual_volume_N = parseFloat(txt_aprActual_volume_N.GetValue());
+
+            var formula4 = (((xapr_Target_CPU_N - xapr_Actual_CPU_Nmin1) * xaprActual_volume_N));
+
+            $('#A_Price_effect_Apr').val(formula4);
+        }
+        //A_Price_effect_May
+        var monthIndex = 5;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_May').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xmay_Target_CPU_N = parseFloat($('#Target_CPU_N_May').val());
+            var xmay_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_May').val());
+            var xmayActual_volume_N = parseFloat(txt_mayActual_volume_N.GetValue());
+
+            var formula5 = (((xmay_Target_CPU_N - xmay_Actual_CPU_Nmin1) * xmayActual_volume_N));
+
+            $('#A_Price_effect_May').val(formula5);
+        }
+        //A_Price_effect_Jun
+        var monthIndex = 6;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_Jun').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xjun_Target_CPU_N = parseFloat($('#Target_CPU_N_Jun').val());
+            var xjun_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jun').val());
+            var xjunActual_volume_N = parseFloat(txt_junActual_volume_N.GetValue());
+
+            var formula6 = (((xjun_Target_CPU_N - xjun_Actual_CPU_Nmin1) * xjunActual_volume_N));
+
+            $('#A_Price_effect_Jun').val(formula6);
+        }
+        //A_Price_effect_Jul
+        var monthIndex = 7;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_Jul').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xjul_Target_CPU_N = parseFloat($('#Target_CPU_N_Jul').val());
+            var xjul_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jul').val());
+            var xjulActual_volume_N = parseFloat(txt_julActual_volume_N.GetValue());
+
+            var formula7 = (((xjul_Target_CPU_N - xjul_Actual_CPU_Nmin1) * xjulActual_volume_N));
+
+            $('#A_Price_effect_Jul').val(formula7);
+        }
+        //A_Price_effect_Aug
+        var monthIndex = 8;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_Aug').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xaug_Target_CPU_N = parseFloat($('#Target_CPU_N_Aug').val());
+            var xaug_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Aug').val());
+            var xaugActual_volume_N = parseFloat(txt_augActual_volume_N.GetValue());
+
+            var formula8 = (((xaug_Target_CPU_N - xaug_Actual_CPU_Nmin1) * xaugActual_volume_N));
+
+            $('#A_Price_effect_Aug').val(formula8);
+        }
+        //A_Price_effect_Sep
+        var monthIndex = 9;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_Sep').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xsep_Target_CPU_N = parseFloat($('#Target_CPU_N_Sep').val());
+            var xsep_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Sep').val());
+            var xsepActual_volume_N = parseFloat(txt_sepActual_volume_N.GetValue());
+
+            var formula9 = (((xsep_Target_CPU_N - xsep_Actual_CPU_Nmin1) * xsepActual_volume_N));
+
+            $('#A_Price_effect_Sep').val(formula9);
+        }
+        //A_Price_effect_Oct
+        var monthIndex = 10;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_Oct').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xoct_Target_CPU_N = parseFloat($('#Target_CPU_N_Oct').val());
+            var xoct_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Oct').val());
+            var xoctActual_volume_N = parseFloat(txt_octActual_volume_N.GetValue());
+
+            var formula10 = (((xoct_Target_CPU_N - xoct_Actual_CPU_Nmin1) * xoctActual_volume_N));
+
+            $('#A_Price_effect_Oct').val(formula10);
+        }
+        //A_Price_effect_Nov
+        var monthIndex = 11;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_Nov').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xnov_Target_CPU_N = parseFloat($('#Target_CPU_N_Nov').val());
+            var xnov_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Nov').val());
+            var xnovActual_volume_N = parseFloat(txt_novActual_volume_N.GetValue());
+
+            var formula11 = (((xnov_Target_CPU_N - xnov_Actual_CPU_Nmin1) * xnovActual_volume_N));
+
+            $('#A_Price_effect_Nov').val(formula11);
+        }
+        //A_Price_effect_Dec
+        var monthIndex = 12;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#A_Price_effect_Dec').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xdec_Target_CPU_N = parseFloat($('#Target_CPU_N_Dec').val());
+            var xdec_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Dec').val());
+            var xdecActual_volume_N = parseFloat(txt_decActual_volume_N.GetValue());
+
+            var formula12 = (((xdec_Target_CPU_N - xdec_Actual_CPU_Nmin1) * xdecActual_volume_N));
+
+            $('#A_Price_effect_Dec').val(formula12);
+        }
+
+    }
+
+    calculate_A_Price_effect_Total();
+}
+
+function calculate_A_Price_effect_Total() {
+    if (($('#A_Price_effect_Jan') != null &&
+        $('#A_Price_effect_Feb') != null &&
+        $('#A_Price_effect_Mar') != null &&
+        $('#A_Price_effect_Apr') != null &&
+        $('#A_Price_effect_May') != null &&
+        $('#A_Price_effect_Jun') != null &&
+        $('#A_Price_effect_Jul') != null &&
+        $('#A_Price_effect_Aug') != null &&
+        $('#A_Price_effect_Sep') != null &&
+        $('#A_Price_effect_Oct') != null &&
+        $('#A_Price_effect_Nov') != null &&
+        $('#A_Price_effect_Dec') != null)) {
+        var xA_Price_effect_Total = (parseFloat($('#A_Price_effect_Jan').val()) +
+            parseFloat($('#A_Price_effect_Feb').val()) +
+            parseFloat($('#A_Price_effect_Mar').val()) +
+            parseFloat($('#A_Price_effect_Apr').val()) +
+            parseFloat($('#A_Price_effect_May').val()) +
+            parseFloat($('#A_Price_effect_Jun').val()) +
+            parseFloat($('#A_Price_effect_Jul').val()) +
+            parseFloat($('#A_Price_effect_Aug').val()) +
+            parseFloat($('#A_Price_effect_Sep').val()) +
+            parseFloat($('#A_Price_effect_Oct').val()) +
+            parseFloat($('#A_Price_effect_Nov').val()) +
+            parseFloat($('#A_Price_effect_Dec').val()));
+
+        $('#A_Price_effect_Total').val(parseFloat(xA_Price_effect_Total).toFixed(2));
+
+        calculate_Achievement();
+        calculate_txt_YTD_Achieved_PRICE_EF();
+    }
+}
+
+
+function calculate_A_Volume_Effect() {
+    //A_Volume_Effect_Jan
+    var xjanActual_volume_N = txt_janActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_Jan = $('#Actual_volume_Nmin1_Jan').val();
+    var xjan_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jan').val());
+
+    if (xjanActual_volume_N != null && xActual_volume_Nmin1_Jan != null && xjan_Actual_CPU_Nmin1 != null) {
+        var formula1 = (xjanActual_volume_N - xActual_volume_Nmin1_Jan) * xjan_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_Jan').val(formula1);
+    }
+
+    //A_Volume_Effect_Feb
+    var xfebActual_volume_N = txt_febActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_Feb = $('#Actual_volume_Nmin1_Feb').val();
+    var xfeb_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Feb').val());
+
+    if (xfebActual_volume_N != null && xActual_volume_Nmin1_Feb != null && xfeb_Actual_CPU_Nmin1 != null) {
+        var formula2 = (xfebActual_volume_N - xActual_volume_Nmin1_Feb) * xfeb_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_Feb').val(formula2);
+    }
+
+    //A_Volume_Effect_Mar
+    var xmarActual_volume_N = txt_marActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_Mar = $('#Actual_volume_Nmin1_Mar').val();
+    var xmarch_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Mar').val());
+
+    if (xmarActual_volume_N != null && xActual_volume_Nmin1_Mar != null && xmarch_Actual_CPU_Nmin1 != null) {
+        var formula3 = (xmarActual_volume_N - xActual_volume_Nmin1_Mar) * xmarch_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_Mar').val(formula3);
+    }
+
+    //A_Volume_Effect_Apr
+    var xaprActual_volume_N = txt_aprActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_Apr = $('#Actual_volume_Nmin1_Apr').val();
+    var xapr_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Apr').val());
+
+    if (xaprActual_volume_N != null && xActual_volume_Nmin1_Apr != null && xapr_Actual_CPU_Nmin1 != null) {
+        var formula4 = (xaprActual_volume_N - xActual_volume_Nmin1_Apr) * xapr_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_Apr').val(formula4);
+    }
+    //A_Volume_Effect_May
+    var xmayActual_volume_N = txt_mayActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_May = $('#Actual_volume_Nmin1_May').val();
+    var xmay_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_May').val());
+
+    if (xmayActual_volume_N != null && xActual_volume_Nmin1_May != null && xmay_Actual_CPU_Nmin1 != null) {
+        var formula5 = (xmayActual_volume_N - xActual_volume_Nmin1_May) * xmay_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_May').val(formula5);
+    }
+    //A_Volume_Effect_Jun
+    var xjunActual_volume_N = txt_junActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_Jun = $('#Actual_volume_Nmin1_Jun').val();
+    var xjun_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jun').val());
+
+    if (xjunActual_volume_N != null && xActual_volume_Nmin1_Jun != null && xjun_Actual_CPU_Nmin1 != null) {
+        var formula6 = (xjunActual_volume_N - xActual_volume_Nmin1_Jun) * xjun_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_Jun').val(formula6);
+    }
+    //A_Volume_Effect_Jul
+    var xjulActual_volume_N = txt_julActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_Jul = $('#Actual_volume_Nmin1_Jul').val();
+    var xjul_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jul').val());
+
+    if (xjulActual_volume_N != null && xActual_volume_Nmin1_Jul != null && xjul_Actual_CPU_Nmin1 != null) {
+        var formula7 = (xjulActual_volume_N - xActual_volume_Nmin1_Jul) * xjul_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_Jul').val(formula7);
+    }
+    //A_Volume_Effect_Aug
+    var xaugActual_volume_N = txt_augActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_Aug = $('#Actual_volume_Nmin1_Aug').val();
+    var xaug_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Aug').val());
+
+    if (xaugActual_volume_N != null && xActual_volume_Nmin1_Aug != null && xaug_Actual_CPU_Nmin1 != null) {
+        var formula8 = (xaugActual_volume_N - xActual_volume_Nmin1_Aug) * xaug_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_Aug').val(formula8);
+    }
+    //A_Volume_Effect_Sep
+    var xsepActual_volume_N = txt_sepActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_Sep = $('#Actual_volume_Nmin1_Sep').val();
+    var xsep_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Sep').val());
+
+    if (xsepActual_volume_N != null && xActual_volume_Nmin1_Sep != null && xsep_Actual_CPU_Nmin1 != null) {
+        var formula9 = (xsepActual_volume_N - xActual_volume_Nmin1_Sep) * xsep_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_Sep').val(formula9);
+    }
+    //A_Volume_Effect_Oct
+    var xoctActual_volume_N = txt_octActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_Oct = $('#Actual_volume_Nmin1_Oct').val();
+    var xoct_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Oct').val());
+
+    if (xoctActual_volume_N != null && xActual_volume_Nmin1_Oct != null && xoct_Actual_CPU_Nmin1 != null) {
+        var formula10 = (xoctActual_volume_N - xActual_volume_Nmin1_Oct) * xoct_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_Oct').val(formula10);
+    }
+    //A_Volume_Effect_Nov
+    var xnovActual_volume_N = txt_novActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_Nov = $('#Actual_volume_Nmin1_Nov').val();
+    var xnov_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Nov').val());
+
+    if (xnovActual_volume_N != null && xActual_volume_Nmin1_Nov != null && xnov_Actual_CPU_Nmin1 != null) {
+        var formula11 = (xnovActual_volume_N - xActual_volume_Nmin1_Nov) * xnov_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_Nov').val(formula11);
+    }
+    //A_Volume_Effect_Dec
+    var xdecActual_volume_N = txt_decActual_volume_N.GetValue();
+    var xActual_volume_Nmin1_Dec = $('#Actual_volume_Nmin1_Dec').val();
+    var xdec_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Dec').val());
+
+    if (xdecActual_volume_N != null && xActual_volume_Nmin1_Dec != null && xdec_Actual_CPU_Nmin1 != null) {
+        var formula12 = (xdecActual_volume_N - xActual_volume_Nmin1_Dec) * xdec_Actual_CPU_Nmin1
+        $('#A_Volume_Effect_Dec').val(formula12);
+    }
+
+
+    calculate_A_Volume_Effect_Total();
+}
+
+function calculate_A_Volume_Effect_Total() {
+    if (($('#A_Volume_Effect_Jan') != null &&
+        $('#A_Volume_Effect_Feb') != null &&
+        $('#A_Volume_Effect_Mar') != null &&
+        $('#A_Volume_Effect_Apr') != null &&
+        $('#A_Volume_Effect_May') != null &&
+        $('#A_Volume_Effect_Jun') != null &&
+        $('#A_Volume_Effect_Jul') != null &&
+        $('#A_Volume_Effect_Aug') != null &&
+        $('#A_Volume_Effect_Sep') != null &&
+        $('#A_Volume_Effect_Oct') != null &&
+        $('#A_Volume_Effect_Nov') != null &&
+        $('#A_Volume_Effect_Dec') != null)) {
+        var xA_Volume_Effect_Total = (parseFloat($('#A_Volume_Effect_Jan').val()) +
+            parseFloat($('#A_Volume_Effect_Feb').val()) +
+            parseFloat($('#A_Volume_Effect_Mar').val()) +
+            parseFloat($('#A_Volume_Effect_Apr').val()) +
+            parseFloat($('#A_Volume_Effect_May').val()) +
+            parseFloat($('#A_Volume_Effect_Jun').val()) +
+            parseFloat($('#A_Volume_Effect_Jul').val()) +
+            parseFloat($('#A_Volume_Effect_Aug').val()) +
+            parseFloat($('#A_Volume_Effect_Sep').val()) +
+            parseFloat($('#A_Volume_Effect_Oct').val()) +
+            parseFloat($('#A_Volume_Effect_Nov').val()) +
+            parseFloat($('#A_Volume_Effect_Dec').val()));
+
+        $('#A_Volume_Effect_Total').val(parseFloat(xA_Volume_Effect_Total).toFixed(2));
+
+        calculate_Achievement();
+        calculated_txt_YTD_Achieved_VOLUME_EF();
+    }
+}
+
+
+function calculate_Achievement() {
+
+    //Achievement_Jan
+    xA_Price_effect_Jan = $('#A_Price_effect_Jan').val();
+    xA_Volume_Effect_Jan = $('#A_Volume_Effect_Jan').val();
+    if (xA_Price_effect_Jan != null && xA_Volume_Effect_Jan != null) {
+        $('#Achievement_Jan').val((parseFloat(xA_Price_effect_Jan) + parseFloat(xA_Volume_Effect_Jan)).toFixed(_toFixed));
+    }
+    //Achievement_Feb
+    xA_Price_effect_Feb = $('#A_Price_effect_Feb').val();
+    xA_Volume_Effect_Feb = $('#A_Volume_Effect_Feb').val();
+    if (xA_Price_effect_Feb != null && xA_Volume_Effect_Feb != null) {
+        $('#Achievement_Feb').val((parseFloat(xA_Price_effect_Feb) + parseFloat(xA_Volume_Effect_Feb)).toFixed(_toFixed));
+    }
+    //Achievement_Mar
+    xA_Price_effect_Mar = $('#A_Price_effect_Mar').val();
+    xA_Volume_Effect_Mar = $('#A_Volume_Effect_Mar').val();
+    if (xA_Price_effect_Mar != null && xA_Volume_Effect_Mar != null) {
+        $('#Achievement_Mar').val((parseFloat(xA_Price_effect_Mar) + parseFloat(xA_Volume_Effect_Mar)).toFixed(_toFixed));
+    }
+    //Achievement_Apr
+    xA_Price_effect_Apr = $('#A_Price_effect_Apr').val();
+    xA_Volume_Effect_Apr = $('#A_Volume_Effect_Apr').val();
+    if (xA_Price_effect_Apr != null && xA_Volume_Effect_Apr != null) {
+        $('#Achievement_Apr').val((parseFloat(xA_Price_effect_Apr) + parseFloat(xA_Volume_Effect_Apr)).toFixed(_toFixed));
+    }
+    //Achievement_May
+    xA_Price_effect_May = $('#A_Price_effect_May').val();
+    xA_Volume_Effect_May = $('#A_Volume_Effect_May').val();
+    if (xA_Price_effect_May != null && xA_Volume_Effect_May != null) {
+        $('#Achievement_May').val((parseFloat(xA_Price_effect_May) + parseFloat(xA_Volume_Effect_May)).toFixed(_toFixed));
+    }
+    //Achievement_Jun
+    xA_Price_effect_Jun = $('#A_Price_effect_Jun').val();
+    xA_Volume_Effect_Jun = $('#A_Volume_Effect_Jun').val();
+    if (xA_Price_effect_Jun != null && xA_Volume_Effect_Jun != null) {
+        $('#Achievement_Jun').val((parseFloat(xA_Price_effect_Jun) + parseFloat(xA_Volume_Effect_Jun)).toFixed(_toFixed));
+    }
+    //Achievement_Jul
+    xA_Price_effect_Jul = $('#A_Price_effect_Jul').val();
+    xA_Volume_Effect_Jul = $('#A_Volume_Effect_Jul').val();
+    if (xA_Price_effect_Jul != null && xA_Volume_Effect_Jul != null) {
+        $('#Achievement_Jul').val((parseFloat(xA_Price_effect_Jul) + parseFloat(xA_Volume_Effect_Jul)).toFixed(_toFixed));
+    }
+    //Achievement_Aug
+    xA_Price_effect_Aug = $('#A_Price_effect_Aug').val();
+    xA_Volume_Effect_Aug = $('#A_Volume_Effect_Aug').val();
+    if (xA_Price_effect_Aug != null && xA_Volume_Effect_Aug != null) {
+        $('#Achievement_Aug').val((parseFloat(xA_Price_effect_Aug) + parseFloat(xA_Volume_Effect_Aug)).toFixed(_toFixed));
+    }
+    //Achievement_Sep
+    xA_Price_effect_Sep = $('#A_Price_effect_Sep').val();
+    xA_Volume_Effect_Sep = $('#A_Volume_Effect_Sep').val();
+    if (xA_Price_effect_Sep != null && xA_Volume_Effect_Sep != null) {
+        $('#Achievement_Sep').val((parseFloat(xA_Price_effect_Sep) + parseFloat(xA_Volume_Effect_Sep)).toFixed(_toFixed));
+    }
+    //Achievement_Oct
+    xA_Price_effect_Oct = $('#A_Price_effect_Oct').val();
+    xA_Volume_Effect_Oct = $('#A_Volume_Effect_Oct').val();
+    if (xA_Price_effect_Oct != null && xA_Volume_Effect_Oct != null) {
+        $('#Achievement_Oct').val((parseFloat(xA_Price_effect_Oct) + parseFloat(xA_Volume_Effect_Oct)).toFixed(_toFixed));
+    }
+    //Achievement_Nov
+    xA_Price_effect_Nov = $('#A_Price_effect_Nov').val();
+    xA_Volume_Effect_Nov = $('#A_Volume_Effect_Nov').val();
+    if (xA_Price_effect_Nov != null && xA_Volume_Effect_Nov != null) {
+        $('#Achievement_Nov').val((parseFloat(xA_Price_effect_Nov) + parseFloat(xA_Volume_Effect_Nov)).toFixed(_toFixed));
+    }
+    //Achievement_Dec
+    xA_Price_effect_Dec = $('#A_Price_effect_Dec').val();
+    xA_Volume_Effect_Dec = $('#A_Volume_Effect_Dec').val();
+    if (xA_Price_effect_Dec != null && xA_Volume_Effect_Dec != null) {
+        $('#Achievement_Dec').val((parseFloat(xA_Price_effect_Dec) + parseFloat(xA_Volume_Effect_Dec)).toFixed(_toFixed));
+    }
+
+    calculate_Achievement_Total();
+}
+
+function calculate_Achievement_Total() {
+
+    if (($('#Achievement_Jan') != null &&
+        $('#Achievement_Feb') != null &&
+        $('#Achievement_Mar') != null &&
+        $('#Achievement_Apr') != null &&
+        $('#Achievement_May') != null &&
+        $('#Achievement_Jun') != null &&
+        $('#Achievement_Jul') != null &&
+        $('#Achievement_Aug') != null &&
+        $('#Achievement_Sep') != null &&
+        $('#Achievement_Oct') != null &&
+        $('#Achievement_Nov') != null &&
+        $('#Achievement_Dec') != null)) {
+        var xAchievement_Total = (parseFloat($('#Achievement_Jan').val()) +
+            parseFloat($('#Achievement_Feb').val()) +
+            parseFloat($('#Achievement_Mar').val()) +
+            parseFloat($('#Achievement_Apr').val()) +
+            parseFloat($('#Achievement_May').val()) +
+            parseFloat($('#Achievement_Jun').val()) +
+            parseFloat($('#Achievement_Jul').val()) +
+            parseFloat($('#Achievement_Aug').val()) +
+            parseFloat($('#Achievement_Sep').val()) +
+            parseFloat($('#Achievement_Oct').val()) +
+            parseFloat($('#Achievement_Nov').val()) +
+            parseFloat($('#Achievement_Dec').val()));
+
+        $('#Achievement_Total').val(parseFloat(xAchievement_Total).toFixed(_toFixed));
+    }
+}
+
+//Acheivement END
+
+
+//Secured Target START
+function calculate_ST_Price_effect() {
+    //=+IF( OR(C15<$L$9,C15>$L$10 ),0, +(C31-C30)*C17 )
+    if (isAll_InputGiven_for_A_Price_effect()) {
+
+        var _SYear = new Date(StartMonth.GetValue()).getFullYear();
+        //selected start Month - Month
+        var selected_StartMonth = new Date(StartMonth.GetValue()).getMonth() + 1;
+        //selected start Month & Year
+        var Start_Month_year = parseInt(new Date(StartMonth.GetValue()).getMonth() + 1 + String(_SYear));
+
+        var _EYear = new Date(EndMonth.GetValue()).getFullYear();
+        //selected End Month - Month
+        var selected_EndMonth = new Date(EndMonth.GetValue()).getMonth() + 1;
+        //selected Start Month & Year
+        var End_Month_year = parseInt(new Date(EndMonth.GetValue()).getMonth() + 1 + String(_EYear));
+
+        //ST_Price_effect_Jan
+        var monthIndex = 1;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Jan').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xjan_Target_CPU_N = parseFloat($('#Target_CPU_N_Jan').val());
+            var xjan_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jan').val());
+            var xTarget_Volumes_Jan = $('#Target_Volumes_Jan').val();
+
+            var formula1 = (((xjan_Target_CPU_N - xjan_Actual_CPU_Nmin1) * xTarget_Volumes_Jan));
+
+            $('#ST_Price_effect_Jan').val(formula1);
+        }
+
+        //ST_Price_effect_Feb
+        var monthIndex = 2;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Feb').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xfeb_Target_CPU_N = parseFloat($('#Target_CPU_N_Feb').val());
+            var xfeb_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Feb').val());
+            var xTarget_Volumes_Feb = $('#Target_Volumes_Feb').val();
+
+            var formula2 = (((xfeb_Target_CPU_N - xfeb_Actual_CPU_Nmin1) * xTarget_Volumes_Feb));
+
+            $('#ST_Price_effect_Feb').val(formula2);
+        }
+
+        //ST_Price_effect_Mar
+        var monthIndex = 3;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Mar').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xmarch_Target_CPU_N = parseFloat($('#Target_CPU_N_Mar').val());
+            var xmarch_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Mar').val());
+            var xTarget_Volumes_Mar = $('#Target_Volumes_Mar').val();
+
+            var formula3 = (((xmarch_Target_CPU_N - xmarch_Actual_CPU_Nmin1) * xTarget_Volumes_Mar));
+
+            $('#ST_Price_effect_Mar').val(formula3);
+        }
+
+        //ST_Price_effect_Apr
+        var monthIndex = 4;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Apr').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xapr_Target_CPU_N = parseFloat($('#Target_CPU_N_Apr').val());
+            var xapr_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Apr').val());
+            var xTarget_Volumes_Apr = $('#Target_Volumes_Apr').val();
+
+            var formula4 = (((xapr_Target_CPU_N - xapr_Actual_CPU_Nmin1) * xTarget_Volumes_Apr));
+
+            $('#ST_Price_effect_Apr').val(formula4);
+        }
+
+        //ST_Price_effect_May
+        var monthIndex = 5;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_May').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xmay_Target_CPU_N = parseFloat($('#Target_CPU_N_May').val());
+            var xmay_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_May').val());
+            var xTarget_Volumes_May = $('#Target_Volumes_May').val();
+
+            var formula5 = (((xmay_Target_CPU_N - xmay_Actual_CPU_Nmin1) * xTarget_Volumes_May));
+
+            $('#ST_Price_effect_May').val(formula5);
+        }
+
+        //ST_Price_effect_Jun
+        var monthIndex = 6;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Jun').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xjun_Target_CPU_N = parseFloat($('#Target_CPU_N_Jun').val());
+            var xjun_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jun').val());
+            var xTarget_Volumes_Jun = $('#Target_Volumes_Jun').val();
+
+            var formula6 = (((xjun_Target_CPU_N - xjun_Actual_CPU_Nmin1) * xTarget_Volumes_Jun));
+
+            $('#ST_Price_effect_Jun').val(formula6);
+        }
+
+        //ST_Price_effect_Jul
+        var monthIndex = 7;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Jul').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xjul_Target_CPU_N = parseFloat($('#Target_CPU_N_Jul').val());
+            var xjul_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jul').val());
+            var xTarget_Volumes_Jul = $('#Target_Volumes_Jul').val();
+
+            var formula7 = (((xjul_Target_CPU_N - xjul_Actual_CPU_Nmin1) * xTarget_Volumes_Jul));
+
+            $('#ST_Price_effect_Jul').val(formula7);
+        }
+
+        //ST_Price_effect_Aug
+        var monthIndex = 8;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Aug').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xaug_Target_CPU_N = parseFloat($('#Target_CPU_N_Aug').val());
+            var xaug_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Aug').val());
+            var xTarget_Volumes_Aug = $('#Target_Volumes_Aug').val();
+
+            var formula8 = (((xaug_Target_CPU_N - xaug_Actual_CPU_Nmin1) * xTarget_Volumes_Aug));
+
+            $('#ST_Price_effect_Aug').val(formula8);
+        }
+
+        //ST_Price_effect_Sep
+        var monthIndex = 9;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Sep').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xsep_Target_CPU_N = parseFloat($('#Target_CPU_N_Sep').val());
+            var xsep_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Sep').val());
+            var xTarget_Volumes_Sep = $('#Target_Volumes_Sep').val();
+
+            var formula9 = (((xsep_Target_CPU_N - xsep_Actual_CPU_Nmin1) * xTarget_Volumes_Sep));
+
+            $('#ST_Price_effect_Sep').val(formula9);
+        }
+
+        //ST_Price_effect_Oct
+        var monthIndex = 10;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Oct').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xoct_Target_CPU_N = parseFloat($('#Target_CPU_N_Oct').val());
+            var xoct_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Oct').val());
+            var xTarget_Volumes_Oct = $('#Target_Volumes_Oct').val();
+
+            var formula10 = (((xoct_Target_CPU_N - xoct_Actual_CPU_Nmin1) * xTarget_Volumes_Oct));
+
+            $('#ST_Price_effect_Oct').val(formula10);
+        }
+
+        //ST_Price_effect_Nov
+        var monthIndex = 11;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Nov').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xnov_Target_CPU_N = parseFloat($('#Target_CPU_N_Nov').val());
+            var xnov_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Nov').val());
+            var xTarget_Volumes_Nov = $('#Target_Volumes_Nov').val();
+
+            var formula11 = (((xnov_Target_CPU_N - xnov_Actual_CPU_Nmin1) * xTarget_Volumes_Nov));
+
+            $('#ST_Price_effect_Nov').val(formula11);
+        }
+
+        //ST_Price_effect_Dec
+        var monthIndex = 12;
+        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Dec').val(0);
+        }
+        else {
+            //(((Target CPU N - Actual CPU N - 1)* Actual volume N ))
+            var xdec_Target_CPU_N = parseFloat($('#Target_CPU_N_Dec').val());
+            var xdec_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Dec').val());
+            var xTarget_Volumes_Dec = $('#Target_Volumes_Dec').val();
+
+            var formula12 = (((xdec_Target_CPU_N - xdec_Actual_CPU_Nmin1) * xTarget_Volumes_Dec));
+
+            $('#ST_Price_effect_Dec').val(formula12);
+        }
+
+    }
+
+    calculate_ST_Price_effect_Total();
+}
+
+function calculate_ST_Price_effect_Total() {
+    if (($('#ST_Price_effect_Jan') != null &&
+        $('#ST_Price_effect_Feb') != null &&
+        $('#ST_Price_effect_Mar') != null &&
+        $('#ST_Price_effect_Apr') != null &&
+        $('#ST_Price_effect_May') != null &&
+        $('#ST_Price_effect_Jun') != null &&
+        $('#ST_Price_effect_Jul') != null &&
+        $('#ST_Price_effect_Aug') != null &&
+        $('#ST_Price_effect_Sep') != null &&
+        $('#ST_Price_effect_Oct') != null &&
+        $('#ST_Price_effect_Nov') != null &&
+        $('#ST_Price_effect_Dec') != null)) {
+        var xST_Price_effect_Total = (parseFloat($('#ST_Price_effect_Jan').val()) +
+            parseFloat($('#ST_Price_effect_Feb').val()) +
+            parseFloat($('#ST_Price_effect_Mar').val()) +
+            parseFloat($('#ST_Price_effect_Apr').val()) +
+            parseFloat($('#ST_Price_effect_May').val()) +
+            parseFloat($('#ST_Price_effect_Jun').val()) +
+            parseFloat($('#ST_Price_effect_Jul').val()) +
+            parseFloat($('#ST_Price_effect_Aug').val()) +
+            parseFloat($('#ST_Price_effect_Sep').val()) +
+            parseFloat($('#ST_Price_effect_Oct').val()) +
+            parseFloat($('#ST_Price_effect_Nov').val()) +
+            parseFloat($('#ST_Price_effect_Dec').val()));
+
+        $('#ST_Price_effect_Total').val(parseFloat(xST_Price_effect_Total).toFixed(2));
+
+        calculate_txt_N_YTD_Sec_PRICE_EF();
+        calculate_FY_Secured_Target();
+        calculate_txt_N_FY_Sec_PRICE_EF();
+    }
+}
+
+
+function calculate_ST_Volume_Effect() {
+    //ST_Volume_Effect_Jan
+    var xTarget_Volumes_Jan = $('#Target_Volumes_Jan').val();
+    var xActual_volume_Nmin1_Jan = $('#Actual_volume_Nmin1_Jan').val();
+    var xjan_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jan').val());
+
+    if (xTarget_Volumes_Jan != null && xActual_volume_Nmin1_Jan != null && xjan_Actual_CPU_Nmin1 != null) {
+        var formula1 = (xTarget_Volumes_Jan - xActual_volume_Nmin1_Jan) * xjan_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_Jan').val(formula1);
+    }
+    //ST_Volume_Effect_Feb
+    var xTarget_Volumes_Feb = $('#Target_Volumes_Feb').val();
+    var xActual_volume_Nmin1_Feb = $('#Actual_volume_Nmin1_Feb').val();
+    var xfeb_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Feb').val());
+
+    if (xTarget_Volumes_Feb != null && xActual_volume_Nmin1_Feb != null && xfeb_Actual_CPU_Nmin1 != null) {
+        var formula2 = (xTarget_Volumes_Feb - xActual_volume_Nmin1_Feb) * xfeb_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_Feb').val(formula2);
+    }
+    //ST_Volume_Effect_Mar
+    var xTarget_Volumes_Mar = $('#Target_Volumes_Mar').val();
+    var xActual_volume_Nmin1_Mar = $('#Actual_volume_Nmin1_Mar').val();
+    var xmarch_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Mar').val());
+
+    if (xTarget_Volumes_Mar != null && xActual_volume_Nmin1_Mar != null && xmarch_Actual_CPU_Nmin1 != null) {
+        var formula3 = (xTarget_Volumes_Mar - xActual_volume_Nmin1_Mar) * xmarch_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_Mar').val(formula3);
+    }
+    //ST_Volume_Effect_Apr
+    var xTarget_Volumes_Apr = $('#Target_Volumes_Apr').val();
+    var xActual_volume_Nmin1_Apr = $('#Actual_volume_Nmin1_Apr').val();
+    var xapr_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Apr').val());
+
+    if (xTarget_Volumes_Apr != null && xActual_volume_Nmin1_Apr != null && xapr_Actual_CPU_Nmin1 != null) {
+        var formula4 = (xTarget_Volumes_Apr - xActual_volume_Nmin1_Apr) * xapr_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_Apr').val(formula4);
+    }
+    //ST_Volume_Effect_May
+    var xTarget_Volumes_May = $('#Target_Volumes_May').val();
+    var xActual_volume_Nmin1_May = $('#Actual_volume_Nmin1_May').val();
+    var xmay_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_May').val());
+
+    if (xTarget_Volumes_May != null && xActual_volume_Nmin1_May != null && xmay_Actual_CPU_Nmin1 != null) {
+        var formula5 = (xTarget_Volumes_May - xActual_volume_Nmin1_May) * xmay_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_May').val(formula5);
+    }
+    //ST_Volume_Effect_Jun
+    var xTarget_Volumes_Jun = $('#Target_Volumes_Jun').val();
+    var xActual_volume_Nmin1_Jun = $('#Actual_volume_Nmin1_Jun').val();
+    var xjun_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jun').val());
+
+    if (xTarget_Volumes_Jun != null && xActual_volume_Nmin1_Jun != null && xjun_Actual_CPU_Nmin1 != null) {
+        var formula6 = (xTarget_Volumes_Jun - xActual_volume_Nmin1_Jun) * xjun_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_Jun').val(formula6);
+    }
+    //ST_Volume_Effect_Jul
+    var xTarget_Volumes_Jul = $('#Target_Volumes_Jul').val();
+    var xActual_volume_Nmin1_Jul = $('#Actual_volume_Nmin1_Jul').val();
+    var xjul_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jul').val());
+
+    if (xTarget_Volumes_Jul != null && xActual_volume_Nmin1_Jul != null && xjul_Actual_CPU_Nmin1 != null) {
+        var formula7 = (xTarget_Volumes_Jul - xActual_volume_Nmin1_Jul) * xjul_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_Jul').val(formula7);
+    }
+    //ST_Volume_Effect_Aug
+    var xTarget_Volumes_Aug = $('#Target_Volumes_Aug').val();
+    var xActual_volume_Nmin1_Aug = $('#Actual_volume_Nmin1_Aug').val();
+    var xaug_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Aug').val());
+
+    if (xTarget_Volumes_Aug != null && xActual_volume_Nmin1_Aug != null && xaug_Actual_CPU_Nmin1 != null) {
+        var formula8 = (xTarget_Volumes_Aug - xActual_volume_Nmin1_Aug) * xaug_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_Aug').val(formula8);
+    }
+    //ST_Volume_Effect_Sep
+    var xTarget_Volumes_Sep = $('#Target_Volumes_Sep').val();
+    var xActual_volume_Nmin1_Sep = $('#Actual_volume_Nmin1_Sep').val();
+    var xsep_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Sep').val());
+
+    if (xTarget_Volumes_Sep != null && xActual_volume_Nmin1_Sep != null && xsep_Actual_CPU_Nmin1 != null) {
+        var formula9 = (xTarget_Volumes_Sep - xActual_volume_Nmin1_Sep) * xsep_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_Sep').val(formula9);
+    }
+    //ST_Volume_Effect_Oct
+    var xTarget_Volumes_Oct = $('#Target_Volumes_Oct').val();
+    var xActual_volume_Nmin1_Oct = $('#Actual_volume_Nmin1_Oct').val();
+    var xoct_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Oct').val());
+
+    if (xTarget_Volumes_Oct != null && xActual_volume_Nmin1_Oct != null && xoct_Actual_CPU_Nmin1 != null) {
+        var formula10 = (xTarget_Volumes_Oct - xActual_volume_Nmin1_Oct) * xoct_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_Oct').val(formula10);
+    }
+    //ST_Volume_Effect_Nov
+    var xTarget_Volumes_Nov = $('#Target_Volumes_Nov').val();
+    var xActual_volume_Nmin1_Nov = $('#Actual_volume_Nmin1_Nov').val();
+    var xnov_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Nov').val());
+
+    if (xTarget_Volumes_Nov != null && xActual_volume_Nmin1_Nov != null && xnov_Actual_CPU_Nmin1 != null) {
+        var formula11 = (xTarget_Volumes_Nov - xActual_volume_Nmin1_Nov) * xnov_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_Nov').val(formula11);
+    }
+    //ST_Volume_Effect_Dec
+    var xTarget_Volumes_Dec = $('#Target_Volumes_Dec').val();
+    var xActual_volume_Nmin1_Dec = $('#Actual_volume_Nmin1_Dec').val();
+    var xdec_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Dec').val());
+
+    if (xTarget_Volumes_Dec != null && xActual_volume_Nmin1_Dec != null && xdec_Actual_CPU_Nmin1 != null) {
+        var formula12 = (xTarget_Volumes_Dec - xActual_volume_Nmin1_Dec) * xdec_Actual_CPU_Nmin1
+        $('#ST_Volume_Effect_Dec').val(formula12);
+    }
+
+    calculate_ST_Volume_Effect_Total();
+}
+
+function calculate_ST_Volume_Effect_Total() {
+    if (($('#ST_Volume_Effect_Jan') != null &&
+        $('#ST_Volume_Effect_Feb') != null &&
+        $('#ST_Volume_Effect_Mar') != null &&
+        $('#ST_Volume_Effect_Apr') != null &&
+        $('#ST_Volume_Effect_May') != null &&
+        $('#ST_Volume_Effect_Jun') != null &&
+        $('#ST_Volume_Effect_Jul') != null &&
+        $('#ST_Volume_Effect_Aug') != null &&
+        $('#ST_Volume_Effect_Sep') != null &&
+        $('#ST_Volume_Effect_Oct') != null &&
+        $('#ST_Volume_Effect_Nov') != null &&
+        $('#ST_Volume_Effect_Dec') != null)) {
+        var xST_Volume_Effect_Total = (parseFloat($('#ST_Volume_Effect_Jan').val()) +
+            parseFloat($('#ST_Volume_Effect_Feb').val()) +
+            parseFloat($('#ST_Volume_Effect_Mar').val()) +
+            parseFloat($('#ST_Volume_Effect_Apr').val()) +
+            parseFloat($('#ST_Volume_Effect_May').val()) +
+            parseFloat($('#ST_Volume_Effect_Jun').val()) +
+            parseFloat($('#ST_Volume_Effect_Jul').val()) +
+            parseFloat($('#ST_Volume_Effect_Aug').val()) +
+            parseFloat($('#ST_Volume_Effect_Sep').val()) +
+            parseFloat($('#ST_Volume_Effect_Oct').val()) +
+            parseFloat($('#ST_Volume_Effect_Nov').val()) +
+            parseFloat($('#ST_Volume_Effect_Dec').val()));
+
+        $('#ST_Volume_Effect_Total').val(parseFloat(xST_Volume_Effect_Total).toFixed(2));
+
+        calculate_FY_Secured_Target();
+        calculate_txt_N_YTD_Sec_VOLUME_EF();
+        calculate_txt_N_FY_Sec_VOLUME_EF();
+    }
+}
+
+
+function calculate_FY_Secured_Target() {
+
+    //FY_Secured_Target_Jan
+    xST_Price_effect_Jan = $('#ST_Price_effect_Jan').val();
+    xST_Volume_Effect_Jan = $('#ST_Volume_Effect_Jan').val();
+    if (xST_Price_effect_Jan != null && xST_Volume_Effect_Jan != null) {
+        $('#FY_Secured_Target_Jan').val((parseFloat(xST_Price_effect_Jan) + parseFloat(xST_Volume_Effect_Jan)).toFixed(_toFixed));
+    }
+    //FY_Secured_Target_Feb
+    xST_Price_effect_Feb = $('#ST_Price_effect_Feb').val();
+    xST_Volume_Effect_Feb = $('#ST_Volume_Effect_Feb').val();
+    if (xST_Price_effect_Feb != null && xST_Volume_Effect_Feb != null) {
+        $('#FY_Secured_Target_Feb').val((parseFloat(xST_Price_effect_Feb) + parseFloat(xST_Volume_Effect_Feb)).toFixed(_toFixed));
+    }
+    //FY_Secured_Target_Mar
+    xST_Price_effect_Mar = $('#ST_Price_effect_Mar').val();
+    xST_Volume_Effect_Mar = $('#ST_Volume_Effect_Mar').val();
+    if (xST_Price_effect_Mar != null && xST_Volume_Effect_Mar != null) {
+        $('#FY_Secured_Target_Mar').val((parseFloat(xST_Price_effect_Mar) + parseFloat(xST_Volume_Effect_Mar)).toFixed(_toFixed));
+    }
+    //FY_Secured_Target_Apr
+    xST_Price_effect_Apr = $('#ST_Price_effect_Apr').val();
+    xST_Volume_Effect_Apr = $('#ST_Volume_Effect_Apr').val();
+    if (xST_Price_effect_Apr != null && xST_Volume_Effect_Apr != null) {
+        $('#FY_Secured_Target_Apr').val((parseFloat(xST_Price_effect_Apr) + parseFloat(xST_Volume_Effect_Apr)).toFixed(_toFixed));
+    }
+    //FY_Secured_Target_May
+    xST_Price_effect_May = $('#ST_Price_effect_May').val();
+    xST_Volume_Effect_May = $('#ST_Volume_Effect_May').val();
+    if (xST_Price_effect_May != null && xST_Volume_Effect_May != null) {
+        $('#FY_Secured_Target_May').val((parseFloat(xST_Price_effect_May) + parseFloat(xST_Volume_Effect_May)).toFixed(_toFixed));
+    }
+    //FY_Secured_Target_Jun
+    xST_Price_effect_Jun = $('#ST_Price_effect_Jun').val();
+    xST_Volume_Effect_Jun = $('#ST_Volume_Effect_Jun').val();
+    if (xST_Price_effect_Jun != null && xST_Volume_Effect_Jun != null) {
+        $('#FY_Secured_Target_Jun').val((parseFloat(xST_Price_effect_Jun) + parseFloat(xST_Volume_Effect_Jun)).toFixed(_toFixed));
+    }
+    //FY_Secured_Target_Jul
+    xST_Price_effect_Jul = $('#ST_Price_effect_Jul').val();
+    xST_Volume_Effect_Jul = $('#ST_Volume_Effect_Jul').val();
+    if (xST_Price_effect_Jul != null && xST_Volume_Effect_Jul != null) {
+        $('#FY_Secured_Target_Jul').val((parseFloat(xST_Price_effect_Jul) + parseFloat(xST_Volume_Effect_Jul)).toFixed(_toFixed));
+    }
+    //FY_Secured_Target_Aug
+    xST_Price_effect_Aug = $('#ST_Price_effect_Aug').val();
+    xST_Volume_Effect_Aug = $('#ST_Volume_Effect_Aug').val();
+    if (xST_Price_effect_Aug != null && xST_Volume_Effect_Aug != null) {
+        $('#FY_Secured_Target_Aug').val((parseFloat(xST_Price_effect_Aug) + parseFloat(xST_Volume_Effect_Aug)).toFixed(_toFixed));
+    }
+    //FY_Secured_Target_Sep
+    xST_Price_effect_Sep = $('#ST_Price_effect_Sep').val();
+    xST_Volume_Effect_Sep = $('#ST_Volume_Effect_Sep').val();
+    if (xST_Price_effect_Sep != null && xST_Volume_Effect_Sep != null) {
+        $('#FY_Secured_Target_Sep').val((parseFloat(xST_Price_effect_Sep) + parseFloat(xST_Volume_Effect_Sep)).toFixed(_toFixed));
+    }
+    //FY_Secured_Target_Oct
+    xST_Price_effect_Oct = $('#ST_Price_effect_Oct').val();
+    xST_Volume_Effect_Oct = $('#ST_Volume_Effect_Oct').val();
+    if (xST_Price_effect_Oct != null && xST_Volume_Effect_Oct != null) {
+        $('#FY_Secured_Target_Oct').val((parseFloat(xST_Price_effect_Oct) + parseFloat(xST_Volume_Effect_Oct)).toFixed(_toFixed));
+    }
+    //FY_Secured_Target_Nov
+    xST_Price_effect_Nov = $('#ST_Price_effect_Nov').val();
+    xST_Volume_Effect_Nov = $('#ST_Volume_Effect_Nov').val();
+    if (xST_Price_effect_Nov != null && xST_Volume_Effect_Nov != null) {
+        $('#FY_Secured_Target_Nov').val((parseFloat(xST_Price_effect_Nov) + parseFloat(xST_Volume_Effect_Nov)).toFixed(_toFixed));
+    }
+    //FY_Secured_Target_Dec
+    xST_Price_effect_Dec = $('#ST_Price_effect_Dec').val();
+    xST_Volume_Effect_Dec = $('#ST_Volume_Effect_Dec').val();
+    if (xST_Price_effect_Dec != null && xST_Volume_Effect_Dec != null) {
+        $('#FY_Secured_Target_Dec').val((parseFloat(xST_Price_effect_Dec) + parseFloat(xST_Volume_Effect_Dec)).toFixed(_toFixed));
+    }
+
+    calculate_FY_Secured_Target_Total();
+}
+
+function calculate_FY_Secured_Target_Total() {
+
+    if (($('#FY_Secured_Target_Jan') != null &&
+        $('#FY_Secured_Target_Feb') != null &&
+        $('#FY_Secured_Target_Mar') != null &&
+        $('#FY_Secured_Target_Apr') != null &&
+        $('#FY_Secured_Target_May') != null &&
+        $('#FY_Secured_Target_Jun') != null &&
+        $('#FY_Secured_Target_Jul') != null &&
+        $('#FY_Secured_Target_Aug') != null &&
+        $('#FY_Secured_Target_Sep') != null &&
+        $('#FY_Secured_Target_Oct') != null &&
+        $('#FY_Secured_Target_Nov') != null &&
+        $('#FY_Secured_Target_Dec') != null)) {
+        var xFY_Secured_Target_Total = (parseFloat($('#FY_Secured_Target_Jan').val()) +
+            parseFloat($('#FY_Secured_Target_Feb').val()) +
+            parseFloat($('#FY_Secured_Target_Mar').val()) +
+            parseFloat($('#FY_Secured_Target_Apr').val()) +
+            parseFloat($('#FY_Secured_Target_May').val()) +
+            parseFloat($('#FY_Secured_Target_Jun').val()) +
+            parseFloat($('#FY_Secured_Target_Jul').val()) +
+            parseFloat($('#FY_Secured_Target_Aug').val()) +
+            parseFloat($('#FY_Secured_Target_Sep').val()) +
+            parseFloat($('#FY_Secured_Target_Oct').val()) +
+            parseFloat($('#FY_Secured_Target_Nov').val()) +
+            parseFloat($('#FY_Secured_Target_Dec').val()));
+
+        $('#FY_Secured_Target_Total').val(parseFloat(xFY_Secured_Target_Total).toFixed(_toFixed));
+    }
+}
+
+//Secured Target END
+
+function isAll_InputGiven_for_CPI_Effect() {
+
+    var isFlag = false;
+    var xCPI = txt_CPI.GetValue();
+    if (xCPI != null) {
+        if (xCPI == '' || xCPI == '0' || xCPI == '0.') {
+            isFlag = false;
+        }
+        else {
+            isFlag = true;
+        }
+
+    }
+    else {
+        isFlag = false;
+    }
+
+    return isFlag;
+}
+
+function calculate_CPI_Effect() {
+    if (isAll_InputGiven_for_CPI_Effect()) {
+        var xCPI = parseFloat(txt_CPI.GetValue());
+
+        //CPI_Effect_Jan
+        var xjan_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jan').val());
+        var xjan_Target_CPU_N = parseFloat($('#Target_CPU_N_Jan').val());
+        var xjanActual_volume_N = parseFloat(txt_janActual_volume_N.GetValue());
+
+        var formula1_1 = ((xjan_Target_CPU_N - xjan_Actual_CPU_Nmin1) / xjan_Actual_CPU_Nmin1);
+        if (formula1_1 < xCPI) {
+
+            var formula2_1 = ((xjan_Target_CPU_N - (1 + (xCPI / 100)) * xjan_Actual_CPU_Nmin1)) * xjanActual_volume_N;
+            $('#CPI_Effect_Jan').val(parseFloat(formula2_1).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_Jan').val(0);
+        }
+        //CPI_Effect_Feb
+        var xfeb_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Feb').val());
+        var xfeb_Target_CPU_N = parseFloat($('#Target_CPU_N_Feb').val());
+        var xfebActual_volume_N = parseFloat(txt_febActual_volume_N.GetValue());
+
+        var formula1_2 = ((xfeb_Target_CPU_N - xfeb_Actual_CPU_Nmin1) / xfeb_Actual_CPU_Nmin1);
+        if (formula1_2 < xCPI) {
+
+            var formula2_2 = ((xfeb_Target_CPU_N - (1 + (xCPI / 100)) * xfeb_Actual_CPU_Nmin1)) * xfebActual_volume_N;
+            $('#CPI_Effect_Feb').val(parseFloat(formula2_2).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_Feb').val(0);
+        }
+        //CPI_Effect_Mar
+        var xmarch_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Mar').val());
+        var xmarch_Target_CPU_N = parseFloat($('#Target_CPU_N_Mar').val());
+        var xmarActual_volume_N = parseFloat(txt_marActual_volume_N.GetValue());
+
+        var formula1_3 = ((xmarch_Target_CPU_N - xmarch_Actual_CPU_Nmin1) / xmarch_Actual_CPU_Nmin1);
+        if (formula1_3 < xCPI) {
+
+            var formula2_3 = ((xmarch_Target_CPU_N - (1 + (xCPI / 100)) * xmarch_Actual_CPU_Nmin1)) * xmarActual_volume_N;
+            $('#CPI_Effect_Mar').val(parseFloat(formula2_3).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_Mar').val(0);
+        }
+        //CPI_Effect_Apr
+        var xapr_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Apr').val());
+        var xapr_Target_CPU_N = parseFloat($('#Target_CPU_N_Apr').val());
+        var xaprActual_volume_N = parseFloat(txt_aprActual_volume_N.GetValue());
+
+        var formula1_4 = ((xapr_Target_CPU_N - xapr_Actual_CPU_Nmin1) / xapr_Actual_CPU_Nmin1);
+        if (formula1_4 < xCPI) {
+
+            var formula2_4 = ((xapr_Target_CPU_N - (1 + (xCPI / 100)) * xapr_Actual_CPU_Nmin1)) * xaprActual_volume_N;
+            $('#CPI_Effect_Apr').val(parseFloat(formula2_4).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_Apr').val(0);
+        }
+        //CPI_Effect_May
+        var xmay_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_May').val());
+        var xmay_Target_CPU_N = parseFloat($('#Target_CPU_N_May').val());
+        var xmayActual_volume_N = parseFloat(txt_mayActual_volume_N.GetValue());
+
+        var formula1_5 = ((xmay_Target_CPU_N - xmay_Actual_CPU_Nmin1) / xmay_Actual_CPU_Nmin1);
+        if (formula1_5 < xCPI) {
+
+            var formula2_5 = ((xmay_Target_CPU_N - (1 + (xCPI / 100)) * xmay_Actual_CPU_Nmin1)) * xmayActual_volume_N;
+            $('#CPI_Effect_May').val(parseFloat(formula2_5).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_May').val(0);
+        }
+        //CPI_Effect_Jun
+        var xjun_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jun').val());
+        var xjun_Target_CPU_N = parseFloat($('#Target_CPU_N_Jun').val());
+        var xjunActual_volume_N = parseFloat(txt_junActual_volume_N.GetValue());
+
+        var formula1_6 = ((xjun_Target_CPU_N - xjun_Actual_CPU_Nmin1) / xjun_Actual_CPU_Nmin1);
+        if (formula1_6 < xCPI) {
+
+            var formula2_6 = ((xjun_Target_CPU_N - (1 + (xCPI / 100)) * xjun_Actual_CPU_Nmin1)) * xjunActual_volume_N;
+            $('#CPI_Effect_Jun').val(parseFloat(formula2_6).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_Jun').val(0);
+        }
+        //CPI_Effect_Jul
+        var xjul_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jul').val());
+        var xjul_Target_CPU_N = parseFloat($('#Target_CPU_N_Jul').val());
+        var xjulActual_volume_N = parseFloat(txt_julActual_volume_N.GetValue());
+
+        var formula1_7 = ((xjul_Target_CPU_N - xjul_Actual_CPU_Nmin1) / xjul_Actual_CPU_Nmin1);
+        if (formula1_7 < xCPI) {
+
+            var formula2_7 = ((xjul_Target_CPU_N - (1 + (xCPI / 100)) * xjul_Actual_CPU_Nmin1)) * xjulActual_volume_N;
+            $('#CPI_Effect_Jul').val(parseFloat(formula2_7).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_Jul').val(0);
+        }
+        //CPI_Effect_Aug
+        var xaug_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Aug').val());
+        var xaug_Target_CPU_N = parseFloat($('#Target_CPU_N_Aug').val());
+        var xaugActual_volume_N = parseFloat(txt_augActual_volume_N.GetValue());
+
+        var formula1_8 = ((xaug_Target_CPU_N - xaug_Actual_CPU_Nmin1) / xaug_Actual_CPU_Nmin1);
+        if (formula1_8 < xCPI) {
+
+            var formula2_8 = ((xaug_Target_CPU_N - (1 + (xCPI / 100)) * xaug_Actual_CPU_Nmin1)) * xaugActual_volume_N;
+            $('#CPI_Effect_Aug').val(parseFloat(formula2_8).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_Aug').val(0);
+        }
+        //CPI_Effect_Sep
+        var xsep_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Sep').val());
+        var xsep_Target_CPU_N = parseFloat($('#Target_CPU_N_Sep').val());
+        var xsepActual_volume_N = parseFloat(txt_sepActual_volume_N.GetValue());
+
+        var formula1_9 = ((xsep_Target_CPU_N - xsep_Actual_CPU_Nmin1) / xsep_Actual_CPU_Nmin1);
+        if (formula1_9 < xCPI) {
+
+            var formula2_9 = ((xsep_Target_CPU_N - (1 + (xCPI / 100)) * xsep_Actual_CPU_Nmin1)) * xsepActual_volume_N;
+            $('#CPI_Effect_Sep').val(parseFloat(formula2_9).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_Sep').val(0);
+        }
+        //CPI_Effect_Oct
+        var xoct_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Oct').val());
+        var xoct_Target_CPU_N = parseFloat($('#Target_CPU_N_Oct').val());
+        var xoctActual_volume_N = parseFloat(txt_octActual_volume_N.GetValue());
+
+        var formula1_10 = ((xoct_Target_CPU_N - xoct_Actual_CPU_Nmin1) / xoct_Actual_CPU_Nmin1);
+        if (formula1_10 < xCPI) {
+
+            var formula2_10 = ((xoct_Target_CPU_N - (1 + (xCPI / 100)) * xoct_Actual_CPU_Nmin1)) * xoctActual_volume_N;
+            $('#CPI_Effect_Oct').val(parseFloat(formula2_10).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_Oct').val(0);
+        }
+        //CPI_Effect_Nov
+        var xnov_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Nov').val());
+        var xnov_Target_CPU_N = parseFloat($('#Target_CPU_N_Nov').val());
+        var xnovActual_volume_N = parseFloat(txt_novActual_volume_N.GetValue());
+
+        var formula1_11 = ((xnov_Target_CPU_N - xnov_Actual_CPU_Nmin1) / xnov_Actual_CPU_Nmin1);
+        if (formula1_11 < xCPI) {
+
+            var formula2_11 = ((xnov_Target_CPU_N - (1 + (xCPI / 100)) * xnov_Actual_CPU_Nmin1)) * xnovActual_volume_N;
+            $('#CPI_Effect_Nov').val(parseFloat(formula2_11).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_Nov').val(0);
+        }
+        //CPI_Effect_Dec
+        var xdec_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Dec').val());
+        var xdec_Target_CPU_N = parseFloat($('#Target_CPU_N_Dec').val());
+        var xdecActual_volume_N = parseFloat(txt_decActual_volume_N.GetValue());
+
+        var formula1_12 = ((xdec_Target_CPU_N - xdec_Actual_CPU_Nmin1) / xdec_Actual_CPU_Nmin1);
+        if (formula1_12 < xCPI) {
+
+            var formula2_12 = ((xdec_Target_CPU_N - (1 + (xCPI / 100)) * xdec_Actual_CPU_Nmin1)) * xdecActual_volume_N;
+            $('#CPI_Effect_Dec').val(parseFloat(formula2_12).toFixed(_toFixed));
+        }
+        else {
+            $('#CPI_Effect_Dec').val(0);
+        }
+
+    }
+
+    calculate_CPI_Effect_Total();
+}
+
+function calculate_CPI_Effect_Total() {
+    if (($('#CPI_Effect_Jan') != null &&
+        $('#CPI_Effect_Feb') != null &&
+        $('#CPI_Effect_Mar') != null &&
+        $('#CPI_Effect_Apr') != null &&
+        $('#CPI_Effect_May') != null &&
+        $('#CPI_Effect_Jun') != null &&
+        $('#CPI_Effect_Jul') != null &&
+        $('#CPI_Effect_Aug') != null &&
+        $('#CPI_Effect_Sep') != null &&
+        $('#CPI_Effect_Oct') != null &&
+        $('#CPI_Effect_Nov') != null &&
+        $('#CPI_Effect_Dec') != null)) {
+        var xCPI_Effect_Total = (parseFloat($('#CPI_Effect_Jan').val()) +
+            parseFloat($('#CPI_Effect_Feb').val()) +
+            parseFloat($('#CPI_Effect_Mar').val()) +
+            parseFloat($('#CPI_Effect_Apr').val()) +
+            parseFloat($('#CPI_Effect_May').val()) +
+            parseFloat($('#CPI_Effect_Jun').val()) +
+            parseFloat($('#CPI_Effect_Jul').val()) +
+            parseFloat($('#CPI_Effect_Aug').val()) +
+            parseFloat($('#CPI_Effect_Sep').val()) +
+            parseFloat($('#CPI_Effect_Oct').val()) +
+            parseFloat($('#CPI_Effect_Nov').val()) +
+            parseFloat($('#CPI_Effect_Dec').val()));
+
+        $('#CPI_Effect_Total').val(parseFloat(xCPI_Effect_Total).toFixed(2));
+        calculate_txt_YTD_Cost_Avoid_Vs_CPI();
+    }
+}
+
+//POP UP Calcs
+
+
+
+//N FY Secured START
+function calculate_txt_N_FY_Sec_PRICE_EF() {
+    var xST_Price_effect_Total = $('#ST_Price_effect_Total').val();
+    if (xST_Price_effect_Total != null) {
+        txt_N_FY_Sec_PRICE_EF.SetValue(parseFloat(xST_Price_effect_Total).toFixed(_toFixed));
+    }
+
+    calculate_txt_N_FY_Secured();
+}
+
+function calculate_txt_N_FY_Sec_VOLUME_EF() {
+    var xST_Volume_Effect_Total = $('#ST_Volume_Effect_Total').val();
+    if (xST_Volume_Effect_Total != null) {
+        txt_N_FY_Sec_VOLUME_EF.SetValue(parseFloat(xST_Volume_Effect_Total).toFixed(_toFixed));
+    }
+
+    calculate_txt_N_FY_Secured();
+}
+
+function calculate_txt_N_FY_Secured() {
+    var xtxt_N_FY_Sec_PRICE_EF = txt_N_FY_Sec_PRICE_EF.GetValue();
+    var xtxt_N_FY_Sec_VOLUME_EF = txt_N_FY_Sec_VOLUME_EF.GetValue();
+
+    if (xtxt_N_FY_Sec_PRICE_EF != null && xtxt_N_FY_Sec_VOLUME_EF != null) {
+        var xtxt_N_FY_Secured = parseFloat(xtxt_N_FY_Sec_PRICE_EF) + parseFloat(xtxt_N_FY_Sec_VOLUME_EF);
+
+        txt_N_FY_Secured.SetValue(parseFloat(xtxt_N_FY_Secured).toFixed(_toFixed));
+    }
+}
+//N FY Secured END
+
+//Secured Target YTD Calcs START
+function calculate_txt_N_YTD_Sec_PRICE_EF() {
+    const ST_PriceEffect = new Array("ST_Price_effect_Jan", "ST_Price_effect_Feb", "ST_Price_effect_Mar", "ST_Price_effect_Apr", "ST_Price_effect_May", "ST_Price_effect_Jun", "ST_Price_effect_Jul", "ST_Price_effect_Aug", "ST_Price_effect_Sep", "ST_Price_effect_Oct", "ST_Price_effect_Nov", "ST_Price_effect_Dec");
+    var till_Month = projectMonth - 1;
+    var start_month = 0;
+
+    if (start_month != till_Month) {
+        var xN_YTD_Sec_PRICE_EF = 0
+        while (start_month <= till_Month) {
+            xN_YTD_Sec_PRICE_EF = (parseFloat(xN_YTD_Sec_PRICE_EF) + parseFloat($("#" + ST_PriceEffect[start_month]).val()));
+            start_month += 1;
+        }
+
+        txt_N_YTD_Sec_PRICE_EF.SetValue(parseFloat(xN_YTD_Sec_PRICE_EF).toFixed(_toFixed));
+    }
+    else {
+        txt_N_YTD_Sec_PRICE_EF.SetValue(parseFloat($("#" + ST_PriceEffect[start_month]).val()).toFixed(_toFixed));
+    }
+
+    calculate_txt_N_YTD_Secured();
+}
+
+function calculate_txt_N_YTD_Sec_VOLUME_EF() {
+    const ST_VolumeEffect = new Array("ST_Volume_Effect_Jan", "ST_Volume_Effect_Feb", "ST_Volume_Effect_Mar", "ST_Volume_Effect_Apr", "ST_Volume_Effect_May", "ST_Volume_Effect_Jun", "ST_Volume_Effect_Jul", "ST_Volume_Effect_Aug", "ST_Volume_Effect_Sep", "ST_Volume_Effect_Oct", "ST_Volume_Effect_Nov", "ST_Volume_Effect_Dec");
+    var till_Month = projectMonth - 1;
+    var start_month = 0;
+
+
+    if (start_month != till_Month) {
+        var xN_YTD_Sec_VOLUME_EF = 0
+        while (start_month <= till_Month) {
+            xN_YTD_Sec_VOLUME_EF = (parseFloat(xN_YTD_Sec_VOLUME_EF) + parseFloat($("#" + ST_VolumeEffect[start_month]).val()));
+            start_month += 1;
+        }
+
+        txt_N_YTD_Sec_VOLUME_EF.SetValue(parseFloat(xN_YTD_Sec_VOLUME_EF).toFixed(_toFixed));
+    }
+    else {
+        txt_N_YTD_Sec_VOLUME_EF.SetValue(parseFloat($("#" + ST_VolumeEffect[start_month]).val()).toFixed(_toFixed));
+    }
+
+    calculate_txt_N_YTD_Secured();
+}
+
+function calculate_txt_N_YTD_Secured() {
+    var xtxt_N_YTD_Sec_PRICE_EF = txt_N_YTD_Sec_PRICE_EF.GetValue();
+    var xtxt_N_YTD_Sec_VOLUME_EF = txt_N_YTD_Sec_VOLUME_EF.GetValue();
+
+    if (xtxt_N_YTD_Sec_PRICE_EF != null && xtxt_N_YTD_Sec_VOLUME_EF != null) {
+        var xtxt_N_YTD_Secured = parseFloat(xtxt_N_YTD_Sec_PRICE_EF) + parseFloat(xtxt_N_YTD_Sec_VOLUME_EF);
+        txt_N_YTD_Secured.SetValue(xtxt_N_YTD_Secured.toFixed(_toFixed));
+    }
+}
+//Secured Target YTD Calcs END
+
+//Acheivement YTD Calcs STARTS
+function calculate_txt_YTD_Achieved_PRICE_EF() {
+
+    const A_Price_effect = new Array("A_Price_effect_Jan", "A_Price_effect_Feb", "A_Price_effect_Mar", "A_Price_effect_Apr", "A_Price_effect_May", "A_Price_effect_Jun", "A_Price_effect_Jul", "A_Price_effect_Aug", "A_Price_effect_Sep", "A_Price_effect_Oct", "A_Price_effect_Nov", "A_Price_effect_Dec");
+    var till_Month = projectMonth - 1;
+    var start_month = 0;
+
+    if (start_month != till_Month) {
+        var xYTD_Achieved_PRICE_EF = 0
+        while (start_month <= till_Month) {
+            xYTD_Achieved_PRICE_EF = (parseFloat(xYTD_Achieved_PRICE_EF) + parseFloat($("#" + A_Price_effect[start_month]).val()));
+            start_month += 1;
+        }
+
+        txt_YTD_Achieved_PRICE_EF.SetValue(parseFloat(xYTD_Achieved_PRICE_EF).toFixed(_toFixed));
+    }
+    else {
+        txt_YTD_Achieved_PRICE_EF.SetValue(parseFloat($("#" + A_Price_effect[start_month]).val()).toFixed(_toFixed));
+    }
+
+    calculate_txt_YTD_achieved();
+}
+
+function calculated_txt_YTD_Achieved_VOLUME_EF() {
+
+    const A_VOLUME_EF = new Array("A_Volume_Effect_Jan", "A_Volume_Effect_Feb", "A_Volume_Effect_Mar", "A_Volume_Effect_Apr", "A_Volume_Effect_May", "A_Volume_Effect_Jun", "A_Volume_Effect_Jul", "A_Volume_Effect_Aug", "A_Volume_Effect_Sep", "A_Volume_Effect_Oct", "A_Volume_Effect_Nov", "A_Volume_Effect_Dec");
+    var till_Month = projectMonth - 1;
+    var start_month = 0;
+
+    if (start_month != till_Month) {
+        var xYTD_Achieved_VOLUME_EF = 0
+        while (start_month <= till_Month) {
+            xYTD_Achieved_VOLUME_EF = (parseFloat(xYTD_Achieved_VOLUME_EF) + parseFloat($("#" + A_VOLUME_EF[start_month]).val()));
+            start_month += 1;
+        }
+        txt_YTD_Achieved_VOLUME_EF.SetValue(parseFloat(xYTD_Achieved_VOLUME_EF).toFixed(_toFixed));
+    }
+    else {
+        txt_YTD_Achieved_VOLUME_EF.SetValue(parseFloat($("#" + A_VOLUME_EF[start_month]).val()).toFixed(_toFixed));
+    }
+
+    calculate_txt_YTD_achieved();
+}
+
+function calculate_txt_YTD_achieved() {
+    var xtxt_YTD_Achieved_PRICE_EF = txt_YTD_Achieved_PRICE_EF.GetValue();
+    var xtxt_YTD_Achieved_VOLUME_EF = txt_YTD_Achieved_VOLUME_EF.GetValue();
+
+    if (xtxt_YTD_Achieved_PRICE_EF != null && xtxt_YTD_Achieved_VOLUME_EF != null) {
+
+        var xtxt_YTD_achieved = parseFloat(xtxt_YTD_Achieved_PRICE_EF) + parseFloat(xtxt_YTD_Achieved_VOLUME_EF);
+        txt_YTD_achieved.SetValue(xtxt_YTD_achieved.toFixed(_toFixed));
+    }
+}
+//Acheivement YTD Calcs END
+
+
+
+// CPI YTD Calcs START
+
+function calculate_txt_YTD_Cost_Avoid_Vs_CPI() {
+    const Cost_Avoid_Vs_CPI = new Array("CPI_Effect_Jan", "CPI_Effect_Feb", "CPI_Effect_Mar", "CPI_Effect_Apr", "CPI_Effect_May", "CPI_Effect_Jun", "CPI_Effect_Jul", "CPI_Effect_Aug", "CPI_Effect_Sep", "CPI_Effect_Oct", "CPI_Effect_Nov", "CPI_Effect_Dec");
+    var till_Month = projectMonth - 1;
+    var start_month = 0;
+
+    if (start_month != till_Month) {
+        var xYTD_Cost_Avoid_Vs_CPI = 0
+        while (start_month <= till_Month) {
+            xYTD_Cost_Avoid_Vs_CPI = (parseFloat(xYTD_Cost_Avoid_Vs_CPI) + parseFloat($("#" + Cost_Avoid_Vs_CPI[start_month]).val()));
+            start_month += 1;
+        }
+        txt_YTD_Cost_Avoid_Vs_CPI.SetValue(parseFloat(xYTD_Cost_Avoid_Vs_CPI).toFixed(_toFixed));
+    }
+    else {
+        txt_YTD_Cost_Avoid_Vs_CPI.SetValue(parseFloat($("#" + Cost_Avoid_Vs_CPI[start_month]).val()).toFixed(_toFixed));
+    }
+
+    calculate_txt_FY_Cost_Avoid_Vs_CPI();
+}
+
+function calculate_txt_FY_Cost_Avoid_Vs_CPI() {
+    if ($('#CPI_Effect_Total') != null) {
+        txt_FY_Cost_Avoid_Vs_CPI.SetText(parseFloat($('#CPI_Effect_Total').val()).toFixed(_toFixed));
+    }
+}
+// CPI YTD Calcs END
+
+
+
+//ENH153-2 calculations

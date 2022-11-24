@@ -2,6 +2,7 @@
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
     string UploadDirectory = System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"];
     var years_right = profileData.years_right;
+    var projectMonth = profileData.ProjectMonth;
 }
 
 
@@ -617,7 +618,7 @@
     }
 </style>
 
-<script type="text/javascript">var user_type = '@profileData.UserType'; var years_right = '@profileData.years_right'; var projectYear = '@profileData.ProjectYear'; var UrlContent = '@Url.Content("~/")'; var SystemYearNow = '@profileData.ProjectYear'; var UploadDirectory = @Url.Content(System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"]);</script>
+<script type="text/javascript">var _toFixed = '2'; user_type = '@profileData.UserType'; var projectMonth = '@profileData.ProjectMonth'; var years_right = '@profileData.years_right'; var projectYear = '@profileData.ProjectYear'; var UrlContent = '@Url.Content("~/")'; var SystemYearNow = '@profileData.ProjectYear'; var UploadDirectory = @Url.Content(System.Configuration.ConfigurationManager.AppSettings["UPLOADEDPATH"]);</script>
 <script src="@Url.Content("~/assets/poin/js/maingrid.js?v=" + DateTime.Now.Ticks.ToString())" type="text/javascript"></script>
 
 
