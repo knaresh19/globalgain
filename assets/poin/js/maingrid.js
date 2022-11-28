@@ -619,6 +619,9 @@ function clear_Procurement_BackCalcs() {
     $('#Actual_CPU_Nmin1_Oct').val('0');
     $('#Actual_CPU_Nmin1_Nov').val('0');
     $('#Actual_CPU_Nmin1_Dec').val('0');
+    $('#Actual_CPU_Nmin1_Total').val('0');
+    bind_Actual_CPU_Nmin1();
+
     $('#Target_CPU_N_Jan').val('0');
     $('#Target_CPU_N_Feb').val('0');
     $('#Target_CPU_N_Mar').val('0');
@@ -631,6 +634,9 @@ function clear_Procurement_BackCalcs() {
     $('#Target_CPU_N_Oct').val('0');
     $('#Target_CPU_N_Nov').val('0');
     $('#Target_CPU_N_Dec').val('0');
+    $('#Target_CPU_N_Total').val('0');
+    bind_Target_CPU_N_Total();
+
     $('#A_Price_effect_Jan').val('0');
     $('#A_Price_effect_Feb').val('0');
     $('#A_Price_effect_Mar').val('0');
@@ -643,6 +649,9 @@ function clear_Procurement_BackCalcs() {
     $('#A_Price_effect_Oct').val('0');
     $('#A_Price_effect_Nov').val('0');
     $('#A_Price_effect_Dec').val('0');
+    $('#A_Price_effect_Total').val('0');
+    bind_A_Price_effect();
+
     $('#A_Volume_Effect_Jan').val('0');
     $('#A_Volume_Effect_Feb').val('0');
     $('#A_Volume_Effect_Mar').val('0');
@@ -655,6 +664,9 @@ function clear_Procurement_BackCalcs() {
     $('#A_Volume_Effect_Oct').val('0');
     $('#A_Volume_Effect_Nov').val('0');
     $('#A_Volume_Effect_Dec').val('0');
+    $('#A_Volume_Effect_Total').val('0');
+    bind_A_Volume_Effect();
+
     $('#Achievement_Jan').val('0');
     $('#Achievement_Feb').val('0');
     $('#Achievement_Mar').val('0');
@@ -667,6 +679,9 @@ function clear_Procurement_BackCalcs() {
     $('#Achievement_Oct').val('0');
     $('#Achievement_Nov').val('0');
     $('#Achievement_Dec').val('0');
+    $('#Achievement_Total').val('0');
+    bind_Achievement();
+
     $('#ST_Price_effect_Jan').val('0');
     $('#ST_Price_effect_Feb').val('0');
     $('#ST_Price_effect_Mar').val('0');
@@ -679,6 +694,9 @@ function clear_Procurement_BackCalcs() {
     $('#ST_Price_effect_Oct').val('0');
     $('#ST_Price_effect_Nov').val('0');
     $('#ST_Price_effect_Dec').val('0');
+    $('#ST_Price_effect_Total').val('0');
+    bind_ST_Price_effect();
+
     $('#ST_Volume_Effect_Jan').val('0');
     $('#ST_Volume_Effect_Feb').val('0');
     $('#ST_Volume_Effect_Mar').val('0');
@@ -691,6 +709,9 @@ function clear_Procurement_BackCalcs() {
     $('#ST_Volume_Effect_Oct').val('0');
     $('#ST_Volume_Effect_Nov').val('0');
     $('#ST_Volume_Effect_Dec').val('0');
+    $('#ST_Volume_Effect_Total').val('0');
+    bind_ST_Volume_Effect();
+
     $('#FY_Secured_Target_Jan').val('0');
     $('#FY_Secured_Target_Feb').val('0');
     $('#FY_Secured_Target_Mar').val('0');
@@ -703,6 +724,9 @@ function clear_Procurement_BackCalcs() {
     $('#FY_Secured_Target_Oct').val('0');
     $('#FY_Secured_Target_Nov').val('0');
     $('#FY_Secured_Target_Dec').val('0');
+    $('#FY_Secured_Target_Total').val('0');
+    bind_FY_Secured_Target();
+
     $('#CPI_Effect_Jan').val('0');
     $('#CPI_Effect_Feb').val('0');
     $('#CPI_Effect_Mar').val('0');
@@ -715,123 +739,136 @@ function clear_Procurement_BackCalcs() {
     $('#CPI_Effect_Oct').val('0');
     $('#CPI_Effect_Nov').val('0');
     $('#CPI_Effect_Dec').val('0');
+    $('#CPI_Effect_Total').val('0');
+    bind_CPI_Fields();
+
 
 }
+
 function clear_Procurement_fields() {
     CboUnitOfVolume.SetValue('NONE');
-    txt_Input_Actuals_Volumes_Nmin1.SetValue();
-    txt_Input_Target_Volumes.SetValue();
-    txt_Total_Actual_volume_N.SetValue();
-    txt_Spend_Nmin1.SetValue();
-    txt_Spend_N.SetValue();
-    txt_CPI.SetValue();
-    txt_janActual_volume_N.SetValue();
-    txt_febActual_volume_N.SetValue();
-    txt_marActual_volume_N.SetValue();
-    txt_aprActual_volume_N.SetValue();
-    txt_mayActual_volume_N.SetValue();
-    txt_junActual_volume_N.SetValue();
-    txt_julActual_volume_N.SetValue();
-    txt_augActual_volume_N.SetValue();
-    txt_sepActual_volume_N.SetValue();
-    txt_octActual_volume_N.SetValue();
-    txt_novActual_volume_N.SetValue();
-    txt_decActual_volume_N.SetValue();
-    txt_N_FY_Sec_PRICE_EF.SetValue();
-    txt_N_FY_Sec_VOLUME_EF.SetValue();
-    txt_N_YTD_Sec_PRICE_EF.SetValue();
-    txt_N_YTD_Sec_VOLUME_EF.SetValue();
-    txt_YTD_Achieved_PRICE_EF.SetValue();
-    txt_YTD_Achieved_VOLUME_EF.SetValue();
-    txt_YTD_Cost_Avoid_Vs_CPI.SetValue();
-    txt_FY_Cost_Avoid_Vs_CPI.SetValue();
-    txt_N_FY_Secured.SetValue();
-    txt_N_YTD_Secured.SetValue();
+    txt_Input_Actuals_Volumes_Nmin1.SetValue(0);
+    txt_Input_Target_Volumes.SetValue(0);
+    txt_Total_Actual_volume_N.SetValue(0);
+    txt_Spend_Nmin1.SetValue(0);
+    txt_Spend_N.SetValue(0);
+    txt_CPI.SetValue(0);
+    txt_janActual_volume_N.SetValue(0);
+    txt_febActual_volume_N.SetValue(0);
+    txt_marActual_volume_N.SetValue(0);
+    txt_aprActual_volume_N.SetValue(0);
+    txt_mayActual_volume_N.SetValue(0);
+    txt_junActual_volume_N.SetValue(0);
+    txt_julActual_volume_N.SetValue(0);
+    txt_augActual_volume_N.SetValue(0);
+    txt_sepActual_volume_N.SetValue(0);
+    txt_octActual_volume_N.SetValue(0);
+    txt_novActual_volume_N.SetValue(0);
+    txt_decActual_volume_N.SetValue(0);
+    txt_N_FY_Sec_PRICE_EF.SetValue(0);
+    txt_N_FY_Sec_VOLUME_EF.SetValue(0);
+    txt_N_YTD_Sec_PRICE_EF.SetValue(0);
+    txt_N_YTD_Sec_VOLUME_EF.SetValue(0);
+    txt_YTD_Achieved_PRICE_EF.SetValue(0);
+    txt_YTD_Achieved_VOLUME_EF.SetValue(0);
+    txt_YTD_Cost_Avoid_Vs_CPI.SetValue(0);
+    txt_FY_Cost_Avoid_Vs_CPI.SetValue(0);
+    txt_N_FY_Secured.SetValue(0);
+    txt_N_YTD_Secured.SetValue(0);
 
-    txt_YTD_achieved.SetValue();
+    txt_YTD_achieved.SetValue(0);
     //$('#txt_YTD_achieved').val('');
 
-    $('#Actual_volume_Nmin1_Jan').val('');
-    $('#Actual_volume_Nmin1_Feb').val('');
-    $('#Actual_volume_Nmin1_Mar').val('');
-    $('#Actual_volume_Nmin1_Apr').val('');
-    $('#Actual_volume_Nmin1_May').val('');
-    $('#Actual_volume_Nmin1_Jun').val('');
-    $('#Actual_volume_Nmin1_Jul').val('');
-    $('#Actual_volume_Nmin1_Aug').val('');
-    $('#Actual_volume_Nmin1_Sep').val('');
-    $('#Actual_volume_Nmin1_Oct').val('');
-    $('#Actual_volume_Nmin1_Nov').val('');
-    $('#Actual_volume_Nmin1_Dec').val('');
-    $('#Target_Volumes_Jan').val('');
-    $('#Target_Volumes_Feb').val('');
-    $('#Target_Volumes_Mar').val('');
-    $('#Target_Volumes_Apr').val('');
-    $('#Target_Volumes_May').val('');
-    $('#Target_Volumes_Jun').val('');
-    $('#Target_Volumes_Jul').val('');
-    $('#Target_Volumes_Aug').val('');
-    $('#Target_Volumes_Sep').val('');
-    $('#Target_Volumes_Oct').val('');
-    $('#Target_Volumes_Nov').val('');
-    $('#Target_Volumes_Dec').val('');
+    $('#Actual_volume_Nmin1_Jan').val('0');
+    $('#Actual_volume_Nmin1_Feb').val('0');
+    $('#Actual_volume_Nmin1_Mar').val('0');
+    $('#Actual_volume_Nmin1_Apr').val('0');
+    $('#Actual_volume_Nmin1_May').val('0');
+    $('#Actual_volume_Nmin1_Jun').val('0');
+    $('#Actual_volume_Nmin1_Jul').val('0');
+    $('#Actual_volume_Nmin1_Aug').val('0');
+    $('#Actual_volume_Nmin1_Sep').val('0');
+    $('#Actual_volume_Nmin1_Oct').val('0');
+    $('#Actual_volume_Nmin1_Nov').val('0');
+    $('#Actual_volume_Nmin1_Dec').val('0');
+    bind_Actual_volume_Nmin1();
+
+    $('#Target_Volumes_Jan').val('0');
+    $('#Target_Volumes_Feb').val('0');
+    $('#Target_Volumes_Mar').val('0');
+    $('#Target_Volumes_Apr').val('0');
+    $('#Target_Volumes_May').val('0');
+    $('#Target_Volumes_Jun').val('0');
+    $('#Target_Volumes_Jul').val('0');
+    $('#Target_Volumes_Aug').val('0');
+    $('#Target_Volumes_Sep').val('0');
+    $('#Target_Volumes_Oct').val('0');
+    $('#Target_Volumes_Nov').val('0');
+    $('#Target_Volumes_Dec').val('0');
+    bind_Target_Volumes();
 
 
 }
 
-function isAll_Procurement_Mandatory_fields_entered() {
+function isAll_Procurement_Mandatory_fields_entered(_isProcurement)
+{
     var isFlag = false;
 
-    //ENH153-2 procurment properties get field value in variable
-    var xUnit_of_volumes = CboUnitOfVolume.GetValue();
-    var xInput_Actuals_Volumes_Nmin1 = txt_Input_Actuals_Volumes_Nmin1.GetValue();
-    var xInput_Target_Volumes = txt_Input_Target_Volumes.GetValue();
-    var xTotal_Actual_volume_N = txt_Total_Actual_volume_N.GetValue();
-    var xSpend_Nmin1 = txt_Spend_Nmin1.GetValue();
-    var xSpend_N = txt_Spend_N.GetValue();
-    var xCPI = txt_CPI.GetValue();
-    var xjanActual_volume_N = txt_janActual_volume_N.GetValue();
-    var xfebActual_volume_N = txt_febActual_volume_N.GetValue();
-    var xmarActual_volume_N = txt_marActual_volume_N.GetValue();
-    var xaprActual_volume_N = txt_aprActual_volume_N.GetValue();
-    var xmayActual_volume_N = txt_mayActual_volume_N.GetValue();
-    var xjunActual_volume_N = txt_junActual_volume_N.GetValue();
-    var xjulActual_volume_N = txt_julActual_volume_N.GetValue();
-    var xaugActual_volume_N = txt_augActual_volume_N.GetValue();
-    var xsepActual_volume_N = txt_sepActual_volume_N.GetValue();
-    var xoctActual_volume_N = txt_octActual_volume_N.GetValue();
-    var xnovActual_volume_N = txt_novActual_volume_N.GetValue();
-    var xdecActual_volume_N = txt_decActual_volume_N.GetValue();
-    var xN_FY_Sec_PRICE_EF = txt_N_FY_Sec_PRICE_EF.GetValue();
-    var xN_FY_Sec_VOLUME_EF = txt_N_FY_Sec_VOLUME_EF.GetValue();
-    var xN_YTD_Sec_PRICE_EF = txt_N_YTD_Sec_PRICE_EF.GetValue();
-    var xN_YTD_Sec_VOLUME_EF = txt_N_YTD_Sec_VOLUME_EF.GetValue();
-    var xYTD_Achieved_PRICE_EF = txt_YTD_Achieved_PRICE_EF.GetValue();
-    var xYTD_Achieved_VOLUME_EF = txt_YTD_Achieved_VOLUME_EF.GetValue();
-    var xYTD_Cost_Avoid_Vs_CPI = txt_YTD_Cost_Avoid_Vs_CPI.GetValue();
-    var xFY_Cost_Avoid_Vs_CPI = txt_FY_Cost_Avoid_Vs_CPI.GetValue();
-    //ENH153-2 procurment properties get field value in variable
+    if (_isProcurement == 1) {
+        //ENH153-2 procurment properties get field value in variable
+        var xUnit_of_volumes = CboUnitOfVolume.GetValue();
+        var xInput_Actuals_Volumes_Nmin1 = txt_Input_Actuals_Volumes_Nmin1.GetValue();
+        var xInput_Target_Volumes = txt_Input_Target_Volumes.GetValue();
+        var xTotal_Actual_volume_N = txt_Total_Actual_volume_N.GetValue();
+        var xSpend_Nmin1 = txt_Spend_Nmin1.GetValue();
+        var xSpend_N = txt_Spend_N.GetValue();
+        var xCPI = txt_CPI.GetValue();
+        var xjanActual_volume_N = txt_janActual_volume_N.GetValue();
+        var xfebActual_volume_N = txt_febActual_volume_N.GetValue();
+        var xmarActual_volume_N = txt_marActual_volume_N.GetValue();
+        var xaprActual_volume_N = txt_aprActual_volume_N.GetValue();
+        var xmayActual_volume_N = txt_mayActual_volume_N.GetValue();
+        var xjunActual_volume_N = txt_junActual_volume_N.GetValue();
+        var xjulActual_volume_N = txt_julActual_volume_N.GetValue();
+        var xaugActual_volume_N = txt_augActual_volume_N.GetValue();
+        var xsepActual_volume_N = txt_sepActual_volume_N.GetValue();
+        var xoctActual_volume_N = txt_octActual_volume_N.GetValue();
+        var xnovActual_volume_N = txt_novActual_volume_N.GetValue();
+        var xdecActual_volume_N = txt_decActual_volume_N.GetValue();
+        var xN_FY_Sec_PRICE_EF = txt_N_FY_Sec_PRICE_EF.GetValue();
+        var xN_FY_Sec_VOLUME_EF = txt_N_FY_Sec_VOLUME_EF.GetValue();
+        var xN_YTD_Sec_PRICE_EF = txt_N_YTD_Sec_PRICE_EF.GetValue();
+        var xN_YTD_Sec_VOLUME_EF = txt_N_YTD_Sec_VOLUME_EF.GetValue();
+        var xYTD_Achieved_PRICE_EF = txt_YTD_Achieved_PRICE_EF.GetValue();
+        var xYTD_Achieved_VOLUME_EF = txt_YTD_Achieved_VOLUME_EF.GetValue();
+        var xYTD_Cost_Avoid_Vs_CPI = txt_YTD_Cost_Avoid_Vs_CPI.GetValue();
+        var xFY_Cost_Avoid_Vs_CPI = txt_FY_Cost_Avoid_Vs_CPI.GetValue();
+        //ENH153-2 procurment properties get field value in variable
 
-    if ((xUnit_of_volumes != null && xUnit_of_volumes != '') && (xInput_Actuals_Volumes_Nmin1 != null && xInput_Actuals_Volumes_Nmin1 != '') &&
-        (xInput_Target_Volumes != null && xInput_Target_Volumes != '') && (xTotal_Actual_volume_N != null && xTotal_Actual_volume_N != '') &&
-        (xSpend_Nmin1 != null && xSpend_Nmin1 != '') && (xSpend_N != null && xSpend_N != '') &&
-        (xCPI != null && xCPI != '') && (xjanActual_volume_N != null && xjanActual_volume_N != '') &&
-        (xfebActual_volume_N != null && xfebActual_volume_N != '') && (xmarActual_volume_N != null && xmarActual_volume_N != '') &&
-        (xaprActual_volume_N != null && xaprActual_volume_N != '') && (xmayActual_volume_N != null && xmayActual_volume_N != '') &&
-        (xjunActual_volume_N != null && xjunActual_volume_N != '') && (xjulActual_volume_N != null && xjulActual_volume_N != '') &&
-        (xaugActual_volume_N != null && xaugActual_volume_N != '') && (xsepActual_volume_N != null && xsepActual_volume_N != '') &&
-        (xoctActual_volume_N != null && xoctActual_volume_N != '') && (xnovActual_volume_N != null && xnovActual_volume_N != '') &&
-        (xdecActual_volume_N != null && xdecActual_volume_N != '') && (xN_FY_Sec_PRICE_EF != null && xN_FY_Sec_PRICE_EF != '') &&
-        (xN_FY_Sec_VOLUME_EF != null && xN_FY_Sec_VOLUME_EF != '') && (xN_YTD_Sec_PRICE_EF != null && xN_YTD_Sec_PRICE_EF != '') &&
-        (xN_YTD_Sec_VOLUME_EF != null && xN_YTD_Sec_VOLUME_EF != '') && (xYTD_Achieved_PRICE_EF != null && xYTD_Achieved_PRICE_EF != '') &&
-        (xYTD_Achieved_VOLUME_EF != null && xYTD_Achieved_VOLUME_EF != '') && (xYTD_Cost_Avoid_Vs_CPI != null && xYTD_Cost_Avoid_Vs_CPI != '') &&
-        (xFY_Cost_Avoid_Vs_CPI != null && xFY_Cost_Avoid_Vs_CPI != '')) {
-        isFlag = true;
+        if ((xUnit_of_volumes != null && xUnit_of_volumes != '') && (xInput_Actuals_Volumes_Nmin1 != null && xInput_Actuals_Volumes_Nmin1 != '') &&
+            (xInput_Target_Volumes != null && xInput_Target_Volumes != '') && (xTotal_Actual_volume_N != null && xTotal_Actual_volume_N != '') &&
+            (xSpend_Nmin1 != null && xSpend_Nmin1 != '') && (xSpend_N != null && xSpend_N != '') &&
+            (xCPI != null && xCPI != '') && (xjanActual_volume_N != null && xjanActual_volume_N != '') &&
+            (xfebActual_volume_N != null && xfebActual_volume_N != '') && (xmarActual_volume_N != null && xmarActual_volume_N != '') &&
+            (xaprActual_volume_N != null && xaprActual_volume_N != '') && (xmayActual_volume_N != null && xmayActual_volume_N != '') &&
+            (xjunActual_volume_N != null && xjunActual_volume_N != '') && (xjulActual_volume_N != null && xjulActual_volume_N != '') &&
+            (xaugActual_volume_N != null && xaugActual_volume_N != '') && (xsepActual_volume_N != null && xsepActual_volume_N != '') &&
+            (xoctActual_volume_N != null && xoctActual_volume_N != '') && (xnovActual_volume_N != null && xnovActual_volume_N != '') &&
+            (xdecActual_volume_N != null && xdecActual_volume_N != '') && (xN_FY_Sec_PRICE_EF != null && xN_FY_Sec_PRICE_EF != '') &&
+            (xN_FY_Sec_VOLUME_EF != null && xN_FY_Sec_VOLUME_EF != '') && (xN_YTD_Sec_PRICE_EF != null && xN_YTD_Sec_PRICE_EF != '') &&
+            (xN_YTD_Sec_VOLUME_EF != null && xN_YTD_Sec_VOLUME_EF != '') && (xYTD_Achieved_PRICE_EF != null && xYTD_Achieved_PRICE_EF != '') &&
+            (xYTD_Achieved_VOLUME_EF != null && xYTD_Achieved_VOLUME_EF != '') && (xYTD_Cost_Avoid_Vs_CPI != null && xYTD_Cost_Avoid_Vs_CPI != '') &&
+            (xFY_Cost_Avoid_Vs_CPI != null && xFY_Cost_Avoid_Vs_CPI != '')) {
+            isFlag = true;
+        }
+        else {
+            isFlag = false;
+        }
+
     }
     else {
-        isFlag = false;
+        isFlag = true;
     }
-
     return isFlag;
 }
 
@@ -1970,7 +2007,9 @@ function OnStartMonthChanged() {
 
     calculate_ST_Price_effect();
     calculate_ST_Volume_Effect();
+
     calculate_CPI_Effect();
+    bind_CPI_Fields();
     //ENH153-2 calculations caller
 }
 
@@ -2074,7 +2113,9 @@ function OnEndMonthChanged() {
 
     calculate_ST_Price_effect();
     calculate_ST_Volume_Effect();
+
     calculate_CPI_Effect();
+    bind_CPI_Fields();
     //ENH153-2 calculations caller
 }
 
@@ -2378,7 +2419,7 @@ function SaveInitiative() {
                 xGrdInitStatus > 0 && xGrdInitType > 0 && xGrdInitCategory > 0 && xGrdSubCost > 0 && xGrdActionType > 0 &&
                 xGrdSynImpact > 0 && xStartMonth != null && xEndMonth != null
                 &&
-                isAll_Procurement_Mandatory_fields_entered()
+                isAll_Procurement_Mandatory_fields_entered(xisProcurement)
             ) {
                 var sum = 0; var x2 = 0;
                 $(".txTarget").each(function () {
@@ -3044,8 +3085,7 @@ function getYtdValue() {
 //ENH153-2 calculations
 
 
-function calculate_Procurement_Field()
-{
+function calculate_Procurement_Field() {
     Input_Actuals_Volumes_Nmin1_keyUp();
     Input_Target_Volumes_keyUp();
     txt_Spend_Nmin1_KeyUp();
@@ -3059,7 +3099,7 @@ function Input_Actuals_Volumes_Nmin1_keyUp() {
             var int_xInput_Actuals_Volumes_Nmin1 = parseInt(xInput_Actuals_Volumes_Nmin1);
             var Actual_volume_Nmin1 = (int_xInput_Actuals_Volumes_Nmin1 / 12);
 
-            Actual_volume_Nmin1 = Actual_volume_Nmin1.toFixed(2);
+            Actual_volume_Nmin1 = Actual_volume_Nmin1.toFixed(_toFixed);
 
             $('#Actual_volume_Nmin1_Jan').val(Actual_volume_Nmin1);
             $('#Actual_volume_Nmin1_Feb').val(Actual_volume_Nmin1);
@@ -3083,10 +3123,43 @@ function Input_Actuals_Volumes_Nmin1_keyUp() {
             calculate_ST_Price_effect();
             calculate_ST_Volume_Effect();
             calculate_CPI_Effect();
+            bind_CPI_Fields();
             //ENH153-2 calculations caller
         }
     }
+
+    bind_Actual_volume_Nmin1();
 }
+
+function bind_Actual_volume_Nmin1()
+{
+    var _Actual_volume_Nmin1_Jan = $('#Actual_volume_Nmin1_Jan') != null ? $('#Actual_volume_Nmin1_Jan').val() : 0;
+    var _Actual_volume_Nmin1_Feb = $('#Actual_volume_Nmin1_Feb') != null ? $('#Actual_volume_Nmin1_Feb').val() : 0;
+    var _Actual_volume_Nmin1_Mar = $('#Actual_volume_Nmin1_Mar') != null ? $('#Actual_volume_Nmin1_Mar').val() : 0;
+    var _Actual_volume_Nmin1_Apr = $('#Actual_volume_Nmin1_Apr') != null ? $('#Actual_volume_Nmin1_Apr').val() : 0;
+    var _Actual_volume_Nmin1_May = $('#Actual_volume_Nmin1_May') != null ? $('#Actual_volume_Nmin1_May').val() : 0;
+    var _Actual_volume_Nmin1_Jun = $('#Actual_volume_Nmin1_Jun') != null ? $('#Actual_volume_Nmin1_Jun').val() : 0;
+    var _Actual_volume_Nmin1_Jul = $('#Actual_volume_Nmin1_Jul') != null ? $('#Actual_volume_Nmin1_Jul').val() : 0;
+    var _Actual_volume_Nmin1_Aug = $('#Actual_volume_Nmin1_Aug') != null ? $('#Actual_volume_Nmin1_Aug').val() : 0;
+    var _Actual_volume_Nmin1_Sep = $('#Actual_volume_Nmin1_Sep') != null ? $('#Actual_volume_Nmin1_Sep').val() : 0;
+    var _Actual_volume_Nmin1_Oct = $('#Actual_volume_Nmin1_Oct') != null ? $('#Actual_volume_Nmin1_Oct').val() : 0;
+    var _Actual_volume_Nmin1_Nov = $('#Actual_volume_Nmin1_Nov') != null ? $('#Actual_volume_Nmin1_Nov').val() : 0;
+    var _Actual_volume_Nmin1_Dec = $('#Actual_volume_Nmin1_Dec') != null ? $('#Actual_volume_Nmin1_Dec').val() : 0;
+
+    $('#Actual_volume_Nmin1_Jan_').val(Math.round(parseFloat(_Actual_volume_Nmin1_Jan)).toLocaleString("en-US"));
+    $('#Actual_volume_Nmin1_Feb_').val(Math.round(parseFloat(_Actual_volume_Nmin1_Feb)).toLocaleString("en-US"));
+    $('#Actual_volume_Nmin1_Mar_').val(Math.round(parseFloat(_Actual_volume_Nmin1_Mar)).toLocaleString("en-US"));
+    $('#Actual_volume_Nmin1_Apr_').val(Math.round(parseFloat(_Actual_volume_Nmin1_Apr)).toLocaleString("en-US"));
+    $('#Actual_volume_Nmin1_May_').val(Math.round(parseFloat(_Actual_volume_Nmin1_May)).toLocaleString("en-US"));
+    $('#Actual_volume_Nmin1_Jun_').val(Math.round(parseFloat(_Actual_volume_Nmin1_Jun)).toLocaleString("en-US"));
+    $('#Actual_volume_Nmin1_Jul_').val(Math.round(parseFloat(_Actual_volume_Nmin1_Jul)).toLocaleString("en-US"));
+    $('#Actual_volume_Nmin1_Aug_').val(Math.round(parseFloat(_Actual_volume_Nmin1_Aug)).toLocaleString("en-US"));
+    $('#Actual_volume_Nmin1_Sep_').val(Math.round(parseFloat(_Actual_volume_Nmin1_Sep)).toLocaleString("en-US"));
+    $('#Actual_volume_Nmin1_Oct_').val(Math.round(parseFloat(_Actual_volume_Nmin1_Oct)).toLocaleString("en-US"));
+    $('#Actual_volume_Nmin1_Nov_').val(Math.round(parseFloat(_Actual_volume_Nmin1_Nov)).toLocaleString("en-US"));
+    $('#Actual_volume_Nmin1_Dec_').val(Math.round(parseFloat(_Actual_volume_Nmin1_Dec)).toLocaleString("en-US"));
+}
+
 
 function Input_Target_Volumes_keyUp() {
     var xInput_Target_Volumes = txt_Input_Target_Volumes.GetValue();
@@ -3118,10 +3191,43 @@ function Input_Target_Volumes_keyUp() {
 
             calculate_ST_Price_effect();
             calculate_ST_Volume_Effect();
+
             calculate_CPI_Effect();
+            bind_CPI_Fields();
             //ENH153-2 calculations caller
         }
     }
+
+    bind_Target_Volumes();
+}
+
+function bind_Target_Volumes()
+{
+    var _Target_Volumes_Jan = $('#Target_Volumes_Jan') != null ? $('#Target_Volumes_Jan').val() : 0;
+    var _Target_Volumes_Feb = $('#Target_Volumes_Feb') != null ? $('#Target_Volumes_Feb').val() : 0;
+    var _Target_Volumes_Mar = $('#Target_Volumes_Mar') != null ? $('#Target_Volumes_Mar').val() : 0;
+    var _Target_Volumes_Apr = $('#Target_Volumes_Apr') != null ? $('#Target_Volumes_Apr').val() : 0;
+    var _Target_Volumes_May = $('#Target_Volumes_May') != null ? $('#Target_Volumes_May').val() : 0;
+    var _Target_Volumes_Jun = $('#Target_Volumes_Jun') != null ? $('#Target_Volumes_Jun').val() : 0;
+    var _Target_Volumes_Jul = $('#Target_Volumes_Jul') != null ? $('#Target_Volumes_Jul').val() : 0;
+    var _Target_Volumes_Aug = $('#Target_Volumes_Aug') != null ? $('#Target_Volumes_Aug').val() : 0;
+    var _Target_Volumes_Sep = $('#Target_Volumes_Sep') != null ? $('#Target_Volumes_Sep').val() : 0;
+    var _Target_Volumes_Oct = $('#Target_Volumes_Oct') != null ? $('#Target_Volumes_Oct').val() : 0;
+    var _Target_Volumes_Nov = $('#Target_Volumes_Nov') != null ? $('#Target_Volumes_Nov').val() : 0;
+    var _Target_Volumes_Dec = $('#Target_Volumes_Dec') != null ? $('#Target_Volumes_Dec').val() : 0;
+
+    $('#Target_Volumes_Jan_').val(Math.round(parseFloat(_Target_Volumes_Jan)).toLocaleString("en-US"));
+    $('#Target_Volumes_Feb_').val(Math.round(parseFloat(_Target_Volumes_Feb)).toLocaleString("en-US"));
+    $('#Target_Volumes_Mar_').val(Math.round(parseFloat(_Target_Volumes_Mar)).toLocaleString("en-US"));
+    $('#Target_Volumes_Apr_').val(Math.round(parseFloat(_Target_Volumes_Apr)).toLocaleString("en-US"));
+    $('#Target_Volumes_May_').val(Math.round(parseFloat(_Target_Volumes_May)).toLocaleString("en-US"));
+    $('#Target_Volumes_Jun_').val(Math.round(parseFloat(_Target_Volumes_Jun)).toLocaleString("en-US"));
+    $('#Target_Volumes_Jul_').val(Math.round(parseFloat(_Target_Volumes_Jul)).toLocaleString("en-US"));
+    $('#Target_Volumes_Aug_').val(Math.round(parseFloat(_Target_Volumes_Aug)).toLocaleString("en-US"));
+    $('#Target_Volumes_Sep_').val(Math.round(parseFloat(_Target_Volumes_Sep)).toLocaleString("en-US"));
+    $('#Target_Volumes_Oct_').val(Math.round(parseFloat(_Target_Volumes_Oct)).toLocaleString("en-US"));
+    $('#Target_Volumes_Nov_').val(Math.round(parseFloat(_Target_Volumes_Nov)).toLocaleString("en-US"));
+    $('#Target_Volumes_Dec_').val(Math.round(parseFloat(_Target_Volumes_Dec)).toLocaleString("en-US"));
 }
 
 function txt_Spend_Nmin1_KeyUp() {
@@ -3140,7 +3246,9 @@ function txt_Spend_Nmin1_KeyUp() {
 
             calculate_ST_Price_effect();
             calculate_ST_Volume_Effect();
+
             calculate_CPI_Effect();
+            bind_CPI_Fields();
             //ENH153-2 calculations caller
         }
     }
@@ -3243,9 +3351,44 @@ function calculate_Actual_CPU_Nmin1_Total() {
             parseFloat($('#Actual_CPU_Nmin1_Nov').val()) +
             parseFloat($('#Actual_CPU_Nmin1_Dec').val()));
 
-        $('#Actual_CPU_Nmin1_Total').val(parseFloat(xActual_CPU_Nmin1_Total / 12).toFixed(2));
+        $('#Actual_CPU_Nmin1_Total').val(parseFloat(xActual_CPU_Nmin1_Total / 12).toFixed(_toFixed));
     }
+
+    bind_Actual_CPU_Nmin1();
 }
+
+function bind_Actual_CPU_Nmin1()
+{
+    var _Actual_CPU_Nmin1_Jan = $('#Actual_CPU_Nmin1_Jan') != null ? $('#Actual_CPU_Nmin1_Jan').val() : 0;
+    var _Actual_CPU_Nmin1_Feb = $('#Actual_CPU_Nmin1_Feb') != null ? $('#Actual_CPU_Nmin1_Feb').val() : 0;
+    var _Actual_CPU_Nmin1_Mar = $('#Actual_CPU_Nmin1_Mar') != null ? $('#Actual_CPU_Nmin1_Mar').val() : 0;
+    var _Actual_CPU_Nmin1_Apr = $('#Actual_CPU_Nmin1_Apr') != null ? $('#Actual_CPU_Nmin1_Apr').val() : 0;
+    var _Actual_CPU_Nmin1_May = $('#Actual_CPU_Nmin1_May') != null ? $('#Actual_CPU_Nmin1_May').val() : 0;
+    var _Actual_CPU_Nmin1_Jun = $('#Actual_CPU_Nmin1_Jun') != null ? $('#Actual_CPU_Nmin1_Jun').val() : 0;
+    var _Actual_CPU_Nmin1_Jul = $('#Actual_CPU_Nmin1_Jul') != null ? $('#Actual_CPU_Nmin1_Jul').val() : 0;
+    var _Actual_CPU_Nmin1_Aug = $('#Actual_CPU_Nmin1_Aug') != null ? $('#Actual_CPU_Nmin1_Aug').val() : 0;
+    var _Actual_CPU_Nmin1_Sep = $('#Actual_CPU_Nmin1_Sep') != null ? $('#Actual_CPU_Nmin1_Sep').val() : 0;
+    var _Actual_CPU_Nmin1_Oct = $('#Actual_CPU_Nmin1_Oct') != null ? $('#Actual_CPU_Nmin1_Oct').val() : 0;
+    var _Actual_CPU_Nmin1_Nov = $('#Actual_CPU_Nmin1_Nov') != null ? $('#Actual_CPU_Nmin1_Nov').val() : 0;
+    var _Actual_CPU_Nmin1_Dec = $('#Actual_CPU_Nmin1_Dec') != null ? $('#Actual_CPU_Nmin1_Dec').val() : 0;
+    var _Actual_CPU_Nmin1_Total = $('#Actual_CPU_Nmin1_Total') != null ? $('#Actual_CPU_Nmin1_Total').val() : 0;
+
+    $('#Actual_CPU_Nmin1_Jan_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Jan)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_Feb_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Feb)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_Mar_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Mar)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_Apr_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Apr)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_May_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_May)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_Jun_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Jun)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_Jul_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Jul)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_Aug_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Aug)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_Sep_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Sep)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_Oct_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Oct)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_Nov_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Nov)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_Dec_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Dec)).toLocaleString("en-US"));
+    $('#Actual_CPU_Nmin1_Total_').val(Math.round(parseFloat(_Actual_CPU_Nmin1_Total)).toLocaleString("en-US"));
+
+}
+
 
 
 function isAll_InputGiven_for_Target_CPU_N() {
@@ -3712,9 +3855,42 @@ function calculate_Target_CPU_N_Total() {
             parseFloat($('#Target_CPU_N_Nov').val()) +
             parseFloat($('#Target_CPU_N_Dec').val()));
 
-        $('#Target_CPU_N_Total').val(parseFloat((xTarget_CPU_N_Total) / 12).toFixed(2));
+        $('#Target_CPU_N_Total').val(parseFloat((xTarget_CPU_N_Total) / 12).toFixed(_toFixed));
 
     }
+
+    bind_Target_CPU_N_Total();
+}
+
+function bind_Target_CPU_N_Total()
+{
+    var _Target_CPU_N_Jan = $('#Target_CPU_N_Jan') != null ? $('#Target_CPU_N_Jan').val() : 0;
+    var _Target_CPU_N_Feb = $('#Target_CPU_N_Feb') != null ? $('#Target_CPU_N_Feb').val() : 0;
+    var _Target_CPU_N_Mar = $('#Target_CPU_N_Mar') != null ? $('#Target_CPU_N_Mar').val() : 0;
+    var _Target_CPU_N_Apr = $('#Target_CPU_N_Apr') != null ? $('#Target_CPU_N_Apr').val() : 0;
+    var _Target_CPU_N_May = $('#Target_CPU_N_May') != null ? $('#Target_CPU_N_May').val() : 0;
+    var _Target_CPU_N_Jun = $('#Target_CPU_N_Jun') != null ? $('#Target_CPU_N_Jun').val() : 0;
+    var _Target_CPU_N_Jul = $('#Target_CPU_N_Jul') != null ? $('#Target_CPU_N_Jul').val() : 0;
+    var _Target_CPU_N_Aug = $('#Target_CPU_N_Aug') != null ? $('#Target_CPU_N_Aug').val() : 0;
+    var _Target_CPU_N_Sep = $('#Target_CPU_N_Sep') != null ? $('#Target_CPU_N_Sep').val() : 0;
+    var _Target_CPU_N_Oct = $('#Target_CPU_N_Oct') != null ? $('#Target_CPU_N_Oct').val() : 0;
+    var _Target_CPU_N_Nov = $('#Target_CPU_N_Nov') != null ? $('#Target_CPU_N_Nov').val() : 0;
+    var _Target_CPU_N_Dec = $('#Target_CPU_N_Dec') != null ? $('#Target_CPU_N_Dec').val() : 0;
+    var _Target_CPU_N_Total = $('#Target_CPU_N_Total') != null ? $('#Target_CPU_N_Total').val() : 0;
+
+    $('#Target_CPU_N_Jan_').val(Math.round(parseFloat(_Target_CPU_N_Jan)).toLocaleString("en-US"));
+    $('#Target_CPU_N_Feb_').val(Math.round(parseFloat(_Target_CPU_N_Feb)).toLocaleString("en-US"));
+    $('#Target_CPU_N_Mar_').val(Math.round(parseFloat(_Target_CPU_N_Mar)).toLocaleString("en-US"));
+    $('#Target_CPU_N_Apr_').val(Math.round(parseFloat(_Target_CPU_N_Apr)).toLocaleString("en-US"));
+    $('#Target_CPU_N_May_').val(Math.round(parseFloat(_Target_CPU_N_May)).toLocaleString("en-US"));
+    $('#Target_CPU_N_Jun_').val(Math.round(parseFloat(_Target_CPU_N_Jun)).toLocaleString("en-US"));
+    $('#Target_CPU_N_Jul_').val(Math.round(parseFloat(_Target_CPU_N_Jul)).toLocaleString("en-US"));
+    $('#Target_CPU_N_Aug_').val(Math.round(parseFloat(_Target_CPU_N_Aug)).toLocaleString("en-US"));
+    $('#Target_CPU_N_Sep_').val(Math.round(parseFloat(_Target_CPU_N_Sep)).toLocaleString("en-US"));
+    $('#Target_CPU_N_Oct_').val(Math.round(parseFloat(_Target_CPU_N_Oct)).toLocaleString("en-US"));
+    $('#Target_CPU_N_Nov_').val(Math.round(parseFloat(_Target_CPU_N_Nov)).toLocaleString("en-US"));
+    $('#Target_CPU_N_Dec_').val(Math.round(parseFloat(_Target_CPU_N_Dec)).toLocaleString("en-US"));
+    $('#Target_CPU_N_Total_').val(Math.round(parseFloat(_Target_CPU_N_Total)).toLocaleString("en-US"));
 }
 
 
@@ -3989,12 +4165,47 @@ function calculate_A_Price_effect_Total() {
             parseFloat($('#A_Price_effect_Nov').val()) +
             parseFloat($('#A_Price_effect_Dec').val()));
 
-        $('#A_Price_effect_Total').val(parseFloat(xA_Price_effect_Total).toFixed(2));
+        $('#A_Price_effect_Total').val(parseFloat(xA_Price_effect_Total).toFixed(_toFixed));
 
         calculate_Achievement();
         calculate_txt_YTD_Achieved_PRICE_EF();
     }
+
+    bind_A_Price_effect();
 }
+
+function bind_A_Price_effect()
+{
+    var _A_Price_effect_Jan = $('#A_Price_effect_Jan') != null ? $('#A_Price_effect_Jan').val() : 0;
+    var _A_Price_effect_Feb = $('#A_Price_effect_Feb') != null ? $('#A_Price_effect_Feb').val() : 0;
+    var _A_Price_effect_Mar = $('#A_Price_effect_Mar') != null ? $('#A_Price_effect_Mar').val() : 0;
+    var _A_Price_effect_Apr = $('#A_Price_effect_Apr') != null ? $('#A_Price_effect_Apr').val() : 0;
+    var _A_Price_effect_May = $('#A_Price_effect_May') != null ? $('#A_Price_effect_May').val() : 0;
+    var _A_Price_effect_Jun = $('#A_Price_effect_Jun') != null ? $('#A_Price_effect_Jun').val() : 0;
+    var _A_Price_effect_Jul = $('#A_Price_effect_Jul') != null ? $('#A_Price_effect_Jul').val() : 0;
+    var _A_Price_effect_Aug = $('#A_Price_effect_Aug') != null ? $('#A_Price_effect_Aug').val() : 0;
+    var _A_Price_effect_Sep = $('#A_Price_effect_Sep') != null ? $('#A_Price_effect_Sep').val() : 0;
+    var _A_Price_effect_Oct = $('#A_Price_effect_Oct') != null ? $('#A_Price_effect_Oct').val() : 0;
+    var _A_Price_effect_Nov = $('#A_Price_effect_Nov') != null ? $('#A_Price_effect_Nov').val() : 0;
+    var _A_Price_effect_Dec = $('#A_Price_effect_Dec') != null ? $('#A_Price_effect_Dec').val() : 0;
+    var _A_Price_effect_Total = $('#A_Price_effect_Total') != null ? $('#A_Price_effect_Total').val() : 0;
+
+    $('#A_Price_effect_Jan_').val(Math.round(parseFloat(_A_Price_effect_Jan)).toLocaleString("en-US"));
+    $('#A_Price_effect_Feb_').val(Math.round(parseFloat(_A_Price_effect_Feb)).toLocaleString("en-US"));
+    $('#A_Price_effect_Mar_').val(Math.round(parseFloat(_A_Price_effect_Mar)).toLocaleString("en-US"));
+    $('#A_Price_effect_Apr_').val(Math.round(parseFloat(_A_Price_effect_Apr)).toLocaleString("en-US"));
+    $('#A_Price_effect_May_').val(Math.round(parseFloat(_A_Price_effect_May)).toLocaleString("en-US"));
+    $('#A_Price_effect_Jun_').val(Math.round(parseFloat(_A_Price_effect_Jun)).toLocaleString("en-US"));
+    $('#A_Price_effect_Jul_').val(Math.round(parseFloat(_A_Price_effect_Jul)).toLocaleString("en-US"));
+    $('#A_Price_effect_Aug_').val(Math.round(parseFloat(_A_Price_effect_Aug)).toLocaleString("en-US"));
+    $('#A_Price_effect_Sep_').val(Math.round(parseFloat(_A_Price_effect_Sep)).toLocaleString("en-US"));
+    $('#A_Price_effect_Oct_').val(Math.round(parseFloat(_A_Price_effect_Oct)).toLocaleString("en-US"));
+    $('#A_Price_effect_Nov_').val(Math.round(parseFloat(_A_Price_effect_Nov)).toLocaleString("en-US"));
+    $('#A_Price_effect_Dec_').val(Math.round(parseFloat(_A_Price_effect_Dec)).toLocaleString("en-US"));
+    $('#A_Price_effect_Total_').val(Math.round(parseFloat(_A_Price_effect_Total)).toLocaleString("en-US"));
+}
+
+
 
 
 function calculate_A_Volume_Effect() {
@@ -4140,12 +4351,47 @@ function calculate_A_Volume_Effect_Total() {
             parseFloat($('#A_Volume_Effect_Nov').val()) +
             parseFloat($('#A_Volume_Effect_Dec').val()));
 
-        $('#A_Volume_Effect_Total').val(parseFloat(xA_Volume_Effect_Total).toFixed(2));
+        $('#A_Volume_Effect_Total').val(parseFloat(xA_Volume_Effect_Total).toFixed(_toFixed));
 
         calculate_Achievement();
-        calculated_txt_YTD_Achieved_VOLUME_EF();
+        calculated_txt_YTD_Achieved_VOLUME_EF();        
     }
+
+    bind_A_Volume_Effect();
 }
+
+function bind_A_Volume_Effect()
+{
+    var _A_Volume_Effect_Jan = $('#A_Volume_Effect_Jan') != null ? $('#A_Volume_Effect_Jan').val() : 0;
+    var _A_Volume_Effect_Feb = $('#A_Volume_Effect_Feb') != null ? $('#A_Volume_Effect_Feb').val() : 0;
+    var _A_Volume_Effect_Mar = $('#A_Volume_Effect_Mar') != null ? $('#A_Volume_Effect_Mar').val() : 0;
+    var _A_Volume_Effect_Apr = $('#A_Volume_Effect_Apr') != null ? $('#A_Volume_Effect_Apr').val() : 0;
+    var _A_Volume_Effect_May = $('#A_Volume_Effect_May') != null ? $('#A_Volume_Effect_May').val() : 0;
+    var _A_Volume_Effect_Jun = $('#A_Volume_Effect_Jun') != null ? $('#A_Volume_Effect_Jun').val() : 0;
+    var _A_Volume_Effect_Jul = $('#A_Volume_Effect_Jul') != null ? $('#A_Volume_Effect_Jul').val() : 0;
+    var _A_Volume_Effect_Aug = $('#A_Volume_Effect_Aug') != null ? $('#A_Volume_Effect_Aug').val() : 0;
+    var _A_Volume_Effect_Sep = $('#A_Volume_Effect_Sep') != null ? $('#A_Volume_Effect_Sep').val() : 0;
+    var _A_Volume_Effect_Oct = $('#A_Volume_Effect_Oct') != null ? $('#A_Volume_Effect_Oct').val() : 0;
+    var _A_Volume_Effect_Nov = $('#A_Volume_Effect_Nov') != null ? $('#A_Volume_Effect_Nov').val() : 0;
+    var _A_Volume_Effect_Dec = $('#A_Volume_Effect_Dec') != null ? $('#A_Volume_Effect_Dec').val() : 0;
+    var _A_Volume_Effect_Total = $('#A_Volume_Effect_Total') != null ? $('#A_Volume_Effect_Total').val() : 0;
+
+    $('#A_Volume_Effect_Jan_').val(Math.round(parseFloat(_A_Volume_Effect_Jan)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_Feb_').val(Math.round(parseFloat(_A_Volume_Effect_Feb)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_Mar_').val(Math.round(parseFloat(_A_Volume_Effect_Mar)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_Apr_').val(Math.round(parseFloat(_A_Volume_Effect_Apr)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_May_').val(Math.round(parseFloat(_A_Volume_Effect_May)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_Jun_').val(Math.round(parseFloat(_A_Volume_Effect_Jun)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_Jul_').val(Math.round(parseFloat(_A_Volume_Effect_Jul)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_Aug_').val(Math.round(parseFloat(_A_Volume_Effect_Aug)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_Sep_').val(Math.round(parseFloat(_A_Volume_Effect_Sep)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_Oct_').val(Math.round(parseFloat(_A_Volume_Effect_Oct)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_Nov_').val(Math.round(parseFloat(_A_Volume_Effect_Nov)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_Dec_').val(Math.round(parseFloat(_A_Volume_Effect_Dec)).toLocaleString("en-US"));
+    $('#A_Volume_Effect_Total_').val(Math.round(parseFloat(_A_Volume_Effect_Total)).toLocaleString("en-US"));
+
+}
+
 
 
 function calculate_Achievement() {
@@ -4255,6 +4501,40 @@ function calculate_Achievement_Total() {
 
         $('#Achievement_Total').val(parseFloat(xAchievement_Total).toFixed(_toFixed));
     }
+
+    bind_Achievement();
+}
+
+function bind_Achievement() {
+
+    var _Achievement_Jan = $('#Achievement_Jan') != null ? $('#Achievement_Jan').val() : 0;
+    var _Achievement_Feb = $('#Achievement_Feb') != null ? $('#Achievement_Feb').val() : 0;
+    var _Achievement_Mar = $('#Achievement_Mar') != null ? $('#Achievement_Mar').val() : 0;
+    var _Achievement_Apr = $('#Achievement_Apr') != null ? $('#Achievement_Apr').val() : 0;
+    var _Achievement_May = $('#Achievement_May') != null ? $('#Achievement_May').val() : 0;
+    var _Achievement_Jun = $('#Achievement_Jun') != null ? $('#Achievement_Jun').val() : 0;
+    var _Achievement_Jul = $('#Achievement_Jul') != null ? $('#Achievement_Jul').val() : 0;
+    var _Achievement_Aug = $('#Achievement_Aug') != null ? $('#Achievement_Aug').val() : 0;
+    var _Achievement_Sep = $('#Achievement_Sep') != null ? $('#Achievement_Sep').val() : 0;
+    var _Achievement_Oct = $('#Achievement_Oct') != null ? $('#Achievement_Oct').val() : 0;
+    var _Achievement_Nov = $('#Achievement_Nov') != null ? $('#Achievement_Nov').val() : 0;
+    var _Achievement_Dec = $('#Achievement_Dec') != null ? $('#Achievement_Dec').val() : 0;
+    var _Achievement_Total = $('#Achievement_Total') != null ? $('#Achievement_Total').val() : 0;
+
+    $('#Achievement_Jan_').val(Math.round(parseFloat(_Achievement_Jan)).toLocaleString("en-US"));
+    $('#Achievement_Feb_').val(Math.round(parseFloat(_Achievement_Feb)).toLocaleString("en-US"));
+    $('#Achievement_Mar_').val(Math.round(parseFloat(_Achievement_Mar)).toLocaleString("en-US"));
+    $('#Achievement_Apr_').val(Math.round(parseFloat(_Achievement_Apr)).toLocaleString("en-US"));
+    $('#Achievement_May_').val(Math.round(parseFloat(_Achievement_May)).toLocaleString("en-US"));
+    $('#Achievement_Jun_').val(Math.round(parseFloat(_Achievement_Jun)).toLocaleString("en-US"));
+    $('#Achievement_Jul_').val(Math.round(parseFloat(_Achievement_Jul)).toLocaleString("en-US"));
+    $('#Achievement_Aug_').val(Math.round(parseFloat(_Achievement_Aug)).toLocaleString("en-US"));
+    $('#Achievement_Sep_').val(Math.round(parseFloat(_Achievement_Sep)).toLocaleString("en-US"));
+    $('#Achievement_Oct_').val(Math.round(parseFloat(_Achievement_Oct)).toLocaleString("en-US"));
+    $('#Achievement_Nov_').val(Math.round(parseFloat(_Achievement_Nov)).toLocaleString("en-US"));
+    $('#Achievement_Dec_').val(Math.round(parseFloat(_Achievement_Dec)).toLocaleString("en-US"));
+    $('#Achievement_Total_').val(Math.round(parseFloat(_Achievement_Total)).toLocaleString("en-US"));
+
 }
 
 //Acheivement END
@@ -4512,12 +4792,44 @@ function calculate_ST_Price_effect_Total() {
             parseFloat($('#ST_Price_effect_Nov').val()) +
             parseFloat($('#ST_Price_effect_Dec').val()));
 
-        $('#ST_Price_effect_Total').val(parseFloat(xST_Price_effect_Total).toFixed(2));
+        $('#ST_Price_effect_Total').val(parseFloat(xST_Price_effect_Total).toFixed(_toFixed));
 
         calculate_txt_N_YTD_Sec_PRICE_EF();
         calculate_FY_Secured_Target();
         calculate_txt_N_FY_Sec_PRICE_EF();
+        bind_ST_Price_effect();
     }
+}
+
+function bind_ST_Price_effect() {
+
+    var _ST_Price_effect_Jan = $('#ST_Price_effect_Jan') != null ? $('#ST_Price_effect_Jan').val() : 0;
+    var _ST_Price_effect_Feb = $('#ST_Price_effect_Feb') != null ? $('#ST_Price_effect_Feb').val() : 0;
+    var _ST_Price_effect_Mar = $('#ST_Price_effect_Mar') != null ? $('#ST_Price_effect_Mar').val() : 0;
+    var _ST_Price_effect_Apr = $('#ST_Price_effect_Apr') != null ? $('#ST_Price_effect_Apr').val() : 0;
+    var _ST_Price_effect_May = $('#ST_Price_effect_May') != null ? $('#ST_Price_effect_May').val() : 0;
+    var _ST_Price_effect_Jun = $('#ST_Price_effect_Jun') != null ? $('#ST_Price_effect_Jun').val() : 0;
+    var _ST_Price_effect_Jul = $('#ST_Price_effect_Jul') != null ? $('#ST_Price_effect_Jul').val() : 0;
+    var _ST_Price_effect_Aug = $('#ST_Price_effect_Aug') != null ? $('#ST_Price_effect_Aug').val() : 0;
+    var _ST_Price_effect_Sep = $('#ST_Price_effect_Sep') != null ? $('#ST_Price_effect_Sep').val() : 0;
+    var _ST_Price_effect_Oct = $('#ST_Price_effect_Oct') != null ? $('#ST_Price_effect_Oct').val() : 0;
+    var _ST_Price_effect_Nov = $('#ST_Price_effect_Nov') != null ? $('#ST_Price_effect_Nov').val() : 0;
+    var _ST_Price_effect_Dec = $('#ST_Price_effect_Dec') != null ? $('#ST_Price_effect_Dec').val() : 0;
+    var _ST_Price_effect_Total = $('#ST_Price_effect_Total') != null ? $('#ST_Price_effect_Total').val() : 0;
+
+    $('#ST_Price_effect_Jan_').val(Math.round(parseFloat(_ST_Price_effect_Jan)).toLocaleString("en-US"));
+    $('#ST_Price_effect_Feb_').val(Math.round(parseFloat(_ST_Price_effect_Feb)).toLocaleString("en-US"));
+    $('#ST_Price_effect_Mar_').val(Math.round(parseFloat(_ST_Price_effect_Mar)).toLocaleString("en-US"));
+    $('#ST_Price_effect_Apr_').val(Math.round(parseFloat(_ST_Price_effect_Apr)).toLocaleString("en-US"));
+    $('#ST_Price_effect_May_').val(Math.round(parseFloat(_ST_Price_effect_May)).toLocaleString("en-US"));
+    $('#ST_Price_effect_Jun_').val(Math.round(parseFloat(_ST_Price_effect_Jun)).toLocaleString("en-US"));
+    $('#ST_Price_effect_Jul_').val(Math.round(parseFloat(_ST_Price_effect_Jul)).toLocaleString("en-US"));
+    $('#ST_Price_effect_Aug_').val(Math.round(parseFloat(_ST_Price_effect_Aug)).toLocaleString("en-US"));
+    $('#ST_Price_effect_Sep_').val(Math.round(parseFloat(_ST_Price_effect_Sep)).toLocaleString("en-US"));
+    $('#ST_Price_effect_Oct_').val(Math.round(parseFloat(_ST_Price_effect_Oct)).toLocaleString("en-US"));
+    $('#ST_Price_effect_Nov_').val(Math.round(parseFloat(_ST_Price_effect_Nov)).toLocaleString("en-US"));
+    $('#ST_Price_effect_Dec_').val(Math.round(parseFloat(_ST_Price_effect_Dec)).toLocaleString("en-US"));
+    $('#ST_Price_effect_Total_').val(Math.round(parseFloat(_ST_Price_effect_Total)).toLocaleString("en-US"));
 }
 
 
@@ -4660,12 +4972,44 @@ function calculate_ST_Volume_Effect_Total() {
             parseFloat($('#ST_Volume_Effect_Nov').val()) +
             parseFloat($('#ST_Volume_Effect_Dec').val()));
 
-        $('#ST_Volume_Effect_Total').val(parseFloat(xST_Volume_Effect_Total).toFixed(2));
+        $('#ST_Volume_Effect_Total').val(parseFloat(xST_Volume_Effect_Total).toFixed(_toFixed));
 
         calculate_FY_Secured_Target();
         calculate_txt_N_YTD_Sec_VOLUME_EF();
         calculate_txt_N_FY_Sec_VOLUME_EF();
     }
+
+    bind_ST_Volume_Effect();
+}
+
+function bind_ST_Volume_Effect() {
+    var _ST_Volume_Effect_Jan = $('#ST_Volume_Effect_Jan') != null ? $('#ST_Volume_Effect_Jan').val() : 0;
+    var _ST_Volume_Effect_Feb = $('#ST_Volume_Effect_Feb') != null ? $('#ST_Volume_Effect_Feb').val() : 0;
+    var _ST_Volume_Effect_Mar = $('#ST_Volume_Effect_Mar') != null ? $('#ST_Volume_Effect_Mar').val() : 0;
+    var _ST_Volume_Effect_Apr = $('#ST_Volume_Effect_Apr') != null ? $('#ST_Volume_Effect_Apr').val() : 0;
+    var _ST_Volume_Effect_May = $('#ST_Volume_Effect_May') != null ? $('#ST_Volume_Effect_May').val() : 0;
+    var _ST_Volume_Effect_Jun = $('#ST_Volume_Effect_Jun') != null ? $('#ST_Volume_Effect_Jun').val() : 0;
+    var _ST_Volume_Effect_Jul = $('#ST_Volume_Effect_Jul') != null ? $('#ST_Volume_Effect_Jul').val() : 0;
+    var _ST_Volume_Effect_Aug = $('#ST_Volume_Effect_Aug') != null ? $('#ST_Volume_Effect_Aug').val() : 0;
+    var _ST_Volume_Effect_Sep = $('#ST_Volume_Effect_Sep') != null ? $('#ST_Volume_Effect_Sep').val() : 0;
+    var _ST_Volume_Effect_Oct = $('#ST_Volume_Effect_Oct') != null ? $('#ST_Volume_Effect_Oct').val() : 0;
+    var _ST_Volume_Effect_Nov = $('#ST_Volume_Effect_Nov') != null ? $('#ST_Volume_Effect_Nov').val() : 0;
+    var _ST_Volume_Effect_Dec = $('#ST_Volume_Effect_Dec') != null ? $('#ST_Volume_Effect_Dec').val() : 0;
+    var _ST_Volume_Effect_Total = $('#ST_Volume_Effect_Total') != null ? $('#ST_Volume_Effect_Total').val() : 0;
+
+    $('#ST_Volume_Effect_Jan_').val(Math.round(parseFloat(_ST_Volume_Effect_Jan)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_Feb_').val(Math.round(parseFloat(_ST_Volume_Effect_Feb)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_Mar_').val(Math.round(parseFloat(_ST_Volume_Effect_Mar)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_Apr_').val(Math.round(parseFloat(_ST_Volume_Effect_Apr)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_May_').val(Math.round(parseFloat(_ST_Volume_Effect_May)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_Jun_').val(Math.round(parseFloat(_ST_Volume_Effect_Jun)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_Jul_').val(Math.round(parseFloat(_ST_Volume_Effect_Jul)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_Aug_').val(Math.round(parseFloat(_ST_Volume_Effect_Aug)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_Sep_').val(Math.round(parseFloat(_ST_Volume_Effect_Sep)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_Oct_').val(Math.round(parseFloat(_ST_Volume_Effect_Oct)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_Nov_').val(Math.round(parseFloat(_ST_Volume_Effect_Nov)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_Dec_').val(Math.round(parseFloat(_ST_Volume_Effect_Dec)).toLocaleString("en-US"));
+    $('#ST_Volume_Effect_Total_').val(Math.round(parseFloat(_ST_Volume_Effect_Total)).toLocaleString("en-US"));
 }
 
 
@@ -4775,7 +5119,39 @@ function calculate_FY_Secured_Target_Total() {
             parseFloat($('#FY_Secured_Target_Dec').val()));
 
         $('#FY_Secured_Target_Total').val(parseFloat(xFY_Secured_Target_Total).toFixed(_toFixed));
+        bind_FY_Secured_Target();
     }
+}
+
+function bind_FY_Secured_Target() {
+
+    var _FY_Secured_Target_Jan = $('#FY_Secured_Target_Jan') != null ? $('#FY_Secured_Target_Jan').val() : 0;
+    var _FY_Secured_Target_Feb = $('#FY_Secured_Target_Feb') != null ? $('#FY_Secured_Target_Feb').val() : 0;
+    var _FY_Secured_Target_Mar = $('#FY_Secured_Target_Mar') != null ? $('#FY_Secured_Target_Mar').val() : 0;
+    var _FY_Secured_Target_Apr = $('#FY_Secured_Target_Apr') != null ? $('#FY_Secured_Target_Apr').val() : 0;
+    var _FY_Secured_Target_May = $('#FY_Secured_Target_May') != null ? $('#FY_Secured_Target_May').val() : 0;
+    var _FY_Secured_Target_Jun = $('#FY_Secured_Target_Jun') != null ? $('#FY_Secured_Target_Jun').val() : 0;
+    var _FY_Secured_Target_Jul = $('#FY_Secured_Target_Jul') != null ? $('#FY_Secured_Target_Jul').val() : 0;
+    var _FY_Secured_Target_Aug = $('#FY_Secured_Target_Aug') != null ? $('#FY_Secured_Target_Aug').val() : 0;
+    var _FY_Secured_Target_Sep = $('#FY_Secured_Target_Sep') != null ? $('#FY_Secured_Target_Sep').val() : 0;
+    var _FY_Secured_Target_Oct = $('#FY_Secured_Target_Oct') != null ? $('#FY_Secured_Target_Oct').val() : 0;
+    var _FY_Secured_Target_Nov = $('#FY_Secured_Target_Nov') != null ? $('#FY_Secured_Target_Nov').val() : 0;
+    var _FY_Secured_Target_Dec = $('#FY_Secured_Target_Dec') != null ? $('#FY_Secured_Target_Dec').val() : 0;
+    var _FY_Secured_Target_Total = $('#FY_Secured_Target_Total') != null ? $('#FY_Secured_Target_Total').val() : 0;
+
+    $('#FY_Secured_Target_Jan_').val(Math.round(parseFloat(_FY_Secured_Target_Jan)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_Feb_').val(Math.round(parseFloat(_FY_Secured_Target_Feb)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_Mar_').val(Math.round(parseFloat(_FY_Secured_Target_Mar)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_Apr_').val(Math.round(parseFloat(_FY_Secured_Target_Apr)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_May_').val(Math.round(parseFloat(_FY_Secured_Target_May)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_Jun_').val(Math.round(parseFloat(_FY_Secured_Target_Jun)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_Jul_').val(Math.round(parseFloat(_FY_Secured_Target_Jul)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_Aug_').val(Math.round(parseFloat(_FY_Secured_Target_Aug)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_Sep_').val(Math.round(parseFloat(_FY_Secured_Target_Sep)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_Oct_').val(Math.round(parseFloat(_FY_Secured_Target_Oct)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_Nov_').val(Math.round(parseFloat(_FY_Secured_Target_Nov)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_Dec_').val(Math.round(parseFloat(_FY_Secured_Target_Dec)).toLocaleString("en-US"));
+    $('#FY_Secured_Target_Total_').val(Math.round(parseFloat(_FY_Secured_Target_Total)).toLocaleString("en-US"));
 }
 
 //Secured Target END
@@ -5004,9 +5380,41 @@ function calculate_CPI_Effect_Total() {
             parseFloat($('#CPI_Effect_Nov').val()) +
             parseFloat($('#CPI_Effect_Dec').val()));
 
-        $('#CPI_Effect_Total').val(parseFloat(xCPI_Effect_Total).toFixed(2));
+        $('#CPI_Effect_Total').val(parseFloat(xCPI_Effect_Total).toFixed(_toFixed));
         calculate_txt_YTD_Cost_Avoid_Vs_CPI();
     }
+}
+
+function bind_CPI_Fields() {
+
+    var _CPI_Effect_Jan = $('#CPI_Effect_Jan') != null ? $('#CPI_Effect_Jan').val() : 0;
+    var _CPI_Effect_Feb = $('#CPI_Effect_Feb') != null ? $('#CPI_Effect_Feb').val() : 0;
+    var _CPI_Effect_Mar = $('#CPI_Effect_Mar') != null ? $('#CPI_Effect_Mar').val() : 0;
+    var _CPI_Effect_Apr = $('#CPI_Effect_Apr') != null ? $('#CPI_Effect_Apr').val() : 0;
+    var _CPI_Effect_May = $('#CPI_Effect_May') != null ? $('#CPI_Effect_May').val() : 0;
+    var _CPI_Effect_Jun = $('#CPI_Effect_Jun') != null ? $('#CPI_Effect_Jun').val() : 0;
+    var _CPI_Effect_Jul = $('#CPI_Effect_Jul') != null ? $('#CPI_Effect_Jul').val() : 0;
+    var _CPI_Effect_Aug = $('#CPI_Effect_Aug') != null ? $('#CPI_Effect_Aug').val() : 0;
+    var _CPI_Effect_Sep = $('#CPI_Effect_Sep') != null ? $('#CPI_Effect_Sep').val() : 0;
+    var _CPI_Effect_Oct = $('#CPI_Effect_Oct') != null ? $('#CPI_Effect_Oct').val() : 0;
+    var _CPI_Effect_Nov = $('#CPI_Effect_Nov') != null ? $('#CPI_Effect_Nov').val() : 0;
+    var _CPI_Effect_Dec = $('#CPI_Effect_Dec') != null ? $('#CPI_Effect_Dec').val() : 0;
+    var _CPI_Effect_Total = $('#CPI_Effect_Total') != null ? $('#CPI_Effect_Total').val() : 0;
+
+    $('#CPI_Effect_Jan_').val(Math.round(parseFloat(_CPI_Effect_Jan)).toLocaleString("en-US"));
+    $('#CPI_Effect_Feb_').val(Math.round(parseFloat(_CPI_Effect_Feb)).toLocaleString("en-US"));
+    $('#CPI_Effect_Mar_').val(Math.round(parseFloat(_CPI_Effect_Mar)).toLocaleString("en-US"));
+    $('#CPI_Effect_Apr_').val(Math.round(parseFloat(_CPI_Effect_Apr)).toLocaleString("en-US"));
+    $('#CPI_Effect_May_').val(Math.round(parseFloat(_CPI_Effect_May)).toLocaleString("en-US"));
+    $('#CPI_Effect_Jun_').val(Math.round(parseFloat(_CPI_Effect_Jun)).toLocaleString("en-US"));
+    $('#CPI_Effect_Jul_').val(Math.round(parseFloat(_CPI_Effect_Jul)).toLocaleString("en-US"));
+    $('#CPI_Effect_Aug_').val(Math.round(parseFloat(_CPI_Effect_Aug)).toLocaleString("en-US"));
+    $('#CPI_Effect_Sep_').val(Math.round(parseFloat(_CPI_Effect_Sep)).toLocaleString("en-US"));
+    $('#CPI_Effect_Oct_').val(Math.round(parseFloat(_CPI_Effect_Oct)).toLocaleString("en-US"));
+    $('#CPI_Effect_Nov_').val(Math.round(parseFloat(_CPI_Effect_Nov)).toLocaleString("en-US"));
+    $('#CPI_Effect_Dec_').val(Math.round(parseFloat(_CPI_Effect_Dec)).toLocaleString("en-US"));
+    $('#CPI_Effect_Total_').val(Math.round(parseFloat(_CPI_Effect_Total)).toLocaleString("en-US"));
+
 }
 
 //POP UP Calcs
@@ -5151,6 +5559,25 @@ function calculate_txt_YTD_achieved() {
 
         var xtxt_YTD_achieved = parseFloat(xtxt_YTD_Achieved_PRICE_EF) + parseFloat(xtxt_YTD_Achieved_VOLUME_EF);
         txt_YTD_achieved.SetValue(xtxt_YTD_achieved.toFixed(_toFixed));
+
+        //GrdInitType
+        var xGrdInitType = GrdInitType.GetText();
+        //GrdInitCategory
+        var xGrdInitCategory = GrdInitCategory.GetText();
+        //GrdSubCost
+        var xGrdSubCost = GrdSubCost.GetText();
+
+        if (xtxt_YTD_achieved < 0) {
+            GrdInitType.SetText("Negative Cost Impact");
+            GrdInitCategory.SetText(xGrdInitCategory);
+            GrdSubCost.SetText(xGrdSubCost);
+        }
+        else
+        {
+            GrdInitType.SetText("Positive Cost Impact");
+            GrdInitCategory.SetText(xGrdInitCategory);
+            GrdSubCost.SetText(xGrdSubCost);
+        }
     }
 }
 //Acheivement YTD Calcs END
@@ -5185,7 +5612,5 @@ function calculate_txt_FY_Cost_Avoid_Vs_CPI() {
     }
 }
 // CPI YTD Calcs END
-
-
 
 //ENH153-2 calculations

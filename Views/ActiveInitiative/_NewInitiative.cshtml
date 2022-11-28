@@ -30,6 +30,7 @@
     .year_td_base {
         width: 90px;
     }
+
     .td_head_top {
         width: 30%;
         font-weight: bold;
@@ -47,9 +48,11 @@
         width: 30%;
     }
 
-    .td_cols{}
+    .td_cols {
+    }
 
-    .td_cols_total{}
+    .td_cols_total {
+    }
 
     .monthly_Calcs_input {
         width: 75px;
@@ -61,6 +64,7 @@
         text-align: center;
         width: 1%;
     }
+
     .year_td_YTDFields {
         width: inherit;
         padding: 2px;
@@ -77,7 +81,7 @@
                     <br />
                     <font style="font-size:10pt;"><b>Initiative ID:</b></font>
                     @Html.DevExpress().Label(settings =>
-               { 
+               {
                    settings.Name = "LblInitiative";
                    settings.Text = @projectYear + "XX####";
                    settings.ControlStyle.Font.Bold = true;
@@ -110,7 +114,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdSubCountryPopup";
                                         //settings.ClientEnabled = false;
-                            settings.Width = 190;
+                                        settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCountryPopupChanged";
                         }).GetHtml();
                     }
@@ -126,7 +130,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdBrandPopup";
                                         //settings.ClientEnabled = false;
-                            settings.Width = 190;
+                                        settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnBrandPopupChanged";
                         }).GetHtml();
                     }
@@ -142,7 +146,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdLegalEntityPopup";
                                         //settings.ClientEnabled = false;
-                            settings.Width = 190;
+                                        settings.Width = 190;
                         }).GetHtml();
                     }
                     @*@Html.Action("GrdLegalEntityPartial")*@
@@ -225,7 +229,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdInitStatus";
                                         //settings.ClientEnabled = false;
-                            settings.Width = 190;
+                                        settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnInitStatusChanged";
                         }).GetHtml();
                     }
@@ -251,9 +255,9 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "TxPortName";
                                         //settings.ClientEnabled = false;
-                            settings.Width = 190;
+                                        settings.Width = 190;
                                         //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnGrdInitTypeChanged";
-                        }).GetHtml();
+                                    }).GetHtml();
                     }
                     @*<input class="inputan-popup" disabled="disabled" type="text" id="TxPortName" style="font-size: 8pt;" />*@
                     @*@Html.DevExpress().TextBox(settings =>
@@ -304,7 +308,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdInitType";
                                         //settings.ClientEnabled = false;
-                            settings.Width = 190;
+                                        settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnGrdInitTypeChanged";
                         }).GetHtml();
                     }
@@ -320,7 +324,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(380);
                             settings.Properties.ClientInstanceName = "GrdInitCategory";
                                         //settings.ClientEnabled = false;
-                            settings.Width = 380;
+                                        settings.Width = 380;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnGrdInitCategoryPopupChanged";
                         }).GetHtml();
                     }
@@ -337,7 +341,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(125);
                             settings.Properties.ClientInstanceName = "GrdSubCost";
                                         //settings.ClientEnabled = false;
-                            settings.Width = 380;
+                                        settings.Width = 380;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCostPopupChanged";
                         }).GetHtml();
                     }
@@ -354,7 +358,7 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdActionType";
                                         //settings.ClientEnabled = false;
-                            settings.Width = 190;
+                                        settings.Width = 190;
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnActionTypePopupChanged";
                         }).GetHtml();
                     }
@@ -371,9 +375,9 @@
                             settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
                             settings.Properties.ClientInstanceName = "GrdSynImpact";
                                         //settings.ClientEnabled = false;
-                            settings.Width = 190;
+                                        settings.Width = 190;
                                         //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSubCountryPopupChanged";
-                        }).GetHtml();
+                                    }).GetHtml();
                     }
                     @*@Html.Action("GrdSynImpactPartial")*@
                 </div>
@@ -689,19 +693,19 @@
                                 <div class="span2a">
                                     Unit of volumes<font color="red">*</font>:
                                     @{ var CboUnitOfVolume = Html.DevExpress().ComboBox(settings =>
-                                          {
+                                             {
 
-                                              settings.Name = "CboUnitOfVolume";
-                                              settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
+                                                 settings.Name = "CboUnitOfVolume";
+                                                 settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
 
-                                              settings.Properties.Items.Add("NONE", "");
-                                              settings.Properties.Items.Add("TEU INLAND");
-                                              settings.Properties.Items.Add("TEU SHIPPING");
-                                              settings.Properties.Items.Add("TC INLAND");
-                                              settings.Properties.Items.Add("TC SHIPPING");
-                                              settings.Properties.Items.Add("OTHERS");
+                                                 settings.Properties.Items.Add("NONE", "");
+                                                 settings.Properties.Items.Add("TEU INLAND");
+                                                 settings.Properties.Items.Add("TEU SHIPPING");
+                                                 settings.Properties.Items.Add("TC INLAND");
+                                                 settings.Properties.Items.Add("TC SHIPPING");
+                                                 settings.Properties.Items.Add("OTHERS");
 
-                                          }).GetHtml();}
+                                             }).GetHtml();}
                                 </div>
                                 <div class="span2a">
                                     Actuals Volumes N-1<font color="red">*</font>:
@@ -750,7 +754,7 @@
                                             settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                             settings.Properties.NullText = " ";
                                             settings.Properties.NullDisplayText = " ";
-                                            settings.Properties.DisplayFormatString = "#,###.##";
+                                            settings.Properties.DisplayFormatString = "#,###";
                                             settings.Properties.DisplayFormatInEditMode = false;
                                             settings.Properties.ValidationSettings.Display = Display.Dynamic;
                                             settings.Enabled = false;
@@ -814,7 +818,7 @@
                                             settings.Width = 190;
                                             settings.Properties.NullText = " ";
                                             settings.Properties.NullDisplayText = " ";
-                                            settings.Properties.DisplayFormatString = "#,###.##";
+                                            settings.Properties.DisplayFormatString = "#,###";
                                             settings.Properties.DisplayFormatInEditMode = true;
                                             settings.Properties.ClientSideEvents.LostFocus = "";
 
@@ -853,34 +857,34 @@
                         </tr>
                         <tr>
                             <td class="td_head_top">Actual volume N-1</td>
-                            <td id="_Actual_volume_Nmin1_Jan" class=" year_td_top"><input id="Actual_volume_Nmin1_Jan" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Actual_volume_Nmin1_Feb" class=" year_td_top"><input id="Actual_volume_Nmin1_Feb" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Actual_volume_Nmin1_Mar" class=" year_td_top"><input id="Actual_volume_Nmin1_Mar" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Actual_volume_Nmin1_Apr" class=" year_td_top"><input id="Actual_volume_Nmin1_Apr" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Actual_volume_Nmin1_May" class=" year_td_top"><input id="Actual_volume_Nmin1_May" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Actual_volume_Nmin1_Jun" class=" year_td_top"><input id="Actual_volume_Nmin1_Jun" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Actual_volume_Nmin1_Jul" class=" year_td_top"><input id="Actual_volume_Nmin1_Jul" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Actual_volume_Nmin1_Aug" class=" year_td_top"><input id="Actual_volume_Nmin1_Aug" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Actual_volume_Nmin1_Sep" class=" year_td_top"><input id="Actual_volume_Nmin1_Sep" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Actual_volume_Nmin1_Oct" class=" year_td_top"><input id="Actual_volume_Nmin1_Oct" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Actual_volume_Nmin1_Nov" class=" year_td_top"><input id="Actual_volume_Nmin1_Nov" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Actual_volume_Nmin1_Dec" class=" year_td_top"><input id="Actual_volume_Nmin1_Dec" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Jan" class=" year_td_top"><input id="Actual_volume_Nmin1_Jan" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_Jan_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Feb" class=" year_td_top"><input id="Actual_volume_Nmin1_Feb" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_Feb_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Mar" class=" year_td_top"><input id="Actual_volume_Nmin1_Mar" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_Mar_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Apr" class=" year_td_top"><input id="Actual_volume_Nmin1_Apr" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_Apr_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_May" class=" year_td_top"><input id="Actual_volume_Nmin1_May" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_May_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Jun" class=" year_td_top"><input id="Actual_volume_Nmin1_Jun" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_Jun_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Jul" class=" year_td_top"><input id="Actual_volume_Nmin1_Jul" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_Jul_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Aug" class=" year_td_top"><input id="Actual_volume_Nmin1_Aug" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_Aug_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Sep" class=" year_td_top"><input id="Actual_volume_Nmin1_Sep" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_Sep_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Oct" class=" year_td_top"><input id="Actual_volume_Nmin1_Oct" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_Oct_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Nov" class=" year_td_top"><input id="Actual_volume_Nmin1_Nov" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_Nov_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Actual_volume_Nmin1_Dec" class=" year_td_top"><input id="Actual_volume_Nmin1_Dec" disabled="disabled" type="hidden" /><input id="Actual_volume_Nmin1_Dec_" disabled="disabled" class="year_td_base" type="text" /></td>
 
                         </tr>
                         <tr>
                             <td class="td_head_top">Target  volume N</td>
-                            <td id="_Target_Volumes_Jan" class=" year_td_top"><input id="Target_Volumes_Jan" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Target_Volumes_Feb" class=" year_td_top"><input id="Target_Volumes_Feb" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Target_Volumes_Mar" class=" year_td_top"><input id="Target_Volumes_Mar" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Target_Volumes_Apr" class=" year_td_top"><input id="Target_Volumes_Apr" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Target_Volumes_May" class=" year_td_top"><input id="Target_Volumes_May" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Target_Volumes_Jun" class=" year_td_top"><input id="Target_Volumes_Jun" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Target_Volumes_Jul" class=" year_td_top"><input id="Target_Volumes_Jul" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Target_Volumes_Aug" class=" year_td_top"><input id="Target_Volumes_Aug" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Target_Volumes_Sep" class=" year_td_top"><input id="Target_Volumes_Sep" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Target_Volumes_Oct" class=" year_td_top"><input id="Target_Volumes_Oct" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Target_Volumes_Nov" class=" year_td_top"><input id="Target_Volumes_Nov" disabled="disabled" class="year_td_base" type="text" /></td>
-                            <td id="_Target_Volumes_Dec" class=" year_td_top"><input id="Target_Volumes_Dec" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_Jan" class=" year_td_top"><input id="Target_Volumes_Jan" disabled="disabled" type="hidden" /><input id="Target_Volumes_Jan_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_Feb" class=" year_td_top"><input id="Target_Volumes_Feb" disabled="disabled" type="hidden" /><input id="Target_Volumes_Feb_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_Mar" class=" year_td_top"><input id="Target_Volumes_Mar" disabled="disabled" type="hidden" /><input id="Target_Volumes_Mar_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_Apr" class=" year_td_top"><input id="Target_Volumes_Apr" disabled="disabled" type="hidden" /><input id="Target_Volumes_Apr_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_May" class=" year_td_top"><input id="Target_Volumes_May" disabled="disabled" type="hidden" /><input id="Target_Volumes_May_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_Jun" class=" year_td_top"><input id="Target_Volumes_Jun" disabled="disabled" type="hidden" /><input id="Target_Volumes_Jun_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_Jul" class=" year_td_top"><input id="Target_Volumes_Jul" disabled="disabled" type="hidden" /><input id="Target_Volumes_Jul_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_Aug" class=" year_td_top"><input id="Target_Volumes_Aug" disabled="disabled" type="hidden" /><input id="Target_Volumes_Aug_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_Sep" class=" year_td_top"><input id="Target_Volumes_Sep" disabled="disabled" type="hidden" /><input id="Target_Volumes_Sep_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_Oct" class=" year_td_top"><input id="Target_Volumes_Oct" disabled="disabled" type="hidden" /><input id="Target_Volumes_Oct_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_Nov" class=" year_td_top"><input id="Target_Volumes_Nov" disabled="disabled" type="hidden" /><input id="Target_Volumes_Nov_" disabled="disabled" class="year_td_base" type="text" /></td>
+                            <td id="_Target_Volumes_Dec" class=" year_td_top"><input id="Target_Volumes_Dec" disabled="disabled" type="hidden" /><input id="Target_Volumes_Dec_" disabled="disabled" class="year_td_base" type="text" /></td>
 
                         </tr>
                         <tr>
@@ -1104,7 +1108,7 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = " ";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Properties.ClientSideEvents.KeyUp = "Actual_volume_N_keyUp";
 
@@ -1169,7 +1173,7 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = " ";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Enabled = false;
 
@@ -1188,7 +1192,7 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = " ";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Enabled = false;
 
@@ -1207,7 +1211,7 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = "0";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Enabled = false;
 
@@ -1226,10 +1230,9 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = "0";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Enabled = false;
-
                                     }).GetHtml();
 
                                 }
@@ -1245,7 +1248,7 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = "0";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Enabled = false;
 
@@ -1264,7 +1267,7 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = "0";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Enabled = false;
 
@@ -1283,7 +1286,7 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = "0";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Enabled = false;
 
@@ -1302,7 +1305,7 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = "0";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Enabled = false;
 
@@ -1321,7 +1324,7 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = "0";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Properties.ClientSideEvents.LostFocus = "";
                                         settings.Enabled = false;
@@ -1341,9 +1344,10 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = "0";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Properties.ClientSideEvents.LostFocus = "";
+                                        settings.Enabled = false;
 
                                     }).GetHtml();
 
@@ -1360,9 +1364,10 @@
                                         settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
                                         settings.Properties.NullText = "0";
                                         settings.Properties.NullDisplayText = " ";
-                                        settings.Properties.DisplayFormatString = "#,###.##";
+                                        settings.Properties.DisplayFormatString = "#,###";
                                         settings.Properties.DisplayFormatInEditMode = true;
                                         settings.Properties.ClientSideEvents.LostFocus = "";
+                                        settings.Enabled = false;
 
                                     }).GetHtml();
 
@@ -1424,36 +1429,36 @@
                                             </tr>
                                             <tr>
                                                 <td class="td_head">Actual CPU N-1</td>
-                                                <td id="_Actual_CPU_Nmin1_Jan" class=" year_td"><input id="Actual_CPU_Nmin1_Jan" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_Feb" class=" year_td"><input id="Actual_CPU_Nmin1_Feb" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_Mar" class=" year_td"><input id="Actual_CPU_Nmin1_Mar" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_Apr" class=" year_td"><input id="Actual_CPU_Nmin1_Apr" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_May" class=" year_td"><input id="Actual_CPU_Nmin1_May" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_Jun" class=" year_td"><input id="Actual_CPU_Nmin1_Jun" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_Jul" class=" year_td"><input id="Actual_CPU_Nmin1_Jul" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_Aug" class=" year_td"><input id="Actual_CPU_Nmin1_Aug" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_Sep" class=" year_td"><input id="Actual_CPU_Nmin1_Sep" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_Oct" class=" year_td"><input id="Actual_CPU_Nmin1_Oct" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_Nov" class=" year_td"><input id="Actual_CPU_Nmin1_Nov" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_Dec" class=" year_td"><input id="Actual_CPU_Nmin1_Dec" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Actual_CPU_Nmin1_Total" class=" year_td"><input id="Actual_CPU_Nmin1_Total" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Jan" class=" year_td"><input id="Actual_CPU_Nmin1_Jan" type="hidden" /><input id="Actual_CPU_Nmin1_Jan_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Feb" class=" year_td"><input id="Actual_CPU_Nmin1_Feb" type="hidden" /><input id="Actual_CPU_Nmin1_Feb_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Mar" class=" year_td"><input id="Actual_CPU_Nmin1_Mar" type="hidden" /><input id="Actual_CPU_Nmin1_Mar_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Apr" class=" year_td"><input id="Actual_CPU_Nmin1_Apr" type="hidden" /><input id="Actual_CPU_Nmin1_Apr_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_May" class=" year_td"><input id="Actual_CPU_Nmin1_May" type="hidden" /><input id="Actual_CPU_Nmin1_May_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Jun" class=" year_td"><input id="Actual_CPU_Nmin1_Jun" type="hidden" /><input id="Actual_CPU_Nmin1_Jun_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Jul" class=" year_td"><input id="Actual_CPU_Nmin1_Jul" type="hidden" /><input id="Actual_CPU_Nmin1_Jul_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Aug" class=" year_td"><input id="Actual_CPU_Nmin1_Aug" type="hidden" /><input id="Actual_CPU_Nmin1_Aug_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Sep" class=" year_td"><input id="Actual_CPU_Nmin1_Sep" type="hidden" /><input id="Actual_CPU_Nmin1_Sep_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Oct" class=" year_td"><input id="Actual_CPU_Nmin1_Oct" type="hidden" /><input id="Actual_CPU_Nmin1_Oct_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Nov" class=" year_td"><input id="Actual_CPU_Nmin1_Nov" type="hidden" /><input id="Actual_CPU_Nmin1_Nov_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Dec" class=" year_td"><input id="Actual_CPU_Nmin1_Dec" type="hidden" /><input id="Actual_CPU_Nmin1_Dec_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Actual_CPU_Nmin1_Total" class=" year_td"><input id="Actual_CPU_Nmin1_Total" type="hidden" /><input id="Actual_CPU_Nmin1_Total_" disabled="disabled" class="monthly_Calcs_input" type="text" /></td>
 
                                             </tr>
                                             <tr>
                                                 <td class="td_head">Target  CPU N</td>
-                                                <td id="_Target_CPU_N_Jan" class=" year_td"><input id="Target_CPU_N_Jan" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_Feb" class=" year_td"><input id="Target_CPU_N_Feb" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_Mar" class=" year_td"><input id="Target_CPU_N_Mar" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_Apr" class=" year_td"><input id="Target_CPU_N_Apr" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_May" class=" year_td"><input id="Target_CPU_N_May" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_Jun" class=" year_td"><input id="Target_CPU_N_Jun" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_Jul" class=" year_td"><input id="Target_CPU_N_Jul" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_Aug" class=" year_td"><input id="Target_CPU_N_Aug" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_Sep" class=" year_td"><input id="Target_CPU_N_Sep" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_Oct" class=" year_td"><input id="Target_CPU_N_Oct" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_Nov" class=" year_td"><input id="Target_CPU_N_Nov" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_Dec" class=" year_td"><input id="Target_CPU_N_Dec" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Target_CPU_N_Total" class=" year_td"><input id="Target_CPU_N_Total" class="monthly_Calcs_input" type="text" /></td>
+                                                <td id="_Target_CPU_N_Jan" class=" year_td"><input id="Target_CPU_N_Jan" type="hidden" /><input id="Target_CPU_N_Jan_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_Feb" class=" year_td"><input id="Target_CPU_N_Feb" type="hidden" /><input id="Target_CPU_N_Feb_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_Mar" class=" year_td"><input id="Target_CPU_N_Mar" type="hidden" /><input id="Target_CPU_N_Mar_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_Apr" class=" year_td"><input id="Target_CPU_N_Apr" type="hidden" /><input id="Target_CPU_N_Apr_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_May" class=" year_td"><input id="Target_CPU_N_May" type="hidden" /><input id="Target_CPU_N_May_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_Jun" class=" year_td"><input id="Target_CPU_N_Jun" type="hidden" /><input id="Target_CPU_N_Jun_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_Jul" class=" year_td"><input id="Target_CPU_N_Jul" type="hidden" /><input id="Target_CPU_N_Jul_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_Aug" class=" year_td"><input id="Target_CPU_N_Aug" type="hidden" /><input id="Target_CPU_N_Aug_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_Sep" class=" year_td"><input id="Target_CPU_N_Sep" type="hidden" /><input id="Target_CPU_N_Sep_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_Oct" class=" year_td"><input id="Target_CPU_N_Oct" type="hidden" /><input id="Target_CPU_N_Oct_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_Nov" class=" year_td"><input id="Target_CPU_N_Nov" type="hidden" /><input id="Target_CPU_N_Nov_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_Dec" class=" year_td"><input id="Target_CPU_N_Dec" type="hidden" /><input id="Target_CPU_N_Dec_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Target_CPU_N_Total" class=" year_td"><input id="Target_CPU_N_Total" type="hidden" /><input id="Target_CPU_N_Total_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
 
 
                                             </tr>
@@ -1463,55 +1468,51 @@
                                             </tr>
                                             <tr>
                                                 <td class="td_head">Price effect</td>
-                                                <td id="_A_Price_effect_Jan" class=" year_td"><input id="A_Price_effect_Jan" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_Feb" class=" year_td"><input id="A_Price_effect_Feb" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_Mar" class=" year_td"><input id="A_Price_effect_Mar" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_Apr" class=" year_td"><input id="A_Price_effect_Apr" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_May" class=" year_td"><input id="A_Price_effect_May" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_Jun" class=" year_td"><input id="A_Price_effect_Jun" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_Jul" class=" year_td"><input id="A_Price_effect_Jul" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_Aug" class=" year_td"><input id="A_Price_effect_Aug" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_Sep" class=" year_td"><input id="A_Price_effect_Sep" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_Oct" class=" year_td"><input id="A_Price_effect_Oct" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_Nov" class=" year_td"><input id="A_Price_effect_Nov" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_Dec" class=" year_td"><input id="A_Price_effect_Dec" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Price_effect_Total" class=" year_td"><input id="A_Price_effect_Total" class="monthly_Calcs_input" type="text" /></td>
-
-
+                                                <td id="_A_Price_effect_Jan" class=" year_td"><input id="A_Price_effect_Jan" type="hidden" /><input id="A_Price_effect_Jan_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_Feb" class=" year_td"><input id="A_Price_effect_Feb" type="hidden" /><input id="A_Price_effect_Feb_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_Mar" class=" year_td"><input id="A_Price_effect_Mar" type="hidden" /><input id="A_Price_effect_Mar_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_Apr" class=" year_td"><input id="A_Price_effect_Apr" type="hidden" /><input id="A_Price_effect_Apr_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_May" class=" year_td"><input id="A_Price_effect_May" type="hidden" /><input id="A_Price_effect_May_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_Jun" class=" year_td"><input id="A_Price_effect_Jun" type="hidden" /><input id="A_Price_effect_Jun_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_Jul" class=" year_td"><input id="A_Price_effect_Jul" type="hidden" /><input id="A_Price_effect_Jul_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_Aug" class=" year_td"><input id="A_Price_effect_Aug" type="hidden" /><input id="A_Price_effect_Aug_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_Sep" class=" year_td"><input id="A_Price_effect_Sep" type="hidden" /><input id="A_Price_effect_Sep_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_Oct" class=" year_td"><input id="A_Price_effect_Oct" type="hidden" /><input id="A_Price_effect_Oct_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_Nov" class=" year_td"><input id="A_Price_effect_Nov" type="hidden" /><input id="A_Price_effect_Nov_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_Dec" class=" year_td"><input id="A_Price_effect_Dec" type="hidden" /><input id="A_Price_effect_Dec_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Price_effect_Total" class=" year_td"><input id="A_Price_effect_Total" type="hidden" /><input id="A_Price_effect_Total_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
                                             </tr>
                                             <tr>
                                                 <td class="td_head">Volume Effect</td>
-                                                <td id="_A_Volume_Effect_Jan" class=" year_td"><input id="A_Volume_Effect_Jan" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_Feb" class=" year_td"><input id="A_Volume_Effect_Feb" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_Mar" class=" year_td"><input id="A_Volume_Effect_Mar" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_Apr" class=" year_td"><input id="A_Volume_Effect_Apr" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_May" class=" year_td"><input id="A_Volume_Effect_May" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_Jun" class=" year_td"><input id="A_Volume_Effect_Jun" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_Jul" class=" year_td"><input id="A_Volume_Effect_Jul" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_Aug" class=" year_td"><input id="A_Volume_Effect_Aug" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_Sep" class=" year_td"><input id="A_Volume_Effect_Sep" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_Oct" class=" year_td"><input id="A_Volume_Effect_Oct" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_Nov" class=" year_td"><input id="A_Volume_Effect_Nov" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_Dec" class=" year_td"><input id="A_Volume_Effect_Dec" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_A_Volume_Effect_Total" class=" year_td"><input id="A_Volume_Effect_Total" class="monthly_Calcs_input" type="text" /></td>
-
+                                                <td id="_A_Volume_Effect_Jan" class=" year_td"><input id="A_Volume_Effect_Jan" type="hidden" /><input id="A_Volume_Effect_Jan_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Feb" class=" year_td"><input id="A_Volume_Effect_Feb" type="hidden" /><input id="A_Volume_Effect_Feb_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Mar" class=" year_td"><input id="A_Volume_Effect_Mar" type="hidden" /><input id="A_Volume_Effect_Mar_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Apr" class=" year_td"><input id="A_Volume_Effect_Apr" type="hidden" /><input id="A_Volume_Effect_Apr_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_May" class=" year_td"><input id="A_Volume_Effect_May" type="hidden" /><input id="A_Volume_Effect_May_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Jun" class=" year_td"><input id="A_Volume_Effect_Jun" type="hidden" /><input id="A_Volume_Effect_Jun_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Jul" class=" year_td"><input id="A_Volume_Effect_Jul" type="hidden" /><input id="A_Volume_Effect_Jul_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Aug" class=" year_td"><input id="A_Volume_Effect_Aug" type="hidden" /><input id="A_Volume_Effect_Aug_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Sep" class=" year_td"><input id="A_Volume_Effect_Sep" type="hidden" /><input id="A_Volume_Effect_Sep_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Oct" class=" year_td"><input id="A_Volume_Effect_Oct" type="hidden" /><input id="A_Volume_Effect_Oct_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Nov" class=" year_td"><input id="A_Volume_Effect_Nov" type="hidden" /><input id="A_Volume_Effect_Nov_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Dec" class=" year_td"><input id="A_Volume_Effect_Dec" type="hidden" /><input id="A_Volume_Effect_Dec_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_A_Volume_Effect_Total" class=" year_td"><input id="A_Volume_Effect_Total" type="hidden" /><input id="A_Volume_Effect_Total_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
                                             </tr>
                                             <tr>
                                                 <td class="td_head">Total Achievement</td>
-                                                <td id="_Achievement_Jan" class=" year_td"><input id="Achievement_Jan" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_Feb" class=" year_td"><input id="Achievement_Feb" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_Mar" class=" year_td"><input id="Achievement_Mar" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_Apr" class=" year_td"><input id="Achievement_Apr" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_May" class=" year_td"><input id="Achievement_May" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_Jun" class=" year_td"><input id="Achievement_Jun" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_Jul" class=" year_td"><input id="Achievement_Jul" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_Aug" class=" year_td"><input id="Achievement_Aug" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_Sep" class=" year_td"><input id="Achievement_Sep" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_Oct" class=" year_td"><input id="Achievement_Oct" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_Nov" class=" year_td"><input id="Achievement_Nov" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_Dec" class=" year_td"><input id="Achievement_Dec" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_Achievement_Total" class=" year_td"><input id="Achievement_Total" class="monthly_Calcs_input" type="text" /></td>
-
+                                                <td id="_Achievement_Jan" class=" year_td"><input id="Achievement_Jan" type="hidden" /><input id="Achievement_Jan_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_Feb" class=" year_td"><input id="Achievement_Feb" type="hidden" /><input id="Achievement_Feb_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_Mar" class=" year_td"><input id="Achievement_Mar" type="hidden" /><input id="Achievement_Mar_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_Apr" class=" year_td"><input id="Achievement_Apr" type="hidden" /><input id="Achievement_Apr_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_May" class=" year_td"><input id="Achievement_May" type="hidden" /><input id="Achievement_May_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_Jun" class=" year_td"><input id="Achievement_Jun" type="hidden" /><input id="Achievement_Jun_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_Jul" class=" year_td"><input id="Achievement_Jul" type="hidden" /><input id="Achievement_Jul_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_Aug" class=" year_td"><input id="Achievement_Aug" type="hidden" /><input id="Achievement_Aug_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_Sep" class=" year_td"><input id="Achievement_Sep" type="hidden" /><input id="Achievement_Sep_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_Oct" class=" year_td"><input id="Achievement_Oct" type="hidden" /><input id="Achievement_Oct_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_Nov" class=" year_td"><input id="Achievement_Nov" type="hidden" /><input id="Achievement_Nov_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_Dec" class=" year_td"><input id="Achievement_Dec" type="hidden" /><input id="Achievement_Dec_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_Achievement_Total" class=" year_td"><input id="Achievement_Total" type="hidden" /><input id="Achievement_Total_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
                                             </tr>
                                             <tr class="blank_row"></tr>
                                             <tr>
@@ -1519,53 +1520,65 @@
                                             </tr>
                                             <tr>
                                                 <td class="td_head">Price effect</td>
-                                                <td id="_ST_Price_effect_Jan" class=" year_td"><input id="ST_Price_effect_Jan" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_Feb" class=" year_td"><input id="ST_Price_effect_Feb" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_Mar" class=" year_td"><input id="ST_Price_effect_Mar" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_Apr" class=" year_td"><input id="ST_Price_effect_Apr" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_May" class=" year_td"><input id="ST_Price_effect_May" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_Jun" class=" year_td"><input id="ST_Price_effect_Jun" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_Jul" class=" year_td"><input id="ST_Price_effect_Jul" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_Aug" class=" year_td"><input id="ST_Price_effect_Aug" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_Sep" class=" year_td"><input id="ST_Price_effect_Sep" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_Oct" class=" year_td"><input id="ST_Price_effect_Oct" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_Nov" class=" year_td"><input id="ST_Price_effect_Nov" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_Dec" class=" year_td"><input id="ST_Price_effect_Dec" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Price_effect_Total" class=" year_td"><input id="ST_Price_effect_Total" class="monthly_Calcs_input" type="text" /></td>
-
+                                                <td id="_ST_Price_effect_Jan" class=" year_td"><input id="ST_Price_effect_Jan" type="hidden" /><input id="ST_Price_effect_Jan_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_Feb" class=" year_td"><input id="ST_Price_effect_Feb" type="hidden" /><input id="ST_Price_effect_Feb_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_Mar" class=" year_td"><input id="ST_Price_effect_Mar" type="hidden" /><input id="ST_Price_effect_Mar_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_Apr" class=" year_td"><input id="ST_Price_effect_Apr" type="hidden" /><input id="ST_Price_effect_Apr_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_May" class=" year_td"><input id="ST_Price_effect_May" type="hidden" /><input id="ST_Price_effect_May_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_Jun" class=" year_td"><input id="ST_Price_effect_Jun" type="hidden" /><input id="ST_Price_effect_Jun_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_Jul" class=" year_td"><input id="ST_Price_effect_Jul" type="hidden" /><input id="ST_Price_effect_Jul_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_Aug" class=" year_td"><input id="ST_Price_effect_Aug" type="hidden" /><input id="ST_Price_effect_Aug_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_Sep" class=" year_td"><input id="ST_Price_effect_Sep" type="hidden" /><input id="ST_Price_effect_Sep_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_Oct" class=" year_td"><input id="ST_Price_effect_Oct" type="hidden" /><input id="ST_Price_effect_Oct_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_Nov" class=" year_td"><input id="ST_Price_effect_Nov" type="hidden" /><input id="ST_Price_effect_Nov_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_Dec" class=" year_td"><input id="ST_Price_effect_Dec" type="hidden" /><input id="ST_Price_effect_Dec_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Price_effect_Total" class=" year_td"><input id="ST_Price_effect_Total" type="hidden" /><input id="ST_Price_effect_Total_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
                                             </tr>
                                             <tr>
                                                 <td class="td_head">Volume Effect</td>
-                                                <td id="_ST_Volume_Effect_Jan" class=" year_td"><input id="ST_Volume_Effect_Jan" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_Feb" class=" year_td"><input id="ST_Volume_Effect_Feb" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_Mar" class=" year_td"><input id="ST_Volume_Effect_Mar" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_Apr" class=" year_td"><input id="ST_Volume_Effect_Apr" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_May" class=" year_td"><input id="ST_Volume_Effect_May" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_Jun" class=" year_td"><input id="ST_Volume_Effect_Jun" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_Jul" class=" year_td"><input id="ST_Volume_Effect_Jul" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_Aug" class=" year_td"><input id="ST_Volume_Effect_Aug" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_Sep" class=" year_td"><input id="ST_Volume_Effect_Sep" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_Oct" class=" year_td"><input id="ST_Volume_Effect_Oct" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_Nov" class=" year_td"><input id="ST_Volume_Effect_Nov" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_Dec" class=" year_td"><input id="ST_Volume_Effect_Dec" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_ST_Volume_Effect_Total" class=" year_td"><input id="ST_Volume_Effect_Total" class="monthly_Calcs_input" type="text" /></td>
-
+                                                <td id="_ST_Volume_Effect_Jan" class=" year_td"><input id="ST_Volume_Effect_Jan" type="hidden" /><input id="ST_Volume_Effect_Jan_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Feb" class=" year_td"><input id="ST_Volume_Effect_Feb" type="hidden" /><input id="ST_Volume_Effect_Feb_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Mar" class=" year_td"><input id="ST_Volume_Effect_Mar" type="hidden" /><input id="ST_Volume_Effect_Mar_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Apr" class=" year_td"><input id="ST_Volume_Effect_Apr" type="hidden" /><input id="ST_Volume_Effect_Apr_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_May" class=" year_td"><input id="ST_Volume_Effect_May" type="hidden" /><input id="ST_Volume_Effect_May_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Jun" class=" year_td"><input id="ST_Volume_Effect_Jun" type="hidden" /><input id="ST_Volume_Effect_Jun_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Jul" class=" year_td"><input id="ST_Volume_Effect_Jul" type="hidden" /><input id="ST_Volume_Effect_Jul_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Aug" class=" year_td"><input id="ST_Volume_Effect_Aug" type="hidden" /><input id="ST_Volume_Effect_Aug_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Sep" class=" year_td"><input id="ST_Volume_Effect_Sep" type="hidden" /><input id="ST_Volume_Effect_Sep_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Oct" class=" year_td"><input id="ST_Volume_Effect_Oct" type="hidden" /><input id="ST_Volume_Effect_Oct_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Nov" class=" year_td"><input id="ST_Volume_Effect_Nov" type="hidden" /><input id="ST_Volume_Effect_Nov_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Dec" class=" year_td"><input id="ST_Volume_Effect_Dec" type="hidden" /><input id="ST_Volume_Effect_Dec_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_ST_Volume_Effect_Total" class=" year_td"><input id="ST_Volume_Effect_Total" type="hidden" /><input id="ST_Volume_Effect_Total_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-weight-bold td_head">FY Secured Target</td>
-                                                <td id="_FY_Secured_Target_Jan" class=" year_td"><input id="FY_Secured_Target_Jan" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_Feb" class=" year_td"><input id="FY_Secured_Target_Feb" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_Mar" class=" year_td"><input id="FY_Secured_Target_Mar" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_Apr" class=" year_td"><input id="FY_Secured_Target_Apr" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_May" class=" year_td"><input id="FY_Secured_Target_May" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_Jun" class=" year_td"><input id="FY_Secured_Target_Jun" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_Jul" class=" year_td"><input id="FY_Secured_Target_Jul" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_Aug" class=" year_td"><input id="FY_Secured_Target_Aug" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_Sep" class=" year_td"><input id="FY_Secured_Target_Sep" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_Oct" class=" year_td"><input id="FY_Secured_Target_Oct" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_Nov" class=" year_td"><input id="FY_Secured_Target_Nov" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_Dec" class=" year_td"><input id="FY_Secured_Target_Dec" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_FY_Secured_Target_Total" class=" year_td"><input id="FY_Secured_Target_Total" class="monthly_Calcs_input" type="text" /></td>
+                                                @*<td id="_FY_Secured_Target_Jan" class=" year_td"><input id="FY_Secured_Target_Jan" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_Feb" class=" year_td"><input id="FY_Secured_Target_Feb" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_Mar" class=" year_td"><input id="FY_Secured_Target_Mar" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_Apr" class=" year_td"><input id="FY_Secured_Target_Apr" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_May" class=" year_td"><input id="FY_Secured_Target_May" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_Jun" class=" year_td"><input id="FY_Secured_Target_Jun" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_Jul" class=" year_td"><input id="FY_Secured_Target_Jul" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_Aug" class=" year_td"><input id="FY_Secured_Target_Aug" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_Sep" class=" year_td"><input id="FY_Secured_Target_Sep" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_Oct" class=" year_td"><input id="FY_Secured_Target_Oct" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_Nov" class=" year_td"><input id="FY_Secured_Target_Nov" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_Dec" class=" year_td"><input id="FY_Secured_Target_Dec" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_FY_Secured_Target_Total" class=" year_td"><input id="FY_Secured_Target_Total" class="monthly_Calcs_input" type="text" /></td>*@
+
+                                                <td id="_FY_Secured_Target_Jan" class=" year_td"><input id="FY_Secured_Target_Jan" type="hidden" /><input id="FY_Secured_Target_Jan_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_Feb" class=" year_td"><input id="FY_Secured_Target_Feb" type="hidden" /><input id="FY_Secured_Target_Feb_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_Mar" class=" year_td"><input id="FY_Secured_Target_Mar" type="hidden" /><input id="FY_Secured_Target_Mar_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_Apr" class=" year_td"><input id="FY_Secured_Target_Apr" type="hidden" /><input id="FY_Secured_Target_Apr_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_May" class=" year_td"><input id="FY_Secured_Target_May" type="hidden" /><input id="FY_Secured_Target_May_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_Jun" class=" year_td"><input id="FY_Secured_Target_Jun" type="hidden" /><input id="FY_Secured_Target_Jun_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_Jul" class=" year_td"><input id="FY_Secured_Target_Jul" type="hidden" /><input id="FY_Secured_Target_Jul_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_Aug" class=" year_td"><input id="FY_Secured_Target_Aug" type="hidden" /><input id="FY_Secured_Target_Aug_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_Sep" class=" year_td"><input id="FY_Secured_Target_Sep" type="hidden" /><input id="FY_Secured_Target_Sep_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_Oct" class=" year_td"><input id="FY_Secured_Target_Oct" type="hidden" /><input id="FY_Secured_Target_Oct_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_Nov" class=" year_td"><input id="FY_Secured_Target_Nov" type="hidden" /><input id="FY_Secured_Target_Nov_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_Dec" class=" year_td"><input id="FY_Secured_Target_Dec" type="hidden" /><input id="FY_Secured_Target_Dec_" class="monthly_Calcs_input" type="text" disabled="disabled"  /></td>
+                                                <td id="_FY_Secured_Target_Total" class=" year_td"><input id="FY_Secured_Target_Total" type="hidden" /><input id="FY_Secured_Target_Total_" class="monthly_Calcs_input" type="text" disabled="disabled" /></td>
 
                                             </tr>
                                         </table>
@@ -1596,19 +1609,34 @@
                                             </tr>
                                             <tr>
                                                 <td class="td_head">CPI Effect only</td>
-                                                <td id="_CPI_Effect_Jan" class=" year_td"><input id="CPI_Effect_Jan" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_Feb" class=" year_td"><input id="CPI_Effect_Feb" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_Mar" class=" year_td"><input id="CPI_Effect_Mar" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_Apr" class=" year_td"><input id="CPI_Effect_Apr" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_May" class=" year_td"><input id="CPI_Effect_May" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_Jun" class=" year_td"><input id="CPI_Effect_Jun" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_Jul" class=" year_td"><input id="CPI_Effect_Jul" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_Aug" class=" year_td"><input id="CPI_Effect_Aug" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_Sep" class=" year_td"><input id="CPI_Effect_Sep" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_Oct" class=" year_td"><input id="CPI_Effect_Oct" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_Nov" class=" year_td"><input id="CPI_Effect_Nov" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_Dec" class=" year_td"><input id="CPI_Effect_Dec" class="monthly_Calcs_input" type="text" /></td>
-                                                <td id="_CPI_Effect_Total" class=" year_td"><input id="CPI_Effect_Total" class="monthly_Calcs_input" type="text" /></td>
+                                                @*<td id="_CPI_Effect_Jan" class=" year_td"><input id="CPI_Effect_Jan_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_Feb" class=" year_td"><input id="CPI_Effect_Feb_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_Mar" class=" year_td"><input id="CPI_Effect_Mar_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_Apr" class=" year_td"><input id="CPI_Effect_Apr_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_May" class=" year_td"><input id="CPI_Effect_May_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_Jun" class=" year_td"><input id="CPI_Effect_Jun_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_Jul" class=" year_td"><input id="CPI_Effect_Jul_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_Aug" class=" year_td"><input id="CPI_Effect_Aug_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_Sep" class=" year_td"><input id="CPI_Effect_Sep_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_Oct" class=" year_td"><input id="CPI_Effect_Oct_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_Nov" class=" year_td"><input id="CPI_Effect_Nov_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_Dec" class=" year_td"><input id="CPI_Effect_Dec_" class="monthly_Calcs_input" type="text" /></td>
+                                                    <td id="_CPI_Effect_Total" class=" year_td"><input id="CPI_Effect_Total" class="monthly_Calcs_input" type="text" /></td>*@
+
+                                                <td id="_CPI_Effect_Jan" class=" year_td"><input id="CPI_Effect_Jan" type="hidden" /><input id="CPI_Effect_Jan_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_Feb" class=" year_td"><input id="CPI_Effect_Feb" type="hidden" /><input id="CPI_Effect_Feb_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_Mar" class=" year_td"><input id="CPI_Effect_Mar" type="hidden" /><input id="CPI_Effect_Mar_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_Apr" class=" year_td"><input id="CPI_Effect_Apr" type="hidden" /><input id="CPI_Effect_Apr_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_May" class=" year_td"><input id="CPI_Effect_May" type="hidden" /><input id="CPI_Effect_May_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_Jun" class=" year_td"><input id="CPI_Effect_Jun" type="hidden" /><input id="CPI_Effect_Jun_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_Jul" class=" year_td"><input id="CPI_Effect_Jul" type="hidden" /><input id="CPI_Effect_Jul_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_Aug" class=" year_td"><input id="CPI_Effect_Aug" type="hidden" /><input id="CPI_Effect_Aug_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_Sep" class=" year_td"><input id="CPI_Effect_Sep" type="hidden" /><input id="CPI_Effect_Sep_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_Oct" class=" year_td"><input id="CPI_Effect_Oct" type="hidden" /><input id="CPI_Effect_Oct_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_Nov" class=" year_td"><input id="CPI_Effect_Nov" type="hidden" /><input id="CPI_Effect_Nov_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_Dec" class=" year_td"><input id="CPI_Effect_Dec" type="hidden" /><input id="CPI_Effect_Dec_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+                                                <td id="_CPI_Effect_Total" class=" year_td"><input id="CPI_Effect_Total" type="hidden" /><input id="CPI_Effect_Total_" class="monthly_Calcs_input" disabled="disabled" type="text" /></td>
+
 
                                             </tr>
                                         </table>
