@@ -1601,7 +1601,7 @@
                 int c = 1;
                 foreach (string m in months)
                 {
-                    if (c < currentMonth)
+                    if (c <= currentMonth)
                     {
                         if (e.GetListSourceFieldValue(targetkeyword + m) != null)
                         {
@@ -1630,7 +1630,7 @@
                 int c = 1;
                 foreach (string m in months)
                 {
-                    if (c < currentMonth)
+                    if (c <= currentMonth)
                     {
                         if (e.GetListSourceFieldValue(achievedkeyword + m) != null)
                         {
