@@ -132,8 +132,15 @@ $(function () {
         clear_Procurement_fields();
         var min_py = 0; var max_py = 0;
         var py = projectYear;
-        min_py = (+py - 1);
-        max_py = (+py);
+        if (py < 2023) {
+            py = 2023;
+            min_py = (+py);
+            max_py = (+py);
+        } else
+        {
+            min_py = (+py);
+            max_py = (+py);
+        }
         //debugger;
         StartMonth.SetMinDate(new Date(min_py + '-01-01'));
         StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
@@ -371,8 +378,14 @@ $(function () {
     $("#BtnProcurementInitiative").on("click", function () {
         var min_py = 0; var max_py = 0;
         var py = projectYear;
-        min_py = (+py - 1);
-        max_py = (+py);
+        if (py < 2023) {
+            py = 2023;
+            min_py = (+py);
+            max_py = (+py);
+        } else {
+            min_py = (+py);
+            max_py = (+py);
+        }
 
         // debugger;
         StartMonth.SetMinDate(new Date(min_py + '-01-01'));
@@ -1996,8 +2009,21 @@ function OnStartMonthChanged() {
     OnEndMonthChanged();
 
     var awal = StartMonth.GetValue();
-    var dt = new Date(awal.getFullYear(), awal.getMonth() + 11, 1);
-    EndMonth.SetMaxDate(dt);
+    var xisProcurement = $('#isProcurement').val();
+    if (xisProcurement == 1) {
+
+        var _dt = new Date(awal.getFullYear(), awal.getMonth(), 1);
+        EndMonth.SetMinDate(_dt);
+
+        var dt = new Date(awal.getFullYear(), 11, 1);
+        EndMonth.SetMaxDate(dt);
+    }
+    else
+    {
+        var dt = new Date(awal.getFullYear(), awal.getMonth() + 11, 1);
+        EndMonth.SetMaxDate(dt);
+    }
+    
 
     //ENH153-2 calculations caller
     calculate_Actual_CPU_Nmin1();
@@ -2015,6 +2041,8 @@ function OnStartMonthChanged() {
 
 function OnEndMonthChanged() {
     var targetstartselected = false; var targetstartselected2 = true; var startmon; /*var projectYear = '@profileData.ProjectYear';*/
+    var xisProcurement = $('#isProcurement').val();
+
     var endmonthValue = '';
     if (EndMonth.GetValue() == null) {
         endmonthValue = StartMonth.GetValue();
