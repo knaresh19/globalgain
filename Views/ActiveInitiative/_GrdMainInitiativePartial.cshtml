@@ -3,6 +3,7 @@
     var tahun = profileData.ProjectYear;
     var projectMonth = profileData.ProjectMonth;
     bool isVisible = tahun >= 2023 ? true : false ;
+    bool VisibleStat = false;
     //var startdate = 
 }
 
@@ -141,6 +142,7 @@
                 //p.ClientSideEvents.SelectedIndexChanged = "OnSubCountryChanged";
                 p.BindList(ViewData["SourceCategoryName"]);
             });
+            c.Visible = VisibleStat;
         });
         settings.Columns.Add(c =>
         {
@@ -199,6 +201,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["CountryName"]);
             });
+            c.Visible = VisibleStat;
         });
         settings.Columns.Add(c =>
         {
@@ -216,6 +219,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["mregions"]);
             });
+            c.Visible = VisibleStat;
         });
         settings.Columns.Add(c =>
         {
@@ -232,6 +236,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["msubregion"]);
             });
+            c.Visible = VisibleStat;
         });
         settings.Columns.Add(c =>
         {
@@ -248,6 +253,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["mcluster"]);
             });
+            c.Visible = VisibleStat;
         });
         settings.Columns.Add(c =>
         {
@@ -303,6 +309,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["LegalEntityName"]);
             });
+            c.Visible = VisibleStat;
         });
         settings.Columns.Add(c =>
         {
@@ -318,7 +325,13 @@
             });
         });
         settings.Columns.Add("Description").Width = 1000;
-        settings.Columns.Add("ResponsibleFullName").Width = 150;
+        settings.Columns.Add(c =>
+        {
+            c.Name = "ResponsibleFullName";
+            c.Width = 150;
+            c.Visible = VisibleStat;
+        });
+
         settings.Columns.Add(c =>
         {
             c.FieldName = "InitiativeType";
@@ -399,6 +412,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["SynImpactName"]);
             });
+            c.Visible = VisibleStat;
         });
         //settings.Columns.Add(c =>
         //{
@@ -423,36 +437,73 @@
             c.PropertiesEdit.DisplayFormatString = "MMMM, yyyy";
             c.Width = 200;
         });
+
         settings.Columns.Add(c =>
         {
-            c.FieldName = "TargetTY";
-            c.Caption = "Target 12 Months (USD)";
+            c.FieldName = "TargetNYUB";
+            c.Caption = "Target FY Months (USD)";
             c.HeaderStyle.Wrap = DefaultBoolean.True;
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
+            c.Visible = VisibleStat;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "RPOCControl";
+            c.Caption = "RPOC Control";
+            c.Width = 100;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.ValueType = typeof(string);
+                p.Items.Add("Y");
+                p.Items.Add("N");
+                p.Items.Add("KO", "KO");
+                p.Items.Add("Under Review", "UR");
+                p.Items.Add("OK Level 1 (Cost controller)", "L1");
+                p.Items.Add("OK Level 2 (Management RO)", "L2");
+                p.Items.Add("OK Level 3 (Coordinateur HO)", "L3");
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "InitStatus";
+            c.Caption = "Initiative Status";
+            c.Width = 150;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "Status";
+                p.ValueField = "id";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["Status"]);
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "YTDTargetUb";
+            c.Caption = "YTD Target";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
+            c.Width = 100;
+            c.Visible = VisibleStat;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "YTDAchievedUb";
+            c.Caption = "YTD Achieved";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
+            c.Width = 150;
+            c.Visible = VisibleStat;
         });
 
         #region enh153-2 region 1
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "N_FY_Sec_PRICE_EF";
-            c.Caption = "N FY Secured (PRICE EFFECT)";
-            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
-            c.Width = 140;
-            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
-            c.Visible = isVisible;
-        });
-
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "N_FY_Sec_VOLUME_EF";
-            c.Caption = "N FY Secured (VOLUME EFFECT)";
-            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
-            c.Width = 140;
-            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
-            c.Visible = isVisible;
-        });
 
         settings.Columns.Add(c =>
         {
@@ -509,26 +560,52 @@
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.Visible = isVisible;
         });
+
+        #endregion
+
         settings.Columns.Add(c =>
         {
-            c.FieldName = "CPI";
-            c.Caption = "Consumer Price index";
+            c.FieldName = "TargetTY";
+            c.Caption = "Target 12 Months (USD)";
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+        });
+
+        #region enh153-2 region 1.1
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "N_FY_Sec_PRICE_EF";
+            c.Caption = "N FY Secured (PRICE EFFECT)";
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.Visible = isVisible;
         });
-        #endregion
+
         settings.Columns.Add(c =>
         {
-            c.FieldName = "TargetNYUB";
-            c.Caption = "Target FY Months (USD)";
-            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.FieldName = "N_FY_Sec_VOLUME_EF";
+            c.Caption = "N FY Secured (VOLUME EFFECT)";
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
-            c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
+            c.Visible = isVisible;
         });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "N_FY_ST_Total_EF";
+            c.Caption = "N FY Secured (TOTAL EFFECT)";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
+        });
+
+        #endregion
+
         settings.Columns.Add(c =>
         {
             c.FieldName = "HOValidity";
@@ -541,39 +618,7 @@
                 p.Items.Add("Y");
                 p.Items.Add("N");
             });
-            c.Visible = false;
-        });
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "RPOCControl";
-            c.Caption = "RPOC Control";
-            c.Width = 100;
-            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
-            c.EditorProperties().ComboBox(p =>
-            {
-                p.ValueType = typeof(string);
-                p.Items.Add("Y");
-                p.Items.Add("N");
-                p.Items.Add("KO", "KO");
-                p.Items.Add("Under Review", "UR");
-                p.Items.Add("OK Level 1 (Cost controller)", "L1");
-                p.Items.Add("OK Level 2 (Management RO)", "L2");
-                p.Items.Add("OK Level 3 (Coordinateur HO)", "L3");
-            });
-        });
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "InitStatus";
-            c.Caption = "Initiative Status";
-            c.Width = 150;
-            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
-            c.EditorProperties().ComboBox(p =>
-            {
-                p.TextField = "Status";
-                p.ValueField = "id";
-                p.ValueType = typeof(string);
-                p.BindList(ViewData["Status"]);
-            });
+            c.Visible = VisibleStat;
         });
 
         #region ENH153-2 region 2
@@ -595,15 +640,18 @@
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.Visible = isVisible;
         });
-        #endregion
+
         settings.Columns.Add(c =>
         {
-            c.FieldName = "YTDTargetUb";
-            c.Caption = "YTD Target";
+            c.FieldName = "N_YTD_ST_Total_EF";
+            c.Caption = "N YTD Secured (TOTAL EFFECT)";
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
-            c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            c.Width = 100;
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
+
+        #endregion
 
         #region ENH153-2 region 3
         settings.Columns.Add(c =>
@@ -624,16 +672,19 @@
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.Visible = isVisible;
         });
-        #endregion
 
         settings.Columns.Add(c =>
         {
-            c.FieldName = "YTDAchievedUb";
-            c.Caption = "YTD Achieved";
+            c.FieldName = "N_YTD_A_Total_EF";
+            c.Caption = "YTD Achieved (TOTAL EFFECT)";
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
-            c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            c.Width = 150;
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible;
         });
+
+
+        #endregion
 
         #region ENH153-2 region 4
         settings.Columns.Add(c =>
@@ -655,6 +706,9 @@
             c.Visible = isVisible;
         });
         #endregion
+
+        #region Monthly view
+
 
         settings.Columns.AddBand(JanuaryBand =>
         {
@@ -1285,6 +1339,8 @@
             });
         });
 
+        #endregion
+
         settings.Columns.Add(c =>
         {
             c.FieldName = "AgencyComment";
@@ -1365,6 +1421,8 @@
             c.Caption = "Last Modified By";
             c.Width = 390;
         });
+        //END
+
         #endregion
 
         #region Context Menu here

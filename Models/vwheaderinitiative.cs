@@ -69,6 +69,7 @@ namespace GAIN.Models
         public string Status { get; set; }
         public Nullable<decimal> N_YTD_Sec_PRICE_EF { get; set; }
         public Nullable<decimal> N_YTD_Sec_VOLUME_EF { get; set; }
+        
         public Nullable<decimal> YTDTarget { get; set; }
         public Nullable<decimal> YTD_Achieved_PRICE_EF { get; set; }
         public Nullable<decimal> YTD_Achieved_VOLUME_EF { get; set; }
@@ -150,5 +151,9 @@ namespace GAIN.Models
         public System.DateTime ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public int isProcurement { get; set; }
+
+        public Nullable<decimal> N_FY_ST_Total_EF { get; set; }
+        public Nullable<decimal> N_YTD_ST_Total_EF { get; set; }
+        public Nullable<decimal> N_YTD_A_Total_EF { get; set; }
     }
 }
