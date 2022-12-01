@@ -126,6 +126,19 @@ namespace GAIN.Models
         public decimal nov_CPI_Effect { get; set; }
         public decimal dec_CPI_Effect { get; set; }
 
+        public decimal jan_CPI { get; set; }
+        public decimal feb_CPI { get; set; }
+        public decimal mar_CPI { get; set; }
+        public decimal apr_CPI { get; set; }
+        public decimal may_CPI { get; set; }
+        public decimal jun_CPI { get; set; }
+        public decimal jul_CPI { get; set; }
+        public decimal aug_CPI { get; set; }
+        public decimal sep_CPI { get; set; }
+        public decimal oct_CPI { get; set; }
+        public decimal nov_CPI { get; set; }
+        public decimal dec_CPI { get; set; }
+
 
         public virtual t_initiative t_initiative { get; set; }
     }

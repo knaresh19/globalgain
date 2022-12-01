@@ -18,7 +18,7 @@ using System.Configuration;
 
 namespace GAIN.Controllers
 {
-  
+
     public class ActiveInitiativeController : MyBaseController
     {
 
@@ -112,7 +112,7 @@ log4net.LogManager.GetLogger
 
 
             if (profileData.confidential_right == 0) where += " and Confidential != 'Y'";
-            if (profileData.RegionalOffice_right!=null && profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0, 1) == "|")
+            if (profileData.RegionalOffice_right != null && profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0, 1) == "|")
             {
                 var regofficetext = profileData.RegionalOffice_right.Replace("|", "','");
                 int lenRegionalOffice_right = regofficetext.Length;
@@ -130,7 +130,7 @@ log4net.LogManager.GetLogger
                     where += " and a.RegionalOfficeID in (" + RegionalOffice_rightcondition + ")";
                 }
             }
-            if (profileData.Brand_right!=null && profileData.Brand_right != "" && (profileData.Brand_right != "ALL" && profileData.Brand_right !="|ALL|"))
+            if (profileData.Brand_right != null && profileData.Brand_right != "" && (profileData.Brand_right != "ALL" && profileData.Brand_right != "|ALL|"))
             {
                 var brandtext = profileData.Brand_right.Replace("|", "','");
                 int lenbrand = brandtext.Length;
@@ -148,7 +148,7 @@ log4net.LogManager.GetLogger
                     where += " and a.BrandID in (" + brandcondition + ")";
                 }
             }
-            if (profileData.CostItem_right!=null &&   profileData.CostItem_right != "" && (profileData.CostItem_right != "ALL" && profileData.CostItem_right != "|ALL|"))
+            if (profileData.CostItem_right != null && profileData.CostItem_right != "" && (profileData.CostItem_right != "ALL" && profileData.CostItem_right != "|ALL|"))
             {
                 var costitemtext = profileData.CostItem_right.Replace("|", "','");
                 int lencostitem = costitemtext.Length;
@@ -166,7 +166,7 @@ log4net.LogManager.GetLogger
                     where += " and a.CostCategoryID in (" + costitemcondition + ")";
                 }
             }
-            if (profileData.SubCostItem_right !=null && profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL" )
+            if (profileData.SubCostItem_right != null && profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL")
             {
 
 
@@ -190,7 +190,7 @@ log4net.LogManager.GetLogger
 
             if (profileData.UserType == 2)  //rpoc
             {
-                if (profileData.RegionID!=null && profileData.RegionID != null &&  profileData.RegionID != "" && (profileData.RegionID != "|ALL|" && profileData.RegionID !="ALL"))
+                if (profileData.RegionID != null && profileData.RegionID != null && profileData.RegionID != "" && (profileData.RegionID != "|ALL|" && profileData.RegionID != "ALL"))
                 {
                     var rpoctext = profileData.RegionID.Replace("|", "','");
                     int lenrpoc = rpoctext.Length;
@@ -206,7 +206,7 @@ log4net.LogManager.GetLogger
                 }
                 else
                 {
-                    if (profileData.CostControlSite!=null &&   profileData.CostControlSite != "|ALL|" && profileData.CostControlSite != "ALL")
+                    if (profileData.CostControlSite != null && profileData.CostControlSite != "|ALL|" && profileData.CostControlSite != "ALL")
                     {
                         var cctext = profileData.CostControlSite.Replace("|", "','");
                         int lencctext = cctext.Length;
@@ -240,7 +240,7 @@ log4net.LogManager.GetLogger
 
             //ConsoleLog(" UserType: " + profileData.UserType + "\\n RegionID: " + profileData.RegionID + "\\n CostControlSite: " + profileData.CostControlSite + "\\n Country: " + profileData.CountryID + "\\n Condition: " + where);
 
-           // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
+            // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
             //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
 
             model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth)='" + profileData.ProjectYear + "')order by CreatedDate desc").ToList();
@@ -354,12 +354,12 @@ log4net.LogManager.GetLogger
                     string N_YTD_Sec_VOLUME_EF_months = string.Empty;
 
                     string N_YTD_ST_Total_EF_months = string.Empty;
-                    
+
                     string YTD_Cost_Avoid_Vs_CPI_months = string.Empty;
                     List<string> arrMonth = new List<string>() { "jan", "feb", "march", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
-                    int _counter = 0; 
+                    int _counter = 0;
 
-                    while(_counter < projMonth)
+                    while (_counter < projMonth)
                     {
 
                         #region Secured
@@ -435,7 +435,7 @@ log4net.LogManager.GetLogger
 
                     #region FY Secured Target
                     //N FY Secured (TOTAL EFFECT) -------------------------------------------------------------------------------------
-                    item.N_FY_ST_Total_EF = Math.Round(Convert.ToDecimal(item.N_FY_Sec_PRICE_EF) + Convert.ToDecimal(item.N_FY_Sec_VOLUME_EF), 0); 
+                    item.N_FY_ST_Total_EF = Math.Round(Convert.ToDecimal(item.N_FY_Sec_PRICE_EF) + Convert.ToDecimal(item.N_FY_Sec_VOLUME_EF), 0);
                     #endregion
 
 
@@ -465,7 +465,7 @@ log4net.LogManager.GetLogger
                                                                         .Select(y => y.jan_FY_Secured_Target + y.feb_FY_Secured_Target + y.march_FY_Secured_Target + y.apr_FY_Secured_Target + y.may_FY_Secured_Target +
                                                                                 y.jun_FY_Secured_Target + y.jul_FY_Secured_Target + y.aug_FY_Secured_Target + y.sep_FY_Secured_Target + y.oct_FY_Secured_Target +
                                                                                 y.nov_FY_Secured_Target + y.dec_FY_Secured_Target).FirstOrDefault().ToString();
-                    item.N_YTD_ST_Total_EF = Math.Round(Convert.ToDecimal(_N_YTD_Secured), 0); 
+                    item.N_YTD_ST_Total_EF = Math.Round(Convert.ToDecimal(_N_YTD_Secured), 0);
                     #endregion
 
 
@@ -723,7 +723,7 @@ log4net.LogManager.GetLogger
                 }
                 cntryidcondition = cntryidcondition.Substring(0, cntryidcondition.Length - 1);
                 if (cntryid.Count() > 0)
-                where += cntryidcondition + ")";
+                    where += cntryidcondition + ")";
                 else
                     where += "";
                 //where += " and a.CountryID in " + cntryidcondition + ")";
@@ -1143,6 +1143,18 @@ log4net.LogManager.GetLogger
             decimal nov_CPI_Effect = NewInitiative._t_initiative_calcs.nov_CPI_Effect;
             decimal dec_CPI_Effect = NewInitiative._t_initiative_calcs.dec_CPI_Effect;
 
+            decimal jan_CPI = NewInitiative._t_initiative_calcs.jan_CPI;
+            decimal feb_CPI = NewInitiative._t_initiative_calcs.feb_CPI;
+            decimal mar_CPI = NewInitiative._t_initiative_calcs.mar_CPI;
+            decimal apr_CPI = NewInitiative._t_initiative_calcs.apr_CPI;
+            decimal may_CPI = NewInitiative._t_initiative_calcs.may_CPI;
+            decimal jun_CPI = NewInitiative._t_initiative_calcs.jun_CPI;
+            decimal jul_CPI = NewInitiative._t_initiative_calcs.jul_CPI;
+            decimal aug_CPI = NewInitiative._t_initiative_calcs.aug_CPI;
+            decimal sep_CPI = NewInitiative._t_initiative_calcs.sep_CPI;
+            decimal oct_CPI = NewInitiative._t_initiative_calcs.oct_CPI;
+            decimal nov_CPI = NewInitiative._t_initiative_calcs.nov_CPI;
+            decimal dec_CPI = NewInitiative._t_initiative_calcs.dec_CPI;
 
             #endregion
             if (FormStatus == "New")
@@ -1173,96 +1185,96 @@ log4net.LogManager.GetLogger
                         if (isProcurement != 1)
                         {
                             #region normal initiative save
-                        tinitiative.Add(new t_initiative
-                        {
-                            InitNumber = YearInitiative + KodeNegara + nomerselanjutnya,
-                            RelatedInitiative = RelatedInitiative,
-                            SourceCategory = SourceCategory,
-                            BrandID = GrdBrand,
-                            RegionID = GrdRegional,
-                            SubRegionID = GrdSubRegion,
-                            ClusterID = GrdCluster,
-                            RegionalOfficeID = GrdRegionalOffice,
-                            CostControlID = GrdCostControl,
-                            LegalEntityID = GrdLegalEntity,
-                            CountryID = GrdCountry,
-                            SubCountryID = GrdSubCountry,
-                            Confidential = CboConfidential,
-                            Description = TxDesc,
-                            ResponsibleFullName = TxResponsibleName,
-                            InitiativeType = GrdInitType,
-                            CostCategoryID = GrdInitCategory,
-                            SubCostCategoryID = GrdSubCost,
-                            ActionTypeID = GrdActionType,
-                            SynergyImpactID = GrdSynImpact,
-                            InitStatus = GrdInitStatus,
-                            isDeleted = 0,
-                            StartMonth = StartMonth,
-                            EndMonth = EndMonth,
-                            LaraCode = TxLaraCode,
-                            TargetTY = TxTarget12,
-                            TargetNY = TxTargetFullYear,
-                            HOValidity = CboHoValidity,
-                            RPOCControl = CboRPOCValidity,
-                            YTDTarget = TxYTDTargetFullYear,
-                            YTDAchieved = TxYTDSavingFullYear,
-                            AgencyComment = TxAgency,
-                            RPOCComment = TxRPOCComment,
-                            HOComment = TxHOComment,
-                            AdditionalInfo = TxAdditionalInfo,
-                            PortID = (TxPortName == 0 ? 1 : TxPortName),
-                            ProjectYear = (short)ProjectYear,
-                            VendorName = TxVendorSupp,
-                            TargetJan = targetjan,
-                            TargetFeb = targetfeb,
-                            TargetMar = targetmar,
-                            TargetApr = targetapr,
-                            TargetMay = targetmay,
-                            TargetJun = targetjun,
-                            TargetJul = targetjul,
-                            TargetAug = targetaug,
-                            TargetSep = targetsep,
-                            TargetOct = targetoct,
-                            TargetNov = targetnov,
-                            TargetDec = targetdec,
-                            TargetNexJan = targetjan2,
-                            TargetNexFeb = targetfeb2,
-                            TargetNexMar = targetmar2,
-                            TargetNexApr = targetapr2,
-                            TargetNexMay = targetmay2,
-                            TargetNexJun = targetjun2,
-                            TargetNexJul = targetjul2,
-                            TargetNexAug = targetaug2,
-                            TargetNexSep = targetsep2,
-                            TargetNexOct = targetoct2,
-                            TargetNexNov = targetnov2,
-                            TargetNexDec = targetdec2,
-                            AchJan = savingjan,
-                            AchFeb = savingfeb,
-                            AchMar = savingmar,
-                            AchApr = savingapr,
-                            AchMay = savingmay,
-                            AchJun = savingjun,
-                            AchJul = savingjul,
-                            AchAug = savingaug,
-                            AchSep = savingsep,
-                            AchOct = savingoct,
-                            AchNov = savingnov,
-                            AchDec = savingdec,
-                            AchNexJan = savingjan2,
-                            AchNexFeb = savingfeb2,
-                            AchNexMar = savingmar2,
-                            AchNexApr = savingapr2,
-                            AchNexMay = savingmay2,
-                            AchNexJun = savingjun2,
-                            AchNexJul = savingjul2,
-                            AchNexAug = savingaug2,
-                            AchNexSep = savingsep2,
-                            AchNexOct = savingoct2,
-                            AchNexNov = savingnov2,
-                            AchNexDec = savingdec2,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = UserID,
+                            tinitiative.Add(new t_initiative
+                            {
+                                InitNumber = YearInitiative + KodeNegara + nomerselanjutnya,
+                                RelatedInitiative = RelatedInitiative,
+                                SourceCategory = SourceCategory,
+                                BrandID = GrdBrand,
+                                RegionID = GrdRegional,
+                                SubRegionID = GrdSubRegion,
+                                ClusterID = GrdCluster,
+                                RegionalOfficeID = GrdRegionalOffice,
+                                CostControlID = GrdCostControl,
+                                LegalEntityID = GrdLegalEntity,
+                                CountryID = GrdCountry,
+                                SubCountryID = GrdSubCountry,
+                                Confidential = CboConfidential,
+                                Description = TxDesc,
+                                ResponsibleFullName = TxResponsibleName,
+                                InitiativeType = GrdInitType,
+                                CostCategoryID = GrdInitCategory,
+                                SubCostCategoryID = GrdSubCost,
+                                ActionTypeID = GrdActionType,
+                                SynergyImpactID = GrdSynImpact,
+                                InitStatus = GrdInitStatus,
+                                isDeleted = 0,
+                                StartMonth = StartMonth,
+                                EndMonth = EndMonth,
+                                LaraCode = TxLaraCode,
+                                TargetTY = TxTarget12,
+                                TargetNY = TxTargetFullYear,
+                                HOValidity = CboHoValidity,
+                                RPOCControl = CboRPOCValidity,
+                                YTDTarget = TxYTDTargetFullYear,
+                                YTDAchieved = TxYTDSavingFullYear,
+                                AgencyComment = TxAgency,
+                                RPOCComment = TxRPOCComment,
+                                HOComment = TxHOComment,
+                                AdditionalInfo = TxAdditionalInfo,
+                                PortID = (TxPortName == 0 ? 1 : TxPortName),
+                                ProjectYear = (short)ProjectYear,
+                                VendorName = TxVendorSupp,
+                                TargetJan = targetjan,
+                                TargetFeb = targetfeb,
+                                TargetMar = targetmar,
+                                TargetApr = targetapr,
+                                TargetMay = targetmay,
+                                TargetJun = targetjun,
+                                TargetJul = targetjul,
+                                TargetAug = targetaug,
+                                TargetSep = targetsep,
+                                TargetOct = targetoct,
+                                TargetNov = targetnov,
+                                TargetDec = targetdec,
+                                TargetNexJan = targetjan2,
+                                TargetNexFeb = targetfeb2,
+                                TargetNexMar = targetmar2,
+                                TargetNexApr = targetapr2,
+                                TargetNexMay = targetmay2,
+                                TargetNexJun = targetjun2,
+                                TargetNexJul = targetjul2,
+                                TargetNexAug = targetaug2,
+                                TargetNexSep = targetsep2,
+                                TargetNexOct = targetoct2,
+                                TargetNexNov = targetnov2,
+                                TargetNexDec = targetdec2,
+                                AchJan = savingjan,
+                                AchFeb = savingfeb,
+                                AchMar = savingmar,
+                                AchApr = savingapr,
+                                AchMay = savingmay,
+                                AchJun = savingjun,
+                                AchJul = savingjul,
+                                AchAug = savingaug,
+                                AchSep = savingsep,
+                                AchOct = savingoct,
+                                AchNov = savingnov,
+                                AchDec = savingdec,
+                                AchNexJan = savingjan2,
+                                AchNexFeb = savingfeb2,
+                                AchNexMar = savingmar2,
+                                AchNexApr = savingapr2,
+                                AchNexMay = savingmay2,
+                                AchNexJun = savingjun2,
+                                AchNexJul = savingjul2,
+                                AchNexAug = savingaug2,
+                                AchNexSep = savingsep2,
+                                AchNexOct = savingoct2,
+                                AchNexNov = savingnov2,
+                                AchNexDec = savingdec2,
+                                CreatedDate = DateTime.Now,
+                                CreatedBy = UserID,
                                 ModifiedBy = UserID,
 
                                 #region inserting new properties enh153-2
@@ -1296,7 +1308,7 @@ log4net.LogManager.GetLogger
                                 isProcurement = isProcurement
                                 #endregion
 
-                        });
+                            });
                             //db.SaveChanges(); 
                             #endregion
                         }
@@ -1537,8 +1549,19 @@ log4net.LogManager.GetLogger
                                 sep_CPI_Effect = sep_CPI_Effect,
                                 oct_CPI_Effect = oct_CPI_Effect,
                                 nov_CPI_Effect = nov_CPI_Effect,
-                                dec_CPI_Effect = dec_CPI_Effect
-
+                                dec_CPI_Effect = dec_CPI_Effect,
+                                jan_CPI = jan_CPI,
+                                feb_CPI = feb_CPI,
+                                mar_CPI = mar_CPI,
+                                apr_CPI = apr_CPI,
+                                may_CPI = may_CPI,
+                                jun_CPI = jun_CPI,
+                                jul_CPI = jul_CPI,
+                                aug_CPI = aug_CPI,
+                                sep_CPI = sep_CPI,
+                                oct_CPI = oct_CPI,
+                                nov_CPI = nov_CPI,
+                                dec_CPI = dec_CPI
                             });
                             #endregion
 
@@ -1548,7 +1571,7 @@ log4net.LogManager.GetLogger
                         return Content("saved|" + YearInitiative + KodeNegara + nomerselanjutnya);
                     }
                 }
-                catch(Exception E)
+                catch (Exception E)
                 {
                     log.Error("Exception occured in saving new initiative" + E.Message);
                     return Content("Error occured during Initiative save");
@@ -1597,24 +1620,24 @@ log4net.LogManager.GetLogger
                     //Manipulate if this is previous year initiative 
                     //if (StartMonth.Year == ProjectYear)
                     //{
-                        initdata.TargetJan = targetjan; initdata.TargetFeb = targetfeb; initdata.TargetMar = targetmar; initdata.TargetApr = targetapr; initdata.TargetMay = targetmay; initdata.TargetJun = targetjun;
-                        initdata.TargetJul = targetjul; initdata.TargetAug = targetaug; initdata.TargetSep = targetsep; initdata.TargetOct = targetoct; initdata.TargetNov = targetnov; initdata.TargetDec = targetdec;
-                        initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
-                        initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
+                    initdata.TargetJan = targetjan; initdata.TargetFeb = targetfeb; initdata.TargetMar = targetmar; initdata.TargetApr = targetapr; initdata.TargetMay = targetmay; initdata.TargetJun = targetjun;
+                    initdata.TargetJul = targetjul; initdata.TargetAug = targetaug; initdata.TargetSep = targetsep; initdata.TargetOct = targetoct; initdata.TargetNov = targetnov; initdata.TargetDec = targetdec;
+                    initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
+                    initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
 
-                        initdata.AchJan = savingjan; initdata.AchFeb = savingfeb; initdata.AchMar = savingmar; initdata.AchApr = savingapr; initdata.AchMay = savingmay; initdata.AchJun = savingjun;
-                        initdata.AchJul = savingjul; initdata.AchAug = savingaug; initdata.AchSep = savingsep; initdata.AchOct = savingoct; initdata.AchNov = savingnov; initdata.AchDec = savingdec;
-                        initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
-                        initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
-                   // }
+                    initdata.AchJan = savingjan; initdata.AchFeb = savingfeb; initdata.AchMar = savingmar; initdata.AchApr = savingapr; initdata.AchMay = savingmay; initdata.AchJun = savingjun;
+                    initdata.AchJul = savingjul; initdata.AchAug = savingaug; initdata.AchSep = savingsep; initdata.AchOct = savingoct; initdata.AchNov = savingnov; initdata.AchDec = savingdec;
+                    initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
+                    initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+                    // }
                     //else
                     //{
-                        //Capture the records only for the next year 
-                        //initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
-                        //initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
+                    //Capture the records only for the next year 
+                    //initdata.TargetNexJan = targetjan2; initdata.TargetNexFeb = targetfeb2; initdata.TargetNexMar = targetmar2; initdata.TargetNexApr = targetapr2; initdata.TargetNexMay = targetmay2; initdata.TargetNexJun = targetjun2;
+                    //initdata.TargetNexJul = targetjul2; initdata.TargetNexAug = targetaug2; initdata.TargetNexSep = targetsep2; initdata.TargetNexOct = targetoct2; initdata.TargetNexNov = targetnov2; initdata.TargetNexDec = targetdec2;
 
-                        //initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
-                        //initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
+                    //initdata.AchNexJan = savingjan2; initdata.AchNexFeb = savingfeb2; initdata.AchNexMar = savingmar2; initdata.AchNexApr = savingapr2; initdata.AchNexMay = savingmay2; initdata.AchNexJun = savingjun2;
+                    //initdata.AchNexJul = savingjul2; initdata.AchNexAug = savingaug2; initdata.AchNexSep = savingsep2; initdata.AchNexOct = savingoct2; initdata.AchNexNov = savingnov2; initdata.AchNexDec = savingdec2;
 
 
                     //}
@@ -1765,12 +1788,25 @@ log4net.LogManager.GetLogger
                         initdata_procure.nov_CPI_Effect = nov_CPI_Effect;
                         initdata_procure.dec_CPI_Effect = dec_CPI_Effect;
 
+                        initdata_procure.jan_CPI = jan_CPI;
+                        initdata_procure.feb_CPI = feb_CPI;
+                        initdata_procure.mar_CPI = mar_CPI;
+                        initdata_procure.apr_CPI = apr_CPI;
+                        initdata_procure.may_CPI = may_CPI;
+                        initdata_procure.jun_CPI = jun_CPI;
+                        initdata_procure.jul_CPI = jul_CPI;
+                        initdata_procure.aug_CPI = aug_CPI;
+                        initdata_procure.sep_CPI = sep_CPI;
+                        initdata_procure.oct_CPI = oct_CPI;
+                        initdata_procure.nov_CPI = nov_CPI;
+                        initdata_procure.dec_CPI = dec_CPI;
+
                     }
                     //initdata.CreatedDate = DateTime.Now;
                     db.SaveChanges();
                     return Content("saved|" + initdata.InitNumber);
                 }
-                catch(Exception E)
+                catch (Exception E)
                 {
                     log.Error("Exception occured during Saving exisisting initiative" + E.Message);
                     return Content("Error ocuured during initiativeSave");
@@ -1851,7 +1887,7 @@ log4net.LogManager.GetLogger
 
                 return Content(JsonConvert.SerializeObject(model));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 log.Error("Exception occured during GetInfobyID" + e.Message);
                 return Content("Error");
@@ -2191,7 +2227,7 @@ log4net.LogManager.GetLogger
             ClusterList = db.mclusters.Where(cl => cl.CountryID == CountryID && cl.RegionID == RegionID && cl.SubRegionID == SubRegionID && cl.ClusterName != "").Select(s => new ClusterList { id = s.id, ClusterName = s.ClusterName }).ToList();
             RegionalOfficeList = db.mregional_office.Where(ro => ro.RegionID == RegionID && ro.CountryID == CountryID).Select(s => new RegionalOfficeList { id = s.id, RegionalOfficeName = s.RegionalOffice_Name }).ToList();
             CostControlList = db.mcostcontrolsites.Select(s => new CostControlList { id = s.id, CostControlSiteName = s.CostControlSiteName }).ToList();
-            LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID && le.SubCountryID== SubCountryID && le.BrandID == BrandIDx).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
+            LegalEntityList = db.mlegalentities.Where(le => le.CountryID == CountryID && le.SubCountryID == SubCountryID && le.BrandID == BrandIDx).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
             TypeInitiativeList = db.msavingtypes.Where(st => st.id == modelinitiative.InitiativeType).Select(s => new TypeInitiativeList { id = s.id, SavingTypeName = s.SavingTypeName }).ToList();
 
             GDSC.Add(new GetDataFromSubCountry
@@ -2286,7 +2322,7 @@ log4net.LogManager.GetLogger
 
                 var savingdatayear = db.msavingtypes.Where(c => c.id == model.InitiativeType).Select(x => x.InitYear).FirstOrDefault();
 
-            
+
                 if (savingdatayear == 2022)
                     projYear = 2022;
                 else
@@ -2354,18 +2390,18 @@ log4net.LogManager.GetLogger
             //model.Add(new mMonth(11, "nov"));
             //model.Add(new mMonth(12, "dec"));
 
-            model.Add(new mMonth(1,"JANUARY"));
-            model.Add(new mMonth(2,"FEBRUARY"));
-            model.Add(new mMonth(3,"MARCH"));
-            model.Add(new mMonth(4,"APRIL"));
+            model.Add(new mMonth(1, "JANUARY"));
+            model.Add(new mMonth(2, "FEBRUARY"));
+            model.Add(new mMonth(3, "MARCH"));
+            model.Add(new mMonth(4, "APRIL"));
             model.Add(new mMonth(5, "MAY"));
-            model.Add(new mMonth(6,"JUNE"));
-            model.Add(new mMonth(7,"JULY"));
-            model.Add(new mMonth(8,"AUGUST"));
-            model.Add(new mMonth(9,"SEPTEMBER"));
-            model.Add(new mMonth(10,"OCTOBER"));
-            model.Add(new mMonth(11,"NOVEMBER"));
-            model.Add(new mMonth(12,"DECEMBER"));
+            model.Add(new mMonth(6, "JUNE"));
+            model.Add(new mMonth(7, "JULY"));
+            model.Add(new mMonth(8, "AUGUST"));
+            model.Add(new mMonth(9, "SEPTEMBER"));
+            model.Add(new mMonth(10, "OCTOBER"));
+            model.Add(new mMonth(11, "NOVEMBER"));
+            model.Add(new mMonth(12, "DECEMBER"));
 
 
             return PartialView("~/Views/Shared/_CboMonthPartial.cshtml", model);
@@ -2387,7 +2423,7 @@ log4net.LogManager.GetLogger
             // e.UploadedFile.SaveAs(resultFilePath);
 
             string FileDiDB = "";
-            LoginSession profileData= this.Session["DefaultGAINSess"] as LoginSession; 
+            LoginSession profileData = this.Session["DefaultGAINSess"] as LoginSession;
             //t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
             //if (InitID.InitNumber != null)
             //{
@@ -2414,28 +2450,28 @@ log4net.LogManager.GetLogger
             {
                 if (e.UploadedFile.IsValid)
                 {
-                   profileData = this.Session["DefaultGAINSess"] as LoginSession;
+                    profileData = this.Session["DefaultGAINSess"] as LoginSession;
                     //e.UploadedFile.fi
                     filename = e.UploadedFile.FileName;
-                   resultFileName = e.UploadedFile.FileName;
-                     resultFileUrl = UploadDirectory + resultFileName;
+                    resultFileName = e.UploadedFile.FileName;
+                    resultFileUrl = UploadDirectory + resultFileName;
                     resultFilePath = HttpContext.Request.MapPath(resultFileUrl);
                     e.UploadedFile.SaveAs(resultFilePath);
 
-                     FileDiDB = "";
+                    FileDiDB = "";
                     t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
                     if (InitID.InitNumber != null)
                     {
                         if ((InitID.UploadedFile != null) && (InitID.UploadedFile != ""))
                         {
-                           // FileDiDB = InitID.UploadedFile;
-                            FileDiDB +=   filename + "|" + InitiativeNumber;
+                            // FileDiDB = InitID.UploadedFile;
+                            FileDiDB += filename + "|" + InitiativeNumber;
                         }
                         else
                         {
                             FileDiDB = filename + "|" + InitiativeNumber;
                         }
-                       // db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = \'" + FileDiDB + "\', ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
+                        // db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = \'" + FileDiDB + "\', ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
                         db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' AND isDeleted = 0");
                         db.SaveChanges();
                     }
@@ -2654,6 +2690,18 @@ log4net.LogManager.GetLogger
                 result.nov_CPI_Effect = model.nov_CPI_Effect;
                 result.dec_CPI_Effect = model.dec_CPI_Effect;
 
+                result.CPI_Jan = model.CPI_Jan;
+                result.CPI_Feb = model.CPI_Feb;
+                result.CPI_Mar = model.CPI_Mar;
+                result.CPI_Apr = model.CPI_Apr;
+                result.CPI_May = model.CPI_May;
+                result.CPI_Jun = model.CPI_Jun;
+                result.CPI_Jul = model.CPI_Jul;
+                result.CPI_Aug = model.CPI_Aug;
+                result.CPI_Sep = model.CPI_Sep;
+                result.CPI_Oct = model.CPI_Oct;
+                result.CPI_Nov = model.CPI_Nov;
+                result.CPI_Dec = model.CPI_Dec;
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);

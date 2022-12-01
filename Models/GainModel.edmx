@@ -858,6 +858,19 @@ warning 6002: The table/view 'def.gain2.vwtopcategory' does not have a primary k
 					<Property Name="nov_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
 					<Property Name="dec_CPI_Effect" Type="decimal" Precision="15" Scale="2" Nullable="false" />
 
+					<Property Name="jan_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+					<Property Name="feb_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+					<Property Name="mar_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+					<Property Name="apr_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+					<Property Name="may_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+					<Property Name="jun_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+					<Property Name="jul_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+					<Property Name="aug_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+					<Property Name="sep_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+					<Property Name="oct_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+					<Property Name="nov_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+					<Property Name="dec_CPI" Type="decimal" Precision="15" Scale="5" Nullable="false" />
+
 				</EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2596,6 +2609,18 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 					<Property Name="nov_CPI_Effect" Type="Decimal" Nullable="false" />
 					<Property Name="dec_CPI_Effect" Type="Decimal" Nullable="false" />
 
+					<Property Name="jan_CPI" Type="Decimal" Nullable="false" />
+					<Property Name="feb_CPI" Type="Decimal" Nullable="false" />
+					<Property Name="mar_CPI" Type="Decimal" Nullable="false" />
+					<Property Name="apr_CPI" Type="Decimal" Nullable="false" />
+					<Property Name="may_CPI" Type="Decimal" Nullable="false" />
+					<Property Name="jun_CPI" Type="Decimal" Nullable="false" />
+					<Property Name="jul_CPI" Type="Decimal" Nullable="false" />
+					<Property Name="aug_CPI" Type="Decimal" Nullable="false" />
+					<Property Name="sep_CPI" Type="Decimal" Nullable="false" />
+					<Property Name="oct_CPI" Type="Decimal" Nullable="false" />
+					<Property Name="nov_CPI" Type="Decimal" Nullable="false" />
+					<Property Name="dec_CPI" Type="Decimal" Nullable="false" />
 
 					<NavigationProperty Name="t_initiative" Relationship="Self.fk_t_initiative_ID" FromRole="t_initiative_calcs" ToRole="t_initiative" />
 				</EntityType>
@@ -4280,6 +4305,19 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 								<ScalarProperty Name="oct_CPI_Effect" ColumnName="oct_CPI_Effect" />
 								<ScalarProperty Name="nov_CPI_Effect" ColumnName="nov_CPI_Effect" />
 								<ScalarProperty Name="dec_CPI_Effect" ColumnName="dec_CPI_Effect" />
+
+								<ScalarProperty Name="jan_CPI" ColumnName="jan_CPI" />
+								<ScalarProperty Name="feb_CPI" ColumnName="feb_CPI" />
+								<ScalarProperty Name="mar_CPI" ColumnName="mar_CPI" />
+								<ScalarProperty Name="apr_CPI" ColumnName="apr_CPI" />
+								<ScalarProperty Name="may_CPI" ColumnName="may_CPI" />
+								<ScalarProperty Name="jun_CPI" ColumnName="jun_CPI" />
+								<ScalarProperty Name="jul_CPI" ColumnName="jul_CPI" />
+								<ScalarProperty Name="aug_CPI" ColumnName="aug_CPI" />
+								<ScalarProperty Name="sep_CPI" ColumnName="sep_CPI" />
+								<ScalarProperty Name="oct_CPI" ColumnName="oct_CPI" />
+								<ScalarProperty Name="nov_CPI" ColumnName="nov_CPI" />
+								<ScalarProperty Name="dec_CPI" ColumnName="dec_CPI" />
 
 							</MappingFragment>
 						</EntityTypeMapping>

@@ -483,6 +483,7 @@
             });
         });
 
+        //------------------------------------------------------------------------------------------------------------------------------------------
         settings.Columns.Add(c =>
         {
             c.FieldName = "YTDTargetUb";
@@ -490,16 +491,6 @@
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             c.Width = 100;
-            c.Visible = VisibleStat;
-        });
-
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "YTDAchievedUb";
-            c.Caption = "YTD Achieved";
-            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
-            c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            c.Width = 150;
             c.Visible = VisibleStat;
         });
 
@@ -683,8 +674,17 @@
             c.Visible = isVisible;
         });
 
-
         #endregion
+        //------------------------------------------------------------------------------------------------------------------------------------------
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "YTDAchievedUb";
+            c.Caption = "YTD Achieved";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
+            c.Width = 150;
+            c.Visible = VisibleStat;
+        });
 
         #region ENH153-2 region 4
         settings.Columns.Add(c =>

@@ -753,6 +753,20 @@ function clear_Procurement_BackCalcs() {
     $('#CPI_Effect_Nov').val('0');
     $('#CPI_Effect_Dec').val('0');
     $('#CPI_Effect_Total').val('0');
+
+    $('#CPI_Jan').val('0');
+    $('#CPI_Feb').val('0');
+    $('#CPI_Mar').val('0');
+    $('#CPI_Apr').val('0');
+    $('#CPI_May').val('0');
+    $('#CPI_Jun').val('0');
+    $('#CPI_Jul').val('0');
+    $('#CPI_Aug').val('0');
+    $('#CPI_Sep').val('0');
+    $('#CPI_Oct').val('0');
+    $('#CPI_Nov').val('0');
+    $('#CPI_Dec').val('0');
+
     bind_CPI_Fields();
 
 
@@ -1527,6 +1541,18 @@ function ShowEditWindow(id) {
                         $('#CPI_Effect_Nov').val(procurement_data.nov_CPI_Effect);
                         $('#CPI_Effect_Dec').val(procurement_data.dec_CPI_Effect);
 
+                        $('#CPI_Jan').val(procurement_data.jan_CPI);
+                        $('#CPI_Feb').val(procurement_data.feb_CPI);
+                        $('#CPI_Mar').val(procurement_data.mar_CPI);
+                        $('#CPI_Apr').val(procurement_data.apr_CPI);
+                        $('#CPI_May').val(procurement_data.may_CPI);
+                        $('#CPI_Jun').val(procurement_data.jun_CPI);
+                        $('#CPI_Jul').val(procurement_data.jul_CPI);
+                        $('#CPI_Aug').val(procurement_data.aug_CPI);
+                        $('#CPI_Sep').val(procurement_data.sep_CPI);
+                        $('#CPI_Oct').val(procurement_data.oct_CPI);
+                        $('#CPI_Nov').val(procurement_data.nov_CPI);
+                        $('#CPI_Dec').val(procurement_data.dec_CPI);
 
                     }
                 });
@@ -2410,6 +2436,19 @@ function SaveInitiative() {
             var xnov_CPI_Effect = $('#CPI_Effect_Nov').val();
             var xdec_CPI_Effect = $('#CPI_Effect_Dec').val();
 
+            var xjan_CPI = $('#CPI_Jan').val();
+            var xfeb_CPI = $('#CPI_Feb').val();
+            var xmar_CPI = $('#CPI_Mar').val();
+            var xapr_CPI = $('#CPI_Apr').val();
+            var xmay_CPI = $('#CPI_May').val();
+            var xjun_CPI = $('#CPI_Jun').val();
+            var xjul_CPI = $('#CPI_Jul').val();
+            var xaug_CPI = $('#CPI_Aug').val();
+            var xsep_CPI = $('#CPI_Sep').val();
+            var xoct_CPI = $('#CPI_Oct').val();
+            var xnov_CPI = $('#CPI_Nov').val();
+            var xdec_CPI = $('#CPI_Dec').val();
+
             //ENH153-2 procurment back end calculation get field value in variable
 
             //var projectYear = '@profileData.ProjectYear';
@@ -2790,7 +2829,19 @@ function SaveInitiative() {
                         sep_CPI_Effect: xsep_CPI_Effect,
                         oct_CPI_Effect: xoct_CPI_Effect,
                         nov_CPI_Effect: xnov_CPI_Effect,
-                        dec_CPI_Effect: xdec_CPI_Effect
+                        dec_CPI_Effect: xdec_CPI_Effect,
+                        jan_CPI: xjan_CPI,
+                        feb_CPI: xfeb_CPI,
+                        mar_CPI: xmar_CPI,
+                        apr_CPI: xapr_CPI,
+                        may_CPI: xmay_CPI,
+                        jun_CPI: xjun_CPI,
+                        jul_CPI: xjul_CPI,
+                        aug_CPI: xaug_CPI,
+                        sep_CPI: xsep_CPI,
+                        oct_CPI: xoct_CPI,
+                        nov_CPI: xnov_CPI,
+                        dec_CPI: xdec_CPI
 
                     }
                 }, function (data) {
@@ -5207,6 +5258,18 @@ function isAll_InputGiven_for_CPI_Effect() {
 function calculate_CPI_Effect() {
     if (isAll_InputGiven_for_CPI_Effect()) {
         var xCPI = parseFloat(txt_CPI.GetValue());
+        var xCPI_Jan = $('#CPI_Jan') != null ? $('#CPI_Jan').val() : 0;
+        var xCPI_Feb = $('#CPI_Feb') != null ? $('#CPI_Feb').val() : 0;
+        var xCPI_Mar = $('#CPI_Mar') != null ? $('#CPI_Mar').val() : 0;
+        var xCPI_Apr = $('#CPI_Apr') != null ? $('#CPI_Apr').val() : 0;
+        var xCPI_May = $('#CPI_May') != null ? $('#CPI_May').val() : 0;
+        var xCPI_Jun = $('#CPI_Jun') != null ? $('#CPI_Jun').val() : 0;
+        var xCPI_Jul = $('#CPI_Jul') != null ? $('#CPI_Jul').val() : 0;
+        var xCPI_Aug = $('#CPI_Aug') != null ? $('#CPI_Aug').val() : 0;
+        var xCPI_Sep = $('#CPI_Sep') != null ? $('#CPI_Sep').val() : 0;
+        var xCPI_Oct = $('#CPI_Oct') != null ? $('#CPI_Oct').val() : 0;
+        var xCPI_Nov = $('#CPI_Nov') != null ? $('#CPI_Nov').val() : 0;
+        var xCPI_Dec = $('#CPI_Dec') != null ? $('#CPI_Dec').val() : 0;
 
         //CPI_Effect_Jan
         var xjan_Actual_CPU_Nmin1 = parseFloat($('#Actual_CPU_Nmin1_Jan').val());
@@ -5214,9 +5277,9 @@ function calculate_CPI_Effect() {
         var xjanActual_volume_N = parseFloat(txt_janActual_volume_N.GetValue());
 
         var formula1_1 = ((xjan_Target_CPU_N - xjan_Actual_CPU_Nmin1) / xjan_Actual_CPU_Nmin1);
-        if (formula1_1 < xCPI) {
+        if (formula1_1 < xCPI_Jan) {
 
-            var formula2_1 = ((xjan_Target_CPU_N - (1 + (xCPI / 100)) * xjan_Actual_CPU_Nmin1)) * xjanActual_volume_N;
+            var formula2_1 = ((xjan_Target_CPU_N - (1 + (xCPI_Jan / 100)) * xjan_Actual_CPU_Nmin1)) * xjanActual_volume_N;
             $('#CPI_Effect_Jan').val(parseFloat(formula2_1).toFixed(_toFixed));
         }
         else {
@@ -5228,9 +5291,9 @@ function calculate_CPI_Effect() {
         var xfebActual_volume_N = parseFloat(txt_febActual_volume_N.GetValue());
 
         var formula1_2 = ((xfeb_Target_CPU_N - xfeb_Actual_CPU_Nmin1) / xfeb_Actual_CPU_Nmin1);
-        if (formula1_2 < xCPI) {
+        if (formula1_2 < xCPI_Feb) {
 
-            var formula2_2 = ((xfeb_Target_CPU_N - (1 + (xCPI / 100)) * xfeb_Actual_CPU_Nmin1)) * xfebActual_volume_N;
+            var formula2_2 = ((xfeb_Target_CPU_N - (1 + (xCPI_Feb / 100)) * xfeb_Actual_CPU_Nmin1)) * xfebActual_volume_N;
             $('#CPI_Effect_Feb').val(parseFloat(formula2_2).toFixed(_toFixed));
         }
         else {
@@ -5242,9 +5305,9 @@ function calculate_CPI_Effect() {
         var xmarActual_volume_N = parseFloat(txt_marActual_volume_N.GetValue());
 
         var formula1_3 = ((xmarch_Target_CPU_N - xmarch_Actual_CPU_Nmin1) / xmarch_Actual_CPU_Nmin1);
-        if (formula1_3 < xCPI) {
+        if (formula1_3 < xCPI_Mar) {
 
-            var formula2_3 = ((xmarch_Target_CPU_N - (1 + (xCPI / 100)) * xmarch_Actual_CPU_Nmin1)) * xmarActual_volume_N;
+            var formula2_3 = ((xmarch_Target_CPU_N - (1 + (xCPI_Mar / 100)) * xmarch_Actual_CPU_Nmin1)) * xmarActual_volume_N;
             $('#CPI_Effect_Mar').val(parseFloat(formula2_3).toFixed(_toFixed));
         }
         else {
@@ -5256,9 +5319,9 @@ function calculate_CPI_Effect() {
         var xaprActual_volume_N = parseFloat(txt_aprActual_volume_N.GetValue());
 
         var formula1_4 = ((xapr_Target_CPU_N - xapr_Actual_CPU_Nmin1) / xapr_Actual_CPU_Nmin1);
-        if (formula1_4 < xCPI) {
+        if (formula1_4 < xCPI_Apr) {
 
-            var formula2_4 = ((xapr_Target_CPU_N - (1 + (xCPI / 100)) * xapr_Actual_CPU_Nmin1)) * xaprActual_volume_N;
+            var formula2_4 = ((xapr_Target_CPU_N - (1 + (xCPI_Apr / 100)) * xapr_Actual_CPU_Nmin1)) * xaprActual_volume_N;
             $('#CPI_Effect_Apr').val(parseFloat(formula2_4).toFixed(_toFixed));
         }
         else {
@@ -5270,9 +5333,9 @@ function calculate_CPI_Effect() {
         var xmayActual_volume_N = parseFloat(txt_mayActual_volume_N.GetValue());
 
         var formula1_5 = ((xmay_Target_CPU_N - xmay_Actual_CPU_Nmin1) / xmay_Actual_CPU_Nmin1);
-        if (formula1_5 < xCPI) {
+        if (formula1_5 < xCPI_May) {
 
-            var formula2_5 = ((xmay_Target_CPU_N - (1 + (xCPI / 100)) * xmay_Actual_CPU_Nmin1)) * xmayActual_volume_N;
+            var formula2_5 = ((xmay_Target_CPU_N - (1 + (xCPI_May / 100)) * xmay_Actual_CPU_Nmin1)) * xmayActual_volume_N;
             $('#CPI_Effect_May').val(parseFloat(formula2_5).toFixed(_toFixed));
         }
         else {
@@ -5284,9 +5347,9 @@ function calculate_CPI_Effect() {
         var xjunActual_volume_N = parseFloat(txt_junActual_volume_N.GetValue());
 
         var formula1_6 = ((xjun_Target_CPU_N - xjun_Actual_CPU_Nmin1) / xjun_Actual_CPU_Nmin1);
-        if (formula1_6 < xCPI) {
+        if (formula1_6 < xCPI_Jun) {
 
-            var formula2_6 = ((xjun_Target_CPU_N - (1 + (xCPI / 100)) * xjun_Actual_CPU_Nmin1)) * xjunActual_volume_N;
+            var formula2_6 = ((xjun_Target_CPU_N - (1 + (xCPI_Jun / 100)) * xjun_Actual_CPU_Nmin1)) * xjunActual_volume_N;
             $('#CPI_Effect_Jun').val(parseFloat(formula2_6).toFixed(_toFixed));
         }
         else {
@@ -5298,9 +5361,9 @@ function calculate_CPI_Effect() {
         var xjulActual_volume_N = parseFloat(txt_julActual_volume_N.GetValue());
 
         var formula1_7 = ((xjul_Target_CPU_N - xjul_Actual_CPU_Nmin1) / xjul_Actual_CPU_Nmin1);
-        if (formula1_7 < xCPI) {
+        if (formula1_7 < xCPI_Jul) {
 
-            var formula2_7 = ((xjul_Target_CPU_N - (1 + (xCPI / 100)) * xjul_Actual_CPU_Nmin1)) * xjulActual_volume_N;
+            var formula2_7 = ((xjul_Target_CPU_N - (1 + (xCPI_Jul / 100)) * xjul_Actual_CPU_Nmin1)) * xjulActual_volume_N;
             $('#CPI_Effect_Jul').val(parseFloat(formula2_7).toFixed(_toFixed));
         }
         else {
@@ -5312,9 +5375,9 @@ function calculate_CPI_Effect() {
         var xaugActual_volume_N = parseFloat(txt_augActual_volume_N.GetValue());
 
         var formula1_8 = ((xaug_Target_CPU_N - xaug_Actual_CPU_Nmin1) / xaug_Actual_CPU_Nmin1);
-        if (formula1_8 < xCPI) {
+        if (formula1_8 < xCPI_Aug) {
 
-            var formula2_8 = ((xaug_Target_CPU_N - (1 + (xCPI / 100)) * xaug_Actual_CPU_Nmin1)) * xaugActual_volume_N;
+            var formula2_8 = ((xaug_Target_CPU_N - (1 + (xCPI_Aug / 100)) * xaug_Actual_CPU_Nmin1)) * xaugActual_volume_N;
             $('#CPI_Effect_Aug').val(parseFloat(formula2_8).toFixed(_toFixed));
         }
         else {
@@ -5326,9 +5389,9 @@ function calculate_CPI_Effect() {
         var xsepActual_volume_N = parseFloat(txt_sepActual_volume_N.GetValue());
 
         var formula1_9 = ((xsep_Target_CPU_N - xsep_Actual_CPU_Nmin1) / xsep_Actual_CPU_Nmin1);
-        if (formula1_9 < xCPI) {
+        if (formula1_9 < xCPI_Sep) {
 
-            var formula2_9 = ((xsep_Target_CPU_N - (1 + (xCPI / 100)) * xsep_Actual_CPU_Nmin1)) * xsepActual_volume_N;
+            var formula2_9 = ((xsep_Target_CPU_N - (1 + (xCPI_Sep / 100)) * xsep_Actual_CPU_Nmin1)) * xsepActual_volume_N;
             $('#CPI_Effect_Sep').val(parseFloat(formula2_9).toFixed(_toFixed));
         }
         else {
@@ -5340,9 +5403,9 @@ function calculate_CPI_Effect() {
         var xoctActual_volume_N = parseFloat(txt_octActual_volume_N.GetValue());
 
         var formula1_10 = ((xoct_Target_CPU_N - xoct_Actual_CPU_Nmin1) / xoct_Actual_CPU_Nmin1);
-        if (formula1_10 < xCPI) {
+        if (formula1_10 < xCPI_Oct) {
 
-            var formula2_10 = ((xoct_Target_CPU_N - (1 + (xCPI / 100)) * xoct_Actual_CPU_Nmin1)) * xoctActual_volume_N;
+            var formula2_10 = ((xoct_Target_CPU_N - (1 + (xCPI_Oct / 100)) * xoct_Actual_CPU_Nmin1)) * xoctActual_volume_N;
             $('#CPI_Effect_Oct').val(parseFloat(formula2_10).toFixed(_toFixed));
         }
         else {
@@ -5354,9 +5417,9 @@ function calculate_CPI_Effect() {
         var xnovActual_volume_N = parseFloat(txt_novActual_volume_N.GetValue());
 
         var formula1_11 = ((xnov_Target_CPU_N - xnov_Actual_CPU_Nmin1) / xnov_Actual_CPU_Nmin1);
-        if (formula1_11 < xCPI) {
+        if (formula1_11 < xCPI_Nov) {
 
-            var formula2_11 = ((xnov_Target_CPU_N - (1 + (xCPI / 100)) * xnov_Actual_CPU_Nmin1)) * xnovActual_volume_N;
+            var formula2_11 = ((xnov_Target_CPU_N - (1 + (xCPI_Nov / 100)) * xnov_Actual_CPU_Nmin1)) * xnovActual_volume_N;
             $('#CPI_Effect_Nov').val(parseFloat(formula2_11).toFixed(_toFixed));
         }
         else {
@@ -5368,9 +5431,9 @@ function calculate_CPI_Effect() {
         var xdecActual_volume_N = parseFloat(txt_decActual_volume_N.GetValue());
 
         var formula1_12 = ((xdec_Target_CPU_N - xdec_Actual_CPU_Nmin1) / xdec_Actual_CPU_Nmin1);
-        if (formula1_12 < xCPI) {
+        if (formula1_12 < xCPI_Dec) {
 
-            var formula2_12 = ((xdec_Target_CPU_N - (1 + (xCPI / 100)) * xdec_Actual_CPU_Nmin1)) * xdecActual_volume_N;
+            var formula2_12 = ((xdec_Target_CPU_N - (1 + (xCPI_Dec / 100)) * xdec_Actual_CPU_Nmin1)) * xdecActual_volume_N;
             $('#CPI_Effect_Dec').val(parseFloat(formula2_12).toFixed(_toFixed));
         }
         else {
@@ -5442,6 +5505,33 @@ function bind_CPI_Fields() {
     $('#CPI_Effect_Nov_').val(Math.round(parseFloat(_CPI_Effect_Nov)).toLocaleString("en-US"));
     $('#CPI_Effect_Dec_').val(Math.round(parseFloat(_CPI_Effect_Dec)).toLocaleString("en-US"));
     $('#CPI_Effect_Total_').val(Math.round(parseFloat(_CPI_Effect_Total)).toLocaleString("en-US"));
+
+
+    var _CPI_Jan = $('#CPI_Jan') != null ? $('#CPI_Jan').val() : 0;
+    var _CPI_Feb = $('#CPI_Feb') != null ? $('#CPI_Feb').val() : 0;
+    var _CPI_Mar = $('#CPI_Mar') != null ? $('#CPI_Mar').val() : 0;
+    var _CPI_Apr = $('#CPI_Apr') != null ? $('#CPI_Apr').val() : 0;
+    var _CPI_May = $('#CPI_May') != null ? $('#CPI_May').val() : 0;
+    var _CPI_Jun = $('#CPI_Jun') != null ? $('#CPI_Jun').val() : 0;
+    var _CPI_Jul = $('#CPI_Jul') != null ? $('#CPI_Jul').val() : 0;
+    var _CPI_Aug = $('#CPI_Aug') != null ? $('#CPI_Aug').val() : 0;
+    var _CPI_Sep = $('#CPI_Sep') != null ? $('#CPI_Sep').val() : 0;
+    var _CPI_Oct = $('#CPI_Oct') != null ? $('#CPI_Oct').val() : 0;
+    var _CPI_Nov = $('#CPI_Nov') != null ? $('#CPI_Nov').val() : 0;
+    var _CPI_Dec = $('#CPI_Dec') != null ? $('#CPI_Dec').val() : 0;
+
+    $('#CPI_Jan_').val(Math.round(parseFloat(_CPI_Jan)).toLocaleString("en-US"));
+    $('#CPI_Feb_').val(Math.round(parseFloat(_CPI_Feb)).toLocaleString("en-US"));
+    $('#CPI_Mar_').val(Math.round(parseFloat(_CPI_Mar)).toLocaleString("en-US"));
+    $('#CPI_Apr_').val(Math.round(parseFloat(_CPI_Apr)).toLocaleString("en-US"));
+    $('#CPI_May_').val(Math.round(parseFloat(_CPI_May)).toLocaleString("en-US"));
+    $('#CPI_Jun_').val(Math.round(parseFloat(_CPI_Jun)).toLocaleString("en-US"));
+    $('#CPI_Jul_').val(Math.round(parseFloat(_CPI_Jul)).toLocaleString("en-US"));
+    $('#CPI_Aug_').val(Math.round(parseFloat(_CPI_Aug)).toLocaleString("en-US"));
+    $('#CPI_Sep_').val(Math.round(parseFloat(_CPI_Sep)).toLocaleString("en-US"));
+    $('#CPI_Oct_').val(Math.round(parseFloat(_CPI_Oct)).toLocaleString("en-US"));
+    $('#CPI_Nov_').val(Math.round(parseFloat(_CPI_Nov)).toLocaleString("en-US"));
+    $('#CPI_Dec_').val(Math.round(parseFloat(_CPI_Dec)).toLocaleString("en-US"));
 
 }
 
