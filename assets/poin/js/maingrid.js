@@ -14,6 +14,8 @@ $(function () {
     $("#BtnInitiative").on("click", function () {
 
         $('#isProcurement').val('0');
+
+        var isProcurement = 0;
         clear_Procurement_BackCalcs();
         clear_Procurement_fields();
 
@@ -46,6 +48,7 @@ $(function () {
                 value = JSON.stringify(value); obj = JSON.parse(value);
                 if (obj != null) GrdInitType.AddItem(obj.SavingTypeName, obj.id);
             });
+
             $.each(data[0]["ActionTypeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
                 if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
@@ -70,7 +73,8 @@ $(function () {
                 value = JSON.stringify(value); obj = JSON.parse(value);
                 if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
             });
-            if (projectYear > 2022) {
+
+            if (isProcurement == 1) {
                 GrdActionType.clientEnabled = false;
                 GrdActionType.SelectIndex(1);
             }
@@ -127,6 +131,7 @@ $(function () {
     });
     $('#BtnProcurement').on("click", function () {
 
+        var isProcurement = 1;
         $('#isProcurement').val('1');
         clear_Procurement_BackCalcs();
         clear_Procurement_fields();
@@ -135,16 +140,16 @@ $(function () {
         if (py < 2023) {
             py = 2023;
             min_py = (+py);
-            max_py = (+py);
+            max_py = (+py+1);
         } else {
             min_py = (+py);
-            max_py = (+py);
+            max_py = (+py + 1);
         }
         //debugger;
         StartMonth.SetMinDate(new Date(min_py + '-01-01'));
         StartMonth.SetMaxDate(new Date(max_py + '-12-31'));
-        EndMonth.SetMinDate(new Date(max_py + '-01-01'));
-        EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
+        EndMonth.SetMinDate(new Date(min_py + '-01-01'));
+        EndMonth.SetMaxDate(new Date((max_py) + '-12-31'));
 
         $.post(URLContent('ActiveInitiative/GrdSubCountryPartial'), { Id: null }, function (data) {
             var obj; GrdSubCountryPopup.ClearItems();
@@ -157,10 +162,17 @@ $(function () {
         });
         $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: null }, function (data) {
             var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); CboWebinarCat.ClearItems();
+           
             $.each(data[0]["SavingTypeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                if (obj != null) GrdInitType.AddItem(obj.SavingTypeName, obj.id);
+                if (obj != null) {
+
+                    if (obj.SavingTypeName == "Positive Cost Impact" || obj.SavingTypeName == "Negative Cost Impact") {
+                        GrdInitType.AddItem(obj.SavingTypeName, obj.id);
+                    }
+                };
             });
+
             $.each(data[0]["ActionTypeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
                 if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
@@ -186,12 +198,21 @@ $(function () {
                 if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
             });
 
-            if (projectYear > 2022) {
+            if (isProcurement == 1) {
+
+                GrdInitType.clientEnabled = false;
+                GrdInitType.SetText("Positive Cost Impact");
+
                 GrdActionType.clientEnabled = false;
                 GrdActionType.SelectIndex(2);
             }
-            else { GrdActionType.SelectIndex(0); }
-            GrdInitType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
+            else
+            {
+                GrdInitType.SelectIndex(0);
+                GrdActionType.SelectIndex(0);
+            }
+
+            /*GrdInitType.SelectIndex(0);*/ GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
         });
         CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
         CboWebinarCat.AddItem("");
@@ -873,7 +894,7 @@ function isAll_Procurement_Mandatory_fields_entered(_isProcurement) {
         if ((xUnit_of_volumes != null && xUnit_of_volumes != '') && (xInput_Actuals_Volumes_Nmin1 != null && xInput_Actuals_Volumes_Nmin1 != '') &&
             (xInput_Target_Volumes != null && xInput_Target_Volumes != '') && (xTotal_Actual_volume_N != null && xTotal_Actual_volume_N != '') &&
             (xSpend_Nmin1 != null && xSpend_Nmin1 != '') && (xSpend_N != null && xSpend_N != '') &&
-            (xCPI != null && xCPI != '') && (xjanActual_volume_N != null && xjanActual_volume_N != '') &&
+            /*(xCPI != null && xCPI != '') &&*/ (xjanActual_volume_N != null && xjanActual_volume_N != '') &&
             (xfebActual_volume_N != null && xfebActual_volume_N != '') && (xmarActual_volume_N != null && xmarActual_volume_N != '') &&
             (xaprActual_volume_N != null && xaprActual_volume_N != '') && (xmayActual_volume_N != null && xmayActual_volume_N != '') &&
             (xjunActual_volume_N != null && xjunActual_volume_N != '') && (xjulActual_volume_N != null && xjulActual_volume_N != '') &&
@@ -1080,10 +1101,28 @@ function ShowEditWindow(id) {
                 var obj1; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); GrdSubCost.ClearItems();
                 var uType = user_type;
                 CboWebinarCat.ClearItems();
-                $.each(DDdata[0]["SavingTypeData"], function (key, dd_value) {
-                    dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
-                    if (obj1 != null) GrdInitType.AddItem(obj1.SavingTypeName, obj1.id);
-                });
+                if (isProcurement == 1) {
+                    //$.each(DDdata[0]["SavingTypeData"], function (key, dd_value) {
+                    //    dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
+                    //    if (obj1 != null) GrdInitType.AddItem(obj1.SavingTypeName, obj1.id);
+                    //});
+                    $.each(DDdata[0]["SavingTypeData"], function (key, dd_value) {
+                        dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
+                        if (obj1 != null)
+                        {
+                            if (obj1.SavingTypeName == "Positive Cost Impact" || obj1.SavingTypeName == "Negative Cost Impact") {
+                                GrdInitType.AddItem(obj1.SavingTypeName, obj1.id);
+                            }
+                            
+                        }
+                    });
+                }
+                else {
+                    $.each(DDdata[0]["SavingTypeData"], function (key, dd_value) {
+                        dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
+                        if (obj1 != null) GrdInitType.AddItem(obj1.SavingTypeName, obj1.id);
+                    });
+                }
                 $.each(DDdata[0]["ActionTypeData"], function (key, dd_value) {
                     dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
                     if (obj1 != null) GrdActionType.AddItem(obj1.ActionTypeName, obj1.id);
@@ -1140,10 +1179,13 @@ function ShowEditWindow(id) {
                 });
 
 
-                if (GrdInit_Type != null)
+                if (GrdInit_Type != null) {
+                    if (isProcurement == 1) {
+                        GrdInitType.clientEnabled = false;
+                    }
                     GrdInitType.SelectIndex(GrdInit_Type);
-                else
-                    GrdInitType.SelectIndex(0);
+                }
+                else { GrdInitType.SelectIndex(0); }
 
                 if (GrdAction_Type != null)
                     GrdActionType.SelectIndex(GrdAction_Type);
@@ -2068,20 +2110,23 @@ function OnStartMonthChanged() {
     OnEndMonthChanged();
 
     var awal = StartMonth.GetValue();
-    var xisProcurement = $('#isProcurement').val();
-    if (xisProcurement == 1) {
+    //var xisProcurement = $('#isProcurement').val();
+    //if (xisProcurement == 1) {
 
-        var _dt = new Date(awal.getFullYear(), awal.getMonth(), 1);
-        EndMonth.SetMinDate(_dt);
+    //    var _dt = new Date(awal.getFullYear(), awal.getMonth(), 1);
+    //    EndMonth.SetMinDate(_dt);
 
-        var dt = new Date(awal.getFullYear(), 11, 1);
-        EndMonth.SetMaxDate(dt);
-    }
-    else {
-        var dt = new Date(awal.getFullYear(), awal.getMonth() + 11, 1);
-        EndMonth.SetMaxDate(dt);
-    }
+    //    var dt = new Date(awal.getFullYear(), 11, 1);
+    //    EndMonth.SetMaxDate(dt);
+    //}
+    //else {
+    //    var dt = new Date(awal.getFullYear(), awal.getMonth() + 11, 1);
+    //    EndMonth.SetMaxDate(dt);
+    //}
 
+    //old code 
+    var dt = new Date(awal.getFullYear(), awal.getMonth() + 11, 1);
+    EndMonth.SetMaxDate(dt);
 
     //ENH153-2 calculations caller
     calculate_Actual_CPU_Nmin1();
@@ -3132,7 +3177,8 @@ function getYtdValue() {
     //var d = new Date();
     var d = new Date();
     //var m = d.getMonth();
-    var m = projectMonth - 1;
+    //var m = projectMonth - 1;
+    var m = projectMonth;
     // debugger;
     //var startmon = ((moment(StartMonth.GetValue()).format("M")));
     var endmon = ((moment(StartMonth.GetValue()).format("M")));
@@ -3153,7 +3199,8 @@ function getYtdValue() {
         if (projectYear == startyear) {
 
             //m = 12
-            m = projectMonth - 1;
+            //m = projectMonth - 1;
+            m = projectMonth;
         }
         else {
             tex = "2";
@@ -4038,18 +4085,24 @@ function calculate_A_Price_effect() {
         //selected start Month - Month
         var selected_StartMonth = new Date(StartMonth.GetValue()).getMonth() + 1;
         //selected start Month & Year
-        var Start_Month_year = parseInt(new Date(StartMonth.GetValue()).getMonth() + 1 + String(_SYear));
+        //var Start_Month_year = parseInt(new Date(StartMonth.GetValue()).getMonth() + 1 + String(_SYear));
+        //var Start_Month_year = parseFloat(String(_SYear) +"."+ String(new Date(StartMonth.GetValue()).getMonth() + 1));
+        var Start_Month_year = new Date(_SYear,new Date(StartMonth.GetValue()).getMonth(),1);
 
 
         var _EYear = new Date(EndMonth.GetValue()).getFullYear();
         //selected End Month - Month
         var selected_EndMonth = new Date(EndMonth.GetValue()).getMonth() + 1;
         //selected Start Month & Year
-        var End_Month_year = parseInt(new Date(EndMonth.GetValue()).getMonth() + 1 + String(_EYear));
+        //var End_Month_year = parseFloat(String(_EYear) + "." + String(new Date(EndMonth.GetValue()).getMonth() + 1));
+        var End_Month_year = new Date(_EYear, new Date(EndMonth.GetValue()).getMonth(), 1);
 
         //A_Price_effect_Jan
         var monthIndex = 1;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseFloat(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex-1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_Jan').val(0);
         }
@@ -4066,7 +4119,10 @@ function calculate_A_Price_effect() {
 
         //A_Price_effect_Feb
         var monthIndex = 2;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseFloat(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_Feb').val(0);
         }
@@ -4082,7 +4138,10 @@ function calculate_A_Price_effect() {
         }
         //A_Price_effect_Mar
         var monthIndex = 3;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseFloat(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_Mar').val(0);
         }
@@ -4098,7 +4157,10 @@ function calculate_A_Price_effect() {
         }
         //A_Price_effect_Apr
         var monthIndex = 4;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseFloat(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_Apr').val(0);
         }
@@ -4114,7 +4176,10 @@ function calculate_A_Price_effect() {
         }
         //A_Price_effect_May
         var monthIndex = 5;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseFloat(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_May').val(0);
         }
@@ -4130,7 +4195,10 @@ function calculate_A_Price_effect() {
         }
         //A_Price_effect_Jun
         var monthIndex = 6;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseFloat(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_Jun').val(0);
         }
@@ -4146,7 +4214,10 @@ function calculate_A_Price_effect() {
         }
         //A_Price_effect_Jul
         var monthIndex = 7;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseFloat(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_Jul').val(0);
         }
@@ -4162,7 +4233,10 @@ function calculate_A_Price_effect() {
         }
         //A_Price_effect_Aug
         var monthIndex = 8;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_Aug').val(0);
         }
@@ -4178,7 +4252,10 @@ function calculate_A_Price_effect() {
         }
         //A_Price_effect_Sep
         var monthIndex = 9;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseFloat(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_Sep').val(0);
         }
@@ -4194,7 +4271,10 @@ function calculate_A_Price_effect() {
         }
         //A_Price_effect_Oct
         var monthIndex = 10;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseFloat(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_Oct').val(0);
         }
@@ -4210,7 +4290,10 @@ function calculate_A_Price_effect() {
         }
         //A_Price_effect_Nov
         var monthIndex = 11;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseFloat(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_Nov').val(0);
         }
@@ -4226,7 +4309,9 @@ function calculate_A_Price_effect() {
         }
         //A_Price_effect_Dec
         var monthIndex = 12;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseFloat(String(projectYear) + "." + String(monthIndex));
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#A_Price_effect_Dec').val(0);
         }
@@ -4654,17 +4739,23 @@ function calculate_ST_Price_effect() {
         //selected start Month - Month
         var selected_StartMonth = new Date(StartMonth.GetValue()).getMonth() + 1;
         //selected start Month & Year
-        var Start_Month_year = parseInt(new Date(StartMonth.GetValue()).getMonth() + 1 + String(_SYear));
+        //var Start_Month_year = parseInt(new Date(StartMonth.GetValue()).getMonth() + 1 + String(_SYear));
+        //var Start_Month_year = parseInt(String(_SYear) + String(new Date(StartMonth.GetValue()).getMonth() + 1));
+        var Start_Month_year = new Date(_SYear, new Date(StartMonth.GetValue()).getMonth(), 1);
 
         var _EYear = new Date(EndMonth.GetValue()).getFullYear();
         //selected End Month - Month
         var selected_EndMonth = new Date(EndMonth.GetValue()).getMonth() + 1;
         //selected Start Month & Year
-        var End_Month_year = parseInt(new Date(EndMonth.GetValue()).getMonth() + 1 + String(_EYear));
+        //var End_Month_year = parseInt(String(_EYear) + String(new Date(EndMonth.GetValue()).getMonth() + 1));
+        var End_Month_year = new Date(_EYear, new Date(EndMonth.GetValue()).getMonth(), 1);
 
         //ST_Price_effect_Jan
         var monthIndex = 1;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_Jan').val(0);
         }
@@ -4681,7 +4772,10 @@ function calculate_ST_Price_effect() {
 
         //ST_Price_effect_Feb
         var monthIndex = 2;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_Feb').val(0);
         }
@@ -4698,7 +4792,10 @@ function calculate_ST_Price_effect() {
 
         //ST_Price_effect_Mar
         var monthIndex = 3;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_Mar').val(0);
         }
@@ -4715,7 +4812,10 @@ function calculate_ST_Price_effect() {
 
         //ST_Price_effect_Apr
         var monthIndex = 4;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_Apr').val(0);
         }
@@ -4732,7 +4832,10 @@ function calculate_ST_Price_effect() {
 
         //ST_Price_effect_May
         var monthIndex = 5;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_May').val(0);
         }
@@ -4749,7 +4852,10 @@ function calculate_ST_Price_effect() {
 
         //ST_Price_effect_Jun
         var monthIndex = 6;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_Jun').val(0);
         }
@@ -4766,7 +4872,10 @@ function calculate_ST_Price_effect() {
 
         //ST_Price_effect_Jul
         var monthIndex = 7;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_Jul').val(0);
         }
@@ -4783,7 +4892,10 @@ function calculate_ST_Price_effect() {
 
         //ST_Price_effect_Aug
         var monthIndex = 8;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_Aug').val(0);
         }
@@ -4800,7 +4912,10 @@ function calculate_ST_Price_effect() {
 
         //ST_Price_effect_Sep
         var monthIndex = 9;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_Sep').val(0);
         }
@@ -4817,7 +4932,10 @@ function calculate_ST_Price_effect() {
 
         //ST_Price_effect_Oct
         var monthIndex = 10;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_Oct').val(0);
         }
@@ -4834,7 +4952,10 @@ function calculate_ST_Price_effect() {
 
         //ST_Price_effect_Nov
         var monthIndex = 11;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_Nov').val(0);
         }
@@ -4851,7 +4972,10 @@ function calculate_ST_Price_effect() {
 
         //ST_Price_effect_Dec
         var monthIndex = 12;
-        var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(monthIndex + String(projectYear));
+        //var thisMonth_year = parseInt(String(projectYear) + monthIndex);
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
         if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
             $('#ST_Price_effect_Dec').val(0);
         }
@@ -5283,7 +5407,7 @@ function isAll_InputGiven_for_CPI_Effect() {
 
 function calculate_CPI_Effect() {
     if (isAll_InputGiven_for_CPI_Effect()) {
-        var xCPI = parseFloat(txt_CPI.GetValue());
+        //var xCPI = parseFloat(txt_CPI.GetValue());
         var xCPI_Jan = $('#CPI_Jan') != null ? $('#CPI_Jan').val() : 0;
         var xCPI_Feb = $('#CPI_Feb') != null ? $('#CPI_Feb').val() : 0;
         var xCPI_Mar = $('#CPI_Mar') != null ? $('#CPI_Mar').val() : 0;

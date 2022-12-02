@@ -3,6 +3,7 @@
     var tahun = profileData.ProjectYear;
     var projectMonth = profileData.ProjectMonth;
     bool isVisible = tahun >= 2023 ? true : false ;
+    bool isVisible2022 = tahun < 2023 ? true : false ;
     bool VisibleStat = false;
     //var startdate = 
 }
@@ -483,17 +484,6 @@
             });
         });
 
-        //------------------------------------------------------------------------------------------------------------------------------------------
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "YTDTargetUb";
-            c.Caption = "YTD Target";
-            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
-            c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            c.Width = 100;
-            c.Visible = VisibleStat;
-        });
-
         #region enh153-2 region 1
 
         settings.Columns.Add(c =>
@@ -641,7 +631,16 @@
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.Visible = isVisible;
         });
-
+        //------------------------------------------------------------------------------------------------------------------------------------------
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "YTDTargetUb";
+            c.Caption = "N YTD Secured (TOTAL EFFECT)";
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
+            c.Width = 100;
+            c.Visible = isVisible2022;
+        });
         #endregion
 
         #region ENH153-2 region 3
@@ -679,11 +678,11 @@
         settings.Columns.Add(c =>
         {
             c.FieldName = "YTDAchievedUb";
-            c.Caption = "YTD Achieved";
+            c.Caption = "YTD Achieved (TOTAL EFFECT)";
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             c.Width = 150;
-            c.Visible = VisibleStat;
+            c.Visible = isVisible2022;
         });
 
         #region ENH153-2 region 4
@@ -741,6 +740,15 @@
                 c.Width = 100;
                 c.Visible = isVisible;
             });
+            JanuaryBand.Columns.Add(c =>
+            {
+                c.FieldName = "jan_CPI";
+                c.Caption = "CPI";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
         });
         settings.Columns.AddBand(FebruaryBand =>
         {
@@ -766,6 +774,15 @@
             {
                 c.FieldName = "febActual_volume_N";
                 c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
+            FebruaryBand.Columns.Add(c =>
+            {
+                c.FieldName = "feb_CPI";
+                c.Caption = "CPI";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
@@ -802,6 +819,15 @@
                 c.Width = 100;
                 c.Visible = isVisible;
             });
+            MarchBand.Columns.Add(c =>
+            {
+                c.FieldName = "mar_CPI";
+                c.Caption = "CPI";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
         });
         settings.Columns.AddBand(AprilBand =>
         {
@@ -827,6 +853,15 @@
             {
                 c.FieldName = "aprActual_volume_N";
                 c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
+            AprilBand.Columns.Add(c =>
+            {
+                c.FieldName = "apr_CPI";
+                c.Caption = "CPI";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
@@ -862,6 +897,15 @@
                 c.Width = 100;
                 c.Visible = isVisible;
             });
+            MayBand.Columns.Add(c =>
+            {
+                c.FieldName = "may_CPI";
+                c.Caption = "CPI";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
         });
         settings.Columns.AddBand(JunBand =>
         {
@@ -887,6 +931,15 @@
             {
                 c.FieldName = "junActual_volume_N";
                 c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
+            JunBand.Columns.Add(c =>
+            {
+                c.FieldName = "jun_CPI";
+                c.Caption = "CPI";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
@@ -922,6 +975,15 @@
                 c.Width = 100;
                 c.Visible = isVisible;
             });
+            JulBand.Columns.Add(c =>
+            {
+                c.FieldName = "jul_CPI";
+                c.Caption = "CPI";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
         });
         settings.Columns.AddBand(AugBand =>
         {
@@ -947,6 +1009,15 @@
             {
                 c.FieldName = "augActual_volume_N";
                 c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
+            AugBand.Columns.Add(c =>
+            {
+                c.FieldName = "aug_CPI";
+                c.Caption = "CPI";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
@@ -982,6 +1053,15 @@
                 c.Width = 100;
                 c.Visible = isVisible;
             });
+            SepBand.Columns.Add(c =>
+            {
+                c.FieldName = "sep_CPI";
+                c.Caption = "CPI";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
         });
         settings.Columns.AddBand(OctBand =>
         {
@@ -1007,6 +1087,15 @@
             {
                 c.FieldName = "octActual_volume_N";
                 c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
+            OctBand.Columns.Add(c =>
+            {
+                c.FieldName = "oct_CPI";
+                c.Caption = "CPI";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
@@ -1042,6 +1131,15 @@
                 c.Width = 100;
                 c.Visible = isVisible;
             });
+            NovBand.Columns.Add(c =>
+            {
+                c.FieldName = "nov_CPI";
+                c.Caption = "CPI";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
         });
         settings.Columns.AddBand(DecBand =>
         {
@@ -1067,6 +1165,15 @@
             {
                 c.FieldName = "decActual_volume_N";
                 c.Caption = "Actual Volumes";
+                c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+                c.Width = 100;
+                c.Visible = isVisible;
+            });
+            DecBand.Columns.Add(c =>
+            {
+                c.FieldName = "dec_CPI";
+                c.Caption = "CPI";
                 c.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;

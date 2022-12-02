@@ -155,5 +155,18 @@ namespace GAIN.Models
         public Nullable<decimal> N_FY_ST_Total_EF { get; set; }
         public Nullable<decimal> N_YTD_ST_Total_EF { get; set; }
         public Nullable<decimal> N_YTD_A_Total_EF { get; set; }
+
+        public Nullable<decimal> jan_CPI { get; set; }
+        public Nullable<decimal> feb_CPI { get; set; }
+        public Nullable<decimal> mar_CPI { get; set; }
+        public Nullable<decimal> apr_CPI { get; set; }
+        public Nullable<decimal> may_CPI { get; set; }
+        public Nullable<decimal> jun_CPI { get; set; }
+        public Nullable<decimal> jul_CPI { get; set; }
+        public Nullable<decimal> aug_CPI { get; set; }
+        public Nullable<decimal> sep_CPI { get; set; }
+        public Nullable<decimal> oct_CPI { get; set; }
+        public Nullable<decimal> nov_CPI { get; set; }
+        public Nullable<decimal> dec_CPI { get; set; }
     }
 }

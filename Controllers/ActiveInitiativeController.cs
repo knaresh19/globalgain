@@ -503,6 +503,21 @@ log4net.LogManager.GetLogger
                                                                                 y.jun_CPI_Effect + y.jul_CPI_Effect + y.aug_CPI_Effect + y.sep_CPI_Effect + y.oct_CPI_Effect +
                                                                                 y.nov_CPI_Effect + y.dec_CPI_Effect).FirstOrDefault().ToString();
                     item.YTD_Cost_Avoid_Vs_CPI = Math.Round(Convert.ToDecimal(_YTD_Cost_Avoid_Vs_CPI), 0);
+
+
+                    item.jan_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().jan_CPI;
+                    item.feb_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().feb_CPI;
+                    item.mar_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().mar_CPI;
+                    item.apr_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().apr_CPI;
+                    item.may_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().may_CPI;
+                    item.jun_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().jun_CPI;
+                    item.jul_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().jul_CPI;
+                    item.aug_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().aug_CPI;
+                    item.sep_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().sep_CPI;
+                    item.oct_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().oct_CPI;
+                    item.nov_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().nov_CPI;
+                    item.dec_CPI  = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().dec_CPI;
+
                     #endregion
 
                     #region TMonthly Target and Achieved

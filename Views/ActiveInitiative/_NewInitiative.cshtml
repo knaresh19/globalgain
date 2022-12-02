@@ -809,7 +809,7 @@
                                     }
                                 </div>
                                 <div class="span2a">
-                                    CPI:
+                                    @*CPI:*@
                                     @{
                                         var txt_CPI = Html.DevExpress().TextBox(settings =>
                                         {
@@ -821,6 +821,7 @@
                                             settings.Properties.DisplayFormatString = "#,###";
                                             settings.Properties.DisplayFormatInEditMode = true;
                                             settings.Properties.ClientSideEvents.LostFocus = "";
+                                            settings.ClientVisible = false;
 
                                         }).GetHtml();
 
