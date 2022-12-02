@@ -58,6 +58,7 @@ namespace GAIN.Models
         public virtual DbSet<user_list> user_list { get; set; }
 
         public virtual DbSet<t_initiative_calcs> t_initiative_calcs { get; set; }
+        public virtual DbSet<mcpi> mcpi { get; set; }
 
         public virtual DbSet<vwagency> vwagencies { get; set; }
         public virtual DbSet<vwheaderinitiative> vwheaderinitiatives { get; set; }
@@ -226,6 +227,12 @@ namespace GAIN.Models
             //  .HasForeignKey(j => j.id)
             //  .WillCascadeOnDelete(true);
 
+            //FOr mCPI
+            modelBuilder.Entity<mcountry>()
+               .HasOptional(j => j.mcpi)
+               .WithMany()
+               .HasForeignKey(j => j.id)
+               .WillCascadeOnDelete(true);
 
             base.OnModelCreating(modelBuilder);
 

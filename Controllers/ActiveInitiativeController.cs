@@ -715,7 +715,20 @@ log4net.LogManager.GetLogger
                 var cntrytext = profileData.subcountry_right.Replace("|", "','");
                 int lencntrytext = cntrytext.Length;
                 cntrytext = "(" + cntrytext.Substring(2, (lencntrytext - 4)) + ")";
-                var cntryid = db.msubcountries.SqlQuery("select id,CountryID,SubCountryName,CountryCode,isActive , Inityear from msubcountry where SubCountryName is not null and isActive = 'Y' and SubCountryName in " + cntrytext + " and  Inityear = " + projYear + "").ToList();
+
+                string sQuery = string.Empty;
+                
+                if (cntrytext.Contains("'ALL'"))
+                {
+                    sQuery = "select id,CountryID,SubCountryName,CountryCode,isActive , Inityear from msubcountry where SubCountryName is not null and isActive = 'Y' and  Inityear = " + projYear + "";
+                }
+                else 
+                {
+                    sQuery = "select id,CountryID,SubCountryName,CountryCode,isActive , Inityear from msubcountry where SubCountryName is not null and isActive = 'Y' and SubCountryName in " + cntrytext + " and  Inityear = " + projYear + "";
+                }
+
+                var cntryid = db.msubcountries.SqlQuery(sQuery).ToList();
+
                 var cntryidcondition = "";
                 for (var i = 0; i < cntryid.Count(); i++)
                 {
@@ -1980,6 +1993,72 @@ log4net.LogManager.GetLogger
             List<LegalEntityList> LegalEntityList = new List<LegalEntityList>();
             List<TypeInitiativeList> TypeInitiativeList = new List<TypeInitiativeList>();
 
+            List<mcpi> mCPI = new List<mcpi>();
+            
+            Dictionary<int, string> _quaters = new Dictionary<int, string>();
+            _quaters.Add(1, "1,2,3");
+            _quaters.Add(2, "4,5,6");
+            _quaters.Add(3, "7,8,9");
+            _quaters.Add(4, "10,11,12");
+
+            List<mcpi> _mCPI = new List<mcpi>();
+
+            if (modelsubcountry != null)
+            {
+                mCPI = db.mcpi.Where(x => x.mCountry_id == modelsubcountry.CountryID).ToList();
+                
+                int i = 1;
+                while (i <= 12)
+                {
+                    decimal final_CPI = 0;
+                    decimal MONTHLY = 0;
+                    decimal QUARTERLY = 0;
+                    decimal ANNUALLY = 0;
+
+
+                    mcpi obj_mcpi = new mcpi();
+
+                    MONTHLY = mCPI.Where(x => x.Period_index == 1 && x.Period_type == "MONTHLY").Select(y => y.CPI).FirstOrDefault();
+
+                    if (MONTHLY > 0)
+                    {
+                        final_CPI = MONTHLY;
+                        obj_mcpi = (mcpi)mCPI.Where(x => x.Period_index == 1 && x.Period_type == "MONTHLY");
+                    }
+                    else
+                    {
+                        int _quarter = _quaters.Where(key => key.Value.Contains(i.ToString())).Select(y => y.Key).FirstOrDefault();
+
+                        QUARTERLY = mCPI.Where(x => x.Period_index == _quarter && x.Period_type == "QUARTERLY").Select(y => y.CPI).FirstOrDefault();
+
+                        if (QUARTERLY > 0)
+                        {
+                            final_CPI = QUARTERLY;
+                        }
+                        else
+                        {
+                            ANNUALLY = mCPI.Where(x => x.Period_index == 1 && x.Period_type == "ANNUALLY").Select(y => y.CPI).FirstOrDefault();
+
+                            if (ANNUALLY > 0)
+                            {
+                                final_CPI = ANNUALLY;
+                            }
+                            else
+                            {
+                                final_CPI = 0;
+                            }
+                        }
+                    }
+
+                    obj_mcpi.Period_index = i;
+                    obj_mcpi.Period_type = "MONTHLY";
+                    obj_mcpi.CPI = final_CPI;
+                    _mCPI.Add(obj_mcpi);
+
+                    i++;
+                }
+            }
+
             db.Configuration.ProxyCreationEnabled = false;
             SubCountryList = db.msubcountries.Where(c => c.id == SubCountryID && c.isActive == "Y").Select(s => new SubCountryList { id = s.id, SubCountryName = s.SubCountryName }).ToList();
             CountryList = db.mcountries.Where(c => c.id == CountryID).Select(s => new CountryList { id = s.id, CountryName = s.CountryName }).ToList();
@@ -2022,7 +2101,8 @@ log4net.LogManager.GetLogger
                     RegionalOfficeData = RegionalOfficeList,
                     CostControlSiteData = CostControlList,
                     LegalEntityData = LegalEntityList,
-                    TypeInitiativeData = TypeInitiativeList
+                    TypeInitiativeData = TypeInitiativeList,
+                    mcpi = _mCPI
                 });
 
             }
@@ -2039,7 +2119,8 @@ log4net.LogManager.GetLogger
                     RegionalOfficeData = null,
                     CostControlSiteData = null,
                     LegalEntityData = null,
-                    TypeInitiativeData = null
+                    TypeInitiativeData = null,
+                    mcpi = null
                 });
 
             }
@@ -2690,21 +2771,92 @@ log4net.LogManager.GetLogger
                 result.nov_CPI_Effect = model.nov_CPI_Effect;
                 result.dec_CPI_Effect = model.dec_CPI_Effect;
 
-                result.CPI_Jan = model.CPI_Jan;
-                result.CPI_Feb = model.CPI_Feb;
-                result.CPI_Mar = model.CPI_Mar;
-                result.CPI_Apr = model.CPI_Apr;
-                result.CPI_May = model.CPI_May;
-                result.CPI_Jun = model.CPI_Jun;
-                result.CPI_Jul = model.CPI_Jul;
-                result.CPI_Aug = model.CPI_Aug;
-                result.CPI_Sep = model.CPI_Sep;
-                result.CPI_Oct = model.CPI_Oct;
-                result.CPI_Nov = model.CPI_Nov;
-                result.CPI_Dec = model.CPI_Dec;
+                //result.jan_CPI = _mCPI[0].CPI;
+                //result.feb_CPI = _mCPI[1].CPI;
+                //result.mar_CPI = _mCPI[2].CPI;
+                //result.apr_CPI = _mCPI[3].CPI;
+                //result.may_CPI = _mCPI[4].CPI;
+                //result.jun_CPI = _mCPI[5].CPI;
+                //result.jul_CPI = _mCPI[6].CPI;
+                //result.aug_CPI = _mCPI[7].CPI;
+                //result.sep_CPI = _mCPI[8].CPI;
+                //result.oct_CPI = _mCPI[9].CPI;
+                //result.nov_CPI = _mCPI[10].CPI;
+                //result.dec_CPI = _mCPI[11].CPI;
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult get_Monthly_CPI(GetInfoByIDModel GetInfo)
+        {
+            List<mcpi> mCPI = new List<mcpi>();
+
+            Dictionary<int, string> _quaters = new Dictionary<int, string>();
+            _quaters.Add(1, "1,2,3");
+            _quaters.Add(2, "4,5,6");
+            _quaters.Add(3, "7,8,9");
+            _quaters.Add(4, "10,11,12");
+
+            List<mcpi> _mCPI = new List<mcpi>();
+
+            if (GetInfo != null)
+            {
+                mCPI = db.mcpi.Where(x => x.mCountry_id == GetInfo.Id).ToList();
+
+                int i = 1;
+                while (i <= 12)
+                {
+                    decimal final_CPI = 0;
+                    decimal MONTHLY = 0;
+                    decimal QUARTERLY = 0;
+                    decimal ANNUALLY = 0;
+
+
+                    mcpi obj_mcpi = new mcpi();
+
+                    MONTHLY = mCPI.Where(x => x.Period_index == 1 && x.Period_type == "MONTHLY").Select(y => y.CPI).FirstOrDefault();
+
+                    if (MONTHLY > 0)
+                    {
+                        final_CPI = MONTHLY;
+                        obj_mcpi = (mcpi)mCPI.Where(x => x.Period_index == 1 && x.Period_type == "MONTHLY");
+                    }
+                    else
+                    {
+                        int _quarter = _quaters.Where(key => key.Value.Contains(i.ToString())).Select(y => y.Key).FirstOrDefault();
+
+                        QUARTERLY = mCPI.Where(x => x.Period_index == _quarter && x.Period_type == "QUARTERLY").Select(y => y.CPI).FirstOrDefault();
+
+                        if (QUARTERLY > 0)
+                        {
+                            final_CPI = QUARTERLY;
+                        }
+                        else
+                        {
+                            ANNUALLY = mCPI.Where(x => x.Period_index == 1 && x.Period_type == "ANNUALLY").Select(y => y.CPI).FirstOrDefault();
+
+                            if (ANNUALLY > 0)
+                            {
+                                final_CPI = ANNUALLY;
+                            }
+                            else
+                            {
+                                final_CPI = 0;
+                            }
+                        }
+                    }
+
+                    obj_mcpi.Period_index = i;
+                    obj_mcpi.Period_type = "MONTHLY";
+                    obj_mcpi.CPI = final_CPI;
+                    _mCPI.Add(obj_mcpi);
+
+                    i++;
+                }
+            }
+
+            return Json(_mCPI, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

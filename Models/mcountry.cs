@@ -40,6 +40,7 @@ namespace GAIN.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_initiative> t_initiative { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<mcpi> mcpi { get; set; }
         public virtual ICollection<mlegalentity> mlegalentities { get; set; }
         public virtual mregion mregion { get; set; }
         public virtual msubregion msubregion { get; set; }

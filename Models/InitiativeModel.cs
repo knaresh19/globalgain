@@ -242,6 +242,7 @@ namespace GAIN.Models
         public List<CostControlList> CostControlSiteData { get; set; }
         public List<LegalEntityList> LegalEntityData { get; set; }
         public List<TypeInitiativeList> TypeInitiativeData { get; set; }
+        public List<mcpi> mcpi { get; set; }
 
     }
 

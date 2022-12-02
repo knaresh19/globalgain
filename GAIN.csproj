@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="packages\Microsoft.Net.Compilers.3.10.0\build\Microsoft.Net.Compilers.props" Condition="Exists('packages\Microsoft.Net.Compilers.3.10.0\build\Microsoft.Net.Compilers.props')" />
@@ -145,6 +145,7 @@
     <Compile Include="Models\mcountry.cs">
       <DependentUpon>GainModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\mcpi.cs" />
     <Compile Include="Models\mlegalentity.cs">
       <DependentUpon>GainModel.tt</DependentUpon>
     </Compile>
@@ -2926,7 +2927,7 @@
     <Content Include="assets\poin\vendors\datatables.net\js\jquery.dataTables.js" />
     <Content Include="assets\poin\vendors\datatables.net\js\jquery.dataTables.min.js" />
     <Content Include="assets\poin\vendors\datatables.net\License.txt" />
-        <Content Include="assets\poin\vendors\DateJS\build\date.min.js" />
+    <Content Include="assets\poin\vendors\DateJS\build\date.min.js" />
     <Content Include="assets\poin\vendors\DateJS\build\date-af-ZA.js" />
     <Content Include="assets\poin\vendors\DateJS\build\date-ar-AE.js" />
     <Content Include="assets\poin\vendors\DateJS\build\date-ar-BH.js" />
@@ -3934,7 +3935,7 @@
     <Content Include="assets\poin\vendors\echarts\webpack.config.js" />
     <Content Include="assets\poin\vendors\eve\e.html" />
     <Content Include="assets\poin\vendors\eve\eve.js" />
-        <Content Include="assets\poin\vendors\fastclick\lib\fastclick.min.js" />
+    <Content Include="assets\poin\vendors\fastclick\lib\fastclick.min.js" />
     <Content Include="assets\poin\vendors\fastclick\lib\fastclick.js" />
     <Content Include="assets\poin\vendors\flot-spline\js\jquery.flot.spline.js" />
     <Content Include="assets\poin\vendors\flot-spline\js\jquery.flot.spline.min.js" />
@@ -3997,7 +3998,7 @@
     <Content Include="assets\poin\vendors\Flot\gulpfile.js" />
     <Content Include="assets\poin\vendors\Flot\jquery.colorhelpers.js" />
     <Content Include="assets\poin\vendors\Flot\jquery.event.drag.LICENSE.txt" />
-        <Content Include="assets\poin\vendors\Flot\jquery.flot.min.js" />
+    <Content Include="assets\poin\vendors\Flot\jquery.flot.min.js" />
     <Content Include="assets\poin\vendors\Flot\jquery.flot.canvas.js" />
     <Content Include="assets\poin\vendors\Flot\jquery.flot.categories.js" />
     <Content Include="assets\poin\vendors\Flot\jquery.flot.crosshair.js" />
@@ -5072,9 +5073,8 @@
     <Content Include="assets\poin\vendors\normalize-css\.gitignore" />
     <Content Include="assets\poin\vendors\normalize-css\normalize.css" />
     <Content Include="assets\poin\vendors\nprogress\index.html" />
-      <Content Include="assets\poin\vendors\nprogress\nprogress.min.js" />
+    <Content Include="assets\poin\vendors\nprogress\nprogress.min.js" />
     <Content Include="assets\poin\vendors\nprogress\nprogress.mini.css" />
-  
     <Content Include="assets\poin\vendors\nprogress\nprogress.css" />
     <Content Include="assets\poin\vendors\nprogress\nprogress.js" />
     <Content Include="assets\poin\vendors\nprogress\support\extras.css" />
@@ -5249,7 +5249,7 @@
     <Content Include="assets\poin\vendors\parsleyjs\dist\parsley.min.js" />
     <Content Include="assets\poin\vendors\parsleyjs\gulpfile.babel.js" />
     <Content Include="assets\poin\vendors\skycons\skycons.js" />
-        <Content Include="assets\poin\vendors\skycons\skycons.min.js" />
+    <Content Include="assets\poin\vendors\skycons\skycons.min.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
