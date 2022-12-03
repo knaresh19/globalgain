@@ -1472,146 +1472,152 @@ function ShowEditWindow(id) {
 
                 $.post(URLContent('ActiveInitiative/get_Monthly_CPI'), { id: obj.CountryID }, function (CPI_data) {
                     if (CPI_data != null) {
-                        setCPI_on_Country_Selection(_obj);
+                        setCPI_on_Country_Selection(CPI_data);
                     }
+
+                    $.post(URLContent('ActiveInitiative/getProcuementCalcs'), { id: id }, function (procurement_data) {
+                        if (procurement_data != null) {
+
+                            $('#Actual_CPU_Nmin1_Jan').val(procurement_data.jan_Actual_CPU_Nmin1);
+                            $('#Actual_CPU_Nmin1_Feb').val(procurement_data.feb_Actual_CPU_Nmin1);
+                            $('#Actual_CPU_Nmin1_Mar').val(procurement_data.march_Actual_CPU_Nmin1);
+                            $('#Actual_CPU_Nmin1_Apr').val(procurement_data.apr_Actual_CPU_Nmin1);
+                            $('#Actual_CPU_Nmin1_May').val(procurement_data.may_Actual_CPU_Nmin1);
+                            $('#Actual_CPU_Nmin1_Jun').val(procurement_data.jun_Actual_CPU_Nmin1);
+                            $('#Actual_CPU_Nmin1_Jul').val(procurement_data.jul_Actual_CPU_Nmin1);
+                            $('#Actual_CPU_Nmin1_Aug').val(procurement_data.aug_Actual_CPU_Nmin1);
+                            $('#Actual_CPU_Nmin1_Sep').val(procurement_data.sep_Actual_CPU_Nmin1);
+                            $('#Actual_CPU_Nmin1_Oct').val(procurement_data.oct_Actual_CPU_Nmin1);
+                            $('#Actual_CPU_Nmin1_Nov').val(procurement_data.nov_Actual_CPU_Nmin1);
+                            $('#Actual_CPU_Nmin1_Dec').val(procurement_data.dec_Actual_CPU_Nmin1);
+                            $('#Target_CPU_N_Jan').val(procurement_data.jan_Target_CPU_N);
+                            $('#Target_CPU_N_Feb').val(procurement_data.feb_Target_CPU_N);
+                            $('#Target_CPU_N_Mar').val(procurement_data.march_Target_CPU_N);
+                            $('#Target_CPU_N_Apr').val(procurement_data.apr_Target_CPU_N);
+                            $('#Target_CPU_N_May').val(procurement_data.may_Target_CPU_N);
+                            $('#Target_CPU_N_Jun').val(procurement_data.jun_Target_CPU_N);
+                            $('#Target_CPU_N_Jul').val(procurement_data.jul_Target_CPU_N);
+                            $('#Target_CPU_N_Aug').val(procurement_data.aug_Target_CPU_N);
+                            $('#Target_CPU_N_Sep').val(procurement_data.sep_Target_CPU_N);
+                            $('#Target_CPU_N_Oct').val(procurement_data.oct_Target_CPU_N);
+                            $('#Target_CPU_N_Nov').val(procurement_data.nov_Target_CPU_N);
+                            $('#Target_CPU_N_Dec').val(procurement_data.dec_Target_CPU_N);
+                            $('#A_Price_effect_Jan').val(procurement_data.jan_A_Price_effect);
+                            $('#A_Price_effect_Feb').val(procurement_data.feb_A_Price_effect);
+                            $('#A_Price_effect_Mar').val(procurement_data.march_A_Price_effect);
+                            $('#A_Price_effect_Apr').val(procurement_data.apr_A_Price_effect);
+                            $('#A_Price_effect_May').val(procurement_data.may_A_Price_effect);
+                            $('#A_Price_effect_Jun').val(procurement_data.jun_A_Price_effect);
+                            $('#A_Price_effect_Jul').val(procurement_data.jul_A_Price_effect);
+                            $('#A_Price_effect_Aug').val(procurement_data.aug_A_Price_effect);
+                            $('#A_Price_effect_Sep').val(procurement_data.sep_A_Price_effect);
+                            $('#A_Price_effect_Oct').val(procurement_data.oct_A_Price_effect);
+                            $('#A_Price_effect_Nov').val(procurement_data.nov_A_Price_effect);
+                            $('#A_Price_effect_Dec').val(procurement_data.dec_A_Price_effect);
+                            $('#A_Volume_Effect_Jan').val(procurement_data.jan_A_Volume_Effect);
+                            $('#A_Volume_Effect_Feb').val(procurement_data.feb_A_Volume_Effect);
+                            $('#A_Volume_Effect_Mar').val(procurement_data.march_A_Volume_Effect);
+                            $('#A_Volume_Effect_Apr').val(procurement_data.apr_A_Volume_Effect);
+                            $('#A_Volume_Effect_May').val(procurement_data.may_A_Volume_Effect);
+                            $('#A_Volume_Effect_Jun').val(procurement_data.jun_A_Volume_Effect);
+                            $('#A_Volume_Effect_Jul').val(procurement_data.jul_A_Volume_Effect);
+                            $('#A_Volume_Effect_Aug').val(procurement_data.aug_A_Volume_Effect);
+                            $('#A_Volume_Effect_Sep').val(procurement_data.sep_A_Volume_Effect);
+                            $('#A_Volume_Effect_Oct').val(procurement_data.oct_A_Volume_Effect);
+                            $('#A_Volume_Effect_Nov').val(procurement_data.nov_A_Volume_Effect);
+                            $('#A_Volume_Effect_Dec').val(procurement_data.dec_A_Volume_Effect);
+                            $('#Achievement_Jan').val(procurement_data.jan_Achievement);
+                            $('#Achievement_Feb').val(procurement_data.feb_Achievement);
+                            $('#Achievement_Mar').val(procurement_data.march_Achievement);
+                            $('#Achievement_Apr').val(procurement_data.apr_Achievement);
+                            $('#Achievement_May').val(procurement_data.may_Achievement);
+                            $('#Achievement_Jun').val(procurement_data.jun_Achievement);
+                            $('#Achievement_Jul').val(procurement_data.jul_Achievement);
+                            $('#Achievement_Aug').val(procurement_data.aug_Achievement);
+                            $('#Achievement_Sep').val(procurement_data.sep_Achievement);
+                            $('#Achievement_Oct').val(procurement_data.oct_Achievement);
+                            $('#Achievement_Nov').val(procurement_data.nov_Achievement);
+                            $('#Achievement_Dec').val(procurement_data.dec_Achievement);
+                            $('#ST_Price_effect_Jan').val(procurement_data.jan_ST_Price_effect);
+                            $('#ST_Price_effect_Feb').val(procurement_data.feb_ST_Price_effect);
+                            $('#ST_Price_effect_Mar').val(procurement_data.march_ST_Price_effect);
+                            $('#ST_Price_effect_Apr').val(procurement_data.apr_ST_Price_effect);
+                            $('#ST_Price_effect_May').val(procurement_data.may_ST_Price_effect);
+                            $('#ST_Price_effect_Jun').val(procurement_data.jun_ST_Price_effect);
+                            $('#ST_Price_effect_Jul').val(procurement_data.jul_ST_Price_effect);
+                            $('#ST_Price_effect_Aug').val(procurement_data.aug_ST_Price_effect);
+                            $('#ST_Price_effect_Sep').val(procurement_data.sep_ST_Price_effect);
+                            $('#ST_Price_effect_Oct').val(procurement_data.oct_ST_Price_effect);
+                            $('#ST_Price_effect_Nov').val(procurement_data.nov_ST_Price_effect);
+                            $('#ST_Price_effect_Dec').val(procurement_data.dec_ST_Price_effect);
+                            $('#ST_Volume_Effect_Jan').val(procurement_data.jan_ST_Volume_Effect);
+                            $('#ST_Volume_Effect_Feb').val(procurement_data.feb_ST_Volume_Effect);
+                            $('#ST_Volume_Effect_Mar').val(procurement_data.march_ST_Volume_Effect);
+                            $('#ST_Volume_Effect_Apr').val(procurement_data.apr_ST_Volume_Effect);
+                            $('#ST_Volume_Effect_May').val(procurement_data.may_ST_Volume_Effect);
+                            $('#ST_Volume_Effect_Jun').val(procurement_data.jun_ST_Volume_Effect);
+                            $('#ST_Volume_Effect_Jul').val(procurement_data.jul_ST_Volume_Effect);
+                            $('#ST_Volume_Effect_Aug').val(procurement_data.aug_ST_Volume_Effect);
+                            $('#ST_Volume_Effect_Sep').val(procurement_data.sep_ST_Volume_Effect);
+                            $('#ST_Volume_Effect_Oct').val(procurement_data.oct_ST_Volume_Effect);
+                            $('#ST_Volume_Effect_Nov').val(procurement_data.nov_ST_Volume_Effect);
+                            $('#ST_Volume_Effect_Dec').val(procurement_data.dec_ST_Volume_Effect);
+                            $('#FY_Secured_Target_Jan').val(procurement_data.jan_FY_Secured_Target);
+                            $('#FY_Secured_Target_Feb').val(procurement_data.feb_FY_Secured_Target);
+                            $('#FY_Secured_Target_Mar').val(procurement_data.march_FY_Secured_Target);
+                            $('#FY_Secured_Target_Apr').val(procurement_data.apr_FY_Secured_Target);
+                            $('#FY_Secured_Target_May').val(procurement_data.may_FY_Secured_Target);
+                            $('#FY_Secured_Target_Jun').val(procurement_data.jun_FY_Secured_Target);
+                            $('#FY_Secured_Target_Jul').val(procurement_data.jul_FY_Secured_Target);
+                            $('#FY_Secured_Target_Aug').val(procurement_data.aug_FY_Secured_Target);
+                            $('#FY_Secured_Target_Sep').val(procurement_data.sep_FY_Secured_Target);
+                            $('#FY_Secured_Target_Oct').val(procurement_data.oct_FY_Secured_Target);
+                            $('#FY_Secured_Target_Nov').val(procurement_data.nov_FY_Secured_Target);
+                            $('#FY_Secured_Target_Dec').val(procurement_data.dec_FY_Secured_Target);
+                            $('#CPI_Effect_Jan').val(procurement_data.jan_CPI_Effect);
+                            $('#CPI_Effect_Feb').val(procurement_data.feb_CPI_Effect);
+                            $('#CPI_Effect_Mar').val(procurement_data.march_CPI_Effect);
+                            $('#CPI_Effect_Apr').val(procurement_data.apr_CPI_Effect);
+                            $('#CPI_Effect_May').val(procurement_data.may_CPI_Effect);
+                            $('#CPI_Effect_Jun').val(procurement_data.jun_CPI_Effect);
+                            $('#CPI_Effect_Jul').val(procurement_data.jul_CPI_Effect);
+                            $('#CPI_Effect_Aug').val(procurement_data.aug_CPI_Effect);
+                            $('#CPI_Effect_Sep').val(procurement_data.sep_CPI_Effect);
+                            $('#CPI_Effect_Oct').val(procurement_data.oct_CPI_Effect);
+                            $('#CPI_Effect_Nov').val(procurement_data.nov_CPI_Effect);
+                            $('#CPI_Effect_Dec').val(procurement_data.dec_CPI_Effect);
+
+                            //$('#CPI_Jan').val(procurement_data.jan_CPI);
+                            //$('#CPI_Feb').val(procurement_data.feb_CPI);
+                            //$('#CPI_Mar').val(procurement_data.mar_CPI);
+                            //$('#CPI_Apr').val(procurement_data.apr_CPI);
+                            //$('#CPI_May').val(procurement_data.may_CPI);
+                            //$('#CPI_Jun').val(procurement_data.jun_CPI);
+                            //$('#CPI_Jul').val(procurement_data.jul_CPI);
+                            //$('#CPI_Aug').val(procurement_data.aug_CPI);
+                            //$('#CPI_Sep').val(procurement_data.sep_CPI);
+                            //$('#CPI_Oct').val(procurement_data.oct_CPI);
+                            //$('#CPI_Nov').val(procurement_data.nov_CPI);
+                            //$('#CPI_Dec').val(procurement_data.dec_CPI);
+
+                        }
+
+                        if (isProcurement == 1) {
+
+                            calculate_Procurement_Field();
+
+                            $('#_divOptimization').prop('style', 'display:none');
+                            $('#_divProcurement').prop('style', 'display:block');
+                        }
+                        else {
+
+                            clear_Procurement_fields();
+                            clear_Procurement_BackCalcs();
+                            $('#_divOptimization').prop('style', 'display:block');
+                            $('#_divProcurement').prop('style', 'display:none');
+                        }
+                    });
                 });
-
-
-                $.post(URLContent('ActiveInitiative/getProcuementCalcs'), { id: id }, function (procurement_data) {
-                    if (procurement_data != null) {
-
-                        $('#Actual_CPU_Nmin1_Jan').val(procurement_data.jan_Actual_CPU_Nmin1);
-                        $('#Actual_CPU_Nmin1_Feb').val(procurement_data.feb_Actual_CPU_Nmin1);
-                        $('#Actual_CPU_Nmin1_Mar').val(procurement_data.march_Actual_CPU_Nmin1);
-                        $('#Actual_CPU_Nmin1_Apr').val(procurement_data.apr_Actual_CPU_Nmin1);
-                        $('#Actual_CPU_Nmin1_May').val(procurement_data.may_Actual_CPU_Nmin1);
-                        $('#Actual_CPU_Nmin1_Jun').val(procurement_data.jun_Actual_CPU_Nmin1);
-                        $('#Actual_CPU_Nmin1_Jul').val(procurement_data.jul_Actual_CPU_Nmin1);
-                        $('#Actual_CPU_Nmin1_Aug').val(procurement_data.aug_Actual_CPU_Nmin1);
-                        $('#Actual_CPU_Nmin1_Sep').val(procurement_data.sep_Actual_CPU_Nmin1);
-                        $('#Actual_CPU_Nmin1_Oct').val(procurement_data.oct_Actual_CPU_Nmin1);
-                        $('#Actual_CPU_Nmin1_Nov').val(procurement_data.nov_Actual_CPU_Nmin1);
-                        $('#Actual_CPU_Nmin1_Dec').val(procurement_data.dec_Actual_CPU_Nmin1);
-                        $('#Target_CPU_N_Jan').val(procurement_data.jan_Target_CPU_N);
-                        $('#Target_CPU_N_Feb').val(procurement_data.feb_Target_CPU_N);
-                        $('#Target_CPU_N_Mar').val(procurement_data.march_Target_CPU_N);
-                        $('#Target_CPU_N_Apr').val(procurement_data.apr_Target_CPU_N);
-                        $('#Target_CPU_N_May').val(procurement_data.may_Target_CPU_N);
-                        $('#Target_CPU_N_Jun').val(procurement_data.jun_Target_CPU_N);
-                        $('#Target_CPU_N_Jul').val(procurement_data.jul_Target_CPU_N);
-                        $('#Target_CPU_N_Aug').val(procurement_data.aug_Target_CPU_N);
-                        $('#Target_CPU_N_Sep').val(procurement_data.sep_Target_CPU_N);
-                        $('#Target_CPU_N_Oct').val(procurement_data.oct_Target_CPU_N);
-                        $('#Target_CPU_N_Nov').val(procurement_data.nov_Target_CPU_N);
-                        $('#Target_CPU_N_Dec').val(procurement_data.dec_Target_CPU_N);
-                        $('#A_Price_effect_Jan').val(procurement_data.jan_A_Price_effect);
-                        $('#A_Price_effect_Feb').val(procurement_data.feb_A_Price_effect);
-                        $('#A_Price_effect_Mar').val(procurement_data.march_A_Price_effect);
-                        $('#A_Price_effect_Apr').val(procurement_data.apr_A_Price_effect);
-                        $('#A_Price_effect_May').val(procurement_data.may_A_Price_effect);
-                        $('#A_Price_effect_Jun').val(procurement_data.jun_A_Price_effect);
-                        $('#A_Price_effect_Jul').val(procurement_data.jul_A_Price_effect);
-                        $('#A_Price_effect_Aug').val(procurement_data.aug_A_Price_effect);
-                        $('#A_Price_effect_Sep').val(procurement_data.sep_A_Price_effect);
-                        $('#A_Price_effect_Oct').val(procurement_data.oct_A_Price_effect);
-                        $('#A_Price_effect_Nov').val(procurement_data.nov_A_Price_effect);
-                        $('#A_Price_effect_Dec').val(procurement_data.dec_A_Price_effect);
-                        $('#A_Volume_Effect_Jan').val(procurement_data.jan_A_Volume_Effect);
-                        $('#A_Volume_Effect_Feb').val(procurement_data.feb_A_Volume_Effect);
-                        $('#A_Volume_Effect_Mar').val(procurement_data.march_A_Volume_Effect);
-                        $('#A_Volume_Effect_Apr').val(procurement_data.apr_A_Volume_Effect);
-                        $('#A_Volume_Effect_May').val(procurement_data.may_A_Volume_Effect);
-                        $('#A_Volume_Effect_Jun').val(procurement_data.jun_A_Volume_Effect);
-                        $('#A_Volume_Effect_Jul').val(procurement_data.jul_A_Volume_Effect);
-                        $('#A_Volume_Effect_Aug').val(procurement_data.aug_A_Volume_Effect);
-                        $('#A_Volume_Effect_Sep').val(procurement_data.sep_A_Volume_Effect);
-                        $('#A_Volume_Effect_Oct').val(procurement_data.oct_A_Volume_Effect);
-                        $('#A_Volume_Effect_Nov').val(procurement_data.nov_A_Volume_Effect);
-                        $('#A_Volume_Effect_Dec').val(procurement_data.dec_A_Volume_Effect);
-                        $('#Achievement_Jan').val(procurement_data.jan_Achievement);
-                        $('#Achievement_Feb').val(procurement_data.feb_Achievement);
-                        $('#Achievement_Mar').val(procurement_data.march_Achievement);
-                        $('#Achievement_Apr').val(procurement_data.apr_Achievement);
-                        $('#Achievement_May').val(procurement_data.may_Achievement);
-                        $('#Achievement_Jun').val(procurement_data.jun_Achievement);
-                        $('#Achievement_Jul').val(procurement_data.jul_Achievement);
-                        $('#Achievement_Aug').val(procurement_data.aug_Achievement);
-                        $('#Achievement_Sep').val(procurement_data.sep_Achievement);
-                        $('#Achievement_Oct').val(procurement_data.oct_Achievement);
-                        $('#Achievement_Nov').val(procurement_data.nov_Achievement);
-                        $('#Achievement_Dec').val(procurement_data.dec_Achievement);
-                        $('#ST_Price_effect_Jan').val(procurement_data.jan_ST_Price_effect);
-                        $('#ST_Price_effect_Feb').val(procurement_data.feb_ST_Price_effect);
-                        $('#ST_Price_effect_Mar').val(procurement_data.march_ST_Price_effect);
-                        $('#ST_Price_effect_Apr').val(procurement_data.apr_ST_Price_effect);
-                        $('#ST_Price_effect_May').val(procurement_data.may_ST_Price_effect);
-                        $('#ST_Price_effect_Jun').val(procurement_data.jun_ST_Price_effect);
-                        $('#ST_Price_effect_Jul').val(procurement_data.jul_ST_Price_effect);
-                        $('#ST_Price_effect_Aug').val(procurement_data.aug_ST_Price_effect);
-                        $('#ST_Price_effect_Sep').val(procurement_data.sep_ST_Price_effect);
-                        $('#ST_Price_effect_Oct').val(procurement_data.oct_ST_Price_effect);
-                        $('#ST_Price_effect_Nov').val(procurement_data.nov_ST_Price_effect);
-                        $('#ST_Price_effect_Dec').val(procurement_data.dec_ST_Price_effect);
-                        $('#ST_Volume_Effect_Jan').val(procurement_data.jan_ST_Volume_Effect);
-                        $('#ST_Volume_Effect_Feb').val(procurement_data.feb_ST_Volume_Effect);
-                        $('#ST_Volume_Effect_Mar').val(procurement_data.march_ST_Volume_Effect);
-                        $('#ST_Volume_Effect_Apr').val(procurement_data.apr_ST_Volume_Effect);
-                        $('#ST_Volume_Effect_May').val(procurement_data.may_ST_Volume_Effect);
-                        $('#ST_Volume_Effect_Jun').val(procurement_data.jun_ST_Volume_Effect);
-                        $('#ST_Volume_Effect_Jul').val(procurement_data.jul_ST_Volume_Effect);
-                        $('#ST_Volume_Effect_Aug').val(procurement_data.aug_ST_Volume_Effect);
-                        $('#ST_Volume_Effect_Sep').val(procurement_data.sep_ST_Volume_Effect);
-                        $('#ST_Volume_Effect_Oct').val(procurement_data.oct_ST_Volume_Effect);
-                        $('#ST_Volume_Effect_Nov').val(procurement_data.nov_ST_Volume_Effect);
-                        $('#ST_Volume_Effect_Dec').val(procurement_data.dec_ST_Volume_Effect);
-                        $('#FY_Secured_Target_Jan').val(procurement_data.jan_FY_Secured_Target);
-                        $('#FY_Secured_Target_Feb').val(procurement_data.feb_FY_Secured_Target);
-                        $('#FY_Secured_Target_Mar').val(procurement_data.march_FY_Secured_Target);
-                        $('#FY_Secured_Target_Apr').val(procurement_data.apr_FY_Secured_Target);
-                        $('#FY_Secured_Target_May').val(procurement_data.may_FY_Secured_Target);
-                        $('#FY_Secured_Target_Jun').val(procurement_data.jun_FY_Secured_Target);
-                        $('#FY_Secured_Target_Jul').val(procurement_data.jul_FY_Secured_Target);
-                        $('#FY_Secured_Target_Aug').val(procurement_data.aug_FY_Secured_Target);
-                        $('#FY_Secured_Target_Sep').val(procurement_data.sep_FY_Secured_Target);
-                        $('#FY_Secured_Target_Oct').val(procurement_data.oct_FY_Secured_Target);
-                        $('#FY_Secured_Target_Nov').val(procurement_data.nov_FY_Secured_Target);
-                        $('#FY_Secured_Target_Dec').val(procurement_data.dec_FY_Secured_Target);
-                        $('#CPI_Effect_Jan').val(procurement_data.jan_CPI_Effect);
-                        $('#CPI_Effect_Feb').val(procurement_data.feb_CPI_Effect);
-                        $('#CPI_Effect_Mar').val(procurement_data.march_CPI_Effect);
-                        $('#CPI_Effect_Apr').val(procurement_data.apr_CPI_Effect);
-                        $('#CPI_Effect_May').val(procurement_data.may_CPI_Effect);
-                        $('#CPI_Effect_Jun').val(procurement_data.jun_CPI_Effect);
-                        $('#CPI_Effect_Jul').val(procurement_data.jul_CPI_Effect);
-                        $('#CPI_Effect_Aug').val(procurement_data.aug_CPI_Effect);
-                        $('#CPI_Effect_Sep').val(procurement_data.sep_CPI_Effect);
-                        $('#CPI_Effect_Oct').val(procurement_data.oct_CPI_Effect);
-                        $('#CPI_Effect_Nov').val(procurement_data.nov_CPI_Effect);
-                        $('#CPI_Effect_Dec').val(procurement_data.dec_CPI_Effect);
-
-                        //$('#CPI_Jan').val(procurement_data.jan_CPI);
-                        //$('#CPI_Feb').val(procurement_data.feb_CPI);
-                        //$('#CPI_Mar').val(procurement_data.mar_CPI);
-                        //$('#CPI_Apr').val(procurement_data.apr_CPI);
-                        //$('#CPI_May').val(procurement_data.may_CPI);
-                        //$('#CPI_Jun').val(procurement_data.jun_CPI);
-                        //$('#CPI_Jul').val(procurement_data.jul_CPI);
-                        //$('#CPI_Aug').val(procurement_data.aug_CPI);
-                        //$('#CPI_Sep').val(procurement_data.sep_CPI);
-                        //$('#CPI_Oct').val(procurement_data.oct_CPI);
-                        //$('#CPI_Nov').val(procurement_data.nov_CPI);
-                        //$('#CPI_Dec').val(procurement_data.dec_CPI);
-
-                    }
-                });
-            }
-
-            if (isProcurement == 1) {
-
-                calculate_Procurement_Field();
-
-                $('#_divOptimization').prop('style', 'display:none');
-                $('#_divProcurement').prop('style', 'display:block');
             }
             else {
 
@@ -1888,6 +1894,7 @@ function OnSubCountryPopupChanged(s, e) {
 
         if (isProcurement == 1) {
             setCPI_on_Country_Selection(data[0]["mcpi"]);
+            calculate_Procurement_Field();
         }
 
         GrdBrandPopup.SelectIndex(0);
