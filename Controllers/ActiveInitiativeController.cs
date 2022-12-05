@@ -57,7 +57,8 @@ log4net.LogManager.GetLogger
                 confidential_right = profileData.confidential_right,
                 years_right = profileData.years_right,
                 istoadmin = profileData.istoadmin,
-                ProjectMonth = profileData.ProjectMonth
+                ProjectMonth = profileData.ProjectMonth,
+                role_code = profileData.role_code
             };
             Session["DefaultGAINSess"] = LoginSession;
             return Content("Ok");
@@ -84,8 +85,8 @@ log4net.LogManager.GetLogger
                 confidential_right = profileData.confidential_right,
                 years_right = profileData.years_right,
                 istoadmin = profileData.istoadmin,
-                ProjectMonth = Convert.ToInt32(GetInfo.Id)
-
+                ProjectMonth = Convert.ToInt32(GetInfo.Id),
+                role_code = profileData.role_code
             };
             Session["DefaultGAINSess"] = LoginSession;
             return Content("Ok");

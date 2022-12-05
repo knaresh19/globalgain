@@ -126,6 +126,20 @@ $(function () {
 
         $('#_divProcurement').prop('style', 'display:none');
         $('#_divOptimization').prop('style', 'display:block');
+
+        if (role_code == 'ADM' && istoadmin == 0) {
+            $('#TxHOComment').prop('disabled', false);
+        }
+        else if (role_code == 'CRT' && istoadmin == 0) {
+            $('#TxRPOCComment').prop('disabled', false);
+        }
+        else if (role_code == 'RO' && istoadmin == 0) {
+            $('#TxAgency').prop('disabled', false);
+        }
+        else if (istoadmin == 1) {
+            $('#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
+        }
+
         WindowInitiative.Show();
         /*            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));*/
     });
@@ -258,6 +272,22 @@ $(function () {
 
         $('#_divProcurement').prop('style', 'display:block');
         $('#_divOptimization').prop('style', 'display:none');
+
+        
+        if (role_code == 'ADM' && istoadmin == 0) {
+            $('#TxHOComment').prop('disabled', false);
+        }
+        else if (role_code == 'CRT' && istoadmin == 0) {
+            $('#TxRPOCComment').prop('disabled', false);
+        }
+        else if (role_code == 'RO' && istoadmin == 0) {
+            $('#TxAgency').prop('disabled', false);
+        }
+        else if (istoadmin == 1)
+        {
+            $('#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
+        }
+
         WindowInitiative.Show();
         /*            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));*/
     });
@@ -1615,6 +1645,19 @@ function ShowEditWindow(id) {
                             clear_Procurement_BackCalcs();
                             $('#_divOptimization').prop('style', 'display:block');
                             $('#_divProcurement').prop('style', 'display:none');
+
+                            if (role_code == 'ADM' && istoadmin == 0) {
+                                $('#TxHOComment').prop('disabled', false);
+                            }
+                            else if (role_code == 'CRT' && istoadmin == 0) {
+                                $('#TxRPOCComment').prop('disabled', false);
+                            }
+                            else if (role_code == 'RO' && istoadmin == 0) {
+                                $('#TxAgency').prop('disabled', false);
+                            }
+                            else if (istoadmin == 1) {
+                                $('#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
+                            }
                         }
                     });
                 });
@@ -1625,6 +1668,19 @@ function ShowEditWindow(id) {
                 clear_Procurement_BackCalcs();
                 $('#_divOptimization').prop('style', 'display:block');
                 $('#_divProcurement').prop('style', 'display:none');
+
+                if (role_code == 'ADM' && istoadmin == 0) {
+                    $('#TxHOComment').prop('disabled', false);
+                }
+                else if (role_code == 'CRT' && istoadmin == 0) {
+                    $('#TxRPOCComment').prop('disabled', false);
+                }
+                else if (role_code == 'RO' && istoadmin == 0) {
+                    $('#TxAgency').prop('disabled', false);
+                }
+                else if (istoadmin == 1) {
+                    $('#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
+                }
             }
             //ENH153-2 
 
@@ -2117,7 +2173,7 @@ function OnStartMonthChanged() {
     OnEndMonthChanged();
 
     var awal = StartMonth.GetValue();
-    //var xisProcurement = $('#isProcurement').val();
+    var xisProcurement = $('#isProcurement').val();
     //if (xisProcurement == 1) {
 
     //    var _dt = new Date(awal.getFullYear(), awal.getMonth(), 1);
