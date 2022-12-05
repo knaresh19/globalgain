@@ -2135,18 +2135,20 @@ function OnStartMonthChanged() {
     var dt = new Date(awal.getFullYear(), awal.getMonth() + 11, 1);
     EndMonth.SetMaxDate(dt);
 
-    //ENH153-2 calculations caller
-    calculate_Actual_CPU_Nmin1();
-    calculate_Target_CPU_N();
-    calculate_A_Price_effect();
-    calculate_A_Volume_Effect();
+    if (xisProcurement == 1) {
+        //ENH153-2 calculations caller
+        calculate_Actual_CPU_Nmin1();
+        calculate_Target_CPU_N();
+        calculate_A_Price_effect();
+        calculate_A_Volume_Effect();
 
-    calculate_ST_Price_effect();
-    calculate_ST_Volume_Effect();
+        calculate_ST_Price_effect();
+        calculate_ST_Volume_Effect();
 
-    calculate_CPI_Effect();
-    bind_CPI_Fields();
-    //ENH153-2 calculations caller
+        calculate_CPI_Effect();
+        bind_CPI_Fields();
+        //ENH153-2 calculations caller
+    }
 }
 
 function OnEndMonthChanged() {
@@ -2243,18 +2245,20 @@ function OnEndMonthChanged() {
     //    }
     //}
 
-    //ENH153-2 calculations caller
-    calculate_Actual_CPU_Nmin1();
-    calculate_Target_CPU_N();
-    calculate_A_Price_effect();
-    calculate_A_Volume_Effect();
+    if (xisProcurement == 1) {
+        //ENH153-2 calculations caller
+        calculate_Actual_CPU_Nmin1();
+        calculate_Target_CPU_N();
+        calculate_A_Price_effect();
+        calculate_A_Volume_Effect();
 
-    calculate_ST_Price_effect();
-    calculate_ST_Volume_Effect();
+        calculate_ST_Price_effect();
+        calculate_ST_Volume_Effect();
 
-    calculate_CPI_Effect();
-    bind_CPI_Fields();
-    //ENH153-2 calculations caller
+        calculate_CPI_Effect();
+        bind_CPI_Fields();
+        //ENH153-2 calculations caller
+    }
 }
 
 function OnInitStatusChanged(s, e) {
