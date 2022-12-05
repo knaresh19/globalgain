@@ -1735,7 +1735,7 @@ function OnCloseNewInitiativeWindow() {
     $("#chkAuto").prop('checked', false);
     $(".txTarget").prop('disabled', false);
     $('.txSaving, .txTarget').val('');
-    $('.txSaving,#btnDuplicate,#btnSave,#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo,#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
+    $('.txSaving,#btnDuplicate,#btnSave,#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo,#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', true);
     GrdInitType.SetValue(null);
     GrdInitStatus.ClearItems();
     TxPortName.ClearItems();

@@ -143,7 +143,7 @@
                 //p.ClientSideEvents.SelectedIndexChanged = "OnSubCountryChanged";
                 p.BindList(ViewData["SourceCategoryName"]);
             });
-            c.Visible = VisibleStat;
+            c.Visible = isVisible2022;
         });
         settings.Columns.Add(c =>
         {
@@ -202,7 +202,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["CountryName"]);
             });
-            c.Visible = VisibleStat;
+            c.Visible = isVisible2022;
         });
         settings.Columns.Add(c =>
         {
@@ -220,7 +220,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["mregions"]);
             });
-            c.Visible = VisibleStat;
+            c.Visible = isVisible2022;
         });
         settings.Columns.Add(c =>
         {
@@ -237,7 +237,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["msubregion"]);
             });
-            c.Visible = VisibleStat;
+            c.Visible = isVisible2022;
         });
         settings.Columns.Add(c =>
         {
@@ -254,7 +254,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["mcluster"]);
             });
-            c.Visible = VisibleStat;
+            c.Visible = isVisible2022;
         });
         settings.Columns.Add(c =>
         {
@@ -310,7 +310,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["LegalEntityName"]);
             });
-            c.Visible = VisibleStat;
+            c.Visible = isVisible2022;
         });
         settings.Columns.Add(c =>
         {
@@ -329,8 +329,10 @@
         settings.Columns.Add(c =>
         {
             c.Name = "ResponsibleFullName";
+            c.FieldName = "ResponsibleFullName";
+            c.Caption = "Responsible Full Name";
             c.Width = 150;
-            c.Visible = VisibleStat;
+            c.Visible = isVisible2022;
         });
 
         settings.Columns.Add(c =>
@@ -413,7 +415,7 @@
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["SynImpactName"]);
             });
-            c.Visible = VisibleStat;
+            c.Visible = isVisible2022;
         });
         //settings.Columns.Add(c =>
         //{
@@ -441,6 +443,28 @@
 
         settings.Columns.Add(c =>
         {
+            c.FieldName = "LaraCode";
+            c.Caption = "Lara Charge Code";
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.PropertiesEdit.DisplayFormatString = "";
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
+            c.Width = 120;
+            c.Visible = isVisible2022;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "TargetTY";
+            c.Caption = "Target 12 Months (USD)";
+            c.HeaderStyle.Wrap = DefaultBoolean.True;
+            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
+            c.Width = 140;
+            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
+            c.Visible = isVisible2022;
+        });
+
+        settings.Columns.Add(c =>
+        {
             c.FieldName = "TargetNYUB";
             c.Caption = "Target FY Months (USD)";
             c.HeaderStyle.Wrap = DefaultBoolean.True;
@@ -448,7 +472,22 @@
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            c.Visible = VisibleStat;
+            c.Visible = isVisible2022;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "HOValidity";
+            c.Caption = "HO Validity";
+            c.Width = 100;
+            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.ValueType = typeof(string);
+                p.Items.Add("Y");
+                p.Items.Add("N");
+            });
+            c.Visible = isVisible2022;
         });
 
         settings.Columns.Add(c =>
@@ -544,16 +583,6 @@
 
         #endregion
 
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "TargetTY";
-            c.Caption = "Target 12 Months (USD)";
-            c.HeaderStyle.Wrap = DefaultBoolean.True;
-            c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
-            c.Width = 140;
-            c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
-        });
-
         #region enh153-2 region 1.1
         settings.Columns.Add(c =>
         {
@@ -587,21 +616,6 @@
 
         #endregion
 
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "HOValidity";
-            c.Caption = "HO Validity";
-            c.Width = 100;
-            c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
-            c.EditorProperties().ComboBox(p =>
-            {
-                p.ValueType = typeof(string);
-                p.Items.Add("Y");
-                p.Items.Add("N");
-            });
-            c.Visible = VisibleStat;
-        });
-
         #region ENH153-2 region 2
         settings.Columns.Add(c =>
         {
@@ -631,17 +645,18 @@
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.Visible = isVisible;
         });
+        #endregion
+
         //------------------------------------------------------------------------------------------------------------------------------------------
         settings.Columns.Add(c =>
         {
             c.FieldName = "YTDTargetUb";
-            c.Caption = "N YTD Secured (TOTAL EFFECT)";
+            c.Caption = "YTD Target";
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             c.Width = 100;
             c.Visible = isVisible2022;
         });
-        #endregion
 
         #region ENH153-2 region 3
         settings.Columns.Add(c =>
@@ -678,7 +693,7 @@
         settings.Columns.Add(c =>
         {
             c.FieldName = "YTDAchievedUb";
-            c.Caption = "YTD Achieved (TOTAL EFFECT)";
+            c.Caption = "YTD Achieved";
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             c.Width = 150;
@@ -1202,6 +1217,8 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+
+            JanuaryNexBand.Visible = isVisible2022;
         });
         settings.Columns.AddBand(FebruaryNexBand =>
         {
@@ -1224,6 +1241,7 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            FebruaryNexBand.Visible = isVisible2022;
         });
         settings.Columns.AddBand(MarchNexBand =>
         {
@@ -1246,6 +1264,7 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            MarchNexBand.Visible = isVisible2022;
         });
         settings.Columns.AddBand(AprilNexBand =>
         {
@@ -1268,6 +1287,7 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            AprilNexBand.Visible = isVisible2022;
         });
         settings.Columns.AddBand(MayNexBand =>
         {
@@ -1290,6 +1310,7 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            MayNexBand.Visible = isVisible2022;
         });
         settings.Columns.AddBand(JunNexBand =>
         {
@@ -1312,6 +1333,7 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            JunNexBand.Visible = isVisible2022;
         });
         settings.Columns.AddBand(JulNexBand =>
         {
@@ -1334,6 +1356,7 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            JulNexBand.Visible = isVisible2022;
         });
         settings.Columns.AddBand(AugNexBand =>
         {
@@ -1356,6 +1379,7 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            AugNexBand.Visible = isVisible2022;
         });
         settings.Columns.AddBand(SepNexBand =>
         {
@@ -1378,6 +1402,7 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            SepNexBand.Visible = isVisible2022;
         });
         settings.Columns.AddBand(OctNexBand =>
         {
@@ -1400,6 +1425,7 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            OctNexBand.Visible = isVisible2022;
         });
         settings.Columns.AddBand(NovNexBand =>
         {
@@ -1422,6 +1448,7 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            NovNexBand.Visible = isVisible2022;
         });
         settings.Columns.AddBand(DecNexBand =>
         {
@@ -1444,6 +1471,7 @@
                 c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
                 c.Width = 100;
             });
+            DecNexBand.Visible = isVisible2022;
         });
 
         #endregion
