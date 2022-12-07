@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="packages\Microsoft.Net.Compilers.3.10.0\build\Microsoft.Net.Compilers.props" Condition="Exists('packages\Microsoft.Net.Compilers.3.10.0\build\Microsoft.Net.Compilers.props')" />
@@ -2391,6 +2391,7 @@
     <Content Include="assets\poin\js\jquery.rollNumber.js" />
     <Content Include="assets\poin\js\jquery.vide.js" />
     <Content Include="assets\poin\js\maingrid.js" />
+    <Content Include="assets\poin\js\MainSaveInitiative.js" />
     <Content Include="assets\poin\js\main.js" />
     <Content Include="assets\poin\js\moment\moment.min.js" />
     <Content Include="assets\poin\js\sweetalert2.all.min.js" />
