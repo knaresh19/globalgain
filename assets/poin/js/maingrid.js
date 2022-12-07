@@ -2339,6 +2339,15 @@ function OnInitStatusChanged(s, e) {
             'error'
         );
     }
+
+      if (uType == 3 && id.toLowerCase() == "work in progress" && xFormStatus != "New") {
+        GrdInitStatus.SelectIndex(0);
+        Swal.fire(
+            'You can not change the status',
+            'Agency user can not change to pending',
+            'error'
+        );
+    }
 }
 
 function isNumberKey(evt) {
