@@ -1,4 +1,4 @@
-﻿@{
+@{
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
     var user_type = profileData.UserType;
     var years_right = profileData.years_right;
@@ -70,6 +70,7 @@
         padding: 2px;
     }
 </style>
+<script src="@Url.Content("~/assets/poin/js/MainSaveInitiative.js?v=" + DateTime.Now.Ticks.ToString())" type="text/javascript"></script>
 
 <div class="row-fluid">
     @Html.Hidden("isProcurement")
