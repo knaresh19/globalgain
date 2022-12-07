@@ -118,7 +118,7 @@ log4net.LogManager.GetLogger
                 var regofficetext = profileData.RegionalOffice_right.Replace("|", "','");
                 int lenRegionalOffice_right = regofficetext.Length;
                 regofficetext = "(" + regofficetext.Substring(2, (lenRegionalOffice_right - 4)) + ")";
-                var RegionalOffice_rightid = db.mregional_office.SqlQuery("select id,RegionID,CountryID,RegionalOffice_Name,SubCountryID,BrandID ,InitYear from mregional_office where RegionalOffice_Name in " + regofficetext + " and InitYear =" + projYear + " group by id,RegionID,CountryID,RegionalOffice_Name,SubCountryID,BrandID").ToList();
+                var RegionalOffice_rightid = db.mregional_office.SqlQuery("select id,RegionID,CountryID,RegionalOffice_Name,SubCountryID,BrandID ,InitYear from mregional_office where RegionalOffice_Name in " + regofficetext + "  group by id,RegionID,CountryID,RegionalOffice_Name,SubCountryID,BrandID").ToList();
                 var RegionalOffice_rightcondition = "";
                 for (var i = 0; i < RegionalOffice_rightid.Count(); i++)
                 {
@@ -136,7 +136,7 @@ log4net.LogManager.GetLogger
                 var brandtext = profileData.Brand_right.Replace("|", "','");
                 int lenbrand = brandtext.Length;
                 brandtext = "(" + brandtext.Substring(2, (lenbrand - 4)) + ")";
-                var brandid = db.mbrands.SqlQuery("select id,brandname,isActive,isDeleted , InitYear from mbrand where brandname in " + brandtext + " and InitYear =" + projYear + " group by id,brandname").ToList();
+                var brandid = db.mbrands.SqlQuery("select id,brandname,isActive,isDeleted , InitYear from mbrand where brandname in " + brandtext + "  group by id,brandname").ToList();
                 var brandcondition = "";
                 for (var i = 0; i < brandid.Count(); i++)
                 {
@@ -154,7 +154,7 @@ log4net.LogManager.GetLogger
                 var costitemtext = profileData.CostItem_right.Replace("|", "','");
                 int lencostitem = costitemtext.Length;
                 costitemtext = "(" + costitemtext.Substring(2, (lencostitem - 4)) + ")";
-                var costitemid = db.mcosttypes.SqlQuery("select id,CostTypeName,isActive from mcosttype where CostTypeName in " + costitemtext + " and InitYear =" + projYear + " group by id,CostTypeName,isActive").ToList();
+                var costitemid = db.mcosttypes.SqlQuery("select id,CostTypeName,isActive from mcosttype where CostTypeName in " + costitemtext + "  group by id,CostTypeName,isActive").ToList();
                 var costitemcondition = "";
                 for (var i = 0; i < costitemid.Count(); i++)
                 {
@@ -174,7 +174,7 @@ log4net.LogManager.GetLogger
                 var subcostitemtext = profileData.SubCostItem_right.Replace("|", "','");
                 int lensubcostitem = subcostitemtext.Length;
                 subcostitemtext = "(" + subcostitemtext.Substring(2, (lensubcostitem - 4)) + ")";
-                var subcostitemid = db.msubcosts.SqlQuery("select id,SubCostName,isActive , InitYear from msubcost where SubCostName in " + subcostitemtext + "   and InitYear =" + projYear + " group by id,SubCostName,isActive").ToList();
+                var subcostitemid = db.msubcosts.SqlQuery("select id,SubCostName,isActive , InitYear from msubcost where SubCostName in " + subcostitemtext + "  group by id,SubCostName,isActive").ToList();
                 var subcostitemcondition = "";
                 for (var i = 0; i < subcostitemid.Count(); i++)
                 {
@@ -196,7 +196,7 @@ log4net.LogManager.GetLogger
                     var rpoctext = profileData.RegionID.Replace("|", "','");
                     int lenrpoc = rpoctext.Length;
                     rpoctext = "(" + rpoctext.Substring(2, (lenrpoc - 4)) + ")";
-                    var rpocid = db.mregions.SqlQuery("select id,RegionName,isActive from mregion where RegionName in " + rpoctext + " and InitYear =" + projYear + " group by id,RegionName,isActive").ToList();
+                    var rpocid = db.mregions.SqlQuery("select id,RegionName,isActive from mregion where RegionName in " + rpoctext + "  group by id,RegionName,isActive").ToList();
                     var rpoccondition = "";
                     for (var i = 0; i < rpocid.Count(); i++)
                     {
@@ -212,7 +212,7 @@ log4net.LogManager.GetLogger
                         var cctext = profileData.CostControlSite.Replace("|", "','");
                         int lencctext = cctext.Length;
                         cctext = "(" + cctext.Substring(2, (lencctext - 4)) + ")";
-                        var ccid = db.mcostcontrolsites.SqlQuery("SELECT id,CostControlSiteName FROM mcostcontrolsite WHERE CostControlSiteName IN " + cctext + " and InitYear =" + projYear + " group by id,CostControlSiteName ").ToList();
+                        var ccid = db.mcostcontrolsites.SqlQuery("SELECT id,CostControlSiteName FROM mcostcontrolsite WHERE CostControlSiteName IN " + cctext + "  group by id,CostControlSiteName ").ToList();
                         var cccondition = "";
                         for (var i = 0; i < ccid.Count(); i++)
                         {
@@ -228,7 +228,7 @@ log4net.LogManager.GetLogger
                 var cntrytext = profileData.subcountry_right.Replace("|", "','");
                 int lencntrytext = cntrytext.Length;
                 cntrytext = "(" + cntrytext.Substring(2, (lencntrytext - 4)) + ")";
-                var cntryid = db.msubcountries.SqlQuery("SELECT id,CountryID,SubCountryName,CountryCode,isActive , InitYear FROM msubcountry WHERE SubCountryName IN " + cntrytext + " and InitYear =" + projYear + " group by id,CountryID,SubCountryName,CountryCode,isActive").ToList();
+                var cntryid = db.msubcountries.SqlQuery("SELECT id,CountryID,SubCountryName,CountryCode,isActive , InitYear FROM msubcountry WHERE SubCountryName IN " + cntrytext + "  group by id,CountryID,SubCountryName,CountryCode,isActive").ToList();
                 var cntryidcondition = "(";
                 for (var i = 0; i < cntryid.Count(); i++)
                 {
@@ -244,7 +244,7 @@ log4net.LogManager.GetLogger
             // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
             //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
 
-            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth)='" + profileData.ProjectYear + "')order by CreatedDate desc").ToList();
+            model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth)='" + profileData.ProjectYear + "')  " + where + "  order by CreatedDate desc").ToList();
             //ViewData["mregions_DD"] = db.mregions.Where(c => c.InitYear == projYear).ToList();
             //ViewData["brandname_DD"] = db.mbrands.Where(c => c.isActive == "Y" && c.isDeleted == "N" && c.InitYear == projYear).ToList();
             //ViewData["msubregion_DD"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "" && c.InitYear == projYear).ToList();
