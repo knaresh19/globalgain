@@ -1778,34 +1778,85 @@
         string achievedkeyword = "Ach";
         settings.CustomUnboundColumnData = (s, e) =>
         {
-            if (tahun == DateTime.Today.Year)
+            if (tahun <= 2022)
             {
-
-
-            }
-            else if(tahun != DateTime.Today.Year)
-            {
-                currentMonth = 13;
-            }
-            decimal? ytdValue = null;
-            if (e.Column.FieldName == "YTDTargetUb")
-            {
-
-                int c = 1;
-                foreach (string m in months)
+                if (tahun == DateTime.Today.Year)
                 {
-                    if (c <= currentMonth)
+
+
+                }
+                else if (tahun != DateTime.Today.Year)
+                {
+                    currentMonth = 13;
+                }
+                decimal? ytdValue = null;
+                if (e.Column.FieldName == "YTDTargetUb")
+                {
+
+                    int c = 1;
+                    foreach (string m in months)
+                    {
+                        if (c <= currentMonth)
+                        {
+                            if (e.GetListSourceFieldValue(targetkeyword + m) != null)
+                            {
+                                if (ytdValue.HasValue)
+                                {
+                                    ytdValue += (decimal)e.GetListSourceFieldValue(targetkeyword + m);
+                                }
+                                else
+                                {
+                                    ytdValue = (decimal)e.GetListSourceFieldValue(targetkeyword + m);
+                                }
+                            }
+                            else
+                            {
+                                if (ytdValue == 0 || ytdValue == null)
+                                    ytdValue = 0;
+                            }
+                        }
+                        c++;
+                    }
+                    e.Value = ytdValue;
+                }
+                else if (e.Column.FieldName == "YTDAchievedUb")
+                {
+                    ytdValue = null;
+                    int c = 1;
+                    foreach (string m in months)
+                    {
+                        if (c <= currentMonth)
+                        {
+                            if (e.GetListSourceFieldValue(achievedkeyword + m) != null)
+                            {
+                                if (ytdValue.HasValue)
+                                {
+                                    ytdValue += (decimal)e.GetListSourceFieldValue(achievedkeyword + m);
+                                }
+                                else
+                                {
+                                    ytdValue = (decimal)e.GetListSourceFieldValue(achievedkeyword + m);
+                                }
+                            }
+                            else
+                            {
+                                if (ytdValue == 0 || ytdValue == null)
+                                    ytdValue = 0;
+                            }
+                        }
+                        c++;
+                    }
+                    e.Value = ytdValue;
+                }
+
+                else if (e.Column.FieldName == "TargetNYUB")
+                {
+                    ytdValue = 0;
+                    foreach (string m in months)
                     {
                         if (e.GetListSourceFieldValue(targetkeyword + m) != null)
                         {
-                            if (ytdValue.HasValue)
-                            {
-                                ytdValue += (decimal)e.GetListSourceFieldValue(targetkeyword + m);
-                            }
-                            else
-                            {
-                                ytdValue = (decimal)e.GetListSourceFieldValue(targetkeyword + m);
-                            }
+                            ytdValue += (decimal)e.GetListSourceFieldValue(targetkeyword + m);
                         }
                         else
                         {
@@ -1813,56 +1864,8 @@
                                 ytdValue = 0;
                         }
                     }
-                    c++;
+                    e.Value = ytdValue;
                 }
-                e.Value = ytdValue;
-            }
-            else if (e.Column.FieldName == "YTDAchievedUb")
-            {
-                ytdValue = null;
-                int c = 1;
-                foreach (string m in months)
-                {
-                    if (c <= currentMonth)
-                    {
-                        if (e.GetListSourceFieldValue(achievedkeyword + m) != null)
-                        {
-                            if (ytdValue.HasValue)
-                            {
-                                ytdValue += (decimal)e.GetListSourceFieldValue(achievedkeyword + m);
-                            }
-                            else
-                            {
-                                ytdValue = (decimal)e.GetListSourceFieldValue(achievedkeyword + m);
-                            }
-                        }
-                        else
-                        {
-                            if (ytdValue == 0 || ytdValue == null)
-                                ytdValue = 0;
-                        }
-                    }
-                    c++;
-                }
-                e.Value = ytdValue;
-            }
-
-            else if (e.Column.FieldName == "TargetNYUB")
-            {
-                ytdValue = 0;
-                foreach (string m in months)
-                {
-                    if (e.GetListSourceFieldValue(targetkeyword + m) != null)
-                    {
-                        ytdValue += (decimal)e.GetListSourceFieldValue(targetkeyword + m);
-                    }
-                    else
-                    {
-                        if (ytdValue == 0 || ytdValue == null)
-                            ytdValue = 0;
-                    }
-                }
-                e.Value = ytdValue;
             }
         };
 
@@ -1927,22 +1930,41 @@
         settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TargetNexDec").DisplayFormat = "{0:N2}";
         settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "AchNexDec").DisplayFormat = "{0:N2}";
 
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "N_YTD_ST_Total_EF").DisplayFormat = "{0:N2}";
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "N_YTD_A_Total_EF").DisplayFormat = "{0:N2}";
 
         settings.CustomJSProperties = (s, e) =>
         {
             decimal TotalTarget = 0;
             decimal TotalSavingAchieved = 0;
 
-            MVCxGridView gridView = (MVCxGridView) s;
-            if (gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDTargetUb"]) != null)
-                TotalTarget = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDTargetUb"]);
+            if (tahun <= 2022)
+            {
+                MVCxGridView gridView = (MVCxGridView)s;
+                if (gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDTargetUb"]) != null)
+                    TotalTarget = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDTargetUb"]);
 
-            if (gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDAchievedUb"]) != null)
-                TotalSavingAchieved = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDAchievedUb"]);
+                if (gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDAchievedUb"]) != null)
+                    TotalSavingAchieved = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["YTDAchievedUb"]);
 
-            gridView.JSProperties["cpTotalTarget"] = String.Format("$ {0:N2}", TotalTarget);
-            gridView.JSProperties["cpTotalSavingAchieved"] = String.Format("$ {0:N2}", TotalSavingAchieved);
-            gridView.JSProperties["cpNumberOfInitiative"] = String.Format("{0:N0}", gridView.VisibleRowCount);
+                gridView.JSProperties["cpTotalTarget"] = String.Format("$ {0:N2}", TotalTarget);
+                gridView.JSProperties["cpTotalSavingAchieved"] = String.Format("$ {0:N2}", TotalSavingAchieved);
+                gridView.JSProperties["cpNumberOfInitiative"] = String.Format("{0:N0}", gridView.VisibleRowCount); 
+            }
+            else
+            {
+                MVCxGridView gridView = (MVCxGridView)s;
+                if (gridView.GetTotalSummaryValue(gridView.TotalSummary["N_YTD_ST_Total_EF"]) != null)
+                    TotalTarget = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["N_YTD_ST_Total_EF"]);
+
+                if (gridView.GetTotalSummaryValue(gridView.TotalSummary["N_YTD_A_Total_EF"]) != null)
+                    TotalSavingAchieved = (decimal)gridView.GetTotalSummaryValue(gridView.TotalSummary["N_YTD_A_Total_EF"]);
+
+                gridView.JSProperties["cpTotalTarget"] = String.Format("$ {0:N2}", TotalTarget);
+                gridView.JSProperties["cpTotalSavingAchieved"] = String.Format("$ {0:N2}", TotalSavingAchieved);
+                gridView.JSProperties["cpNumberOfInitiative"] = String.Format("{0:N0}", gridView.VisibleRowCount);
+
+            }
         };
 
         settings.ClientSideEvents.RowDblClick = "onRowDoubleClick";
