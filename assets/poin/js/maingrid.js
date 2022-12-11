@@ -82,8 +82,9 @@ $(function () {
 
             }
             else {
-                GrdActionType.clientEnabled = true;
-                GrdActionType.SelectIndex(0);
+
+                GrdActionType.clientEnabled = false;
+                GrdActionType.SetText('Optimization / Efficiency');
 
                 GrdInitType.clientEnabled = true;
 
@@ -232,8 +233,11 @@ $(function () {
             }
             else
             {
+                GrdInitType.clientEnabled = true;
                 GrdInitType.SelectIndex(0);
-                GrdActionType.SelectIndex(0);
+
+                GrdActionType.clientEnabled = false;;
+                GrdActionType.SetText('Optimization / Efficiency');
             }
 
             /*GrdInitType.SelectIndex(0);*/ GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
@@ -904,7 +908,14 @@ function ShowEditWindow(id) {
 
                 TxPortName.SetValue(obj.PortID);
                 GrdInitType.SetValue(obj.InitiativeType);
-                GrdActionType.SetValue(obj.ActionTypeID);
+                if (isProcurement == 1) {
+                    GrdActionType.clientEnabled = false;
+                    GrdActionType.SetValue(obj.ActionTypeID);
+                }
+                else {
+                    GrdActionType.clientEnabled = false;
+                    GrdActionType.SetText('Optimization / Efficiency');
+                }
                 GrdSynImpact.SetValue(obj.SynergyImpactID);
                 GrdInitStatus.SetValue(obj.InitStatus);
                 GrdInitCategory.SetValue(obj.CostCategoryID);
@@ -1080,8 +1091,11 @@ function ShowEditWindow(id) {
             //GrdInitType.GetGridView().Refresh();
             var brandId = obj.BrandID;
 
-            getYtdValue();
-            hitungtahunini();
+            if (isProcurement != 1)
+            {
+                getYtdValue();
+                hitungtahunini();
+            }
             //var years_right = '@years_right';
             var project_year = projectYear;
 
