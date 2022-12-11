@@ -135,6 +135,7 @@ $(function () {
 
         $('#_divProcurement').prop('style', 'display:none');
         $('#_divOptimization').prop('style', 'display:block');
+        $('#info_initiativeType').prop('style', 'display:block');
 
         if (role_code == 'ADM' && istoadmin == 0) {
             $('#TxHOComment').prop('disabled', false);
@@ -281,6 +282,7 @@ $(function () {
 
         $('#_divProcurement').prop('style', 'display:block');
         $('#_divOptimization').prop('style', 'display:none');
+        $('#info_initiativeType').prop('style', 'display:none');
 
         
         if (role_code == 'ADM' && istoadmin == 0) {
@@ -1281,6 +1283,7 @@ function ShowEditWindow(id) {
                             calculate_Procurement_Field();
 
                             $('#_divOptimization').prop('style', 'display:none');
+                            $('#info_initiativeType').prop('style', 'display:none');
                             $('#_divProcurement').prop('style', 'display:block');
                         }
                         else {
@@ -1288,6 +1291,8 @@ function ShowEditWindow(id) {
                             clear_Procurement_fields();
                             clear_Procurement_BackCalcs();
                             $('#_divOptimization').prop('style', 'display:block');
+                            $('#info_initiativeType').prop('style', 'display:block');
+
                             $('#_divProcurement').prop('style', 'display:none');
 
                             if (role_code == 'ADM' && istoadmin == 0) {
@@ -1311,7 +1316,10 @@ function ShowEditWindow(id) {
                 clear_Procurement_fields();
                 clear_Procurement_BackCalcs();
                 $('#_divOptimization').prop('style', 'display:block');
+                $('#info_initiativeType').prop('style', 'display:block');
+
                 $('#_divProcurement').prop('style', 'display:none');
+                
 
                 if (role_code == 'ADM' && istoadmin == 0) {
                     $('#TxHOComment').prop('disabled', false);

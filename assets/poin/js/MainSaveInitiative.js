@@ -1158,9 +1158,9 @@ function isAll_Procurement_Mandatory_fields_entered(_isProcurement) {
         var xFY_Cost_Avoid_Vs_CPI = txt_FY_Cost_Avoid_Vs_CPI.GetValue();
         //ENH153-2 procurment properties get field value in variable
 
-        if ((xUnit_of_volumes != null && xUnit_of_volumes != '') && (xInput_Actuals_Volumes_Nmin1 != null && xInput_Actuals_Volumes_Nmin1 != '') &&
-            (xInput_Target_Volumes != null && xInput_Target_Volumes != '') && (xTotal_Actual_volume_N != null && xTotal_Actual_volume_N != '') &&
-            (xSpend_Nmin1 != null && xSpend_Nmin1 != '') && (xSpend_N != null && xSpend_N != '') &&
+        if ((xUnit_of_volumes != null && xUnit_of_volumes != '') && (xInput_Actuals_Volumes_Nmin1 != null && xInput_Actuals_Volumes_Nmin1 != '' && xInput_Actuals_Volumes_Nmin1 != '0.') &&
+            (xInput_Target_Volumes != null && xInput_Target_Volumes != '' && xInput_Target_Volumes != '0.') && (xTotal_Actual_volume_N != null && xTotal_Actual_volume_N != '' && xTotal_Actual_volume_N != '0.') &&
+            (xSpend_Nmin1 != null && xSpend_Nmin1 != '' && xSpend_Nmin1 != '0.') && (xSpend_N != null && xSpend_N != '' && xSpend_N != '0.') &&
             /*(xCPI != null && xCPI != '') &&*/ (xjanActual_volume_N != null && xjanActual_volume_N != '') &&
             (xfebActual_volume_N != null && xfebActual_volume_N != '') && (xmarActual_volume_N != null && xmarActual_volume_N != '') &&
             (xaprActual_volume_N != null && xaprActual_volume_N != '') && (xmayActual_volume_N != null && xmayActual_volume_N != '') &&
