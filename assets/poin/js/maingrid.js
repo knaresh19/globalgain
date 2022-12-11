@@ -734,7 +734,7 @@ function ShowEditWindow(id) {
     StartMonth.SetMaxDate(new Date((max_py) + '-12-31'));
     EndMonth.SetMinDate(new Date(max_py + '-01-01'));
     EndMonth.SetMaxDate(new Date((max_py + 1) + '-12-31'));
-    if (projectYear > 2022) { StartMonth.SetMinDate(new Date((max_py) + '-12-31')); }
+    if (projectYear > 2022) { StartMonth.SetMinDate(new Date((max_py) + '-1-1')); }
 
     var GrdInit_Type = 0, GrdAction_Type = 0, GrdSyn_Impact = 0, GrdInit_Status = 0, TxPort_Name = 0;
     var GrdInit_Category = 0, CboWebinar_Cat = 0, Grd_SubCost = 0;
