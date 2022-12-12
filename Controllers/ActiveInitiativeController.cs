@@ -215,7 +215,7 @@ log4net.LogManager.GetLogger
                         var cctext = profileData.CostControlSite.Replace("|", "','");
                         int lencctext = cctext.Length;
                         cctext = "(" + cctext.Substring(2, (lencctext - 4)) + ")";
-                        var ccid = db.mcostcontrolsites.SqlQuery("SELECT id,CostControlSiteName FROM mcostcontrolsite WHERE CostControlSiteName IN " + cctext + "  group by id,CostControlSiteName ").ToList();
+                        var ccid = db.mcostcontrolsites.SqlQuery("SELECT id,CostControlSiteName , InitYear FROM mcostcontrolsite WHERE CostControlSiteName IN " + cctext + "  group by id,CostControlSiteName ").ToList();
                         var cccondition = "";
                         for (var i = 0; i < ccid.Count(); i++)
                         {
