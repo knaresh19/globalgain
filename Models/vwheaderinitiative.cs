@@ -168,5 +168,10 @@ namespace GAIN.Models
         public Nullable<decimal> oct_CPI { get; set; }
         public Nullable<decimal> nov_CPI { get; set; }
         public Nullable<decimal> dec_CPI { get; set; }
+
+        
+        public Nullable<decimal> YTDTargetUb { get; set; }
+        public Nullable<decimal> YTDAchievedUb { get; set; }
+        public Nullable<decimal> TargetNYUB { get; set; }
     }
 }
