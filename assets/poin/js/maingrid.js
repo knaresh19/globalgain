@@ -1117,7 +1117,7 @@ function ShowEditWindow(id) {
             var formstatus; var initstatusvalue;
             formstatus = $("#FormStatus").val();
             initstatusvalue = GrdInitStatus.GetValue();
-            if (uType == 3 && formstatus == "Edit" && initstatusvalue != "4") {
+            if (uType == 3 && formstatus == "Edit" && (initstatusvalue != "4" && initstatusvalue != "15")) {
                 $("#chkAuto").prop("disabled", true);
                 $(".txTarget").prop("disabled", true); //prevent Agency User to edit the target except pending initiative
                 StartMonth.clientEnabled = false; EndMonth.clientEnabled = false; //prevent Agency User from selecting different Start / End dates (Except for Pending initiative)

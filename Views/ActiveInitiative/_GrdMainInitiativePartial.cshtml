@@ -1771,103 +1771,105 @@
             }
         };
 
-        //int currentMonth = DateTime.Today.Month;
-        int currentMonth = projectMonth;
-        List<string> months = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-        string targetkeyword="Target";
-        string achievedkeyword = "Ach";
-        settings.CustomUnboundColumnData = (s, e) =>
-        {
-            if (tahun <= 2022)
-            {
-                if (tahun == DateTime.Today.Year)
-                {
+        //Commented by kunal - reason this logic now added in SP_GridMaster
+        ////int currentMonth = DateTime.Today.Month;
+        //int currentMonth = projectMonth;
+        //List<string> months = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+        //string targetkeyword="Target";
+        //string achievedkeyword = "Ach";
+        //settings.CustomUnboundColumnData = (s, e) =>
+        //{
+        //    if (tahun <= 2022)
+        //    {
+        //        if (tahun == DateTime.Today.Year)
+        //        {
 
 
-                }
-                else if (tahun != DateTime.Today.Year)
-                {
-                    currentMonth = 13;
-                }
-                decimal? ytdValue = null;
-                if (e.Column.FieldName == "YTDTargetUb")
-                {
+        //        }
+        //        else if (tahun != DateTime.Today.Year)
+        //        {
+        //            currentMonth = 13;
+        //        }
+        //        decimal? ytdValue = null;
+        //        if (e.Column.FieldName == "YTDTargetUb")
+        //        {
 
-                    int c = 1;
-                    foreach (string m in months)
-                    {
-                        if (c <= currentMonth)
-                        {
-                            if (e.GetListSourceFieldValue(targetkeyword + m) != null)
-                            {
-                                if (ytdValue.HasValue)
-                                {
-                                    ytdValue += (decimal)e.GetListSourceFieldValue(targetkeyword + m);
-                                }
-                                else
-                                {
-                                    ytdValue = (decimal)e.GetListSourceFieldValue(targetkeyword + m);
-                                }
-                            }
-                            else
-                            {
-                                if (ytdValue == 0 || ytdValue == null)
-                                    ytdValue = 0;
-                            }
-                        }
-                        c++;
-                    }
-                    e.Value = ytdValue;
-                }
-                else if (e.Column.FieldName == "YTDAchievedUb")
-                {
-                    ytdValue = null;
-                    int c = 1;
-                    foreach (string m in months)
-                    {
-                        if (c <= currentMonth)
-                        {
-                            if (e.GetListSourceFieldValue(achievedkeyword + m) != null)
-                            {
-                                if (ytdValue.HasValue)
-                                {
-                                    ytdValue += (decimal)e.GetListSourceFieldValue(achievedkeyword + m);
-                                }
-                                else
-                                {
-                                    ytdValue = (decimal)e.GetListSourceFieldValue(achievedkeyword + m);
-                                }
-                            }
-                            else
-                            {
-                                if (ytdValue == 0 || ytdValue == null)
-                                    ytdValue = 0;
-                            }
-                        }
-                        c++;
-                    }
-                    e.Value = ytdValue;
-                }
+        //            int c = 1;
+        //            foreach (string m in months)
+        //            {
+        //                if (c <= currentMonth)
+        //                {
+        //                    if (e.GetListSourceFieldValue(targetkeyword + m) != null)
+        //                    {
+        //                        if (ytdValue.HasValue)
+        //                        {
+        //                            ytdValue += (decimal)e.GetListSourceFieldValue(targetkeyword + m);
+        //                        }
+        //                        else
+        //                        {
+        //                            ytdValue = (decimal)e.GetListSourceFieldValue(targetkeyword + m);
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        if (ytdValue == 0 || ytdValue == null)
+        //                            ytdValue = 0;
+        //                    }
+        //                }
+        //                c++;
+        //            }
+        //            e.Value = ytdValue;
+        //        }
+        //        else if (e.Column.FieldName == "YTDAchievedUb")
+        //        {
+        //            ytdValue = null;
+        //            int c = 1;
+        //            foreach (string m in months)
+        //            {
+        //                if (c <= currentMonth)
+        //                {
+        //                    if (e.GetListSourceFieldValue(achievedkeyword + m) != null)
+        //                    {
+        //                        if (ytdValue.HasValue)
+        //                        {
+        //                            ytdValue += (decimal)e.GetListSourceFieldValue(achievedkeyword + m);
+        //                        }
+        //                        else
+        //                        {
+        //                            ytdValue = (decimal)e.GetListSourceFieldValue(achievedkeyword + m);
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        if (ytdValue == 0 || ytdValue == null)
+        //                            ytdValue = 0;
+        //                    }
+        //                }
+        //                c++;
+        //            }
+        //            e.Value = ytdValue;
+        //        }
 
-                else if (e.Column.FieldName == "TargetNYUB")
-                {
-                    ytdValue = 0;
-                    foreach (string m in months)
-                    {
-                        if (e.GetListSourceFieldValue(targetkeyword + m) != null)
-                        {
-                            ytdValue += (decimal)e.GetListSourceFieldValue(targetkeyword + m);
-                        }
-                        else
-                        {
-                            if (ytdValue == 0 || ytdValue == null)
-                                ytdValue = 0;
-                        }
-                    }
-                    e.Value = ytdValue;
-                }
-            }
-        };
+        //        else if (e.Column.FieldName == "TargetNYUB")
+        //        {
+        //            ytdValue = 0;
+        //            foreach (string m in months)
+        //            {
+        //                if (e.GetListSourceFieldValue(targetkeyword + m) != null)
+        //                {
+        //                    ytdValue += (decimal)e.GetListSourceFieldValue(targetkeyword + m);
+        //                }
+        //                else
+        //                {
+        //                    if (ytdValue == 0 || ytdValue == null)
+        //                        ytdValue = 0;
+        //                }
+        //            }
+        //            e.Value = ytdValue;
+        //        }
+        //    }
+        //};
+        //Commented by kunal - reason this logic now added in SP_GridMaster
 
         settings.ClientSideEvents.EndCallback = "OnEndCallback";
 

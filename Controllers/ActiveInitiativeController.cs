@@ -11,7 +11,8 @@ using DevExpress.Web;
 using DevExpress.Web.Export;
 using DevExpress.XtraCharts;
 using System.Configuration;
-
+using MySql.Data.MySqlClient;
+using System.Data;
 /*
  * Adding comment here
  */
@@ -154,7 +155,7 @@ log4net.LogManager.GetLogger
                 var costitemtext = profileData.CostItem_right.Replace("|", "','");
                 int lencostitem = costitemtext.Length;
                 costitemtext = "(" + costitemtext.Substring(2, (lencostitem - 4)) + ")";
-                var costitemid = db.mcosttypes.SqlQuery("select id,CostTypeName,isActive from mcosttype where CostTypeName in " + costitemtext + "  group by id,CostTypeName,isActive").ToList();
+                var costitemid = db.mcosttypes.SqlQuery("select id,CostTypeName,isActive , InitYear from mcosttype where CostTypeName in " + costitemtext + "  group by id,CostTypeName,isActive").ToList();
                 var costitemcondition = "";
                 for (var i = 0; i < costitemid.Count(); i++)
                 {
@@ -187,7 +188,7 @@ log4net.LogManager.GetLogger
                 }
             }
 
-            var model = db.vwheaderinitiatives.ToList();
+         //   var model = db.vwheaderinitiatives.ToList();
 
             if (profileData.UserType == 2)  //rpoc
             {
@@ -196,7 +197,7 @@ log4net.LogManager.GetLogger
                     var rpoctext = profileData.RegionID.Replace("|", "','");
                     int lenrpoc = rpoctext.Length;
                     rpoctext = "(" + rpoctext.Substring(2, (lenrpoc - 4)) + ")";
-                    var rpocid = db.mregions.SqlQuery("select id,RegionName,isActive from mregion where RegionName in " + rpoctext + "  group by id,RegionName,isActive").ToList();
+                    var rpocid = db.mregions.SqlQuery("select id,RegionName,isActive , InitYear from mregion where RegionName in " + rpoctext + "  group by id,RegionName,isActive").ToList();
                     var rpoccondition = "";
                     for (var i = 0; i < rpocid.Count(); i++)
                     {
@@ -215,7 +216,7 @@ log4net.LogManager.GetLogger
                         var cctext = profileData.CostControlSite.Replace("|", "','");
                         int lencctext = cctext.Length;
                         cctext = "(" + cctext.Substring(2, (lencctext - 4)) + ")";
-                        var ccid = db.mcostcontrolsites.SqlQuery("SELECT id,CostControlSiteName , InitYear FROM mcostcontrolsite WHERE CostControlSiteName IN " + cctext + "  group by id,CostControlSiteName ").ToList();
+                        var ccid = db.mcostcontrolsites.SqlQuery("SELECT id,CostControlSiteName , Inityear FROM mcostcontrolsite WHERE CostControlSiteName IN " + cctext + "  group by id,CostControlSiteName ").ToList();
                         var cccondition = "";
                         for (var i = 0; i < ccid.Count(); i++)
                         {
@@ -249,10 +250,110 @@ log4net.LogManager.GetLogger
 
             //ConsoleLog(" UserType: " + profileData.UserType + "\\n RegionID: " + profileData.RegionID + "\\n CostControlSite: " + profileData.CostControlSite + "\\n Country: " + profileData.CountryID + "\\n Condition: " + where);
 
+
+            string YTD_Achieved_PRICE_EF_months = string.Empty;
+            string YTD_Achieved_VOLUME_EF_months = string.Empty;
+
+            string N_YTD_Sec_PRICE_EF_months = string.Empty;
+            string N_YTD_Sec_VOLUME_EF_months = string.Empty;
+
+            string N_YTD_ST_Total_EF_months = string.Empty;
+
+            string YTD_Cost_Avoid_Vs_CPI_months = string.Empty;
+            List<string> arrMonth = new List<string>() { "jan", "feb", "march", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
+            int _counter = 0;
+
+            while (_counter < projMonth)
+            {
+
+                #region Secured
+                //N_YTD_Sec_PRICE_EF "_ST_Price_effect"
+                if (String.IsNullOrEmpty(N_YTD_Sec_PRICE_EF_months))
+                {
+                    N_YTD_Sec_PRICE_EF_months = "" + arrMonth[_counter] + "_ST_Price_effect";
+                }
+                else
+                {
+                    N_YTD_Sec_PRICE_EF_months = N_YTD_Sec_PRICE_EF_months + "," + arrMonth[_counter] + "_ST_Price_effect";
+                }
+
+                //N_FY_Sec_VOLUME_EF "ST_Volume_Effect" 
+                if (String.IsNullOrEmpty(N_YTD_Sec_VOLUME_EF_months))
+                {
+                    N_YTD_Sec_VOLUME_EF_months = "" + arrMonth[_counter] + "_ST_Volume_Effect";
+                }
+                else
+                {
+                    N_YTD_Sec_VOLUME_EF_months = N_YTD_Sec_VOLUME_EF_months + "," + arrMonth[_counter] + "_ST_Volume_Effect";
+                }
+
+                //N_YTD_Secured "_FY_Secured_Target"
+                if (String.IsNullOrEmpty(N_YTD_ST_Total_EF_months))
+                {
+                    N_YTD_ST_Total_EF_months = "" + arrMonth[_counter] + "_FY_Secured_Target";
+                }
+                else
+                {
+                    N_YTD_ST_Total_EF_months = N_YTD_ST_Total_EF_months + "," + arrMonth[_counter] + "_FY_Secured_Target";
+                }
+
+                #endregion
+
+                #region Acheived
+                //YTD_Achieved_PRICE_EF "_A_Price_effect"
+                if (String.IsNullOrEmpty(YTD_Achieved_PRICE_EF_months))
+                {
+                    YTD_Achieved_PRICE_EF_months = "" + arrMonth[_counter] + "_A_Price_effect";
+                }
+                else
+                {
+                    YTD_Achieved_PRICE_EF_months = YTD_Achieved_PRICE_EF_months + "," + arrMonth[_counter] + "_A_Price_effect";
+                }
+
+                //YTD_Achieved_VOLUME_EF "_A_Volume_Effect"
+                if (String.IsNullOrEmpty(YTD_Achieved_VOLUME_EF_months))
+                {
+                    YTD_Achieved_VOLUME_EF_months = "" + arrMonth[_counter] + "_A_Volume_Effect";
+                }
+                else
+                {
+                    YTD_Achieved_VOLUME_EF_months = YTD_Achieved_VOLUME_EF_months + "," + arrMonth[_counter] + "_A_Volume_Effect";
+                }
+                #endregion
+
+                #region CPI
+                //YTD_Cost_Avoid_Vs_CPI "_CPI_Effect"
+                if (String.IsNullOrEmpty(YTD_Cost_Avoid_Vs_CPI_months))
+                {
+                    YTD_Cost_Avoid_Vs_CPI_months = "" + arrMonth[_counter] + "_CPI_Effect";
+                }
+                else
+                {
+                    YTD_Cost_Avoid_Vs_CPI_months = YTD_Cost_Avoid_Vs_CPI_months + "," + arrMonth[_counter] + "_CPI_Effect";
+                }
+
+                #endregion
+
+                _counter++;
+            }
+
+            var spcondi = "a.isDeleted =0 " + where;
+            //if (Session["issaveupdtae"] == "1")
+            //{
+            //    Session["issaveupdtae"] = 0;
+            //    model = GetGridData(profileData.ProjectYear, spcondi, projMonth, 1);
+            //}
+            //else
+            //{
+            //    model = GetGridData(profileData.ProjectYear, spcondi, projMonth, 0);
+
+            //}
+         var  model = GetGridData(profileData.ProjectYear, spcondi, projMonth, 1);
+
             // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
             //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
-
-          model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "') "+ where + "  order by CreatedDate desc").ToList();
+         // var  model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "') "+ where + "  order by CreatedDate desc").ToList();
+            //  var model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth)='" + profileData.ProjectYear + "')  " + where + "  order by CreatedDate desc").ToList();
               ViewData["mregions"] = db.mregions.Where(c => c.InitYear == projYear).ToList();
             ViewData["brandname"] = db.mbrands.Where(c => c.isActive == "Y" && c.isDeleted == "N" && c.InitYear == projYear).ToList();
             ViewData["msubregion"] = db.msubregions.Where(c => c.SubRegionName != null && c.SubRegionName != "" && c.InitYear == projYear).ToList();
@@ -292,6 +393,8 @@ log4net.LogManager.GetLogger
             //ViewData["portName"] = db.mports.ToList();
             //ViewData["SourceCategoryName"] = db.msourcecategories.ToList();
 
+            if (1 == 2)
+            {
             foreach (var item in model)
             {
                 if (Convert.ToDateTime(item.StartMonth).Year < profileData.ProjectYear)
@@ -533,31 +636,31 @@ log4net.LogManager.GetLogger
                         #region TMonthly Target and Achieved
                         var result_Init_Calcs = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id);
 
-                        item.AchJan = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jan_Achievement).FirstOrDefault().ToString()), 0);
-                        item.AchFeb = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.feb_Achievement).FirstOrDefault().ToString()), 0);
-                        item.AchMar = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.march_Achievement).FirstOrDefault().ToString()), 0);
-                        item.AchApr = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.apr_Achievement).FirstOrDefault().ToString()), 0);
-                        item.AchMay = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.may_Achievement).FirstOrDefault().ToString()), 0);
-                        item.AchJun = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jun_Achievement).FirstOrDefault().ToString()), 0);
-                        item.AchJul = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jul_Achievement).FirstOrDefault().ToString()), 0);
-                        item.AchAug = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.aug_Achievement).FirstOrDefault().ToString()), 0);
-                        item.AchSep = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.sep_Achievement).FirstOrDefault().ToString()), 0);
-                        item.AchOct = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.oct_Achievement).FirstOrDefault().ToString()), 0);
-                        item.AchNov = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.nov_Achievement).FirstOrDefault().ToString()), 0);
-                        item.AchDec = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.dec_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchJan = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jan_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchFeb = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.feb_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchMar = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.march_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchApr = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.apr_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchMay = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.may_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchJun = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jun_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchJul = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jul_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchAug = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.aug_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchSep = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.sep_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchOct = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.oct_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchNov = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.nov_Achievement).FirstOrDefault().ToString()), 0);
+                            //item.AchDec = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.dec_Achievement).FirstOrDefault().ToString()), 0);
 
-                        item.TargetJan = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jan_FY_Secured_Target).FirstOrDefault().ToString()), 0);
-                        item.TargetFeb = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.feb_FY_Secured_Target).FirstOrDefault().ToString()), 0);
-                        item.TargetMar = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.march_FY_Secured_Target).FirstOrDefault().ToString()), 0);
-                        item.TargetApr = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.apr_FY_Secured_Target).FirstOrDefault().ToString()), 0);
-                        item.TargetMay = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.may_FY_Secured_Target).FirstOrDefault().ToString()), 0);
-                        item.TargetJun = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jun_FY_Secured_Target).FirstOrDefault().ToString()), 0);
-                        item.TargetJul = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jul_FY_Secured_Target).FirstOrDefault().ToString()), 0);
-                        item.TargetAug = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.aug_FY_Secured_Target).FirstOrDefault().ToString()), 0);
-                        item.TargetSep = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.sep_FY_Secured_Target).FirstOrDefault().ToString()), 0);
-                        item.TargetOct = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.oct_FY_Secured_Target).FirstOrDefault().ToString()), 0);
-                        item.TargetNov = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.nov_FY_Secured_Target).FirstOrDefault().ToString()), 0);
-                        item.TargetDec = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.dec_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetJan = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jan_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetFeb = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.feb_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetMar = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.march_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetApr = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.apr_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetMay = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.may_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetJun = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jun_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetJul = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jul_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetAug = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.aug_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetSep = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.sep_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetOct = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.oct_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetNov = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.nov_FY_Secured_Target).FirstOrDefault().ToString()), 0);
+                            //item.TargetDec = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.dec_FY_Secured_Target).FirstOrDefault().ToString()), 0);
 
                         #endregion
                     }
@@ -568,28 +671,28 @@ log4net.LogManager.GetLogger
                             List<string> _arrMonth = new List<string>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
                             string YTD_Target_months = string.Empty;
                             string YTD_Acheived_months = string.Empty;
-                            int _counter = 0;
-                            while (_counter < projMonth)
+                                int _counter1 = 0;
+                                while (_counter1 < projMonth)
                             {
                                 if (String.IsNullOrEmpty(YTD_Target_months))
                                 {
-                                    YTD_Target_months = "Target" + _arrMonth[_counter];
+                                        YTD_Target_months = "Target" + _arrMonth[_counter1];
                                 }
                                 else
                                 {
-                                    YTD_Target_months = YTD_Target_months + "," + "Target" + _arrMonth[_counter];
+                                        YTD_Target_months = YTD_Target_months + "," + "Target" + _arrMonth[_counter1];
                                 }
 
                                 if (String.IsNullOrEmpty(YTD_Acheived_months))
                                 {
-                                    YTD_Acheived_months = "Ach" + _arrMonth[_counter];
+                                        YTD_Acheived_months = "Ach" + _arrMonth[_counter1];
                                 }
                                 else
                                 {
-                                    YTD_Acheived_months = YTD_Acheived_months + "," + "Ach" + _arrMonth[_counter];
+                                        YTD_Acheived_months = YTD_Acheived_months + "," + "Ach" + _arrMonth[_counter1];
                                 }
 
-                                _counter++;
+                                    _counter1++;
                             }
                             var result_FY_Target = db.t_initiative.Where(x => x.id == item.id)
                                                                           .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative>("id," + YTD_Target_months)).ToList();
@@ -607,6 +710,9 @@ log4net.LogManager.GetLogger
                                                                                             (y.TargetNov == null ? 0 : y.TargetNov) +
                                                                                             (y.TargetDec == null ? 0 : y.TargetDec)).FirstOrDefault().ToString();
                             item.N_YTD_ST_Total_EF = Math.Round(Convert.ToDecimal(_N_YTD_Secured), 0);
+                                item.YTDTargetUb = Math.Round(Convert.ToDecimal(_N_YTD_Secured), 0);
+                                item.TargetNYUB = Math.Round(Convert.ToDecimal(_N_YTD_Secured), 0);
+
 
                             var result_YTD_Acheived = db.t_initiative.Where(x => x.id == item.id)
                                                                           .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative>("id," + YTD_Acheived_months)).ToList();
@@ -624,15 +730,248 @@ log4net.LogManager.GetLogger
                                                                                             (y.AchNov == null ? 0 : y.AchNov) +
                                                                                             (y.AchDec == null ? 0 : y.AchDec)).FirstOrDefault().ToString();
                             item.N_YTD_A_Total_EF = Math.Round(Convert.ToDecimal(_N_YTD_A_Total_EF), 0);
+                                item.YTDAchievedUb = Math.Round(Convert.ToDecimal(_N_YTD_A_Total_EF), 0);
                         }
                     }
                 }
                 #endregion
 
             }
+            }
+
 
             return PartialView("_GrdMainInitiativePartial", model);
         }
+
+        public List<GAIN.Models.vwheaderinitiative> GetGridData(long ProjectYear, string condi , int projMonth, int issave)
+        {
+
+            string YTD_Achieved_PRICE_EF_months = string.Empty;
+            string YTD_Achieved_VOLUME_EF_months = string.Empty;
+
+            string N_YTD_Sec_PRICE_EF_months = string.Empty;
+            string N_YTD_Sec_VOLUME_EF_months = string.Empty;
+
+            string N_YTD_ST_Total_EF_months = string.Empty;
+
+            string YTD_Cost_Avoid_Vs_CPI_months = string.Empty;
+
+            string YTD_Achieved_PRICE_EF_monthschk = string.Empty;
+            string YTD_Achieved_VOLUME_EF_monthschk = string.Empty;
+
+            string N_YTD_Sec_PRICE_EF_monthschk = string.Empty;
+            string N_YTD_Sec_VOLUME_EF_monthschk = string.Empty;
+
+            string N_YTD_ST_Total_EF_monthschk = string.Empty;
+
+            string YTD_Cost_Avoid_Vs_CPI_monthschk = string.Empty;
+
+            List<string> arrMonth = new List<string>() { "jan", "feb", "march", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
+            int _counter = 0;
+
+            while (_counter < projMonth)
+            {
+               
+                #region Secured
+                //N_YTD_Sec_PRICE_EF "_ST_Price_effect"
+                if (String.IsNullOrEmpty(N_YTD_Sec_PRICE_EF_months))
+                {
+                    N_YTD_Sec_PRICE_EF_monthschk = "ifnull(" + arrMonth[_counter] + "_ST_Price_effect, 0)";
+                    N_YTD_Sec_PRICE_EF_months = "" + N_YTD_Sec_PRICE_EF_monthschk;
+                }
+                else
+                {
+                    N_YTD_Sec_PRICE_EF_monthschk = "ifnull(" + arrMonth[_counter] + "_ST_Price_effect, 0)";
+                    N_YTD_Sec_PRICE_EF_months = N_YTD_Sec_PRICE_EF_months + "+" + N_YTD_Sec_PRICE_EF_monthschk;
+                }
+
+                //N_FY_Sec_VOLUME_EF "ST_Volume_Effect" 
+                if (String.IsNullOrEmpty(N_YTD_Sec_VOLUME_EF_months))
+                {
+                    N_YTD_Sec_VOLUME_EF_monthschk = "ifnull(" + arrMonth[_counter] + "_ST_Volume_Effect, 0)";
+                    N_YTD_Sec_VOLUME_EF_months = "" + N_YTD_Sec_VOLUME_EF_monthschk;
+                }
+                else
+                {
+                    N_YTD_Sec_VOLUME_EF_monthschk = "ifnull(" + arrMonth[_counter] + "_ST_Volume_Effect, 0)";
+                    N_YTD_Sec_VOLUME_EF_months = N_YTD_Sec_VOLUME_EF_months + "+" + N_YTD_Sec_VOLUME_EF_monthschk;
+                }
+
+                //N_YTD_Secured "_FY_Secured_Target"
+                if (String.IsNullOrEmpty(N_YTD_ST_Total_EF_months))
+                {
+                    N_YTD_ST_Total_EF_monthschk = "ifnull(" + arrMonth[_counter] + "_FY_Secured_Target, 0)";
+                    N_YTD_ST_Total_EF_months = "" + N_YTD_ST_Total_EF_monthschk;
+                }
+                else
+                {
+                    N_YTD_ST_Total_EF_monthschk = "ifnull(" + arrMonth[_counter] + "_FY_Secured_Target, 0)";
+                    N_YTD_ST_Total_EF_months = N_YTD_ST_Total_EF_months + "+" + N_YTD_ST_Total_EF_monthschk;
+                }
+
+                #endregion
+
+                #region Acheived
+                //YTD_Achieved_PRICE_EF "_A_Price_effect"
+                if (String.IsNullOrEmpty(YTD_Achieved_PRICE_EF_months))
+                {
+                    YTD_Achieved_PRICE_EF_monthschk = "ifnull("+arrMonth[_counter] + "_A_Price_effect, 0)";
+                  
+                    YTD_Achieved_PRICE_EF_months = YTD_Achieved_PRICE_EF_monthschk;
+                }
+                else
+                {
+                    YTD_Achieved_PRICE_EF_monthschk = "ifnull(" + arrMonth[_counter] + "_A_Price_effect, 0)";
+                    YTD_Achieved_PRICE_EF_months = YTD_Achieved_PRICE_EF_months + "+" + YTD_Achieved_PRICE_EF_monthschk;
+                }
+
+                //YTD_Achieved_VOLUME_EF "_A_Volume_Effect"
+                if (String.IsNullOrEmpty(YTD_Achieved_VOLUME_EF_months))
+                {
+                    YTD_Achieved_VOLUME_EF_monthschk = "ifnull(" + arrMonth[_counter] + "_A_Volume_Effect, 0)";
+                    YTD_Achieved_VOLUME_EF_months = "" + YTD_Achieved_VOLUME_EF_monthschk;
+                }
+                else
+                {
+                    YTD_Achieved_VOLUME_EF_monthschk = "ifnull(" + arrMonth[_counter] + "_A_Volume_Effect, 0)";
+                    YTD_Achieved_VOLUME_EF_months = YTD_Achieved_VOLUME_EF_months + "+" + YTD_Achieved_VOLUME_EF_monthschk;
+                }
+                #endregion
+
+                #region CPI
+                //YTD_Cost_Avoid_Vs_CPI "_CPI_Effect"
+                if (String.IsNullOrEmpty(YTD_Cost_Avoid_Vs_CPI_months))
+                {
+                    YTD_Cost_Avoid_Vs_CPI_monthschk = "ifnull(" + arrMonth[_counter] + "_CPI_Effect, 0)";
+                    YTD_Cost_Avoid_Vs_CPI_months = "" + arrMonth[_counter] + "_CPI_Effect";
+                }
+                else
+                {
+                    YTD_Cost_Avoid_Vs_CPI_monthschk = "ifnull(" + arrMonth[_counter] + "_CPI_Effect, 0)";
+                    YTD_Cost_Avoid_Vs_CPI_months = YTD_Cost_Avoid_Vs_CPI_months + "+" + YTD_Cost_Avoid_Vs_CPI_monthschk;
+                }
+
+                #endregion
+
+                _counter++;
+            }
+
+            List<string> _arrMonth = new List<string>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            string YTD_Target_months = string.Empty;
+            string YTD_Acheived_months = string.Empty;
+            string YTD_Target_months_in_year = string.Empty;
+
+            string YTD_Acheived_months_in_year = string.Empty;
+            string chkYTD_Target_months = "", chkYTD_Target_monthsNext="";
+            string chKYTD_Acheived_months = "", chkYTD_Acheived_months_in_year = "";
+
+            int _counter1 = 0;
+            while (_counter1 < projMonth)
+            {
+               
+                if (String.IsNullOrEmpty(YTD_Target_months))
+                {
+
+                    chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter1] + ", 0)";
+                    chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter1] + ", 0)";
+                    YTD_Target_months = chkYTD_Target_months;
+                    YTD_Target_months_in_year = chkYTD_Target_monthsNext;
+                }
+                else
+                {
+                    chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter1] + ", 0)";
+                    chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter1] + ", 0)";
+                    YTD_Target_months = YTD_Target_months + "+" + chkYTD_Target_months;
+                    YTD_Target_months_in_year = YTD_Target_months_in_year + "+"+chkYTD_Target_monthsNext;
+                }
+
+                if (String.IsNullOrEmpty(YTD_Acheived_months))
+                {
+                    chKYTD_Acheived_months = "ifnull(Ach" + _arrMonth[_counter1] + ", 0)";
+                    chkYTD_Acheived_months_in_year = "ifnull(AchNex" + _arrMonth[_counter1] + ", 0)";
+                    YTD_Acheived_months = chKYTD_Acheived_months;
+                    YTD_Acheived_months_in_year = chkYTD_Acheived_months_in_year;
+                }
+                else
+                {
+                    chKYTD_Acheived_months = "ifnull(Ach" + _arrMonth[_counter1] + ", 0)";
+                    chkYTD_Acheived_months_in_year = "ifnull(AchNex" + _arrMonth[_counter1] + ", 0)";
+                    YTD_Acheived_months = YTD_Acheived_months + "+" + chKYTD_Acheived_months;
+                    YTD_Acheived_months_in_year = YTD_Acheived_months_in_year + "+" + chkYTD_Acheived_months_in_year;
+
+                }
+
+                _counter1++;
+            }
+
+
+            List<GAIN.Models.vwheaderinitiative> lstGrid = new List<GAIN.Models.vwheaderinitiative>();
+            string conn = clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]);
+            conn = conn.Substring(conn.IndexOf("server"));
+            conn = conn.Replace("'","");
+
+          
+            if (Session["Maingrid"] == null || issave==1)
+            {
+                using (MySqlConnection sql = new MySqlConnection(conn))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("SP_GridMaster", sql))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add(new MySqlParameter("@inProjectYear", ProjectYear));
+                        cmd.Parameters.Add(new MySqlParameter("@condi", condi));
+                        cmd.Parameters.Add(new MySqlParameter("@YTD_Achieved_PRICE_EF_months", YTD_Achieved_PRICE_EF_months));
+                        cmd.Parameters.Add(new MySqlParameter("@YTD_Achieved_VOLUME_EF_months", YTD_Achieved_VOLUME_EF_months));
+                        cmd.Parameters.Add(new MySqlParameter("@N_YTD_Sec_PRICE_EF_months", N_YTD_Sec_PRICE_EF_months));
+                        cmd.Parameters.Add(new MySqlParameter("@N_YTD_Sec_VOLUME_EF_months", N_YTD_Sec_VOLUME_EF_months));
+                        cmd.Parameters.Add(new MySqlParameter("@N_YTD_ST_Total_EF_months", N_YTD_ST_Total_EF_months));
+                        cmd.Parameters.Add(new MySqlParameter("@YTD_Cost_Avoid_Vs_CPI_months", YTD_Cost_Avoid_Vs_CPI_months));
+                        cmd.Parameters.Add(new MySqlParameter("@YTD_Target_months", YTD_Target_months));
+                        cmd.Parameters.Add(new MySqlParameter("@YTD_Acheived_months", YTD_Acheived_months));
+                        cmd.Parameters.Add(new MySqlParameter("@YTD_Target_months_next", YTD_Target_months_in_year));
+                        cmd.Parameters.Add(new MySqlParameter("@YTD_Acheived_months_next", YTD_Acheived_months_in_year));
+
+                        sql.Open();
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+
+                            var dataTable = new DataTable();
+                            dataTable.Load(reader);
+                          //  condi = condi.Replace("a.", "");
+                        //    dataTable = dataTable.Select(condi).CopyToDataTable();
+                          //  Session["Maingrid"] = dataTable;
+                            if (dataTable.Rows.Count > 0)
+                            {
+                                var serializedMyObjects = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable);
+                                lstGrid = (List<vwheaderinitiative>)Newtonsoft.Json.JsonConvert.DeserializeObject(serializedMyObjects, typeof(List<vwheaderinitiative>));
+                            }
+
+                        }
+                        sql.Close();
+                    }
+                }
+            }
+            else
+            {
+                var dataTable = new DataTable();
+                
+                dataTable = Session["Maingrid"] as DataTable;
+                            
+                condi = condi.Replace("a.", "");
+                dataTable = dataTable.Select(condi).CopyToDataTable();
+               
+                if (dataTable.Rows.Count > 0)
+                {
+                    var serializedMyObjects = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable);
+                    lstGrid = (List<vwheaderinitiative>)Newtonsoft.Json.JsonConvert.DeserializeObject(serializedMyObjects, typeof(List<vwheaderinitiative>));
+                }
+            }
+
+            return lstGrid;
+        }
+
         public static void ConsoleLog(string message)
         {
             string scriptTag = "<script type=\"\" language=\"\">console.clear(); {0}</script>";
@@ -650,6 +989,7 @@ log4net.LogManager.GetLogger
                 try
                 {
                     model.Add(item);
+                    Session["issaveupdtae"] = 1;
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -659,6 +999,8 @@ log4net.LogManager.GetLogger
             }
             else
                 ViewData["EditError"] = "Please, correct all errors.";
+
+            
             return PartialView("_GrdMainInitiativePartial", model.ToList());
         }
         [HttpPost, ValidateInput(false)]
@@ -685,6 +1027,7 @@ log4net.LogManager.GetLogger
 
                         //this.UpdateModel(modelItem);
                         db.SaveChanges();
+                        Session["issaveupdtae"] = 1;
                         return RedirectToAction("", "ActiveInitiative");
                     }
                     else
@@ -748,6 +1091,8 @@ log4net.LogManager.GetLogger
             ViewData["Status"] = db.mstatus.Where(c => c.isActive == "Y").ToList();
             ViewData["portName"] = db.mports.ToList();
             ViewData["SourceCategoryName"] = db.msourcecategories.ToList();
+
+            Session["issaveupdtae"] = 1;
             return PartialView("_GrdMainInitiativePartial", model2.ToList());
         }
         public ActionResult GrdRegionalPartial()
@@ -1909,6 +2254,10 @@ log4net.LogManager.GetLogger
                     }
                     //initdata.CreatedDate = DateTime.Now;
                     db.SaveChanges();
+                   
+                    var dataTable = new DataTable();
+
+                    dataTable = Session["Maingrid"] as DataTable;
                     return Content("saved|" + initdata.InitNumber);
                 }
                 catch (Exception E)
