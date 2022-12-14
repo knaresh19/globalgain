@@ -1728,7 +1728,82 @@ function OnEndMonthChanged() {
     }
 }
 
+function OnCostCategoryChanged(s, e) {
+    var id = InitiativeType.GetValue(InitiativeType.GetSelectedIndex()); var id2 = s.GetValue(); var id3 = BrandID.GetValue(BrandID.GetSelectedIndex());
+    $.post(URLContent('ActiveInitiative/GetItemFromCostCategory'), { id: id, id2: id2, id3: id3 }, function (data) {
+        var obj; SubCostCategoryID.ClearItems(); ActionTypeID.ClearItems();
+        $.each(data[0]["SubCostData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) SubCostCategoryID.AddItem(obj.SubCostName, obj.id);
+        });
+        $.each(data[0]["ActionTypeData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) ActionTypeID.AddItem(obj.ActionTypeName, obj.id);
+        });
+        SubCostCategoryID.SelectIndex(0); ActionTypeID.SelectIndex(0);
+    });
+}
 
+function OnSubCountryChanged(s, e) {
+    // debugger;
+    var id = s.GetValue(); /*var teks = s.GetText();*/
+    $.post(URLContent('ActiveInitiative/GetCountryBySub'), { id: id }, function (data) {
+        var obj; CountryID.ClearItems(); BrandID.ClearItems(); RegionID.ClearItems(); SubRegionID.ClearItems(); ClusterID.ClearItems(); RegionalOfficeID.ClearItems(); CostControlID.ClearItems();
+        LegalEntityID.ClearItems(); InitiativeType.ClearItems();
+        $.each(data[0]["CountryData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) CountryID.AddItem(obj.CountryName, obj.id);
+        });
+        $.each(data[0]["BrandData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) BrandID.AddItem(obj.BrandName, obj.id);
+        });
+        $.each(data[0]["LegalEntityData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
+        });
+        $.each(data[0]["RegionData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) RegionID.AddItem(obj.RegionName, obj.id);
+        });
+        $.each(data[0]["SubRegionData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) SubRegionID.AddItem(obj.SubRegionName, obj.id);
+        });
+        $.each(data[0]["ClusterData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) ClusterID.AddItem(obj.ClusterName, obj.id);
+        });
+        $.each(data[0]["RegionalOfficeData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) RegionalOfficeID.AddItem(obj.RegionalOfficeName, obj.id);
+        });
+        $.each(data[0]["CostControlSiteData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) CostControlID.AddItem(obj.CostControlSiteName, obj.id);
+        });
+        $.each(data[0]["TypeInitiativeData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) InitiativeType.AddItem(obj.SavingTypeName, obj.id);
+        });
+        CountryID.SelectIndex(0); BrandID.SelectIndex(0); RegionID.SelectIndex(0); SubRegionID.SelectIndex(0); ClusterID.SelectIndex(0); RegionalOfficeID.SelectIndex(0); CostControlID.SelectIndex(0);
+        LegalEntityID.SelectIndex(0); InitiativeType.SelectIndex(0);
+    });
+}
+
+function OnBrandChanged(s, e) {
+    var id = s.GetValue();
+    var countryid = CountryID.GetValue();
+    $.post(URLContent('ActiveInitiative/GetLegalFromBrand'), { brandid: id, countryid: countryid }, function (data) {
+        var obj; LegalEntityID.ClearItems();
+        $.each(data[0]["LegalEntityData"],
+            function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) LegalEntityID.AddItem(obj.LegalEntityName, obj.id);
+            });
+        LegalEntityID.SelectIndex(0);
+    });
+}
 
 function isNumberKey(evt) {
     var charCode = (evt.which) ? evt.which : evt.keyCode;
