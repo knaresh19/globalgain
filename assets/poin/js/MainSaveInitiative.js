@@ -23,7 +23,7 @@ function SaveInitiative() {
             var xTxDesc = $("#TxDesc").val();
             var xGrdInitStatus = GrdInitStatus.GetValue();
             var xTxLaraCode = $("#TxLaraCode").val();
-            var xTxPortName = (TxPortName.GetValue() == 0 ? 1 : TxPortName.GetValue());
+            var xTxPortName = (TxPortName.GetValue() == 0 ? (projectYear <= 2022 ? 1 : 570) : TxPortName.GetValue());
             var xTxVendorSupp = $("#TxVendorSupp").val();
             var xTxAdditionalInfo = $("#TxAdditionalInfo").val();
             var xGrdInitType = GrdInitType.GetValue();

@@ -138,17 +138,14 @@ $(function () {
         $('#_divOptimization').prop('style', 'display:block');
         $('#info_initiativeType').prop('style', 'display:block');
 
-        if (role_code == 'ADM' && istoadmin == 0) {
+        if (role_code == 'ADM') {
             $('#TxHOComment').prop('disabled', false);
         }
-        else if (role_code == 'CRT' && istoadmin == 0) {
+        else if (role_code == 'CRT') {
             $('#TxRPOCComment').prop('disabled', false);
         }
-        else if (role_code == 'RO' && istoadmin == 0) {
+        else if (role_code == 'RO') {
             $('#TxAgency').prop('disabled', false);
-        }
-        else if (istoadmin == 1) {
-            $('#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
         }
 
         WindowInitiative.Show();
@@ -289,18 +286,14 @@ $(function () {
         $('#info_initiativeType').prop('style', 'display:none');
 
         
-        if (role_code == 'ADM' && istoadmin == 0) {
+        if (role_code == 'ADM') {
             $('#TxHOComment').prop('disabled', false);
         }
-        else if (role_code == 'CRT' && istoadmin == 0) {
+        else if (role_code == 'CRT') {
             $('#TxRPOCComment').prop('disabled', false);
         }
-        else if (role_code == 'RO' && istoadmin == 0) {
+        else if (role_code == 'RO') {
             $('#TxAgency').prop('disabled', false);
-        }
-        else if (istoadmin == 1)
-        {
-            $('#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
         }
 
         WindowInitiative.Show();
@@ -1309,17 +1302,14 @@ function ShowEditWindow(id) {
 
                             $('#_divProcurement').prop('style', 'display:none');
 
-                            if (role_code == 'ADM' && istoadmin == 0) {
+                            if (role_code == 'ADM') {
                                 $('#TxHOComment').prop('disabled', false);
                             }
-                            else if (role_code == 'CRT' && istoadmin == 0) {
+                            else if (role_code == 'CRT') {
                                 $('#TxRPOCComment').prop('disabled', false);
                             }
-                            else if (role_code == 'RO' && istoadmin == 0) {
+                            else if (role_code == 'RO') {
                                 $('#TxAgency').prop('disabled', false);
-                            }
-                            else if (istoadmin == 1) {
-                                $('#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
                             }
                         }
                     });
@@ -1335,17 +1325,14 @@ function ShowEditWindow(id) {
                 $('#_divProcurement').prop('style', 'display:none');
                 
 
-                if (role_code == 'ADM' && istoadmin == 0) {
+                if (role_code == 'ADM') {
                     $('#TxHOComment').prop('disabled', false);
                 }
-                else if (role_code == 'CRT' && istoadmin == 0) {
+                else if (role_code == 'CRT') {
                     $('#TxRPOCComment').prop('disabled', false);
                 }
-                else if (role_code == 'RO' && istoadmin == 0) {
+                else if (role_code == 'RO') {
                     $('#TxAgency').prop('disabled', false);
-                }
-                else if (istoadmin == 1) {
-                    $('#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', false);
                 }
             }
             //ENH153-2 

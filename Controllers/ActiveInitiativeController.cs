@@ -1672,7 +1672,7 @@ log4net.LogManager.GetLogger
                                 RPOCComment = TxRPOCComment,
                                 HOComment = TxHOComment,
                                 AdditionalInfo = TxAdditionalInfo,
-                                PortID = (TxPortName == 0 ? 1 : TxPortName),
+                                PortID = (TxPortName == 0 ? (profileData.ProjectYear<=2022 ? 1 : 570) : TxPortName),
                                 ProjectYear = (short)ProjectYear,
                                 VendorName = TxVendorSupp,
                                 TargetJan = targetjan,
@@ -1804,7 +1804,7 @@ log4net.LogManager.GetLogger
                                     RPOCComment = TxRPOCComment,
                                     HOComment = TxHOComment,
                                     AdditionalInfo = TxAdditionalInfo,
-                                    PortID = (TxPortName == 0 ? 1 : TxPortName),
+                                    PortID = (TxPortName == 0 ? (profileData.ProjectYear <= 2022 ? 1 : 570) : TxPortName),
                                     ProjectYear = (short)ProjectYear,
                                     VendorName = TxVendorSupp,
                                     TargetJan = targetjan,
@@ -2065,7 +2065,7 @@ log4net.LogManager.GetLogger
                     initdata.RPOCComment = TxRPOCComment;
                     initdata.HOComment = TxHOComment;
                     initdata.AdditionalInfo = TxAdditionalInfo;
-                    initdata.PortID = (TxPortName == 0 ? 1 : TxPortName);
+                    initdata.PortID = (TxPortName == 0 ? (profileData.ProjectYear <= 2022 ? 1 : 570) : TxPortName);
                     initdata.VendorName = TxVendorSupp;
                     //Manipulate if this is previous year initiative 
                     //if (StartMonth.Year == ProjectYear)
