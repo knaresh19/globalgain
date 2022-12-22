@@ -2682,7 +2682,7 @@ log4net.LogManager.GetLogger
 
 
 
-                    MSubCostData = db.msubcosts.SqlQuery("SELECT b.id,b.SubCostName,b.isActive ,  InitYear  FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " AND a.costtypeid = " + model.CostCategoryID + " AND a.brandid = " + model.BrandID + " and b.isActive = 'Y' and  b.InitYear =" + projYear + "  GROUP BY b.id,b.SubCostName; ").ToList(),
+                    MSubCostData = db.msubcosts.SqlQuery("SELECT b.id,b.SubCostName,b.isActive ,  InitYear  FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " AND a.costtypeid = " + model.CostCategoryID + " and b.isActive = 'Y' and  b.InitYear =" + projYear + "  GROUP BY b.id,b.SubCostName; ").ToList(),
                     //  MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname UNION ALL SELECT id, categoryname FROM msourcecategory").ToList()
 
                     MCostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive,\'0\' AS  InitYear  UNION ALL SELECT b.id, b.CostTypeName,b.isActive , b.InitYear FROM t_subcostinitiative a LEFT JOIN mcosttype b ON a.costitemid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " and b.isActive = 'Y' and  b.InitYear =" + projYear + " GROUP BY b.id, b.CostTypeName; ").ToList(),
@@ -2820,7 +2820,7 @@ log4net.LogManager.GetLogger
             db.Configuration.ProxyCreationEnabled = false;
             GDFC.Add(new GetItemSubCategoryDataFromCategory
             {
-                SubCostData = db.msubcosts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SubCostName, \'\' as isActive ,\'0\' AS  InitYear UNION ALL SELECT b.id,b.SubCostName,b.isActive , b.InitYear FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + SCID + " AND a.costtypeid = " + SCID2 + " AND a.brandid = " + SCID3 + " and b.isActive = \'Y\' GROUP BY b.id, b.SubCostName").ToList(),
+                SubCostData = db.msubcosts.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS SubCostName, \'\' as isActive ,\'0\' AS  InitYear UNION ALL SELECT b.id,b.SubCostName,b.isActive , b.InitYear FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + SCID + " AND a.costtypeid = " + SCID2 + " and b.isActive = \'Y\' GROUP BY b.id, b.SubCostName").ToList(),
                 //  ActionTypeData = db.mactiontypes.SqlQuery("SELECT a.actiontypeid AS id,c.ActionTypeName, b.isActive ,  c.inityear FROM t_cost_actiontype a LEFT JOIN mcosttype b ON a.costitemid = b.id LEFT JOIN mactiontype c ON a.actiontypeid = c.id WHERE a.costitemid = " + SCID2 + " and c.isActive = \'Y\'; ").ToList()
             });
             return Json(GDFC, JsonRequestBehavior.AllowGet);
@@ -2862,7 +2862,7 @@ log4net.LogManager.GetLogger
 
 
 
-                    MSubCostData = db.msubcosts.SqlQuery("SELECT b.id,b.SubCostName,b.isActive ,  b.InitYear  FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " AND a.costtypeid = " + model.CostCategoryID + " AND a.brandid = " + model.BrandID + " and b.isActive = 'Y' and  b.InitYear =" + projYear + "  GROUP BY b.id,b.SubCostName; ").ToList(),
+                    MSubCostData = db.msubcosts.SqlQuery("SELECT b.id,b.SubCostName,b.isActive ,  b.InitYear  FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " AND a.costtypeid = " + model.CostCategoryID + "  and b.isActive = 'Y' and  b.InitYear =" + projYear + "  GROUP BY b.id,b.SubCostName; ").ToList(),
                     //  MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname UNION ALL SELECT id, categoryname FROM msourcecategory").ToList()
 
                     MCostTypeData = db.mcosttypes.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS CostTypeName, \'\' as isActive,\'0\' AS  InitYear  UNION ALL SELECT b.id, b.CostTypeName,b.isActive , b.InitYear FROM t_subcostinitiative a LEFT JOIN mcosttype b ON a.costitemid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " and b.isActive = 'Y' and  b.InitYear =" + projYear + " GROUP BY b.id, b.CostTypeName; ").ToList(),
