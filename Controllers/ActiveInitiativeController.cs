@@ -2810,7 +2810,7 @@ log4net.LogManager.GetLogger
             });
             return Json(GDFI, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult GetItemFromCostCategory(Models.GetInfoByIDModel GetInfo)
+        public ActionResult GetItemFromCostCategory(Models.GetInfoByIDModel GetInfo) 
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
             var projYear = profileData.ProjectYear;
