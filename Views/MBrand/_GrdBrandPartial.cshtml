@@ -56,13 +56,13 @@
         {
             c.FieldName = "brandname";
             c.Caption = "Brand Name :";
-            c.Width = 5000;
+            c.Width = 4500;
         });
         settings.Columns.Add(c =>
         {
             c.FieldName = "isActive";
             c.Caption = "Is Active :";
-            c.Width = 5000;
+            c.Width = 4500;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "isActive";
@@ -72,6 +72,12 @@
                 p.ValueType = typeof(string);
                 //p.BindList(ViewData["BrandList"]);
             });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "InitYear";
+            c.Caption = "Year";
+            c.Width = 1000;
         });
     });
     if (ViewData["EditError"] != null)

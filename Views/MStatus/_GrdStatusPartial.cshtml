@@ -57,6 +57,12 @@
             c.Caption = "Initiative Status";
             c.Width = 10000;
         });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "InitYear";
+            c.Caption = "Year";
+            c.Width = 5000;
+        });
     });
     if (ViewData["EditError"] != null)
     {

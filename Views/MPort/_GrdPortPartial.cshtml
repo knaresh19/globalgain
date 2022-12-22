@@ -55,7 +55,13 @@
         {
             c.FieldName = "PortName";
             c.Caption = "Port Name";
-            c.Width = 10000;
+            c.Width = 8000;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "InitYear";
+            c.Caption = "Year";
+            c.Width = 2000;
         });
     });
     if (ViewData["EditError"] != null)

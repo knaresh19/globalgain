@@ -163,7 +163,8 @@ log4net.LogManager.GetLogger
                 //secret = "{""username"":""sa"",""password"":""sqlserversa@1"",""engine"":""sqlserver"",""host"":""SGSGPCCW - L44225\SQLEXPRESS"",""port"":1450,""dbInstanceIdentifier"":""seaawsadvp411"",""dbname"":""FORMZU""}";
                 //secret = "{""username"";//:""sa"",""password"":""sqlserversa@1"",""engine"":""sqlserver"",""host"":""SGSGPCCW - L44225\SQLEXPRESS"",""port"":1450,""dbInstanceIdentifier"":""seaawsadvp411"",""dbname"":""FORMZU""}";
 
-                secret = "{ \"username\":\"root\",\"password\":\"root@123\",\"engine\":\"sqlserver\",\"host\":\"127.0.0.1\",\"port\":3306,\"dbInstanceIdentifier\":\"seaawsadvp411\",\"dbname\":\"gain_v2\"}";
+                //secret = "{ \"username\":\"root\",\"password\":\"root@123\",\"engine\":\"sqlserver\",\"host\":\"127.0.0.1\",\"port\":3306,\"dbInstanceIdentifier\":\"seaawsadvp411\",\"dbname\":\"gain_v2\"}";
+                secret = "{ \"username\":\"root\",\"password\":\"LTI@12345\",\"engine\":\"sqlserver\",\"host\":\"localhost\",\"port\":3306,\"dbInstanceIdentifier\":\"localhost\",\"dbname\":\"gain_uat2\"}";
                 Secret objdtls = Newtonsoft.Json.JsonConvert.DeserializeObject<Secret>(secret);
                 //objdtls.host = "SGSGPCCW-L44225\\SQLEXPRESS";
                 //secret = string.Format("Data source={0};Initial Catalog={1};User ID={2};Password={3};Connection Timeout=3000", objdtls.host, objdtls.dbname, objdtls.username, objdtls.password);

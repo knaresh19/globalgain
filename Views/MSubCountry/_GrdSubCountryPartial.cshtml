@@ -74,14 +74,20 @@
         {
             c.FieldName = "SubCountryName";
             c.Caption = "Sub Country Name";
-            c.Width = 1000;
+            c.Width = 400;
         });
 
         settings.Columns.Add(c =>
         {
             c.FieldName = "CountryCode";
             c.Caption = "Sub Country code ";
-            c.Width = 50;
+            c.Width = 200;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "InitYear";
+            c.Caption = "Year";
+            c.Width = 200;
         });
     });
     if (ViewData["EditError"] != null)

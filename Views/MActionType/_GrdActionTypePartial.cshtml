@@ -55,7 +55,13 @@
         settings.Columns.Add(c =>
         {
             c.FieldName = "ActionTypeName";
-            c.Width = 10000;
+            c.Width = 6000;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "InitYear";
+            c.Caption = "Year";
+            c.Width = 2000;
         });
     });
     if (ViewData["EditError"] != null)

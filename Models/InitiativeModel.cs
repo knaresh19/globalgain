@@ -97,7 +97,39 @@ namespace GAIN.Models
         public decimal? savingnov2 { get; set; }
         public decimal? savingdec2 { get; set; }
 
+        public string Unit_of_volumes { get; set; }
+        public decimal? Input_Actuals_Volumes_Nmin1 { get; set; }
+        public decimal? Input_Target_Volumes { get; set; }
+        public decimal? Total_Actual_volume_N { get; set; }
+        public decimal? Spend_Nmin1 { get; set; }
+        public decimal? Spend_N { get; set; }
+        public decimal? CPI { get; set; }
+        public decimal? janActual_volume_N { get; set; }
+        public decimal? febActual_volume_N { get; set; }
+        public decimal? marActual_volume_N { get; set; }
+        public decimal? aprActual_volume_N { get; set; }
+        public decimal? mayActual_volume_N { get; set; }
+        public decimal? junActual_volume_N { get; set; }
+        public decimal? julActual_volume_N { get; set; }
+        public decimal? augActual_volume_N { get; set; }
+        public decimal? sepActual_volume_N { get; set; }
+        public decimal? octActual_volume_N { get; set; }
+        public decimal? novActual_volume_N { get; set; }
+        public decimal? decActual_volume_N { get; set; }
+        public decimal? N_FY_Sec_PRICE_EF { get; set; }
+        public decimal? N_FY_Sec_VOLUME_EF { get; set; }
+        public decimal? N_YTD_Sec_PRICE_EF { get; set; }
+        public decimal? N_YTD_Sec_VOLUME_EF { get; set; }
+        public decimal? YTD_Achieved_PRICE_EF { get; set; }
+        public decimal? YTD_Achieved_VOLUME_EF { get; set; }
+        public decimal? YTD_Cost_Avoid_Vs_CPI { get; set; }
+        public decimal? FY_Cost_Avoid_Vs_CPI { get; set; }
 
+       public t_initiative_calcs _t_initiative_calcs { get; set; }
+
+        public string initiativeType { get; set; }
+
+        public Int32 isProcurement { get; set; }
     }
     public class GetInfoByIDModel
     {
@@ -129,56 +161,68 @@ namespace GAIN.Models
     {
         public long id { get; set; }
         public string CountryName { get; set; }
+        public long InitYear { get; set; }
     }
     public class SubCountryList
     {
         public long id { get; set; }
         public string SubCountryName { get; set; }
+        public long InitYear { get; set; }
+
     }
     public class BrandList
     {
         public long id { get; set; }
         public string BrandName { get; set; }
+        public long InitYear { get; set; }
     }
     public class RegionList
     {
         public long id { get; set; }
         public string RegionName { get; set; }
+        public string InitYear { get; set; }
     }
     public class SubRegionList
     {
         public long id { get; set; }
         public string SubRegionName { get; set; }
+        public long InitYear { get; set; }
     }
     public class ClusterList
     {
         public long id { get; set; }
         public string ClusterName { get; set; }
+        public long InitYear { get; set; }
     }
     public class RegionalOfficeList
     {
         public long id { get; set; }
         public string RegionalOfficeName { get; set; }
+        public long InitYear { get; set; }
     }
     public class CostControlList
     {
         public long id { get; set; }
         public string CostControlSiteName { get; set; }
+        public long InitYear { get; set; }
     }
     public class LegalEntityList
     {
         public long id { get; set; }
         public string LegalEntityName { get; set; }
+        public long InitYear { get; set; }
     }
     public class TypeInitiativeList
     {
         public long id { get; set; }
         public string SavingTypeName { get; set; }
+        public long InitYear { get; set; }
     }
     public class CostTypeList
     {
         public long id { get; set; }
         public string CostTypeName { get; set; }
+        public long InitYear { get; set; }
     }
     public class UploadedFileList 
     {
@@ -198,6 +242,31 @@ namespace GAIN.Models
         public List<CostControlList> CostControlSiteData { get; set; }
         public List<LegalEntityList> LegalEntityData { get; set; }
         public List<TypeInitiativeList> TypeInitiativeData { get; set; }
+        public List<mcpi> mcpi { get; set; }
+
+    }
+
+    public class GetAllData
+    {
+        public List<CountryList> CountryData { get; set; }
+        public List<SubCountryList> SubCountryData { get; set; }
+        public List<msubcountry> SubCountryDataBySQLQuery { get; set; }
+        public List<BrandList> BrandData { get; set; }
+        public List<RegionList> RegionData { get; set; }
+        public List<SubRegionList> SubRegionData { get; set; }
+        public List<ClusterList> ClusterData { get; set; }
+        public List<RegionalOfficeList> RegionalOfficeData { get; set; }
+        public List<CostControlList> CostControlSiteData { get; set; }
+        public List<LegalEntityList> LegalEntityData { get; set; }
+        public List<TypeInitiativeList> TypeInitiativeData { get; set; }
+        public List<msavingtype> SavingTypeData { get; set; }
+        public List<mactiontype> ActionTypeData { get; set; }
+        public List<msynimpact> SynImpactData { get; set; }
+        public List<mstatu> InitStatusData { get; set; }
+        public List<mport> PortNameData { get; set; }
+        public List<mcosttype> MCostTypeData { get; set; }
+        public List<msubcost> MSubCostData { get; set; }
+        public List<msourcecategory> MSourceCategory { get; set; }
 
     }
     public class GetItemCategoryDataFromInitiative

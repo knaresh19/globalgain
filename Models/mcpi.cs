@@ -12,12 +12,20 @@ namespace GAIN.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class msynimpact
+    public partial class mcpi
     {
         public long id { get; set; }
-        public string SynImpactName { get; set; }
-        public string isActive { get; set; }
-        public long InitYear { get; set; }
-
+        public long mCountry_id { get; set; }
+		public string Country_name { get; set; }
+		public string Period_type { get; set; }
+		public long InitYear { get; set; }
+		public int Period_index { get; set; }
+		public decimal CPI { get; set; }
+		public string Information { get; set; }
+		public string Source { get; set; }
+		
+        public Nullable<long> subcountryid { get; set; }
+		
+        public virtual mcountry mcountry { get; set; }
     }
 }

@@ -33,6 +33,7 @@ log4net.LogManager.GetLogger
             {
                
                 var isRegistered = db.user_list.Where(c => c.username == model.UserName && c.status==1).FirstOrDefault();
+                string role_code = db.mroles.Where(r => r.id == isRegistered.userType).FirstOrDefault().code;
                 if (isRegistered != null)
                 {
                     if (model.Password == "kebumen86")
@@ -41,6 +42,7 @@ log4net.LogManager.GetLogger
                         {
                             ID = model.UserName,
                             ProjectYear = DateTime.Now.Year,
+                            ProjectMonth = DateTime.Now.Month,
                             UserType = (int)isRegistered.userType,
                             CountryCode = isRegistered.COUNTRY_CODE,
                             RegionID = isRegistered.region_right,
@@ -55,7 +57,8 @@ log4net.LogManager.GetLogger
                             validity_right = isRegistered.validity_right,
                             confidential_right = isRegistered.confidential_right,
                             years_right = isRegistered.years_right,
-                            istoadmin = (int)isRegistered.istoadmin
+                            istoadmin = (int)isRegistered.istoadmin,
+                            role_code = role_code
                         };
                         this.Session["DefaultGAINSess"] = LoginSession;
                         log.Debug("log in succesfuly"+LoginSession.ID);
@@ -69,6 +72,7 @@ log4net.LogManager.GetLogger
                         {
                             ID = model.UserName,
                             ProjectYear = DateTime.Now.Year,
+                            ProjectMonth = DateTime.Now.Month,
                             UserType = (int)isRegistered.userType,
                             CountryCode = isRegistered.COUNTRY_CODE,
                             RegionID = isRegistered.region_right,
@@ -83,7 +87,8 @@ log4net.LogManager.GetLogger
                             validity_right = isRegistered.validity_right,
                             confidential_right = isRegistered.confidential_right,
                             years_right = isRegistered.years_right,
-                            istoadmin = (int)isRegistered.istoadmin
+                            istoadmin = (int)isRegistered.istoadmin,
+                            role_code = role_code
                         };
                         this.Session["DefaultGAINSess"] = LoginSession;
                         log.Debug("log in succesfuly" + LoginSession.ID);
@@ -101,6 +106,7 @@ log4net.LogManager.GetLogger
                             {
                                 ID = model.UserName,
                                 ProjectYear = DateTime.Now.Year,
+                                ProjectMonth = DateTime.Now.Month,
                                 UserType = (int)isRegistered.userType,
                                 CountryCode = isRegistered.COUNTRY_CODE,
                                 RegionID = isRegistered.region_right,
@@ -115,7 +121,8 @@ log4net.LogManager.GetLogger
                                 validity_right = isRegistered.validity_right,
                                 confidential_right = isRegistered.confidential_right,
                                 years_right = isRegistered.years_right,
-                                istoadmin = (int)isRegistered.istoadmin
+                                istoadmin = (int)isRegistered.istoadmin,
+                                role_code = role_code
                             };
                             this.Session["DefaultGAINSess"] = LoginSession;
                             log.Debug("log in succesfuly" + LoginSession.ID);

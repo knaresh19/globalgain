@@ -53,37 +53,65 @@ namespace GAIN.Models
         public Nullable<System.DateTime> EndMonth { get; set; }
         public string LaraCode { get; set; }
         public Nullable<decimal> TargetTY { get; set; }
+        public Nullable<decimal> N_FY_Sec_PRICE_EF { get; set; }
+        public Nullable<decimal> N_FY_Sec_VOLUME_EF { get; set; }
+        public string Unit_of_volumes { get; set; }
+        public Nullable<decimal> Input_Actuals_Volumes_Nmin1 { get; set; }
+        public Nullable<decimal> Input_Target_Volumes { get; set; }
+        public Nullable<decimal> Total_Actual_volume_N { get; set; }
+        public Nullable<decimal> Spend_Nmin1 { get; set; }
+        public Nullable<decimal> Spend_N { get; set; }
+        public Nullable<decimal> CPI { get; set; }
         public Nullable<decimal> TargetNY { get; set; }
         public string HOValidity { get; set; }
         public string RPOCControl { get; set; }
         public Nullable<long> InitStatus { get; set; }
         public string Status { get; set; }
+        public Nullable<decimal> N_YTD_Sec_PRICE_EF { get; set; }
+        public Nullable<decimal> N_YTD_Sec_VOLUME_EF { get; set; }
+        
         public Nullable<decimal> YTDTarget { get; set; }
+        public Nullable<decimal> YTD_Achieved_PRICE_EF { get; set; }
+        public Nullable<decimal> YTD_Achieved_VOLUME_EF { get; set; }
         public Nullable<decimal> YTDAchieved { get; set; }
+        public Nullable<decimal> YTD_Cost_Avoid_Vs_CPI { get; set; }
+        public Nullable<decimal> FY_Cost_Avoid_Vs_CPI { get; set; }
         public Nullable<decimal> TargetJan { get; set; }
         public Nullable<decimal> AchJan { get; set; }
+        public Nullable<decimal> janActual_volume_N { get; set; }
         public Nullable<decimal> TargetFeb { get; set; }
         public Nullable<decimal> AchFeb { get; set; }
+        public Nullable<decimal> febActual_volume_N { get; set; }
         public Nullable<decimal> TargetMar { get; set; }
         public Nullable<decimal> AchMar { get; set; }
+        public Nullable<decimal> marActual_volume_N { get; set; }
         public Nullable<decimal> TargetApr { get; set; }
         public Nullable<decimal> AchApr { get; set; }
+        public Nullable<decimal> aprActual_volume_N { get; set; }
         public Nullable<decimal> TargetMay { get; set; }
         public Nullable<decimal> AchMay { get; set; }
+        public Nullable<decimal> mayActual_volume_N { get; set; }
         public Nullable<decimal> TargetJun { get; set; }
         public Nullable<decimal> AchJun { get; set; }
+        public Nullable<decimal> junActual_volume_N { get; set; }
         public Nullable<decimal> TargetJul { get; set; }
         public Nullable<decimal> AchJul { get; set; }
+        public Nullable<decimal> julActual_volume_N { get; set; }
         public Nullable<decimal> TargetAug { get; set; }
         public Nullable<decimal> AchAug { get; set; }
+        public Nullable<decimal> augActual_volume_N { get; set; }
         public Nullable<decimal> TargetSep { get; set; }
         public Nullable<decimal> AchSep { get; set; }
+        public Nullable<decimal> sepActual_volume_N { get; set; }
         public Nullable<decimal> TargetOct { get; set; }
         public Nullable<decimal> AchOct { get; set; }
+        public Nullable<decimal> octActual_volume_N { get; set; }
         public Nullable<decimal> TargetNov { get; set; }
         public Nullable<decimal> AchNov { get; set; }
+        public Nullable<decimal> novActual_volume_N { get; set; }
         public Nullable<decimal> TargetDec { get; set; }
         public Nullable<decimal> AchDec { get; set; }
+        public Nullable<decimal> decActual_volume_N { get; set; }
         public Nullable<decimal> TargetNexJan { get; set; }
         public Nullable<decimal> AchNexJan { get; set; }
         public Nullable<decimal> TargetNexFeb { get; set; }
@@ -122,5 +150,28 @@ namespace GAIN.Models
         public string CreatedBy { get; set; }
         public System.DateTime ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
+        public int isProcurement { get; set; }
+
+        public Nullable<decimal> N_FY_ST_Total_EF { get; set; }
+        public Nullable<decimal> N_YTD_ST_Total_EF { get; set; }
+        public Nullable<decimal> N_YTD_A_Total_EF { get; set; }
+
+        public Nullable<decimal> jan_CPI { get; set; }
+        public Nullable<decimal> feb_CPI { get; set; }
+        public Nullable<decimal> mar_CPI { get; set; }
+        public Nullable<decimal> apr_CPI { get; set; }
+        public Nullable<decimal> may_CPI { get; set; }
+        public Nullable<decimal> jun_CPI { get; set; }
+        public Nullable<decimal> jul_CPI { get; set; }
+        public Nullable<decimal> aug_CPI { get; set; }
+        public Nullable<decimal> sep_CPI { get; set; }
+        public Nullable<decimal> oct_CPI { get; set; }
+        public Nullable<decimal> nov_CPI { get; set; }
+        public Nullable<decimal> dec_CPI { get; set; }
+
+        
+        public Nullable<decimal> YTDTargetUb { get; set; }
+        public Nullable<decimal> YTDAchievedUb { get; set; }
+        public Nullable<decimal> TargetNYUB { get; set; }
     }
 }

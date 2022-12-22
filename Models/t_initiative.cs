@@ -14,6 +14,12 @@ namespace GAIN.Models
     
     public partial class t_initiative
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public t_initiative()
+        {
+            this.t_initiative_calcs = new HashSet<t_initiative_calcs>();
+        }
+    
         public long id { get; set; }
         public string InitNumber { get; set; }
         public string RelatedInitiative { get; set; }
@@ -107,6 +113,34 @@ namespace GAIN.Models
         public string CreatedBy { get; set; }
         public System.DateTime ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
+        public string Unit_of_volumes { get; set; }
+        public Nullable<decimal> Input_Actuals_Volumes_Nmin1 { get; set; }
+        public Nullable<decimal> Input_Target_Volumes { get; set; }
+        public Nullable<decimal> Total_Actual_volume_N { get; set; }
+        public Nullable<decimal> Spend_Nmin1 { get; set; }
+        public Nullable<decimal> Spend_N { get; set; }
+        public Nullable<decimal> CPI { get; set; }
+        public Nullable<decimal> janActual_volume_N { get; set; }
+        public Nullable<decimal> febActual_volume_N { get; set; }
+        public Nullable<decimal> marActual_volume_N { get; set; }
+        public Nullable<decimal> aprActual_volume_N { get; set; }
+        public Nullable<decimal> mayActual_volume_N { get; set; }
+        public Nullable<decimal> junActual_volume_N { get; set; }
+        public Nullable<decimal> julActual_volume_N { get; set; }
+        public Nullable<decimal> augActual_volume_N { get; set; }
+        public Nullable<decimal> sepActual_volume_N { get; set; }
+        public Nullable<decimal> octActual_volume_N { get; set; }
+        public Nullable<decimal> novActual_volume_N { get; set; }
+        public Nullable<decimal> decActual_volume_N { get; set; }
+        public Nullable<decimal> N_FY_Sec_PRICE_EF { get; set; }
+        public Nullable<decimal> N_FY_Sec_VOLUME_EF { get; set; }
+        public Nullable<decimal> N_YTD_Sec_PRICE_EF { get; set; }
+        public Nullable<decimal> N_YTD_Sec_VOLUME_EF { get; set; }
+        public Nullable<decimal> YTD_Achieved_PRICE_EF { get; set; }
+        public Nullable<decimal> YTD_Achieved_VOLUME_EF { get; set; }
+        public Nullable<decimal> YTD_Cost_Avoid_Vs_CPI { get; set; }
+        public Nullable<decimal> FY_Cost_Avoid_Vs_CPI { get; set; }
+        public int isProcurement { get; set; }
     
         public virtual mbrand mbrand { get; set; }
         public virtual mcluster mcluster { get; set; }
@@ -119,5 +153,7 @@ namespace GAIN.Models
         public virtual mstatu mstatu { get; set; }
         public virtual msubcountry msubcountry { get; set; }
         public virtual msubregion msubregion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<t_initiative_calcs> t_initiative_calcs { get; set; }
     }
 }

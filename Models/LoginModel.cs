@@ -31,6 +31,7 @@ namespace GAIN.Models
     {
         public string ID { get; set;}
         public long ProjectYear { get; set; }
+        public int ProjectMonth { get; set; }
         public int UserType { get; set; }
         public string CountryCode { get; set; }
         public string CountryID { get; set; }
@@ -47,6 +48,7 @@ namespace GAIN.Models
         public int? confidential_right { get; set; }
         public string years_right { get; set; }
         public int istoadmin { get; set; }
+        public string role_code { get; set; }
 
     }
 }

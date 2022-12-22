@@ -30,6 +30,8 @@
         <EntityTypeShape EntityType="GainModel.myear" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GainModel.t_cost_actiontype" Width="1.5" PointX="3" PointY="27" IsExpanded="true" />
         <EntityTypeShape EntityType="GainModel.t_initiative" Width="1.5" PointX="8.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.t_initiative_calcs" Width="1.5" PointX="7.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GainModel.mcpi" Width="1.5" PointX="20.25" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="GainModel.t_subcostactiontype" Width="1.5" PointX="3" PointY="34.375" IsExpanded="true" />
         <EntityTypeShape EntityType="GainModel.t_subcostbrand" Width="1.5" PointX="3" PointY="22.5" IsExpanded="true" />
         <EntityTypeShape EntityType="GainModel.t_subcostinitiative" Width="1.5" PointX="3" PointY="30.75" IsExpanded="true" />
