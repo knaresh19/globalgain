@@ -162,7 +162,7 @@ $(function () {
         if (py < 2023) {
             py = 2023;
             min_py = (+py);
-            max_py = (+py+1);
+            max_py = (+py + 1);
         } else {
             min_py = (+py);
             max_py = (+py + 1);
@@ -184,7 +184,7 @@ $(function () {
         });
         $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: null }, function (data) {
             var obj; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); CboWebinarCat.ClearItems();
-           
+
             $.each(data[0]["SavingTypeData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
                 if (obj != null) {
@@ -228,8 +228,7 @@ $(function () {
                 GrdActionType.clientEnabled = false;
                 GrdActionType.SelectIndex(2);
             }
-            else
-            {
+            else {
                 GrdInitType.clientEnabled = true;
                 GrdInitType.SelectIndex(0);
 
@@ -285,7 +284,7 @@ $(function () {
         $('#_divOptimization').prop('style', 'display:none');
         $('#info_initiativeType').prop('style', 'display:none');
 
-        
+
         if (role_code == 'ADM') {
             $('#TxHOComment').prop('disabled', false);
         }
@@ -780,12 +779,11 @@ function ShowEditWindow(id) {
                     //});
                     $.each(DDdata[0]["SavingTypeData"], function (key, dd_value) {
                         dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
-                        if (obj1 != null)
-                        {
+                        if (obj1 != null) {
                             if (obj1.SavingTypeName == "Positive Cost Impact" || obj1.SavingTypeName == "Negative Cost Impact") {
                                 GrdInitType.AddItem(obj1.SavingTypeName, obj1.id);
                             }
-                            
+
                         }
                     });
                 }
@@ -798,7 +796,7 @@ function ShowEditWindow(id) {
                 $.each(DDdata[0]["ActionTypeData"], function (key, dd_value) {
                     dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
                     if (obj1 != null) GrdActionType.AddItem(obj1.ActionTypeName, obj1.id);
-                    
+
                 });
                 $.each(DDdata[0]["SynImpactData"], function (key, dd_value) {
                     dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
@@ -811,7 +809,7 @@ function ShowEditWindow(id) {
                 $.each(DDdata[0]["PortNameData"], function (key, dd_value) {
                     dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
                     if (obj1 != null) TxPortName.AddItem(obj1.PortName, obj1.id);
-                    
+
                 });
                 $.each(DDdata[0]["MCostTypeData"], function (key, dd_value) {
                     dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
@@ -1084,8 +1082,7 @@ function ShowEditWindow(id) {
             //GrdInitType.GetGridView().Refresh();
             var brandId = obj.BrandID;
 
-            if (isProcurement != 1)
-            {
+            if (isProcurement != 1) {
                 getYtdValue();
                 hitungtahunini();
             }
@@ -1110,6 +1107,15 @@ function ShowEditWindow(id) {
             var formstatus; var initstatusvalue;
             formstatus = $("#FormStatus").val();
             initstatusvalue = GrdInitStatus.GetValue();
+
+            if ((initstatusvalue != "4" && initstatusvalue != "15")) {
+                $('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', true);
+            }
+            else
+            {
+                $('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', false);
+            }
+
             if (uType == 3 && formstatus == "Edit" && (initstatusvalue != "4" && initstatusvalue != "15")) {
                 $("#chkAuto").prop("disabled", true);
                 $(".txTarget").prop("disabled", true); //prevent Agency User to edit the target except pending initiative
@@ -1148,6 +1154,7 @@ function ShowEditWindow(id) {
                     $(".targetnov").prop("disabled", false);
                 if (targetdec.length > 1)
                     $(".targetdec").prop("disabled", false);
+
             }
 
             //ENH153-2 back end calculation
@@ -1311,6 +1318,8 @@ function ShowEditWindow(id) {
                             else if (role_code == 'RO') {
                                 $('#TxAgency').prop('disabled', false);
                             }
+
+                            $('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', true);
                         }
                     });
                 });
@@ -1323,7 +1332,7 @@ function ShowEditWindow(id) {
                 $('#info_initiativeType').prop('style', 'display:block');
 
                 $('#_divProcurement').prop('style', 'display:none');
-                
+
 
                 if (role_code == 'ADM') {
                     $('#TxHOComment').prop('disabled', false);
