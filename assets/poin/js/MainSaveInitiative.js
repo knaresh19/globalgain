@@ -1223,7 +1223,8 @@ function OnCloseNewInitiativeWindow() {
     $("#chkAuto").prop('checked', false);
     $(".txTarget").prop('disabled', false);
     $('.txSaving, .txTarget').val('');
-    $('.txSaving,#btnDuplicate,#btnSave,#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo,#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', true);
+    $('.txSaving,#btnDuplicate,#btnSave,#TxAgency,#TxRPOCComment,#TxHOComment').prop('disabled', true);
+    //$('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', true);
     GrdInitType.SetValue(null);
     GrdInitStatus.ClearItems();
     TxPortName.ClearItems();

@@ -1108,13 +1108,13 @@ function ShowEditWindow(id) {
             formstatus = $("#FormStatus").val();
             initstatusvalue = GrdInitStatus.GetValue();
 
-            if ((initstatusvalue != "4" && initstatusvalue != "15")) {
-                $('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', true);
-            }
-            else
-            {
-                $('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', false);
-            }
+            //if ((initstatusvalue != "4" && initstatusvalue != "15")) {
+            //    $('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', true);
+            //}
+            //else
+            //{
+            //    $('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', false);
+            //}
 
             if (uType == 3 && formstatus == "Edit" && (initstatusvalue != "4" && initstatusvalue != "15")) {
                 $("#chkAuto").prop("disabled", true);
@@ -1319,7 +1319,7 @@ function ShowEditWindow(id) {
                                 $('#TxAgency').prop('disabled', false);
                             }
 
-                            $('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', true);
+                            //$('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', true);
                         }
                     });
                 });
