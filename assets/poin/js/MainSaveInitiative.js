@@ -781,14 +781,18 @@ function OnSubCostPopupChanged(s, e) {
         //        GrdActionType.SelectIndex(51);
         //}
         //else {
-        $.post(URLContent('ActiveInitiative/GetItemFromSubCost'), { id: id }, function (data) {
-            var obj; GrdActionType.ClearItems();
-            $.each(data[0]["ActionTypeData"], function (key, value) {
-                value = JSON.stringify(value); obj = JSON.parse(value);
-                if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
-            });
-            GrdActionType.SelectIndex(0);
-        });
+
+        ////Tanushree Mention it as bug as Leon approved it as bug hence commented
+        //$.post(URLContent('ActiveInitiative/GetItemFromSubCost'), { id: id }, function (data) {
+        //    var obj; GrdActionType.ClearItems();
+        //    $.each(data[0]["ActionTypeData"], function (key, value) {
+        //        value = JSON.stringify(value); obj = JSON.parse(value);
+        //        if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+        //    });
+        //    GrdActionType.SelectIndex(0);
+        //});
+        ////Tanushree Mention it as bug as Leon approved it as bug hence commented
+
         // GrdActionType.SelectIndex(0);
     };
 }
@@ -1616,6 +1620,27 @@ function txt_Spend_Nmin1_KeyUp() {
             bind_CPI_Fields();
             //ENH153-2 calculations caller
         }
+    }
+}
+
+function txt_Spend_N_KeyUp()
+{
+    var xSpend_N = txt_Spend_N.GetValue();
+    if (xSpend_N != '0' && xSpend_N != '0.') {
+        var float_xSpend_N = parseFloat(xSpend_N);
+
+        //ENH153-2 calculations caller
+        calculate_Actual_CPU_Nmin1();
+        calculate_Target_CPU_N();
+        calculate_A_Price_effect();
+        calculate_A_Volume_Effect();
+
+        calculate_ST_Price_effect();
+        calculate_ST_Volume_Effect();
+
+        calculate_CPI_Effect();
+        bind_CPI_Fields();
+        //ENH153-2 calculations caller
     }
 }
 
