@@ -1692,7 +1692,7 @@ function calculate_Actual_CPU_Nmin1() {
 
             var Actual_CPU_Nmin1 = float_xSpend_Nmin1 / float_xInput_Actuals_Volumes_Nmin1;
 
-            Actual_CPU_Nmin1 = parseFloat(Actual_CPU_Nmin1).toFixed(_toFixed);
+            Actual_CPU_Nmin1 = parseFloat(Actual_CPU_Nmin1).toFixed(_toFixed1);
 
             $('#Actual_CPU_Nmin1_Jan').val(Actual_CPU_Nmin1);
             $('#Actual_CPU_Nmin1_Feb').val(Actual_CPU_Nmin1);
@@ -1857,7 +1857,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_Jan;
             }
 
-            $('#Target_CPU_N_Jan').val(formula4.toFixed(_toFixed));
+            $('#Target_CPU_N_Jan').val(formula4.toFixed(_toFixed1));
         }
 
 
@@ -1890,7 +1890,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_Feb;
             }
 
-            $('#Target_CPU_N_Feb').val(formula4);
+            $('#Target_CPU_N_Feb').val(formula4.toFixed(_toFixed1));
         }
 
         formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
@@ -1922,7 +1922,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_Mar;
             }
 
-            $('#Target_CPU_N_Mar').val(formula4);
+            $('#Target_CPU_N_Mar').val(formula4.toFixed(_toFixed1));
         }
 
         formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
@@ -1954,7 +1954,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_Apr;
             }
 
-            $('#Target_CPU_N_Apr').val(formula4);
+            $('#Target_CPU_N_Apr').val(formula4.toFixed(_toFixed1));
         }
 
         formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
@@ -1986,7 +1986,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_May;
             }
 
-            $('#Target_CPU_N_May').val(formula4);
+            $('#Target_CPU_N_May').val(formula4.toFixed(_toFixed1));
         }
 
         formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
@@ -2018,7 +2018,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_Jun;
             }
 
-            $('#Target_CPU_N_Jun').val(formula4);
+            $('#Target_CPU_N_Jun').val(formula4.toFixed(_toFixed1));
         }
 
         formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
@@ -2050,7 +2050,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_Jul;
             }
 
-            $('#Target_CPU_N_Jul').val(formula4);
+            $('#Target_CPU_N_Jul').val(formula4.toFixed(_toFixed1));
         }
 
         formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
@@ -2082,7 +2082,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_Aug;
             }
 
-            $('#Target_CPU_N_Aug').val(formula4);
+            $('#Target_CPU_N_Aug').val(formula4.toFixed(_toFixed1));
         }
 
         formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
@@ -2114,7 +2114,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_Sep;
             }
 
-            $('#Target_CPU_N_Sep').val(formula4);
+            $('#Target_CPU_N_Sep').val(formula4.toFixed(_toFixed1));
         }
 
         formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
@@ -2146,7 +2146,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_Oct;
             }
 
-            $('#Target_CPU_N_Oct').val(formula4);
+            $('#Target_CPU_N_Oct').val(formula4.toFixed(_toFixed1));
         }
 
         formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
@@ -2178,7 +2178,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_Nov;
             }
 
-            $('#Target_CPU_N_Nov').val(formula4);
+            $('#Target_CPU_N_Nov').val(formula4.toFixed(_toFixed1));
         }
 
         formula1 = 0; formula2 = 0; formula3 = 0; formula4 = 0;
@@ -2210,7 +2210,7 @@ function calculate_Target_CPU_N() {
                 formula4 = formula3 / xTarget_Volumes_Dec;
             }
 
-            $('#Target_CPU_N_Dec').val(formula4);
+            $('#Target_CPU_N_Dec').val(formula4.toFixed(_toFixed1));
         }
     }
 
