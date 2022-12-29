@@ -3661,7 +3661,7 @@ function calculate_CPI_Effect() {
         var xjanActual_volume_N = parseFloat(txt_janActual_volume_N.GetValue());
 
         var formula1_1 = ((xjan_Target_CPU_N - xjan_Actual_CPU_Nmin1) / xjan_Actual_CPU_Nmin1);
-        if (formula1_1 < xCPI_Jan) {
+        if (formula1_1 < (xCPI_Jan/100)) {
 
             var formula2_1 = ((xjan_Target_CPU_N - (1 + (xCPI_Jan / 100)) * xjan_Actual_CPU_Nmin1)) * xjanActual_volume_N;
             $('#CPI_Effect_Jan').val(parseFloat(formula2_1).toFixed(_toFixed));
@@ -3675,7 +3675,7 @@ function calculate_CPI_Effect() {
         var xfebActual_volume_N = parseFloat(txt_febActual_volume_N.GetValue());
 
         var formula1_2 = ((xfeb_Target_CPU_N - xfeb_Actual_CPU_Nmin1) / xfeb_Actual_CPU_Nmin1);
-        if (formula1_2 < xCPI_Feb) {
+        if (formula1_2 < (xCPI_Feb / 100)) {
 
             var formula2_2 = ((xfeb_Target_CPU_N - (1 + (xCPI_Feb / 100)) * xfeb_Actual_CPU_Nmin1)) * xfebActual_volume_N;
             $('#CPI_Effect_Feb').val(parseFloat(formula2_2).toFixed(_toFixed));
@@ -3689,7 +3689,7 @@ function calculate_CPI_Effect() {
         var xmarActual_volume_N = parseFloat(txt_marActual_volume_N.GetValue());
 
         var formula1_3 = ((xmarch_Target_CPU_N - xmarch_Actual_CPU_Nmin1) / xmarch_Actual_CPU_Nmin1);
-        if (formula1_3 < xCPI_Mar) {
+        if (formula1_3 < (xCPI_Mar / 100)) {
 
             var formula2_3 = ((xmarch_Target_CPU_N - (1 + (xCPI_Mar / 100)) * xmarch_Actual_CPU_Nmin1)) * xmarActual_volume_N;
             $('#CPI_Effect_Mar').val(parseFloat(formula2_3).toFixed(_toFixed));
@@ -3703,7 +3703,7 @@ function calculate_CPI_Effect() {
         var xaprActual_volume_N = parseFloat(txt_aprActual_volume_N.GetValue());
 
         var formula1_4 = ((xapr_Target_CPU_N - xapr_Actual_CPU_Nmin1) / xapr_Actual_CPU_Nmin1);
-        if (formula1_4 < xCPI_Apr) {
+        if (formula1_4 < (xCPI_Apr / 100)) {
 
             var formula2_4 = ((xapr_Target_CPU_N - (1 + (xCPI_Apr / 100)) * xapr_Actual_CPU_Nmin1)) * xaprActual_volume_N;
             $('#CPI_Effect_Apr').val(parseFloat(formula2_4).toFixed(_toFixed));
@@ -3717,7 +3717,7 @@ function calculate_CPI_Effect() {
         var xmayActual_volume_N = parseFloat(txt_mayActual_volume_N.GetValue());
 
         var formula1_5 = ((xmay_Target_CPU_N - xmay_Actual_CPU_Nmin1) / xmay_Actual_CPU_Nmin1);
-        if (formula1_5 < xCPI_May) {
+        if (formula1_5 < (xCPI_May / 100)) {
 
             var formula2_5 = ((xmay_Target_CPU_N - (1 + (xCPI_May / 100)) * xmay_Actual_CPU_Nmin1)) * xmayActual_volume_N;
             $('#CPI_Effect_May').val(parseFloat(formula2_5).toFixed(_toFixed));
@@ -3731,7 +3731,7 @@ function calculate_CPI_Effect() {
         var xjunActual_volume_N = parseFloat(txt_junActual_volume_N.GetValue());
 
         var formula1_6 = ((xjun_Target_CPU_N - xjun_Actual_CPU_Nmin1) / xjun_Actual_CPU_Nmin1);
-        if (formula1_6 < xCPI_Jun) {
+        if (formula1_6 < (xCPI_Jun / 100)) {
 
             var formula2_6 = ((xjun_Target_CPU_N - (1 + (xCPI_Jun / 100)) * xjun_Actual_CPU_Nmin1)) * xjunActual_volume_N;
             $('#CPI_Effect_Jun').val(parseFloat(formula2_6).toFixed(_toFixed));
@@ -3745,7 +3745,7 @@ function calculate_CPI_Effect() {
         var xjulActual_volume_N = parseFloat(txt_julActual_volume_N.GetValue());
 
         var formula1_7 = ((xjul_Target_CPU_N - xjul_Actual_CPU_Nmin1) / xjul_Actual_CPU_Nmin1);
-        if (formula1_7 < xCPI_Jul) {
+        if (formula1_7 < (xCPI_Jul / 100)) {
 
             var formula2_7 = ((xjul_Target_CPU_N - (1 + (xCPI_Jul / 100)) * xjul_Actual_CPU_Nmin1)) * xjulActual_volume_N;
             $('#CPI_Effect_Jul').val(parseFloat(formula2_7).toFixed(_toFixed));
@@ -3759,7 +3759,7 @@ function calculate_CPI_Effect() {
         var xaugActual_volume_N = parseFloat(txt_augActual_volume_N.GetValue());
 
         var formula1_8 = ((xaug_Target_CPU_N - xaug_Actual_CPU_Nmin1) / xaug_Actual_CPU_Nmin1);
-        if (formula1_8 < xCPI_Aug) {
+        if (formula1_8 < (xCPI_Aug / 100)) {
 
             var formula2_8 = ((xaug_Target_CPU_N - (1 + (xCPI_Aug / 100)) * xaug_Actual_CPU_Nmin1)) * xaugActual_volume_N;
             $('#CPI_Effect_Aug').val(parseFloat(formula2_8).toFixed(_toFixed));
@@ -3773,7 +3773,7 @@ function calculate_CPI_Effect() {
         var xsepActual_volume_N = parseFloat(txt_sepActual_volume_N.GetValue());
 
         var formula1_9 = ((xsep_Target_CPU_N - xsep_Actual_CPU_Nmin1) / xsep_Actual_CPU_Nmin1);
-        if (formula1_9 < xCPI_Sep) {
+        if (formula1_9 < (xCPI_Sep / 100)) {
 
             var formula2_9 = ((xsep_Target_CPU_N - (1 + (xCPI_Sep / 100)) * xsep_Actual_CPU_Nmin1)) * xsepActual_volume_N;
             $('#CPI_Effect_Sep').val(parseFloat(formula2_9).toFixed(_toFixed));
@@ -3787,7 +3787,7 @@ function calculate_CPI_Effect() {
         var xoctActual_volume_N = parseFloat(txt_octActual_volume_N.GetValue());
 
         var formula1_10 = ((xoct_Target_CPU_N - xoct_Actual_CPU_Nmin1) / xoct_Actual_CPU_Nmin1);
-        if (formula1_10 < xCPI_Oct) {
+        if (formula1_10 < (xCPI_Oct / 100)) {
 
             var formula2_10 = ((xoct_Target_CPU_N - (1 + (xCPI_Oct / 100)) * xoct_Actual_CPU_Nmin1)) * xoctActual_volume_N;
             $('#CPI_Effect_Oct').val(parseFloat(formula2_10).toFixed(_toFixed));
@@ -3801,7 +3801,7 @@ function calculate_CPI_Effect() {
         var xnovActual_volume_N = parseFloat(txt_novActual_volume_N.GetValue());
 
         var formula1_11 = ((xnov_Target_CPU_N - xnov_Actual_CPU_Nmin1) / xnov_Actual_CPU_Nmin1);
-        if (formula1_11 < xCPI_Nov) {
+        if (formula1_11 < (xCPI_Nov / 100)) {
 
             var formula2_11 = ((xnov_Target_CPU_N - (1 + (xCPI_Nov / 100)) * xnov_Actual_CPU_Nmin1)) * xnovActual_volume_N;
             $('#CPI_Effect_Nov').val(parseFloat(formula2_11).toFixed(_toFixed));
@@ -3815,7 +3815,7 @@ function calculate_CPI_Effect() {
         var xdecActual_volume_N = parseFloat(txt_decActual_volume_N.GetValue());
 
         var formula1_12 = ((xdec_Target_CPU_N - xdec_Actual_CPU_Nmin1) / xdec_Actual_CPU_Nmin1);
-        if (formula1_12 < xCPI_Dec) {
+        if (formula1_12 < (xCPI_Dec / 100)) {
 
             var formula2_12 = ((xdec_Target_CPU_N - (1 + (xCPI_Dec / 100)) * xdec_Actual_CPU_Nmin1)) * xdecActual_volume_N;
             $('#CPI_Effect_Dec').val(parseFloat(formula2_12).toFixed(_toFixed));
