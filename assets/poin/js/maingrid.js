@@ -74,20 +74,26 @@ $(function () {
                 if (obj != null) CboWebinarCat.AddItem(obj.categoryname, obj.id);
             });
 
-            if (isProcurement == 1) {
-                GrdActionType.clientEnabled = false;
-                GrdActionType.SelectIndex(1);
+            if (projectYear > 2022) {
+                if (isProcurement == 1) {
+                    GrdActionType.clientEnabled = false;
+                    GrdActionType.SelectIndex(1);
 
-                GrdInitType.clientEnabled = false;
+                    GrdInitType.clientEnabled = false;
 
+                }
+                else {
+
+                    GrdActionType.clientEnabled = false;
+                    GrdActionType.SetText('Optimization / Efficiency');
+
+                    GrdInitType.clientEnabled = true;
+
+                }
             }
             else {
-
-                GrdActionType.clientEnabled = false;
-                GrdActionType.SetText('Optimization / Efficiency');
-
-                GrdInitType.clientEnabled = true;
-
+                GrdActionType.clientEnabled = true;
+                GrdActionType.SelectIndex(0);
             }
 
             GrdInitType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
