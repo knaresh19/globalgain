@@ -899,13 +899,15 @@ function ShowEditWindow(id) {
 
                 TxPortName.SetValue(obj.PortID);
                 GrdInitType.SetValue(obj.InitiativeType);
-                if (isProcurement == 1) {
-                    GrdActionType.clientEnabled = false;
-                    GrdActionType.SetValue(obj.ActionTypeID);
-                }
-                else {
-                    GrdActionType.clientEnabled = false;
-                    GrdActionType.SetText('Optimization / Efficiency');
+                if (projectYear > 2022) {
+                    if (isProcurement == 1) {
+                        GrdActionType.clientEnabled = false;
+                        GrdActionType.SetValue(obj.ActionTypeID);
+                    }
+                    else {
+                        GrdActionType.clientEnabled = false;
+                        GrdActionType.SetText('Optimization / Efficiency');
+                    }
                 }
                 GrdSynImpact.SetValue(obj.SynergyImpactID);
                 GrdInitStatus.SetValue(obj.InitStatus);

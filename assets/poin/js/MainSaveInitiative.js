@@ -782,16 +782,16 @@ function OnSubCostPopupChanged(s, e) {
         //}
         //else {
 
-        ////Tanushree Mention it as bug as Leon approved it as bug hence commented
-        //$.post(URLContent('ActiveInitiative/GetItemFromSubCost'), { id: id }, function (data) {
-        //    var obj; GrdActionType.ClearItems();
-        //    $.each(data[0]["ActionTypeData"], function (key, value) {
-        //        value = JSON.stringify(value); obj = JSON.parse(value);
-        //        if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
-        //    });
-        //    GrdActionType.SelectIndex(0);
-        //});
-        ////Tanushree Mention it as bug as Leon approved it as bug hence commented
+        
+        $.post(URLContent('ActiveInitiative/GetItemFromSubCost'), { id: id }, function (data) {
+            var obj; GrdActionType.ClearItems();
+            $.each(data[0]["ActionTypeData"], function (key, value) {
+                value = JSON.stringify(value); obj = JSON.parse(value);
+                if (obj != null) GrdActionType.AddItem(obj.ActionTypeName, obj.id);
+            });
+            GrdActionType.SelectIndex(0);
+        });
+        
 
         // GrdActionType.SelectIndex(0);
     };
