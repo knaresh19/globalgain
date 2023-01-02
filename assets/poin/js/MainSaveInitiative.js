@@ -1810,7 +1810,7 @@ function isAll_InputGiven_for_Target_CPU_N() {
     return is_flag;
 }
 
-function calculate_Target_CPU_N() {
+function calculate_Target_CPU_N_old() {
 
     //if(1st jan of current year<Start month , -- if true -- ActualCPU N-1 jan  , 
     //-- else -- (('$ SPEND N' - ('Actual CPU N - 1' * (MONTH(Start month) - 1) * Target  volume N)) /(13-MONTH(Start month)))/Target  volume N)
@@ -2214,6 +2214,136 @@ function calculate_Target_CPU_N() {
         }
     }
 
+    calculate_Target_CPU_N_Total();
+}
+
+function calculate_Target_CPU_N() {
+
+    var xSpend_N = parseFloat(txt_Spend_N.GetValue());
+    var _year = new Date(StartMonth.GetValue()).getFullYear();
+
+    //selected start Month - Month
+    var selected_StartMonth = new Date(StartMonth.GetValue()).getMonth() + 1;
+
+    //selected start Month - Year
+    var Start_Month_year = parseInt(new Date(StartMonth.GetValue()).getMonth() + 1 + String(_year));
+
+    var x13_minus_StartMonth = 13 - parseInt(selected_StartMonth);
+
+    //Actuals Volumes N-1
+    var float_xInput_Actuals_Volumes_Nmin1 = parseFloat(xInput_Actuals_Volumes_Nmin1);
+    var float_xSpend_Nmin1 = parseFloat(xSpend_Nmin1);
+
+    //ACTUAL CPU N-1
+    var xInput_Actuals_Volumes_Nmin1 = txt_Input_Actuals_Volumes_Nmin1.GetValue();
+    var xSpend_Nmin1 = txt_Spend_Nmin1.GetValue();
+
+    //Target  volume N
+    var xInput_Target_Volumes = txt_Input_Target_Volumes.GetValue();
+
+    if (isAll_InputGiven_for_Target_CPU_N())
+    {
+        var formula4 = ((xSpend_N - ((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)) * (selected_StartMonth - 1) * (parseFloat(xInput_Target_Volumes) / 12))) / (x13_minus_StartMonth)) / (parseFloat(xInput_Target_Volumes) / 12);
+
+        //Target_CPU_N_Jan
+        var thisMonth_year = parseInt(1 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Jan').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_Jan').val(formula4.toFixed(_toFixed1));
+        }
+
+        //Target_CPU_N_Feb
+        var thisMonth_year = parseInt(2 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Feb').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_Feb').val(formula4.toFixed(_toFixed1));
+        }
+        //Target_CPU_N_Mar
+        var thisMonth_year = parseInt(3 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Mar').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_Mar').val(formula4.toFixed(_toFixed1));
+        }
+        //Target_CPU_N_Apr
+        var thisMonth_year = parseInt(4 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Apr').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_Apr').val(formula4.toFixed(_toFixed1));
+        }
+        //Target_CPU_N_May
+        var thisMonth_year = parseInt(5 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_May').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_May').val(formula4.toFixed(_toFixed1));
+        }
+        //Target_CPU_N_Jun
+        var thisMonth_year = parseInt(6 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Jun').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_Jun').val(formula4.toFixed(_toFixed1));
+        }
+        //Target_CPU_N_Jul
+        var thisMonth_year = parseInt(7 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Jul').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_Jul').val(formula4.toFixed(_toFixed1));
+        }
+        //Target_CPU_N_Aug
+        var thisMonth_year = parseInt(8 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Aug').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_Aug').val(formula4.toFixed(_toFixed1));
+        }
+        //Target_CPU_N_Sep
+        var thisMonth_year = parseInt(9 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Sep').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_Sep').val(formula4.toFixed(_toFixed1));
+        }
+        //Target_CPU_N_Oct
+        var thisMonth_year = parseInt(10 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Oct').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_Oct').val(formula4.toFixed(_toFixed1));
+        }
+        //Target_CPU_N_Nov
+        var thisMonth_year = parseInt(11 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Nov').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_Nov').val(formula4.toFixed(_toFixed1));
+        }
+        //Target_CPU_N_Dec
+        var thisMonth_year = parseInt(12 + String(projectYear));
+        if (thisMonth_year < Start_Month_year) {
+            $('#Target_CPU_N_Dec').val((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)));
+        }
+        else {
+            $('#Target_CPU_N_Dec').val(formula4.toFixed(_toFixed1));
+        }
+
+    }
     calculate_Target_CPU_N_Total();
 }
 
@@ -2633,7 +2763,7 @@ function bind_A_Price_effect() {
 
 
 
-function calculate_A_Volume_Effect() {
+function calculate_A_Volume_Effect_old() {
     //A_Volume_Effect_Jan
     var xjanActual_volume_N = txt_janActual_volume_N.GetValue();
     var xActual_volume_Nmin1_Jan = $('#Actual_volume_Nmin1_Jan').val();
@@ -2750,6 +2880,98 @@ function calculate_A_Volume_Effect() {
     calculate_A_Volume_Effect_Total();
 }
 
+function calculate_A_Volume_Effect()
+{
+    var xInput_Actuals_Volumes_Nmin1 = txt_Input_Actuals_Volumes_Nmin1.GetValue();
+    var xSpend_Nmin1 = txt_Spend_Nmin1.GetValue();
+
+    //A_Volume_Effect_Jan
+    var xjanActual_volume_N = txt_janActual_volume_N.GetValue();
+
+    if (xjanActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xjanActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_Jan').val(formula1);
+    }
+    //A_Volume_Effect_Feb
+    var xfebActual_volume_N = txt_febActual_volume_N.GetValue();
+
+    if (xfebActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xfebActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_Feb').val(formula1);
+    }
+    //A_Volume_Effect_Mar
+    var xmarActual_volume_N = txt_marActual_volume_N.GetValue();
+
+    if (xmarActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xmarActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_Mar').val(formula1);
+    }
+    //A_Volume_Effect_Apr
+    var xaprActual_volume_N = txt_aprActual_volume_N.GetValue();
+
+    if (xaprActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xaprActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_Apr').val(formula1);
+    }
+    //A_Volume_Effect_May
+    var xmayActual_volume_N = txt_mayActual_volume_N.GetValue();
+
+    if (xmayActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xmayActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_May').val(formula1);
+    }
+    //A_Volume_Effect_Jun
+    var xjunActual_volume_N = txt_junActual_volume_N.GetValue();
+
+    if (xjunActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xjunActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_Jun').val(formula1);
+    }
+    //A_Volume_Effect_Jul
+    var xjulActual_volume_N = txt_julActual_volume_N.GetValue();
+
+    if (xjulActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xjulActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_Jul').val(formula1);
+    }
+    //A_Volume_Effect_Aug
+    var xaugActual_volume_N = txt_augActual_volume_N.GetValue();
+
+    if (xaugActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xaugActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_Aug').val(formula1);
+    }
+    //A_Volume_Effect_Sep
+    var xsepActual_volume_N = txt_sepActual_volume_N.GetValue();
+
+    if (xsepActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xsepActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_Sep').val(formula1);
+    }
+    //A_Volume_Effect_Oct
+    var xoctActual_volume_N = txt_octActual_volume_N.GetValue();
+
+    if (xoctActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xoctActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_Oct').val(formula1);
+    }
+    //A_Volume_Effect_Nov
+    var xnovActual_volume_N = txt_novActual_volume_N.GetValue();
+
+    if (xnovActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xnovActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_Nov').val(formula1);
+    }
+    //A_Volume_Effect_Dec
+    var xdecActual_volume_N = txt_decActual_volume_N.GetValue();
+
+    if (xdecActual_volume_N != null && xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null) {
+        var formula1 = (xdecActual_volume_N - (xInput_Actuals_Volumes_Nmin1 / 12)) * (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+        $('#A_Volume_Effect_Dec').val(formula1);
+    }
+
+    calculate_A_Volume_Effect_Total();
+}
 function calculate_A_Volume_Effect_Total() {
     if (($('#A_Volume_Effect_Jan') != null &&
         $('#A_Volume_Effect_Feb') != null &&
@@ -2965,7 +3187,7 @@ function bind_Achievement() {
 
 
 //Secured Target START
-function calculate_ST_Price_effect() {
+function calculate_ST_Price_effect_old() {
     //=+IF( OR(C15<$L$9,C15>$L$10 ),0, +(C31-C30)*C17 )
     if (isAll_InputGiven_for_A_Price_effect()) {
 
@@ -3229,6 +3451,179 @@ function calculate_ST_Price_effect() {
     calculate_ST_Price_effect_Total();
 }
 
+function calculate_ST_Price_effect()
+{
+    if (isAll_InputGiven_for_A_Price_effect()) {
+    var xSpend_N = parseFloat(txt_Spend_N.GetValue());
+    var _year = new Date(StartMonth.GetValue()).getFullYear();
+
+    //selected start Month - Month
+    var selected_StartMonth = new Date(StartMonth.GetValue()).getMonth() + 1;
+
+    //selected start Month - Year
+        var Start_Month_year = new Date(_year, new Date(StartMonth.GetValue()).getMonth(), 1);
+
+    var x13_minus_StartMonth = 13 - parseInt(selected_StartMonth);
+
+    //Actuals Volumes N-1
+    var float_xInput_Actuals_Volumes_Nmin1 = parseFloat(xInput_Actuals_Volumes_Nmin1);
+    var float_xSpend_Nmin1 = parseFloat(xSpend_Nmin1);
+
+    //ACTUAL CPU N-1
+    var xInput_Actuals_Volumes_Nmin1 = txt_Input_Actuals_Volumes_Nmin1.GetValue();
+    var xSpend_Nmin1 = txt_Spend_Nmin1.GetValue();
+
+    //Target  volume N
+    var xInput_Target_Volumes = txt_Input_Target_Volumes.GetValue();
+
+    var _SYear = new Date(StartMonth.GetValue()).getFullYear();
+
+    var _EYear = new Date(EndMonth.GetValue()).getFullYear();
+
+    //selected End Month - Month
+    var selected_EndMonth = new Date(EndMonth.GetValue()).getMonth() + 1;
+
+    //selected Start Month & Year
+    var End_Month_year = new Date(_EYear, new Date(EndMonth.GetValue()).getMonth(), 1);
+
+    var formula1 = (
+                        (
+                            (
+                                ((xSpend_N - ((parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1)) * (selected_StartMonth - 1) * (parseFloat(xInput_Target_Volumes) / 12))) / (x13_minus_StartMonth)) / (parseFloat(xInput_Target_Volumes) / 12)
+                            )
+                            -
+                            (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+                        ) * (parseFloat(xInput_Target_Volumes) / 12)
+                    );
+
+    //if (isAll_InputGiven_for_A_Price_effect()) {
+
+        //ST_Price_effect_Jan
+        var monthIndex = 1;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Jan').val(0);
+        }
+        else {
+            $('#ST_Price_effect_Jan').val(formula1);
+        }
+        //ST_Price_effect_Feb
+        var monthIndex = 2;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Feb').val(0);
+        }
+        else {
+            $('#ST_Price_effect_Feb').val(formula1);
+        }
+        //ST_Price_effect_Mar
+        var monthIndex = 3;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Mar').val(0);
+        }
+        else {
+            $('#ST_Price_effect_Mar').val(formula1);
+        }
+        //ST_Price_effect_Apr
+        var monthIndex = 4;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Apr').val(0);
+        }
+        else {
+            $('#ST_Price_effect_Apr').val(formula1);
+        }
+        //ST_Price_effect_May
+        var monthIndex = 5;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_May').val(0);
+        }
+        else {
+            $('#ST_Price_effect_May').val(formula1);
+        }
+        //ST_Price_effect_Jun
+        var monthIndex = 6;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Jun').val(0);
+        }
+        else {
+            $('#ST_Price_effect_Jun').val(formula1);
+        }
+        //ST_Price_effect_Jul
+        var monthIndex = 7;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Jul').val(0);
+        }
+        else {
+            $('#ST_Price_effect_Jul').val(formula1);
+        }
+        //ST_Price_effect_Aug
+        var monthIndex = 8;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Aug').val(0);
+        }
+        else {
+            $('#ST_Price_effect_Aug').val(formula1);
+        }
+        //ST_Price_effect_Sep
+        var monthIndex = 9;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Sep').val(0);
+        }
+        else {
+            $('#ST_Price_effect_Sep').val(formula1);
+        }
+        //ST_Price_effect_Oct
+        var monthIndex = 10;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Oct').val(0);
+        }
+        else {
+            $('#ST_Price_effect_Oct').val(formula1);
+        }
+        //ST_Price_effect_Nov
+        var monthIndex = 11;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Nov').val(0);
+        }
+        else {
+            $('#ST_Price_effect_Nov').val(formula1);
+        }
+        //ST_Price_effect_Dec
+        var monthIndex = 12;
+        var thisMonth_year = new Date(projectYear, monthIndex - 1, 1);
+
+        if (thisMonth_year < Start_Month_year || thisMonth_year > End_Month_year) {
+            $('#ST_Price_effect_Dec').val(0);
+        }
+        else {
+            $('#ST_Price_effect_Dec').val(formula1);
+        }
+
+    }
+
+    calculate_ST_Price_effect_Total();
+}
+
 function calculate_ST_Price_effect_Total() {
     if (($('#ST_Price_effect_Jan') != null &&
         $('#ST_Price_effect_Feb') != null &&
@@ -3296,7 +3691,7 @@ function bind_ST_Price_effect() {
 }
 
 
-function calculate_ST_Volume_Effect() {
+function calculate_ST_Volume_Effect_old() {
     //ST_Volume_Effect_Jan
     var xTarget_Volumes_Jan = $('#Target_Volumes_Jan').val();
     var xActual_volume_Nmin1_Jan = $('#Actual_volume_Nmin1_Jan').val();
@@ -3404,6 +3799,45 @@ function calculate_ST_Volume_Effect() {
     if (xTarget_Volumes_Dec != null && xActual_volume_Nmin1_Dec != null && xdec_Actual_CPU_Nmin1 != null) {
         var formula12 = (xTarget_Volumes_Dec - xActual_volume_Nmin1_Dec) * xdec_Actual_CPU_Nmin1
         $('#ST_Volume_Effect_Dec').val(formula12);
+    }
+
+    calculate_ST_Volume_Effect_Total();
+}
+
+function calculate_ST_Volume_Effect()
+{
+
+    //ACTUAL CPU N-1
+    var xInput_Actuals_Volumes_Nmin1 = txt_Input_Actuals_Volumes_Nmin1.GetValue();
+    var xSpend_Nmin1 = txt_Spend_Nmin1.GetValue();
+
+    //Target  volume N
+    var xInput_Target_Volumes = txt_Input_Target_Volumes.GetValue();
+
+    if (xInput_Actuals_Volumes_Nmin1 != null && xSpend_Nmin1 != null && xInput_Target_Volumes != null) {
+
+        var formula1 = (
+                        (
+                            (parseFloat(xInput_Target_Volumes) / 12) - (parseFloat(xInput_Actuals_Volumes_Nmin1) / 12)
+                        )
+                        *
+                        (parseFloat(xSpend_Nmin1) / parseFloat(xInput_Actuals_Volumes_Nmin1))
+                        );
+
+        $('#ST_Volume_Effect_Jan').val(formula1);
+        $('#ST_Volume_Effect_Feb').val(formula1);
+        $('#ST_Volume_Effect_Mar').val(formula1);
+        $('#ST_Volume_Effect_Apr').val(formula1);
+        $('#ST_Volume_Effect_May').val(formula1);
+        $('#ST_Volume_Effect_Jun').val(formula1);
+        $('#ST_Volume_Effect_Jul').val(formula1);
+        $('#ST_Volume_Effect_Aug').val(formula1);
+        $('#ST_Volume_Effect_Sep').val(formula1);
+        $('#ST_Volume_Effect_Oct').val(formula1);
+        $('#ST_Volume_Effect_Nov').val(formula1);
+        $('#ST_Volume_Effect_Dec').val(formula1);
+
+
     }
 
     calculate_ST_Volume_Effect_Total();
