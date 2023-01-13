@@ -373,7 +373,7 @@ log4net.LogManager.GetLogger
             //ViewData["portName"] = db.mports.Where(c => c.InitYear == projYear).ToList();
             //ViewData["SourceCategoryName"] = db.msourcecategories.Where(c => c.InitYear == projYear).ToList();
 
-            ViewData["mregions"] = db.mregions.SqlQuery("SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY','')); SELECT * FROM mregion group by RegionName").ToList();
+            ViewData["mregions"] = db.mregions.SqlQuery("SELECT * FROM mregion group by RegionName").ToList();
             ViewData["brandname"] = db.mbrands.SqlQuery("SELECT * FROM mbrand group by brandname").Where(c => c.isActive == "Y" && c.isDeleted == "N" ).ToList();
             ViewData["msubregion"] = db.msubregions.SqlQuery("SELECT * FROM msubregion group by SubRegionName").Where(c => c.SubRegionName != null && c.SubRegionName != "").ToList();
             //ViewData["mcluster"] = db.mclusters.SqlQuery("SELECT * FROM mcluster where ClusterName != \'\'").ToList();
