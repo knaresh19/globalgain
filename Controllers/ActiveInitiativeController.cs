@@ -1070,6 +1070,7 @@ log4net.LogManager.GetLogger
         //public ActionResult GrdMainInitiativePartialDelete(System.Int64 id)
         public ActionResult GrdMainInitiativePartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_initiative item)
         {
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
             var model = db.t_initiative;
             var model2 = db.vwheaderinitiatives.OrderByDescending(o => o.CreatedDate);
 
