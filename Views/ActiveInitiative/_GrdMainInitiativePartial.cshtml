@@ -147,8 +147,8 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "SubCountryID";
-            c.Name = "SubCountryID";
+            c.FieldName = "SubCountryName";
+            c.Name = "SubCountryName";
             c.Caption = "Sub Country";
             c.Width = 150;
             c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
@@ -157,7 +157,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "SubCountryName";
-                p.ValueField = "id";
+                p.ValueField = "SubCountryName";
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "SubCountryID";
                 p.ClientSideEvents.SelectedIndexChanged = "OnSubCountryChanged";
@@ -170,7 +170,7 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "BrandID";
+            c.FieldName = "brandname";
             c.Name = "BrandID";
             c.Caption = "Brand";
             c.Width = 150;
@@ -179,7 +179,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "brandname";
-                p.ValueField = "id";
+                p.ValueField = "brandname";
                 p.ClientInstanceName = "BrandID";
                 p.ValueType = typeof(string);
                 p.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
@@ -275,7 +275,7 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "CostControlID";
+            c.FieldName = "CostControlSiteName";
             c.Name = "CostControlID";
             c.Caption = "Cost Control Site";
             c.HeaderStyle.Wrap = DefaultBoolean.True;
@@ -286,7 +286,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "CostControlSiteName";
-                p.ValueField = "id";
+                p.ValueField = "CostControlSiteName";
                 p.ClientInstanceName = "CostControlID";
                 p.ValueType = typeof(string);
                 p.DropDownHeight = 0;
@@ -337,7 +337,7 @@
 
         settings.Columns.Add(c =>
         {
-            c.FieldName = "InitiativeType";
+            c.FieldName = "SavingTypeName";
             c.Name = "InitiativeType";
             c.Caption = "TypeOf Initiative";
             c.Width = 200;
@@ -345,7 +345,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "SavingTypeName";
-                p.ValueField = "id";
+                p.ValueField = "SavingTypeName";
                 p.ClientInstanceName = "InitiativeType";
                 p.ClientSideEvents.SelectedIndexChanged = "OnInitiativeTypeChanged";
                 p.ValueType = typeof(string);
@@ -354,7 +354,7 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "CostCategoryID";
+            c.FieldName = "CostTypeName";
             c.Name = "CostCategoryID";
             c.Caption = "Item Category";
             c.Width = 250;
@@ -362,7 +362,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "CostTypeName";
-                p.ValueField = "id";
+                p.ValueField = "CostTypeName";
                 p.ClientInstanceName = "CostCategoryID";
                 p.ClientSideEvents.SelectedIndexChanged = "OnCostCategoryChanged";
                 p.ValueType = typeof(string);
@@ -371,7 +371,7 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "SubCostCategoryID";
+            c.FieldName = "SubCostName";
             c.Name = "SubCostCategoryID";
             c.Caption = "Sub Cost Item Impacted";
             c.HeaderStyle.Wrap = DefaultBoolean.True;
@@ -380,7 +380,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "SubCostName";
-                p.ValueField = "id";
+                p.ValueField = "SubCostName";
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "SubCostCategoryID";
                 p.BindList(ViewData["SubCostName"]);
@@ -388,7 +388,7 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "ActionTypeID";
+            c.FieldName = "ActionTypeName";
             c.Name = "ActionTypeID";
             c.Caption = "Action Type";
             c.Width = 250;
@@ -396,7 +396,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "ActionTypeName";
-                p.ValueField = "id";
+                p.ValueField = "ActionTypeName";
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "ActionTypeID";
                 p.BindList(ViewData["ActionTypeName"]);
@@ -510,14 +510,14 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "InitStatus";
+            c.FieldName = "Status";
             c.Caption = "Initiative Status";
             c.Width = 150;
             c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "Status";
-                p.ValueField = "id";
+                p.ValueField = "Status";
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["Status"]);
             });
@@ -1503,13 +1503,13 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "PortID";
+            c.FieldName = "portName";
             c.Caption = "Port Name";
             c.Width = 200;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "portName";
-                p.ValueField = "id";
+                p.ValueField = "portName";
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["portName"]);
             });
