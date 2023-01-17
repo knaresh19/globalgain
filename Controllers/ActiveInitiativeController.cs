@@ -886,26 +886,27 @@ log4net.LogManager.GetLogger
             string chKYTD_Acheived_months = "", chkYTD_Acheived_months_in_year = "";
 
             int _counter1 = 0;
-          
-                while (_counter1 < 12)
+              int _counter2 = 0;
+
+            while (_counter2 < 12)
                 {
                     if (String.IsNullOrEmpty(YTD_Target_months))
                     {
 
-                        chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter1] + ", 0)";
-                        chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter1] + ", 0)";
+                        chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter2] + ", 0)";
+                        chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter2] + ", 0)";
                         YTD_Target_months = chkYTD_Target_months;
                         YTD_Target_months_in_year = chkYTD_Target_monthsNext;
                     }
                     else
                     {
-                        chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter1] + ", 0)";
-                        chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter1] + ", 0)";
+                        chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter2] + ", 0)";
+                        chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter2] + ", 0)";
                         YTD_Target_months = YTD_Target_months + "+" + chkYTD_Target_months;
                         YTD_Target_months_in_year = YTD_Target_months_in_year + "+" + chkYTD_Target_monthsNext;
                     }
-                     _counter1++;
-                }
+                _counter2++;
+            }
            
         
             while (_counter1 < projMonth)
