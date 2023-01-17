@@ -242,6 +242,16 @@ $(function () {
                 GrdActionType.SetText('Optimization / Efficiency');
             }
 
+            var __id = GrdInitType.GetValue();
+            $.post(URLContent('ActiveInitiative/GetItemFromInitiativeType'), { id: __id }, function (data) {
+                var obj; GrdInitCategory.ClearItems();
+                $.each(data[0]["CostTypeData"], function (key, value) {
+                    value = JSON.stringify(value); obj = JSON.parse(value);
+                    if (obj != null) GrdInitCategory.AddItem(obj.CostTypeName, obj.id);
+                });
+                GrdInitCategory.SelectIndex(0);
+            });
+
             /*GrdInitType.SelectIndex(0);*/ GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
         });
         CboHoValidity.AddItem("Y"); CboHoValidity.AddItem("N");
