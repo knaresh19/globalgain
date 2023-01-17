@@ -904,6 +904,7 @@ log4net.LogManager.GetLogger
                         YTD_Target_months = YTD_Target_months + "+" + chkYTD_Target_months;
                         YTD_Target_months_in_year = YTD_Target_months_in_year + "+" + chkYTD_Target_monthsNext;
                     }
+                     _counter1++;
                 }
            
         
