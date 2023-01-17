@@ -105,10 +105,11 @@ log4net.LogManager.GetLogger
 
 
             var projYear = profileData.ProjectYear;
+             var spprojyear = projYear;
             var projMonth = profileData.ProjectMonth;
             if (profileData.ProjectYear < 2023)
                 profileData.ProjectYear = 2022;
-
+           
 
             var where = "";
 
@@ -348,7 +349,7 @@ log4net.LogManager.GetLogger
             //    model = GetGridData(profileData.ProjectYear, spcondi, projMonth, 0);
 
             //}
-         var  model = GetGridData(profileData.ProjectYear, spcondi, projMonth, 1);
+         var  model = GetGridData(spprojyear, spcondi, projMonth, 1);
 
             // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
             //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
@@ -885,25 +886,33 @@ log4net.LogManager.GetLogger
             string chKYTD_Acheived_months = "", chkYTD_Acheived_months_in_year = "";
 
             int _counter1 = 0;
+              int _counter2 = 0;
+
+            while (_counter2 < 12)
+                {
+                    if (String.IsNullOrEmpty(YTD_Target_months))
+                    {
+
+                        chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter2] + ", 0)";
+                        chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter2] + ", 0)";
+                        YTD_Target_months = chkYTD_Target_months;
+                        YTD_Target_months_in_year = chkYTD_Target_monthsNext;
+                    }
+                    else
+                    {
+                        chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter2] + ", 0)";
+                        chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter2] + ", 0)";
+                        YTD_Target_months = YTD_Target_months + "+" + chkYTD_Target_months;
+                        YTD_Target_months_in_year = YTD_Target_months_in_year + "+" + chkYTD_Target_monthsNext;
+                    }
+                _counter2++;
+            }
+           
+        
             while (_counter1 < projMonth)
             {
                
-                if (String.IsNullOrEmpty(YTD_Target_months))
-                {
-
-                    chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter1] + ", 0)";
-                    chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter1] + ", 0)";
-                    YTD_Target_months = chkYTD_Target_months;
-                    YTD_Target_months_in_year = chkYTD_Target_monthsNext;
-                }
-                else
-                {
-                    chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter1] + ", 0)";
-                    chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter1] + ", 0)";
-                    YTD_Target_months = YTD_Target_months + "+" + chkYTD_Target_months;
-                    YTD_Target_months_in_year = YTD_Target_months_in_year + "+"+chkYTD_Target_monthsNext;
-                }
-
+              
                 if (String.IsNullOrEmpty(YTD_Acheived_months))
                 {
                     chKYTD_Acheived_months = "ifnull(Ach" + _arrMonth[_counter1] + ", 0)";
