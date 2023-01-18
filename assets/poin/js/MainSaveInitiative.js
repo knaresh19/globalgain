@@ -798,13 +798,20 @@ function OnSubCostPopupChanged(s, e) {
 }
 
 function OnGrdInitCategoryPopupChanged(s, e) {
+    var xisProcurement = $('#isProcurement').val();
     // debugger;
     var id = GrdInitType.GetValue(); var id2 = s.GetValue(); var id3 = GrdBrandPopup.GetValue();
     $.post(URLContent('ActiveInitiative/GetItemFromCostCategory'), { id: id, id2: id2, id3: id3 }, function (data) {
         var obj; GrdSubCost.ClearItems();
         $.each(data[0]["SubCostData"], function (key, value) {
             value = JSON.stringify(value); obj = JSON.parse(value);
-            if (obj != null) GrdSubCost.AddItem(obj.SubCostName, obj.id);
+            //if (obj != null) GrdSubCost.AddItem(obj.SubCostName, obj.id);
+            if (xisProcurement == 0) {
+                if (obj != null) GrdSubCost.AddItem(obj.SubCostName, obj.id);
+            }
+            else {
+                if (obj != null && obj.SubCostName.toLowerCase() != "procurement") GrdSubCost.AddItem(obj.SubCostName, obj.id);
+            }
         });
         GrdSubCost.SelectIndex(0);
     });

@@ -39,9 +39,27 @@ log4net.LogManager.GetLogger
         public ActionResult ProjectYear(Models.GetInfoByIDModel GetInfo)
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
+
+            int CboMonth = 0;
+            var currentYear = DateTime.Now.Year;
+            var currentMonth = DateTime.Now.Month;
+            if (currentYear == profileData.ProjectYearOld && profileData.ProjectYearOld > GetInfo.Id)
+            {
+                CboMonth=12;
+            }
+            else if (currentYear == profileData.ProjectYearOld && profileData.ProjectYearOld == GetInfo.Id)
+            {
+                CboMonth = currentMonth;
+            }
+            else
+            {
+                CboMonth = profileData.ProjectMonth;
+            }
+
             LoginSession LoginSession = new LoginSession
             {
                 ID = profileData.ID,
+                ProjectYearOld = profileData.ProjectYear,
                 ProjectYear = GetInfo.Id,
                 UserType = profileData.UserType,
                 CountryCode = profileData.CountryCode,
@@ -58,7 +76,8 @@ log4net.LogManager.GetLogger
                 confidential_right = profileData.confidential_right,
                 years_right = profileData.years_right,
                 istoadmin = profileData.istoadmin,
-                ProjectMonth = profileData.ProjectMonth,
+                //ProjectMonth = profileData.ProjectMonth,
+                ProjectMonth = CboMonth,
                 role_code = profileData.role_code
             };
             Session["DefaultGAINSess"] = LoginSession;
@@ -70,6 +89,7 @@ log4net.LogManager.GetLogger
             LoginSession LoginSession = new LoginSession
             {
                 ID = profileData.ID,
+                ProjectYearOld = profileData.ProjectYearOld,
                 ProjectYear = profileData.ProjectYear,
                 UserType = profileData.UserType,
                 CountryCode = profileData.CountryCode,

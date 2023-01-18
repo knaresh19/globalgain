@@ -30,6 +30,7 @@ namespace GAIN.Models
     public class LoginSession
     {
         public string ID { get; set;}
+        public long ProjectYearOld { get; set; }
         public long ProjectYear { get; set; }
         public int ProjectMonth { get; set; }
         public int UserType { get; set; }

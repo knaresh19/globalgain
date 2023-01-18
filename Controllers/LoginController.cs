@@ -41,6 +41,7 @@ log4net.LogManager.GetLogger
                         LoginSession LoginSession = new LoginSession
                         {
                             ID = model.UserName,
+                            ProjectYearOld = DateTime.Now.Year,
                             ProjectYear = DateTime.Now.Year,
                             ProjectMonth = DateTime.Now.Month,
                             UserType = (int)isRegistered.userType,
@@ -71,6 +72,7 @@ log4net.LogManager.GetLogger
                         LoginSession LoginSession = new LoginSession
                         {
                             ID = model.UserName,
+                            ProjectYearOld = DateTime.Now.Year,
                             ProjectYear = DateTime.Now.Year,
                             ProjectMonth = DateTime.Now.Month,
                             UserType = (int)isRegistered.userType,
@@ -105,6 +107,7 @@ log4net.LogManager.GetLogger
                             LoginSession LoginSession = new LoginSession
                             {
                                 ID = model.UserName,
+                                ProjectYearOld = DateTime.Now.Year,
                                 ProjectYear = DateTime.Now.Year,
                                 ProjectMonth = DateTime.Now.Month,
                                 UserType = (int)isRegistered.userType,
