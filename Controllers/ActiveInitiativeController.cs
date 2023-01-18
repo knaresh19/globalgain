@@ -908,7 +908,7 @@ log4net.LogManager.GetLogger
             int _counter1 = 0;
               int _counter2 = 0;
 
-            while (_counter2 < 12)
+            while (_counter2 < projMonth)
                 {
                     if (String.IsNullOrEmpty(YTD_Target_months))
                     {
