@@ -40,20 +40,16 @@ log4net.LogManager.GetLogger
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
 
-            int CboMonth = 0;
-            var currentYear = DateTime.Now.Year;
-            var currentMonth = DateTime.Now.Month;
-            if (currentYear == profileData.ProjectYearOld && profileData.ProjectYearOld > GetInfo.Id)
+            var result = DateTime.Parse(DateTime.Now.ToString()).Year;
+            var curmonth = DateTime.Parse(DateTime.Now.ToString()).Month;
+
+            if (GetInfo.Id < Convert.ToInt64(result))
             {
-                CboMonth=12;
+                profileData.ProjectMonth = 12;
             }
-            else if (currentYear == profileData.ProjectYearOld && profileData.ProjectYearOld == GetInfo.Id)
+            if (GetInfo.Id == Convert.ToInt64(result))
             {
-                CboMonth = currentMonth;
-            }
-            else
-            {
-                CboMonth = profileData.ProjectMonth;
+                profileData.ProjectMonth = curmonth;
             }
 
             LoginSession LoginSession = new LoginSession
@@ -76,8 +72,7 @@ log4net.LogManager.GetLogger
                 confidential_right = profileData.confidential_right,
                 years_right = profileData.years_right,
                 istoadmin = profileData.istoadmin,
-                //ProjectMonth = profileData.ProjectMonth,
-                ProjectMonth = CboMonth,
+                ProjectMonth = profileData.ProjectMonth,
                 role_code = profileData.role_code
             };
             Session["DefaultGAINSess"] = LoginSession;

@@ -305,6 +305,30 @@ function SaveInitiative() {
                     );
                     return;
                 }
+
+                var xGrdInitType_Text = GrdInitType.GetText();
+                if (xisProcurement == 0) {
+                    if (xGrdInitType_Text == "Positive Cost Impact" || xGrdInitType_Text == "Revenue Increase") {
+                        if (!(Math.sign(xTxTarget12) == 1)) {
+                            Swal.fire(
+                                'Inconsistent Target',
+                                'If Initiative type selected as <strong>Positive Cost Impact</strong> or <strong>Revenue Increase</strong>, then value at Target for 12 Months should be Positive',
+                                'error'
+                            );
+                            return;
+                        }
+                    }
+                    else if ((xGrdInitType_Text == "Negative Cost Impact" || xGrdInitType_Text == "Revenue Decrease")) {
+                        if (!(Math.sign(xTxTarget12) == -1)) {
+                            Swal.fire(
+                                'Inconsistent Target',
+                                'If Initiative type selected as <strong>Negative Cost Impact</strong> or <strong>Revenue Decrease</strong>, then value at Target for 12 Months should be Negative',
+                                'error'
+                            );
+                            return;
+                        }
+                    }
+                }
                 //}
 
                 //else {
