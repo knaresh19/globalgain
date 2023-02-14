@@ -954,6 +954,7 @@ log4net.LogManager.GetLogger
             conn = conn.Replace("'","");
 
           
+            if (ProjectYear == 2023) { condi = condi + "and IsShowCrossYear=1"; }
             if (Session["Maingrid"] == null || issave==1)
             {
                 using (MySqlConnection sql = new MySqlConnection(conn))
