@@ -188,7 +188,7 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "CountryID";
+            c.FieldName = "CountryName";
             c.Name = "CountryID";
             c.Caption = "Country";
             c.Width = 150;
@@ -197,7 +197,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "CountryName";
-                p.ValueField = "id";
+                p.ValueField = "CountryName";
                 p.ClientInstanceName = "CountryID";
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["CountryName"]);
@@ -206,7 +206,7 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "RegionID";
+            c.FieldName = "RegionName";
             c.Name = "RegionID";
             c.Caption = "Region";
             c.Width = 100;
@@ -215,7 +215,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "RegionName";
-                p.ValueField = "id";
+                p.ValueField = "RegionName";
                 p.ClientInstanceName = "RegionID";
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["mregions"]);
@@ -224,7 +224,7 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "SubRegionID";
+            c.FieldName = "SubRegionName";
             c.Caption = "Sub Region";
             c.Width = 100;
             c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
@@ -232,7 +232,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "SubRegionName";
-                p.ValueField = "id";
+                p.ValueField = "SubRegionName";
                 p.ClientInstanceName = "SubRegionID";
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["msubregion"]);
@@ -404,14 +404,14 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "SynergyImpactID";
+            c.FieldName = "SynImpactName";
             c.Caption = "Synergy Impact";
             c.Width = 200;
             c.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "SynImpactName";
-                p.ValueField = "id";
+                p.ValueField = "SynImpactName";
                 p.ValueType = typeof(string);
                 p.BindList(ViewData["SynImpactName"]);
             });
