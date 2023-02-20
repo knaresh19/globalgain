@@ -315,6 +315,65 @@ $(function () {
         /*            StartMonth.SetMaxDate(new Date(max_py + '-12-31'));*/
     });
 
+    //Button click functionality of upload flat file
+    $('#BtnUploadFile').on('click', function (e) {
+        // To call the controller action for uploading.
+        var fileUpload = $("#fileBase").get(0);
+
+        var files = fileUpload.files;
+        var fileData = new FormData();
+
+        // get file extension
+        if (files.length > 0) {
+            const extension = files[0].name.split('.').pop();
+            if (extension && (extension == "xls" || extension == "xlsx")) {
+                fileData.append(files[0].name, files[0]);
+                var xFormStatus = $("#FormStatus").val();
+                $("#fileBase").val('');
+                $.ajax({
+                    url: '/ActiveInitiative/UploadFile',
+                    type: 'post',
+                    datatype: 'json',
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    data: fileData,
+                    success: function (response) {
+                        var alertRes = JSON.parse(response);
+                        if (alertRes.validationMsg == "") {
+                            if (alertRes.successCount > 0) { $("#initHdng").html("Files uploaded successfully"); }
+                            else { $("#initHdng").html("File upload results"); }
+                            if (alertRes.errCount > 0) {
+                                $("#initResults").html("Auto Approved Initiative(s): " + alertRes.successCount + " <br> Invalid Initiative(s): " + alertRes.errCount
+                                    + "<br> <br> Please <a download href=" + alertRes.outputExcelPath + " Download>Download!</a> the error excel."
+                                );
+                            } else {
+                                $("#initResults").html("Auto Approved Initiative(s): " + alertRes.successCount + " <br> Invalid Initiative(s): " + alertRes.errCount
+                                );
+                            }
+                        } else {
+                            $("#initResults").html(alertRes.validationMsg);
+                        }
+                        $("#btnEdit").click(); $("#btnClose").click();
+                        WindowInitiative.Hide();
+                        WindowInitSaved.Show();
+                    }
+                });
+            } else {
+                $("#initResults").html("Please upload valid excel template");
+                $("#btnEdit").click(); $("#btnClose").click();
+                WindowInitiative.Hide();
+                WindowInitSaved.Show();
+            }
+        } else {
+            $("#initResults").html("Please upload valid excel template");
+            $("#btnEdit").click(); $("#btnClose").click();
+            WindowInitiative.Hide();
+            WindowInitSaved.Show();
+        }
+    });
+
+
     $(".txSaving, .txTarget").on("change", function () {
         $(this).val(formatValue($(this).val()));
     });
@@ -780,7 +839,7 @@ function ShowEditWindow(id) {
             Grd_SubCost = obj.SubCostCategoryID;
 
             var brandId = obj.BrandID;
-            var legalentityidx = obj.LegalEntityID;
+            var legalentityidx = (obj.LegalEntityID == null) ? 0 : obj.LegalEntityID;
 
 
 
@@ -863,6 +922,9 @@ function ShowEditWindow(id) {
                     GrdSubCountryPopup.SetValue(obj.SubCountryID);
                     GrdBrandPopup.SetValue(obj.BrandID);
                     GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
+                    if (legalentityidx == 0) {
+                        GrdLegalEntityPopup.SetValue("");
+                    }
                 });
 
 
@@ -988,7 +1050,7 @@ function ShowEditWindow(id) {
             txYTDTargetFullYear.SetValue(obj.YTDTarget);
             txYTDSavingFullYear.SetValue(obj.YTDAchieved);
             GrdBrandPopup.SetValue(obj.BrandID);
-            GrdLegalEntityPopup.SetValue(obj.LegalEntityID);
+            GrdLegalEntityPopup.SetValue(legalentityidx);
 
 
             //ENH153-2 Procurement fields 
@@ -1095,7 +1157,7 @@ function ShowEditWindow(id) {
                 $("#btnSave").prop("disabled", true);
             }
 
-            var legalentityidx = obj.LegalEntityID;
+            var legalentityidx = (obj.LegalEntityID == null) ? 0 : obj.LegalEntityID;
             //GrdInitStatus.GetGridView().Refresh();
             //GrdInitType.GetGridView().Refresh();
             var brandId = obj.BrandID;
@@ -1441,6 +1503,14 @@ function OnInit(s, e) {
     else {
         BtnProcurement.hidden = true;
         BtnInitiative.innerText = "Create New";
+    }
+    if (projectYear >= 2023 && years_right.includes(projectYear) && (user_type == 1 || user_type == 4)) {
+        // Visible upload div true
+        $("#divUpload").show();
+    }
+    else {
+        // Visible false
+        $("#divUpload").hide();
     }
     GrdSubCountryPopup.SelectIndex(0);
     AdjustSize();
