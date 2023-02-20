@@ -13,9 +13,13 @@ using DevExpress.XtraCharts;
 using System.Configuration;
 using MySql.Data.MySqlClient;
 using System.Data;
+using GAIN.Helper;
+//using Excel = Microsoft.Office.Interop.Excel;
+using System.IO;
+using DevExpress.Spreadsheet;
 /*
- * Adding comment here
- */
+* Adding comment here
+*/
 
 namespace GAIN.Controllers
 {
@@ -31,6 +35,10 @@ namespace GAIN.Controllers
         private static readonly log4net.ILog log =
 log4net.LogManager.GetLogger
 (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        private FlatFileHelper objFlatFileHelper = new FlatFileHelper();
+        List<SubCountryBrand> lstSubCountryBrand = new List<SubCountryBrand>();
+        List<InitTypeCostSubCost> lstInitTypeCostSubCosts = new List<InitTypeCostSubCost>();
         public ActionResult Index()
         {
             //vwheaderinitiative model = new vwheaderinitiative();
@@ -117,14 +125,13 @@ log4net.LogManager.GetLogger
         public ActionResult GrdMainInitiativePartial() // Main Function to show data in Main Grid
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-
-
             var projYear = profileData.ProjectYear;
-             var spprojyear = projYear;
+            var spprojyear = projYear;
             var projMonth = profileData.ProjectMonth;
+
             if (profileData.ProjectYear < 2023)
                 profileData.ProjectYear = 2022;
-           
+
 
             var where = "";
 
@@ -204,7 +211,7 @@ log4net.LogManager.GetLogger
                 }
             }
 
-         //   var model = db.vwheaderinitiatives.ToList();
+            //   var model = db.vwheaderinitiatives.ToList();
 
             if (profileData.UserType == 2)  //rpoc
             {
@@ -222,7 +229,7 @@ log4net.LogManager.GetLogger
                     if (rpoccondition != "")
                     {
                         rpoccondition = rpoccondition.Substring(0, rpoccondition.Length - 1);
-                        where += " and a.RegionID in (" + rpoccondition + ")"; 
+                        where += " and a.RegionID in (" + rpoccondition + ")";
                     }
                 }
                 else
@@ -241,7 +248,7 @@ log4net.LogManager.GetLogger
                         if (cccondition != "")
                         {
                             cccondition = cccondition.Substring(0, cccondition.Length - 1);
-                            where += " and a.CostControlID in (" + cccondition + ")"; 
+                            where += " and a.CostControlID in (" + cccondition + ")";
                         }
                     }
                 }
@@ -260,7 +267,7 @@ log4net.LogManager.GetLogger
                 if (cntryidcondition != "")
                 {
                     cntryidcondition = cntryidcondition.Substring(0, cntryidcondition.Length - 1);
-                    where += " and a.SubCountryID in (" + cntryidcondition + ")"; 
+                    where += " and a.SubCountryID in (" + cntryidcondition + ")";
                 }
             }
 
@@ -364,7 +371,7 @@ log4net.LogManager.GetLogger
             //    model = GetGridData(profileData.ProjectYear, spcondi, projMonth, 0);
 
             //}
-         var  model = GetGridData(spprojyear, spcondi, projMonth, 1);
+            var model = GetGridData(spprojyear, spcondi, projMonth, 1);
 
             // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
             //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
@@ -430,246 +437,246 @@ log4net.LogManager.GetLogger
 
             if (1 == 2)
             {
-            foreach (var item in model)
-            {
-                if (Convert.ToDateTime(item.StartMonth).Year < profileData.ProjectYear)
+                foreach (var item in model)
                 {
-                    item.TargetJan = item.TargetNexJan;
-                    item.TargetFeb = item.TargetNexFeb;
-                    item.TargetMar = item.TargetNexMar;
-                    item.TargetApr = item.TargetNexApr;
-                    item.TargetMay = item.TargetNexMay;
-                    item.TargetJun = item.TargetNexJun;
-                    item.TargetJul = item.TargetNexJul;
-                    item.TargetAug = item.TargetNexAug;
-                    item.TargetSep = item.TargetNexSep;
-                    item.TargetOct = item.TargetNexOct;
-                    item.TargetNov = item.TargetNexNov;
-                    item.TargetDec = item.TargetNexDec;
-
-                    item.TargetNexJan = null;
-                    item.TargetNexFeb = null;
-                    item.TargetNexMar = null;
-                    item.TargetNexApr = null;
-                    item.TargetNexMay = null;
-                    item.TargetNexJun = null;
-                    item.TargetNexJul = null;
-                    item.TargetNexAug = null;
-                    item.TargetNexSep = null;
-                    item.TargetNexOct = null;
-                    item.TargetNexNov = null;
-                    item.TargetNexDec = null;
-
-                    item.AchJan = item.AchNexJan;
-                    item.AchFeb = item.AchNexFeb;
-                    item.AchMar = item.AchNexMar;
-                    item.AchApr = item.AchNexApr;
-                    item.AchMay = item.AchNexMay;
-                    item.AchJun = item.AchNexJun;
-                    item.AchJul = item.AchNexJul;
-                    item.AchAug = item.AchNexAug;
-                    item.AchSep = item.AchNexSep;
-                    item.AchOct = item.AchNexOct;
-                    item.AchNov = item.AchNexNov;
-                    item.AchDec = item.AchNexDec;
-
-                    item.AchNexJan = null;
-                    item.AchNexFeb = null;
-                    item.AchNexMar = null;
-                    item.AchNexApr = null;
-                    item.AchNexMay = null;
-                    item.AchNexJun = null;
-                    item.AchNexJul = null;
-                    item.AchNexAug = null;
-                    item.AchNexSep = null;
-                    item.AchNexOct = null;
-                    item.AchNexNov = null;
-                    item.AchNexDec = null;
-
-                }
-                // ViewData["STARTYEAR"] = Convert.ToDateTime(item.StartMonth).Year;
-
-                #region procurement YTD calcs
-                if (profileData.ProjectYear >= 2023)
-                {
-                    t_initiative_calcs _t_initiative_calcs = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault();
-                    if (_t_initiative_calcs != null)
+                    if (Convert.ToDateTime(item.StartMonth).Year < profileData.ProjectYear)
                     {
-                        string YTD_Achieved_PRICE_EF_months_ = string.Empty;
-                        string YTD_Achieved_VOLUME_EF_months_ = string.Empty;
+                        item.TargetJan = item.TargetNexJan;
+                        item.TargetFeb = item.TargetNexFeb;
+                        item.TargetMar = item.TargetNexMar;
+                        item.TargetApr = item.TargetNexApr;
+                        item.TargetMay = item.TargetNexMay;
+                        item.TargetJun = item.TargetNexJun;
+                        item.TargetJul = item.TargetNexJul;
+                        item.TargetAug = item.TargetNexAug;
+                        item.TargetSep = item.TargetNexSep;
+                        item.TargetOct = item.TargetNexOct;
+                        item.TargetNov = item.TargetNexNov;
+                        item.TargetDec = item.TargetNexDec;
 
-                        string N_YTD_Sec_PRICE_EF_months_ = string.Empty;
-                        string N_YTD_Sec_VOLUME_EF_months_ = string.Empty;
+                        item.TargetNexJan = null;
+                        item.TargetNexFeb = null;
+                        item.TargetNexMar = null;
+                        item.TargetNexApr = null;
+                        item.TargetNexMay = null;
+                        item.TargetNexJun = null;
+                        item.TargetNexJul = null;
+                        item.TargetNexAug = null;
+                        item.TargetNexSep = null;
+                        item.TargetNexOct = null;
+                        item.TargetNexNov = null;
+                        item.TargetNexDec = null;
 
-                        string N_YTD_ST_Total_EF_months_ = string.Empty;
+                        item.AchJan = item.AchNexJan;
+                        item.AchFeb = item.AchNexFeb;
+                        item.AchMar = item.AchNexMar;
+                        item.AchApr = item.AchNexApr;
+                        item.AchMay = item.AchNexMay;
+                        item.AchJun = item.AchNexJun;
+                        item.AchJul = item.AchNexJul;
+                        item.AchAug = item.AchNexAug;
+                        item.AchSep = item.AchNexSep;
+                        item.AchOct = item.AchNexOct;
+                        item.AchNov = item.AchNexNov;
+                        item.AchDec = item.AchNexDec;
 
-                        string YTD_Cost_Avoid_Vs_CPI_months_ = string.Empty;
-                        List<string> arrMonth__ = new List<string>() { "jan", "feb", "march", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
-                        int counter__ = 0;
+                        item.AchNexJan = null;
+                        item.AchNexFeb = null;
+                        item.AchNexMar = null;
+                        item.AchNexApr = null;
+                        item.AchNexMay = null;
+                        item.AchNexJun = null;
+                        item.AchNexJul = null;
+                        item.AchNexAug = null;
+                        item.AchNexSep = null;
+                        item.AchNexOct = null;
+                        item.AchNexNov = null;
+                        item.AchNexDec = null;
 
-                        while (counter__ < projMonth)
+                    }
+                    // ViewData["STARTYEAR"] = Convert.ToDateTime(item.StartMonth).Year;
+
+                    #region procurement YTD calcs
+                    if (profileData.ProjectYear >= 2023)
+                    {
+                        t_initiative_calcs _t_initiative_calcs = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault();
+                        if (_t_initiative_calcs != null)
                         {
+                            string YTD_Achieved_PRICE_EF_months_ = string.Empty;
+                            string YTD_Achieved_VOLUME_EF_months_ = string.Empty;
 
-                            #region Secured
-                            //N_YTD_Sec_PRICE_EF "_ST_Price_effect"
-                            if (String.IsNullOrEmpty(N_YTD_Sec_PRICE_EF_months_))
-                            {
-                                N_YTD_Sec_PRICE_EF_months_ = "" + arrMonth__[counter__] + "_ST_Price_effect";
-                            }
-                            else
-                            {
-                                N_YTD_Sec_PRICE_EF_months_ = N_YTD_Sec_PRICE_EF_months_ + "," + arrMonth__[counter__] + "_ST_Price_effect";
-                            }
+                            string N_YTD_Sec_PRICE_EF_months_ = string.Empty;
+                            string N_YTD_Sec_VOLUME_EF_months_ = string.Empty;
 
-                            //N_FY_Sec_VOLUME_EF "ST_Volume_Effect" 
-                            if (String.IsNullOrEmpty(N_YTD_Sec_VOLUME_EF_months_))
-                            {
-                                N_YTD_Sec_VOLUME_EF_months_ = "" + arrMonth__[counter__] + "_ST_Volume_Effect";
-                            }
-                            else
-                            {
-                                N_YTD_Sec_VOLUME_EF_months_ = N_YTD_Sec_VOLUME_EF_months_ + "," + arrMonth__[counter__] + "_ST_Volume_Effect";
-                            }
+                            string N_YTD_ST_Total_EF_months_ = string.Empty;
 
-                            //N_YTD_Secured "_FY_Secured_Target"
-                            if (String.IsNullOrEmpty(N_YTD_ST_Total_EF_months_))
-                            {
-                                N_YTD_ST_Total_EF_months_ = "" + arrMonth__[counter__] + "_FY_Secured_Target";
-                            }
-                            else
-                            {
-                                N_YTD_ST_Total_EF_months_ = N_YTD_ST_Total_EF_months_ + "," + arrMonth__[counter__] + "_FY_Secured_Target";
-                            }
+                            string YTD_Cost_Avoid_Vs_CPI_months_ = string.Empty;
+                            List<string> arrMonth__ = new List<string>() { "jan", "feb", "march", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
+                            int counter__ = 0;
 
-                            #endregion
+                            while (counter__ < projMonth)
+                            {
 
-                            #region Acheived
-                            //YTD_Achieved_PRICE_EF "_A_Price_effect"
-                            if (String.IsNullOrEmpty(YTD_Achieved_PRICE_EF_months_))
-                            {
-                                YTD_Achieved_PRICE_EF_months_ = "" + arrMonth__[counter__] + "_A_Price_effect";
-                            }
-                            else
-                            {
-                                YTD_Achieved_PRICE_EF_months_ = YTD_Achieved_PRICE_EF_months_ + "," + arrMonth__[counter__] + "_A_Price_effect";
-                            }
+                                #region Secured
+                                //N_YTD_Sec_PRICE_EF "_ST_Price_effect"
+                                if (String.IsNullOrEmpty(N_YTD_Sec_PRICE_EF_months_))
+                                {
+                                    N_YTD_Sec_PRICE_EF_months_ = "" + arrMonth__[counter__] + "_ST_Price_effect";
+                                }
+                                else
+                                {
+                                    N_YTD_Sec_PRICE_EF_months_ = N_YTD_Sec_PRICE_EF_months_ + "," + arrMonth__[counter__] + "_ST_Price_effect";
+                                }
 
-                            //YTD_Achieved_VOLUME_EF "_A_Volume_Effect"
-                            if (String.IsNullOrEmpty(YTD_Achieved_VOLUME_EF_months_))
-                            {
-                                YTD_Achieved_VOLUME_EF_months_ = "" + arrMonth__[counter__] + "_A_Volume_Effect";
-                            }
-                            else
-                            {
-                                YTD_Achieved_VOLUME_EF_months_ = YTD_Achieved_VOLUME_EF_months_ + "," + arrMonth__[counter__] + "_A_Volume_Effect";
-                            }
-                            #endregion
+                                //N_FY_Sec_VOLUME_EF "ST_Volume_Effect" 
+                                if (String.IsNullOrEmpty(N_YTD_Sec_VOLUME_EF_months_))
+                                {
+                                    N_YTD_Sec_VOLUME_EF_months_ = "" + arrMonth__[counter__] + "_ST_Volume_Effect";
+                                }
+                                else
+                                {
+                                    N_YTD_Sec_VOLUME_EF_months_ = N_YTD_Sec_VOLUME_EF_months_ + "," + arrMonth__[counter__] + "_ST_Volume_Effect";
+                                }
 
-                            #region CPI
-                            //YTD_Cost_Avoid_Vs_CPI "_CPI_Effect"
-                            if (String.IsNullOrEmpty(YTD_Cost_Avoid_Vs_CPI_months_))
-                            {
-                                YTD_Cost_Avoid_Vs_CPI_months_ = "" + arrMonth__[counter__] + "_CPI_Effect";
-                            }
-                            else
-                            {
-                                YTD_Cost_Avoid_Vs_CPI_months_ = YTD_Cost_Avoid_Vs_CPI_months_ + "," + arrMonth__[counter__] + "_CPI_Effect";
-                            }
+                                //N_YTD_Secured "_FY_Secured_Target"
+                                if (String.IsNullOrEmpty(N_YTD_ST_Total_EF_months_))
+                                {
+                                    N_YTD_ST_Total_EF_months_ = "" + arrMonth__[counter__] + "_FY_Secured_Target";
+                                }
+                                else
+                                {
+                                    N_YTD_ST_Total_EF_months_ = N_YTD_ST_Total_EF_months_ + "," + arrMonth__[counter__] + "_FY_Secured_Target";
+                                }
+
+                                #endregion
+
+                                #region Acheived
+                                //YTD_Achieved_PRICE_EF "_A_Price_effect"
+                                if (String.IsNullOrEmpty(YTD_Achieved_PRICE_EF_months_))
+                                {
+                                    YTD_Achieved_PRICE_EF_months_ = "" + arrMonth__[counter__] + "_A_Price_effect";
+                                }
+                                else
+                                {
+                                    YTD_Achieved_PRICE_EF_months_ = YTD_Achieved_PRICE_EF_months_ + "," + arrMonth__[counter__] + "_A_Price_effect";
+                                }
+
+                                //YTD_Achieved_VOLUME_EF "_A_Volume_Effect"
+                                if (String.IsNullOrEmpty(YTD_Achieved_VOLUME_EF_months_))
+                                {
+                                    YTD_Achieved_VOLUME_EF_months_ = "" + arrMonth__[counter__] + "_A_Volume_Effect";
+                                }
+                                else
+                                {
+                                    YTD_Achieved_VOLUME_EF_months_ = YTD_Achieved_VOLUME_EF_months_ + "," + arrMonth__[counter__] + "_A_Volume_Effect";
+                                }
+                                #endregion
+
+                                #region CPI
+                                //YTD_Cost_Avoid_Vs_CPI "_CPI_Effect"
+                                if (String.IsNullOrEmpty(YTD_Cost_Avoid_Vs_CPI_months_))
+                                {
+                                    YTD_Cost_Avoid_Vs_CPI_months_ = "" + arrMonth__[counter__] + "_CPI_Effect";
+                                }
+                                else
+                                {
+                                    YTD_Cost_Avoid_Vs_CPI_months_ = YTD_Cost_Avoid_Vs_CPI_months_ + "," + arrMonth__[counter__] + "_CPI_Effect";
+                                }
 
                                 #endregion
 
                                 counter__++;
-                        }
+                            }
 
-                        #region FY Secured Target
-                        //N FY Secured (TOTAL EFFECT) -------------------------------------------------------------------------------------
-                        item.N_FY_ST_Total_EF = Math.Round(Convert.ToDecimal(item.N_FY_Sec_PRICE_EF) + Convert.ToDecimal(item.N_FY_Sec_VOLUME_EF), 0);
-                        #endregion
-
-
-                        #region YTD Secured Target
-                        //N YTD Secured (PRICE EFFECT) -------------------------------------------------------------------------------------
-                        var result_SPE = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
-                                                            .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + N_YTD_Sec_PRICE_EF_months_)).ToList();
-                        var _N_YTD_Sec_PRICE_EF = result_SPE.Where(x => x.t_initiative_ID == item.id)
-                                                                            .Select(y => y.jan_ST_Price_effect + y.feb_ST_Price_effect + y.march_ST_Price_effect + y.apr_ST_Price_effect + y.may_ST_Price_effect +
-                                                                                    y.jun_ST_Price_effect + y.jul_ST_Price_effect + y.aug_ST_Price_effect + y.sep_ST_Price_effect + y.oct_ST_Price_effect +
-                                                                                    y.nov_ST_Price_effect + y.dec_ST_Price_effect).FirstOrDefault().ToString();
-                        item.N_YTD_Sec_PRICE_EF = Math.Round(Convert.ToDecimal(_N_YTD_Sec_PRICE_EF), 0);
-
-                        //N YTD Secured (VOLUME EFFECT) -------------------------------------------------------------------------------------
-                        var result_SVE = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
-                                                            .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + N_YTD_Sec_VOLUME_EF_months_)).ToList();
-                        var _N_YTD_Sec_VOLUME_EF = result_SVE.Where(x => x.t_initiative_ID == item.id)
-                                                                            .Select(y => y.jan_ST_Volume_Effect + y.feb_ST_Volume_Effect + y.march_ST_Volume_Effect + y.apr_ST_Volume_Effect + y.may_ST_Volume_Effect +
-                                                                                    y.jun_ST_Volume_Effect + y.jul_ST_Volume_Effect + y.aug_ST_Volume_Effect + y.sep_ST_Volume_Effect + y.oct_ST_Volume_Effect +
-                                                                                    y.nov_ST_Volume_Effect + y.dec_ST_Volume_Effect).FirstOrDefault().ToString();
-                        item.N_YTD_Sec_VOLUME_EF = Math.Round(Convert.ToDecimal(_N_YTD_Sec_VOLUME_EF), 0);
-
-                        //N YTD Secured (TOTAL EFFECT) -------------------------------------------------------------------------------------
-                        var result_FYS = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
-                                                            .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + N_YTD_ST_Total_EF_months_)).ToList();
-                        var _N_YTD_Secured = result_FYS.Where(x => x.t_initiative_ID == item.id)
-                                                                            .Select(y => y.jan_FY_Secured_Target + y.feb_FY_Secured_Target + y.march_FY_Secured_Target + y.apr_FY_Secured_Target + y.may_FY_Secured_Target +
-                                                                                    y.jun_FY_Secured_Target + y.jul_FY_Secured_Target + y.aug_FY_Secured_Target + y.sep_FY_Secured_Target + y.oct_FY_Secured_Target +
-                                                                                    y.nov_FY_Secured_Target + y.dec_FY_Secured_Target).FirstOrDefault().ToString();
-                        item.N_YTD_ST_Total_EF = Math.Round(Convert.ToDecimal(_N_YTD_Secured), 0);
-                        #endregion
+                            #region FY Secured Target
+                            //N FY Secured (TOTAL EFFECT) -------------------------------------------------------------------------------------
+                            item.N_FY_ST_Total_EF = Math.Round(Convert.ToDecimal(item.N_FY_Sec_PRICE_EF) + Convert.ToDecimal(item.N_FY_Sec_VOLUME_EF), 0);
+                            #endregion
 
 
+                            #region YTD Secured Target
+                            //N YTD Secured (PRICE EFFECT) -------------------------------------------------------------------------------------
+                            var result_SPE = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
+                                                                .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + N_YTD_Sec_PRICE_EF_months_)).ToList();
+                            var _N_YTD_Sec_PRICE_EF = result_SPE.Where(x => x.t_initiative_ID == item.id)
+                                                                                .Select(y => y.jan_ST_Price_effect + y.feb_ST_Price_effect + y.march_ST_Price_effect + y.apr_ST_Price_effect + y.may_ST_Price_effect +
+                                                                                        y.jun_ST_Price_effect + y.jul_ST_Price_effect + y.aug_ST_Price_effect + y.sep_ST_Price_effect + y.oct_ST_Price_effect +
+                                                                                        y.nov_ST_Price_effect + y.dec_ST_Price_effect).FirstOrDefault().ToString();
+                            item.N_YTD_Sec_PRICE_EF = Math.Round(Convert.ToDecimal(_N_YTD_Sec_PRICE_EF), 0);
 
-                        #region YTD Acheivement
-                        //YTD Achieved (PRICE EFFECT) -------------------------------------------------------------------------------------
-                        var result_APE = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
-                                                            .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + YTD_Achieved_PRICE_EF_months_)).ToList();
-                        var _YTD_Achieved_PRICE_EF = result_APE.Where(x => x.t_initiative_ID == item.id)
-                                                                            .Select(y => y.jan_A_Price_effect + y.feb_A_Price_effect + y.march_A_Price_effect + y.apr_A_Price_effect + y.may_A_Price_effect +
-                                                                                    y.jun_A_Price_effect + y.jul_A_Price_effect + y.aug_A_Price_effect + y.sep_A_Price_effect + y.oct_A_Price_effect +
-                                                                                    y.nov_A_Price_effect + y.dec_A_Price_effect).FirstOrDefault().ToString();
-                        item.YTD_Achieved_PRICE_EF = Math.Round(Convert.ToDecimal(_YTD_Achieved_PRICE_EF), 0);
+                            //N YTD Secured (VOLUME EFFECT) -------------------------------------------------------------------------------------
+                            var result_SVE = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
+                                                                .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + N_YTD_Sec_VOLUME_EF_months_)).ToList();
+                            var _N_YTD_Sec_VOLUME_EF = result_SVE.Where(x => x.t_initiative_ID == item.id)
+                                                                                .Select(y => y.jan_ST_Volume_Effect + y.feb_ST_Volume_Effect + y.march_ST_Volume_Effect + y.apr_ST_Volume_Effect + y.may_ST_Volume_Effect +
+                                                                                        y.jun_ST_Volume_Effect + y.jul_ST_Volume_Effect + y.aug_ST_Volume_Effect + y.sep_ST_Volume_Effect + y.oct_ST_Volume_Effect +
+                                                                                        y.nov_ST_Volume_Effect + y.dec_ST_Volume_Effect).FirstOrDefault().ToString();
+                            item.N_YTD_Sec_VOLUME_EF = Math.Round(Convert.ToDecimal(_N_YTD_Sec_VOLUME_EF), 0);
 
-                        //YTD Achieved (VOLUME EFFECT)  -------------------------------------------------------------------------------------
-                        var result_AVE = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
-                                                            .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + YTD_Achieved_VOLUME_EF_months_)).ToList();
-                        var _YTD_Achieved_VOLUME_EF = result_AVE.Where(x => x.t_initiative_ID == item.id)
-                                                                            .Select(y => y.jan_A_Volume_Effect + y.feb_A_Volume_Effect + y.march_A_Volume_Effect + y.apr_A_Volume_Effect + y.may_A_Volume_Effect +
-                                                                                    y.jun_A_Volume_Effect + y.jul_A_Volume_Effect + y.aug_A_Volume_Effect + y.sep_A_Volume_Effect + y.oct_A_Volume_Effect +
-                                                                                    y.nov_A_Volume_Effect + y.dec_A_Volume_Effect).FirstOrDefault().ToString();
-                        item.YTD_Achieved_VOLUME_EF = Math.Round(Convert.ToDecimal(_YTD_Achieved_VOLUME_EF), 0);
-
-                        //YTD Achieved (TOTAL EFFECT)  -------------------------------------------------------------------------------------
-                        item.N_YTD_A_Total_EF = Math.Round(Convert.ToDecimal(item.YTD_Achieved_PRICE_EF) + Convert.ToDecimal(item.YTD_Achieved_VOLUME_EF), 0);
-                        #endregion
-
-
-                        #region CPI
-                        //YTD Cost Avoidance Vs CPI -------------------------------------------------------------------------------------
-                        var result_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
-                                                            .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + YTD_Cost_Avoid_Vs_CPI_months_)).ToList();
-                        var _YTD_Cost_Avoid_Vs_CPI = result_CPI.Where(x => x.t_initiative_ID == item.id)
-                                                                            .Select(y => y.jan_CPI_Effect + y.feb_CPI_Effect + y.march_CPI_Effect + y.apr_CPI_Effect + y.may_CPI_Effect +
-                                                                                    y.jun_CPI_Effect + y.jul_CPI_Effect + y.aug_CPI_Effect + y.sep_CPI_Effect + y.oct_CPI_Effect +
-                                                                                    y.nov_CPI_Effect + y.dec_CPI_Effect).FirstOrDefault().ToString();
-                        item.YTD_Cost_Avoid_Vs_CPI = Math.Round(Convert.ToDecimal(_YTD_Cost_Avoid_Vs_CPI), 0);
+                            //N YTD Secured (TOTAL EFFECT) -------------------------------------------------------------------------------------
+                            var result_FYS = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
+                                                                .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + N_YTD_ST_Total_EF_months_)).ToList();
+                            var _N_YTD_Secured = result_FYS.Where(x => x.t_initiative_ID == item.id)
+                                                                                .Select(y => y.jan_FY_Secured_Target + y.feb_FY_Secured_Target + y.march_FY_Secured_Target + y.apr_FY_Secured_Target + y.may_FY_Secured_Target +
+                                                                                        y.jun_FY_Secured_Target + y.jul_FY_Secured_Target + y.aug_FY_Secured_Target + y.sep_FY_Secured_Target + y.oct_FY_Secured_Target +
+                                                                                        y.nov_FY_Secured_Target + y.dec_FY_Secured_Target).FirstOrDefault().ToString();
+                            item.N_YTD_ST_Total_EF = Math.Round(Convert.ToDecimal(_N_YTD_Secured), 0);
+                            #endregion
 
 
-                        item.jan_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().jan_CPI;
-                        item.feb_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().feb_CPI;
-                        item.mar_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().mar_CPI;
-                        item.apr_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().apr_CPI;
-                        item.may_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().may_CPI;
-                        item.jun_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().jun_CPI;
-                        item.jul_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().jul_CPI;
-                        item.aug_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().aug_CPI;
-                        item.sep_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().sep_CPI;
-                        item.oct_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().oct_CPI;
-                        item.nov_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().nov_CPI;
-                        item.dec_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().dec_CPI;
 
-                        #endregion
+                            #region YTD Acheivement
+                            //YTD Achieved (PRICE EFFECT) -------------------------------------------------------------------------------------
+                            var result_APE = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
+                                                                .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + YTD_Achieved_PRICE_EF_months_)).ToList();
+                            var _YTD_Achieved_PRICE_EF = result_APE.Where(x => x.t_initiative_ID == item.id)
+                                                                                .Select(y => y.jan_A_Price_effect + y.feb_A_Price_effect + y.march_A_Price_effect + y.apr_A_Price_effect + y.may_A_Price_effect +
+                                                                                        y.jun_A_Price_effect + y.jul_A_Price_effect + y.aug_A_Price_effect + y.sep_A_Price_effect + y.oct_A_Price_effect +
+                                                                                        y.nov_A_Price_effect + y.dec_A_Price_effect).FirstOrDefault().ToString();
+                            item.YTD_Achieved_PRICE_EF = Math.Round(Convert.ToDecimal(_YTD_Achieved_PRICE_EF), 0);
 
-                        #region TMonthly Target and Achieved
-                        var result_Init_Calcs = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id);
+                            //YTD Achieved (VOLUME EFFECT)  -------------------------------------------------------------------------------------
+                            var result_AVE = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
+                                                                .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + YTD_Achieved_VOLUME_EF_months_)).ToList();
+                            var _YTD_Achieved_VOLUME_EF = result_AVE.Where(x => x.t_initiative_ID == item.id)
+                                                                                .Select(y => y.jan_A_Volume_Effect + y.feb_A_Volume_Effect + y.march_A_Volume_Effect + y.apr_A_Volume_Effect + y.may_A_Volume_Effect +
+                                                                                        y.jun_A_Volume_Effect + y.jul_A_Volume_Effect + y.aug_A_Volume_Effect + y.sep_A_Volume_Effect + y.oct_A_Volume_Effect +
+                                                                                        y.nov_A_Volume_Effect + y.dec_A_Volume_Effect).FirstOrDefault().ToString();
+                            item.YTD_Achieved_VOLUME_EF = Math.Round(Convert.ToDecimal(_YTD_Achieved_VOLUME_EF), 0);
+
+                            //YTD Achieved (TOTAL EFFECT)  -------------------------------------------------------------------------------------
+                            item.N_YTD_A_Total_EF = Math.Round(Convert.ToDecimal(item.YTD_Achieved_PRICE_EF) + Convert.ToDecimal(item.YTD_Achieved_VOLUME_EF), 0);
+                            #endregion
+
+
+                            #region CPI
+                            //YTD Cost Avoidance Vs CPI -------------------------------------------------------------------------------------
+                            var result_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id)
+                                                                .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative_calcs>("t_initiative_ID," + YTD_Cost_Avoid_Vs_CPI_months_)).ToList();
+                            var _YTD_Cost_Avoid_Vs_CPI = result_CPI.Where(x => x.t_initiative_ID == item.id)
+                                                                                .Select(y => y.jan_CPI_Effect + y.feb_CPI_Effect + y.march_CPI_Effect + y.apr_CPI_Effect + y.may_CPI_Effect +
+                                                                                        y.jun_CPI_Effect + y.jul_CPI_Effect + y.aug_CPI_Effect + y.sep_CPI_Effect + y.oct_CPI_Effect +
+                                                                                        y.nov_CPI_Effect + y.dec_CPI_Effect).FirstOrDefault().ToString();
+                            item.YTD_Cost_Avoid_Vs_CPI = Math.Round(Convert.ToDecimal(_YTD_Cost_Avoid_Vs_CPI), 0);
+
+
+                            item.jan_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().jan_CPI;
+                            item.feb_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().feb_CPI;
+                            item.mar_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().mar_CPI;
+                            item.apr_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().apr_CPI;
+                            item.may_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().may_CPI;
+                            item.jun_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().jun_CPI;
+                            item.jul_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().jul_CPI;
+                            item.aug_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().aug_CPI;
+                            item.sep_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().sep_CPI;
+                            item.oct_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().oct_CPI;
+                            item.nov_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().nov_CPI;
+                            item.dec_CPI = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id).FirstOrDefault().dec_CPI;
+
+                            #endregion
+
+                            #region TMonthly Target and Achieved
+                            var result_Init_Calcs = db.t_initiative_calcs.Where(x => x.t_initiative_ID == item.id);
 
                             //item.AchJan = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.jan_Achievement).FirstOrDefault().ToString()), 0);
                             //item.AchFeb = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.feb_Achievement).FirstOrDefault().ToString()), 0);
@@ -697,88 +704,88 @@ log4net.LogManager.GetLogger
                             //item.TargetNov = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.nov_FY_Secured_Target).FirstOrDefault().ToString()), 0);
                             //item.TargetDec = Math.Round(Convert.ToDecimal(result_Init_Calcs.Where(x => x.t_initiative_ID == item.id).Select(y => y.dec_FY_Secured_Target).FirstOrDefault().ToString()), 0);
 
-                        #endregion
-                    }
-                    else
-                    {
-                        if (item.isProcurement == 0)
+                            #endregion
+                        }
+                        else
                         {
-                            List<string> __arrMonth = new List<string>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-                            string YTD_Target_months = string.Empty;
-                            string YTD_Acheived_months = string.Empty;
+                            if (item.isProcurement == 0)
+                            {
+                                List<string> __arrMonth = new List<string>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+                                string YTD_Target_months = string.Empty;
+                                string YTD_Acheived_months = string.Empty;
                                 int counter1__ = 0;
                                 while (counter1__ < projMonth)
-                            {
-                                if (String.IsNullOrEmpty(YTD_Target_months))
                                 {
+                                    if (String.IsNullOrEmpty(YTD_Target_months))
+                                    {
                                         YTD_Target_months = "Target" + __arrMonth[counter1__];
-                                }
-                                else
-                                {
+                                    }
+                                    else
+                                    {
                                         YTD_Target_months = YTD_Target_months + "," + "Target" + __arrMonth[counter1__];
-                                }
+                                    }
 
-                                if (String.IsNullOrEmpty(YTD_Acheived_months))
-                                {
+                                    if (String.IsNullOrEmpty(YTD_Acheived_months))
+                                    {
                                         YTD_Acheived_months = "Ach" + __arrMonth[counter1__];
-                                }
-                                else
-                                {
+                                    }
+                                    else
+                                    {
                                         YTD_Acheived_months = YTD_Acheived_months + "," + "Ach" + __arrMonth[counter1__];
-                                }
+                                    }
 
                                     counter1__++;
-                            }
-                            var result_FY_Target = db.t_initiative.Where(x => x.id == item.id)
-                                                                          .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative>("id," + YTD_Target_months)).ToList();
-                            var _N_YTD_Secured = result_FY_Target.Where(x => x.id == item.id)
-                                                                                .Select(y => (y.TargetJan == null ? 0 : y.TargetJan) +
-                                                                                            (y.TargetFeb == null ? 0 : y.TargetFeb) +
-                                                                                            (y.TargetMar == null ? 0 : y.TargetMar) +
-                                                                                            (y.TargetApr == null ? 0 : y.TargetApr) +
-                                                                                            (y.TargetMay == null ? 0 : y.TargetMay) +
-                                                                                            (y.TargetJun == null ? 0 : y.TargetJun) +
-                                                                                            (y.TargetJul == null ? 0 : y.TargetJul) +
-                                                                                            (y.TargetAug == null ? 0 : y.TargetAug) +
-                                                                                            (y.TargetSep == null ? 0 : y.TargetSep) +
-                                                                                            (y.TargetOct == null ? 0 : y.TargetOct) +
-                                                                                            (y.TargetNov == null ? 0 : y.TargetNov) +
-                                                                                            (y.TargetDec == null ? 0 : y.TargetDec)).FirstOrDefault().ToString();
-                            item.N_YTD_ST_Total_EF = Math.Round(Convert.ToDecimal(_N_YTD_Secured), 0);
+                                }
+                                var result_FY_Target = db.t_initiative.Where(x => x.id == item.id)
+                                                                              .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative>("id," + YTD_Target_months)).ToList();
+                                var _N_YTD_Secured = result_FY_Target.Where(x => x.id == item.id)
+                                                                                    .Select(y => (y.TargetJan == null ? 0 : y.TargetJan) +
+                                                                                                (y.TargetFeb == null ? 0 : y.TargetFeb) +
+                                                                                                (y.TargetMar == null ? 0 : y.TargetMar) +
+                                                                                                (y.TargetApr == null ? 0 : y.TargetApr) +
+                                                                                                (y.TargetMay == null ? 0 : y.TargetMay) +
+                                                                                                (y.TargetJun == null ? 0 : y.TargetJun) +
+                                                                                                (y.TargetJul == null ? 0 : y.TargetJul) +
+                                                                                                (y.TargetAug == null ? 0 : y.TargetAug) +
+                                                                                                (y.TargetSep == null ? 0 : y.TargetSep) +
+                                                                                                (y.TargetOct == null ? 0 : y.TargetOct) +
+                                                                                                (y.TargetNov == null ? 0 : y.TargetNov) +
+                                                                                                (y.TargetDec == null ? 0 : y.TargetDec)).FirstOrDefault().ToString();
+                                item.N_YTD_ST_Total_EF = Math.Round(Convert.ToDecimal(_N_YTD_Secured), 0);
                                 item.YTDTargetUb = Math.Round(Convert.ToDecimal(_N_YTD_Secured), 0);
                                 item.TargetNYUB = Math.Round(Convert.ToDecimal(_N_YTD_Secured), 0);
 
 
-                            var result_YTD_Acheived = db.t_initiative.Where(x => x.id == item.id)
-                                                                          .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative>("id," + YTD_Acheived_months)).ToList();
-                            var _N_YTD_A_Total_EF = result_YTD_Acheived.Where(x => x.id == item.id)
-                                                                                .Select(y => (y.AchJan == null ? 0 : y.AchJan) +
-                                                                                            (y.AchFeb == null ? 0 : y.AchFeb) +
-                                                                                            (y.AchMar == null ? 0 : y.AchMar) +
-                                                                                            (y.AchApr == null ? 0 : y.AchApr) +
-                                                                                            (y.AchMay == null ? 0 : y.AchMay) +
-                                                                                            (y.AchJun == null ? 0 : y.AchJun) +
-                                                                                            (y.AchJul == null ? 0 : y.AchJul) +
-                                                                                            (y.AchAug == null ? 0 : y.AchAug) +
-                                                                                            (y.AchSep == null ? 0 : y.AchSep) +
-                                                                                            (y.AchOct == null ? 0 : y.AchOct) +
-                                                                                            (y.AchNov == null ? 0 : y.AchNov) +
-                                                                                            (y.AchDec == null ? 0 : y.AchDec)).FirstOrDefault().ToString();
-                            item.N_YTD_A_Total_EF = Math.Round(Convert.ToDecimal(_N_YTD_A_Total_EF), 0);
+                                var result_YTD_Acheived = db.t_initiative.Where(x => x.id == item.id)
+                                                                              .Select(GAIN.Models.Utilities.DynamicSelectGenerator<t_initiative>("id," + YTD_Acheived_months)).ToList();
+                                var _N_YTD_A_Total_EF = result_YTD_Acheived.Where(x => x.id == item.id)
+                                                                                    .Select(y => (y.AchJan == null ? 0 : y.AchJan) +
+                                                                                                (y.AchFeb == null ? 0 : y.AchFeb) +
+                                                                                                (y.AchMar == null ? 0 : y.AchMar) +
+                                                                                                (y.AchApr == null ? 0 : y.AchApr) +
+                                                                                                (y.AchMay == null ? 0 : y.AchMay) +
+                                                                                                (y.AchJun == null ? 0 : y.AchJun) +
+                                                                                                (y.AchJul == null ? 0 : y.AchJul) +
+                                                                                                (y.AchAug == null ? 0 : y.AchAug) +
+                                                                                                (y.AchSep == null ? 0 : y.AchSep) +
+                                                                                                (y.AchOct == null ? 0 : y.AchOct) +
+                                                                                                (y.AchNov == null ? 0 : y.AchNov) +
+                                                                                                (y.AchDec == null ? 0 : y.AchDec)).FirstOrDefault().ToString();
+                                item.N_YTD_A_Total_EF = Math.Round(Convert.ToDecimal(_N_YTD_A_Total_EF), 0);
                                 item.YTDAchievedUb = Math.Round(Convert.ToDecimal(_N_YTD_A_Total_EF), 0);
+                            }
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-            }
+                }
             }
 
 
             return PartialView("_GrdMainInitiativePartial", model);
         }
 
-        public List<GAIN.Models.vwheaderinitiative> GetGridData(long ProjectYear, string condi , int projMonth, int issave)
+        public List<GAIN.Models.vwheaderinitiative> GetGridData(long ProjectYear, string condi, int projMonth, int issave)
         {
 
             string YTD_Achieved_PRICE_EF_months = string.Empty;
@@ -806,7 +813,7 @@ log4net.LogManager.GetLogger
 
             while (_counter < projMonth)
             {
-               
+
                 #region Secured
                 //N_YTD_Sec_PRICE_EF "_ST_Price_effect"
                 if (String.IsNullOrEmpty(N_YTD_Sec_PRICE_EF_months))
@@ -850,8 +857,8 @@ log4net.LogManager.GetLogger
                 //YTD_Achieved_PRICE_EF "_A_Price_effect"
                 if (String.IsNullOrEmpty(YTD_Achieved_PRICE_EF_months))
                 {
-                    YTD_Achieved_PRICE_EF_monthschk = "ifnull("+arrMonth[_counter] + "_A_Price_effect, 0)";
-                  
+                    YTD_Achieved_PRICE_EF_monthschk = "ifnull(" + arrMonth[_counter] + "_A_Price_effect, 0)";
+
                     YTD_Achieved_PRICE_EF_months = YTD_Achieved_PRICE_EF_monthschk;
                 }
                 else
@@ -897,37 +904,37 @@ log4net.LogManager.GetLogger
             string YTD_Target_months_in_year = string.Empty;
 
             string YTD_Acheived_months_in_year = string.Empty;
-            string chkYTD_Target_months = "", chkYTD_Target_monthsNext="";
+            string chkYTD_Target_months = "", chkYTD_Target_monthsNext = "";
             string chKYTD_Acheived_months = "", chkYTD_Acheived_months_in_year = "";
 
             int _counter1 = 0;
-              int _counter2 = 0;
+            int _counter2 = 0;
 
             while (_counter2 < projMonth)
+            {
+                if (String.IsNullOrEmpty(YTD_Target_months))
                 {
-                    if (String.IsNullOrEmpty(YTD_Target_months))
-                    {
 
-                        chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter2] + ", 0)";
-                        chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter2] + ", 0)";
-                        YTD_Target_months = chkYTD_Target_months;
-                        YTD_Target_months_in_year = chkYTD_Target_monthsNext;
-                    }
-                    else
-                    {
-                        chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter2] + ", 0)";
-                        chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter2] + ", 0)";
-                        YTD_Target_months = YTD_Target_months + "+" + chkYTD_Target_months;
-                        YTD_Target_months_in_year = YTD_Target_months_in_year + "+" + chkYTD_Target_monthsNext;
-                    }
+                    chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter2] + ", 0)";
+                    chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter2] + ", 0)";
+                    YTD_Target_months = chkYTD_Target_months;
+                    YTD_Target_months_in_year = chkYTD_Target_monthsNext;
+                }
+                else
+                {
+                    chkYTD_Target_months = "ifnull(Target" + _arrMonth[_counter2] + ", 0)";
+                    chkYTD_Target_monthsNext = "ifnull(TargetNex" + _arrMonth[_counter2] + ", 0)";
+                    YTD_Target_months = YTD_Target_months + "+" + chkYTD_Target_months;
+                    YTD_Target_months_in_year = YTD_Target_months_in_year + "+" + chkYTD_Target_monthsNext;
+                }
                 _counter2++;
             }
-           
-        
+
+
             while (_counter1 < projMonth)
             {
-               
-              
+
+
                 if (String.IsNullOrEmpty(YTD_Acheived_months))
                 {
                     chKYTD_Acheived_months = "ifnull(Ach" + _arrMonth[_counter1] + ", 0)";
@@ -951,11 +958,11 @@ log4net.LogManager.GetLogger
             List<GAIN.Models.vwheaderinitiative> lstGrid = new List<GAIN.Models.vwheaderinitiative>();
             string conn = clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]);
             conn = conn.Substring(conn.IndexOf("server"));
-            conn = conn.Replace("'","");
+            conn = conn.Replace("'", "");
 
-          
+
             if (ProjectYear == 2023) { condi = condi + "and IsShowCrossYear=1"; }
-            if (Session["Maingrid"] == null || issave==1)
+            if (Session["Maingrid"] == null || issave == 1)
             {
                 using (MySqlConnection sql = new MySqlConnection(conn))
                 {
@@ -983,9 +990,9 @@ log4net.LogManager.GetLogger
 
                             var dataTable = new DataTable();
                             dataTable.Load(reader);
-                          //  condi = condi.Replace("a.", "");
-                        //    dataTable = dataTable.Select(condi).CopyToDataTable();
-                          //  Session["Maingrid"] = dataTable;
+                            //  condi = condi.Replace("a.", "");
+                            //    dataTable = dataTable.Select(condi).CopyToDataTable();
+                            //  Session["Maingrid"] = dataTable;
                             if (dataTable.Rows.Count > 0)
                             {
                                 var serializedMyObjects = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable);
@@ -1000,12 +1007,12 @@ log4net.LogManager.GetLogger
             else
             {
                 var dataTable = new DataTable();
-                
+
                 dataTable = Session["Maingrid"] as DataTable;
-                            
+
                 condi = condi.Replace("a.", "");
                 dataTable = dataTable.Select(condi).CopyToDataTable();
-               
+
                 if (dataTable.Rows.Count > 0)
                 {
                     var serializedMyObjects = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable);
@@ -1044,7 +1051,7 @@ log4net.LogManager.GetLogger
             else
                 ViewData["EditError"] = "Please, correct all errors.";
 
-            
+
             return PartialView("_GrdMainInitiativePartial", model.ToList());
         }
         [HttpPost, ValidateInput(false)]
@@ -1306,6 +1313,409 @@ log4net.LogManager.GetLogger
 
             return Json(GDSC, JsonRequestBehavior.AllowGet);
         }
+
+        // File upload functionality
+        public bool isUserSubCountry(string subCountryDesc)
+        {
+            bool isUserSubCountry = false;
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
+            string usercountryIds = profileData.CountryID;
+            string[] arrUserCountry = objFlatFileHelper.GetUserCountries(usercountryIds);
+            var userCntry = arrUserCountry.ToList().Where(ucntry => ucntry == subCountryDesc);
+            if (profileData.subcountry_right == "|ALL|")
+                isUserSubCountry = true;
+            else
+            {
+                if (userCntry.Count() > 0)
+                    isUserSubCountry = true;
+            }
+            return isUserSubCountry;
+        }
+        public bool isValidBrand(string subCountryDesc, string brandDesc)
+        {
+            bool isValidBrand = false;
+            var subCountryBrand = lstSubCountryBrand.Where(sc => sc.subCountryName == subCountryDesc && sc.brandName == brandDesc);
+            isValidBrand = (subCountryBrand.Count() > 0) ? true : false;
+            return isValidBrand;
+        }
+
+
+
+        public void SetSubCountryBrand()
+        {
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
+            string usercountryIds = profileData.CountryID;
+            string[] arrUserCountry = objFlatFileHelper.GetUserCountries(usercountryIds);
+            string subCntryCondn = "(";
+            for (int i = 0; i < arrUserCountry.Length; i++)
+            {
+                subCntryCondn += "'" + arrUserCountry[i] + "'";
+                subCntryCondn += (i < arrUserCountry.Length - 1) ? "," : "";
+            }
+            subCntryCondn += ")";
+            string sqlQuery = "SELECT mb.brandname As brandName, mbc.brandid As brandId, ms.SubCountryName,ms.CountryCode FROM globalgain.mbrandcountry mbc inner join "
+                                + " mbrand mb on mbc.brandid = mb.id Inner join msubcountry ms on ms.id = mbc.subcountryid"
+                                + " Where ms.isActive = 'Y' and mbc.inityear = " + System.DateTime.Now.Year;
+            sqlQuery += (usercountryIds != "|ALL|") ? " And ms.SubCountryName in " + subCntryCondn : "";
+
+
+            lstSubCountryBrand = db.Database.SqlQuery<SubCountryBrand>(sqlQuery).ToList();
+        }
+
+        public bool isValidTypeCostSubCost(string strMatchingText, string field)
+        {
+            bool isValidItem = false;
+            if (field != null)
+            {
+                switch (field)
+                {
+                    case "initType":
+                        {
+                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.initType == strMatchingText).FirstOrDefault();
+                            isValidItem = (matchingItem != null) ? true : false;
+                            break;
+                        }
+                    case "itemCategory":
+                        {
+                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.itemCategory == strMatchingText).FirstOrDefault();
+                            isValidItem = (matchingItem != null) ? true : false;
+                            break;
+                        }
+                    case "subCost":
+                        {
+                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.subCostName == strMatchingText).FirstOrDefault();
+                            isValidItem = (matchingItem != null) ? true : false;
+                            break;
+                        }
+                }
+            }
+            return isValidItem;
+        }
+        public DataRow changeValuesDataType(DataRow drRow)
+        {
+            string[] arrNewCols = new string[] { "JanActualVolumes", "FebActualVolumes", "MarActualVolumes", "AprActualVolumes",
+                "MayActualVolumes" , "JunActualVolumes","JulActualVolumes", "AugActualVolumes", "SepActualVolumes", "OctActualVolumes",
+                "NovActualVolumes", "DecActualVolumes", "InputActualsVolumesNmin1", "SpendNmin1","SpendN"};
+            DataRow row = drRow;
+            for (int i = 0; i < arrNewCols.Length; i++)
+            {
+                row[arrNewCols[i]] = Convert.ToDecimal(row[arrNewCols[i]]);
+            }
+            return row;
+        }
+        public void setInitTypeCostSubCost()
+        {
+            int projectYear = System.DateTime.Now.Year;
+            string strQuery = "SELECT ms.SavingTypeName As InitType, mct.CostTypeName As ItemCategory, b.SubCostName FROM t_subcostbrand a"
++ " Inner JOIN msubcost b ON a.subcostid = b.id  Inner Join mcostType mct on mct.id = a.costtypeid"
+ + " Inner join msavingtype ms on ms.id = a.savingtypeid"
+ + " WHERE b.isActive = 'Y' And ms.InitYear = " + projectYear.ToString() + " And ms.isActive = 'Y' And a.InitYear = " + projectYear.ToString()
+ + " Group by InitType, ItemCategory, b.SubCostName Order by ms.SavingTypeName, mct.CostTypeName, b.SubCostName";
+
+            lstInitTypeCostSubCosts = db.Database.SqlQuery<InitTypeCostSubCost>(strQuery).ToList();
+        }
+
+        // File upload functionality
+        public ActionResult UploadFile(HttpPostedFileBase fileBase)
+        {
+            try
+            {
+                HttpFileCollectionBase files = Request.Files;
+                HttpPostedFileBase file = files[0];
+
+                #region 
+
+                String _path = Server.MapPath("~/UploadedFiles/");
+                // create the uploads folder if it doesn't exist
+                if (!System.IO.Directory.Exists(_path))
+                    Directory.CreateDirectory(_path);
+
+                string fileName = Path.GetRandomFileName() + "_" + file.FileName;
+                string _inputpath = Path.Combine(_path, fileName);
+                // save the file
+                file.SaveAs(_inputpath);
+                // Will set the subcountry brand list
+                this.SetSubCountryBrand();
+
+                //Will set the InitTypeCostSubCost
+                this.setInitTypeCostSubCost();
+
+                string outExcelfileName = "errorExcel_" + Path.GetRandomFileName() + ".xls";
+
+                int successCount = 0, errCount = 0;
+                if (!System.IO.Directory.Exists(_path + "ErrorExcel\\"))
+                    System.IO.Directory.CreateDirectory(_path + "ErrorExcel\\");
+
+                string outputExcelPath = Path.Combine(_path + "ErrorExcel\\", outExcelfileName);
+                int initYear = System.DateTime.Now.Year;
+
+                ResultCount resultCountobj = new ResultCount();
+                DataTable dtExcelInitiatives = FlatFileHelper.ConvertExcelToDataTable(_inputpath, "Sheet$");
+
+                using (FileStream stream = new FileStream(_inputpath, FileMode.Open))
+                {
+                    Workbook workbook = new Workbook();
+                    workbook.LoadDocument(stream);
+                    Worksheet worksheet = workbook.Worksheets[0];
+                    RowCollection rows = worksheet.Rows;
+                    CellRange dataRange = worksheet.GetUsedRange();
+                    DataRow drFirstRow = dtExcelInitiatives.Rows[0];
+                    drFirstRow.Delete();
+                    dtExcelInitiatives.AcceptChanges();
+
+                    if (!(dtExcelInitiatives.Columns.Count >= 91 && dtExcelInitiatives.Columns.Count < 93))
+                    {
+                        resultCountobj.validationMsg = "Please upload valid excel template";
+                        objFlatFileHelper.DisposeFile(_inputpath);
+                        return Content(JsonConvert.SerializeObject(resultCountobj));
+                    }
+                    else
+                    {
+                        // Column names space removal
+                        foreach (DataColumn col in dtExcelInitiatives.Columns)
+                        {
+                            col.ColumnName = col.ColumnName.Replace(" ", "");
+                            col.ColumnName = col.ColumnName.Replace("(", "");
+                            col.ColumnName = col.ColumnName.Replace(")", "");
+                        }
+                        string[] arrPrevCols = new string[] { "F36", "F40", "F44", "F48", "F52", "F56", "F60", "F64", "F68", "F72", "F76", "F80",
+            "ActualsVolumesN-1", "$SPENDN-1", "$SPENDN"};
+                        string[] arrNewCols = new string[] { "JanActualVolumes", "FebActualVolumes", "MarActualVolumes", "AprActualVolumes",
+                "MayActualVolumes" , "JunActualVolumes","JulActualVolumes", "AugActualVolumes", "SepActualVolumes", "OctActualVolumes",
+                "NovActualVolumes", "DecActualVolumes", "InputActualsVolumesNmin1", "SpendNmin1","SpendN"};
+
+                        for (int i = 0; i < arrPrevCols.Length; i++)
+                        {
+                            dtExcelInitiatives.Columns[dtExcelInitiatives.Columns.IndexOf(arrPrevCols[i])].ColumnName = arrNewCols[i];
+                        }
+                        dtExcelInitiatives.AcceptChanges();
+
+                        // Gets the valid rows
+                        var newInitiatives = dtExcelInitiatives.AsEnumerable()
+                            .Where(myRow =>
+                            (String.IsNullOrEmpty(myRow.Field<string>("InitNumber")))
+                         );
+
+                        // Get Existing initiative index and remove from excel and dtExcelInitiatives.
+                        var existingInitiatives = dtExcelInitiatives.AsEnumerable()
+                            .Where(myRow =>
+                            (!String.IsNullOrEmpty(myRow.Field<string>("InitNumber")))
+                         ).ToList();
+                        for (int i = existingInitiatives.Count - 1; i >= 0; i--)
+                        {
+                            DataRow drExistingInitiative = dtExcelInitiatives.Rows[i];
+                            drExistingInitiative.Delete();
+                            rows[(i + 2)].Delete();
+                        }
+                        dtExcelInitiatives.AcceptChanges();
+
+                        if (newInitiatives.ToList().Count() > 0)
+                        {
+                            DataTable dtInit = newInitiatives.CopyToDataTable();
+                            dtInit.Columns.Add("ProjectYear", typeof(String));
+                            List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
+                            List<int> lstValidRowIndexes = new List<int>();
+                            DataTable dtValidInit = dtInit.Clone();
+                            bool isValidBrand = false, isUserSubCountry = false;
+                            // Perform Mandatory validation
+                            if (dtInit.Rows.Count > 0)
+                            {
+                                for (int i = 0; i < dtInit.Rows.Count; i++)
+                                {
+                                    string remarks = string.Empty;
+                                    DateTime dtStartMonth = new DateTime();
+                                    DateTime dtEndMonth = new DateTime();
+                                    string subCountry = Convert.ToString(dtInit.Rows[i]["SubCountry"].ToString());
+                                    string brand = Convert.ToString(dtInit.Rows[i]["Brand"].ToString());
+                                    isValidBrand = false;
+                                    remarks = (string.IsNullOrEmpty(subCountry)) ? "Invalid Subcountry." : "";
+                                    if (subCountry != "")
+                                    {
+                                        isUserSubCountry = this.isUserSubCountry(subCountry);
+                                        remarks += (!isUserSubCountry) ? " Subcountry not mapped to user," : "";
+                                    }
+                                    remarks += (string.IsNullOrEmpty(brand)) ? " Invalid Brand." : "";
+
+                                    if (isUserSubCountry && (subCountry != "" && brand != ""))
+                                    {
+                                        isValidBrand = this.isValidBrand(subCountry, brand);
+                                        remarks += (!isValidBrand) ? " Brand not mapped with subcountry" : "";
+                                    }
+                                    remarks += (string.IsNullOrEmpty(dtInit.Rows[i]["Confidential"].ToString())) ?
+                                         " Invalid confidential." : "";
+                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["TypeOfInitiative"]), "initType")) ?
+                                        " Invalid Initiative type," : "";
+                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["ItemCategory"]), "itemCategory")) ?
+                                        " Invalid item category," : "";
+                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["SubCostItemImpacted"]), "subCost")) ?
+                                        " Invalid sub cost," : "";
+                                    remarks += (Convert.ToString(dtInit.Rows[i]["ActionType"].ToString().ToLower())) != "supplier contract monitoring" ?
+                                         " Action type should be supplier contract monitoring." : "";
+                                    remarks += (string.IsNullOrEmpty(dtInit.Rows[i]["StartMonth"].ToString())) ?
+                                         " Invalid Start month." : "";
+                                    remarks += (string.IsNullOrEmpty(dtInit.Rows[i]["EndMonth"].ToString())) ?
+                                         " Invalid End month." : "";
+                                    remarks += (string.IsNullOrEmpty(dtInit.Rows[i]["Unitofvolumes"].ToString())) ?
+                                         " Invalid unit of volumes" : "";
+                                    remarks += (!objFlatFileHelper.IsValidNumber(dtInit.Rows[i]["InputActualsVolumesNmin1"].ToString())) ?
+                                        " Invalid Actual volumes N-1." : "";
+                                    remarks += (!objFlatFileHelper.IsValidNumber(dtInit.Rows[i]["TargetVolumesN"].ToString())) ?
+                                        " Invalid Target Volumes N." : "";
+                                    remarks += (!objFlatFileHelper.IsValidNumber(dtInit.Rows[i]["SpendNmin1"].ToString())) ?
+                                        " Invalid Spend N-1." : "";
+                                    remarks += (!objFlatFileHelper.IsValidNumber(dtInit.Rows[i]["SpendN"].ToString())) ?
+                                        " Invalid Spend N." : "";
+
+                                    //Datetime check
+                                    remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth))) ? " Please enter a valid start date," : "";
+                                    remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))) ? " Please enter a valid end date" : "";
+
+                                    if ((!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth)))
+                                        || (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))))
+                                        remarks += " Please enter a valid start and end date,";
+                                    else
+                                    {
+                                        remarks += (objFlatFileHelper.isValidMonth(dtStartMonth)) == false ? " Start year should be from 2023 onwards." : "";
+                                        remarks += (objFlatFileHelper.isValidMonth(dtEndMonth)) == false ? " End year should be from 2023 onwards." : "";
+                                        remarks += (objFlatFileHelper.isValidEndMonth(dtStartMonth, dtEndMonth)) == false ?
+                                            " Start month should be lesser than end month and difference should be less than/ equal to 12 months" : "";
+                                    }
+                                    if (remarks != "")
+                                    {
+                                        (worksheet.Cells[1, 91]).Value = "Remarks";
+                                        (worksheet.Cells[(i + 2), 91]).Value = remarks;
+                                        (worksheet.Rows[(i + 2)]).FillColor = System.Drawing.Color.Yellow;
+                                        errCount++;
+                                    }
+                                    else
+                                    {
+                                        // Process the valid row.
+                                        DataRow drRow = dtInit.Rows[i];
+                                        InitiativeCalcs initiativeCalcs;
+                                        drRow = this.changeValuesDataType(drRow);
+                                        float flSpendN = float.Parse(drRow["SpendN"].ToString());
+                                        drRow["SpendN"] = flSpendN;
+                                        float flSpendNMin1 = float.Parse(drRow["SpendNmin1"].ToString());
+                                        drRow["SpendNmin1"] = flSpendNMin1;
+                                        float flActualVolNMin1 = float.Parse(drRow["InputActualsVolumesNmin1"].ToString());
+                                        drRow["InputActualsVolumesNmin1"] = flActualVolNMin1;
+                                        float flTargetVolumesN = float.Parse(drRow["TargetVolumesN"].ToString());
+                                        drRow["TargetVolumesN"] = flTargetVolumesN;
+                                        //r["InitNumber"] = strInitNumber;
+                                        drRow["StartMonth"] = dtStartMonth.ToString("yyyy-MM-dd"); ;//objFlatFileHelper.getDateTimeValue(drRow["StartMonth"].ToString()).ToString("yyyy-MM-dd");
+                                        drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd"); ;//objFlatFileHelper.getDateTimeValue(drRow["EndMonth"].ToString()).ToString("yyyy-MM-dd");
+                                        drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
+                                        drRow["Description"] = Convert.ToString(drRow["Description"]);
+                                        drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
+                                        drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
+                                        //drRow["InitNumber"] = this.getInitNumber(initYear, subCountry);
+                                        drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
+                                        drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
+                                        drRow["ActualsVolumesN"] = objFlatFileHelper.getTotalVolumes(drRow);
+                                        var profileData = Session["DefaultGAINSess"] as LoginSession;
+                                        drRow["CreatedBy"] = profileData.ID;
+                                        int startMonth = objFlatFileHelper.getMonthValue(Convert.ToDateTime(drRow["StartMonth"]));
+                                        int endMonth = objFlatFileHelper.getMonthValue(Convert.ToDateTime(drRow["EndMonth"]));
+
+                                        SecPriceEffect objSecPriceEffect = new SecPriceEffect();
+                                        objSecPriceEffect = objFlatFileHelper.getSecPriceEffectValues(flSpendN, flSpendNMin1, flActualVolNMin1, startMonth, flTargetVolumesN,
+                                           endMonth);
+
+                                        drRow["NFYSecuredPRICEEFFECT"] = objSecPriceEffect.FYSecPriceEffect;
+                                        drRow["NYTDSecuredPRICEEFFECT"] = objFlatFileHelper.getNYTDSecPriceEffect(objSecPriceEffect.perMonthValue, startMonth);
+
+                                        SecVolumeEffect objSecVolEffect = new SecVolumeEffect();
+                                        objSecVolEffect = objFlatFileHelper.getFYSecVolumeEffect(flTargetVolumesN, flActualVolNMin1, flSpendNMin1);
+
+                                        drRow["NFYSecuredVOLUMEEFFECT"] = objSecVolEffect.FYSecVolumeEffect;
+                                        drRow["NYTDSecuredVOLUMEEFFECT"] = objFlatFileHelper.getNYTDSecVolumeEffect(objSecVolEffect.perMonthValue, startMonth);
+
+                                        float flActualCPUNMin1 = objFlatFileHelper.GetActualCPUNMin1(flSpendNMin1, flActualVolNMin1);
+
+                                        float flTargetCPUN = objFlatFileHelper.GetTargetCPUN(startMonth, flSpendN, flSpendNMin1, flActualVolNMin1,
+                                           flTargetVolumesN, Convert.ToInt32(drRow["ProjectYear"]));
+
+                                        // for calcs
+                                        APriceEffectMonthValues objPriceEffectMonth = new APriceEffectMonthValues();
+                                        objPriceEffectMonth = objFlatFileHelper.GetAPriceEffectMonthValues(drRow, flActualCPUNMin1, flTargetCPUN, endMonth);
+                                        float flYTDAchievedPriceEffect = objFlatFileHelper.GetYTDAchievedPriceEffect(objPriceEffectMonth, endMonth);
+                                        drRow["YTDAchievedPRICEEFFECT"] = flYTDAchievedPriceEffect;
+
+                                        //for calcs
+                                        AVolEffectMonthValues objAVolEffectMonthValues = new AVolEffectMonthValues();
+                                        objAVolEffectMonthValues = objFlatFileHelper.GetAVolEffectMonthValues(drRow, flActualVolNMin1, flSpendN);
+                                        float flYTDAchievedVolEffect = objFlatFileHelper.GetYTDAchievedVolEffect(objAVolEffectMonthValues, endMonth);
+                                        drRow["YTDAchievedVOLUMEEFFECT"] = flYTDAchievedVolEffect;
+                                        // pending autocalculations
+                                        drRow["YTDCostAvoidanceVsCPI"] = 0;
+                                        drRow["FYCostAvoidanceVsCPI"] = 0;
+
+                                        initiativeCalcs = new InitiativeCalcs()
+                                        {
+                                            flActualCPUNMin1 = flActualCPUNMin1,
+                                            flTargetCPUN = flTargetCPUN,
+                                            aPriceEffectMonthValues = objPriceEffectMonth,
+                                            aVolEffectMonthValues = objAVolEffectMonthValues
+                                        };
+                                        dtInit.AcceptChanges();
+                                        dtValidInit.ImportRow(dtInit.Rows[i]);
+                                        lstInitiativeCalcs.Add(initiativeCalcs);
+                                        lstValidRowIndexes.Add(i);
+                                        successCount++;
+                                    }
+                                }
+                            }
+
+                            // To remove valid rowindexes from the excel.
+                            int validRowIndex = 0;
+                            for (int i = lstValidRowIndexes.Count - 1; i >= 0; i--)
+                            {
+                                validRowIndex = lstValidRowIndexes[i];
+                                (worksheet.Rows[(validRowIndex + 2)]).Delete();
+                            }
+
+                            dtInit.AcceptChanges();
+                            string initText = "inits";
+                            string initCalcText = "initCalcs";
+                            var json = "{" + JsonConvert.SerializeObject(initText) + ":" + JsonConvert.SerializeObject(dtValidInit) + ", " +
+                                JsonConvert.SerializeObject(initCalcText) + ":" + JsonConvert.SerializeObject(lstInitiativeCalcs) + "}";
+
+                            // Call SP for saving
+                            DBOperations objDBOperations = new DBOperations();
+                            objDBOperations.CallSaveInitiativesSP("SP_SAVEINITIATIVES", json, initYear);
+                        }
+                        else
+                        {
+                            // To display message that no new initiatives available.
+                        }
+
+                        workbook.SaveDocument(outputExcelPath);
+                        workbook.Dispose();
+
+                        //objFlatFileHelper.DisposeFile(_inputpath);
+                        //objFlatFileHelper.DisposeFile(_inputpath);
+                        stream.Dispose();
+                        ResultCount resultCount = new ResultCount()
+                        {
+                            errCount = errCount.ToString(),
+                            successCount = successCount.ToString(),
+                            outputExcelPath = "UploadedFiles/ErrorExcel/" + outExcelfileName,
+                            validationMsg = ""
+                        };
+                        return Content(JsonConvert.SerializeObject(resultCount));
+                    }
+                    #endregion
+                }
+            }
+            catch (Exception ex)
+            {
+                ResultCount resultCount = new ResultCount()
+                {
+                    validationMsg = ex.Message.ToString()
+                };
+                return Content(JsonConvert.SerializeObject(resultCount));
+            }
+        }
         public ActionResult GrdBrandPartial()
         {
             int GetID = Convert.ToInt32(Session["BrandID"]);
@@ -1460,6 +1870,27 @@ log4net.LogManager.GetLogger
                 return PartialView("_GrdSynImpactPartial", model.ToList());
             }
         }
+
+        //public string getInitNumber(int year, string subcountry)
+        //{
+        //    var countrycodelst = lstSubCountryBrand.Where(sc => sc.subCountryName == subcountry).FirstOrDefault();
+        //    string intnum = year.ToString() + countrycodelst.CountryCode;
+        //    t_initiative initz = db.t_initiative.Where(c => c.InitNumber.StartsWith(intnum)).FirstOrDefault();
+        //    string nomerterakhir = string.Empty;
+        //    if (initz != null)
+        //        nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(intnum)).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
+        //    else
+        //        nomerterakhir = intnum + "000";
+
+        //    nomerterakhir = nomerterakhir.Substring((nomerterakhir.Length - 3), 3);
+        //    int nomerurut = (Int32.Parse(nomerterakhir) + 1);
+        //    string nomerselanjutnya = ("00" + nomerurut.ToString());
+        //    nomerselanjutnya = intnum + nomerselanjutnya.Substring((nomerselanjutnya.Length - 3), 3);
+
+        //    return nomerselanjutnya;
+        //}
+
+
         [HttpPost]
         public ActionResult SaveNew(Models.InitiativeModel NewInitiative)
         {
@@ -1759,7 +2190,7 @@ log4net.LogManager.GetLogger
                                 RPOCComment = TxRPOCComment,
                                 HOComment = TxHOComment,
                                 AdditionalInfo = TxAdditionalInfo,
-                                PortID = (TxPortName == 0 ? (profileData.ProjectYear<=2022 ? 1 : 570) : TxPortName),
+                                PortID = (TxPortName == 0 ? (profileData.ProjectYear <= 2022 ? 1 : 570) : TxPortName),
                                 ProjectYear = (short)ProjectYear,
                                 VendorName = TxVendorSupp,
                                 TargetJan = targetjan,
@@ -2341,7 +2772,7 @@ log4net.LogManager.GetLogger
                     }
                     //initdata.CreatedDate = DateTime.Now;
                     db.SaveChanges();
-                   
+
                     var dataTable = new DataTable();
 
                     dataTable = Session["Maingrid"] as DataTable;
@@ -2897,7 +3328,7 @@ log4net.LogManager.GetLogger
             });
             return Json(GDFI, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult GetItemFromCostCategory(Models.GetInfoByIDModel GetInfo) 
+        public ActionResult GetItemFromCostCategory(Models.GetInfoByIDModel GetInfo)
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
             var projYear = profileData.ProjectYear;

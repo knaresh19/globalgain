@@ -633,22 +633,34 @@
                     @Html.Action("CboYear")
                 </div>
                 <h2>  Capture Period: </h2>
-                <div class="col-md-1 col-sm-1  ">
+                <div class="col-md-2 col-sm-2  ">
                     @Html.Action("CboMonth")
                 </div>
-                <div class="col-md-9a col-sm-9">
-                    <div style="float:left;">
-                        </br>
-                        @*<a id="BtnInitiative" class="btn btn-app btn-primary"><i class="fa fa-edit"></i> Add New</a>&nbsp;
-                <a class="btn btn-app btn-success" id="BtnExportXls" onclick="BtnExportXls();"><i class="fa fa-file-excel-o"></i> Export Excel</a>&nbsp;
-                <a class="btn btn-app btn-danger" id="BtnExportPdf" onclick="BtnExportPdf();"><i class="fa fa-file-pdf-o"></i> Export PDF</a>&nbsp;*@
-                        <button class="btn btn-primary" id="BtnInitiative" style="font-size:9pt;color:white;background-color:#007bff;"><i class="fa fa-edit"></i> Create New</button>
-                        <button class="btn btn-primary" id="BtnProcurement" style="font-size:9pt;color:white;background-color:#007bff;"><i class="fa fa-edit"></i> Create Supplier Contract Monitoring</button>
-                        <button class="btn btn-success" id="BtnExportXls" onclick="BtnExportXls();" style="font-size:9pt;color:white;background-color:#26B99A;"><i class="fa fa-file-excel-o"></i> Export Excel</button>
+                
+                <div class="col-md-12 col-sm-12">
+                    </br>
+                    <div class="row">
+                        <div class="col-md-7">
+                            @*<a id="BtnInitiative" class="btn btn-app btn-primary"><i class="fa fa-edit"></i> Add New</a>&nbsp;
+                                <a class="btn btn-app btn-success" id="BtnExportXls" onclick="BtnExportXls();"><i class="fa fa-file-excel-o"></i> Export Excel</a>&nbsp;
+                                <a class="btn btn-app btn-danger" id="BtnExportPdf" onclick="BtnExportPdf();"><i class="fa fa-file-pdf-o"></i> Export PDF</a>&nbsp;*@
+                            <button class="btn btn-primary" id="BtnInitiative" style="font-size:9pt;color:white;background-color:#007bff;"><i class="fa fa-edit"></i> Create New</button>
+                            <button class="btn btn-primary" id="BtnProcurement" style="font-size:9pt;color:white;background-color:#007bff;"><i class="fa fa-edit"></i> Create Supplier Contract Monitoring</button>
+                            <button class="btn btn-success" id="BtnExportXls" onclick="BtnExportXls();" style="font-size:9pt;color:white;background-color:#26B99A;"><i class="fa fa-file-excel-o"></i> Export Excel</button>                             @*<button class="btn btn-danger" id="BtnExportPdf" onclick="BtnExportPdf();" style="font-size:9pt;color:white;background-color:#dc3545;"><i class="fa fa-file-pdf-o"></i> Export PDF</button>*@
+                        </div>
+                        <div class="col-md-5" id="divUpload">
 
-                        @*<button class="btn btn-danger" id="BtnExportPdf" onclick="BtnExportPdf();" style="font-size:9pt;color:white;background-color:#dc3545;"><i class="fa fa-file-pdf-o"></i> Export PDF</button>*@
+
+                            <button class="btn btn-primary" id="BtnUploadFile" style="font-size:9pt;color:white;background-color:#007bff;float:right;"><i class="fa fa-upload"></i> Upload Flat File</button>
+                            <span class="input-group-addon" style="float: right; padding: 5px;">
+                                <input type="file" name="fileBase" required title="Choose Flat File" id="fileBase" />
+                            </span>
+
+                        </div>
                     </div>
                 </div>
+               
+
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -716,6 +728,33 @@
         ViewContext.Writer.Write("<h4>Okay! Data Saved.</h4><br/><h6><span id=\"initsukses\"></span></h6><br/><br/><br/><br/><br/><div style='float:right'><button class='btn btn-info' onclick='WindowOkSaved.Hide();GrdMainInitiative.Refresh();'>Close</button></div>");
     });
 }).GetHtml()
+
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "WindowInitSaved";
+    settings.Width = 250;
+    settings.Height = 130;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.AllowResize = false;
+    settings.ShowHeader = true;
+    settings.ShowFooter = true;
+    settings.ShowOnPageLoad = false;
+    settings.AllowDragging = false;
+    settings.CloseAction = CloseAction.OuterMouseClick;
+    settings.CloseOnEscape = true;
+    //settings.ClientSideEvents.CloseUp = "OnCloseNewInitiativeWindow";
+    settings.Modal = true;
+    settings.HeaderText = "Information";
+    settings.FooterText = "Copyright GAIN @" + DateTime.Now.Year + ". APAC DIGITAL FACTORY - CMA-CGM";
+
+    settings.SetContent(() =>
+    {
+        ViewContext.Writer.Write("<h4><span id=\"initHdng\"></span></h4><br/><h6><span id=\"initResults\"></span></h6><br/><br/><br/><br/><br/><div style='float:right'><button class='btn btn-info' onclick='WindowInitSaved.Hide();GrdMainInitiative.Refresh();'>Close</button></div>");
+    });
+}).GetHtml()
+
+
 
 @Html.DevExpress().PopupControl(settings =>
 {
