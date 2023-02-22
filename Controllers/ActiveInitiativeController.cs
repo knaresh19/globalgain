@@ -1321,7 +1321,7 @@ log4net.LogManager.GetLogger
             var profileData = Session["DefaultGAINSess"] as LoginSession;
             string usercountryIds = profileData.CountryID;
             string[] arrUserCountry = objFlatFileHelper.GetUserCountries(usercountryIds);
-            var userCntry = arrUserCountry.ToList().Where(ucntry => ucntry == subCountryDesc);
+            var userCntry = arrUserCountry.ToList().Where(ucntry => ucntry.ToLower() == subCountryDesc.ToLower());
             if (profileData.subcountry_right == "|ALL|")
                 isUserSubCountry = true;
             else
@@ -1334,7 +1334,7 @@ log4net.LogManager.GetLogger
         public bool isValidBrand(string subCountryDesc, string brandDesc)
         {
             bool isValidBrand = false;
-            var subCountryBrand = lstSubCountryBrand.Where(sc => sc.subCountryName == subCountryDesc && sc.brandName == brandDesc);
+            var subCountryBrand = lstSubCountryBrand.Where(sc => sc.subCountryName.ToLower() == subCountryDesc.ToLower() && sc.brandName.ToLower() == brandDesc.ToLower());
             isValidBrand = (subCountryBrand.Count() > 0) ? true : false;
             return isValidBrand;
         }
@@ -1371,19 +1371,19 @@ log4net.LogManager.GetLogger
                 {
                     case "initType":
                         {
-                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.initType == strMatchingText).FirstOrDefault();
+                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.initType.ToLower() == strMatchingText.ToLower()).FirstOrDefault();
                             isValidItem = (matchingItem != null) ? true : false;
                             break;
                         }
                     case "itemCategory":
                         {
-                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.itemCategory == strMatchingText).FirstOrDefault();
+                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.itemCategory.ToLower() == strMatchingText.ToLower()).FirstOrDefault();
                             isValidItem = (matchingItem != null) ? true : false;
                             break;
                         }
                     case "subCost":
                         {
-                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.subCostName == strMatchingText).FirstOrDefault();
+                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.subCostName.ToLower() == strMatchingText.ToLower()).FirstOrDefault();
                             isValidItem = (matchingItem != null) ? true : false;
                             break;
                         }
@@ -1506,7 +1506,7 @@ log4net.LogManager.GetLogger
                 //Will set the InitTypeCostSubCost
                 this.setInitTypeCostSubCost();
 
-                string outExcelfileName = "errorExcel_" + Path.GetRandomFileName() + ".xls";
+                string outExcelfileName = "errorExcel_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
 
                 int successCount = 0, errCount = 0;
                 if (!System.IO.Directory.Exists(_path + "ErrorExcel\\"))
