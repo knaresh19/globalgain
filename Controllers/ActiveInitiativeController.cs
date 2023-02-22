@@ -1415,6 +1415,72 @@ log4net.LogManager.GetLogger
             lstInitTypeCostSubCosts = db.Database.SqlQuery<InitTypeCostSubCost>(strQuery).ToList();
         }
 
+        public CPIMonthValues GetMonthlyCPIValues(string subCountryDesc, int initYear)
+        {
+            CPIMonthValues objCPIMonthValues = new CPIMonthValues();
+            string strQry = "Select msc.SubCountryName, mcpi.* From msubcountry msc"
++ " inner join mcountry mc on mc.id = msc.countryId Inner join"
++ " mcpi on mcpi.mcountry_id = msc.CountryID"
++ " Where mcpi.InitYear = " + initYear + " And msc.SubCountryName = '" + subCountryDesc + "'";
+            List<MonthlyCPIValues> _mCPI = db.Database.SqlQuery<MonthlyCPIValues>(strQry).ToList();
+            decimal final_CPI = 0;
+            decimal MONTHLY = 0;
+            decimal QUARTERLY = 0;
+            decimal ANNUALLY = 0;
+            mcpi obj_mcpi = new mcpi();
+            MONTHLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "MONTHLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
+            if (MONTHLY > 0)
+            {
+                final_CPI = MONTHLY;
+                objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
+            }
+            else if (final_CPI == 0)
+            {
+                for (int i = 1; i <= 4; i++)
+                {
+                    QUARTERLY = _mCPI.Where(x => x.Period_index == i && x.Period_type == "QUARTERLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
+                    if (QUARTERLY > 0)
+                    {
+                        final_CPI = QUARTERLY;
+                        if (i == 1)
+                        {
+                            objCPIMonthValues.JanCPI = final_CPI * 100;
+                            objCPIMonthValues.FebCPI = final_CPI * 100;
+                            objCPIMonthValues.MarCPI = final_CPI * 100;
+                        }
+                        else if (i == 2)
+                        {
+                            objCPIMonthValues.AprCPI = final_CPI * 100;
+                            objCPIMonthValues.MayCPI = final_CPI * 100;
+                            objCPIMonthValues.JunCPI = final_CPI * 100;
+                        }
+                        else if (i == 3)
+                        {
+                            objCPIMonthValues.JulCPI = final_CPI * 100;
+                            objCPIMonthValues.AugCPI = final_CPI * 100;
+                            objCPIMonthValues.SepCPI = final_CPI * 100;
+                        }
+                        else if (i == 4)
+                        {
+                            objCPIMonthValues.OctCPI = final_CPI * 100;
+                            objCPIMonthValues.NovCPI = final_CPI * 100;
+                            objCPIMonthValues.DecCPI = final_CPI * 100;
+                        }
+                    }
+                }
+            }
+            else if (final_CPI == 0)
+            {
+                ANNUALLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "ANNUALLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
+                if (ANNUALLY > 0)
+                {
+                    final_CPI = ANNUALLY;
+                    objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
+                }
+            }
+            return objCPIMonthValues;
+        }
+
         // File upload functionality
         public ActionResult UploadFile(HttpPostedFileBase fileBase)
         {
@@ -1646,16 +1712,39 @@ log4net.LogManager.GetLogger
                                         objAVolEffectMonthValues = objFlatFileHelper.GetAVolEffectMonthValues(drRow, flActualVolNMin1, flSpendN);
                                         float flYTDAchievedVolEffect = objFlatFileHelper.GetYTDAchievedVolEffect(objAVolEffectMonthValues, endMonth);
                                         drRow["YTDAchievedVOLUMEEFFECT"] = flYTDAchievedVolEffect;
-                                        // pending autocalculations
-                                        drRow["YTDCostAvoidanceVsCPI"] = 0;
-                                        drRow["FYCostAvoidanceVsCPI"] = 0;
+
+                                        // Achievement calculation
+                                        AchieveMonthValues objAchieveMonthValues = objFlatFileHelper.GetAchieveMonthValues(objPriceEffectMonth, objAVolEffectMonthValues);
+                                        // ST Price Effect values
+                                        STPriceEffectMonthValues objSTPriceEffect = objFlatFileHelper.GetSTPriceEffectMonthValues(objSecPriceEffect.perMonthValue, endMonth);
+                                        // ST Volume Effect values
+                                        STVolumeEffect objSTVolumeEffect = objFlatFileHelper.GetSTVolumeEffectValues(objSecVolEffect.perMonthValue);
+                                        // FY Secured Target Month values
+                                        FYSecuredTargetMonth objFYSecuredTargetMonth = objFlatFileHelper.GetFYSecuredTargetMonth(objSTPriceEffect, objSTVolumeEffect);
+
+                                        // CPI Month values
+                                        CPIMonthValues objCPIMonthValues = new CPIMonthValues();
+                                        objCPIMonthValues = this.GetMonthlyCPIValues(subCountry, initYear);
+                                        // CPI Effect month values
+                                        CPIEffectMonthValues objCPIEffectMonthValues = objFlatFileHelper.GetCPIEffectMonthValues(flActualCPUNMin1, flTargetCPUN,
+                                            objCPIMonthValues, drRow);
+
+                                        // Calculating YTD and FY CostAvoidance Vs CPI
+                                        drRow["YTDCostAvoidanceVsCPI"] = objFlatFileHelper.GetYTDCostAvoidanceVsCPI(objCPIEffectMonthValues);
+                                        drRow["FYCostAvoidanceVsCPI"] = objFlatFileHelper.GetFYCostAvoidanceVsCPI(objCPIEffectMonthValues);
 
                                         initiativeCalcs = new InitiativeCalcs()
                                         {
                                             flActualCPUNMin1 = flActualCPUNMin1,
                                             flTargetCPUN = flTargetCPUN,
                                             aPriceEffectMonthValues = objPriceEffectMonth,
-                                            aVolEffectMonthValues = objAVolEffectMonthValues
+                                            aVolEffectMonthValues = objAVolEffectMonthValues,
+                                            cPIMonthValues = objCPIMonthValues,
+                                            achieveMonthValues = objAchieveMonthValues,
+                                            sTPriceEffectMonthValues = objSTPriceEffect,
+                                            sTVolumeEffect = objSTVolumeEffect,
+                                            fYSecuredTargetMonth = objFYSecuredTargetMonth,
+                                            cPIEffectMonthValues = objCPIEffectMonthValues
                                         };
                                         dtInit.AcceptChanges();
                                         dtValidInit.ImportRow(dtInit.Rows[i]);
@@ -1716,6 +1805,7 @@ log4net.LogManager.GetLogger
                 return Content(JsonConvert.SerializeObject(resultCount));
             }
         }
+
         public ActionResult GrdBrandPartial()
         {
             int GetID = Convert.ToInt32(Session["BrandID"]);

@@ -28,7 +28,7 @@ namespace GAIN.Helper
             //}
 
             OleDbConnection objConn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + FileName + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=1;';");
-           // OleDbConnection objConn = new OleDbConnection(conStr);
+            // OleDbConnection objConn = new OleDbConnection(conStr);
             objConn.Open();
             DataTable dt;
             using (var da = new OleDbDataAdapter($"select * from [{sheetName}]", objConn))
@@ -103,8 +103,8 @@ namespace GAIN.Helper
 
         public DateTime getDateTimeValue(string date)
         {
-           
-           //double val = double.Parse(date);
+
+            //double val = double.Parse(date);
             //DateTime requiredDate = DateTime.FromOADate(val);
             return Convert.ToDateTime(date);
         }
@@ -565,6 +565,180 @@ namespace GAIN.Helper
                 s.Dispose();
                 System.IO.File.Delete(_path);
             }
+        }
+        public CPIMonthValues GetCPIMonthValues(decimal cpiValue)
+        {
+            CPIMonthValues objCPIMonthValues = new CPIMonthValues()
+            {
+                JanCPI = cpiValue * 100,
+                FebCPI = cpiValue * 100,
+                MarCPI = cpiValue * 100,
+                AprCPI = cpiValue * 100,
+                MayCPI = cpiValue * 100,
+                JunCPI = cpiValue * 100,
+                JulCPI = cpiValue * 100,
+                AugCPI = cpiValue * 100,
+                SepCPI = cpiValue * 100,
+                OctCPI = cpiValue * 100,
+                NovCPI = cpiValue * 100,
+                DecCPI = cpiValue * 100
+            };
+            return objCPIMonthValues;
+        }
+        public AchieveMonthValues GetAchieveMonthValues(APriceEffectMonthValues objPriceEffectMonth, AVolEffectMonthValues objAVolEffectMonthValues)
+        {
+            AchieveMonthValues objAchieveMonthValues = new AchieveMonthValues()
+            {
+                Jan = (objPriceEffectMonth.apriceEffectJan + objAVolEffectMonthValues.aVolEffectJan),
+                Feb = (objPriceEffectMonth.apriceEffectFeb + objAVolEffectMonthValues.aVolEffectFeb),
+                Mar = (objPriceEffectMonth.apriceEffectMar + objAVolEffectMonthValues.aVolEffectMar),
+                Apr = (objPriceEffectMonth.apriceEffectApr + objAVolEffectMonthValues.aVolEffectApr),
+                May = (objPriceEffectMonth.apriceEffectMay + objAVolEffectMonthValues.aVolEffectMay),
+                Jun = (objPriceEffectMonth.apriceEffectJun + objAVolEffectMonthValues.aVolEffectJun),
+                Jul = (objPriceEffectMonth.apriceEffectJul + objAVolEffectMonthValues.aVolEffectJul),
+                Aug = (objPriceEffectMonth.apriceEffectAug + objAVolEffectMonthValues.aVolEffectAug),
+                Sep = (objPriceEffectMonth.apriceEffectSep + objAVolEffectMonthValues.aVolEffectSep),
+                Oct = (objPriceEffectMonth.apriceEffectOct + objAVolEffectMonthValues.aVolEffectOct),
+                Nov = (objPriceEffectMonth.apriceEffectNov + objAVolEffectMonthValues.aVolEffectNov),
+                Dec = (objPriceEffectMonth.apriceEffectDec + objAVolEffectMonthValues.aVolEffectDec)
+            };
+            return objAchieveMonthValues;
+        }
+        public STPriceEffectMonthValues GetSTPriceEffectMonthValues(float perMonthValue, int endMonth)
+        {
+            STPriceEffectMonthValues sTPriceEffectMonthValues = new STPriceEffectMonthValues();
+            for (int monthIndex = 1; monthIndex <= endMonth; monthIndex++)
+            {
+                switch (monthIndex)
+                {
+                    case 1: { sTPriceEffectMonthValues.Jan = perMonthValue; break; }
+                    case 2: { sTPriceEffectMonthValues.Feb = perMonthValue; break; }
+                    case 3: { sTPriceEffectMonthValues.Mar = perMonthValue; break; }
+                    case 4: { sTPriceEffectMonthValues.Apr = perMonthValue; break; }
+                    case 5: { sTPriceEffectMonthValues.May = perMonthValue; break; }
+                    case 6: { sTPriceEffectMonthValues.Jun = perMonthValue; break; }
+                    case 7: { sTPriceEffectMonthValues.Jul = perMonthValue; break; }
+                    case 8: { sTPriceEffectMonthValues.Aug = perMonthValue; break; }
+                    case 9: { sTPriceEffectMonthValues.Sep = perMonthValue; break; }
+                    case 10: { sTPriceEffectMonthValues.Oct = perMonthValue; break; }
+                    case 11: { sTPriceEffectMonthValues.Nov = perMonthValue; break; }
+                    case 12: { sTPriceEffectMonthValues.Dec = perMonthValue; break; }
+                }
+            }
+            return sTPriceEffectMonthValues;
+        }
+        public STVolumeEffect GetSTVolumeEffectValues(float perMonthValue)
+        {
+            STVolumeEffect sTVolumeEffect = new STVolumeEffect()
+            {
+                Jan = perMonthValue,
+                Feb = perMonthValue,
+                Mar = perMonthValue,
+                Apr = perMonthValue,
+                May = perMonthValue,
+                Jun = perMonthValue,
+                Jul = perMonthValue,
+                Aug = perMonthValue,
+                Sep = perMonthValue,
+                Oct = perMonthValue,
+                Nov = perMonthValue,
+                Dec = perMonthValue
+            };
+            return sTVolumeEffect;
+        }
+        public FYSecuredTargetMonth GetFYSecuredTargetMonth(STPriceEffectMonthValues sTPriceEffectMonthValues, STVolumeEffect sTVolumeEffect)
+        {
+            FYSecuredTargetMonth fYSecuredTargetMonth = new FYSecuredTargetMonth()
+            {
+                Jan = (sTPriceEffectMonthValues.Jan + sTVolumeEffect.Jan),
+                Feb = (sTPriceEffectMonthValues.Feb + sTVolumeEffect.Feb),
+                Mar = (sTPriceEffectMonthValues.Mar + sTVolumeEffect.Mar),
+                Apr = (sTPriceEffectMonthValues.Apr + sTVolumeEffect.Apr),
+                May = (sTPriceEffectMonthValues.May + sTVolumeEffect.May),
+                Jun = (sTPriceEffectMonthValues.Jun + sTVolumeEffect.Jun),
+                Jul = (sTPriceEffectMonthValues.Jul + sTVolumeEffect.Jul),
+                Aug = (sTPriceEffectMonthValues.Aug + sTVolumeEffect.Aug),
+                Sep = (sTPriceEffectMonthValues.Sep + sTVolumeEffect.Sep),
+                Oct = (sTPriceEffectMonthValues.Oct + sTVolumeEffect.Oct),
+                Nov = (sTPriceEffectMonthValues.Nov + sTVolumeEffect.Nov),
+                Dec = (sTPriceEffectMonthValues.Dec + sTVolumeEffect.Dec)
+            };
+            return fYSecuredTargetMonth;
+        }
+        public CPIEffectMonthValues GetCPIEffectMonthValues(float flActualCPUNMin1, float flTargetCPUN, CPIMonthValues objCPIMonthValues,
+            DataRow drRow)
+        {
+            CPIEffectMonthValues cPIEffectMonthValues = new CPIEffectMonthValues();
+            decimal formula1_1 = Convert.ToDecimal((flTargetCPUN - flActualCPUNMin1) / flActualCPUNMin1);
+
+            cPIEffectMonthValues.Jan = (formula1_1 < (objCPIMonthValues.JanCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.JanCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["JanActualVolumes"].ToString())) : 0;
+            cPIEffectMonthValues.Feb = (formula1_1 < (objCPIMonthValues.FebCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.FebCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["FebActualVolumes"].ToString())) : 0;
+            cPIEffectMonthValues.Mar = (formula1_1 < (objCPIMonthValues.MarCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.MarCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["MarActualVolumes"].ToString())) : 0;
+            cPIEffectMonthValues.Apr = (formula1_1 < (objCPIMonthValues.AprCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.AprCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["AprActualVolumes"].ToString())) : 0;
+            cPIEffectMonthValues.May = (formula1_1 < (objCPIMonthValues.MayCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.MayCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["MayActualVolumes"].ToString())) : 0;
+            cPIEffectMonthValues.Jun = (formula1_1 < (objCPIMonthValues.JunCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.JunCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["JunActualVolumes"].ToString())) : 0;
+            cPIEffectMonthValues.Jul = (formula1_1 < (objCPIMonthValues.JulCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.JulCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["JulActualVolumes"].ToString())) : 0;
+            cPIEffectMonthValues.Aug = (formula1_1 < (objCPIMonthValues.AugCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.AugCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["AugActualVolumes"].ToString())) : 0;
+            cPIEffectMonthValues.Sep = (formula1_1 < (objCPIMonthValues.SepCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.SepCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["SepActualVolumes"].ToString())) : 0;
+            cPIEffectMonthValues.Oct = (formula1_1 < (objCPIMonthValues.OctCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.OctCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["OctActualVolumes"].ToString())) : 0;
+            cPIEffectMonthValues.Nov = (formula1_1 < (objCPIMonthValues.NovCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.NovCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["NovActualVolumes"].ToString())) : 0;
+            cPIEffectMonthValues.Dec = (formula1_1 < (objCPIMonthValues.DecCPI / 100)) ? this.CalculateCPIEffectMonthValue((float)objCPIMonthValues.DecCPI,
+              flTargetCPUN, flActualCPUNMin1, float.Parse(drRow["DecActualVolumes"].ToString())) : 0;
+
+            return cPIEffectMonthValues;
+        }
+        public float CalculateCPIEffectMonthValue(float cpiValue, float flTargetCPUN, float flActualCPUNMin1, float monthActualVolume)
+        {
+            float cpiEffectMonthValue = 0;
+            cpiEffectMonthValue = (flTargetCPUN - (1 + (cpiValue / 100)) * flActualCPUNMin1) * monthActualVolume;
+            return cpiEffectMonthValue;
+        }
+        public float GetYTDCostAvoidanceVsCPI(CPIEffectMonthValues cPIEffectMonthValues)
+        {
+            float YTDCostAvoidanceVsCPI = 0;
+            int ytdMonth = System.DateTime.Now.Month;
+            for (int monthIndex = 1; monthIndex <= ytdMonth; monthIndex++)
+            {
+                switch (monthIndex)
+                {
+                    case 1: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.Jan; break; }
+                    case 2: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.Feb; break; }
+                    case 3: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.Mar; break; }
+                    case 4: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.Apr; break; }
+                    case 5: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.May; break; }
+                    case 6: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.Jun; break; }
+                    case 7: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.Jul; break; }
+                    case 8: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.Aug; break; }
+                    case 9: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.Sep; break; }
+                    case 10: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.Oct; break; }
+                    case 11: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.Nov; break; }
+                    case 12: { YTDCostAvoidanceVsCPI += cPIEffectMonthValues.Dec; break; }
+                }
+            }
+            return YTDCostAvoidanceVsCPI;
+        }
+
+        public float GetFYCostAvoidanceVsCPI(CPIEffectMonthValues cPIEffectMonthValues)
+        {
+            float FYCostAvoidanceVsCPI = 0;
+            FYCostAvoidanceVsCPI = cPIEffectMonthValues.Jan + cPIEffectMonthValues.Feb + cPIEffectMonthValues.Mar +
+                cPIEffectMonthValues.Apr + cPIEffectMonthValues.May + cPIEffectMonthValues.Jun + cPIEffectMonthValues.Jul
+                + cPIEffectMonthValues.Aug + cPIEffectMonthValues.Sep + cPIEffectMonthValues.Oct + cPIEffectMonthValues.Nov
+                + cPIEffectMonthValues.Dec;
+
+            return FYCostAvoidanceVsCPI;
+
         }
     }
 }
