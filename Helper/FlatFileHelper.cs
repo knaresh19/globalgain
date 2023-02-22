@@ -122,7 +122,7 @@ namespace GAIN.Helper
             if (!string.IsNullOrEmpty(number) && (number != null && number != ""))
             {
                 Decimal dcNumber = Convert.ToDecimal(number);
-                if (dcNumber > 0) { isValid = true; }
+                if (dcNumber != 0) { isValid = true; }
             }
             return isValid;
         }
