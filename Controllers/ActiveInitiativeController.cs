@@ -1711,7 +1711,8 @@ log4net.LogManager.GetLogger
                                         objSecPriceEffect = objFlatFileHelper.getSecPriceEffectValues(flSpendN, flSpendNMin1, flActualVolNMin1, startMonth, flTargetVolumesN,
                                            endMonth);
 
-                                        drRow["NFYSecuredPRICEEFFECT"] = objSecPriceEffect.FYSecPriceEffect;
+                                        // FY Sec Price Effect
+                                        drRow["NFYSecuredPRICEEFFECT"] = objFlatFileHelper.GetNFYSecuredPriceEffect(objSecPriceEffect.perMonthValue, startMonth);
                                         drRow["NYTDSecuredPRICEEFFECT"] = objFlatFileHelper.getNYTDSecPriceEffect(objSecPriceEffect.perMonthValue, startMonth);
 
                                         SecVolumeEffect objSecVolEffect = new SecVolumeEffect();

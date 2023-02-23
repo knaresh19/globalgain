@@ -688,5 +688,12 @@ namespace GAIN.Helper
             else
                 return "N";
         }
+        public float GetNFYSecuredPriceEffect(float perMonthValue, int startMonth)
+        {
+            float NFYSecPriceEffect = 0;
+            int noOfMonth = 13 - startMonth;
+            NFYSecPriceEffect = perMonthValue * noOfMonth;
+            return NFYSecPriceEffect;
+        }
     }
 }
