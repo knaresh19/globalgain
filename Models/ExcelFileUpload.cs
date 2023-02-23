@@ -343,4 +343,12 @@
         public float Nov { get; set; }
         public float Dec { get; set; }
     }
+
+    public class textvalPair
+    {
+        public string text { get; set; }
+        public string val { get; set; }
+
+    }
+
 }

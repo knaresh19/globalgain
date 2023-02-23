@@ -59,56 +59,6 @@ namespace GAIN.Helper
             return dtExcelInitiatives;
         }
 
-
-
-        //public MandatoryFields GetMandatoryFields(Excel.Worksheet worksheet, int rowNum)
-        //{
-        //    MandatoryFields objMandatoryFields = new MandatoryFields()
-        //    {
-        //        initNumber = (worksheet.Cells[rowNum, 1] as Excel.Range).Value,
-        //        subCountry = (worksheet.Cells[rowNum, 3] as Excel.Range).Value,
-        //        brandName = (worksheet.Cells[rowNum, 4] as Excel.Range).Value,
-        //        legalName = (worksheet.Cells[rowNum, 5] as Excel.Range).Value,
-        //        //countryDesc = (worksheet.Cells[rowNum, 6] as Excel.Range).Value,
-        //        //regionDesc = (worksheet.Cells[rowNum, 7] as Excel.Range).Value,
-        //        //subRegionDesc = (worksheet.Cells[rowNum, 8] as Excel.Range).Value,
-        //        //clusterDesc = (worksheet.Cells[rowNum, 9] as Excel.Range).Value,
-        //        regionalOffice = (worksheet.Cells[rowNum, 6] as Excel.Range).Value,
-        //        costControlDesc = (worksheet.Cells[rowNum, 7] as Excel.Range).Value,
-        //        confidential = (worksheet.Cells[rowNum, 8] as Excel.Range).Value,
-        //        initType = (worksheet.Cells[rowNum, 10] as Excel.Range).Value,
-        //        itemCategoryDesc = (worksheet.Cells[rowNum, 11] as Excel.Range).Value,
-        //        subCostDesc = (worksheet.Cells[rowNum, 12] as Excel.Range).Value,
-        //        actionTypeDesc = (worksheet.Cells[rowNum, 13] as Excel.Range).Value,
-        //        synergyImpact = (worksheet.Cells[rowNum, 14] as Excel.Range).Value,
-        //        startMonth = (worksheet.Cells[rowNum, 15] as Excel.Range).Value,
-        //        endMonth = (worksheet.Cells[rowNum, 16] as Excel.Range).Value,
-        //        initStatus = (worksheet.Cells[rowNum, 18] as Excel.Range).Value,
-
-        //        //target12Months = (worksheet.Cells[rowNum, 24] as Excel.Range).Value,
-        //        //targetFYMonths = (worksheet.Cells[rowNum, 25] as Excel.Range).Value
-        //    };
-        //    return objMandatoryFields;
-        //}
-
-        public string GetMandatoryColumnMessage(MandatoryFields objMandatoryFields)
-        {
-
-            string strMandatoryMessage = "";
-            if (objMandatoryFields != null)
-            {
-            }
-            return strMandatoryMessage;
-        }
-
-        public DateTime getDateTimeValue(string date)
-        {
-
-            //double val = double.Parse(date);
-            //DateTime requiredDate = DateTime.FromOADate(val);
-            return Convert.ToDateTime(date);
-        }
-
         public int getMonthValue(DateTime selDate)
         {
             int monthVal = 0;
@@ -248,39 +198,7 @@ namespace GAIN.Helper
             }
             return flTargetCPUN;
         }
-
-        //public float GetAchievedPriceEffect()
-
-        /*  public float GetYTDAchievedPriceEffect(DataRow drActualVolume, PriceEffectValues objPriceEffValues)
-          {
-              float flAchievedPriceEffect = 0;
-              string[] A_Price_effect = { "A_Price_effect_Jan", "A_Price_effect_Feb", "A_Price_effect_Mar", "A_Price_effect_Apr", 
-                  "A_Price_effect_May", "A_Price_effect_Jun", "A_Price_effect_Jul", "A_Price_effect_Aug", 
-                  "A_Price_effect_Sep", "A_Price_effect_Oct", "A_Price_effect_Nov", "A_Price_effect_Dec" };
-              var till_Month = System.DateTime.Now.Month - 1;
-              var start_month = 0;
-
-
-
-
-              if (start_month != till_Month)
-              {
-                  var xYTD_Achieved_PRICE_EF = 0;
-                  while (start_month <= till_Month)
-                  {
-
-                      //xYTD_Achieved_PRICE_EF = ((xYTD_Achieved_PRICE_EF) + ( objPriceEffValues.priceEffectJan.actualVolN $("#" + A_Price_effect[start_month]).val()));
-                      start_month += 1;
-                  }
-
-
-              }
-
-
-              return flAchievedPriceEffect;
-          }
-          */
-
+        
         public APriceEffectMonthValues GetAPriceEffectMonthValues(DataRow row, float flActualCPUNMin1, float flTargetCPUN,
             int endMonth)
         {
@@ -375,7 +293,6 @@ namespace GAIN.Helper
             monthIndex++;
             if (monthIndex <= currentMonth && monthIndex <= endMonth)
             { flYTDAchievedPriceEffect += priceEffectMonthValues.apriceEffectMar; }
-
 
             monthIndex++;
             if (monthIndex <= currentMonth && monthIndex <= endMonth)
@@ -536,15 +453,10 @@ namespace GAIN.Helper
         public bool isValidEndMonth(DateTime dtStartMonth, DateTime dtEndMonth)
         {
             bool isValidEndmonth = false;
-            if (dtEndMonth > dtStartMonth)
-            {
-                isValidEndmonth = true;
-            }
-            int monthDiff = dtEndMonth.Month - dtStartMonth.Month;
-            if (monthDiff > 12)
-            {
+            if (((dtEndMonth.Year - dtStartMonth.Year) * 12) + dtEndMonth.Month - dtStartMonth.Month > 12)
                 isValidEndmonth = false;
-            }
+            else
+                isValidEndmonth = true;
             return isValidEndmonth;
         }
         public string[] GetUserCountries(string userCountries)
@@ -739,6 +651,42 @@ namespace GAIN.Helper
 
             return FYCostAvoidanceVsCPI;
 
+        }
+        public bool isValidUnitofVol(string unitOfVol)
+        {
+            List<string> lUnitVul = new List<string>();
+
+            lUnitVul.Add("TEU SHIPPING");
+            lUnitVul.Add("TC INLAND");
+            lUnitVul.Add("TC SHIPPING");
+            lUnitVul.Add("OTHERS");
+
+            bool isValid = false;
+            if (!string.IsNullOrEmpty(unitOfVol))
+            {
+                if (lUnitVul.Where(i => i.ToLower() == unitOfVol.ToLower()).Count() > 0)
+                {
+                    isValid = true;
+                }
+            }
+            return isValid;
+        }
+
+        public string getValidityRPOC(string txt)
+        {
+            List<textvalPair> lUnitVul = new List<textvalPair> ();
+            lUnitVul.Add(new textvalPair() { text= "KO", val = "KO" });
+            lUnitVul.Add(new textvalPair() { text = "Under Review", val = "UR" });
+            lUnitVul.Add(new textvalPair() { text = "OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", val = "L1" });
+            lUnitVul.Add(new textvalPair() { text = "OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", val = "L2" });
+            lUnitVul.Add(new textvalPair() { text = "OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", val = "L3" });
+            if (!string.IsNullOrEmpty(txt))
+            {
+                var str = lUnitVul.Where(i => i.text.ToLower() == txt.ToLower()).FirstOrDefault();
+                return (str != null ? str.val : "N");
+            }
+            else
+                return "N";
         }
     }
 }

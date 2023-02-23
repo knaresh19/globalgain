@@ -1362,7 +1362,7 @@ log4net.LogManager.GetLogger
             lstSubCountryBrand = db.Database.SqlQuery<SubCountryBrand>(sqlQuery).ToList();
         }
 
-        public bool isValidTypeCostSubCost(string strMatchingText, string field)
+        public bool isValidTypeCostSubCost(string strMatchingText, string field ,string itemCat ,string initType)
         {
             bool isValidItem = false;
             if (field != null)
@@ -1377,13 +1377,13 @@ log4net.LogManager.GetLogger
                         }
                     case "itemCategory":
                         {
-                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.itemCategory.ToLower() == strMatchingText.ToLower()).FirstOrDefault();
+                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.itemCategory.ToLower() == strMatchingText.ToLower() && item.initType.ToLower()== initType.ToLower()).FirstOrDefault();
                             isValidItem = (matchingItem != null) ? true : false;
                             break;
                         }
                     case "subCost":
                         {
-                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.subCostName.ToLower() == strMatchingText.ToLower()).FirstOrDefault();
+                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.subCostName.ToLower() == strMatchingText.ToLower() && item.itemCategory.ToLower() == itemCat.ToLower()).FirstOrDefault();
                             isValidItem = (matchingItem != null) ? true : false;
                             break;
                         }
@@ -1543,6 +1543,7 @@ log4net.LogManager.GetLogger
                             col.ColumnName = col.ColumnName.Replace(" ", "");
                             col.ColumnName = col.ColumnName.Replace("(", "");
                             col.ColumnName = col.ColumnName.Replace(")", "");
+                            col.ColumnName = col.ColumnName.Replace("/", "");
                         }
                         string[] arrPrevCols = new string[] { "F36", "F40", "F44", "F48", "F52", "F56", "F60", "F64", "F68", "F72", "F76", "F80",
             "ActualsVolumesN-1", "$SPENDN-1", "$SPENDN"};
@@ -1607,13 +1608,22 @@ log4net.LogManager.GetLogger
                                         isValidBrand = this.isValidBrand(subCountry, brand);
                                         remarks += (!isValidBrand) ? " Brand not mapped with subcountry" : "";
                                     }
-                                    remarks += (string.IsNullOrEmpty(dtInit.Rows[i]["Confidential"].ToString())) ?
-                                         " Invalid confidential." : "";
-                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["TypeOfInitiative"]), "initType")) ?
+                                    string sConfidential = dtInit.Rows[i]["Confidential"] != null ? dtInit.Rows[i]["Confidential"].ToString().ToUpper() : "";
+
+                                    if (sConfidential != "N" && sConfidential != "Y")
+                                        remarks += " Invalid confidential.";
+
+                                    string sInitiativeStatus = dtInit.Rows[i]["InitiativeStatus"] != null ? dtInit.Rows[i]["InitiativeStatus"].ToString().ToLower() : "";
+                                    if (sInitiativeStatus != "cancelled" && sInitiativeStatus != "ongoing" && sInitiativeStatus != "work in progress")
+                                        remarks += " Invalid Initiative Status.";
+                                    
+
+
+                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["TypeOfInitiative"]), "initType", "","")) ?
                                         " Invalid Initiative type," : "";
-                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["ItemCategory"]), "itemCategory")) ?
+                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["ItemCategory"]), "itemCategory","", Convert.ToString(dtInit.Rows[i]["TypeOfInitiative"]))) ?
                                         " Invalid item category," : "";
-                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["SubCostItemImpacted"]), "subCost")) ?
+                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["SubCostItemImpacted"]), "subCost", Convert.ToString(dtInit.Rows[i]["ItemCategory"]), "")) ?
                                         " Invalid sub cost," : "";
                                     remarks += (Convert.ToString(dtInit.Rows[i]["ActionType"].ToString().ToLower())) != "supplier contract monitoring" ?
                                          " Action type should be supplier contract monitoring." : "";
@@ -1621,7 +1631,7 @@ log4net.LogManager.GetLogger
                                          " Invalid Start month." : "";
                                     remarks += (string.IsNullOrEmpty(dtInit.Rows[i]["EndMonth"].ToString())) ?
                                          " Invalid End month." : "";
-                                    remarks += (string.IsNullOrEmpty(dtInit.Rows[i]["Unitofvolumes"].ToString())) ?
+                                    remarks += (!objFlatFileHelper.isValidUnitofVol(Convert.ToString(dtInit.Rows[i]["Unitofvolumes"]))) ?
                                          " Invalid unit of volumes" : "";
                                     remarks += (!objFlatFileHelper.IsValidNumber(dtInit.Rows[i]["InputActualsVolumesNmin1"].ToString())) ?
                                         " Invalid Actual volumes N-1." : "";
@@ -1632,6 +1642,13 @@ log4net.LogManager.GetLogger
                                     remarks += (!objFlatFileHelper.IsValidNumber(dtInit.Rows[i]["SpendN"].ToString())) ?
                                         " Invalid Spend N." : "";
 
+                                    
+
+
+
+
+
+
                                     //Datetime check
                                     remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth))) ? " Please enter a valid start date," : "";
                                     remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))) ? " Please enter a valid end date" : "";
@@ -1641,8 +1658,8 @@ log4net.LogManager.GetLogger
                                         remarks += " Please enter a valid start and end date,";
                                     else
                                     {
-                                        remarks += (objFlatFileHelper.isValidMonth(dtStartMonth)) == false ? " Start year should be from 2023 onwards." : "";
-                                        remarks += (objFlatFileHelper.isValidMonth(dtEndMonth)) == false ? " End year should be from 2023 onwards." : "";
+                                        remarks += (objFlatFileHelper.isValidMonth(dtStartMonth)) == false ? " Start year should be from "+initYear+" onwards." : "";
+                                        remarks += (objFlatFileHelper.isValidMonth(dtEndMonth)) == false ? " End year should be from " + initYear + " onwards." : "";
                                         remarks += (objFlatFileHelper.isValidEndMonth(dtStartMonth, dtEndMonth)) == false ?
                                             " Start month should be lesser than end month and difference should be less than/ equal to 12 months" : "";
                                     }
@@ -1650,6 +1667,9 @@ log4net.LogManager.GetLogger
                                     {
                                         (worksheet.Cells[1, 91]).Value = "Remarks";
                                         (worksheet.Cells[(i + 2), 91]).Value = remarks;
+                                        (worksheet.Cells[(i + 2), 90]).Value = "";
+                                        (worksheet.Cells[(i + 2), 89]).Value = "";
+                                        (worksheet.Cells[(i + 2), 88]).Value = "";
                                         (worksheet.Rows[(i + 2)]).FillColor = System.Drawing.Color.Yellow;
                                         errCount++;
                                     }
@@ -1680,6 +1700,10 @@ log4net.LogManager.GetLogger
                                         drRow["ActualsVolumesN"] = objFlatFileHelper.getTotalVolumes(drRow);
                                         var profileData = Session["DefaultGAINSess"] as LoginSession;
                                         drRow["CreatedBy"] = profileData.ID;
+                                        drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
+
+                                        drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
+
                                         int startMonth = objFlatFileHelper.getMonthValue(Convert.ToDateTime(drRow["StartMonth"]));
                                         int endMonth = objFlatFileHelper.getMonthValue(Convert.ToDateTime(drRow["EndMonth"]));
 
@@ -2648,7 +2672,7 @@ log4net.LogManager.GetLogger
                     initdata.ClusterID = GrdCluster;
                     initdata.RegionalOfficeID = GrdRegionalOffice;
                     initdata.CostControlID = GrdCostControl;
-                    initdata.LegalEntityID = GrdLegalEntity;
+                    if (GrdLegalEntity != 0) initdata.LegalEntityID = GrdLegalEntity;
                     initdata.CountryID = GrdCountry;
                     initdata.SubCountryID = GrdSubCountry;
                     initdata.Confidential = CboConfidential;
@@ -2658,7 +2682,7 @@ log4net.LogManager.GetLogger
                     initdata.CostCategoryID = GrdInitCategory;
                     initdata.SubCostCategoryID = GrdSubCost;
                     initdata.ActionTypeID = GrdActionType;
-                    initdata.SynergyImpactID = GrdSynImpact;
+                    if (GrdSynImpact != 0) initdata.SynergyImpactID = GrdSynImpact;
                     initdata.InitStatus = GrdInitStatus;
                     initdata.StartMonth = StartMonth;
                     initdata.EndMonth = EndMonth;
