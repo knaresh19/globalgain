@@ -284,7 +284,7 @@
     public class InitiativeCalcs
     {
         public float flActualCPUNMin1 { get; set; }
-        public float flTargetCPUN { get; set; }
+        public TargetCPUNMonth targetCPUNMonth { get; set; }
         public APriceEffectMonthValues aPriceEffectMonthValues { get; set; }
         public AVolEffectMonthValues aVolEffectMonthValues { get; set; }
         public AchieveMonthValues achieveMonthValues { get; set; }
@@ -293,6 +293,22 @@
         public FYSecuredTargetMonth fYSecuredTargetMonth { get; set; }
         public CPIEffectMonthValues cPIEffectMonthValues { get; set; }
         public CPIMonthValues cPIMonthValues { get; set; }
+    }
+
+    public class TargetCPUNMonth
+    {
+        public float Jan { get; set; }
+        public float Feb { get; set; }
+        public float Mar { get; set; }
+        public float Apr { get; set; }
+        public float May { get; set; }
+        public float Jun { get; set; }
+        public float Jul { get; set; }
+        public float Aug { get; set; }
+        public float Sep { get; set; }
+        public float Oct { get; set; }
+        public float Nov { get; set; }
+        public float Dec { get; set; }
     }
     public class InitTypeCostSubCost
     {
@@ -350,5 +366,4 @@
         public string val { get; set; }
 
     }
-
 }
