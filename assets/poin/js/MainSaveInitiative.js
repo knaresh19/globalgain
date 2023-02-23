@@ -232,12 +232,12 @@ function SaveInitiative() {
             //}
 
             //alert(xGrdSubCountry + " " + xGrdBrand + " " + xGrdLegalEntity + " " + xGrdCountry + " " + xGrdRegional + " " + xGrdSubRegion + " " + xGrdCluster + " " + xGrdRegionalOffice + " " + xGrdCostControl + " " + xCboConfidential + " " + xGrdInitStatus + " " + xGrdInitType + " " + xGrdInitCategory + " " + xGrdSubCost + " " + xGrdActionType + " " + xGrdSynImpact + " " + xStartMonth + " " + xEndMonth);
-
+            //  xGrdSynImpact > 0 && xGrdLegalEntity != null && -- removing synimpact and legal name validation as per user comment
             if (
-                xGrdSubCountry != null && xGrdBrand != null && xGrdLegalEntity != null && xGrdCountry != null && xGrdRegional != null &&
+                xGrdSubCountry != null && xGrdBrand != null && xGrdCountry != null && xGrdRegional != null &&
                 xGrdSubRegion != null && xGrdCluster != null && xGrdRegionalOffice != null && xGrdCostControl != null && xCboConfidential != null &&
                 xGrdInitStatus > 0 && xGrdInitType > 0 && xGrdInitCategory > 0 && xGrdSubCost > 0 && xGrdActionType > 0 &&
-                xGrdSynImpact > 0 && xStartMonth != null && xEndMonth != null
+                xStartMonth != null && xEndMonth != null
                 &&
                 isAll_Procurement_Mandatory_fields_entered(xisProcurement)
             ) {
