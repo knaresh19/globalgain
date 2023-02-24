@@ -1693,6 +1693,8 @@ log4net.LogManager.GetLogger
                                         var profileData = Session["DefaultGAINSess"] as LoginSession;
                                         drRow["CreatedBy"] = profileData.ID;
                                         drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
+                                        drRow["VendorSupplier"] = Convert.ToString(drRow["VendorSupplier"]).ToUpper();
+                                        drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]).ToUpper();
 
                                         drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
 

@@ -599,7 +599,9 @@ namespace GAIN.Helper
         public bool isValidEndMonth(DateTime dtStartMonth, DateTime dtEndMonth)
         {
             bool isValidEndmonth = false;
-            if (((dtEndMonth.Year - dtStartMonth.Year) * 12) + dtEndMonth.Month - dtStartMonth.Month > 12)
+            if(dtEndMonth < dtStartMonth)
+                isValidEndmonth = false;
+            else if (((dtEndMonth.Year - dtStartMonth.Year) * 12) + dtEndMonth.Month - dtStartMonth.Month >= 12)
                 isValidEndmonth = false;
             else
                 isValidEndmonth = true;
