@@ -1353,16 +1353,18 @@ log4net.LogManager.GetLogger
                 subCntryCondn += (i < arrUserCountry.Length - 1) ? "," : "";
             }
             subCntryCondn += ")";
+
             string sqlQuery = "SELECT mb.brandname As brandName, mbc.brandid As brandId, ms.SubCountryName,ms.CountryCode FROM mbrandcountry mbc inner join "
                                 + " mbrand mb on mbc.brandid = mb.id Inner join msubcountry ms on ms.id = mbc.subcountryid"
                                 + " Where ms.isActive = 'Y' and mbc.inityear = " + System.DateTime.Now.Year;
-            sqlQuery += (usercountryIds != "|ALL|") ? " And ms.SubCountryName in " + subCntryCondn : "";
+
+            sqlQuery += ((usercountryIds != "|ALL|") && (profileData.UserType != 1)) ? " And ms.SubCountryName in " + subCntryCondn : "";
 
 
             lstSubCountryBrand = db.Database.SqlQuery<SubCountryBrand>(sqlQuery).ToList();
         }
 
-        public bool isValidTypeCostSubCost(string strMatchingText, string field ,string itemCat ,string initType)
+        public bool isValidTypeCostSubCost(string strMatchingText, string field, string itemCat, string initType)
         {
             bool isValidItem = false;
             if (field != null)
@@ -1377,7 +1379,7 @@ log4net.LogManager.GetLogger
                         }
                     case "itemCategory":
                         {
-                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.itemCategory.ToLower() == strMatchingText.ToLower() && item.initType.ToLower()== initType.ToLower()).FirstOrDefault();
+                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.itemCategory.ToLower() == strMatchingText.ToLower() && item.initType.ToLower() == initType.ToLower()).FirstOrDefault();
                             isValidItem = (matchingItem != null) ? true : false;
                             break;
                         }
@@ -1616,12 +1618,10 @@ log4net.LogManager.GetLogger
                                     string sInitiativeStatus = dtInit.Rows[i]["InitiativeStatus"] != null ? dtInit.Rows[i]["InitiativeStatus"].ToString().ToLower() : "";
                                     if (sInitiativeStatus != "cancelled" && sInitiativeStatus != "ongoing" && sInitiativeStatus != "work in progress")
                                         remarks += " Invalid Initiative Status.";
-                                    
 
-
-                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["TypeOfInitiative"]), "initType", "","")) ?
+                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["TypeOfInitiative"]), "initType", "", "")) ?
                                         " Invalid Initiative type," : "";
-                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["ItemCategory"]), "itemCategory","", Convert.ToString(dtInit.Rows[i]["TypeOfInitiative"]))) ?
+                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["ItemCategory"]), "itemCategory", "", Convert.ToString(dtInit.Rows[i]["TypeOfInitiative"]))) ?
                                         " Invalid item category," : "";
                                     remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["SubCostItemImpacted"]), "subCost", Convert.ToString(dtInit.Rows[i]["ItemCategory"]), "")) ?
                                         " Invalid sub cost," : "";
@@ -1641,14 +1641,6 @@ log4net.LogManager.GetLogger
                                         " Invalid Spend N-1." : "";
                                     remarks += (!objFlatFileHelper.IsValidNumber(dtInit.Rows[i]["SpendN"].ToString())) ?
                                         " Invalid Spend N." : "";
-
-                                    
-
-
-
-
-
-
                                     //Datetime check
                                     remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth))) ? " Please enter a valid start date," : "";
                                     remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))) ? " Please enter a valid end date" : "";
@@ -1658,7 +1650,7 @@ log4net.LogManager.GetLogger
                                         remarks += " Please enter a valid start and end date,";
                                     else
                                     {
-                                        remarks += (objFlatFileHelper.isValidMonth(dtStartMonth)) == false ? " Start year should be from "+initYear+" onwards." : "";
+                                        remarks += (objFlatFileHelper.isValidMonth(dtStartMonth)) == false ? " Start year should be from " + initYear + " onwards." : "";
                                         remarks += (objFlatFileHelper.isValidMonth(dtEndMonth)) == false ? " End year should be from " + initYear + " onwards." : "";
                                         remarks += (objFlatFileHelper.isValidEndMonth(dtStartMonth, dtEndMonth)) == false ?
                                             " Start month should be lesser than end month and difference should be less than/ equal to 12 months" : "";
@@ -1701,6 +1693,8 @@ log4net.LogManager.GetLogger
                                         var profileData = Session["DefaultGAINSess"] as LoginSession;
                                         drRow["CreatedBy"] = profileData.ID;
                                         drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
+                                        drRow["VendorSupplier"] = Convert.ToString(drRow["VendorSupplier"]).ToUpper();
+                                        drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]).ToUpper();
 
                                         drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
 
@@ -1711,39 +1705,44 @@ log4net.LogManager.GetLogger
                                         objSecPriceEffect = objFlatFileHelper.getSecPriceEffectValues(flSpendN, flSpendNMin1, flActualVolNMin1, startMonth, flTargetVolumesN,
                                            endMonth);
 
-                                        // FY Sec Price Effect
-                                        drRow["NFYSecuredPRICEEFFECT"] = objFlatFileHelper.GetNFYSecuredPriceEffect(objSecPriceEffect.perMonthValue, startMonth);
+
                                         drRow["NYTDSecuredPRICEEFFECT"] = objFlatFileHelper.getNYTDSecPriceEffect(objSecPriceEffect.perMonthValue, startMonth);
 
                                         SecVolumeEffect objSecVolEffect = new SecVolumeEffect();
                                         objSecVolEffect = objFlatFileHelper.getFYSecVolumeEffect(flTargetVolumesN, flActualVolNMin1, flSpendNMin1);
-
+                                        // N YTD Sec volume effect
+                                        drRow["NYTDSecuredVOLUMEEFFECT"] = objFlatFileHelper.getNYTDSecVolumeEffect(objSecVolEffect.perMonthValue);
                                         drRow["NFYSecuredVOLUMEEFFECT"] = objSecVolEffect.FYSecVolumeEffect;
-                                        drRow["NYTDSecuredVOLUMEEFFECT"] = objFlatFileHelper.getNYTDSecVolumeEffect(objSecVolEffect.perMonthValue, startMonth);
 
                                         float flActualCPUNMin1 = objFlatFileHelper.GetActualCPUNMin1(flSpendNMin1, flActualVolNMin1);
 
-                                        float flTargetCPUN = objFlatFileHelper.GetTargetCPUN(startMonth, flSpendN, flSpendNMin1, flActualVolNMin1,
+                                        // Target CPU N Month
+                                        TargetCPUNMonth targetCPUNMonth = objFlatFileHelper.GetTargetCPUN(startMonth, flSpendN, flSpendNMin1, flActualVolNMin1,
                                            flTargetVolumesN, Convert.ToInt32(drRow["ProjectYear"]));
 
                                         // for calcs
                                         APriceEffectMonthValues objPriceEffectMonth = new APriceEffectMonthValues();
-                                        objPriceEffectMonth = objFlatFileHelper.GetAPriceEffectMonthValues(drRow, flActualCPUNMin1, flTargetCPUN, endMonth);
-                                        float flYTDAchievedPriceEffect = objFlatFileHelper.GetYTDAchievedPriceEffect(objPriceEffectMonth, endMonth);
+                                        objPriceEffectMonth = objFlatFileHelper.GetAPriceEffectMonthValues(drRow, flActualCPUNMin1, targetCPUNMonth, dtStartMonth, dtEndMonth, initYear);
+                                        float flYTDAchievedPriceEffect = objFlatFileHelper.GetYTDAchievedPriceEffect(objPriceEffectMonth);
                                         drRow["YTDAchievedPRICEEFFECT"] = flYTDAchievedPriceEffect;
 
                                         //for calcs
                                         AVolEffectMonthValues objAVolEffectMonthValues = new AVolEffectMonthValues();
-                                        objAVolEffectMonthValues = objFlatFileHelper.GetAVolEffectMonthValues(drRow, flActualVolNMin1, flSpendN);
+                                        objAVolEffectMonthValues = objFlatFileHelper.GetAVolEffectMonthValues(drRow, flActualVolNMin1, flSpendNMin1);
                                         float flYTDAchievedVolEffect = objFlatFileHelper.GetYTDAchievedVolEffect(objAVolEffectMonthValues, endMonth);
                                         drRow["YTDAchievedVOLUMEEFFECT"] = flYTDAchievedVolEffect;
 
                                         // Achievement calculation
                                         AchieveMonthValues objAchieveMonthValues = objFlatFileHelper.GetAchieveMonthValues(objPriceEffectMonth, objAVolEffectMonthValues);
                                         // ST Price Effect values
-                                        STPriceEffectMonthValues objSTPriceEffect = objFlatFileHelper.GetSTPriceEffectMonthValues(objSecPriceEffect.perMonthValue, endMonth);
+                                        STPriceEffectMonthValues objSTPriceEffect = objFlatFileHelper.GetSTPriceEffectMonthValues(objSecPriceEffect.perMonthValue, dtStartMonth, dtEndMonth);
+
+                                        // FY Sec Price Effect
+                                        drRow["NFYSecuredPRICEEFFECT"] = objFlatFileHelper.GetNFYSecuredPriceEffect(objSTPriceEffect);
+
                                         // ST Volume Effect values
                                         STVolumeEffect objSTVolumeEffect = objFlatFileHelper.GetSTVolumeEffectValues(objSecVolEffect.perMonthValue);
+
                                         // FY Secured Target Month values
                                         FYSecuredTargetMonth objFYSecuredTargetMonth = objFlatFileHelper.GetFYSecuredTargetMonth(objSTPriceEffect, objSTVolumeEffect);
 
@@ -1751,7 +1750,7 @@ log4net.LogManager.GetLogger
                                         CPIMonthValues objCPIMonthValues = new CPIMonthValues();
                                         objCPIMonthValues = this.GetMonthlyCPIValues(subCountry, initYear);
                                         // CPI Effect month values
-                                        CPIEffectMonthValues objCPIEffectMonthValues = objFlatFileHelper.GetCPIEffectMonthValues(flActualCPUNMin1, flTargetCPUN,
+                                        CPIEffectMonthValues objCPIEffectMonthValues = objFlatFileHelper.GetCPIEffectMonthValues(flActualCPUNMin1, targetCPUNMonth,
                                             objCPIMonthValues, drRow);
 
                                         // Calculating YTD and FY CostAvoidance Vs CPI
@@ -1761,7 +1760,7 @@ log4net.LogManager.GetLogger
                                         initiativeCalcs = new InitiativeCalcs()
                                         {
                                             flActualCPUNMin1 = flActualCPUNMin1,
-                                            flTargetCPUN = flTargetCPUN,
+                                            targetCPUNMonth = targetCPUNMonth,
                                             aPriceEffectMonthValues = objPriceEffectMonth,
                                             aVolEffectMonthValues = objAVolEffectMonthValues,
                                             cPIMonthValues = objCPIMonthValues,
