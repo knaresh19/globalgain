@@ -260,85 +260,153 @@ namespace GAIN.Helper
                         }
                 }
             }
-          return targetCPUNMonth;
+            return targetCPUNMonth;
         }
 
         public APriceEffectMonthValues GetAPriceEffectMonthValues(DataRow row, float flActualCPUNMin1, TargetCPUNMonth targetCPUNMonth,
-            DateTime dtEndDate, int initYear)
+            DateTime dtStartDate, DateTime dtEndDate, int initYear)
         {
             // Will calculate the achieved price effect till the end month.
-            int monthIndex = 1;
-            int endMonth = Convert.ToInt32(dtEndDate.Year + "" + dtEndDate.Month);
 
             APriceEffectMonthValues priceEffectMonthValues = new APriceEffectMonthValues();
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectJan = ((targetCPUNMonth.Jan - flActualCPUNMin1) * float.Parse(row.Field<string>("JanActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectJan = 0;
-            monthIndex++;
 
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectFeb = ((targetCPUNMonth.Feb - flActualCPUNMin1) * float.Parse(row.Field<string>("FebActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectFeb = 0;
-            monthIndex++;
+            for (var date = dtStartDate.Date; date.Date <= dtEndDate.Date; date = date.AddMonths(1))
+            {
+                int monthIndex = date.Month;
+                if (date.Year == dtStartDate.Year)
+                    switch (monthIndex)
+                    {
+                        case 1:
+                            {
+                                priceEffectMonthValues.apriceEffectJan = ((targetCPUNMonth.Jan - flActualCPUNMin1) * float.Parse(row.Field<string>("JanActualVolumes")));
+                                break;
+                            }
+                        case 2:
+                            {
+                                priceEffectMonthValues.apriceEffectFeb = ((targetCPUNMonth.Feb - flActualCPUNMin1) * float.Parse(row.Field<string>("FebActualVolumes")));
+                                break;
+                            }
+                        case 3:
+                            {
+                                priceEffectMonthValues.apriceEffectMar = ((targetCPUNMonth.Mar - flActualCPUNMin1) * float.Parse(row.Field<string>("MarActualVolumes")));
+                                break;
+                            }
+                        case 4:
+                            {
+                                priceEffectMonthValues.apriceEffectApr = ((targetCPUNMonth.Apr - flActualCPUNMin1) * float.Parse(row.Field<string>("AprActualVolumes")));
+                                break;
+                            }
+                        case 5:
+                            {
+                                priceEffectMonthValues.apriceEffectMay = ((targetCPUNMonth.May - flActualCPUNMin1) * float.Parse(row.Field<string>("MayActualVolumes")));
+                                break;
+                            }
+                        case 6:
+                            {
+                                priceEffectMonthValues.apriceEffectJun = ((targetCPUNMonth.Jun - flActualCPUNMin1) * float.Parse(row.Field<string>("JunActualVolumes")));
+                                break;
+                            }
+                        case 7:
+                            {
+                                priceEffectMonthValues.apriceEffectJul = ((targetCPUNMonth.Jul - flActualCPUNMin1) * float.Parse(row.Field<string>("JulActualVolumes")));
+                                break;
+                            }
+                        case 8:
+                            {
+                                priceEffectMonthValues.apriceEffectAug = ((targetCPUNMonth.Aug - flActualCPUNMin1) * float.Parse(row.Field<string>("AugActualVolumes")));
+                                break;
+                            }
+                        case 9:
+                            {
+                                priceEffectMonthValues.apriceEffectSep = ((targetCPUNMonth.Sep - flActualCPUNMin1) * float.Parse(row.Field<string>("SepActualVolumes")));
+                                break;
+                            }
+                        case 10:
+                            {
+                                priceEffectMonthValues.apriceEffectOct = ((targetCPUNMonth.Oct - flActualCPUNMin1) * float.Parse(row.Field<string>("OctActualVolumes")));
+                                break;
+                            }
+                        case 11:
+                            {
+                                priceEffectMonthValues.apriceEffectNov = ((targetCPUNMonth.Nov - flActualCPUNMin1) * float.Parse(row.Field<string>("NovActualVolumes")));
+                                break;
+                            }
+                        case 12:
+                            {
+                                priceEffectMonthValues.apriceEffectDec = ((targetCPUNMonth.Dec - flActualCPUNMin1) * float.Parse(row.Field<string>("DecActualVolumes")));
+                                break;
+                            }
+                    }
+            }
 
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectMar = ((targetCPUNMonth.Mar - flActualCPUNMin1) * float.Parse(row.Field<string>("MarActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectMar = 0;
-            monthIndex++;
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectJan = ((targetCPUNMonth.Jan - flActualCPUNMin1) * float.Parse(row.Field<string>("JanActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectJan = 0;
+            //monthIndex++;
 
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectApr = ((targetCPUNMonth.Apr - flActualCPUNMin1) * float.Parse(row.Field<string>("AprActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectApr = 0;
-            monthIndex++;
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectFeb = ((targetCPUNMonth.Feb - flActualCPUNMin1) * float.Parse(row.Field<string>("FebActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectFeb = 0;
+            //monthIndex++;
 
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectMay = ((targetCPUNMonth.May - flActualCPUNMin1) * float.Parse(row.Field<string>("MayActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectMay = 0;
-            monthIndex++;
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectMar = ((targetCPUNMonth.Mar - flActualCPUNMin1) * float.Parse(row.Field<string>("MarActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectMar = 0;
+            //monthIndex++;
 
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectJun = ((targetCPUNMonth.Jun - flActualCPUNMin1) * float.Parse(row.Field<string>("JunActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectJun = 0;
-            monthIndex++;
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectApr = ((targetCPUNMonth.Apr - flActualCPUNMin1) * float.Parse(row.Field<string>("AprActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectApr = 0;
+            //monthIndex++;
 
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectJul = ((targetCPUNMonth.Jul - flActualCPUNMin1) * float.Parse(row.Field<string>("JulActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectJul = 0;
-            monthIndex++;
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectAug = ((targetCPUNMonth.Aug - flActualCPUNMin1) * float.Parse(row.Field<string>("AugActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectAug = 0;
-            monthIndex++;
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectSep = ((targetCPUNMonth.Sep - flActualCPUNMin1) * float.Parse(row.Field<string>("SepActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectSep = 0;
-            monthIndex++;
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectOct = ((targetCPUNMonth.Oct - flActualCPUNMin1) * float.Parse(row.Field<string>("OctActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectOct = 0;
-            monthIndex++;
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectMay = ((targetCPUNMonth.May - flActualCPUNMin1) * float.Parse(row.Field<string>("MayActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectMay = 0;
+            //monthIndex++;
 
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectNov = ((targetCPUNMonth.Nov - flActualCPUNMin1) * float.Parse(row.Field<string>("NovActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectNov = 0;
-            monthIndex++;
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectJun = ((targetCPUNMonth.Jun - flActualCPUNMin1) * float.Parse(row.Field<string>("JunActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectJun = 0;
+            //monthIndex++;
 
-            if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-                priceEffectMonthValues.apriceEffectDec = ((targetCPUNMonth.Dec - flActualCPUNMin1) * float.Parse(row.Field<string>("DecActualVolumes")));
-            else
-                priceEffectMonthValues.apriceEffectDec = 0;
-            monthIndex++;
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectJul = ((targetCPUNMonth.Jul - flActualCPUNMin1) * float.Parse(row.Field<string>("JulActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectJul = 0;
+            //monthIndex++;
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectAug = ((targetCPUNMonth.Aug - flActualCPUNMin1) * float.Parse(row.Field<string>("AugActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectAug = 0;
+            //monthIndex++;
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectSep = ((targetCPUNMonth.Sep - flActualCPUNMin1) * float.Parse(row.Field<string>("SepActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectSep = 0;
+            //monthIndex++;
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectOct = ((targetCPUNMonth.Oct - flActualCPUNMin1) * float.Parse(row.Field<string>("OctActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectOct = 0;
+            //monthIndex++;
+
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectNov = ((targetCPUNMonth.Nov - flActualCPUNMin1) * float.Parse(row.Field<string>("NovActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectNov = 0;
+            //monthIndex++;
+
+            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
+            //    priceEffectMonthValues.apriceEffectDec = ((targetCPUNMonth.Dec - flActualCPUNMin1) * float.Parse(row.Field<string>("DecActualVolumes")));
+            //else
+            //    priceEffectMonthValues.apriceEffectDec = 0;
+            //monthIndex++;
             return priceEffectMonthValues;
         }
 
@@ -401,7 +469,7 @@ namespace GAIN.Helper
             float value1 = (xInput_Actuals_Volumes_Nmin1 / 12);
             float value2 = ((xSpend_Nmin1) / (xInput_Actuals_Volumes_Nmin1));
 
-           
+
 
             for (int i = 1; i <= 12; i++)
             {
@@ -799,6 +867,7 @@ namespace GAIN.Helper
             lUnitVul.Add("TEU SHIPPING");
             lUnitVul.Add("TC INLAND");
             lUnitVul.Add("TC SHIPPING");
+            lUnitVul.Add("TEU INLAND");
             lUnitVul.Add("OTHERS");
 
             bool isValid = false;
@@ -814,8 +883,8 @@ namespace GAIN.Helper
 
         public string getValidityRPOC(string txt)
         {
-            List<textvalPair> lUnitVul = new List<textvalPair> ();
-            lUnitVul.Add(new textvalPair() { text= "KO", val = "KO" });
+            List<textvalPair> lUnitVul = new List<textvalPair>();
+            lUnitVul.Add(new textvalPair() { text = "KO", val = "KO" });
             lUnitVul.Add(new textvalPair() { text = "Under Review", val = "UR" });
             lUnitVul.Add(new textvalPair() { text = "OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", val = "L1" });
             lUnitVul.Add(new textvalPair() { text = "OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", val = "L2" });
@@ -828,11 +897,12 @@ namespace GAIN.Helper
             else
                 return "N";
         }
-        public float GetNFYSecuredPriceEffect(float perMonthValue, int startMonth)
+        public float GetNFYSecuredPriceEffect(STPriceEffectMonthValues objSTPriceEffect)
         {
             float NFYSecPriceEffect = 0;
-            int noOfMonth = 13 - startMonth;
-            NFYSecPriceEffect = perMonthValue * noOfMonth;
+            NFYSecPriceEffect = objSTPriceEffect.Jan + objSTPriceEffect.Feb + objSTPriceEffect.Mar + objSTPriceEffect.Apr
+                + objSTPriceEffect.May + objSTPriceEffect.Jun + objSTPriceEffect.Jul + objSTPriceEffect.Aug + objSTPriceEffect.Sep +
+                objSTPriceEffect.Oct + objSTPriceEffect.Nov + objSTPriceEffect.Dec;
             return NFYSecPriceEffect;
         }
     }
