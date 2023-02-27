@@ -1401,7 +1401,7 @@ log4net.LogManager.GetLogger
             DataRow row = drRow;
             for (int i = 0; i < arrNewCols.Length; i++)
             {
-                row[arrNewCols[i]] = Convert.ToDecimal(row[arrNewCols[i]]);
+                row[arrNewCols[i]] = objFlatFileHelper.IsValidNumber(row[arrNewCols[i]].ToString()) ? Convert.ToDecimal(row[arrNewCols[i]]) : 0;
             }
             return row;
         }
@@ -1731,6 +1731,11 @@ log4net.LogManager.GetLogger
                                         objAVolEffectMonthValues = objFlatFileHelper.GetAVolEffectMonthValues(drRow, flActualVolNMin1, flSpendNMin1);
                                         float flYTDAchievedVolEffect = objFlatFileHelper.GetYTDAchievedVolEffect(objAVolEffectMonthValues, endMonth);
                                         drRow["YTDAchievedVOLUMEEFFECT"] = flYTDAchievedVolEffect;
+
+                                        if ((flYTDAchievedPriceEffect + flYTDAchievedVolEffect) < 0)
+                                            drRow["TypeOfInitiative"] = "Negative Cost Impact";
+                                        else
+                                            drRow["TypeOfInitiative"] = "Positive Cost Impact";
 
                                         // Achievement calculation
                                         AchieveMonthValues objAchieveMonthValues = objFlatFileHelper.GetAchieveMonthValues(objPriceEffectMonth, objAVolEffectMonthValues);
