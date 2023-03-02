@@ -2257,10 +2257,12 @@ log4net.LogManager.GetLogger
                         //int InitNextNum = rand.Next(1,999);
                         //string OutInitNextNum = "00" + InitNextNum.ToString();
                         string nomerterakhir = "";
-                        t_initiative initz = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara)).FirstOrDefault();
+                        t_initiative initz = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara)
+                        && c.SubCountryID == GrdSubCountry).FirstOrDefault();
                         if (initz != null)
                             //nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
-                            nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara)).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
+                            nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara)
+                            && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
                         else
                             nomerterakhir = YearInitiative + KodeNegara + "000";
 
