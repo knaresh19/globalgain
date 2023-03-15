@@ -38,7 +38,7 @@ log4net.LogManager.GetLogger
 
         private FlatFileHelper objFlatFileHelper = new FlatFileHelper();
         List<SubCountryBrand> lstSubCountryBrand = new List<SubCountryBrand>();
-        List<InitTypeCostSubCost> lstInitTypeCostSubCosts = new List<InitTypeCostSubCost>();
+        List<InitTypeCostSubCost> lstInitTypeCostSubCosts = new List<InitTypeCostSubCost>();        
         public ActionResult Index()
         {
             //vwheaderinitiative model = new vwheaderinitiative();
@@ -1322,7 +1322,9 @@ log4net.LogManager.GetLogger
             string usercountryIds = profileData.CountryID;
             string[] arrUserCountry = objFlatFileHelper.GetUserCountries(usercountryIds);
             var userCntry = arrUserCountry.ToList().Where(ucntry => ucntry.ToLower() == subCountryDesc.ToLower());
-            if (profileData.subcountry_right == "|ALL|")
+            var matchingSubCntry = lstSubCountryBrand.Where(uSubcntry => uSubcntry.subCountryName.ToLower() == subCountryDesc.ToLower()).FirstOrDefault();
+
+            if (profileData.subcountry_right == "|ALL|" && matchingSubCntry != null)
                 isUserSubCountry = true;
             else
             {
@@ -1338,9 +1340,6 @@ log4net.LogManager.GetLogger
             isValidBrand = (subCountryBrand.Count() > 0) ? true : false;
             return isValidBrand;
         }
-
-
-
         public void SetSubCountryBrand()
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
@@ -1359,8 +1358,6 @@ log4net.LogManager.GetLogger
                                 + " Where ms.isActive = 'Y' and mbc.inityear = " + System.DateTime.Now.Year;
 
             sqlQuery += ((usercountryIds != "|ALL|") && (profileData.UserType != 1)) ? " And ms.SubCountryName in " + subCntryCondn : "";
-
-
             lstSubCountryBrand = db.Database.SqlQuery<SubCountryBrand>(sqlQuery).ToList();
         }
 
@@ -1393,18 +1390,18 @@ log4net.LogManager.GetLogger
             }
             return isValidItem;
         }
-        public DataRow changeValuesDataType(DataRow drRow)
-        {
-            string[] arrNewCols = new string[] { "JanActualVolumes", "FebActualVolumes", "MarActualVolumes", "AprActualVolumes",
-                "MayActualVolumes" , "JunActualVolumes","JulActualVolumes", "AugActualVolumes", "SepActualVolumes", "OctActualVolumes",
-                "NovActualVolumes", "DecActualVolumes", "InputActualsVolumesNmin1", "SpendNmin1","SpendN"};
-            DataRow row = drRow;
-            for (int i = 0; i < arrNewCols.Length; i++)
-            {
-                row[arrNewCols[i]] =objFlatFileHelper.IsValidNumber(row[arrNewCols[i]].ToString()) ? Convert.ToDecimal(row[arrNewCols[i]]) : 0;
-            }
-            return row;
-        }
+        //public DataRow changeValuesDataType(DataRow drRow)
+        //{
+        //    string[] arrNewCols = new string[] { "JanActualVolumes", "FebActualVolumes", "MarActualVolumes", "AprActualVolumes",
+        //        "MayActualVolumes" , "JunActualVolumes","JulActualVolumes", "AugActualVolumes", "SepActualVolumes", "OctActualVolumes",
+        //        "NovActualVolumes", "DecActualVolumes", "InputActualsVolumesNmin1", "SpendNmin1","SpendN"};
+        //    DataRow row = drRow;
+        //    for (int i = 0; i < arrNewCols.Length; i++)
+        //    {
+        //        row[arrNewCols[i]] =objFlatFileHelper.IsValidNumber(row[arrNewCols[i]].ToString()) ? Convert.ToDecimal(row[arrNewCols[i]]) : 0;
+        //    }
+        //    return row;
+        //}
         public void setInitTypeCostSubCost()
         {
             int projectYear = System.DateTime.Now.Year;
@@ -1417,72 +1414,122 @@ log4net.LogManager.GetLogger
             lstInitTypeCostSubCosts = db.Database.SqlQuery<InitTypeCostSubCost>(strQuery).ToList();
         }
 
-        public CPIMonthValues GetMonthlyCPIValues(string subCountryDesc, int initYear)
+        public List<MonthlyCPIValues> GetMonthlyCPIValuesList(string subCountryDesc, int initYear)
         {
-            CPIMonthValues objCPIMonthValues = new CPIMonthValues();
             string strQry = "Select msc.SubCountryName, mcpi.* From msubcountry msc"
-+ " inner join mcountry mc on mc.id = msc.countryId Inner join"
-+ " mcpi on mcpi.mcountry_id = msc.CountryID"
-+ " Where mcpi.InitYear = " + initYear + " And msc.SubCountryName = '" + subCountryDesc + "'";
+   + " inner join mcountry mc on mc.id = msc.countryId Inner join"
+   + " mcpi on mcpi.mcountry_id = msc.CountryID"
+   + " Where mcpi.InitYear = " + initYear + " And msc.SubCountryName = '" + subCountryDesc + "'";
             List<MonthlyCPIValues> _mCPI = db.Database.SqlQuery<MonthlyCPIValues>(strQry).ToList();
-            decimal final_CPI = 0;
-            decimal MONTHLY = 0;
-            decimal QUARTERLY = 0;
-            decimal ANNUALLY = 0;
-            mcpi obj_mcpi = new mcpi();
-            MONTHLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "MONTHLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
-            if (MONTHLY > 0)
-            {
-                final_CPI = MONTHLY;
-                objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
-            }
-            else if (final_CPI == 0)
-            {
-                for (int i = 1; i <= 4; i++)
-                {
-                    QUARTERLY = _mCPI.Where(x => x.Period_index == i && x.Period_type == "QUARTERLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
-                    if (QUARTERLY > 0)
-                    {
-                        final_CPI = QUARTERLY;
-                        if (i == 1)
-                        {
-                            objCPIMonthValues.JanCPI = final_CPI * 100;
-                            objCPIMonthValues.FebCPI = final_CPI * 100;
-                            objCPIMonthValues.MarCPI = final_CPI * 100;
-                        }
-                        else if (i == 2)
-                        {
-                            objCPIMonthValues.AprCPI = final_CPI * 100;
-                            objCPIMonthValues.MayCPI = final_CPI * 100;
-                            objCPIMonthValues.JunCPI = final_CPI * 100;
-                        }
-                        else if (i == 3)
-                        {
-                            objCPIMonthValues.JulCPI = final_CPI * 100;
-                            objCPIMonthValues.AugCPI = final_CPI * 100;
-                            objCPIMonthValues.SepCPI = final_CPI * 100;
-                        }
-                        else if (i == 4)
-                        {
-                            objCPIMonthValues.OctCPI = final_CPI * 100;
-                            objCPIMonthValues.NovCPI = final_CPI * 100;
-                            objCPIMonthValues.DecCPI = final_CPI * 100;
-                        }
-                    }
-                }
-            }
-            else if (final_CPI == 0)
-            {
-                ANNUALLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "ANNUALLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
-                if (ANNUALLY > 0)
-                {
-                    final_CPI = ANNUALLY;
-                    objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
-                }
-            }
-            return objCPIMonthValues;
+            return _mCPI;
         }
 
+//        public CPIMonthValues GetMonthlyCPIValues(string subCountryDesc, int initYear)
+//        {
+//            CPIMonthValues objCPIMonthValues = new CPIMonthValues();
+//            string strQry = "Select msc.SubCountryName, mcpi.* From msubcountry msc"
+//+ " inner join mcountry mc on mc.id = msc.countryId Inner join"
+//+ " mcpi on mcpi.mcountry_id = msc.CountryID"
+//+ " Where mcpi.InitYear = " + initYear + " And msc.SubCountryName = '" + subCountryDesc + "'";
+//            List<MonthlyCPIValues> _mCPI = db.Database.SqlQuery<MonthlyCPIValues>(strQry).ToList();
+//            decimal final_CPI = 0;
+//            decimal MONTHLY = 0;
+//            decimal QUARTERLY = 0;
+//            decimal ANNUALLY = 0;
+//            mcpi obj_mcpi = new mcpi();
+//            MONTHLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "MONTHLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
+//            if (MONTHLY > 0)
+//            {
+//                final_CPI = MONTHLY;
+//                objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
+//            }
+//            else if (final_CPI == 0)
+//            {
+//                for (int i = 1; i <= 4; i++)
+//                {
+//                    QUARTERLY = _mCPI.Where(x => x.Period_index == i && x.Period_type == "QUARTERLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
+//                    if (QUARTERLY > 0)
+//                    {
+//                        final_CPI = QUARTERLY;
+//                        if (i == 1)
+//                        {
+//                            objCPIMonthValues.JanCPI = final_CPI * 100;
+//                            objCPIMonthValues.FebCPI = final_CPI * 100;
+//                            objCPIMonthValues.MarCPI = final_CPI * 100;
+//                        }
+//                        else if (i == 2)
+//                        {
+//                            objCPIMonthValues.AprCPI = final_CPI * 100;
+//                            objCPIMonthValues.MayCPI = final_CPI * 100;
+//                            objCPIMonthValues.JunCPI = final_CPI * 100;
+//                        }
+//                        else if (i == 3)
+//                        {
+//                            objCPIMonthValues.JulCPI = final_CPI * 100;
+//                            objCPIMonthValues.AugCPI = final_CPI * 100;
+//                            objCPIMonthValues.SepCPI = final_CPI * 100;
+//                        }
+//                        else if (i == 4)
+//                        {
+//                            objCPIMonthValues.OctCPI = final_CPI * 100;
+//                            objCPIMonthValues.NovCPI = final_CPI * 100;
+//                            objCPIMonthValues.DecCPI = final_CPI * 100;
+//                        }
+//                    }
+//                }
+//            }
+//            else if (final_CPI == 0)
+//            {
+//                ANNUALLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "ANNUALLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
+//                if (ANNUALLY > 0)
+//                {
+//                    final_CPI = ANNUALLY;
+//                    objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
+//                }
+//            }
+//            return objCPIMonthValues;
+//        }
+
+        private string GetGeneralRemarks(string subCountry, string brand, string sConfidential, string sInitiativeStatus, DataRow dataRow)
+        {
+            string remarks = string.Empty;
+            bool isUserSubCountry = false;
+            bool isValidBrand = false;
+
+            remarks = (string.IsNullOrEmpty(subCountry)) ? "Invalid Subcountry." : "";
+            if (subCountry != "")
+            {
+                isUserSubCountry = this.isUserSubCountry(subCountry);
+                remarks += (!isUserSubCountry) ? " Subcountry not mapped to user," : "";
+            }
+            remarks += (string.IsNullOrEmpty(brand)) ? " Invalid Brand." : "";
+
+            if (isUserSubCountry && (subCountry != "" && brand != ""))
+            {
+                isValidBrand = this.isValidBrand(subCountry, brand);
+                remarks += (!isValidBrand) ? " Brand not mapped with subcountry" : "";
+            }
+            if (sConfidential != "N" && sConfidential != "Y")
+                remarks += " Invalid confidential.";
+
+            if (sInitiativeStatus != "cancelled" && sInitiativeStatus != "ongoing" && sInitiativeStatus != "work in progress")
+                remarks += " Invalid Initiative Status.";
+
+            remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["TypeOfInitiative"]), "initType", "", "")) ?
+                " Invalid Initiative type," : "";
+            remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["ItemCategory"]), "itemCategory", "", Convert.ToString(dataRow["TypeOfInitiative"]))) ?
+                " Invalid item category," : "";
+            remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["SubCostItemImpacted"]), "subCost", Convert.ToString(dataRow["ItemCategory"]), "")) ?
+                " Invalid sub cost," : "";
+            //remarks += (Convert.ToString(dataRow["ActionType"].ToString().ToLower())) != "supplier contract monitoring" ?
+            //     " Action type should be supplier contract monitoring." : "";
+            remarks += (string.IsNullOrEmpty(dataRow["StartMonth"].ToString())) ?
+                 " Invalid Start month." : "";
+            remarks += (string.IsNullOrEmpty(dataRow["EndMonth"].ToString())) ?
+                 " Invalid End month." : "";
+
+            return remarks;
+        }
         // File upload functionality
         public ActionResult UploadFile(HttpPostedFileBase fileBase)
         {
@@ -1490,7 +1537,9 @@ log4net.LogManager.GetLogger
             {
                 HttpFileCollectionBase files = Request.Files;
                 HttpPostedFileBase file = files[0];
-
+                IActionTypeValidation validationRemarks = null;
+                IActionTypeCalculation actionTypeCalculation = null;
+                var profileData = Session["DefaultGAINSess"] as LoginSession;
                 #region 
 
                 String _path = Server.MapPath("~/UploadedFiles/");
@@ -1507,7 +1556,6 @@ log4net.LogManager.GetLogger
 
                 //Will set the InitTypeCostSubCost
                 this.setInitTypeCostSubCost();
-
                 string outExcelfileName = "errorExcel_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
 
                 int successCount = 0, errCount = 0;
@@ -1585,62 +1633,40 @@ log4net.LogManager.GetLogger
                             List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
                             List<int> lstValidRowIndexes = new List<int>();
                             DataTable dtValidInit = dtInit.Clone();
-                            bool isValidBrand = false, isUserSubCountry = false;
+
                             // Perform Mandatory validation
                             if (dtInit.Rows.Count > 0)
                             {
                                 for (int i = 0; i < dtInit.Rows.Count; i++)
                                 {
+                                    // Generic Validations
                                     string remarks = string.Empty;
                                     DateTime dtStartMonth = new DateTime();
                                     DateTime dtEndMonth = new DateTime();
                                     string subCountry = Convert.ToString(dtInit.Rows[i]["SubCountry"].ToString());
                                     string brand = Convert.ToString(dtInit.Rows[i]["Brand"].ToString());
-                                    isValidBrand = false;
-                                    remarks = (string.IsNullOrEmpty(subCountry)) ? "Invalid Subcountry." : "";
-                                    if (subCountry != "")
-                                    {
-                                        isUserSubCountry = this.isUserSubCountry(subCountry);
-                                        remarks += (!isUserSubCountry) ? " Subcountry not mapped to user," : "";
-                                    }
-                                    remarks += (string.IsNullOrEmpty(brand)) ? " Invalid Brand." : "";
-
-                                    if (isUserSubCountry && (subCountry != "" && brand != ""))
-                                    {
-                                        isValidBrand = this.isValidBrand(subCountry, brand);
-                                        remarks += (!isValidBrand) ? " Brand not mapped with subcountry" : "";
-                                    }
                                     string sConfidential = dtInit.Rows[i]["Confidential"] != null ? dtInit.Rows[i]["Confidential"].ToString().ToUpper() : "";
-
-                                    if (sConfidential != "N" && sConfidential != "Y")
-                                        remarks += " Invalid confidential.";
-
                                     string sInitiativeStatus = dtInit.Rows[i]["InitiativeStatus"] != null ? dtInit.Rows[i]["InitiativeStatus"].ToString().ToLower() : "";
-                                    if (sInitiativeStatus != "cancelled" && sInitiativeStatus != "ongoing" && sInitiativeStatus != "work in progress")
-                                        remarks += " Invalid Initiative Status.";
 
-                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["TypeOfInitiative"]), "initType", "", "")) ?
-                                        " Invalid Initiative type," : "";
-                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["ItemCategory"]), "itemCategory", "", Convert.ToString(dtInit.Rows[i]["TypeOfInitiative"]))) ?
-                                        " Invalid item category," : "";
-                                    remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dtInit.Rows[i]["SubCostItemImpacted"]), "subCost", Convert.ToString(dtInit.Rows[i]["ItemCategory"]), "")) ?
-                                        " Invalid sub cost," : "";
-                                    remarks += (Convert.ToString(dtInit.Rows[i]["ActionType"].ToString().ToLower())) != "supplier contract monitoring" ?
-                                         " Action type should be supplier contract monitoring." : "";
-                                    remarks += (string.IsNullOrEmpty(dtInit.Rows[i]["StartMonth"].ToString())) ?
-                                         " Invalid Start month." : "";
-                                    remarks += (string.IsNullOrEmpty(dtInit.Rows[i]["EndMonth"].ToString())) ?
-                                         " Invalid End month." : "";
-                                    remarks += (!objFlatFileHelper.isValidUnitofVol(Convert.ToString(dtInit.Rows[i]["Unitofvolumes"]))) ?
-                                         " Invalid unit of volumes" : "";
-                                    remarks += (!objFlatFileHelper.IsValidNumber(dtInit.Rows[i]["InputActualsVolumesNmin1"].ToString())) ?
-                                        " Invalid Actual volumes N-1." : "";
-                                    remarks += (!objFlatFileHelper.IsValidNumber(dtInit.Rows[i]["TargetVolumesN"].ToString())) ?
-                                        " Invalid Target Volumes N." : "";
-                                    remarks += (!objFlatFileHelper.IsValidNumber(dtInit.Rows[i]["SpendNmin1"].ToString())) ?
-                                        " Invalid Spend N-1." : "";
-                                    remarks += (!objFlatFileHelper.IsValidNumber(dtInit.Rows[i]["SpendN"].ToString())) ?
-                                        " Invalid Spend N." : "";
+                                    // Get General validation for all action types
+                                    remarks = this.GetGeneralRemarks(subCountry, brand, sConfidential, sInitiativeStatus, dtInit.Rows[i]);
+
+                                    // Get the actionType and validations based on action type
+                                    string actionType = objFlatFileHelper.GetActionType(Convert.ToString(dtInit.Rows[i]["ActionType"]));
+                                    if (actionType != "")
+                                    {
+                                        if (actionType.ToLower() == ActionType.ooActionType.ToLower())
+                                        {
+                                            // OO Type Validation
+                                            validationRemarks = new OperationEfficiency();
+                                        }
+                                        else if (actionType.ToLower() == ActionType.scmType.ToLower())
+                                        {
+                                            // SCM Type validations                                            
+                                            validationRemarks = new SupplyContractMonitor();
+                                        }
+                                        remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], lstInitTypeCostSubCosts);
+                                    }
                                     //Datetime check
                                     remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth))) ? " Please enter a valid start date," : "";
                                     remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))) ? " Please enter a valid end date" : "";
@@ -1667,114 +1693,132 @@ log4net.LogManager.GetLogger
                                     }
                                     else
                                     {
-                                        // Process the valid row.
-                                        DataRow drRow = dtInit.Rows[i];
-                                        InitiativeCalcs initiativeCalcs;
-                                        drRow = this.changeValuesDataType(drRow);
-                                        float flSpendN = float.Parse(drRow["SpendN"].ToString());
-                                        drRow["SpendN"] = flSpendN;
-                                        float flSpendNMin1 = float.Parse(drRow["SpendNmin1"].ToString());
-                                        drRow["SpendNmin1"] = flSpendNMin1;
-                                        float flActualVolNMin1 = float.Parse(drRow["InputActualsVolumesNmin1"].ToString());
-                                        drRow["InputActualsVolumesNmin1"] = flActualVolNMin1;
-                                        float flTargetVolumesN = float.Parse(drRow["TargetVolumesN"].ToString());
-                                        drRow["TargetVolumesN"] = flTargetVolumesN;
-                                        //r["InitNumber"] = strInitNumber;
-                                        drRow["StartMonth"] = dtStartMonth.ToString("yyyy-MM-dd"); ;//objFlatFileHelper.getDateTimeValue(drRow["StartMonth"].ToString()).ToString("yyyy-MM-dd");
-                                        drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd"); ;//objFlatFileHelper.getDateTimeValue(drRow["EndMonth"].ToString()).ToString("yyyy-MM-dd");
-                                        drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
-                                        drRow["Description"] = Convert.ToString(drRow["Description"]);
-                                        drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
-                                        drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
-                                        //drRow["InitNumber"] = this.getInitNumber(initYear, subCountry);
-                                        drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
-                                        drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
-                                        drRow["ActualsVolumesN"] = objFlatFileHelper.getTotalVolumes(drRow);
-                                        var profileData = Session["DefaultGAINSess"] as LoginSession;
-                                        drRow["CreatedBy"] = profileData.ID;
-                                        drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
-                                        drRow["VendorSupplier"] = Convert.ToString(drRow["VendorSupplier"]).ToUpper();
-                                        drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]).ToUpper();
-
-                                        drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
-
-                                        int startMonth = objFlatFileHelper.getMonthValue(Convert.ToDateTime(drRow["StartMonth"]));
-                                        int endMonth = objFlatFileHelper.getMonthValue(Convert.ToDateTime(drRow["EndMonth"]));
-
-                                        SecPriceEffect objSecPriceEffect = new SecPriceEffect();
-                                        objSecPriceEffect = objFlatFileHelper.getSecPriceEffectValues(flSpendN, flSpendNMin1, flActualVolNMin1, startMonth, flTargetVolumesN,
-                                           endMonth);
-
-
-                                        drRow["NYTDSecuredPRICEEFFECT"] = objFlatFileHelper.getNYTDSecPriceEffect(objSecPriceEffect.perMonthValue, startMonth);
-
-                                        SecVolumeEffect objSecVolEffect = new SecVolumeEffect();
-                                        objSecVolEffect = objFlatFileHelper.getFYSecVolumeEffect(flTargetVolumesN, flActualVolNMin1, flSpendNMin1);
-                                        // N YTD Sec volume effect
-                                        drRow["NYTDSecuredVOLUMEEFFECT"] = objFlatFileHelper.getNYTDSecVolumeEffect(objSecVolEffect.perMonthValue);
-                                        drRow["NFYSecuredVOLUMEEFFECT"] = objSecVolEffect.FYSecVolumeEffect;
-
-                                        float flActualCPUNMin1 = objFlatFileHelper.GetActualCPUNMin1(flSpendNMin1, flActualVolNMin1);
-
-                                        // Target CPU N Month
-                                        TargetCPUNMonth targetCPUNMonth = objFlatFileHelper.GetTargetCPUN(startMonth, flSpendN, flSpendNMin1, flActualVolNMin1,
-                                           flTargetVolumesN, Convert.ToInt32(drRow["ProjectYear"]));
-
-                                        // for calcs
-                                        APriceEffectMonthValues objPriceEffectMonth = new APriceEffectMonthValues();
-                                        objPriceEffectMonth = objFlatFileHelper.GetAPriceEffectMonthValues(drRow, flActualCPUNMin1, targetCPUNMonth, dtStartMonth, dtEndMonth, initYear);
-                                        float flYTDAchievedPriceEffect = objFlatFileHelper.GetYTDAchievedPriceEffect(objPriceEffectMonth);
-                                        drRow["YTDAchievedPRICEEFFECT"] = flYTDAchievedPriceEffect;
-
-                                        //for calcs
-                                        AVolEffectMonthValues objAVolEffectMonthValues = new AVolEffectMonthValues();
-                                        objAVolEffectMonthValues = objFlatFileHelper.GetAVolEffectMonthValues(drRow, flActualVolNMin1, flSpendNMin1);
-                                        float flYTDAchievedVolEffect = objFlatFileHelper.GetYTDAchievedVolEffect(objAVolEffectMonthValues, endMonth);
-                                        drRow["YTDAchievedVOLUMEEFFECT"] = flYTDAchievedVolEffect;
-
-                                        if ((flYTDAchievedPriceEffect + flYTDAchievedVolEffect) < 0)
-                                            drRow["TypeOfInitiative"] = "Negative Cost Impact";
-                                        else
-                                            drRow["TypeOfInitiative"] = "Positive Cost Impact";
-
-                                        // Achievement calculation
-                                        AchieveMonthValues objAchieveMonthValues = objFlatFileHelper.GetAchieveMonthValues(objPriceEffectMonth, objAVolEffectMonthValues);
-                                        // ST Price Effect values
-                                        STPriceEffectMonthValues objSTPriceEffect = objFlatFileHelper.GetSTPriceEffectMonthValues(objSecPriceEffect.perMonthValue, dtStartMonth, dtEndMonth);
-
-                                        // FY Sec Price Effect
-                                        drRow["NFYSecuredPRICEEFFECT"] = objFlatFileHelper.GetNFYSecuredPriceEffect(objSTPriceEffect);
-
-                                        // ST Volume Effect values
-                                        STVolumeEffect objSTVolumeEffect = objFlatFileHelper.GetSTVolumeEffectValues(objSecVolEffect.perMonthValue);
-
-                                        // FY Secured Target Month values
-                                        FYSecuredTargetMonth objFYSecuredTargetMonth = objFlatFileHelper.GetFYSecuredTargetMonth(objSTPriceEffect, objSTVolumeEffect);
-
-                                        // CPI Month values
-                                        CPIMonthValues objCPIMonthValues = new CPIMonthValues();
-                                        objCPIMonthValues = this.GetMonthlyCPIValues(subCountry, initYear);
-                                        // CPI Effect month values
-                                        CPIEffectMonthValues objCPIEffectMonthValues = objFlatFileHelper.GetCPIEffectMonthValues(flActualCPUNMin1, targetCPUNMonth,
-                                            objCPIMonthValues, drRow);
-
-                                        // Calculating YTD and FY CostAvoidance Vs CPI
-                                        drRow["YTDCostAvoidanceVsCPI"] = objFlatFileHelper.GetYTDCostAvoidanceVsCPI(objCPIEffectMonthValues);
-                                        drRow["FYCostAvoidanceVsCPI"] = objFlatFileHelper.GetFYCostAvoidanceVsCPI(objCPIEffectMonthValues);
-
-                                        initiativeCalcs = new InitiativeCalcs()
+                                        List<MonthlyCPIValues> lstMonthlyCPIValues = null;
+                                        // Valid Rows
+                                        if (actionType.ToLower() == ActionType.ooActionType.ToLower())
                                         {
-                                            flActualCPUNMin1 = flActualCPUNMin1,
-                                            targetCPUNMonth = targetCPUNMonth,
-                                            aPriceEffectMonthValues = objPriceEffectMonth,
-                                            aVolEffectMonthValues = objAVolEffectMonthValues,
-                                            cPIMonthValues = objCPIMonthValues,
-                                            achieveMonthValues = objAchieveMonthValues,
-                                            sTPriceEffectMonthValues = objSTPriceEffect,
-                                            sTVolumeEffect = objSTVolumeEffect,
-                                            fYSecuredTargetMonth = objFYSecuredTargetMonth,
-                                            cPIEffectMonthValues = objCPIEffectMonthValues
-                                        };
+                                            actionTypeCalculation = new OperationEfficiency();
+                                        }
+                                        else if (actionType.ToLower() == ActionType.scmType.ToLower())
+                                        {
+                                            lstMonthlyCPIValues = this.GetMonthlyCPIValuesList(subCountry, initYear);
+                                            actionTypeCalculation = new SupplyContractMonitor();
+                                        }
+                                        DataRow drRow = dtInit.Rows[i];
+                                        InitiativeSaveModelXL initiativeSaveModelXL =
+                                            actionTypeCalculation.GetCalculatedValues(drRow, dtStartMonth, dtEndMonth, lstMonthlyCPIValues, profileData.ID, initYear);
+                                        drRow = initiativeSaveModelXL.drInitiatives;
+                                        InitiativeCalcs initiativeCalcs = initiativeSaveModelXL.initiativeCalcs;
+
+                                        #region Commented
+                                        //// Process the valid row.
+                                        //DataRow drRow = dtInit.Rows[i];
+                                        //InitiativeCalcs initiativeCalcs;
+                                        //drRow = this.changeValuesDataType(drRow);
+                                        //float flSpendN = float.Parse(drRow["SpendN"].ToString());
+                                        //drRow["SpendN"] = flSpendN;
+                                        //float flSpendNMin1 = float.Parse(drRow["SpendNmin1"].ToString());
+                                        //drRow["SpendNmin1"] = flSpendNMin1;
+                                        //float flActualVolNMin1 = float.Parse(drRow["InputActualsVolumesNmin1"].ToString());
+                                        //drRow["InputActualsVolumesNmin1"] = flActualVolNMin1;
+                                        //float flTargetVolumesN = float.Parse(drRow["TargetVolumesN"].ToString());
+                                        //drRow["TargetVolumesN"] = flTargetVolumesN;
+                                        ////r["InitNumber"] = strInitNumber;
+                                        //drRow["StartMonth"] = dtStartMonth.ToString("yyyy-MM-dd"); ;//objFlatFileHelper.getDateTimeValue(drRow["StartMonth"].ToString()).ToString("yyyy-MM-dd");
+                                        //drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd"); ;//objFlatFileHelper.getDateTimeValue(drRow["EndMonth"].ToString()).ToString("yyyy-MM-dd");
+                                        //drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
+                                        //drRow["Description"] = Convert.ToString(drRow["Description"]);
+                                        //drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
+                                        //drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
+                                        ////drRow["InitNumber"] = this.getInitNumber(initYear, subCountry);
+                                        //drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
+                                        //drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
+                                        //drRow["ActualsVolumesN"] = objFlatFileHelper.getTotalVolumes(drRow);
+                                        //var profileData = Session["DefaultGAINSess"] as LoginSession;
+                                        //drRow["CreatedBy"] = profileData.ID;
+                                        //drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
+                                        //drRow["VendorSupplier"] = Convert.ToString(drRow["VendorSupplier"]).ToUpper();
+                                        //drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]).ToUpper();
+
+                                        //drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
+
+                                        //int startMonth = objFlatFileHelper.getMonthValue(Convert.ToDateTime(drRow["StartMonth"]));
+                                        //int endMonth = objFlatFileHelper.getMonthValue(Convert.ToDateTime(drRow["EndMonth"]));
+
+                                        //SecPriceEffect objSecPriceEffect = new SecPriceEffect();
+                                        //objSecPriceEffect = objFlatFileHelper.getSecPriceEffectValues(flSpendN, flSpendNMin1, flActualVolNMin1, startMonth, flTargetVolumesN,
+                                        //   endMonth);
+                                        //drRow["NYTDSecuredPRICEEFFECT"] = objFlatFileHelper.getNYTDSecPriceEffect(objSecPriceEffect.perMonthValue, startMonth);
+
+                                        //SecVolumeEffect objSecVolEffect = new SecVolumeEffect();
+                                        //objSecVolEffect = objFlatFileHelper.getFYSecVolumeEffect(flTargetVolumesN, flActualVolNMin1, flSpendNMin1);
+                                        //// N YTD Sec volume effect
+                                        //drRow["NYTDSecuredVOLUMEEFFECT"] = objFlatFileHelper.getNYTDSecVolumeEffect(objSecVolEffect.perMonthValue);
+                                        //drRow["NFYSecuredVOLUMEEFFECT"] = objSecVolEffect.FYSecVolumeEffect;
+
+                                        //float flActualCPUNMin1 = objFlatFileHelper.GetActualCPUNMin1(flSpendNMin1, flActualVolNMin1);
+
+                                        //// Target CPU N Month
+                                        //TargetCPUNMonth targetCPUNMonth = objFlatFileHelper.GetTargetCPUN(startMonth, flSpendN, flSpendNMin1, flActualVolNMin1,
+                                        //   flTargetVolumesN, Convert.ToInt32(drRow["ProjectYear"]));
+
+                                        //// for calcs
+                                        //APriceEffectMonthValues objPriceEffectMonth = new APriceEffectMonthValues();
+                                        //objPriceEffectMonth = objFlatFileHelper.GetAPriceEffectMonthValues(drRow, flActualCPUNMin1, targetCPUNMonth, dtStartMonth, dtEndMonth, initYear);
+                                        //float flYTDAchievedPriceEffect = objFlatFileHelper.GetYTDAchievedPriceEffect(objPriceEffectMonth);
+                                        //drRow["YTDAchievedPRICEEFFECT"] = flYTDAchievedPriceEffect;
+
+                                        ////for calcs
+                                        //AVolEffectMonthValues objAVolEffectMonthValues = new AVolEffectMonthValues();
+                                        //objAVolEffectMonthValues = objFlatFileHelper.GetAVolEffectMonthValues(drRow, flActualVolNMin1, flSpendNMin1);
+                                        //float flYTDAchievedVolEffect = objFlatFileHelper.GetYTDAchievedVolEffect(objAVolEffectMonthValues, endMonth);
+                                        //drRow["YTDAchievedVOLUMEEFFECT"] = flYTDAchievedVolEffect;
+
+                                        //if ((flYTDAchievedPriceEffect + flYTDAchievedVolEffect) < 0)
+                                        //    drRow["TypeOfInitiative"] = "Negative Cost Impact";
+                                        //else
+                                        //    drRow["TypeOfInitiative"] = "Positive Cost Impact";
+
+                                        //// Achievement calculation
+                                        //AchieveMonthValues objAchieveMonthValues = objFlatFileHelper.GetAchieveMonthValues(objPriceEffectMonth, objAVolEffectMonthValues);
+                                        //// ST Price Effect values
+                                        //STPriceEffectMonthValues objSTPriceEffect = objFlatFileHelper.GetSTPriceEffectMonthValues(objSecPriceEffect.perMonthValue, dtStartMonth, dtEndMonth);
+
+                                        //// FY Sec Price Effect
+                                        //drRow["NFYSecuredPRICEEFFECT"] = objFlatFileHelper.GetNFYSecuredPriceEffect(objSTPriceEffect);
+
+                                        //// ST Volume Effect values
+                                        //STVolumeEffect objSTVolumeEffect = objFlatFileHelper.GetSTVolumeEffectValues(objSecVolEffect.perMonthValue);
+
+                                        //// FY Secured Target Month values
+                                        //FYSecuredTargetMonth objFYSecuredTargetMonth = objFlatFileHelper.GetFYSecuredTargetMonth(objSTPriceEffect, objSTVolumeEffect);
+
+                                        //// CPI Month values
+                                        //CPIMonthValues objCPIMonthValues = new CPIMonthValues();
+                                        //objCPIMonthValues = this.GetMonthlyCPIValues(subCountry, initYear);
+                                        //// CPI Effect month values
+                                        //CPIEffectMonthValues objCPIEffectMonthValues = objFlatFileHelper.GetCPIEffectMonthValues(flActualCPUNMin1, targetCPUNMonth,
+                                        //    objCPIMonthValues, drRow);
+
+                                        //// Calculating YTD and FY CostAvoidance Vs CPI
+                                        //drRow["YTDCostAvoidanceVsCPI"] = objFlatFileHelper.GetYTDCostAvoidanceVsCPI(objCPIEffectMonthValues);
+                                        //drRow["FYCostAvoidanceVsCPI"] = objFlatFileHelper.GetFYCostAvoidanceVsCPI(objCPIEffectMonthValues);
+
+                                        //initiativeCalcs = new InitiativeCalcs()
+                                        //{
+                                        //    flActualCPUNMin1 = flActualCPUNMin1,
+                                        //    targetCPUNMonth = targetCPUNMonth,
+                                        //    aPriceEffectMonthValues = objPriceEffectMonth,
+                                        //    aVolEffectMonthValues = objAVolEffectMonthValues,
+                                        //    cPIMonthValues = objCPIMonthValues,
+                                        //    achieveMonthValues = objAchieveMonthValues,
+                                        //    sTPriceEffectMonthValues = objSTPriceEffect,
+                                        //    sTVolumeEffect = objSTVolumeEffect,
+                                        //    fYSecuredTargetMonth = objFYSecuredTargetMonth,
+                                        //    cPIEffectMonthValues = objCPIEffectMonthValues
+                                        //};
+                                        #endregion
+
                                         dtInit.AcceptChanges();
                                         dtValidInit.ImportRow(dtInit.Rows[i]);
                                         lstInitiativeCalcs.Add(initiativeCalcs);
@@ -1821,7 +1865,7 @@ log4net.LogManager.GetLogger
                             validationMsg = ""
                         };
                         return Content(JsonConvert.SerializeObject(resultCount));
-                    }
+                    }                 
                     #endregion
                 }
             }

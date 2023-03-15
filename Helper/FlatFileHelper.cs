@@ -16,19 +16,7 @@ namespace GAIN.Helper
     {
         public static DataTable ConvertExcelToDataTable(string FileName, string sheetName)
         {
-            //string conStr = "";
-            //switch (Path.GetExtension(FileName))
-            //{
-            //    case ".xls": //Excel 97-03
-            //        conStr = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-            //        break;
-            //    case ".xlsx": //Excel 07
-            //        conStr = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-            //        break;
-            //}
-
-            OleDbConnection objConn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + FileName + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=1;';");
-            // OleDbConnection objConn = new OleDbConnection(conStr);
+            OleDbConnection objConn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + FileName + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=1;';");            
             objConn.Open();
             DataTable dt;
             using (var da = new OleDbDataAdapter($"select * from [{sheetName}]", objConn))
@@ -39,33 +27,12 @@ namespace GAIN.Helper
             objConn.Close();
             return dt;
         }
-
-        private static DataTable GetExcelSheetAsDataTable(string filename, string sheetName)
-        {
-            OleDbConnection objConn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=1;';");
-            objConn.Open();
-            DataTable dt;
-            using (var da = new OleDbDataAdapter($"select * from [{sheetName}]", objConn))
-            {
-                dt = new DataTable() { TableName = sheetName.TrimEnd('$') };
-                da.Fill(dt);
-            }
-            objConn.Close();
-            return dt;
-        }
-        public DataTable GetExcelAsDataTable(string strFilePath)
-        {
-            DataTable dtExcelInitiatives = GetExcelSheetAsDataTable(strFilePath, "Sheet$");
-            return dtExcelInitiatives;
-        }
-
         public int getMonthValue(DateTime selDate)
         {
             int monthVal = 0;
             monthVal = selDate.Month;
             return monthVal;
         }
-
         public bool IsValidNumber(string number)
         {
             bool isValid = false;
@@ -79,7 +46,6 @@ namespace GAIN.Helper
 
         public decimal getTotalVolumes(DataRow myRow)
         {
-
             decimal totalVolume = 0;
             totalVolume = (Convert.ToDecimal(Convert.ToString(myRow.Field<string>("JanActualVolumes")))) + (Convert.ToDecimal(Convert.ToString(myRow.Field<string>("FebActualVolumes"))))
                  + (Convert.ToDecimal(Convert.ToString(myRow.Field<string>("MarActualVolumes")))) + (Convert.ToDecimal(Convert.ToString(myRow.Field<string>("AprActualVolumes"))))
@@ -103,14 +69,11 @@ namespace GAIN.Helper
                            ((xSpend_Nmin1) / (xInput_Actuals_Volumes_Nmin1))
                            );
             perMonthValue = float.IsNaN(perMonthValue) ? 0 : perMonthValue;
-
             fySecVolume = perMonthValue * 12;
             objSecVolEffect.FYSecVolumeEffect = fySecVolume;
             objSecVolEffect.perMonthValue = perMonthValue;
             return objSecVolEffect;
         }
-
-
         public SecPriceEffect getSecPriceEffectValues(float xSpend_N, float xSpend_Nmin1, float xInput_Actuals_Volumes_Nmin1, int selected_StartMonth,
            float xInput_Target_Volumes, int endMonth)
         {
@@ -337,76 +300,7 @@ namespace GAIN.Helper
                                 break;
                             }
                     }
-            }
-
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectJan = ((targetCPUNMonth.Jan - flActualCPUNMin1) * float.Parse(row.Field<string>("JanActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectJan = 0;
-            //monthIndex++;
-
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectFeb = ((targetCPUNMonth.Feb - flActualCPUNMin1) * float.Parse(row.Field<string>("FebActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectFeb = 0;
-            //monthIndex++;
-
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectMar = ((targetCPUNMonth.Mar - flActualCPUNMin1) * float.Parse(row.Field<string>("MarActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectMar = 0;
-            //monthIndex++;
-
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectApr = ((targetCPUNMonth.Apr - flActualCPUNMin1) * float.Parse(row.Field<string>("AprActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectApr = 0;
-            //monthIndex++;
-
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectMay = ((targetCPUNMonth.May - flActualCPUNMin1) * float.Parse(row.Field<string>("MayActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectMay = 0;
-            //monthIndex++;
-
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectJun = ((targetCPUNMonth.Jun - flActualCPUNMin1) * float.Parse(row.Field<string>("JunActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectJun = 0;
-            //monthIndex++;
-
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectJul = ((targetCPUNMonth.Jul - flActualCPUNMin1) * float.Parse(row.Field<string>("JulActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectJul = 0;
-            //monthIndex++;
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectAug = ((targetCPUNMonth.Aug - flActualCPUNMin1) * float.Parse(row.Field<string>("AugActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectAug = 0;
-            //monthIndex++;
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectSep = ((targetCPUNMonth.Sep - flActualCPUNMin1) * float.Parse(row.Field<string>("SepActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectSep = 0;
-            //monthIndex++;
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectOct = ((targetCPUNMonth.Oct - flActualCPUNMin1) * float.Parse(row.Field<string>("OctActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectOct = 0;
-            //monthIndex++;
-
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectNov = ((targetCPUNMonth.Nov - flActualCPUNMin1) * float.Parse(row.Field<string>("NovActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectNov = 0;
-            //monthIndex++;
-
-            //if (Convert.ToInt32(initYear + "" + monthIndex) <= endMonth)
-            //    priceEffectMonthValues.apriceEffectDec = ((targetCPUNMonth.Dec - flActualCPUNMin1) * float.Parse(row.Field<string>("DecActualVolumes")));
-            //else
-            //    priceEffectMonthValues.apriceEffectDec = 0;
-            //monthIndex++;
+            }           
             return priceEffectMonthValues;
         }
 
@@ -906,6 +800,41 @@ namespace GAIN.Helper
                 + objSTPriceEffect.May + objSTPriceEffect.Jun + objSTPriceEffect.Jul + objSTPriceEffect.Aug + objSTPriceEffect.Sep +
                 objSTPriceEffect.Oct + objSTPriceEffect.Nov + objSTPriceEffect.Dec;
             return NFYSecPriceEffect;
+        }
+        public string GetActionType(string xlActionType)
+        {
+            string actionType = "";
+            if (!string.IsNullOrEmpty(xlActionType))
+            {
+                if (xlActionType.ToLower() == ActionType.ooActionType || xlActionType.ToLower() == ActionType.scmType)
+                    actionType = xlActionType.ToLower();
+            }
+            return actionType;
+        }
+        public string GetSCMValidationRemarks(DataRow drRow)
+        {
+            string remarks = "";
+            remarks += (!this.isValidUnitofVol(Convert.ToString(drRow["Unitofvolumes"]))) ? ValidationRemarks.INVALIDUNITOFVOL : "";
+            remarks += (!this.IsValidNumber(Convert.ToString(drRow["InputActualsVolumesNmin1"]))) ? ValidationRemarks.INVALIDACTUALVOLNMIN1 : "";
+            remarks += (!this.IsValidNumber(Convert.ToString(drRow["TargetVolumesN"]))) ?
+                ValidationRemarks.INVALIDTARGETVOLN : "";
+            remarks += (!this.IsValidNumber(Convert.ToString(drRow["SpendNmin1"]))) ? ValidationRemarks.INVALIDSPENDNMIN1 : "";
+            remarks += (!this.IsValidNumber(Convert.ToString(drRow["SpendN"]))) ?
+                ValidationRemarks.INVALIDSPENDN : "";
+            return remarks;
+        }
+
+        public DataRow changeValuesDataType(DataRow drRow)
+        {
+            string[] arrNewCols = new string[] { "JanActualVolumes", "FebActualVolumes", "MarActualVolumes", "AprActualVolumes",
+                "MayActualVolumes" , "JunActualVolumes","JulActualVolumes", "AugActualVolumes", "SepActualVolumes", "OctActualVolumes",
+                "NovActualVolumes", "DecActualVolumes", "InputActualsVolumesNmin1", "SpendNmin1","SpendN"};
+            DataRow row = drRow;
+            for (int i = 0; i < arrNewCols.Length; i++)
+            {
+                row[arrNewCols[i]] = this.IsValidNumber(row[arrNewCols[i]].ToString()) ? Convert.ToDecimal(row[arrNewCols[i]]) : 0;
+            }
+            return row;
         }
     }
 }

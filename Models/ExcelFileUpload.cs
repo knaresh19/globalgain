@@ -1,4 +1,7 @@
-﻿namespace GAIN.Models
+﻿using System.Collections.Generic;
+using System.Data;
+
+namespace GAIN.Models
 {
     public class Initiatives
     {
@@ -364,6 +367,30 @@
     {
         public string text { get; set; }
         public string val { get; set; }
+    }
+    public static class ActionType
+    {
+        public static readonly string ooActionType = "optimization / efficiency";
+        public static readonly string scmType = "supplier contract monitoring";
+    }
 
+    public static class ValidationRemarks
+    {
+        public static readonly string INVALIDUNITOFVOL = " Invalid unit of volumes.";
+        public static readonly string INVALIDACTUALVOLNMIN1 = " Invalid Actual volumes N-1.";
+        public static readonly string INVALIDTARGETVOLN = " Invalid Target Volumes N.";
+        public static readonly string INVALIDSPENDNMIN1 = " Invalid Spend N-1.";
+        public static readonly string INVALIDSPENDN = " Invalid Spend N.";
+        public static readonly string NEGATIVECOSTIMPACT =
+             " If Initiative type selected as Negative Cost Impact or Revenue Decrease, then value at Target for 12 Months should be Negative";
+        public static readonly string POSITIVECOSTIMPACT =
+             " If Initiative type selected as Positive Cost Impact or Revenue Increase, then value at Target for 12 Months should be Positive";
+        public static readonly string INVALIDFYSECTOTALEFFECT = " Invalid secured total effect.";
+
+    }
+    public class InitiativeSaveModelXL
+    {
+        public DataRow drInitiatives { get; set; }
+        public InitiativeCalcs initiativeCalcs { get; set; }
     }
 }
