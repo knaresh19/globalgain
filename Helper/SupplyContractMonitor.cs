@@ -133,9 +133,10 @@ namespace GAIN.Helper
             return initiativeSaveModelXL;
         }
 
-        public string GetValidationRemarks(DataRow drRow, List<InitTypeCostSubCost> lstSavingType = null)
+        public string GetValidationRemarks(DataRow drRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear,List<InitTypeCostSubCost> lstSavingType = null)
         {
             string remarks = string.Empty;
+            remarks += (!this.isEndmonthCurrentYear(dtEndMonth)) ? " End month cannot be greater than December" + System.DateTime.Now.Year + "." : "";
             remarks += (!objFlatFileHelper.isValidUnitofVol(Convert.ToString(drRow["Unitofvolumes"]))) ? ValidationRemarks.INVALIDUNITOFVOL : "";
             remarks += (!objFlatFileHelper.IsValidNumber(Convert.ToString(drRow["InputActualsVolumesNmin1"]))) ? ValidationRemarks.INVALIDACTUALVOLNMIN1 : "";
             remarks += (!objFlatFileHelper.IsValidNumber(Convert.ToString(drRow["TargetVolumesN"]))) ?
@@ -144,12 +145,18 @@ namespace GAIN.Helper
             remarks += (!objFlatFileHelper.IsValidNumber(Convert.ToString(drRow["SpendN"]))) ?
                 ValidationRemarks.INVALIDSPENDN : "";
             return remarks;
-
         }
 
         #endregion
 
         #region CustomMethods
+        private bool isEndmonthCurrentYear(DateTime dtEndMonth) {
+            bool isValidEndmonth = false;
+            if (dtEndMonth.Year == System.DateTime.Now.Year) {
+                isValidEndmonth = true;
+            }
+            return isValidEndmonth;
+        }
         private CPIMonthValues GetMonthlyCPIValues(List<MonthlyCPIValues> _mCPI)
         {
             CPIMonthValues objCPIMonthValues = new CPIMonthValues();

@@ -138,6 +138,7 @@ namespace GAIN.Models
     {
         public string successCount { get; set; }
         public string errCount { get; set; }
+        public string updateCount { get; set; }
         public string outputExcelPath { get; set; }
         public string validationMsg { get; set; }
 
@@ -381,11 +382,14 @@ namespace GAIN.Models
         public static readonly string INVALIDTARGETVOLN = " Invalid Target Volumes N.";
         public static readonly string INVALIDSPENDNMIN1 = " Invalid Spend N-1.";
         public static readonly string INVALIDSPENDN = " Invalid Spend N.";
+
+        // OO Types validation msgs
         public static readonly string NEGATIVECOSTIMPACT =
              " If Initiative type selected as Negative Cost Impact or Revenue Decrease, then value at Target for 12 Months should be Negative";
         public static readonly string POSITIVECOSTIMPACT =
              " If Initiative type selected as Positive Cost Impact or Revenue Increase, then value at Target for 12 Months should be Positive";
         public static readonly string INVALIDFYSECTOTALEFFECT = " Invalid secured total effect.";
+        public static readonly string INCONSISTENTTARGET = " Inconsistent Target : The amount of All Applicable Target(current SUM of input is {0}) and Target 12 Months(current input as {1}) need to be aligned";
 
     }
     public class InitiativeSaveModelXL

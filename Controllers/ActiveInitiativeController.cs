@@ -38,7 +38,8 @@ log4net.LogManager.GetLogger
 
         private FlatFileHelper objFlatFileHelper = new FlatFileHelper();
         List<SubCountryBrand> lstSubCountryBrand = new List<SubCountryBrand>();
-        List<InitTypeCostSubCost> lstInitTypeCostSubCosts = new List<InitTypeCostSubCost>();        
+        List<InitTypeCostSubCost> lstInitTypeCostSubCosts = new List<InitTypeCostSubCost>();
+        List<mstatu> lstInitiativeStatus = new List<mstatu>();
         public ActionResult Index()
         {
             //vwheaderinitiative model = new vwheaderinitiative();
@@ -1414,6 +1415,10 @@ log4net.LogManager.GetLogger
             lstInitTypeCostSubCosts = db.Database.SqlQuery<InitTypeCostSubCost>(strQuery).ToList();
         }
 
+        public void setInitiativeStatus(int initYear) {           
+            string strQry = "Select id, status From mstatus Where InitYear = " + initYear + " And isActive = 'Y'";
+            lstInitiativeStatus = db.Database.SqlQuery<mstatu>(strQry).ToList();
+        }
         public List<MonthlyCPIValues> GetMonthlyCPIValuesList(string subCountryDesc, int initYear)
         {
             string strQry = "Select msc.SubCountryName, mcpi.* From msubcountry msc"
@@ -1424,79 +1429,16 @@ log4net.LogManager.GetLogger
             return _mCPI;
         }
 
-//        public CPIMonthValues GetMonthlyCPIValues(string subCountryDesc, int initYear)
-//        {
-//            CPIMonthValues objCPIMonthValues = new CPIMonthValues();
-//            string strQry = "Select msc.SubCountryName, mcpi.* From msubcountry msc"
-//+ " inner join mcountry mc on mc.id = msc.countryId Inner join"
-//+ " mcpi on mcpi.mcountry_id = msc.CountryID"
-//+ " Where mcpi.InitYear = " + initYear + " And msc.SubCountryName = '" + subCountryDesc + "'";
-//            List<MonthlyCPIValues> _mCPI = db.Database.SqlQuery<MonthlyCPIValues>(strQry).ToList();
-//            decimal final_CPI = 0;
-//            decimal MONTHLY = 0;
-//            decimal QUARTERLY = 0;
-//            decimal ANNUALLY = 0;
-//            mcpi obj_mcpi = new mcpi();
-//            MONTHLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "MONTHLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
-//            if (MONTHLY > 0)
-//            {
-//                final_CPI = MONTHLY;
-//                objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
-//            }
-//            else if (final_CPI == 0)
-//            {
-//                for (int i = 1; i <= 4; i++)
-//                {
-//                    QUARTERLY = _mCPI.Where(x => x.Period_index == i && x.Period_type == "QUARTERLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
-//                    if (QUARTERLY > 0)
-//                    {
-//                        final_CPI = QUARTERLY;
-//                        if (i == 1)
-//                        {
-//                            objCPIMonthValues.JanCPI = final_CPI * 100;
-//                            objCPIMonthValues.FebCPI = final_CPI * 100;
-//                            objCPIMonthValues.MarCPI = final_CPI * 100;
-//                        }
-//                        else if (i == 2)
-//                        {
-//                            objCPIMonthValues.AprCPI = final_CPI * 100;
-//                            objCPIMonthValues.MayCPI = final_CPI * 100;
-//                            objCPIMonthValues.JunCPI = final_CPI * 100;
-//                        }
-//                        else if (i == 3)
-//                        {
-//                            objCPIMonthValues.JulCPI = final_CPI * 100;
-//                            objCPIMonthValues.AugCPI = final_CPI * 100;
-//                            objCPIMonthValues.SepCPI = final_CPI * 100;
-//                        }
-//                        else if (i == 4)
-//                        {
-//                            objCPIMonthValues.OctCPI = final_CPI * 100;
-//                            objCPIMonthValues.NovCPI = final_CPI * 100;
-//                            objCPIMonthValues.DecCPI = final_CPI * 100;
-//                        }
-//                    }
-//                }
-//            }
-//            else if (final_CPI == 0)
-//            {
-//                ANNUALLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "ANNUALLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
-//                if (ANNUALLY > 0)
-//                {
-//                    final_CPI = ANNUALLY;
-//                    objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
-//                }
-//            }
-//            return objCPIMonthValues;
-//        }
-
-        private string GetGeneralRemarks(string subCountry, string brand, string sConfidential, string sInitiativeStatus, DataRow dataRow)
+        private string GetGeneralRemarks(string sInitNumber, string subCountry, string brand, string sConfidential, string sInitiativeStatus, DataRow dataRow)
         {
             string remarks = string.Empty;
             bool isUserSubCountry = false;
             bool isValidBrand = false;
 
-            remarks = (string.IsNullOrEmpty(subCountry)) ? "Invalid Subcountry." : "";
+            // Checks for init num, if empty then new, else, check from entity, if not exist, invalid init num.
+            remarks += (string.IsNullOrEmpty(sInitNumber)) ? "" :
+                (db.t_initiative.Where(init => init.InitNumber == sInitNumber).Count() > 0) ? "" : " Invalid Init Number,";
+            remarks += (string.IsNullOrEmpty(subCountry)) ? " Invalid Subcountry." : "";
             if (subCountry != "")
             {
                 isUserSubCountry = this.isUserSubCountry(subCountry);
@@ -1514,20 +1456,16 @@ log4net.LogManager.GetLogger
 
             if (sInitiativeStatus != "cancelled" && sInitiativeStatus != "ongoing" && sInitiativeStatus != "work in progress")
                 remarks += " Invalid Initiative Status.";
-
             remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["TypeOfInitiative"]), "initType", "", "")) ?
                 " Invalid Initiative type," : "";
             remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["ItemCategory"]), "itemCategory", "", Convert.ToString(dataRow["TypeOfInitiative"]))) ?
                 " Invalid item category," : "";
             remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["SubCostItemImpacted"]), "subCost", Convert.ToString(dataRow["ItemCategory"]), "")) ?
-                " Invalid sub cost," : "";
-            //remarks += (Convert.ToString(dataRow["ActionType"].ToString().ToLower())) != "supplier contract monitoring" ?
-            //     " Action type should be supplier contract monitoring." : "";
+                " Invalid sub cost," : "";            
             remarks += (string.IsNullOrEmpty(dataRow["StartMonth"].ToString())) ?
                  " Invalid Start month." : "";
             remarks += (string.IsNullOrEmpty(dataRow["EndMonth"].ToString())) ?
                  " Invalid End month." : "";
-
             return remarks;
         }
         // File upload functionality
@@ -1540,6 +1478,7 @@ log4net.LogManager.GetLogger
                 IActionTypeValidation validationRemarks = null;
                 IActionTypeCalculation actionTypeCalculation = null;
                 var profileData = Session["DefaultGAINSess"] as LoginSession;
+                ResultCount resultCount = null;
                 #region 
 
                 String _path = Server.MapPath("~/UploadedFiles/");
@@ -1558,7 +1497,7 @@ log4net.LogManager.GetLogger
                 this.setInitTypeCostSubCost();
                 string outExcelfileName = "errorExcel_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
 
-                int successCount = 0, errCount = 0;
+                int successCount = 0, errCount = 0, updateCount = 0;
                 if (!System.IO.Directory.Exists(_path + "ErrorExcel\\"))
                     System.IO.Directory.CreateDirectory(_path + "ErrorExcel\\");
 
@@ -1597,6 +1536,7 @@ log4net.LogManager.GetLogger
                         }
                         string[] arrPrevCols = new string[] { "F36", "F40", "F44", "F48", "F52", "F56", "F60", "F64", "F68", "F72", "F76", "F80",
             "ActualsVolumesN-1", "$SPENDN-1", "$SPENDN"};
+
                         string[] arrNewCols = new string[] { "JanActualVolumes", "FebActualVolumes", "MarActualVolumes", "AprActualVolumes",
                 "MayActualVolumes" , "JunActualVolumes","JulActualVolumes", "AugActualVolumes", "SepActualVolumes", "OctActualVolumes",
                 "NovActualVolumes", "DecActualVolumes", "InputActualsVolumesNmin1", "SpendNmin1","SpendN"};
@@ -1605,31 +1545,71 @@ log4net.LogManager.GetLogger
                         {
                             dtExcelInitiatives.Columns[dtExcelInitiatives.Columns.IndexOf(arrPrevCols[i])].ColumnName = arrNewCols[i];
                         }
+                        // Setting OO Columns Target and Achieved cols for current yr
+                        string[] monthCols = new string[]{
+                            "January" + initYear.ToString(), "February" + initYear.ToString(), "March" + initYear.ToString(), "April" + initYear.ToString(), "May" + initYear.ToString(),
+                        "June" + initYear.ToString(), "July" + initYear.ToString(), "August" + initYear.ToString(), "September" + initYear.ToString(), "October" + initYear.ToString(), "November" + initYear.ToString(), "December" + initYear.ToString(),
+                       "F35", "F39", "F43", "F47", "F51", "F55", "F59", "F63", "F67", "F71", "F75", "F79"
+                       };
+
+                        string[] monthColsNew = new string[] { "TargetJan", "TargetFeb", "TargetMar",
+                        "TargetApr", "TargetMay", "TargetJun", "TargetJul", "TargetAug", "TargetSep", "TargetOct",
+                        "TargetNov", "TargetDec", "AchJan", "AchFeb", "AchMar", "AchApr", "AchMay", "AchJun", "AchJul",
+                        "AchAug", "AchSep", "AchOct", "AchNov", "AchDec"};
+
+                        for (int i = 0; i < monthCols.Length; i++)
+                        {
+                            dtExcelInitiatives.Columns[dtExcelInitiatives.Columns.IndexOf(monthCols[i])].ColumnName = monthColsNew[i];
+                        }
                         dtExcelInitiatives.AcceptChanges();
 
                         // Gets the valid rows
                         var newInitiatives = dtExcelInitiatives.AsEnumerable()
                             .Where(myRow =>
                             (String.IsNullOrEmpty(myRow.Field<string>("InitNumber")))
-                         );
-
-                        // Get Existing initiative index and remove from excel and dtExcelInitiatives.
-                        var existingInitiatives = dtExcelInitiatives.AsEnumerable()
-                            .Where(myRow =>
-                            (!String.IsNullOrEmpty(myRow.Field<string>("InitNumber")))
                          ).ToList();
-                        for (int i = existingInitiatives.Count - 1; i >= 0; i--)
-                        {
-                            DataRow drExistingInitiative = dtExcelInitiatives.Rows[i];
-                            drExistingInitiative.Delete();
-                            rows[(i + 2)].Delete();
-                        }
-                        dtExcelInitiatives.AcceptChanges();
 
-                        if (newInitiatives.ToList().Count() > 0)
+                        long ooTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.ooActionType
+                        && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
+
+                        List<t_initiative> lstOOInitiatives = db.t_initiative.Where(tInit =>
+                            tInit.ActionTypeID == ooTypeId && tInit.ProjectYear == initYear).ToList();
+
+                        var updatedInit = (from dtExcel in dtExcelInitiatives.AsEnumerable()
+                                           join
+                                          lstInit in lstOOInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
+                                           where (lstInit.TargetTY != Convert.ToDecimal(dtExcel["NFYSecuredTOTALEFFECT"]) ||
+                                           (
+                                           lstInit.TargetJan != null && lstInit.TargetJan != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJan"].ToString())) != 0) &&
+                                           lstInit.TargetJan != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJan"].ToString()))
+                                           )
+                                           select dtExcel
+                                          ).ToList();
+
+                        // Appending updated and new inits
+                        updatedInit.AddRange(newInitiatives);
+
+                        if (updatedInit.Count > 0)
                         {
-                            DataTable dtInit = newInitiatives.CopyToDataTable();
+                            DataTable dtInit = updatedInit.CopyToDataTable();
                             dtInit.Columns.Add("ProjectYear", typeof(String));
+                            dtInit.Columns.Add("dbFlag", typeof(String));
+                            dtInit.Columns.Add("isProcurement", typeof(System.Int32));
+                            // Adding next yr columns for OO Init types in cross yr scenarios.
+                            dtInit.Columns.Add("TargetNexJan", typeof(float));
+                            dtInit.Columns.Add("TargetNexFeb", typeof(float));
+                            dtInit.Columns.Add("TargetNexMar", typeof(float));
+                            dtInit.Columns.Add("TargetNexApr", typeof(float));
+                            dtInit.Columns.Add("TargetNexMay", typeof(float));
+                            dtInit.Columns.Add("TargetNexJun", typeof(float));
+                            dtInit.Columns.Add("TargetNexJul", typeof(float));
+                            dtInit.Columns.Add("TargetNexAug", typeof(float));
+                            dtInit.Columns.Add("TargetNexSep", typeof(float));
+                            dtInit.Columns.Add("TargetNexOct", typeof(float));
+                            dtInit.Columns.Add("TargetNexNov", typeof(float));
+                            dtInit.Columns.Add("TargetNexDec", typeof(float));
+                            dtInit.Columns.Add("TargetNY", typeof(float));
+
                             List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
                             List<int> lstValidRowIndexes = new List<int>();
                             DataTable dtValidInit = dtInit.Clone();
@@ -1643,17 +1623,25 @@ log4net.LogManager.GetLogger
                                     string remarks = string.Empty;
                                     DateTime dtStartMonth = new DateTime();
                                     DateTime dtEndMonth = new DateTime();
+                                    string sInitNumber = Convert.ToString(dtInit.Rows[i]["InitNumber"]).Trim();
                                     string subCountry = Convert.ToString(dtInit.Rows[i]["SubCountry"].ToString());
                                     string brand = Convert.ToString(dtInit.Rows[i]["Brand"].ToString());
                                     string sConfidential = dtInit.Rows[i]["Confidential"] != null ? dtInit.Rows[i]["Confidential"].ToString().ToUpper() : "";
                                     string sInitiativeStatus = dtInit.Rows[i]["InitiativeStatus"] != null ? dtInit.Rows[i]["InitiativeStatus"].ToString().ToLower() : "";
-
+                                    bool isValidActionType = false;
                                     // Get General validation for all action types
-                                    remarks = this.GetGeneralRemarks(subCountry, brand, sConfidential, sInitiativeStatus, dtInit.Rows[i]);
+                                    remarks = this.GetGeneralRemarks(sInitNumber, subCountry, brand, sConfidential, sInitiativeStatus, dtInit.Rows[i]);
 
                                     // Get the actionType and validations based on action type
+
                                     string actionType = objFlatFileHelper.GetActionType(Convert.ToString(dtInit.Rows[i]["ActionType"]));
-                                    if (actionType != "")
+                                    isValidActionType = (actionType.ToLower() == ActionType.ooActionType.ToLower() ||
+                                        actionType.ToLower() == ActionType.scmType.ToLower()) ? true : false;
+                                    //Datetime check
+                                    remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth))) ? " Please enter a valid start date," : "";
+                                    remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))) ? " Please enter a valid end date" : "";
+
+                                    if (isValidActionType)
                                     {
                                         if (actionType.ToLower() == ActionType.ooActionType.ToLower())
                                         {
@@ -1665,11 +1653,12 @@ log4net.LogManager.GetLogger
                                             // SCM Type validations                                            
                                             validationRemarks = new SupplyContractMonitor();
                                         }
-                                        remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], lstInitTypeCostSubCosts);
+                                        remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], dtStartMonth, dtEndMonth, initYear, lstInitTypeCostSubCosts);
                                     }
-                                    //Datetime check
-                                    remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth))) ? " Please enter a valid start date," : "";
-                                    remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))) ? " Please enter a valid end date" : "";
+                                    else
+                                    {
+                                        remarks += " Invalid Action Type,";
+                                    }
 
                                     if ((!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth)))
                                         || (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))))
@@ -1694,17 +1683,22 @@ log4net.LogManager.GetLogger
                                     else
                                     {
                                         List<MonthlyCPIValues> lstMonthlyCPIValues = null;
+                                        DataRow drRow = dtInit.Rows[i];
+                                        drRow["dbFlag"] = (!string.IsNullOrEmpty(sInitNumber)) ? "U" : "I";
+
                                         // Valid Rows
                                         if (actionType.ToLower() == ActionType.ooActionType.ToLower())
                                         {
+                                            drRow["isProcurement"] = 0;
                                             actionTypeCalculation = new OperationEfficiency();
                                         }
                                         else if (actionType.ToLower() == ActionType.scmType.ToLower())
                                         {
+                                            drRow["isProcurement"] = 1;
                                             lstMonthlyCPIValues = this.GetMonthlyCPIValuesList(subCountry, initYear);
                                             actionTypeCalculation = new SupplyContractMonitor();
                                         }
-                                        DataRow drRow = dtInit.Rows[i];
+
                                         InitiativeSaveModelXL initiativeSaveModelXL =
                                             actionTypeCalculation.GetCalculatedValues(drRow, dtStartMonth, dtEndMonth, lstMonthlyCPIValues, profileData.ID, initYear);
                                         drRow = initiativeSaveModelXL.drInitiatives;
@@ -1823,7 +1817,8 @@ log4net.LogManager.GetLogger
                                         dtValidInit.ImportRow(dtInit.Rows[i]);
                                         lstInitiativeCalcs.Add(initiativeCalcs);
                                         lstValidRowIndexes.Add(i);
-                                        successCount++;
+                                        if (drRow["dbFlag"].ToString() == "I") successCount++;
+                                        else if (drRow["dbFlag"].ToString() == "U") updateCount++;
                                     }
                                 }
                             }
@@ -1849,23 +1844,28 @@ log4net.LogManager.GetLogger
                         else
                         {
                             // To display message that no new initiatives available.
+                            resultCount = new ResultCount()
+                            {
+                                validationMsg = "No new/ updated initiatives uploaded"
+                            };
                         }
 
                         workbook.SaveDocument(outputExcelPath);
                         workbook.Dispose();
-
-                        //objFlatFileHelper.DisposeFile(_inputpath);
-                        //objFlatFileHelper.DisposeFile(_inputpath);
                         stream.Dispose();
-                        ResultCount resultCount = new ResultCount()
+                        if (updatedInit.Count > 0)
                         {
-                            errCount = errCount.ToString(),
-                            successCount = successCount.ToString(),
-                            outputExcelPath = "UploadedFiles/ErrorExcel/" + outExcelfileName,
-                            validationMsg = ""
-                        };
+                            resultCount = new ResultCount()
+                            {
+                                errCount = errCount.ToString(),
+                                successCount = successCount.ToString(),
+                                updateCount = updateCount.ToString(),
+                                outputExcelPath = "UploadedFiles/ErrorExcel/" + outExcelfileName,
+                                validationMsg = ""
+                            };
+                        }
                         return Content(JsonConvert.SerializeObject(resultCount));
-                    }                 
+                    }
                     #endregion
                 }
             }

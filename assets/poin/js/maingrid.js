@@ -344,11 +344,13 @@ $(function () {
                             if (alertRes.successCount > 0) { $("#initHdng").html("Files uploaded successfully"); }
                             else { $("#initHdng").html("File upload results"); }
                             if (alertRes.errCount > 0) {
-                                $("#initResults").html("Auto Approved Initiative(s): " + alertRes.successCount + " <br> Invalid Initiative(s): " + alertRes.errCount
+                                $("#initResults").html("Auto Approved Initiative(s): " + alertRes.successCount + " <br> Updated Initiative(s): "
+                                    + alertRes.updateCount + "< br > Invalid Initiative(s): " + alertRes.errCount
                                     + "<br> <br> Please <a download href=" + alertRes.outputExcelPath + " Download>Download!</a> the error excel."
                                 );
                             } else {
-                                $("#initResults").html("Auto Approved Initiative(s): " + alertRes.successCount + " <br> Invalid Initiative(s): " + alertRes.errCount
+                                $("#initResults").html("Auto Approved Initiative(s): " + alertRes.successCount + " < br > Updated Initiative(s): "
+                                    + alertRes.updateCount + " <br> Invalid Initiative(s): " + alertRes.errCount
                                 );
                             }
                         } else {

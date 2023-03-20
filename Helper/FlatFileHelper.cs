@@ -16,7 +16,7 @@ namespace GAIN.Helper
     {
         public static DataTable ConvertExcelToDataTable(string FileName, string sheetName)
         {
-            OleDbConnection objConn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + FileName + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=1;';");            
+            OleDbConnection objConn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + FileName + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=1;';");
             objConn.Open();
             DataTable dt;
             using (var da = new OleDbDataAdapter($"select * from [{sheetName}]", objConn))
@@ -42,6 +42,13 @@ namespace GAIN.Helper
                 if (dcNumber != 0) { isValid = true; }
             }
             return isValid;
+        }
+
+        public float getValue(string number)
+        {
+            float flValue = 0;
+            flValue = this.IsValidNumber(number) ? float.Parse(number) : 0;
+            return flValue;
         }
 
         public decimal getTotalVolumes(DataRow myRow)
@@ -300,7 +307,7 @@ namespace GAIN.Helper
                                 break;
                             }
                     }
-            }           
+            }
             return priceEffectMonthValues;
         }
 
@@ -835,6 +842,45 @@ namespace GAIN.Helper
                 row[arrNewCols[i]] = this.IsValidNumber(row[arrNewCols[i]].ToString()) ? Convert.ToDecimal(row[arrNewCols[i]]) : 0;
             }
             return row;
+        }
+        public long getInitStatus(string initStatus, List<mstatu> lstInitStatus)
+        {
+            long status = 0;
+            status = lstInitStatus.Where(item => item.Status.ToLower() == initStatus.ToLower()).FirstOrDefault().id;
+            return status;
+        }
+        public bool isMonthlyTargetChanged(t_initiative tInit, DataRow drRow)
+        {
+            bool isTargetChanged = false;
+            if (drRow != null) {
+                if ((tInit.TargetJan != Convert.ToDecimal(drRow["TargetJan"])) || (tInit.TargetFeb != Convert.ToDecimal(drRow["TargetFeb"]))
+                        || (tInit.TargetMar != Convert.ToDecimal(drRow["TargetMar"])) || (tInit.TargetApr != Convert.ToDecimal(drRow["TargetApr"]))
+                        || (tInit.TargetMay != Convert.ToDecimal(drRow["TargetMay"])) || (tInit.TargetJun != Convert.ToDecimal(drRow["TargetJun"]))
+                        || (tInit.TargetJul != Convert.ToDecimal(drRow["TargetJul"])) || (tInit.TargetAug != Convert.ToDecimal(drRow["TargetAug"]))
+                        || (tInit.TargetSep != Convert.ToDecimal(drRow["TargetSep"])) || (tInit.TargetOct != Convert.ToDecimal(drRow["TargetOct"]))
+                        || (tInit.TargetNov != Convert.ToDecimal(drRow["TargetNov"])) || (tInit.TargetDec != Convert.ToDecimal(drRow["TargetDec"])))
+                {
+                    isTargetChanged = true;
+                }
+            }
+            return isTargetChanged;
+        }
+        public bool isMonthlySavingChanged(t_initiative tInit, DataRow drRow)
+        {
+            bool isSavingChanged = false;
+            if (drRow != null)
+            {
+                if ((tInit.AchJan != Convert.ToDecimal(drRow["AchJan"])) || (tInit.AchFeb != Convert.ToDecimal(drRow["AchFeb"]))
+                        || (tInit.AchMar != Convert.ToDecimal(drRow["AchMar"])) || (tInit.AchApr != Convert.ToDecimal(drRow["AchApr"]))
+                        || (tInit.AchMay != Convert.ToDecimal(drRow["AchMay"])) || (tInit.AchJun != Convert.ToDecimal(drRow["AchJun"]))
+                        || (tInit.AchJul != Convert.ToDecimal(drRow["AchJul"])) || (tInit.AchAug != Convert.ToDecimal(drRow["AchAug"]))
+                        || (tInit.AchSep != Convert.ToDecimal(drRow["AchSep"])) || (tInit.AchOct != Convert.ToDecimal(drRow["AchOct"]))
+                        || (tInit.AchNov != Convert.ToDecimal(drRow["AchNov"])) || (tInit.AchDec != Convert.ToDecimal(drRow["AchDec"])))
+                {
+                    isSavingChanged = true;
+                }
+            }
+            return isSavingChanged;
         }
     }
 }
