@@ -189,7 +189,6 @@ namespace GAIN.Helper
                 + objFlatFileHelper.getValue(dataRow["TargetNov"].ToString()) + objFlatFileHelper.getValue(dataRow["TargetDec"].ToString());
             return flCurrYrTarget;
         }
-
         private float getFYSecTotalEffect(DataRow dataRow)
         {
             // DB TargetFY

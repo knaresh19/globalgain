@@ -1575,16 +1575,52 @@ log4net.LogManager.GetLogger
                         List<t_initiative> lstOOInitiatives = db.t_initiative.Where(tInit =>
                             tInit.ActionTypeID == ooTypeId && tInit.ProjectYear == initYear).ToList();
 
+
+
                         var updatedInit = (from dtExcel in dtExcelInitiatives.AsEnumerable()
                                            join
                                           lstInit in lstOOInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
-                                           where (lstInit.TargetTY != Convert.ToDecimal(dtExcel["NFYSecuredTOTALEFFECT"]) ||
-                                           (
+                                           where (lstInit.TargetTY != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["NFYSecuredTOTALEFFECT"].ToString())) ||
+                                           ((
                                            lstInit.TargetJan != null && lstInit.TargetJan != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJan"].ToString())) != 0) &&
-                                           lstInit.TargetJan != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJan"].ToString()))
-                                           )
+                                           lstInit.TargetJan != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJan"].ToString())))
+                                           || ((
+                                           lstInit.TargetFeb != null && lstInit.TargetFeb != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetFeb"].ToString())) != 0) &&
+                                           lstInit.TargetFeb != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetFeb"].ToString())))
+                                           || ((
+                                           lstInit.TargetMar != null && lstInit.TargetMar != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetMar"].ToString())) != 0) &&
+                                           lstInit.TargetMar != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetMar"].ToString())))
+                                           || ((
+                                           lstInit.TargetApr != null && lstInit.TargetApr != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetApr"].ToString())) != 0) &&
+                                           lstInit.TargetApr != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetApr"].ToString())))
+                                           || ((
+                                           lstInit.TargetMay != null && lstInit.TargetMay != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetMay"].ToString())) != 0) &&
+                                           lstInit.TargetMay != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetMay"].ToString())))
+                                           || ((
+                                           lstInit.TargetJun != null && lstInit.TargetJun != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJun"].ToString())) != 0) &&
+                                           lstInit.TargetJun != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJun"].ToString())))
+                                           || ((
+                                           lstInit.TargetJul != null && lstInit.TargetJul != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJul"].ToString())) != 0) &&
+                                           lstInit.TargetJul != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJul"].ToString())))
+                                           || ((
+                                           lstInit.TargetAug != null && lstInit.TargetAug != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetAug"].ToString())) != 0) &&
+                                           lstInit.TargetAug != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetAug"].ToString())))
+                                           || ((
+                                           lstInit.TargetSep != null && lstInit.TargetSep != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetSep"].ToString())) != 0) &&
+                                           lstInit.TargetSep != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetSep"].ToString())))
+                                           || ((
+                                           lstInit.TargetOct != null && lstInit.TargetOct != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetOct"].ToString())) != 0) &&
+                                           lstInit.TargetOct != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetOct"].ToString())))
+                                           || ((
+                                           lstInit.TargetNov != null && lstInit.TargetNov != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetNov"].ToString())) != 0) &&
+                                           lstInit.TargetNov != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetNov"].ToString())))
+                                           || ((
+                                           lstInit.TargetDec != null && lstInit.TargetDec != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetDec"].ToString())) != 0) &&
+                                           lstInit.TargetDec != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetDec"].ToString())))
+)
                                            select dtExcel
                                           ).ToList();
+
 
                         // Appending updated and new inits
                         updatedInit.AddRange(newInitiatives);
