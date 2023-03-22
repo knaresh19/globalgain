@@ -39,7 +39,7 @@ log4net.LogManager.GetLogger
         private FlatFileHelper objFlatFileHelper = new FlatFileHelper();
         List<SubCountryBrand> lstSubCountryBrand = new List<SubCountryBrand>();
         List<InitTypeCostSubCost> lstInitTypeCostSubCosts = new List<InitTypeCostSubCost>();
-        List<mstatu> lstInitiativeStatus = new List<mstatu>();
+        List<mInitiativeStatus> lstInitiativeStatus = new List<mInitiativeStatus>();
         public ActionResult Index()
         {
             //vwheaderinitiative model = new vwheaderinitiative();
@@ -1391,18 +1391,7 @@ log4net.LogManager.GetLogger
             }
             return isValidItem;
         }
-        //public DataRow changeValuesDataType(DataRow drRow)
-        //{
-        //    string[] arrNewCols = new string[] { "JanActualVolumes", "FebActualVolumes", "MarActualVolumes", "AprActualVolumes",
-        //        "MayActualVolumes" , "JunActualVolumes","JulActualVolumes", "AugActualVolumes", "SepActualVolumes", "OctActualVolumes",
-        //        "NovActualVolumes", "DecActualVolumes", "InputActualsVolumesNmin1", "SpendNmin1","SpendN"};
-        //    DataRow row = drRow;
-        //    for (int i = 0; i < arrNewCols.Length; i++)
-        //    {
-        //        row[arrNewCols[i]] =objFlatFileHelper.IsValidNumber(row[arrNewCols[i]].ToString()) ? Convert.ToDecimal(row[arrNewCols[i]]) : 0;
-        //    }
-        //    return row;
-        //}
+       
         public void setInitTypeCostSubCost()
         {
             int projectYear = System.DateTime.Now.Year;
@@ -1415,9 +1404,10 @@ log4net.LogManager.GetLogger
             lstInitTypeCostSubCosts = db.Database.SqlQuery<InitTypeCostSubCost>(strQuery).ToList();
         }
 
-        public void setInitiativeStatus(int initYear) {           
+        public void setInitiativeStatus(int initYear)
+        {
             string strQry = "Select id, status From mstatus Where InitYear = " + initYear + " And isActive = 'Y'";
-            lstInitiativeStatus = db.Database.SqlQuery<mstatu>(strQry).ToList();
+            lstInitiativeStatus = db.Database.SqlQuery<mInitiativeStatus>(strQry).ToList();
         }
         public List<MonthlyCPIValues> GetMonthlyCPIValuesList(string subCountryDesc, int initYear)
         {
@@ -1479,6 +1469,7 @@ log4net.LogManager.GetLogger
                 IActionTypeCalculation actionTypeCalculation = null;
                 var profileData = Session["DefaultGAINSess"] as LoginSession;
                 ResultCount resultCount = null;
+                int initYear = System.DateTime.Now.Year;
                 #region 
 
                 String _path = Server.MapPath("~/UploadedFiles/");
@@ -1495,6 +1486,9 @@ log4net.LogManager.GetLogger
 
                 //Will set the InitTypeCostSubCost
                 this.setInitTypeCostSubCost();
+                // Set the initiative status list
+                this.setInitiativeStatus(initYear);
+
                 string outExcelfileName = "errorExcel_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
 
                 int successCount = 0, errCount = 0, updateCount = 0;
@@ -1502,8 +1496,6 @@ log4net.LogManager.GetLogger
                     System.IO.Directory.CreateDirectory(_path + "ErrorExcel\\");
 
                 string outputExcelPath = Path.Combine(_path + "ErrorExcel\\", outExcelfileName);
-                int initYear = System.DateTime.Now.Year;
-
                 ResultCount resultCountobj = new ResultCount();
                 DataTable dtExcelInitiatives = FlatFileHelper.ConvertExcelToDataTable(_inputpath, "Sheet$");
 
@@ -1571,63 +1563,25 @@ log4net.LogManager.GetLogger
 
                         long ooTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.ooActionType
                         && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
+                        long scmTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.scmType
+                       && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
 
                         List<t_initiative> lstOOInitiatives = db.t_initiative.Where(tInit =>
                             tInit.ActionTypeID == ooTypeId && tInit.ProjectYear == initYear).ToList();
 
+                        List<t_initiative> lstSCMInitiatives = db.t_initiative.Where(tInit =>
+                            tInit.ActionTypeID == scmTypeId && tInit.ProjectYear == initYear).ToList();
 
+                        DataTable dtExistingOO = objFlatFileHelper.GetUpdatedOORows(dtExcelInitiatives, lstOOInitiatives, lstInitiativeStatus);
+                        DataTable dtExistingSCM = objFlatFileHelper.GetUpdatedSCMRows(dtExcelInitiatives, lstSCMInitiatives, lstInitiativeStatus);
 
-                        var updatedInit = (from dtExcel in dtExcelInitiatives.AsEnumerable()
-                                           join
-                                          lstInit in lstOOInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
-                                           where (lstInit.TargetTY != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["NFYSecuredTOTALEFFECT"].ToString())) ||
-                                           ((
-                                           lstInit.TargetJan != null && lstInit.TargetJan != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJan"].ToString())) != 0) &&
-                                           lstInit.TargetJan != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJan"].ToString())))
-                                           || ((
-                                           lstInit.TargetFeb != null && lstInit.TargetFeb != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetFeb"].ToString())) != 0) &&
-                                           lstInit.TargetFeb != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetFeb"].ToString())))
-                                           || ((
-                                           lstInit.TargetMar != null && lstInit.TargetMar != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetMar"].ToString())) != 0) &&
-                                           lstInit.TargetMar != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetMar"].ToString())))
-                                           || ((
-                                           lstInit.TargetApr != null && lstInit.TargetApr != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetApr"].ToString())) != 0) &&
-                                           lstInit.TargetApr != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetApr"].ToString())))
-                                           || ((
-                                           lstInit.TargetMay != null && lstInit.TargetMay != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetMay"].ToString())) != 0) &&
-                                           lstInit.TargetMay != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetMay"].ToString())))
-                                           || ((
-                                           lstInit.TargetJun != null && lstInit.TargetJun != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJun"].ToString())) != 0) &&
-                                           lstInit.TargetJun != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJun"].ToString())))
-                                           || ((
-                                           lstInit.TargetJul != null && lstInit.TargetJul != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJul"].ToString())) != 0) &&
-                                           lstInit.TargetJul != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetJul"].ToString())))
-                                           || ((
-                                           lstInit.TargetAug != null && lstInit.TargetAug != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetAug"].ToString())) != 0) &&
-                                           lstInit.TargetAug != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetAug"].ToString())))
-                                           || ((
-                                           lstInit.TargetSep != null && lstInit.TargetSep != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetSep"].ToString())) != 0) &&
-                                           lstInit.TargetSep != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetSep"].ToString())))
-                                           || ((
-                                           lstInit.TargetOct != null && lstInit.TargetOct != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetOct"].ToString())) != 0) &&
-                                           lstInit.TargetOct != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetOct"].ToString())))
-                                           || ((
-                                           lstInit.TargetNov != null && lstInit.TargetNov != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetNov"].ToString())) != 0) &&
-                                           lstInit.TargetNov != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetNov"].ToString())))
-                                           || ((
-                                           lstInit.TargetDec != null && lstInit.TargetDec != 0 && Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetDec"].ToString())) != 0) &&
-                                           lstInit.TargetDec != Convert.ToDecimal(objFlatFileHelper.getValue(dtExcel["TargetDec"].ToString())))
-)
-                                           select dtExcel
-                                          ).ToList();
+                        dtExistingOO.Merge(dtExistingSCM);
+                        if (newInitiatives.Count > 0)
+                            dtExistingOO.Merge(newInitiatives.CopyToDataTable());
 
-
-                        // Appending updated and new inits
-                        updatedInit.AddRange(newInitiatives);
-
-                        if (updatedInit.Count > 0)
+                        if (dtExistingOO != null && dtExistingOO.Rows.Count > 0)
                         {
-                            DataTable dtInit = updatedInit.CopyToDataTable();
+                            DataTable dtInit = dtExistingOO;
                             dtInit.Columns.Add("ProjectYear", typeof(String));
                             dtInit.Columns.Add("dbFlag", typeof(String));
                             dtInit.Columns.Add("isProcurement", typeof(System.Int32));
@@ -1739,116 +1693,6 @@ log4net.LogManager.GetLogger
                                             actionTypeCalculation.GetCalculatedValues(drRow, dtStartMonth, dtEndMonth, lstMonthlyCPIValues, profileData.ID, initYear);
                                         drRow = initiativeSaveModelXL.drInitiatives;
                                         InitiativeCalcs initiativeCalcs = initiativeSaveModelXL.initiativeCalcs;
-
-                                        #region Commented
-                                        //// Process the valid row.
-                                        //DataRow drRow = dtInit.Rows[i];
-                                        //InitiativeCalcs initiativeCalcs;
-                                        //drRow = this.changeValuesDataType(drRow);
-                                        //float flSpendN = float.Parse(drRow["SpendN"].ToString());
-                                        //drRow["SpendN"] = flSpendN;
-                                        //float flSpendNMin1 = float.Parse(drRow["SpendNmin1"].ToString());
-                                        //drRow["SpendNmin1"] = flSpendNMin1;
-                                        //float flActualVolNMin1 = float.Parse(drRow["InputActualsVolumesNmin1"].ToString());
-                                        //drRow["InputActualsVolumesNmin1"] = flActualVolNMin1;
-                                        //float flTargetVolumesN = float.Parse(drRow["TargetVolumesN"].ToString());
-                                        //drRow["TargetVolumesN"] = flTargetVolumesN;
-                                        ////r["InitNumber"] = strInitNumber;
-                                        //drRow["StartMonth"] = dtStartMonth.ToString("yyyy-MM-dd"); ;//objFlatFileHelper.getDateTimeValue(drRow["StartMonth"].ToString()).ToString("yyyy-MM-dd");
-                                        //drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd"); ;//objFlatFileHelper.getDateTimeValue(drRow["EndMonth"].ToString()).ToString("yyyy-MM-dd");
-                                        //drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
-                                        //drRow["Description"] = Convert.ToString(drRow["Description"]);
-                                        //drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
-                                        //drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
-                                        ////drRow["InitNumber"] = this.getInitNumber(initYear, subCountry);
-                                        //drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
-                                        //drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
-                                        //drRow["ActualsVolumesN"] = objFlatFileHelper.getTotalVolumes(drRow);
-                                        //var profileData = Session["DefaultGAINSess"] as LoginSession;
-                                        //drRow["CreatedBy"] = profileData.ID;
-                                        //drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
-                                        //drRow["VendorSupplier"] = Convert.ToString(drRow["VendorSupplier"]).ToUpper();
-                                        //drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]).ToUpper();
-
-                                        //drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
-
-                                        //int startMonth = objFlatFileHelper.getMonthValue(Convert.ToDateTime(drRow["StartMonth"]));
-                                        //int endMonth = objFlatFileHelper.getMonthValue(Convert.ToDateTime(drRow["EndMonth"]));
-
-                                        //SecPriceEffect objSecPriceEffect = new SecPriceEffect();
-                                        //objSecPriceEffect = objFlatFileHelper.getSecPriceEffectValues(flSpendN, flSpendNMin1, flActualVolNMin1, startMonth, flTargetVolumesN,
-                                        //   endMonth);
-                                        //drRow["NYTDSecuredPRICEEFFECT"] = objFlatFileHelper.getNYTDSecPriceEffect(objSecPriceEffect.perMonthValue, startMonth);
-
-                                        //SecVolumeEffect objSecVolEffect = new SecVolumeEffect();
-                                        //objSecVolEffect = objFlatFileHelper.getFYSecVolumeEffect(flTargetVolumesN, flActualVolNMin1, flSpendNMin1);
-                                        //// N YTD Sec volume effect
-                                        //drRow["NYTDSecuredVOLUMEEFFECT"] = objFlatFileHelper.getNYTDSecVolumeEffect(objSecVolEffect.perMonthValue);
-                                        //drRow["NFYSecuredVOLUMEEFFECT"] = objSecVolEffect.FYSecVolumeEffect;
-
-                                        //float flActualCPUNMin1 = objFlatFileHelper.GetActualCPUNMin1(flSpendNMin1, flActualVolNMin1);
-
-                                        //// Target CPU N Month
-                                        //TargetCPUNMonth targetCPUNMonth = objFlatFileHelper.GetTargetCPUN(startMonth, flSpendN, flSpendNMin1, flActualVolNMin1,
-                                        //   flTargetVolumesN, Convert.ToInt32(drRow["ProjectYear"]));
-
-                                        //// for calcs
-                                        //APriceEffectMonthValues objPriceEffectMonth = new APriceEffectMonthValues();
-                                        //objPriceEffectMonth = objFlatFileHelper.GetAPriceEffectMonthValues(drRow, flActualCPUNMin1, targetCPUNMonth, dtStartMonth, dtEndMonth, initYear);
-                                        //float flYTDAchievedPriceEffect = objFlatFileHelper.GetYTDAchievedPriceEffect(objPriceEffectMonth);
-                                        //drRow["YTDAchievedPRICEEFFECT"] = flYTDAchievedPriceEffect;
-
-                                        ////for calcs
-                                        //AVolEffectMonthValues objAVolEffectMonthValues = new AVolEffectMonthValues();
-                                        //objAVolEffectMonthValues = objFlatFileHelper.GetAVolEffectMonthValues(drRow, flActualVolNMin1, flSpendNMin1);
-                                        //float flYTDAchievedVolEffect = objFlatFileHelper.GetYTDAchievedVolEffect(objAVolEffectMonthValues, endMonth);
-                                        //drRow["YTDAchievedVOLUMEEFFECT"] = flYTDAchievedVolEffect;
-
-                                        //if ((flYTDAchievedPriceEffect + flYTDAchievedVolEffect) < 0)
-                                        //    drRow["TypeOfInitiative"] = "Negative Cost Impact";
-                                        //else
-                                        //    drRow["TypeOfInitiative"] = "Positive Cost Impact";
-
-                                        //// Achievement calculation
-                                        //AchieveMonthValues objAchieveMonthValues = objFlatFileHelper.GetAchieveMonthValues(objPriceEffectMonth, objAVolEffectMonthValues);
-                                        //// ST Price Effect values
-                                        //STPriceEffectMonthValues objSTPriceEffect = objFlatFileHelper.GetSTPriceEffectMonthValues(objSecPriceEffect.perMonthValue, dtStartMonth, dtEndMonth);
-
-                                        //// FY Sec Price Effect
-                                        //drRow["NFYSecuredPRICEEFFECT"] = objFlatFileHelper.GetNFYSecuredPriceEffect(objSTPriceEffect);
-
-                                        //// ST Volume Effect values
-                                        //STVolumeEffect objSTVolumeEffect = objFlatFileHelper.GetSTVolumeEffectValues(objSecVolEffect.perMonthValue);
-
-                                        //// FY Secured Target Month values
-                                        //FYSecuredTargetMonth objFYSecuredTargetMonth = objFlatFileHelper.GetFYSecuredTargetMonth(objSTPriceEffect, objSTVolumeEffect);
-
-                                        //// CPI Month values
-                                        //CPIMonthValues objCPIMonthValues = new CPIMonthValues();
-                                        //objCPIMonthValues = this.GetMonthlyCPIValues(subCountry, initYear);
-                                        //// CPI Effect month values
-                                        //CPIEffectMonthValues objCPIEffectMonthValues = objFlatFileHelper.GetCPIEffectMonthValues(flActualCPUNMin1, targetCPUNMonth,
-                                        //    objCPIMonthValues, drRow);
-
-                                        //// Calculating YTD and FY CostAvoidance Vs CPI
-                                        //drRow["YTDCostAvoidanceVsCPI"] = objFlatFileHelper.GetYTDCostAvoidanceVsCPI(objCPIEffectMonthValues);
-                                        //drRow["FYCostAvoidanceVsCPI"] = objFlatFileHelper.GetFYCostAvoidanceVsCPI(objCPIEffectMonthValues);
-
-                                        //initiativeCalcs = new InitiativeCalcs()
-                                        //{
-                                        //    flActualCPUNMin1 = flActualCPUNMin1,
-                                        //    targetCPUNMonth = targetCPUNMonth,
-                                        //    aPriceEffectMonthValues = objPriceEffectMonth,
-                                        //    aVolEffectMonthValues = objAVolEffectMonthValues,
-                                        //    cPIMonthValues = objCPIMonthValues,
-                                        //    achieveMonthValues = objAchieveMonthValues,
-                                        //    sTPriceEffectMonthValues = objSTPriceEffect,
-                                        //    sTVolumeEffect = objSTVolumeEffect,
-                                        //    fYSecuredTargetMonth = objFYSecuredTargetMonth,
-                                        //    cPIEffectMonthValues = objCPIEffectMonthValues
-                                        //};
-                                        #endregion
-
                                         dtInit.AcceptChanges();
                                         dtValidInit.ImportRow(dtInit.Rows[i]);
                                         lstInitiativeCalcs.Add(initiativeCalcs);
@@ -1889,7 +1733,7 @@ log4net.LogManager.GetLogger
                         workbook.SaveDocument(outputExcelPath);
                         workbook.Dispose();
                         stream.Dispose();
-                        if (updatedInit.Count > 0)
+                        if (dtExistingOO.Rows.Count > 0)
                         {
                             resultCount = new ResultCount()
                             {

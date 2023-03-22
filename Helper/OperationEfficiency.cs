@@ -159,9 +159,7 @@ namespace GAIN.Helper
                 drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]).ToUpper();
                 drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
             }
-
             drRow["NFYSecuredTOTALEFFECT"] = float.Parse(drRow["NFYSecuredTOTALEFFECT"].ToString());
-
             initiativeSaveModelXL.drInitiatives = drRow;
             initiativeSaveModelXL.initiativeCalcs = null;
             return initiativeSaveModelXL;

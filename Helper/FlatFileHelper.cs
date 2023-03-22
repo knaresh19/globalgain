@@ -843,10 +843,10 @@ namespace GAIN.Helper
             }
             return row;
         }
-        public long getInitStatus(string initStatus, List<mstatu> lstInitStatus)
+        public long getInitStatus(string initStatus, List<mInitiativeStatus> lstInitStatus)
         {
             long status = 0;
-            status = lstInitStatus.Where(item => item.Status.ToLower() == initStatus.ToLower()).FirstOrDefault().id;
+            status = lstInitStatus.Where(item => item.status.ToLower() == initStatus.ToLower()).FirstOrDefault().id;
             return status;
         }
         public bool isMonthlyTargetChanged(t_initiative tInit, DataRow drRow)
@@ -881,6 +881,132 @@ namespace GAIN.Helper
                 }
             }
             return isSavingChanged;
+        }
+
+        public DataTable GetUpdatedSCMRows(DataTable dtExcelInitiatives, List<t_initiative> lstSCMInitiatives, List<mInitiativeStatus> lstInitiativeStatus)
+        {
+            DataTable dtUpdatedSCM = new DataTable();
+            var updatedInitSCM = (from dtExcel in dtExcelInitiatives.AsEnumerable()
+                                  join
+                                 lstInit in lstSCMInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
+                                  where (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus) ||
+                                 (lstInit.Unit_of_volumes.ToLower() != Convert.ToString(dtExcel["Unitofvolumes"]).ToLower()) ||
+                                 (lstInit.Input_Actuals_Volumes_Nmin1 != Convert.ToDecimal(this.getValue(dtExcel["InputActualsVolumesNmin1"].ToString()))) ||
+                                 (lstInit.Input_Target_Volumes != Convert.ToDecimal(this.getValue(dtExcel["TargetVolumesN"].ToString()))) ||
+                                 (lstInit.Spend_Nmin1 != Convert.ToDecimal(this.getValue(dtExcel["SpendNmin1"].ToString()))) ||
+                                 (lstInit.Spend_N != Convert.ToDecimal(this.getValue(dtExcel["SpendN"].ToString()))) ||
+                                 (lstInit.janActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["JanActualVolumes"].ToString()))) ||
+                                 (lstInit.febActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["FebActualVolumes"].ToString()))) ||
+                                 (lstInit.marActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["MarActualVolumes"].ToString()))) ||
+                                 (lstInit.aprActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["AprActualVolumes"].ToString()))) ||
+                                 (lstInit.mayActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["MayActualVolumes"].ToString()))) ||
+                                 (lstInit.junActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["JunActualVolumes"].ToString()))) ||
+                                 (lstInit.julActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["JulActualVolumes"].ToString()))) ||
+                                 (lstInit.augActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["AugActualVolumes"].ToString()))) ||
+                                 (lstInit.sepActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["SepActualVolumes"].ToString()))) ||
+                                 (lstInit.octActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["OctActualVolumes"].ToString()))) ||
+                                 (lstInit.novActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["NovActualVolumes"].ToString()))) ||
+                                 (lstInit.decActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["DecActualVolumes"].ToString())))
+                                 )
+                                  select dtExcel
+                                           ).ToList();
+
+            if (updatedInitSCM.Count > 0)
+            {
+                dtUpdatedSCM = updatedInitSCM.CopyToDataTable();
+            }
+            return dtUpdatedSCM;
+        }
+        public DataTable GetUpdatedOORows(DataTable dtExcelInitiatives, List<t_initiative> lstOOInitiatives, List<mInitiativeStatus> lstInitiativeStatus)
+        {
+            DataTable dtUpdatedOO = new DataTable();
+            var updatedInitOO = (from dtExcel in dtExcelInitiatives.AsEnumerable()
+                                       join
+                                      lstInit in lstOOInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
+                                       where (lstInit.TargetTY != Convert.ToDecimal(this.getValue(dtExcel["NFYSecuredTOTALEFFECT"].ToString())) ||
+                                       ((
+                                       lstInit.TargetJan != null && lstInit.TargetJan != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetJan"].ToString())) != 0) &&
+                                       lstInit.TargetJan != Convert.ToDecimal(this.getValue(dtExcel["TargetJan"].ToString())))
+                                       || ((
+                                       lstInit.TargetFeb != null && lstInit.TargetFeb != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetFeb"].ToString())) != 0) &&
+                                       lstInit.TargetFeb != Convert.ToDecimal(this.getValue(dtExcel["TargetFeb"].ToString())))
+                                       || ((
+                                       lstInit.TargetMar != null && lstInit.TargetMar != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetMar"].ToString())) != 0) &&
+                                       lstInit.TargetMar != Convert.ToDecimal(this.getValue(dtExcel["TargetMar"].ToString())))
+                                       || ((
+                                       lstInit.TargetApr != null && lstInit.TargetApr != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetApr"].ToString())) != 0) &&
+                                       lstInit.TargetApr != Convert.ToDecimal(this.getValue(dtExcel["TargetApr"].ToString())))
+                                       || ((
+                                       lstInit.TargetMay != null && lstInit.TargetMay != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetMay"].ToString())) != 0) &&
+                                       lstInit.TargetMay != Convert.ToDecimal(this.getValue(dtExcel["TargetMay"].ToString())))
+                                       || ((
+                                       lstInit.TargetJun != null && lstInit.TargetJun != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetJun"].ToString())) != 0) &&
+                                       lstInit.TargetJun != Convert.ToDecimal(this.getValue(dtExcel["TargetJun"].ToString())))
+                                       || ((
+                                       lstInit.TargetJul != null && lstInit.TargetJul != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetJul"].ToString())) != 0) &&
+                                       lstInit.TargetJul != Convert.ToDecimal(this.getValue(dtExcel["TargetJul"].ToString())))
+                                       || ((
+                                       lstInit.TargetAug != null && lstInit.TargetAug != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetAug"].ToString())) != 0) &&
+                                       lstInit.TargetAug != Convert.ToDecimal(this.getValue(dtExcel["TargetAug"].ToString())))
+                                       || ((
+                                       lstInit.TargetSep != null && lstInit.TargetSep != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetSep"].ToString())) != 0) &&
+                                       lstInit.TargetSep != Convert.ToDecimal(this.getValue(dtExcel["TargetSep"].ToString())))
+                                       || ((
+                                       lstInit.TargetOct != null && lstInit.TargetOct != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetOct"].ToString())) != 0) &&
+                                       lstInit.TargetOct != Convert.ToDecimal(this.getValue(dtExcel["TargetOct"].ToString())))
+                                       || ((
+                                       lstInit.TargetNov != null && lstInit.TargetNov != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetNov"].ToString())) != 0) &&
+                                       lstInit.TargetNov != Convert.ToDecimal(this.getValue(dtExcel["TargetNov"].ToString())))
+                                       || ((
+                                       lstInit.TargetDec != null && lstInit.TargetDec != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetDec"].ToString())) != 0) &&
+                                       lstInit.TargetDec != Convert.ToDecimal(this.getValue(dtExcel["TargetDec"].ToString())))
+                                       || ((
+                                       lstInit.AchJan != null && lstInit.AchJan != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchJan"].ToString())) != 0) &&
+                                       lstInit.AchJan != Convert.ToDecimal(this.getValue(dtExcel["AchJan"].ToString())))
+                                       || ((
+                                       lstInit.AchFeb != null && lstInit.AchFeb != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchFeb"].ToString())) != 0) &&
+                                       lstInit.AchFeb != Convert.ToDecimal(this.getValue(dtExcel["AchFeb"].ToString())))
+                                       || ((
+                                       lstInit.AchMar != null && lstInit.AchMar != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchMar"].ToString())) != 0) &&
+                                       lstInit.AchMar != Convert.ToDecimal(this.getValue(dtExcel["AchMar"].ToString())))
+                                       || ((
+                                       lstInit.AchApr != null && lstInit.AchApr != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchApr"].ToString())) != 0) &&
+                                       lstInit.AchApr != Convert.ToDecimal(this.getValue(dtExcel["AchApr"].ToString())))
+                                       || ((
+                                       lstInit.AchMay != null && lstInit.AchMay != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchMay"].ToString())) != 0) &&
+                                       lstInit.AchMay != Convert.ToDecimal(this.getValue(dtExcel["AchMay"].ToString())))
+                                       || ((
+                                       lstInit.AchJun != null && lstInit.AchJun != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchJun"].ToString())) != 0) &&
+                                       lstInit.AchJun != Convert.ToDecimal(this.getValue(dtExcel["AchJun"].ToString())))
+                                       || ((
+                                       lstInit.AchJan != null && lstInit.AchJan != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchJan"].ToString())) != 0) &&
+                                       lstInit.AchJan != Convert.ToDecimal(this.getValue(dtExcel["AchJan"].ToString())))
+                                       || ((
+                                       lstInit.AchJul != null && lstInit.AchJul != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchJul"].ToString())) != 0) &&
+                                       lstInit.AchJul != Convert.ToDecimal(this.getValue(dtExcel["AchJul"].ToString())))
+                                       || ((
+                                       lstInit.AchAug != null && lstInit.AchAug != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchAug"].ToString())) != 0) &&
+                                       lstInit.AchAug != Convert.ToDecimal(this.getValue(dtExcel["AchAug"].ToString())))
+                                       || ((
+                                       lstInit.AchSep != null && lstInit.AchSep != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchSep"].ToString())) != 0) &&
+                                       lstInit.AchSep != Convert.ToDecimal(this.getValue(dtExcel["AchSep"].ToString())))
+                                       || ((
+                                       lstInit.AchOct != null && lstInit.AchOct != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchOct"].ToString())) != 0) &&
+                                       lstInit.AchOct != Convert.ToDecimal(this.getValue(dtExcel["AchOct"].ToString())))
+                                       || ((
+                                       lstInit.AchNov != null && lstInit.AchNov != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchNov"].ToString())) != 0) &&
+                                       lstInit.AchNov != Convert.ToDecimal(this.getValue(dtExcel["AchNov"].ToString())))
+                                       || ((
+                                       lstInit.AchDec != null && lstInit.AchDec != 0 && Convert.ToDecimal(this.getValue(dtExcel["AchDec"].ToString())) != 0) &&
+                                       lstInit.AchDec != Convert.ToDecimal(this.getValue(dtExcel["AchDec"].ToString())))
+                          )
+                                       select dtExcel
+                                           ).ToList();
+            if (updatedInitOO.Count > 0)
+            {
+                dtUpdatedOO = updatedInitOO.CopyToDataTable();
+            }
+            return dtUpdatedOO;
         }
     }
 }

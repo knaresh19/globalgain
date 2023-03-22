@@ -397,4 +397,10 @@ namespace GAIN.Models
         public DataRow drInitiatives { get; set; }
         public InitiativeCalcs initiativeCalcs { get; set; }
     }
+
+    public class mInitiativeStatus
+    {
+        public int id { get; set; }
+        public string status { get; set; }
+    }
 }
