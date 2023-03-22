@@ -923,7 +923,8 @@ namespace GAIN.Helper
             var updatedInitOO = (from dtExcel in dtExcelInitiatives.AsEnumerable()
                                        join
                                       lstInit in lstOOInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
-                                       where (lstInit.TargetTY != Convert.ToDecimal(this.getValue(dtExcel["NFYSecuredTOTALEFFECT"].ToString())) ||
+                                       where (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus) ||
+                                       lstInit.TargetTY != Convert.ToDecimal(this.getValue(dtExcel["NFYSecuredTOTALEFFECT"].ToString())) ||
                                        ((
                                        lstInit.TargetJan != null && lstInit.TargetJan != 0 && Convert.ToDecimal(this.getValue(dtExcel["TargetJan"].ToString())) != 0) &&
                                        lstInit.TargetJan != Convert.ToDecimal(this.getValue(dtExcel["TargetJan"].ToString())))
