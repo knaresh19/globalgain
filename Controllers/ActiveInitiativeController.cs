@@ -1470,6 +1470,8 @@ log4net.LogManager.GetLogger
                 var profileData = Session["DefaultGAINSess"] as LoginSession;
                 ResultCount resultCount = null;
                 int initYear = System.DateTime.Now.Year;
+                List<int> lstValidRowIndexes = new List<int>();
+                int intValidIndex = -1;
                 #region 
 
                 String _path = Server.MapPath("~/UploadedFiles/");
@@ -1575,12 +1577,26 @@ log4net.LogManager.GetLogger
                         DataTable dtExistingOO = objFlatFileHelper.GetUpdatedOORows(dtExcelInitiatives, lstOOInitiatives, lstInitiativeStatus);
                         DataTable dtExistingSCM = objFlatFileHelper.GetUpdatedSCMRows(dtExcelInitiatives, lstSCMInitiatives, lstInitiativeStatus);
 
+
                         dtExistingOO.Merge(dtExistingSCM);
                         if (newInitiatives.Count > 0)
                             dtExistingOO.Merge(newInitiatives.CopyToDataTable());
 
-                        if (dtExistingOO != null && dtExistingOO.Rows.Count > 0)
+                        var lstUnchanged = dtExcelInitiatives.AsEnumerable().Except(dtExistingOO.AsEnumerable(), DataRowComparer.Default).ToList();
+                        DataTable dtUnchanged = (lstUnchanged.Count > 0) ? lstUnchanged.CopyToDataTable() : null;
+                        if (dtUnchanged != null && dtUnchanged.Rows.Count > 0)
                         {
+                            for (int i = dtUnchanged.Rows.Count - 1; i >= 0; i--)
+                            {
+                                intValidIndex = dtExcelInitiatives.Rows.IndexOf(
+                                  (dtExcelInitiatives.AsEnumerable().Where(excelInit => Convert.ToString(excelInit["InitNumber"]) ==
+                                   Convert.ToString(dtUnchanged.Rows[i]["InitNumber"]))).FirstOrDefault());
+                                //lstValidRowIndexes.Add(intValidIndex);
+                                (worksheet.Rows[(intValidIndex + 2)]).Delete();
+                            }
+                        }
+                        if (dtExistingOO != null && dtExistingOO.Rows.Count > 0)
+                        {  
                             DataTable dtInit = dtExistingOO;
                             dtInit.Columns.Add("ProjectYear", typeof(String));
                             dtInit.Columns.Add("dbFlag", typeof(String));
@@ -1601,9 +1617,9 @@ log4net.LogManager.GetLogger
                             dtInit.Columns.Add("TargetNY", typeof(float));
 
                             List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
-                            List<int> lstValidRowIndexes = new List<int>();
+                           
                             DataTable dtValidInit = dtInit.Clone();
-
+                            int intValidIndexes = 0;
                             // Perform Mandatory validation
                             if (dtInit.Rows.Count > 0)
                             {
@@ -1710,16 +1726,19 @@ log4net.LogManager.GetLogger
                                 validRowIndex = lstValidRowIndexes[i];
                                 (worksheet.Rows[(validRowIndex + 2)]).Delete();
                             }
-
+                           
                             dtInit.AcceptChanges();
                             string initText = "inits";
                             string initCalcText = "initCalcs";
-                            var json = "{" + JsonConvert.SerializeObject(initText) + ":" + JsonConvert.SerializeObject(dtValidInit) + ", " +
-                                JsonConvert.SerializeObject(initCalcText) + ":" + JsonConvert.SerializeObject(lstInitiativeCalcs) + "}";
+                            if (successCount > 0 || updateCount > 0)
+                            {
+                                var json = "{" + JsonConvert.SerializeObject(initText) + ":" + JsonConvert.SerializeObject(dtValidInit) + ", " +
+                                    JsonConvert.SerializeObject(initCalcText) + ":" + JsonConvert.SerializeObject(lstInitiativeCalcs) + "}";
 
-                            // Call SP for saving
-                            DBOperations objDBOperations = new DBOperations();
-                            objDBOperations.CallSaveInitiativesSP("SP_SAVEINITIATIVES", json, initYear);
+                                // Call SP for saving
+                                DBOperations objDBOperations = new DBOperations();
+                                objDBOperations.CallSaveInitiativesSP("SP_SAVEINITIATIVES", json, initYear);
+                            }
                         }
                         else
                         {
@@ -1733,6 +1752,7 @@ log4net.LogManager.GetLogger
                         workbook.SaveDocument(outputExcelPath);
                         workbook.Dispose();
                         stream.Dispose();
+
                         if (dtExistingOO.Rows.Count > 0)
                         {
                             resultCount = new ResultCount()

@@ -101,6 +101,10 @@
     </Compile>
     <Compile Include="Helper\DBOperations.cs" />
     <Compile Include="Helper\FlatFileHelper.cs" />
+    <Compile Include="Helper\IActionTypeCalculation.cs" />
+    <Compile Include="Helper\IActionTypeValidation.cs" />
+    <Compile Include="Helper\OperationEfficiency.cs" />
+    <Compile Include="Helper\SupplyContractMonitor.cs" />
     <Compile Include="Models\ExcelFileUpload.cs" />
     <Compile Include="Models\GainModel.Context.cs">
       <AutoGen>True</AutoGen>
