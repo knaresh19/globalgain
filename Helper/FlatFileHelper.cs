@@ -856,6 +856,8 @@ namespace GAIN.Helper
         public DataTable GetUpdatedSCMRows(DataTable dtExcelInitiatives, List<t_initiative> lstSCMInitiatives, List<mInitiativeStatus> lstInitiativeStatus)
         {
             DataTable dtUpdatedSCM = new DataTable();
+            // Comparing init status, unit of vols, actual vol n-1, target vols,
+            // spend n-1, spend n, monthly actual vols
             var updatedInitSCM = (from dtExcel in dtExcelInitiatives.AsEnumerable()
                                   join
                                  lstInit in lstSCMInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
@@ -896,11 +898,14 @@ namespace GAIN.Helper
                                  join
                                 lstInit in lstOOInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
                                  where (
+                                 // Init status - compare
                                  lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus) ||
                                  (
+                                 // Target TY comparison
                                  Convert.ToDecimal(Convert.IsDBNull(lstInit.TargetTY) ? 0 : lstInit.TargetTY) != Convert.ToDecimal(dtExcel["NFYSecuredTOTALEFFECT"])
                                  )
                                  ||
+                                 // Target comparison
                                  (
                                  Convert.ToDecimal((lstInit.TargetJan.Equals(DBNull.Value)) ? 0 : lstInit.TargetJan) !=
                                  Convert.ToDecimal((dtExcel["TargetJan"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetJan"])
@@ -949,7 +954,7 @@ namespace GAIN.Helper
                                  Convert.ToDecimal((lstInit.TargetDec.Equals(DBNull.Value)) ? 0 : lstInit.TargetDec) !=
                                  Convert.ToDecimal((dtExcel["TargetDec"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetDec"])
                                  )
-
+                                 // Savings field comparison
                                  ||
                                  (
                                  Convert.ToDecimal((lstInit.AchJan.Equals(DBNull.Value)) ? 0 : lstInit.AchJan) !=
