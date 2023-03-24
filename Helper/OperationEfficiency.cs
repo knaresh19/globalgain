@@ -24,13 +24,21 @@ namespace GAIN.Helper
             bool isAutoCalculate = (nCurrYrTarget == 0) ? true : false;
             string dbFlag = Convert.ToString(drRow["dbFlag"]);
 
-            // Setting the values to 0
-            drRow["TargetJan"] = 0; drRow["TargetFeb"] = 0;
-            drRow["TargetMar"] = 0; drRow["TargetApr"] = 0;
-            drRow["TargetMay"] = 0; drRow["TargetJun"] = 0;
-            drRow["TargetJul"] = 0; drRow["TargetAug"] = 0;
-            drRow["TargetSep"] = 0; drRow["TargetOct"] = 0;
-            drRow["TargetNov"] = 0; drRow["TargetDec"] = 0;            
+            // Setting values as per decimal format
+            drRow["TargetJan"] = objFlatFileHelper.getValue(drRow["TargetJan"].ToString());
+            drRow["TargetFeb"] = objFlatFileHelper.getValue(drRow["TargetFeb"].ToString());
+            drRow["TargetMar"] = objFlatFileHelper.getValue(drRow["TargetMar"].ToString());
+            drRow["TargetApr"] = objFlatFileHelper.getValue(drRow["TargetApr"].ToString());
+            drRow["TargetMay"] = objFlatFileHelper.getValue(drRow["TargetMay"].ToString());
+            drRow["TargetJun"] = objFlatFileHelper.getValue(drRow["TargetJun"].ToString());
+            drRow["TargetJul"] = objFlatFileHelper.getValue(drRow["TargetJul"].ToString());
+            drRow["TargetAug"] = objFlatFileHelper.getValue(drRow["TargetAug"].ToString());
+            drRow["TargetSep"] = objFlatFileHelper.getValue(drRow["TargetSep"].ToString());
+            drRow["TargetOct"] = objFlatFileHelper.getValue(drRow["TargetOct"].ToString());
+            drRow["TargetNov"] = objFlatFileHelper.getValue(drRow["TargetNov"].ToString());
+            drRow["TargetDec"] = objFlatFileHelper.getValue(drRow["TargetDec"].ToString());
+
+            // Setting next yr values to 0
             drRow["TargetNexJan"] = 0; drRow["TargetNexFeb"] = 0;
             drRow["TargetNexMar"] = 0; drRow["TargetNexApr"] = 0;
             drRow["TargetNexMay"] = 0; drRow["TargetNexJun"] = 0;
@@ -86,18 +94,6 @@ namespace GAIN.Helper
             }
             else
             {
-                drRow["TargetJan"] = objFlatFileHelper.getValue(drRow["TargetJan"].ToString());
-                drRow["TargetFeb"] = objFlatFileHelper.getValue(drRow["TargetFeb"].ToString());
-                drRow["TargetMar"] = objFlatFileHelper.getValue(drRow["TargetMar"].ToString());
-                drRow["TargetApr"] = objFlatFileHelper.getValue(drRow["TargetApr"].ToString());
-                drRow["TargetMay"] = objFlatFileHelper.getValue(drRow["TargetMay"].ToString());
-                drRow["TargetJun"] = objFlatFileHelper.getValue(drRow["TargetJun"].ToString());
-                drRow["TargetJul"] = objFlatFileHelper.getValue(drRow["TargetJul"].ToString());
-                drRow["TargetAug"] = objFlatFileHelper.getValue(drRow["TargetAug"].ToString());
-                drRow["TargetSep"] = objFlatFileHelper.getValue(drRow["TargetSep"].ToString());
-                drRow["TargetOct"] = objFlatFileHelper.getValue(drRow["TargetOct"].ToString());
-                drRow["TargetNov"] = objFlatFileHelper.getValue(drRow["TargetNov"].ToString());
-                drRow["TargetDec"] = objFlatFileHelper.getValue(drRow["TargetDec"].ToString());
                 //Setting the values for next year incase of cross yr scenarios
                 if (isCrossYear)
                 {
@@ -152,7 +148,7 @@ namespace GAIN.Helper
                 drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
                 drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
                 drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
-                drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();                
+                drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
                 drRow["CreatedBy"] = CreatedBy;
                 drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
                 drRow["VendorSupplier"] = Convert.ToString(drRow["VendorSupplier"]).ToUpper();

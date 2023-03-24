@@ -1596,7 +1596,7 @@ log4net.LogManager.GetLogger
                             }
                         }
                         if (dtExistingOO != null && dtExistingOO.Rows.Count > 0)
-                        {  
+                        {
                             DataTable dtInit = dtExistingOO;
                             dtInit.Columns.Add("ProjectYear", typeof(String));
                             dtInit.Columns.Add("dbFlag", typeof(String));
@@ -1617,9 +1617,9 @@ log4net.LogManager.GetLogger
                             dtInit.Columns.Add("TargetNY", typeof(float));
 
                             List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
-                           
+
                             DataTable dtValidInit = dtInit.Clone();
-                            int intValidIndexes = 0;
+
                             // Perform Mandatory validation
                             if (dtInit.Rows.Count > 0)
                             {
@@ -1726,7 +1726,7 @@ log4net.LogManager.GetLogger
                                 validRowIndex = lstValidRowIndexes[i];
                                 (worksheet.Rows[(validRowIndex + 2)]).Delete();
                             }
-                           
+
                             dtInit.AcceptChanges();
                             string initText = "inits";
                             string initCalcText = "initCalcs";
@@ -1734,7 +1734,6 @@ log4net.LogManager.GetLogger
                             {
                                 var json = "{" + JsonConvert.SerializeObject(initText) + ":" + JsonConvert.SerializeObject(dtValidInit) + ", " +
                                     JsonConvert.SerializeObject(initCalcText) + ":" + JsonConvert.SerializeObject(lstInitiativeCalcs) + "}";
-
                                 // Call SP for saving
                                 DBOperations objDBOperations = new DBOperations();
                                 objDBOperations.CallSaveInitiativesSP("SP_SAVEINITIATIVES", json, initYear);
