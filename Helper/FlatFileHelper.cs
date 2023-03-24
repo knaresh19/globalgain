@@ -948,6 +948,57 @@ namespace GAIN.Helper
                                  (
                                  Convert.ToDecimal((lstInit.TargetDec.Equals(DBNull.Value)) ? 0 : lstInit.TargetDec) !=
                                  Convert.ToDecimal((dtExcel["TargetDec"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetDec"])
+                                 )
+
+                                 ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchJan.Equals(DBNull.Value)) ? 0 : lstInit.AchJan) !=
+                                 Convert.ToDecimal((dtExcel["AchJan"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJan"])
+                                 )
+                                 ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchFeb.Equals(DBNull.Value)) ? 0 : lstInit.AchFeb) !=
+                                 Convert.ToDecimal((dtExcel["AchFeb"].Equals(DBNull.Value)) ? 0 : dtExcel["AchFeb"])
+                                 ) ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchMar.Equals(DBNull.Value)) ? 0 : lstInit.AchMar) !=
+                                 Convert.ToDecimal((dtExcel["AchMar"].Equals(DBNull.Value)) ? 0 : dtExcel["AchMar"])
+                                 ) ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchApr.Equals(DBNull.Value)) ? 0 : lstInit.AchApr) !=
+                                 Convert.ToDecimal((dtExcel["AchApr"].Equals(DBNull.Value)) ? 0 : dtExcel["AchApr"])
+                                 ) ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchMay.Equals(DBNull.Value)) ? 0 : lstInit.AchMay) !=
+                                 Convert.ToDecimal((dtExcel["AchMay"].Equals(DBNull.Value)) ? 0 : dtExcel["AchMay"])
+                                 ) ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchJun.Equals(DBNull.Value)) ? 0 : lstInit.AchJun) !=
+                                 Convert.ToDecimal((dtExcel["AchJun"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJun"])
+                                 ) ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchJul.Equals(DBNull.Value)) ? 0 : lstInit.AchJul) !=
+                                 Convert.ToDecimal((dtExcel["AchJul"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJul"])
+                                 ) ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchAug.Equals(DBNull.Value)) ? 0 : lstInit.AchAug) !=
+                                 Convert.ToDecimal((dtExcel["AchAug"].Equals(DBNull.Value)) ? 0 : dtExcel["AchAug"])
+                                 ) ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchSep.Equals(DBNull.Value)) ? 0 : lstInit.AchSep) !=
+                                 Convert.ToDecimal((dtExcel["AchSep"].Equals(DBNull.Value)) ? 0 : dtExcel["AchSep"])
+                                 ) ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchOct.Equals(DBNull.Value)) ? 0 : lstInit.AchOct) !=
+                                 Convert.ToDecimal((dtExcel["AchOct"].Equals(DBNull.Value)) ? 0 : dtExcel["AchOct"])
+                                 ) ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchNov.Equals(DBNull.Value)) ? 0 : lstInit.AchNov) !=
+                                 Convert.ToDecimal((dtExcel["AchNov"].Equals(DBNull.Value)) ? 0 : dtExcel["AchNov"])
+                                 ) ||
+                                 (
+                                 Convert.ToDecimal((lstInit.AchDec.Equals(DBNull.Value)) ? 0 : lstInit.AchDec) !=
+                                 Convert.ToDecimal((dtExcel["AchDec"].Equals(DBNull.Value)) ? 0 : dtExcel["AchDec"])
                                  ))
                                  select dtExcel
                                            ).ToList();
@@ -959,6 +1010,5 @@ namespace GAIN.Helper
             return dtUpdatedOO;
         }
     }
-
 }
 
