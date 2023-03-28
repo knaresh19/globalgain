@@ -40,6 +40,9 @@ log4net.LogManager.GetLogger
         List<SubCountryBrand> lstSubCountryBrand = new List<SubCountryBrand>();
         List<InitTypeCostSubCost> lstInitTypeCostSubCosts = new List<InitTypeCostSubCost>();
         List<mInitiativeStatus> lstInitiativeStatus = new List<mInitiativeStatus>();
+        List<t_initiative> lstOOInitiatives = new List<t_initiative>();
+        List<t_initiative> lstSCMInitiatives = new List<t_initiative>();
+        List<mactiontype> lstActionType = new List<mactiontype>();
         public ActionResult Index()
         {
             //vwheaderinitiative model = new vwheaderinitiative();
@@ -1419,7 +1422,8 @@ log4net.LogManager.GetLogger
             return _mCPI;
         }
 
-        private string GetGeneralRemarks(string sInitNumber, string subCountry, string brand, string sConfidential, string sInitiativeStatus, DataRow dataRow)
+        private string GetGeneralRemarks(string sInitNumber, string subCountry, string brand, string sConfidential, string sInitiativeStatus, DataRow dataRow,
+            int userType)
         {
             string remarks = string.Empty;
             bool isUserSubCountry = false;
@@ -1446,6 +1450,23 @@ log4net.LogManager.GetLogger
 
             if (sInitiativeStatus != "cancelled" && sInitiativeStatus != "ongoing" && sInitiativeStatus != "work in progress")
                 remarks += " Invalid Initiative Status.";
+
+            // Validation for Agency not to change init status to Work in progress
+            List<t_initiative> lstExistingInits = lstOOInitiatives;
+            lstExistingInits.Concat(lstSCMInitiatives);
+            if (userType == 3)
+            {
+                if (sInitiativeStatus.ToLower() == "work in progress")
+                {
+                    var initStatusCheck = lstExistingInits.Where(tInit => tInit.InitNumber == sInitNumber
+                    && tInit.InitStatus != objFlatFileHelper.getInitStatus(sInitiativeStatus, lstInitiativeStatus)).ToList();
+                    if (initStatusCheck.Count > 0)
+                    {
+                        remarks += "Agency user not authorized to change to Work in progress,";
+                    }
+                }
+            }
+
             remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["TypeOfInitiative"]), "initType", "", "")) ?
                 " Invalid Initiative type," : "";
             remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["ItemCategory"]), "itemCategory", "", Convert.ToString(dataRow["TypeOfInitiative"]))) ?
@@ -1458,6 +1479,34 @@ log4net.LogManager.GetLogger
                  " Invalid End month." : "";
             return remarks;
         }
+
+
+        private void SetInitiativeList(int initYear)
+        {
+            long ooTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.ooActionType
+                            && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
+            long scmTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.scmType
+           && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
+
+            lstOOInitiatives = db.t_initiative.Where(tInit =>
+                  tInit.ActionTypeID == ooTypeId && tInit.ProjectYear == initYear).ToList();
+
+            lstSCMInitiatives = db.t_initiative.Where(tInit =>
+                  tInit.ActionTypeID == scmTypeId && tInit.ProjectYear == initYear).ToList();
+        }
+
+        private void setActionTypeList(int initYear)
+        {
+            lstActionType = db.mactiontypes.Where(action =>
+                              action.isActive == "Y" && action.InitYear == initYear).ToList();
+        }
+        private long getActionTypeId(string actionType) {
+            long actionTypeId = 0;
+            actionTypeId = lstActionType
+                .Where(action => action.ActionTypeName.ToLower() == actionType.ToLower()).FirstOrDefault().id;
+            return actionTypeId;        
+        }
+
         // File upload functionality
         public ActionResult UploadFile(HttpPostedFileBase fileBase)
         {
@@ -1468,8 +1517,11 @@ log4net.LogManager.GetLogger
                 IActionTypeValidation validationRemarks = null;
                 IActionTypeCalculation actionTypeCalculation = null;
                 var profileData = Session["DefaultGAINSess"] as LoginSession;
+                int userType = profileData.UserType;
                 ResultCount resultCount = null;
                 int initYear = System.DateTime.Now.Year;
+                bool isActionTypeChanged = false;
+                bool isValidActionType = false;
                 List<int> lstValidRowIndexes = new List<int>();
                 int intValidIndex = -1;
                 #region 
@@ -1490,6 +1542,11 @@ log4net.LogManager.GetLogger
                 this.setInitTypeCostSubCost();
                 // Set the initiative status list
                 this.setInitiativeStatus(initYear);
+                // Setting the OO and SCM Initiatives list as per the inityear
+                this.SetInitiativeList(initYear);
+                // Setting ActionTypes
+                this.setActionTypeList(initYear);
+
 
                 string outExcelfileName = "errorExcel_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
 
@@ -1563,20 +1620,8 @@ log4net.LogManager.GetLogger
                             (String.IsNullOrEmpty(myRow.Field<string>("InitNumber")))
                          ).ToList();
 
-                        long ooTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.ooActionType
-                        && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
-                        long scmTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.scmType
-                       && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
-
-                        List<t_initiative> lstOOInitiatives = db.t_initiative.Where(tInit =>
-                            tInit.ActionTypeID == ooTypeId && tInit.ProjectYear == initYear).ToList();
-
-                        List<t_initiative> lstSCMInitiatives = db.t_initiative.Where(tInit =>
-                            tInit.ActionTypeID == scmTypeId && tInit.ProjectYear == initYear).ToList();
-
                         DataTable dtExistingOO = objFlatFileHelper.GetUpdatedOORows(dtExcelInitiatives, lstOOInitiatives, lstInitiativeStatus);
                         DataTable dtExistingSCM = objFlatFileHelper.GetUpdatedSCMRows(dtExcelInitiatives, lstSCMInitiatives, lstInitiativeStatus);
-
 
                         dtExistingOO.Merge(dtExistingSCM);
                         if (newInitiatives.Count > 0)
@@ -1634,36 +1679,54 @@ log4net.LogManager.GetLogger
                                     string brand = Convert.ToString(dtInit.Rows[i]["Brand"].ToString());
                                     string sConfidential = dtInit.Rows[i]["Confidential"] != null ? dtInit.Rows[i]["Confidential"].ToString().ToUpper() : "";
                                     string sInitiativeStatus = dtInit.Rows[i]["InitiativeStatus"] != null ? dtInit.Rows[i]["InitiativeStatus"].ToString().ToLower() : "";
-                                    bool isValidActionType = false;
+                               
                                     // Get General validation for all action types
-                                    remarks = this.GetGeneralRemarks(sInitNumber, subCountry, brand, sConfidential, sInitiativeStatus, dtInit.Rows[i]);
+                                    remarks = this.GetGeneralRemarks(sInitNumber, subCountry, brand, sConfidential, 
+                                        sInitiativeStatus, dtInit.Rows[i], userType);
 
                                     // Get the actionType and validations based on action type
 
-                                    string actionType = objFlatFileHelper.GetActionType(Convert.ToString(dtInit.Rows[i]["ActionType"]));
+                                    string actionType = 
+                                        objFlatFileHelper.GetActionType(Convert.ToString(dtInit.Rows[i]["ActionType"]));
                                     isValidActionType = (actionType.ToLower() == ActionType.ooActionType.ToLower() ||
                                         actionType.ToLower() == ActionType.scmType.ToLower()) ? true : false;
+                                    
+                                    if (sInitNumber != "")
+                                    {
+                                        var lstMerge = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
+                                        isActionTypeChanged = lstMerge.AsEnumerable().Where(
+                                            tInit => tInit.InitNumber == sInitNumber
+                                                && tInit.ActionTypeID !=
+                                                this.getActionTypeId(actionType.ToLower()))
+                                            .Count() > 0 ? true : false;
+                                    }
                                     //Datetime check
                                     remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth))) ? " Please enter a valid start date," : "";
                                     remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))) ? " Please enter a valid end date" : "";
-
-                                    if (isValidActionType)
+                                    if (!isActionTypeChanged)
                                     {
-                                        if (actionType.ToLower() == ActionType.ooActionType.ToLower())
+                                        if (isValidActionType)
                                         {
-                                            // OO Type Validation
-                                            validationRemarks = new OperationEfficiency();
+                                            if (actionType.ToLower() == ActionType.ooActionType.ToLower())
+                                            {
+                                                // OO Type Validation
+                                                validationRemarks = new OperationEfficiency();
+                                            }
+                                            else if (actionType.ToLower() == ActionType.scmType.ToLower())
+                                            {
+                                                // SCM Type validations                                            
+                                                validationRemarks = new SupplyContractMonitor();
+                                            }
+                                            remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], dtStartMonth, dtEndMonth, initYear, lstInitTypeCostSubCosts);
                                         }
-                                        else if (actionType.ToLower() == ActionType.scmType.ToLower())
+                                        else
                                         {
-                                            // SCM Type validations                                            
-                                            validationRemarks = new SupplyContractMonitor();
+                                            remarks += " Invalid Action Type,";
                                         }
-                                        remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], dtStartMonth, dtEndMonth, initYear, lstInitTypeCostSubCosts);
                                     }
                                     else
                                     {
-                                        remarks += " Invalid Action Type,";
+                                        remarks += " Change in Action type is not allowed,";
                                     }
 
                                     if ((!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth)))
