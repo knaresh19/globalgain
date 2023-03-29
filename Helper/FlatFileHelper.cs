@@ -1014,6 +1014,12 @@ namespace GAIN.Helper
             }
             return dtUpdatedOO;
         }
+        public decimal getDecimalValue(string number)
+        {
+            decimal dlValue = 0;
+            dlValue = this.IsValidNumber(number) ? Convert.ToDecimal(number) : 0;
+            return dlValue;
+        }
     }
 }
 

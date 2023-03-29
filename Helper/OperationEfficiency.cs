@@ -139,36 +139,34 @@ namespace GAIN.Helper
             nCurrYrTarget = (isAutoCalculate) ? this.getCurrentYrTarget(drRow) : nCurrYrTarget;
             drRow["TargetNY"] = nCurrYrTarget;
 
-            if (dbFlag == "I")
-            {
-                drRow["StartMonth"] = dtStartMonth.ToString("yyyy-MM-dd");
-                drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd");
-                drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
-                drRow["Description"] = Convert.ToString(drRow["Description"]);
-                drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
-                drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
-                drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
-                drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
-                drRow["CreatedBy"] = CreatedBy;
-                drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
-                drRow["VendorSupplier"] = Convert.ToString(drRow["VendorSupplier"]).ToUpper();
-                drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]).ToUpper();
-                drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
-            }
+
+            drRow["StartMonth"] = dtStartMonth.ToString("yyyy-MM-dd");
+            drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd");
+            drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
+            drRow["Description"] = Convert.ToString(drRow["Description"]);
+            drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
+            drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
+            drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
+            drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
+            drRow["CreatedBy"] = CreatedBy;
+            drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
+            drRow["VendorSupplier"] = Convert.ToString(drRow["VendorSupplier"]).ToUpper();
+            drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]).ToUpper();
+            drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
+
             drRow["NFYSecuredTOTALEFFECT"] = float.Parse(drRow["NFYSecuredTOTALEFFECT"].ToString());
             initiativeSaveModelXL.drInitiatives = drRow;
             initiativeSaveModelXL.initiativeCalcs = null;
             return initiativeSaveModelXL;
         }
-        public string GetValidationRemarks(DataRow dataRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear, List<InitTypeCostSubCost> lstSavingType)
+        public string GetValidationRemarks(DataRow dataRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear, int userType, List<t_initiative> lstExistingInit, List<InitTypeCostSubCost> lstSavingTypes)
         {
             string remarks = string.Empty;
             float nfySecTotalEffect = this.getFYSecTotalEffect(dataRow);
-            remarks += this.getInitTypeValidRemarks(dataRow, lstSavingType, nfySecTotalEffect);
+            remarks += this.getInitTypeValidRemarks(dataRow, lstSavingTypes, nfySecTotalEffect);
             remarks += this.getTargetValidationRemarks(nfySecTotalEffect, dataRow, dtStartMonth, dtEndMonth, initYear);
             return remarks;
         }
-
         #endregion
 
         #region CustomMethods
@@ -239,5 +237,4 @@ namespace GAIN.Helper
 
         #endregion
     }
-
 }

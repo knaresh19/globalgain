@@ -1524,6 +1524,7 @@ log4net.LogManager.GetLogger
                 bool isValidActionType = false;
                 List<int> lstValidRowIndexes = new List<int>();
                 int intValidIndex = -1;
+                List<t_initiative> lstExistingInits = new List<t_initiative>();
                 #region 
 
                 String _path = Server.MapPath("~/UploadedFiles/");
@@ -1546,7 +1547,6 @@ log4net.LogManager.GetLogger
                 this.SetInitiativeList(initYear);
                 // Setting ActionTypes
                 this.setActionTypeList(initYear);
-
 
                 string outExcelfileName = "errorExcel_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
 
@@ -1626,7 +1626,6 @@ log4net.LogManager.GetLogger
                         dtExistingOO.Merge(dtExistingSCM);
                         if (newInitiatives.Count > 0)
                             dtExistingOO.Merge(newInitiatives.CopyToDataTable());
-
                         var lstUnchanged = dtExcelInitiatives.AsEnumerable().Except(dtExistingOO.AsEnumerable(), DataRowComparer.Default).ToList();
                         DataTable dtUnchanged = (lstUnchanged.Count > 0) ? lstUnchanged.CopyToDataTable() : null;
                         if (dtUnchanged != null && dtUnchanged.Rows.Count > 0)
@@ -1660,11 +1659,8 @@ log4net.LogManager.GetLogger
                             dtInit.Columns.Add("TargetNexNov", typeof(float));
                             dtInit.Columns.Add("TargetNexDec", typeof(float));
                             dtInit.Columns.Add("TargetNY", typeof(float));
-
                             List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
-
                             DataTable dtValidInit = dtInit.Clone();
-
                             // Perform Mandatory validation
                             if (dtInit.Rows.Count > 0)
                             {
@@ -1681,16 +1677,17 @@ log4net.LogManager.GetLogger
                                     string sInitiativeStatus = dtInit.Rows[i]["InitiativeStatus"] != null ? dtInit.Rows[i]["InitiativeStatus"].ToString().ToLower() : "";
 
                                     // Duplicate Initnumber validation
-                                    remarks += (dtInit.AsEnumerable().Where(init =>
-                                    Convert.ToString(init["InitNumber"].ToString().Trim().ToUpper()) == sInitNumber.Trim().ToUpper()).Count() > 1) ?
-                                    "Duplicate Initiatives," : "";
-
+                                    if (sInitNumber != "")
+                                    {
+                                        remarks += (dtInit.AsEnumerable().Where(init =>
+                                        Convert.ToString(init["InitNumber"].ToString().Trim().ToUpper()) == sInitNumber.Trim().ToUpper()).Count() > 1) ?
+                                        "Duplicate Initiatives," : "";
+                                    }
                                     // Get General validation for all action types
                                     remarks += this.GetGeneralRemarks(sInitNumber, subCountry, brand, sConfidential,
                                    sInitiativeStatus, dtInit.Rows[i], userType);
 
                                     // Get the actionType and validations based on action type
-
                                     string actionType =
                                         objFlatFileHelper.GetActionType(Convert.ToString(dtInit.Rows[i]["ActionType"]));
                                     isValidActionType = (actionType.ToLower() == ActionType.ooActionType.ToLower() ||
@@ -1715,14 +1712,16 @@ log4net.LogManager.GetLogger
                                             if (actionType.ToLower() == ActionType.ooActionType.ToLower())
                                             {
                                                 // OO Type Validation
+                                                lstExistingInits = lstOOInitiatives;
                                                 validationRemarks = new OperationEfficiency();
                                             }
                                             else if (actionType.ToLower() == ActionType.scmType.ToLower())
                                             {
-                                                // SCM Type validations                                            
+                                                // SCM Type validations
+                                                lstExistingInits = lstSCMInitiatives;
                                                 validationRemarks = new SupplyContractMonitor();
                                             }
-                                            remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], dtStartMonth, dtEndMonth, initYear, lstInitTypeCostSubCosts);
+                                            remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], dtStartMonth, dtEndMonth, initYear, userType, lstExistingInits, lstInitTypeCostSubCosts);
                                         }
                                         else
                                         {

@@ -403,4 +403,11 @@ namespace GAIN.Models
         public int id { get; set; }
         public string status { get; set; }
     }
+    public static class UserTypes
+    {
+        public static readonly int HOUser = 1;
+        public static readonly int RPOCUser = 2;
+        public static readonly int AgencyUser = 3;
+
+    }
 }

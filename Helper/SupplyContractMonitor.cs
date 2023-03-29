@@ -20,7 +20,6 @@ namespace GAIN.Helper
             // Process the valid row.
             DataRow drRow = row;
             string subCountry = Convert.ToString(drRow["SubCountry"].ToString());
-
             InitiativeCalcs initiativeCalcs;
             drRow = objFlatFileHelper.changeValuesDataType(drRow);
             //drRow["isProcurement"] = 1;
@@ -39,7 +38,6 @@ namespace GAIN.Helper
             drRow["Description"] = Convert.ToString(drRow["Description"]);
             drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
             drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
-
             drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
             drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
             drRow["ActualsVolumesN"] = objFlatFileHelper.getTotalVolumes(drRow);
@@ -133,9 +131,16 @@ namespace GAIN.Helper
             return initiativeSaveModelXL;
         }
 
-        public string GetValidationRemarks(DataRow drRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear,List<InitTypeCostSubCost> lstSavingType = null)
+        public string GetValidationRemarks(DataRow drRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear, int userType, List<t_initiative> lstExistingInit,
+            List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
         {
             string remarks = string.Empty;
+            decimal dlActualVolNmin1 = objFlatFileHelper.getDecimalValue(drRow["InputActualsVolumesNmin1"].ToString());
+            decimal dlTargetVolN = objFlatFileHelper.getDecimalValue(drRow["TargetVolumesN"].ToString());
+            decimal dlSpendNMin1 = objFlatFileHelper.getDecimalValue(drRow["SpendNmin1"].ToString());
+            decimal dlSpendN = objFlatFileHelper.getDecimalValue(drRow["SpendN"].ToString());
+
+            string sInitNumber = Convert.ToString(drRow["InitNumber"].ToString().Trim());
             remarks += (!this.isEndmonthCurrentYear(dtEndMonth)) ? " End month cannot be greater than December" + System.DateTime.Now.Year + "." : "";
             remarks += (!objFlatFileHelper.isValidUnitofVol(Convert.ToString(drRow["Unitofvolumes"]))) ? ValidationRemarks.INVALIDUNITOFVOL : "";
             remarks += (!objFlatFileHelper.IsValidNumber(Convert.ToString(drRow["InputActualsVolumesNmin1"]))) ? ValidationRemarks.INVALIDACTUALVOLNMIN1 : "";
@@ -144,15 +149,39 @@ namespace GAIN.Helper
             remarks += (!objFlatFileHelper.IsValidNumber(Convert.ToString(drRow["SpendNmin1"]))) ? ValidationRemarks.INVALIDSPENDNMIN1 : "";
             remarks += (!objFlatFileHelper.IsValidNumber(Convert.ToString(drRow["SpendN"]))) ?
                 ValidationRemarks.INVALIDSPENDN : "";
+
+            if (userType == 3 && sInitNumber != "")
+            {
+                // For Agency user need to validate whether values are change
+                var initNum = lstExistingInit.Where(tInit => tInit.InitNumber.ToLower() == sInitNumber.ToLower()).FirstOrDefault();
+                if (initNum != null)
+                {
+                    // Restrict Date from edit for agency user on SCM inits.
+                    remarks += (initNum.StartMonth != dtStartMonth || initNum.EndMonth != dtEndMonth) ?
+                        " Agency user cannot change the start or end date," : "";
+
+                    //remarks += (initNum.Unit_of_volumes != Convert.ToString(drRow["Unitofvolumes"])) ?
+                    //    " Agency user cannot update Unit of volumes," : "";
+                    //remarks += (initNum.Input_Actuals_Volumes_Nmin1 != dlActualVolNmin1) ?
+                    //    " Agency user cannot update Actual volumes N - 1," : "";
+                    //remarks += (initNum.Input_Target_Volumes != dlTargetVolN) ?
+                    //    " Agency user cannot update Target Volumes N," : "";
+                    //remarks += (initNum.Spend_Nmin1 != dlSpendNMin1) ?
+                    //     " Agency user cannot update Spend N-1," : "";
+                    //remarks += (initNum.Spend_N != dlSpendN) ? " Agency user cannot update Spend N," : "";
+                }
+            }
             return remarks;
         }
 
         #endregion
 
         #region CustomMethods
-        private bool isEndmonthCurrentYear(DateTime dtEndMonth) {
+        private bool isEndmonthCurrentYear(DateTime dtEndMonth)
+        {
             bool isValidEndmonth = false;
-            if (dtEndMonth.Year == System.DateTime.Now.Year) {
+            if (dtEndMonth.Year == System.DateTime.Now.Year)
+            {
                 isValidEndmonth = true;
             }
             return isValidEndmonth;
