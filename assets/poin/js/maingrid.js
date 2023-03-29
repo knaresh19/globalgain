@@ -1506,8 +1506,9 @@ function OnInit(s, e) {
         BtnProcurement.hidden = true;
         BtnInitiative.innerText = "Create New";
     }
-  
-    if (projectYear >= 2023 && years_right.includes(projectYear) && (user_type == 1) && istoadmin==1) {
+
+    // && (user_type == 1) && istoadmin==1 - Changes to remove for Sprint2,3.
+    if (projectYear >= 2023 && years_right.includes(projectYear)) {
         // Visible upload div true
         $("#divUpload").show();
     }
