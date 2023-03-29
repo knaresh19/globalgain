@@ -272,8 +272,8 @@ namespace GAIN.Helper
             }
             else
             {
-                // Check for Dec Target for cross yr if 0, and total monthly target != Total target then invalid entry
-                if (currYrTotal != 0 && currYrTotal != nfySecTotalEffect && float.Parse(drRow["TargetDec"].ToString()) == 0)
+                // Check for Dec Target for cross yr if 0, and total monthly target != Total target then invalid entry               
+                if ((currYrTotal != 0 && currYrTotal > nfySecTotalEffect) || (currYrTotal != 0 && float.Parse(drRow["TargetDec"].ToString()) == 0))
                 {
                     remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
                         currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
@@ -281,7 +281,6 @@ namespace GAIN.Helper
             }
             return remarks;
         }
-
         #endregion
     }
 }
