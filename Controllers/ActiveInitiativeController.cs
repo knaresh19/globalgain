@@ -1679,18 +1679,23 @@ log4net.LogManager.GetLogger
                                     string brand = Convert.ToString(dtInit.Rows[i]["Brand"].ToString());
                                     string sConfidential = dtInit.Rows[i]["Confidential"] != null ? dtInit.Rows[i]["Confidential"].ToString().ToUpper() : "";
                                     string sInitiativeStatus = dtInit.Rows[i]["InitiativeStatus"] != null ? dtInit.Rows[i]["InitiativeStatus"].ToString().ToLower() : "";
-                               
+
+                                    // Duplicate Initnumber validation
+                                    remarks += (dtInit.AsEnumerable().Where(init =>
+                                    Convert.ToString(init["InitNumber"].ToString().Trim().ToUpper()) == sInitNumber.Trim().ToUpper()).Count() > 1) ?
+                                    "Duplicate Initiatives," : "";
+
                                     // Get General validation for all action types
-                                    remarks = this.GetGeneralRemarks(sInitNumber, subCountry, brand, sConfidential, 
-                                        sInitiativeStatus, dtInit.Rows[i], userType);
+                                    remarks += this.GetGeneralRemarks(sInitNumber, subCountry, brand, sConfidential,
+                                   sInitiativeStatus, dtInit.Rows[i], userType);
 
                                     // Get the actionType and validations based on action type
 
-                                    string actionType = 
+                                    string actionType =
                                         objFlatFileHelper.GetActionType(Convert.ToString(dtInit.Rows[i]["ActionType"]));
                                     isValidActionType = (actionType.ToLower() == ActionType.ooActionType.ToLower() ||
                                         actionType.ToLower() == ActionType.scmType.ToLower()) ? true : false;
-                                    
+
                                     if (sInitNumber != "")
                                     {
                                         var lstMerge = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
