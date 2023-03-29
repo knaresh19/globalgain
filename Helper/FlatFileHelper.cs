@@ -860,7 +860,8 @@ namespace GAIN.Helper
             return status;
         }
 
-        public DataTable GetUpdatedSCMRows(DataTable dtExcelInitiatives, List<t_initiative> lstSCMInitiatives, List<mInitiativeStatus> lstInitiativeStatus)
+        public DataTable GetUpdatedSCMRows(DataTable dtExcelInitiatives, List<t_initiative> lstSCMInitiatives, List<mInitiativeStatus> lstInitiativeStatus,
+            List<SubCountryBrand> lstSubCountryBrand, List<mport> lstPorts, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
         {
             DataTable dtUpdatedSCM = new DataTable();
             // Comparing init status, unit of vols, actual vol n-1, target vols,
@@ -869,7 +870,20 @@ namespace GAIN.Helper
                                   join
                                  lstInit in lstSCMInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
                                   where (
-                                  lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus) ||
+                                  // Related initiative
+                                 (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
+                                 // Brand
+                                 (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
+                                 // Confidential
+                                 (Convert.ToString(lstInit.Confidential).ToLower().Trim() != Convert.ToString(dtExcel["Confidential"]).ToLower().Trim()) ||
+                                 (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
+                                 (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
+                                  (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
+                                 (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
+                                 (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
+                                 (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
+                                 (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
+                                  (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
                                  (lstInit.Unit_of_volumes.ToLower() != Convert.ToString(dtExcel["Unitofvolumes"]).ToLower()) ||
                                  (lstInit.Input_Actuals_Volumes_Nmin1 != Convert.ToDecimal(this.getValue(dtExcel["InputActualsVolumesNmin1"].ToString()))) ||
                                  (lstInit.Input_Target_Volumes != Convert.ToDecimal(this.getValue(dtExcel["TargetVolumesN"].ToString()))) ||
@@ -897,7 +911,41 @@ namespace GAIN.Helper
             }
             return dtUpdatedSCM;
         }
-        public DataTable GetUpdatedOORows(DataTable dtExcelInitiatives, List<t_initiative> lstOOInitiatives, List<mInitiativeStatus> lstInitiativeStatus)
+
+        private long getBrandId(string brandName, List<SubCountryBrand> lstSubCountryBrand)
+        {
+            long brandId = 0;
+            brandId = lstSubCountryBrand.Where(item => item.brandName.ToLower().Trim() == brandName.ToLower().Trim()).FirstOrDefault().brandId;
+            return brandId;
+        }
+        private long getPortId(string portName, List<mport> lstPort) {
+            long portId = 0;
+            portId = lstPort.Where(port => port.PortName.ToLower().Trim() == portName.ToLower().Trim()).FirstOrDefault().id;
+            return portId;
+        }
+        private long getItemCatId(string itemCatName, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
+        {
+            long itemCatId = 0;
+            itemCatId = lstInitTypeCostSubCosts.Where(item =>
+            item.itemCategory.ToLower().Trim() == itemCatName.ToLower().Trim()).FirstOrDefault().ItemCategoryId;
+            return itemCatId;
+        }
+        private long getSubCostId(string subCostName, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
+        {
+            long subCostId = 0;
+            subCostId = lstInitTypeCostSubCosts.Where(item =>
+            item.subCostName.ToLower().Trim() == subCostName.ToLower().Trim()).FirstOrDefault().SubCostId;
+            return subCostId;
+        }
+        private string getText(string text) {
+            string strText = "";
+            if (text != null) {
+                strText = text.Equals(DBNull.Value) ? "" : strText;
+            }
+            return strText;
+        }
+        public DataTable GetUpdatedOORows(DataTable dtExcelInitiatives, List<t_initiative> lstOOInitiatives,
+            List<mInitiativeStatus> lstInitiativeStatus, List<SubCountryBrand> lstSubCountryBrand, List<mport> lstPorts, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
         {
             DataTable dtUpdatedOO = new DataTable();
             //var updatedInitOO = null;
@@ -905,8 +953,21 @@ namespace GAIN.Helper
                                  join
                                 lstInit in lstOOInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
                                  where (
+                                 // Related initiative
+                                 (this.getText(lstInit.RelatedInitiative).ToLower().Trim() != Convert.ToString(dtExcel["RelatedInitiative"]).ToLower().Trim()) ||
+                                 // Brand
+                                 (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
+                                 // Confidential
+                                 (Convert.ToString(lstInit.Confidential).ToLower().Trim() != Convert.ToString(dtExcel["Confidential"]).ToLower().Trim()) ||
+                                 (this.getText(lstInit.Description).ToLower().Trim() != Convert.ToString(dtExcel["Description"]).ToLower().Trim()) ||
+                                 (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
+                                  (this.getText(lstInit.VendorName) != Convert.ToString(dtExcel["VendorSupplier"])) ||
+                                 (this.getText(lstInit.AdditionalInfo) != Convert.ToString(dtExcel["AdditionalInformation"])) ||
+                                 (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
+                                 (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
+                                 (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
                                  // Init status - compare
-                                 lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus) ||
+                                 (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
                                  (
                                  // Target TY comparison
                                  Convert.ToDecimal(Convert.IsDBNull(lstInit.TargetTY) ? 0 : lstInit.TargetTY) != Convert.ToDecimal(dtExcel["NFYSecuredTOTALEFFECT"])

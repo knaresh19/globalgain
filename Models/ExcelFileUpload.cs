@@ -319,7 +319,9 @@ namespace GAIN.Models
         public int initTypeId { get; set; }
         public string initType { get; set; }
         public string itemCategory { get; set; }
+        public int ItemCategoryId { get; set; }
         public string subCostName { get; set; }
+        public int SubCostId { get; set; }
     }
     public class MonthlyCPIValues
     {

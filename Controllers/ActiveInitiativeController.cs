@@ -1394,15 +1394,16 @@ log4net.LogManager.GetLogger
             }
             return isValidItem;
         }
-       
+
         public void setInitTypeCostSubCost()
         {
             int projectYear = System.DateTime.Now.Year;
-            string strQuery = "SELECT ms.id As InitTypeId, ms.SavingTypeName As InitType, mct.CostTypeName As ItemCategory, b.SubCostName FROM t_subcostbrand a"
+            string strQuery = "SELECT ms.id As InitTypeId, ms.SavingTypeName As InitType, mct.CostTypeName As ItemCategory, mct.id As ItemCategoryId, b.id As SubCostId," +
+                "b.SubCostName FROM t_subcostbrand a"
 + " Inner JOIN msubcost b ON a.subcostid = b.id  Inner Join mcostType mct on mct.id = a.costtypeid"
  + " Inner join msavingtype ms on ms.id = a.savingtypeid"
  + " WHERE b.isActive = 'Y' And ms.InitYear = " + projectYear.ToString() + " And ms.isActive = 'Y' And a.InitYear = " + projectYear.ToString()
- + " Group by InitTypeId, InitType, ItemCategory, b.SubCostName Order by ms.SavingTypeName, mct.CostTypeName, b.SubCostName";
+ + " And mct.isActive = 'Y' And  mct.InitYear = " + projectYear.ToString() + " Group by InitTypeId, InitType, ItemCategoryId, ItemCategory, SubCostId, b.SubCostName Order by ms.SavingTypeName, mct.CostTypeName, b.SubCostName";
 
             lstInitTypeCostSubCosts = db.Database.SqlQuery<InitTypeCostSubCost>(strQuery).ToList();
         }
@@ -1507,6 +1508,13 @@ log4net.LogManager.GetLogger
             return actionTypeId;        
         }
 
+        private List<mport> getPortList(int initYear) {
+            List<mport> lstMports = new List<mport>();
+            string sqlQry = "Select id, PortName, InitYear From mport Where inityear = 2023";
+            lstMports = db.Database.SqlQuery<mport>(sqlQry).ToList();
+            return lstMports;
+        }
+
         // File upload functionality
         public ActionResult UploadFile(HttpPostedFileBase fileBase)
         {
@@ -1547,6 +1555,8 @@ log4net.LogManager.GetLogger
                 this.SetInitiativeList(initYear);
                 // Setting ActionTypes
                 this.setActionTypeList(initYear);
+                // Setting port types
+                List<mport> lstPorts = this.getPortList(initYear);
 
                 string outExcelfileName = "errorExcel_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
 
@@ -1620,8 +1630,10 @@ log4net.LogManager.GetLogger
                             (String.IsNullOrEmpty(myRow.Field<string>("InitNumber")))
                          ).ToList();
 
-                        DataTable dtExistingOO = objFlatFileHelper.GetUpdatedOORows(dtExcelInitiatives, lstOOInitiatives, lstInitiativeStatus);
-                        DataTable dtExistingSCM = objFlatFileHelper.GetUpdatedSCMRows(dtExcelInitiatives, lstSCMInitiatives, lstInitiativeStatus);
+                        DataTable dtExistingOO = objFlatFileHelper.GetUpdatedOORows(dtExcelInitiatives, lstOOInitiatives, lstInitiativeStatus,
+                            lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts);
+                        DataTable dtExistingSCM = objFlatFileHelper.GetUpdatedSCMRows(dtExcelInitiatives, lstSCMInitiatives, lstInitiativeStatus,
+                            lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts);
 
                         dtExistingOO.Merge(dtExistingSCM);
                         if (newInitiatives.Count > 0)
