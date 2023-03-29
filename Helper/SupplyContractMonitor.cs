@@ -132,7 +132,7 @@ namespace GAIN.Helper
         }
 
         public string GetValidationRemarks(DataRow drRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear, int userType, List<t_initiative> lstExistingInit,
-            List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
+            List<InitTypeCostSubCost> lstInitTypeCostSubCosts, List<mInitiativeStatus> lstInitiativeStatus=null)
         {
             string remarks = string.Empty;
             decimal dlActualVolNmin1 = objFlatFileHelper.getDecimalValue(drRow["InputActualsVolumesNmin1"].ToString());

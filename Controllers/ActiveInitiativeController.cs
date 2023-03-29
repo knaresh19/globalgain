@@ -1398,11 +1398,11 @@ log4net.LogManager.GetLogger
         public void setInitTypeCostSubCost()
         {
             int projectYear = System.DateTime.Now.Year;
-            string strQuery = "SELECT ms.SavingTypeName As InitType, mct.CostTypeName As ItemCategory, b.SubCostName FROM t_subcostbrand a"
+            string strQuery = "SELECT ms.id As InitTypeId, ms.SavingTypeName As InitType, mct.CostTypeName As ItemCategory, b.SubCostName FROM t_subcostbrand a"
 + " Inner JOIN msubcost b ON a.subcostid = b.id  Inner Join mcostType mct on mct.id = a.costtypeid"
  + " Inner join msavingtype ms on ms.id = a.savingtypeid"
  + " WHERE b.isActive = 'Y' And ms.InitYear = " + projectYear.ToString() + " And ms.isActive = 'Y' And a.InitYear = " + projectYear.ToString()
- + " Group by InitType, ItemCategory, b.SubCostName Order by ms.SavingTypeName, mct.CostTypeName, b.SubCostName";
+ + " Group by InitTypeId, InitType, ItemCategory, b.SubCostName Order by ms.SavingTypeName, mct.CostTypeName, b.SubCostName";
 
             lstInitTypeCostSubCosts = db.Database.SqlQuery<InitTypeCostSubCost>(strQuery).ToList();
         }
@@ -1721,7 +1721,8 @@ log4net.LogManager.GetLogger
                                                 lstExistingInits = lstSCMInitiatives;
                                                 validationRemarks = new SupplyContractMonitor();
                                             }
-                                            remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], dtStartMonth, dtEndMonth, initYear, userType, lstExistingInits, lstInitTypeCostSubCosts);
+                                            remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], dtStartMonth,
+                                                dtEndMonth, initYear, userType, lstExistingInits, lstInitTypeCostSubCosts, lstInitiativeStatus);
                                         }
                                         else
                                         {
@@ -1732,7 +1733,6 @@ log4net.LogManager.GetLogger
                                     {
                                         remarks += " Change in Action type is not allowed,";
                                     }
-
                                     if ((!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth)))
                                         || (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))))
                                         remarks += " Please enter a valid start and end date,";

@@ -316,6 +316,7 @@ namespace GAIN.Models
     }
     public class InitTypeCostSubCost
     {
+        public int initTypeId { get; set; }
         public string initType { get; set; }
         public string itemCategory { get; set; }
         public string subCostName { get; set; }

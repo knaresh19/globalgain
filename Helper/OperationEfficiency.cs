@@ -159,17 +159,64 @@ namespace GAIN.Helper
             initiativeSaveModelXL.initiativeCalcs = null;
             return initiativeSaveModelXL;
         }
-        public string GetValidationRemarks(DataRow dataRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear, int userType, List<t_initiative> lstExistingInit, List<InitTypeCostSubCost> lstSavingTypes)
+        public string GetValidationRemarks(DataRow dataRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear, int userType,
+            List<t_initiative> lstExistingInit, List<InitTypeCostSubCost> lstInitTypeCostSubCosts, List<mInitiativeStatus> lstInitiativeStatus)
         {
             string remarks = string.Empty;
+            string sInitNumber = Convert.ToString(dataRow["InitNumber"]);
+            bool isMonthlyTargetChanged = false;
             float nfySecTotalEffect = this.getFYSecTotalEffect(dataRow);
-            remarks += this.getInitTypeValidRemarks(dataRow, lstSavingTypes, nfySecTotalEffect);
+            remarks += this.getInitTypeValidRemarks(dataRow, lstInitTypeCostSubCosts, nfySecTotalEffect);
             remarks += this.getTargetValidationRemarks(nfySecTotalEffect, dataRow, dtStartMonth, dtEndMonth, initYear);
+
+            if (userType == 3 && lstExistingInit != null && sInitNumber != "")
+            {
+                // For Agency user need to validate whether values are change
+                var initNum = lstExistingInit.Where(tInit => tInit.InitNumber.ToLower() == sInitNumber.ToLower()).FirstOrDefault();
+                
+                // Can change values only for work in progress else validation remarks
+                if (Convert.ToString(dataRow["InitiativeStatus"]).ToLower() != "work in progress")
+                {
+                    remarks += (initNum.InitiativeType !=
+                        objFlatFileHelper.getInitTypeId(Convert.ToString(dataRow["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ?
+                        " Agency user cannot change initiative type," : "";
+                    remarks += (initNum.StartMonth != dtStartMonth || initNum.EndMonth != dtEndMonth) ?
+                       " Agency user cannot change the start or end date," : "";
+                    remarks += (initNum.TargetTY != Convert.ToDecimal(nfySecTotalEffect)) ? " Agency user cannot change Target 12 months" : "";
+                    isMonthlyTargetChanged = this.isMonthlyTargetChanged(initNum, dataRow);
+                    remarks += (isMonthlyTargetChanged) ? " Agency user cannot change the monthly targets" : "";
+                }
+            }
             return remarks;
         }
         #endregion
 
         #region CustomMethods
+
+        private bool isMonthlyTargetChanged(t_initiative initNum, DataRow drRow)
+        {
+            bool isChanged = false;
+            if (initNum != null && drRow != null)
+            {
+                if (initNum.TargetJan != objFlatFileHelper.getDecimalValue(drRow["TargetJan"].ToString()) ||
+                   initNum.TargetFeb != objFlatFileHelper.getDecimalValue(drRow["TargetFeb"].ToString()) ||
+                   initNum.TargetMar != objFlatFileHelper.getDecimalValue(drRow["TargetMar"].ToString()) ||
+                   initNum.TargetApr != objFlatFileHelper.getDecimalValue(drRow["TargetApr"].ToString()) ||
+                   initNum.TargetMay != objFlatFileHelper.getDecimalValue(drRow["TargetMay"].ToString()) ||
+                   initNum.TargetJun != objFlatFileHelper.getDecimalValue(drRow["TargetJun"].ToString()) ||
+                   initNum.TargetJul != objFlatFileHelper.getDecimalValue(drRow["TargetJul"].ToString()) ||
+                   initNum.TargetAug != objFlatFileHelper.getDecimalValue(drRow["TargetAug"].ToString()) ||
+                   initNum.TargetSep != objFlatFileHelper.getDecimalValue(drRow["TargetSep"].ToString()) ||
+                   initNum.TargetOct != objFlatFileHelper.getDecimalValue(drRow["TargetOct"].ToString()) ||
+                   initNum.TargetNov != objFlatFileHelper.getDecimalValue(drRow["TargetNov"].ToString()) ||
+                   initNum.TargetDec != objFlatFileHelper.getDecimalValue(drRow["TargetDec"].ToString()))
+                {
+                    isChanged = true;
+                }
+            }
+
+            return isChanged;
+        }
         private float getCurrentYrTarget(DataRow dataRow)
         {
             float flCurrYrTarget = 0;
