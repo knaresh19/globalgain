@@ -1630,15 +1630,15 @@ log4net.LogManager.GetLogger
                             (String.IsNullOrEmpty(myRow.Field<string>("InitNumber")))
                          ).ToList();
 
-                        DataTable dtExistingOO = objFlatFileHelper.GetUpdatedOORows(dtExcelInitiatives, lstOOInitiatives, lstInitiativeStatus,
+                        DataTable dtExisting = objFlatFileHelper.GetUpdatedRows(dtExcelInitiatives, lstOOInitiatives, lstSCMInitiatives, lstInitiativeStatus,
                             lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts);
-                        DataTable dtExistingSCM = objFlatFileHelper.GetUpdatedSCMRows(dtExcelInitiatives, lstSCMInitiatives, lstInitiativeStatus,
-                            lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts);
+                        //DataTable dtExistingSCM = objFlatFileHelper.GetUpdatedSCMRows(dtExcelInitiatives, lstSCMInitiatives, lstInitiativeStatus,
+                        //    lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts);
 
-                        dtExistingOO.Merge(dtExistingSCM);
+                        //dtExistingOO.Merge(dtExistingSCM);
                         if (newInitiatives.Count > 0)
-                            dtExistingOO.Merge(newInitiatives.CopyToDataTable());
-                        var lstUnchanged = dtExcelInitiatives.AsEnumerable().Except(dtExistingOO.AsEnumerable(), DataRowComparer.Default).ToList();
+                            dtExisting.Merge(newInitiatives.CopyToDataTable());
+                        var lstUnchanged = dtExcelInitiatives.AsEnumerable().Except(dtExisting.AsEnumerable(), DataRowComparer.Default).ToList();
                         DataTable dtUnchanged = (lstUnchanged.Count > 0) ? lstUnchanged.CopyToDataTable() : null;
                         if (dtUnchanged != null && dtUnchanged.Rows.Count > 0)
                         {
@@ -1651,9 +1651,9 @@ log4net.LogManager.GetLogger
                                 (worksheet.Rows[(intValidIndex + 2)]).Delete();
                             }
                         }
-                        if (dtExistingOO != null && dtExistingOO.Rows.Count > 0)
+                        if (dtExisting != null && dtExisting.Rows.Count > 0)
                         {
-                            DataTable dtInit = dtExistingOO;
+                            DataTable dtInit = dtExisting;
                             dtInit.Columns.Add("ProjectYear", typeof(String));
                             dtInit.Columns.Add("dbFlag", typeof(String));
                             dtInit.Columns.Add("isProcurement", typeof(System.Int32));
@@ -1831,7 +1831,7 @@ log4net.LogManager.GetLogger
                         workbook.Dispose();
                         stream.Dispose();
 
-                        if (dtExistingOO.Rows.Count > 0)
+                        if (dtExisting.Rows.Count > 0)
                         {
                             resultCount = new ResultCount()
                             {

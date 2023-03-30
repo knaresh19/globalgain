@@ -958,15 +958,20 @@ namespace GAIN.Helper
             }
             return strText;
         }
-        public DataTable GetUpdatedOORows(DataTable dtExcelInitiatives, List<t_initiative> lstOOInitiatives,
-            List<mInitiativeStatus> lstInitiativeStatus, List<SubCountryBrand> lstSubCountryBrand, List<mport> lstPorts, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
+
+        public DataTable GetUpdatedRows(DataTable dtExcelInitiatives, List<t_initiative> lstOOInitiatives, List<t_initiative> lstSCMInitiatives,
+           List<mInitiativeStatus> lstInitiativeStatus, List<SubCountryBrand> lstSubCountryBrand, List<mport> lstPorts, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
         {
-            DataTable dtUpdatedOO = new DataTable();
+            DataTable dtUpdated = new DataTable();
+            var lstExistingInits = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
+
             //var updatedInitOO = null;
-            var updatedInitOO = (from dtExcel in dtExcelInitiatives.AsEnumerable()
+            var updatedInit = (from dtExcel in dtExcelInitiatives.AsEnumerable()
                                  join
-                                lstInit in lstOOInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
+                                lstInit in lstExistingInits on dtExcel["InitNumber"] equals lstInit.InitNumber
                                  where (
+                                 (
+                                 //OPERATION EFFICIENCY FILTERS
                                  // Related initiative
                                  (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
                                  // Brand
@@ -1093,15 +1098,52 @@ namespace GAIN.Helper
                                  Math.Round(Convert.ToDecimal((lstInit.AchDec.Equals(DBNull.Value)) ? 0 : lstInit.AchDec)) !=
                                  Math.Round(Convert.ToDecimal((dtExcel["AchDec"].Equals(DBNull.Value)) ? 0 : dtExcel["AchDec"]))
                                  ))
+                                 ||
+                                 // SCM FILTERS
+                                 (
+                                 (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
+                                 // Brand
+                                 (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
+                                 // Confidential
+                                 (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
+                                 (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
+                                 (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
+                                 (lstInit.StartMonth != Convert.ToDateTime(Convert.ToString(dtExcel["StartMonth"]))) ||
+                                 (lstInit.EndMonth != Convert.ToDateTime(Convert.ToString(dtExcel["EndMonth"]))) ||
+                                  (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
+                                 (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
+                                 (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
+                                 (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
+                                 (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
+                                  (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
+                                 (lstInit.Unit_of_volumes.ToLower() != Convert.ToString(dtExcel["Unitofvolumes"]).ToLower()) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.Input_Actuals_Volumes_Nmin1)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["InputActualsVolumesNmin1"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.Input_Target_Volumes)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["TargetVolumesN"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.Spend_Nmin1)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["SpendNmin1"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.Spend_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["SpendN"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.janActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["JanActualVolumes"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.febActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["FebActualVolumes"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.marActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["MarActualVolumes"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.aprActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["AprActualVolumes"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.mayActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["MayActualVolumes"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.junActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["JunActualVolumes"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.julActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["JulActualVolumes"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.augActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["AugActualVolumes"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.sepActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["SepActualVolumes"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.octActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["OctActualVolumes"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.novActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["NovActualVolumes"].ToString())))) ||
+                                 (Math.Round(Convert.ToDecimal(lstInit.decActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["DecActualVolumes"].ToString()))))
+                                 ))
                                  select dtExcel
                                            ).ToList();
 
-            if (updatedInitOO.Count > 0)
+            if (updatedInit.Count > 0)
             {
-                dtUpdatedOO = updatedInitOO.CopyToDataTable();
+                dtUpdated = updatedInit.CopyToDataTable();
             }
-            return dtUpdatedOO;
+            return dtUpdated;
         }
+
         public decimal getDecimalValue(string number)
         {
             decimal dlValue = 0;
