@@ -846,9 +846,8 @@ namespace GAIN.Helper
 
         public long getInitTypeId(string initType, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
         {
-            long initTypeId = 0;
-            initTypeId = lstInitTypeCostSubCosts.Where(init => init.initType.ToLower() == initType.ToString().ToLower()).FirstOrDefault().initTypeId;
-            return initTypeId;
+            var initTypeIds = lstInitTypeCostSubCosts.Where(init => init.initType.ToLower() == initType.ToString().ToLower()).FirstOrDefault();
+            return initTypeIds != null ? initTypeIds.initTypeId : 0;
         }
         public long getInitStatus(string initStatus, List<mInitiativeStatus> lstInitStatus)
         {
