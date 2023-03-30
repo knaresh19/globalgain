@@ -23,6 +23,7 @@ namespace GAIN.Helper
             bool isCrossYear = (dtStartMonth.Year != dtEndMonth.Year) ? true : false;
             bool isAutoCalculate = (nCurrYrTarget == 0) ? true : false;
             string dbFlag = Convert.ToString(drRow["dbFlag"]);
+
             drRow["TargetJan"] = objFlatFileHelper.getValue(drRow["TargetJan"].ToString());
             drRow["TargetFeb"] = objFlatFileHelper.getValue(drRow["TargetFeb"].ToString());
             drRow["TargetMar"] = objFlatFileHelper.getValue(drRow["TargetMar"].ToString());
@@ -36,6 +37,7 @@ namespace GAIN.Helper
             drRow["TargetNov"] = objFlatFileHelper.getValue(drRow["TargetNov"].ToString());
             drRow["TargetDec"] = objFlatFileHelper.getValue(drRow["TargetDec"].ToString());
 
+            
             // Setting next yr values to 0
             drRow["TargetNexJan"] = 0; drRow["TargetNexFeb"] = 0;
             drRow["TargetNexMar"] = 0; drRow["TargetNexApr"] = 0;
@@ -48,7 +50,8 @@ namespace GAIN.Helper
             if (isAutoCalculate)
             {
                 // Sets the permonth value to all the applicable months
-                int diffMonths = ((dtEndMonth.Year - dtStartMonth.Year) * 12) + dtEndMonth.Month - dtStartMonth.Month;
+                int diffMonths = (dtEndMonth.Year != dtStartMonth.Year) ? ((dtEndMonth.Year - dtStartMonth.Year) * 12) + dtEndMonth.Month - dtStartMonth.Month + 1
+                    : (dtEndMonth.Month - dtStartMonth.Month + 1);
                 perMonthTarget = nfySecTotalEffect / diffMonths;
                 for (DateTime dtCurr = dtStartMonth; dtCurr <= dtEndMonth; dtCurr = dtCurr.AddMonths(1))
                 {
@@ -136,8 +139,6 @@ namespace GAIN.Helper
             drRow["AchDec"] = objFlatFileHelper.getValue(drRow["AchDec"].ToString());
             nCurrYrTarget = (isAutoCalculate) ? this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth) : nCurrYrTarget;
             drRow["TargetNY"] = nCurrYrTarget;
-
-
             drRow["StartMonth"] = dtStartMonth.ToString("yyyy-MM-dd");
             drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd");
             drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
@@ -163,7 +164,47 @@ namespace GAIN.Helper
             string remarks = string.Empty;
             string sInitNumber = Convert.ToString(dataRow["InitNumber"]);
             bool isMonthlyTargetChanged = false;
-
+            int stMonthVal = dtStartMonth.Month;
+            int endMonthVal = (dtStartMonth.Year == dtEndMonth.Year) ? dtEndMonth.Month : 12;
+            for (int i = stMonthVal - 1; i > 0; i--)
+            {
+                switch (i)
+                {
+                    case 1: { dataRow["TargetJan"] = 0; break; }
+                    case 2: { dataRow["TargetFeb"] = 0; break; }
+                    case 3: { dataRow["TargetMar"] = 0; break; }
+                    case 4: { dataRow["TargetApr"] = 0; break; }
+                    case 5: { dataRow["TargetMay"] = 0; break; }
+                    case 6: { dataRow["TargetJun"] = 0; break; }
+                    case 7: { dataRow["TargetJul"] = 0; break; }
+                    case 8: { dataRow["TargetAug"] = 0; break; }
+                    case 9: { dataRow["TargetSep"] = 0; break; }
+                    case 10: { dataRow["TargetOct"] = 0; break; }
+                    case 11: { dataRow["TargetNov"] = 0; break; }
+                    case 12: { dataRow["TargetDec"] = 0; break; }
+                }
+            }
+            if (endMonthVal != 12)
+            {
+                for (int i = endMonthVal + 1; i <= 12; i++)
+                {
+                    switch (i)
+                    {
+                        case 1: { dataRow["TargetJan"] = 0; break; }
+                        case 2: { dataRow["TargetFeb"] = 0; break; }
+                        case 3: { dataRow["TargetMar"] = 0; break; }
+                        case 4: { dataRow["TargetApr"] = 0; break; }
+                        case 5: { dataRow["TargetMay"] = 0; break; }
+                        case 6: { dataRow["TargetJun"] = 0; break; }
+                        case 7: { dataRow["TargetJul"] = 0; break; }
+                        case 8: { dataRow["TargetAug"] = 0; break; }
+                        case 9: { dataRow["TargetSep"] = 0; break; }
+                        case 10: { dataRow["TargetOct"] = 0; break; }
+                        case 11: { dataRow["TargetNov"] = 0; break; }
+                        case 12: { dataRow["TargetDec"] = 0; break; }
+                    }
+                }
+            }
 
             float nfySecTotalEffect = this.getFYSecTotalEffect(dataRow);
             remarks += this.getInitTypeValidRemarks(dataRow, lstInitTypeCostSubCosts, nfySecTotalEffect);
@@ -241,12 +282,6 @@ namespace GAIN.Helper
                     }
                 }
             }
-            //flCurrYrTarget = objFlatFileHelper.getValue(dataRow["TargetJan"].ToString()) + objFlatFileHelper.getValue(dataRow["TargetFeb"].ToString())
-            //    + objFlatFileHelper.getValue(dataRow["TargetMar"].ToString()) + objFlatFileHelper.getValue(dataRow["TargetApr"].ToString())
-            //    + objFlatFileHelper.getValue(dataRow["TargetMay"].ToString()) + objFlatFileHelper.getValue(dataRow["TargetJun"].ToString())
-            //    + objFlatFileHelper.getValue(dataRow["TargetJul"].ToString()) + objFlatFileHelper.getValue(dataRow["TargetAug"].ToString())
-            //    + objFlatFileHelper.getValue(dataRow["TargetSep"].ToString()) + objFlatFileHelper.getValue(dataRow["TargetOct"].ToString())
-            //    + objFlatFileHelper.getValue(dataRow["TargetNov"].ToString()) + objFlatFileHelper.getValue(dataRow["TargetDec"].ToString());
             return flCurrYrTarget;
         }
         private float getFYSecTotalEffect(DataRow dataRow)
@@ -287,14 +322,14 @@ namespace GAIN.Helper
             float currYrTotal = this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth);
             if (!isCrossYear)
             {
-                if (currYrTotal != 0 && currYrTotal != nfySecTotalEffect)
+                if (currYrTotal != 0 && Math.Round(currYrTotal) != Math.Round(nfySecTotalEffect))
                     remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
                         currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
             }
             else
             {
                 // Check for Dec Target for cross yr if 0, and total monthly target != Total target then invalid entry               
-                if ((currYrTotal != 0 && currYrTotal > nfySecTotalEffect) || (currYrTotal != 0 && float.Parse(drRow["TargetDec"].ToString()) == 0))
+                if ((currYrTotal != 0 && Math.Round(currYrTotal) > Math.Round(nfySecTotalEffect)) || (currYrTotal != 0 && float.Parse(drRow["TargetDec"].ToString()) == 0))
                 {
                     remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
                         currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
