@@ -875,7 +875,7 @@ namespace GAIN.Helper
                                  // Brand
                                  (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
                                  // Confidential
-                                 (Convert.ToString(lstInit.Confidential).ToLower().Trim() != Convert.ToString(dtExcel["Confidential"]).ToLower().Trim()) ||
+                                 (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
                                  (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
                                  (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
                                   (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
@@ -920,21 +920,33 @@ namespace GAIN.Helper
         }
         private long getPortId(string portName, List<mport> lstPort) {
             long portId = 0;
-            portId = lstPort.Where(port => port.PortName.ToLower().Trim() == portName.ToLower().Trim()).FirstOrDefault().id;
+            var portList = lstPort.Where(port => port.PortName.ToLower().Trim() == portName.ToLower().Trim()).FirstOrDefault();
+            if (portList != null) {
+                portId = portList.id;
+            }
             return portId;
         }
         private long getItemCatId(string itemCatName, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
         {
             long itemCatId = 0;
-            itemCatId = lstInitTypeCostSubCosts.Where(item =>
-            item.itemCategory.ToLower().Trim() == itemCatName.ToLower().Trim()).FirstOrDefault().ItemCategoryId;
+            var itemCat = lstInitTypeCostSubCosts.Where(item =>
+            item.itemCategory.ToLower().Trim() == itemCatName.ToLower().Trim()).FirstOrDefault();
+            if (itemCat != null)
+            {
+                itemCatId = itemCat.ItemCategoryId;
+            }
+
             return itemCatId;
         }
         private long getSubCostId(string subCostName, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
         {
             long subCostId = 0;
-            subCostId = lstInitTypeCostSubCosts.Where(item =>
-            item.subCostName.ToLower().Trim() == subCostName.ToLower().Trim()).FirstOrDefault().SubCostId;
+            var subCost = lstInitTypeCostSubCosts.Where(item =>
+            item.subCostName.ToLower().Trim() == subCostName.ToLower().Trim()).FirstOrDefault();
+            if (subCost != null)
+            {
+                subCostId =  subCost.SubCostId;
+            }
             return subCostId;
         }
         private string getText(string text) {
@@ -954,15 +966,15 @@ namespace GAIN.Helper
                                 lstInit in lstOOInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
                                  where (
                                  // Related initiative
-                                 (this.getText(lstInit.RelatedInitiative).ToLower().Trim() != Convert.ToString(dtExcel["RelatedInitiative"]).ToLower().Trim()) ||
+                                 (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
                                  // Brand
                                  (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
                                  // Confidential
-                                 (Convert.ToString(lstInit.Confidential).ToLower().Trim() != Convert.ToString(dtExcel["Confidential"]).ToLower().Trim()) ||
-                                 (this.getText(lstInit.Description).ToLower().Trim() != Convert.ToString(dtExcel["Description"]).ToLower().Trim()) ||
+                                 (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
+                                 (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
                                  (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
-                                  (this.getText(lstInit.VendorName) != Convert.ToString(dtExcel["VendorSupplier"])) ||
-                                 (this.getText(lstInit.AdditionalInfo) != Convert.ToString(dtExcel["AdditionalInformation"])) ||
+                                  (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
+                                 (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
                                  (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
                                  (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
                                  (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
