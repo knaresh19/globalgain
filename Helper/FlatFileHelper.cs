@@ -795,10 +795,10 @@ namespace GAIN.Helper
             if (!string.IsNullOrEmpty(txt))
             {
                 var str = lUnitVul.Where(i => i.text.ToLower() == txt.ToLower()).FirstOrDefault();
-                return (str != null ? str.val : "N");
+                return (str != null ? str.val : "");
             }
             else
-                return "N";
+                return "";
         }
         public float GetNFYSecuredPriceEffect(STPriceEffectMonthValues objSTPriceEffect)
         {
@@ -916,9 +916,8 @@ namespace GAIN.Helper
 
         private long getBrandId(string brandName, List<SubCountryBrand> lstSubCountryBrand)
         {
-            long brandId = 0;
-            brandId = lstSubCountryBrand.Where(item => item.brandName.ToLower().Trim() == brandName.ToLower().Trim()).FirstOrDefault().brandId;
-            return brandId;
+            var brand = lstSubCountryBrand.Where(item => item.brandName.ToLower().Trim() == brandName.ToLower().Trim()).FirstOrDefault();
+            return (brand != null) ? brand.brandId : 0;
         }
         private long getPortId(string portName, List<mport> lstPort) {
             long portId = 0;
@@ -954,187 +953,199 @@ namespace GAIN.Helper
         private string getText(string text) {
             string strText = "";
             if (text != null) {
-                strText = text.Equals(DBNull.Value) ? "" : strText;
+                strText = text.Equals(DBNull.Value) ? "" : text;
             }
             return strText;
         }
 
         public DataTable GetUpdatedRows(DataTable dtExcelInitiatives, List<t_initiative> lstOOInitiatives, List<t_initiative> lstSCMInitiatives,
-           List<mInitiativeStatus> lstInitiativeStatus, List<SubCountryBrand> lstSubCountryBrand, List<mport> lstPorts, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
+           List<mInitiativeStatus> lstInitiativeStatus, List<SubCountryBrand> lstSubCountryBrand, List<mport> lstPorts, List<InitTypeCostSubCost> lstInitTypeCostSubCosts,
+           List<mactiontype> lstActionType)
         {
             DataTable dtUpdated = new DataTable();
             var lstExistingInits = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
 
             //var updatedInitOO = null;
             var updatedInit = (from dtExcel in dtExcelInitiatives.AsEnumerable()
-                                 join
-                                lstInit in lstExistingInits on dtExcel["InitNumber"] equals lstInit.InitNumber
-                                 where (
-                                 (
-                                 //OPERATION EFFICIENCY FILTERS
-                                 // Related initiative
-                                 (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
-                                 // Brand
-                                 (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
-                                 // Confidential
-                                 (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
-                                 (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
-                                 (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
-                                  (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
-                                 (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
-                                 (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
-                                 (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
-                                 (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
-                                 // Init status - compare
-                                 (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
-                                 (
-                                 // Target TY comparison
-                                 Math.Round(Convert.ToDecimal(Convert.IsDBNull(lstInit.TargetTY) ? 0 : lstInit.TargetTY)) != Math.Round(Convert.ToDecimal(dtExcel["NFYSecuredTOTALEFFECT"]))
-                                 )
-                                 ||
-                                 (
-                                 lstInit.StartMonth != Convert.ToDateTime(Convert.ToString(dtExcel["StartMonth"]))
-                                 ) ||
-                                 (
-                                 lstInit.EndMonth != Convert.ToDateTime(Convert.ToString(dtExcel["EndMonth"]))
-                                 ) ||
-                                 // Target comparison
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.TargetJan.Equals(DBNull.Value)) ? 0 : lstInit.TargetJan)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["TargetJan"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetJan"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.TargetFeb.Equals(DBNull.Value)) ? 0 : lstInit.TargetFeb)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["TargetFeb"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetFeb"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.TargetMar.Equals(DBNull.Value)) ? 0 : lstInit.TargetMar)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["TargetMar"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetMar"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.TargetApr.Equals(DBNull.Value)) ? 0 : lstInit.TargetApr)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["TargetApr"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetApr"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.TargetMay.Equals(DBNull.Value)) ? 0 : lstInit.TargetMay)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["TargetMay"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetMay"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.TargetJun.Equals(DBNull.Value)) ? 0 : lstInit.TargetJun)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["TargetJun"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetJun"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.TargetJul.Equals(DBNull.Value)) ? 0 : lstInit.TargetJul)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["TargetJul"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetJul"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.TargetAug.Equals(DBNull.Value)) ? 0 : lstInit.TargetAug)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["TargetAug"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetAug"]))
-                                 ) ||
-                                 (
-                                Math.Round(Convert.ToDecimal((lstInit.TargetSep.Equals(DBNull.Value)) ? 0 : lstInit.TargetSep)) !=
-                                Math.Round(Convert.ToDecimal((dtExcel["TargetSep"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetSep"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.TargetOct.Equals(DBNull.Value)) ? 0 : lstInit.TargetOct)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["TargetOct"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetOct"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.TargetNov.Equals(DBNull.Value)) ? 0 : lstInit.TargetNov)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["TargetNov"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetNov"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.TargetDec.Equals(DBNull.Value)) ? 0 : lstInit.TargetDec)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["TargetDec"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetDec"]))
-                                 )
-                                 // Savings field comparison
-                                 ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchJan.Equals(DBNull.Value)) ? 0 : lstInit.AchJan)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchJan"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJan"]))
-                                 )
-                                 ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchFeb.Equals(DBNull.Value)) ? 0 : lstInit.AchFeb)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchFeb"].Equals(DBNull.Value)) ? 0 : dtExcel["AchFeb"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchMar.Equals(DBNull.Value)) ? 0 : lstInit.AchMar)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchMar"].Equals(DBNull.Value)) ? 0 : dtExcel["AchMar"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchApr.Equals(DBNull.Value)) ? 0 : lstInit.AchApr)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchApr"].Equals(DBNull.Value)) ? 0 : dtExcel["AchApr"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchMay.Equals(DBNull.Value)) ? 0 : lstInit.AchMay)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchMay"].Equals(DBNull.Value)) ? 0 : dtExcel["AchMay"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchJun.Equals(DBNull.Value)) ? 0 : lstInit.AchJun)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchJun"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJun"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchJul.Equals(DBNull.Value)) ? 0 : lstInit.AchJul)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchJul"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJul"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchAug.Equals(DBNull.Value)) ? 0 : lstInit.AchAug)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchAug"].Equals(DBNull.Value)) ? 0 : dtExcel["AchAug"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchSep.Equals(DBNull.Value)) ? 0 : lstInit.AchSep)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchSep"].Equals(DBNull.Value)) ? 0 : dtExcel["AchSep"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchOct.Equals(DBNull.Value)) ? 0 : lstInit.AchOct)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchOct"].Equals(DBNull.Value)) ? 0 : dtExcel["AchOct"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchNov.Equals(DBNull.Value)) ? 0 : lstInit.AchNov)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchNov"].Equals(DBNull.Value)) ? 0 : dtExcel["AchNov"]))
-                                 ) ||
-                                 (
-                                 Math.Round(Convert.ToDecimal((lstInit.AchDec.Equals(DBNull.Value)) ? 0 : lstInit.AchDec)) !=
-                                 Math.Round(Convert.ToDecimal((dtExcel["AchDec"].Equals(DBNull.Value)) ? 0 : dtExcel["AchDec"]))
-                                 ))
-                                 ||
-                                 // SCM FILTERS
-                                 (
-                                 (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
-                                 // Brand
-                                 (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
-                                 // Confidential
-                                 (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
-                                 (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
-                                 (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
-                                 (lstInit.StartMonth != Convert.ToDateTime(Convert.ToString(dtExcel["StartMonth"]))) ||
-                                 (lstInit.EndMonth != Convert.ToDateTime(Convert.ToString(dtExcel["EndMonth"]))) ||
-                                  (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
-                                 (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
-                                 (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
-                                 (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
-                                 (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
-                                  (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
-                                 (lstInit.Unit_of_volumes.ToLower() != Convert.ToString(dtExcel["Unitofvolumes"]).ToLower()) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.Input_Actuals_Volumes_Nmin1)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["InputActualsVolumesNmin1"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.Input_Target_Volumes)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["TargetVolumesN"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.Spend_Nmin1)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["SpendNmin1"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.Spend_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["SpendN"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.janActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["JanActualVolumes"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.febActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["FebActualVolumes"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.marActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["MarActualVolumes"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.aprActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["AprActualVolumes"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.mayActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["MayActualVolumes"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.junActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["JunActualVolumes"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.julActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["JulActualVolumes"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.augActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["AugActualVolumes"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.sepActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["SepActualVolumes"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.octActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["OctActualVolumes"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.novActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["NovActualVolumes"].ToString())))) ||
-                                 (Math.Round(Convert.ToDecimal(lstInit.decActual_volume_N)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["DecActualVolumes"].ToString()))))
-                                 ))
-                                 select dtExcel
+                               join
+                              lstInit in lstExistingInits on dtExcel["InitNumber"] equals lstInit.InitNumber
+                               where (
+                               #region Oprn Filters
+                               // OPERATION EFFICIENCY FILTER
+                               ((Convert.ToString(dtExcel["ActionType"]).ToLower().Trim() == ActionType.ooActionType.ToLower().Trim())
+                               &&
+
+                               (
+                               // Related initiative
+                               (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
+                               // Brand
+                               (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
+                               // Confidential
+                               (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
+                               (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
+                               (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
+                                (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
+                               (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
+                               (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
+                               (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
+                               (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
+                               // Init status - compare
+                               (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
+                               (
+                               // Target TY comparison
+                               Math.Round(Convert.ToDecimal(Convert.IsDBNull(lstInit.TargetTY) ? 0 : lstInit.TargetTY)) != Math.Round(Convert.ToDecimal(dtExcel["NFYSecuredTOTALEFFECT"]))
+                               )
+                               ||
+                               (
+                               lstInit.StartMonth != Convert.ToDateTime(Convert.ToString(dtExcel["StartMonth"]))
+                               ) ||
+                               (
+                               lstInit.EndMonth != Convert.ToDateTime(Convert.ToString(dtExcel["EndMonth"]))
+                               ) ||
+                               // Target comparison
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.TargetJan.Equals(DBNull.Value)) ? 0 : lstInit.TargetJan)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["TargetJan"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetJan"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.TargetFeb.Equals(DBNull.Value)) ? 0 : lstInit.TargetFeb)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["TargetFeb"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetFeb"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.TargetMar.Equals(DBNull.Value)) ? 0 : lstInit.TargetMar)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["TargetMar"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetMar"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.TargetApr.Equals(DBNull.Value)) ? 0 : lstInit.TargetApr)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["TargetApr"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetApr"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.TargetMay.Equals(DBNull.Value)) ? 0 : lstInit.TargetMay)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["TargetMay"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetMay"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.TargetJun.Equals(DBNull.Value)) ? 0 : lstInit.TargetJun)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["TargetJun"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetJun"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.TargetJul.Equals(DBNull.Value)) ? 0 : lstInit.TargetJul)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["TargetJul"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetJul"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.TargetAug.Equals(DBNull.Value)) ? 0 : lstInit.TargetAug)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["TargetAug"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetAug"]))
+                               ) ||
+                               (
+                              Math.Round(Convert.ToDecimal((lstInit.TargetSep.Equals(DBNull.Value)) ? 0 : lstInit.TargetSep)) !=
+                              Math.Round(Convert.ToDecimal((dtExcel["TargetSep"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetSep"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.TargetOct.Equals(DBNull.Value)) ? 0 : lstInit.TargetOct)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["TargetOct"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetOct"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.TargetNov.Equals(DBNull.Value)) ? 0 : lstInit.TargetNov)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["TargetNov"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetNov"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.TargetDec.Equals(DBNull.Value)) ? 0 : lstInit.TargetDec)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["TargetDec"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetDec"]))
+                               )
+                               // Savings field comparison
+                               ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchJan.Equals(DBNull.Value)) ? 0 : lstInit.AchJan)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchJan"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJan"]))
+                               )
+                               ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchFeb.Equals(DBNull.Value)) ? 0 : lstInit.AchFeb)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchFeb"].Equals(DBNull.Value)) ? 0 : dtExcel["AchFeb"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchMar.Equals(DBNull.Value)) ? 0 : lstInit.AchMar)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchMar"].Equals(DBNull.Value)) ? 0 : dtExcel["AchMar"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchApr.Equals(DBNull.Value)) ? 0 : lstInit.AchApr)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchApr"].Equals(DBNull.Value)) ? 0 : dtExcel["AchApr"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchMay.Equals(DBNull.Value)) ? 0 : lstInit.AchMay)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchMay"].Equals(DBNull.Value)) ? 0 : dtExcel["AchMay"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchJun.Equals(DBNull.Value)) ? 0 : lstInit.AchJun)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchJun"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJun"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchJul.Equals(DBNull.Value)) ? 0 : lstInit.AchJul)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchJul"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJul"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchAug.Equals(DBNull.Value)) ? 0 : lstInit.AchAug)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchAug"].Equals(DBNull.Value)) ? 0 : dtExcel["AchAug"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchSep.Equals(DBNull.Value)) ? 0 : lstInit.AchSep)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchSep"].Equals(DBNull.Value)) ? 0 : dtExcel["AchSep"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchOct.Equals(DBNull.Value)) ? 0 : lstInit.AchOct)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchOct"].Equals(DBNull.Value)) ? 0 : dtExcel["AchOct"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchNov.Equals(DBNull.Value)) ? 0 : lstInit.AchNov)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchNov"].Equals(DBNull.Value)) ? 0 : dtExcel["AchNov"]))
+                               ) ||
+                               (
+                               Math.Round(Convert.ToDecimal((lstInit.AchDec.Equals(DBNull.Value)) ? 0 : lstInit.AchDec)) !=
+                               Math.Round(Convert.ToDecimal((dtExcel["AchDec"].Equals(DBNull.Value)) ? 0 : dtExcel["AchDec"]))
+                               )
+                               ))
+                               #endregion
+                               ||
+                               // SCM FILTERS
+                               (
+                               #region SCM Filter
+                                   (Convert.ToString(dtExcel["ActionType"]).ToLower().Trim() == ActionType.scmType.ToLower().Trim()) &&
+                               ((this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
+                               //Brand
+                               (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
+                               //Confidential
+                               (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
+                               (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
+                               (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
+                               (lstInit.StartMonth != Convert.ToDateTime(Convert.ToString(dtExcel["StartMonth"]))) ||
+                               (lstInit.EndMonth != Convert.ToDateTime(Convert.ToString(dtExcel["EndMonth"]))) ||
+                               (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
+                               (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
+                               (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
+                               (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
+                               (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
+                                (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
+                               (lstInit.Unit_of_volumes.ToLower() != Convert.ToString(dtExcel["Unitofvolumes"]).ToLower()) ||
+                               this.getDecimalValue(lstInit.Input_Actuals_Volumes_Nmin1.ToString()) != this.getDecimalValue(dtExcel["InputActualsVolumesNmin1"].ToString()) ||
+                               this.getDecimalValue(lstInit.Input_Target_Volumes.ToString()) != this.getDecimalValue(dtExcel["TargetVolumesN"].ToString()) ||
+                               this.getDecimalValue(lstInit.Spend_Nmin1.ToString()) != this.getDecimalValue(dtExcel["SpendNmin1"].ToString()) ||
+                               this.getDecimalValue(lstInit.Spend_N.ToString()) != this.getDecimalValue(dtExcel["SpendN"].ToString()) ||
+                               this.getDecimalValue(lstInit.janActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["JanActualVolumes"].ToString()) ||
+                               this.getDecimalValue(lstInit.febActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["FebActualVolumes"].ToString()) ||
+                               this.getDecimalValue(lstInit.marActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["MarActualVolumes"].ToString()) ||
+                               this.getDecimalValue(lstInit.aprActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["AprActualVolumes"].ToString()) ||
+                               this.getDecimalValue(lstInit.mayActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["MayActualVolumes"].ToString()) ||
+                               this.getDecimalValue(lstInit.junActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["JunActualVolumes"].ToString()) ||
+                               this.getDecimalValue(lstInit.julActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["JulActualVolumes"].ToString()) ||
+                               this.getDecimalValue(lstInit.augActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["AugActualVolumes"].ToString()) ||
+                               this.getDecimalValue(lstInit.sepActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["SepActualVolumes"].ToString()) ||
+                               this.getDecimalValue(lstInit.octActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["OctActualVolumes"].ToString()) ||
+                               this.getDecimalValue(lstInit.novActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["NovActualVolumes"].ToString()) ||
+                               this.getDecimalValue(lstInit.decActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["DecActualVolumes"].ToString())
+                               )
+                               #endregion
+                               )
+                               )
+                               select dtExcel
                                            ).ToList();
 
             if (updatedInit.Count > 0)
@@ -1149,6 +1160,12 @@ namespace GAIN.Helper
             decimal dlValue = 0;
             dlValue = this.IsValidNumber(number) ? Convert.ToDecimal(number) : 0;
             return dlValue;
+        }
+        public long getActionTypeId(string actionType, List<mactiontype> lstActionType)
+        {
+            var objActionType = lstActionType
+                 .Where(action => action.ActionTypeName.ToLower() == actionType.ToLower()).FirstOrDefault();
+            return (objActionType != null) ? objActionType.id : 0;
         }
     }
 }

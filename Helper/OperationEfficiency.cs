@@ -149,8 +149,8 @@ namespace GAIN.Helper
             drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
             drRow["CreatedBy"] = CreatedBy;
             drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
-            drRow["VendorSupplier"] = Convert.ToString(drRow["VendorSupplier"]).ToUpper();
-            drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]).ToUpper();
+            drRow["VendorSupplier"] = Convert.ToString(drRow["VendorSupplier"]);
+            drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]);
             drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
 
             drRow["NFYSecuredTOTALEFFECT"] = float.Parse(drRow["NFYSecuredTOTALEFFECT"].ToString());

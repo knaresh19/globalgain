@@ -133,6 +133,7 @@ namespace GAIN.Models
         public string subCountryName { get; set; }
         public string CountryCode { get; set; }
 
+        public int subCountryId { get; set; }
     }
     public class ResultCount
     {

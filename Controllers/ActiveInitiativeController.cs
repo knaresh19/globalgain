@@ -1357,7 +1357,7 @@ log4net.LogManager.GetLogger
             }
             subCntryCondn += ")";
 
-            string sqlQuery = "SELECT mb.brandname As brandName, mbc.brandid As brandId, ms.SubCountryName,ms.CountryCode FROM mbrandcountry mbc inner join "
+            string sqlQuery = "SELECT mb.brandname As brandName, mbc.brandid As brandId, mbc.subcountryid As subCountryId, ms.SubCountryName,ms.CountryCode FROM mbrandcountry mbc inner join "
                                 + " mbrand mb on mbc.brandid = mb.id Inner join msubcountry ms on ms.id = mbc.subcountryid"
                                 + " Where ms.isActive = 'Y' and mbc.inityear = " + System.DateTime.Now.Year;
 
@@ -1429,15 +1429,25 @@ log4net.LogManager.GetLogger
             string remarks = string.Empty;
             bool isUserSubCountry = false;
             bool isValidBrand = false;
+            List<msubcountry> lstmSubCountry = new List<msubcountry>();
+            var tInitRecord = db.t_initiative.Where(init => init.InitNumber == sInitNumber).FirstOrDefault();
 
             // Checks for init num, if empty then new, else, check from entity, if not exist, invalid init num.
             remarks += (string.IsNullOrEmpty(sInitNumber)) ? "" :
-                (db.t_initiative.Where(init => init.InitNumber == sInitNumber).Count() > 0) ? "" : " Invalid Init Number,";
+                (tInitRecord != null) ? "" : " Invalid Init Number,";
             remarks += (string.IsNullOrEmpty(subCountry)) ? " Invalid Subcountry." : "";
             if (subCountry != "")
             {
                 isUserSubCountry = this.isUserSubCountry(subCountry);
                 remarks += (!isUserSubCountry) ? " Subcountry not mapped to user," : "";
+            }
+            if (string.IsNullOrEmpty(sInitNumber))
+            {
+                var subCountryItem = lstSubCountryBrand.Where(item => item.subCountryName.ToLower().Trim() == subCountry.ToLower().Trim()).FirstOrDefault();
+                if ((subCountryItem != null && tInitRecord!=null) && (subCountryItem.subCountryId != tInitRecord.SubCountryID))
+                {
+                    remarks += " Subcountry cannot be changed on edit mode,";
+                }
             }
             remarks += (string.IsNullOrEmpty(brand)) ? " Invalid Brand." : "";
 
@@ -1467,21 +1477,18 @@ log4net.LogManager.GetLogger
                     }
                 }
             }
-
             remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["TypeOfInitiative"]), "initType", "", "")) ?
                 " Invalid Initiative type," : "";
             remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["ItemCategory"]), "itemCategory", "", Convert.ToString(dataRow["TypeOfInitiative"]))) ?
                 " Invalid item category," : "";
             remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["SubCostItemImpacted"]), "subCost", Convert.ToString(dataRow["ItemCategory"]), "")) ?
-                " Invalid sub cost," : "";            
+                " Invalid sub cost," : "";
             remarks += (string.IsNullOrEmpty(dataRow["StartMonth"].ToString())) ?
                  " Invalid Start month." : "";
             remarks += (string.IsNullOrEmpty(dataRow["EndMonth"].ToString())) ?
                  " Invalid End month." : "";
             return remarks;
         }
-
-
         private void SetInitiativeList(int initYear)
         {
             long ooTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.ooActionType
@@ -1500,12 +1507,6 @@ log4net.LogManager.GetLogger
         {
             lstActionType = db.mactiontypes.Where(action =>
                               action.isActive == "Y" && action.InitYear == initYear).ToList();
-        }
-        private long getActionTypeId(string actionType) {
-            long actionTypeId = 0;
-            actionTypeId = lstActionType
-                .Where(action => action.ActionTypeName.ToLower() == actionType.ToLower()).FirstOrDefault().id;
-            return actionTypeId;        
         }
 
         private List<mport> getPortList(int initYear) {
@@ -1555,7 +1556,7 @@ log4net.LogManager.GetLogger
                 this.SetInitiativeList(initYear);
                 // Setting ActionTypes
                 this.setActionTypeList(initYear);
-                // Setting port types
+                // Setting port types                
                 List<mport> lstPorts = this.getPortList(initYear);
 
                 string outExcelfileName = "errorExcel_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
@@ -1631,11 +1632,8 @@ log4net.LogManager.GetLogger
                          ).ToList();
 
                         DataTable dtExisting = objFlatFileHelper.GetUpdatedRows(dtExcelInitiatives, lstOOInitiatives, lstSCMInitiatives, lstInitiativeStatus,
-                            lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts);
-                        //DataTable dtExistingSCM = objFlatFileHelper.GetUpdatedSCMRows(dtExcelInitiatives, lstSCMInitiatives, lstInitiativeStatus,
-                        //    lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts);
-
-                        //dtExistingOO.Merge(dtExistingSCM);
+                            lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts, lstActionType);
+                        
                         if (newInitiatives.Count > 0)
                             dtExisting.Merge(newInitiatives.CopyToDataTable());
                         var lstUnchanged = dtExcelInitiatives.AsEnumerable().Except(dtExisting.AsEnumerable(), DataRowComparer.Default).ToList();
@@ -1691,7 +1689,7 @@ log4net.LogManager.GetLogger
                                     // Duplicate Initnumber validation
                                     if (sInitNumber != "")
                                     {
-                                        remarks += (dtInit.AsEnumerable().Where(init =>
+                                        remarks += (dtExcelInitiatives.AsEnumerable().Where(init =>
                                         Convert.ToString(init["InitNumber"].ToString().Trim().ToUpper()) == sInitNumber.Trim().ToUpper()).Count() > 1) ?
                                         "Duplicate Initiatives," : "";
                                     }
@@ -1710,8 +1708,7 @@ log4net.LogManager.GetLogger
                                         var lstMerge = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
                                         isActionTypeChanged = lstMerge.AsEnumerable().Where(
                                             tInit => tInit.InitNumber == sInitNumber
-                                                && tInit.ActionTypeID !=
-                                                this.getActionTypeId(actionType.ToLower()))
+                                                && tInit.ActionTypeID != objFlatFileHelper.getActionTypeId(actionType.ToLower(), lstActionType))
                                             .Count() > 0 ? true : false;
                                     }
                                     //Datetime check
@@ -1758,7 +1755,7 @@ log4net.LogManager.GetLogger
                                     if (remarks != "")
                                     {
                                         (worksheet.Cells[1, 91]).Value = "Remarks";
-                                        (worksheet.Cells[(i + 2), 91]).Value = remarks;
+                                        (worksheet.Cells[(i + 2), 91]).Value = sInitNumber + " " + remarks;
                                         (worksheet.Cells[(i + 2), 90]).Value = "";
                                         (worksheet.Cells[(i + 2), 89]).Value = "";
                                         (worksheet.Cells[(i + 2), 88]).Value = "";
@@ -1797,7 +1794,6 @@ log4net.LogManager.GetLogger
                                     }
                                 }
                             }
-
                             // To remove valid rowindexes from the excel.
                             int validRowIndex = 0;
                             for (int i = lstValidRowIndexes.Count - 1; i >= 0; i--)
