@@ -43,6 +43,7 @@ log4net.LogManager.GetLogger
         List<t_initiative> lstOOInitiatives = new List<t_initiative>();
         List<t_initiative> lstSCMInitiatives = new List<t_initiative>();
         List<mactiontype> lstActionType = new List<mactiontype>();
+        t_initiative tInitRecord = new t_initiative();
         public ActionResult Index()
         {
             //vwheaderinitiative model = new vwheaderinitiative();
@@ -1422,7 +1423,7 @@ log4net.LogManager.GetLogger
             List<MonthlyCPIValues> _mCPI = db.Database.SqlQuery<MonthlyCPIValues>(strQry).ToList();
             return _mCPI;
         }
-
+       
         private string GetGeneralRemarks(string sInitNumber, string subCountry, string brand, string sConfidential, string sInitiativeStatus, DataRow dataRow,
             int userType)
         {
@@ -1430,8 +1431,11 @@ log4net.LogManager.GetLogger
             bool isUserSubCountry = false;
             bool isValidBrand = false;
             List<msubcountry> lstmSubCountry = new List<msubcountry>();
-            var tInitRecord = db.t_initiative.Where(init => init.InitNumber == sInitNumber).FirstOrDefault();
 
+            if (!string.IsNullOrEmpty(sInitNumber))
+            {
+                tInitRecord = db.t_initiative.Where(init => init.InitNumber == sInitNumber).FirstOrDefault();
+            }
             // Checks for init num, if empty then new, else, check from entity, if not exist, invalid init num.
             remarks += (string.IsNullOrEmpty(sInitNumber)) ? "" :
                 (tInitRecord != null) ? "" : " Invalid Init Number,";
@@ -1441,10 +1445,10 @@ log4net.LogManager.GetLogger
                 isUserSubCountry = this.isUserSubCountry(subCountry);
                 remarks += (!isUserSubCountry) ? " Subcountry not mapped to user," : "";
             }
-            if (string.IsNullOrEmpty(sInitNumber))
+            if (!string.IsNullOrEmpty(sInitNumber))
             {
                 var subCountryItem = lstSubCountryBrand.Where(item => item.subCountryName.ToLower().Trim() == subCountry.ToLower().Trim()).FirstOrDefault();
-                if ((subCountryItem != null && tInitRecord!=null) && (subCountryItem.subCountryId != tInitRecord.SubCountryID))
+                if ((subCountryItem != null && tInitRecord != null) && (subCountryItem.subCountryId != tInitRecord.SubCountryID))
                 {
                     remarks += " Subcountry cannot be changed on edit mode,";
                 }
@@ -1534,6 +1538,8 @@ log4net.LogManager.GetLogger
                 List<int> lstValidRowIndexes = new List<int>();
                 int intValidIndex = -1;
                 List<t_initiative> lstExistingInits = new List<t_initiative>();
+                List<t_initiative> lstMergeDBRows = new List<t_initiative>();
+                t_initiative initRecord = new t_initiative();
                 #region 
 
                 String _path = Server.MapPath("~/UploadedFiles/");
@@ -1705,8 +1711,8 @@ log4net.LogManager.GetLogger
 
                                     if (sInitNumber != "")
                                     {
-                                        var lstMerge = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
-                                        isActionTypeChanged = lstMerge.AsEnumerable().Where(
+                                       lstMergeDBRows = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
+                                        isActionTypeChanged = lstMergeDBRows.AsEnumerable().Where(
                                             tInit => tInit.InitNumber == sInitNumber
                                                 && tInit.ActionTypeID != objFlatFileHelper.getActionTypeId(actionType.ToLower(), lstActionType))
                                             .Count() > 0 ? true : false;
@@ -1780,7 +1786,35 @@ log4net.LogManager.GetLogger
                                             lstMonthlyCPIValues = this.GetMonthlyCPIValuesList(subCountry, initYear);
                                             actionTypeCalculation = new SupplyContractMonitor();
                                         }
-
+                                        // Comments for HO/ Agency/ RPOC assignments
+                                        if (!string.IsNullOrEmpty(sInitNumber))
+                                        {
+                                            initRecord = lstMergeDBRows.Where(dbRow => dbRow.InitNumber.ToLower().Trim() == sInitNumber.ToLower().Trim()).FirstOrDefault();
+                                            if (initRecord != null)
+                                            {
+                                                drRow["AgencyComment"] = Convert.ToString(initRecord.AgencyComment);
+                                                drRow["RPOCComment"] = Convert.ToString(initRecord.RPOCComment);
+                                                drRow["HOComment"] = Convert.ToString(initRecord.HOComment);
+                                            }
+                                        }                                        
+                                        if (userType == 1)
+                                        { // HO User
+                                            drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
+                                            drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.RPOCComment) : "";
+                                            drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.AgencyComment) : "";
+                                        }
+                                        else if (userType == 2)
+                                        { // RPOC user
+                                            drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
+                                            drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.HOComment) : "";
+                                            drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.AgencyComment) : "";
+                                        }                                        
+                                        else if (userType == 3)
+                                        { // set the agency comments
+                                            drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
+                                            drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.HOComment) : "";
+                                            drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.RPOCComment) : "";
+                                        }
                                         InitiativeSaveModelXL initiativeSaveModelXL =
                                             actionTypeCalculation.GetCalculatedValues(drRow, dtStartMonth, dtEndMonth, lstMonthlyCPIValues, profileData.ID, initYear);
                                         drRow = initiativeSaveModelXL.drInitiatives;

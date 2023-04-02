@@ -36,9 +36,9 @@ namespace GAIN.Helper
             drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd");
             drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
             drRow["Description"] = Convert.ToString(drRow["Description"]);
-            drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
-            drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
-            drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
+            //drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
+            //drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
+            //drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
             drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
             drRow["ActualsVolumesN"] = objFlatFileHelper.getTotalVolumes(drRow);
             //var profileData = Session["DefaultGAINSess"] as LoginSession;

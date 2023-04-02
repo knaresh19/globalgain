@@ -795,10 +795,10 @@ namespace GAIN.Helper
             if (!string.IsNullOrEmpty(txt))
             {
                 var str = lUnitVul.Where(i => i.text.ToLower() == txt.ToLower()).FirstOrDefault();
-                return (str != null ? str.val : "");
+                return (str != null ? str.val : "N");
             }
             else
-                return "";
+                return "N";
         }
         public float GetNFYSecuredPriceEffect(STPriceEffectMonthValues objSTPriceEffect)
         {
@@ -973,7 +973,6 @@ namespace GAIN.Helper
                                // OPERATION EFFICIENCY FILTER
                                ((Convert.ToString(dtExcel["ActionType"]).ToLower().Trim() == ActionType.ooActionType.ToLower().Trim())
                                &&
-
                                (
                                // Related initiative
                                (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
@@ -988,6 +987,10 @@ namespace GAIN.Helper
                                (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
+                               (lstInit.HOComment) != this.getText(Convert.ToString(dtExcel["HOComment"])) ||
+                               (lstInit.RPOCComment) != this.getText(Convert.ToString(dtExcel["RPOCComment"])) ||
+                               (lstInit.AgencyComment) != this.getText(Convert.ToString(dtExcel["AgencyComment"])) ||
+                               (lstInit.RPOCControl) != this.getText(Convert.ToString(dtExcel["RPOCControl"])) ||
                                // Init status - compare
                                (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
                                (
@@ -1123,6 +1126,10 @@ namespace GAIN.Helper
                                (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
                                 (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
+                                (lstInit.HOComment) != this.getText(Convert.ToString(dtExcel["HOComment"])) ||
+                               (lstInit.RPOCComment) != this.getText(Convert.ToString(dtExcel["RPOCComment"])) ||
+                               (lstInit.AgencyComment) != this.getText(Convert.ToString(dtExcel["AgencyComment"])) ||
+                               (lstInit.RPOCControl) != this.getText(Convert.ToString(dtExcel["RPOCControl"])) ||
                                (lstInit.Unit_of_volumes.ToLower() != Convert.ToString(dtExcel["Unitofvolumes"]).ToLower()) ||
                                this.getDecimalValue(lstInit.Input_Actuals_Volumes_Nmin1.ToString()) != this.getDecimalValue(dtExcel["InputActualsVolumesNmin1"].ToString()) ||
                                this.getDecimalValue(lstInit.Input_Target_Volumes.ToString()) != this.getDecimalValue(dtExcel["TargetVolumesN"].ToString()) ||

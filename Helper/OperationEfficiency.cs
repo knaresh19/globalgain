@@ -13,7 +13,8 @@ namespace GAIN.Helper
         FlatFileHelper objFlatFileHelper = new FlatFileHelper();
 
         #region InterfaceMethods
-        public InitiativeSaveModelXL GetCalculatedValues(DataRow row, DateTime dtStartMonth, DateTime dtEndMonth, List<MonthlyCPIValues> lstMonthlyCPIValues, string CreatedBy, int initYear)
+        public InitiativeSaveModelXL GetCalculatedValues(DataRow row, DateTime dtStartMonth, DateTime dtEndMonth, 
+            List<MonthlyCPIValues> lstMonthlyCPIValues, string CreatedBy, int initYear)
         {
             InitiativeSaveModelXL initiativeSaveModelXL = new InitiativeSaveModelXL();
             DataRow drRow = row;
@@ -143,9 +144,9 @@ namespace GAIN.Helper
             drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd");
             drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
             drRow["Description"] = Convert.ToString(drRow["Description"]);
-            drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
-            drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
-            drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
+            //drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
+            //drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
+            //drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
             drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
             drRow["CreatedBy"] = CreatedBy;
             drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
