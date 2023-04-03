@@ -903,7 +903,7 @@ namespace GAIN.Helper
 
         public DataTable GetUpdatedRows(DataTable dtExcelInitiatives, List<t_initiative> lstOOInitiatives, List<t_initiative> lstSCMInitiatives,
            List<mInitiativeStatus> lstInitiativeStatus, List<SubCountryBrand> lstSubCountryBrand, List<mport> lstPorts, List<InitTypeCostSubCost> lstInitTypeCostSubCosts,
-           List<mactiontype> lstActionType)
+           List<mactiontype> lstActionType, int userType)
         {
             DataTable dtUpdated = new DataTable();
             var lstExistingInits = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
@@ -931,9 +931,9 @@ namespace GAIN.Helper
                                (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
-                               (this.getText(lstInit.HOComment)) != this.getText(Convert.ToString(dtExcel["HOComment"])) ||
-                               (this.getText(lstInit.RPOCComment)) != this.getText(Convert.ToString(dtExcel["RPOCComment"])) ||
-                               (this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"])) ||
+                               ((userType == 1) ? ((this.getText(lstInit.HOComment)) != this.getText(Convert.ToString(dtExcel["HOComment"]))) : false) ||
+                               ((userType == 2) ? ((this.getText(lstInit.RPOCComment)) != this.getText(Convert.ToString(dtExcel["RPOCComment"]))) : false) ||
+                               ((userType == 3) ? ((this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"]))) : false) ||
                                (this.getText(lstInit.RPOCControl)) != this.getText(this.getValidityRPOC(Convert.ToString(dtExcel["RPOCControl"]))) ||
                                // Init status - compare
                                (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
@@ -1070,9 +1070,9 @@ namespace GAIN.Helper
                                (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
                                 (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
-                                (this.getText(lstInit.HOComment)) != this.getText(Convert.ToString(dtExcel["HOComment"])) ||
-                               (this.getText(lstInit.RPOCComment)) != this.getText(Convert.ToString(dtExcel["RPOCComment"])) ||
-                               (this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"])) ||
+                                ((userType == 1) ? ((this.getText(lstInit.HOComment)) != this.getText(Convert.ToString(dtExcel["HOComment"]))) : false) ||
+                               ((userType == 2) ? ((this.getText(lstInit.RPOCComment)) != this.getText(Convert.ToString(dtExcel["RPOCComment"]))) : false) ||
+                               ((userType == 3) ? ((this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"]))) : false) ||
                                (this.getText(lstInit.RPOCControl)) != this.getText(this.getValidityRPOC(Convert.ToString(dtExcel["RPOCControl"]))) ||
                                (lstInit.Unit_of_volumes.ToLower() != Convert.ToString(dtExcel["Unitofvolumes"]).ToLower()) ||
                                this.getDecimalValue(lstInit.Input_Actuals_Volumes_Nmin1.ToString()) != this.getDecimalValue(dtExcel["InputActualsVolumesNmin1"].ToString()) ||

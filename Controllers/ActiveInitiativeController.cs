@@ -1638,7 +1638,7 @@ log4net.LogManager.GetLogger
                          ).ToList();
 
                         DataTable dtExisting = objFlatFileHelper.GetUpdatedRows(dtExcelInitiatives, lstOOInitiatives, lstSCMInitiatives, lstInitiativeStatus,
-                            lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts, lstActionType);
+                            lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts, lstActionType, userType);
                         
                         if (newInitiatives.Count > 0)
                             dtExisting.Merge(newInitiatives.CopyToDataTable());
