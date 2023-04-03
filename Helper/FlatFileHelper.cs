@@ -783,7 +783,6 @@ namespace GAIN.Helper
             }
             return isValid;
         }
-
         public string getValidityRPOC(string txt)
         {
             List<textvalPair> lUnitVul = new List<textvalPair>();
@@ -795,10 +794,10 @@ namespace GAIN.Helper
             if (!string.IsNullOrEmpty(txt))
             {
                 var str = lUnitVul.Where(i => i.text.ToLower() == txt.ToLower()).FirstOrDefault();
-                return (str != null ? str.val : "N");
+                return (str != null ? str.val : null);
             }
             else
-                return "N";
+                return null;
         }
         public float GetNFYSecuredPriceEffect(STPriceEffectMonthValues objSTPriceEffect)
         {
@@ -857,62 +856,7 @@ namespace GAIN.Helper
                 status = lstInitStatus.Where(item => item.status.ToLower().Trim() == initStatus.ToLower().Trim()).FirstOrDefault().id;
             }
             return status;
-        }
-
-        public DataTable GetUpdatedSCMRows(DataTable dtExcelInitiatives, List<t_initiative> lstSCMInitiatives, List<mInitiativeStatus> lstInitiativeStatus,
-            List<SubCountryBrand> lstSubCountryBrand, List<mport> lstPorts, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
-        {
-            DataTable dtUpdatedSCM = new DataTable();
-            // Comparing init status, unit of vols, actual vol n-1, target vols,
-            // spend n-1, spend n, monthly actual vols
-            var updatedInitSCM = (from dtExcel in dtExcelInitiatives.AsEnumerable()
-                                  join
-                                 lstInit in lstSCMInitiatives on dtExcel["InitNumber"] equals lstInit.InitNumber
-                                  where (
-                                  // Related initiative
-                                 (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
-                                 // Brand
-                                 (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
-                                 // Confidential
-                                 (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
-                                 (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
-                                 (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||                                 
-                                 (lstInit.StartMonth != Convert.ToDateTime(Convert.ToString(dtExcel["StartMonth"]))) ||
-                                 (lstInit.EndMonth != Convert.ToDateTime(Convert.ToString(dtExcel["EndMonth"]))) ||
-                                  (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
-                                 (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
-                                 (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
-                                 (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
-                                 (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
-                                  (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
-                                 (lstInit.Unit_of_volumes.ToLower() != Convert.ToString(dtExcel["Unitofvolumes"]).ToLower()) ||
-                                 (lstInit.Input_Actuals_Volumes_Nmin1 != Convert.ToDecimal(this.getValue(dtExcel["InputActualsVolumesNmin1"].ToString()))) ||
-                                 (lstInit.Input_Target_Volumes != Convert.ToDecimal(this.getValue(dtExcel["TargetVolumesN"].ToString()))) ||
-                                 (lstInit.Spend_Nmin1 != Convert.ToDecimal(this.getValue(dtExcel["SpendNmin1"].ToString()))) ||
-                                 (lstInit.Spend_N != Convert.ToDecimal(this.getValue(dtExcel["SpendN"].ToString()))) ||
-                                 (lstInit.janActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["JanActualVolumes"].ToString()))) ||
-                                 (lstInit.febActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["FebActualVolumes"].ToString()))) ||
-                                 (lstInit.marActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["MarActualVolumes"].ToString()))) ||
-                                 (lstInit.aprActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["AprActualVolumes"].ToString()))) ||
-                                 (lstInit.mayActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["MayActualVolumes"].ToString()))) ||
-                                 (lstInit.junActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["JunActualVolumes"].ToString()))) ||
-                                 (lstInit.julActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["JulActualVolumes"].ToString()))) ||
-                                 (lstInit.augActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["AugActualVolumes"].ToString()))) ||
-                                 (lstInit.sepActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["SepActualVolumes"].ToString()))) ||
-                                 (lstInit.octActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["OctActualVolumes"].ToString()))) ||
-                                 (lstInit.novActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["NovActualVolumes"].ToString()))) ||
-                                 (lstInit.decActual_volume_N != Convert.ToDecimal(this.getValue(dtExcel["DecActualVolumes"].ToString())))
-                                 )
-                                  select dtExcel
-                                           ).ToList();
-
-            if (updatedInitSCM.Count > 0)
-            {
-                dtUpdatedSCM = updatedInitSCM.CopyToDataTable();
-            }
-            return dtUpdatedSCM;
-        }
-
+        }        
         private long getBrandId(string brandName, List<SubCountryBrand> lstSubCountryBrand)
         {
             var brand = lstSubCountryBrand.Where(item => item.brandName.ToLower().Trim() == brandName.ToLower().Trim()).FirstOrDefault();
@@ -987,10 +931,10 @@ namespace GAIN.Helper
                                (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
-                               (lstInit.HOComment) != this.getText(Convert.ToString(dtExcel["HOComment"])) ||
-                               (lstInit.RPOCComment) != this.getText(Convert.ToString(dtExcel["RPOCComment"])) ||
-                               (lstInit.AgencyComment) != this.getText(Convert.ToString(dtExcel["AgencyComment"])) ||
-                               (lstInit.RPOCControl) != this.getText(Convert.ToString(dtExcel["RPOCControl"])) ||
+                               (this.getText(lstInit.HOComment)) != this.getText(Convert.ToString(dtExcel["HOComment"])) ||
+                               (this.getText(lstInit.RPOCComment)) != this.getText(Convert.ToString(dtExcel["RPOCComment"])) ||
+                               (this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"])) ||
+                               (this.getText(lstInit.RPOCControl)) != this.getText(this.getValidityRPOC(Convert.ToString(dtExcel["RPOCControl"]))) ||
                                // Init status - compare
                                (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
                                (
@@ -1126,10 +1070,10 @@ namespace GAIN.Helper
                                (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
                                 (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
-                                (lstInit.HOComment) != this.getText(Convert.ToString(dtExcel["HOComment"])) ||
-                               (lstInit.RPOCComment) != this.getText(Convert.ToString(dtExcel["RPOCComment"])) ||
-                               (lstInit.AgencyComment) != this.getText(Convert.ToString(dtExcel["AgencyComment"])) ||
-                               (lstInit.RPOCControl) != this.getText(Convert.ToString(dtExcel["RPOCControl"])) ||
+                                (this.getText(lstInit.HOComment)) != this.getText(Convert.ToString(dtExcel["HOComment"])) ||
+                               (this.getText(lstInit.RPOCComment)) != this.getText(Convert.ToString(dtExcel["RPOCComment"])) ||
+                               (this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"])) ||
+                               (this.getText(lstInit.RPOCControl)) != this.getText(this.getValidityRPOC(Convert.ToString(dtExcel["RPOCControl"]))) ||
                                (lstInit.Unit_of_volumes.ToLower() != Convert.ToString(dtExcel["Unitofvolumes"]).ToLower()) ||
                                this.getDecimalValue(lstInit.Input_Actuals_Volumes_Nmin1.ToString()) != this.getDecimalValue(dtExcel["InputActualsVolumesNmin1"].ToString()) ||
                                this.getDecimalValue(lstInit.Input_Target_Volumes.ToString()) != this.getDecimalValue(dtExcel["TargetVolumesN"].ToString()) ||

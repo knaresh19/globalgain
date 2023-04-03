@@ -1540,6 +1540,7 @@ log4net.LogManager.GetLogger
                 List<t_initiative> lstExistingInits = new List<t_initiative>();
                 List<t_initiative> lstMergeDBRows = new List<t_initiative>();
                 t_initiative initRecord = new t_initiative();
+                string strUpdatedInitNos = string.Empty;
                 #region 
 
                 String _path = Server.MapPath("~/UploadedFiles/");
@@ -1566,12 +1567,11 @@ log4net.LogManager.GetLogger
                 List<mport> lstPorts = this.getPortList(initYear);
 
                 string outExcelfileName = "errorExcel_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
-
                 int successCount = 0, errCount = 0, updateCount = 0;
                 if (!System.IO.Directory.Exists(_path + "ErrorExcel\\"))
                     System.IO.Directory.CreateDirectory(_path + "ErrorExcel\\");
 
-                string outputExcelPath = Path.Combine(_path + "ErrorExcel\\", outExcelfileName);
+                string outputExcelPath = Path.Combine(_path + "ErrorExcel\\", outExcelfileName);              
                 ResultCount resultCountobj = new ResultCount();
                 DataTable dtExcelInitiatives = FlatFileHelper.ConvertExcelToDataTable(_inputpath, "Sheet$");
 
@@ -1677,6 +1677,7 @@ log4net.LogManager.GetLogger
                             dtInit.Columns.Add("TargetNY", typeof(float));
                             List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
                             DataTable dtValidInit = dtInit.Clone();
+                           
                             // Perform Mandatory validation
                             if (dtInit.Rows.Count > 0)
                             {
@@ -1789,31 +1790,25 @@ log4net.LogManager.GetLogger
                                         // Comments for HO/ Agency/ RPOC assignments
                                         if (!string.IsNullOrEmpty(sInitNumber))
                                         {
-                                            initRecord = lstMergeDBRows.Where(dbRow => dbRow.InitNumber.ToLower().Trim() == sInitNumber.ToLower().Trim()).FirstOrDefault();
-                                            if (initRecord != null)
-                                            {
-                                                drRow["AgencyComment"] = Convert.ToString(initRecord.AgencyComment);
-                                                drRow["RPOCComment"] = Convert.ToString(initRecord.RPOCComment);
-                                                drRow["HOComment"] = Convert.ToString(initRecord.HOComment);
-                                            }
+                                            initRecord = lstMergeDBRows.Where(dbRow => dbRow.InitNumber.ToLower().Trim() == sInitNumber.ToLower().Trim()).FirstOrDefault();                                            
                                         }                                        
                                         if (userType == 1)
                                         { // HO User
                                             drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
-                                            drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.RPOCComment) : "";
-                                            drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.AgencyComment) : "";
+                                            drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord!= null) ? Convert.ToString(initRecord.RPOCComment) : "";
+                                            drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.AgencyComment) : "";
                                         }
                                         else if (userType == 2)
                                         { // RPOC user
                                             drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
-                                            drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.HOComment) : "";
-                                            drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.AgencyComment) : "";
+                                            drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.HOComment) : "";
+                                            drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.AgencyComment) : "";
                                         }                                        
                                         else if (userType == 3)
                                         { // set the agency comments
                                             drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
-                                            drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.HOComment) : "";
-                                            drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber)) ? Convert.ToString(initRecord.RPOCComment) : "";
+                                            drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.HOComment) : "";
+                                            drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.RPOCComment) : "";
                                         }
                                         InitiativeSaveModelXL initiativeSaveModelXL =
                                             actionTypeCalculation.GetCalculatedValues(drRow, dtStartMonth, dtEndMonth, lstMonthlyCPIValues, profileData.ID, initYear);
@@ -1824,7 +1819,11 @@ log4net.LogManager.GetLogger
                                         lstInitiativeCalcs.Add(initiativeCalcs);
                                         lstValidRowIndexes.Add(i);
                                         if (drRow["dbFlag"].ToString() == "I") successCount++;
-                                        else if (drRow["dbFlag"].ToString() == "U") updateCount++;
+                                        else if (drRow["dbFlag"].ToString() == "U")
+                                        {
+                                            strUpdatedInitNos += sInitNumber + ";";
+                                            updateCount++;
+                                        }
                                     }
                                 }
                             }
@@ -1868,6 +1867,7 @@ log4net.LogManager.GetLogger
                                 errCount = errCount.ToString(),
                                 successCount = successCount.ToString(),
                                 updateCount = updateCount.ToString(),
+                                updatedInitNos = strUpdatedInitNos.ToString(),
                                 outputExcelPath = "UploadedFiles/ErrorExcel/" + outExcelfileName,
                                 validationMsg = ""
                             };
