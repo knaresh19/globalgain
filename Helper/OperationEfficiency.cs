@@ -333,7 +333,7 @@ namespace GAIN.Helper
                 if ((currYrTotal != 0 && ((currYrTotal > 0 && nfySecTotalEffect > 0 && (Math.Round(currYrTotal) > Math.Round(nfySecTotalEffect))) ||
                     (currYrTotal < 0 && nfySecTotalEffect < 0 && (Math.Round(currYrTotal) < Math.Round(nfySecTotalEffect))
                     )))
-                    || (currYrTotal != 0 && float.Parse(drRow["TargetDec"].ToString()) == 0))
+                    || (currYrTotal != 0 && objFlatFileHelper.getValue(drRow["TargetDec"].ToString()) == 0))
                 {
                     remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
                         currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
