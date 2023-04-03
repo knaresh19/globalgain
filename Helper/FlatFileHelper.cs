@@ -35,13 +35,7 @@ namespace GAIN.Helper
         }
         public bool IsValidNumber(string number)
         {
-            bool isValid = false;
-            if (!string.IsNullOrEmpty(number) && (number != null && number != ""))
-            {
-                Decimal dcNumber = Convert.ToDecimal(number);
-                if (dcNumber != 0) { isValid = true; }
-            }
-            return isValid;
+            return double.TryParse(number, out _);
         }
 
         public float getValue(string number)
@@ -939,7 +933,7 @@ namespace GAIN.Helper
                                (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
                                (
                                // Target TY comparison
-                               Math.Round(Convert.ToDecimal(Convert.IsDBNull(lstInit.TargetTY) ? 0 : lstInit.TargetTY)) != Math.Round(Convert.ToDecimal(dtExcel["NFYSecuredTOTALEFFECT"]))
+                               Math.Round(Convert.ToDecimal(Convert.IsDBNull(lstInit.TargetTY) ? 0 : lstInit.TargetTY)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["NFYSecuredTOTALEFFECT"].ToString())))
                                )
                                ||
                                (

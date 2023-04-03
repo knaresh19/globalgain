@@ -154,7 +154,7 @@ namespace GAIN.Helper
             drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]);
             drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
 
-            drRow["NFYSecuredTOTALEFFECT"] = float.Parse(drRow["NFYSecuredTOTALEFFECT"].ToString());
+            drRow["NFYSecuredTOTALEFFECT"] = objFlatFileHelper.getValue(drRow["NFYSecuredTOTALEFFECT"].ToString());
             initiativeSaveModelXL.drInitiatives = drRow;
             initiativeSaveModelXL.initiativeCalcs = null;
             return initiativeSaveModelXL;
@@ -321,23 +321,30 @@ namespace GAIN.Helper
             bool isCrossYear = false;
             isCrossYear = (dtStartMonth.Year != dtEndMonth.Year) ? true : false;
             float currYrTotal = this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth);
-            if (!isCrossYear)
+            if (nfySecTotalEffect != 0)
             {
-                if (currYrTotal != 0 && Math.Round(currYrTotal) != Math.Round(nfySecTotalEffect))
-                    remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
-                        currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                if (!isCrossYear)
+                {
+                    if (currYrTotal != 0 && Math.Round(currYrTotal) != Math.Round(nfySecTotalEffect))
+                        remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
+                            currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                }
+                else
+                {
+                    // Check for Dec Target for cross yr if 0, and total monthly target != Total target then invalid entry               
+                    if ((currYrTotal != 0 && ((currYrTotal > 0 && nfySecTotalEffect > 0 && (Math.Round(currYrTotal) > Math.Round(nfySecTotalEffect))) ||
+                        (currYrTotal < 0 && nfySecTotalEffect < 0 && (Math.Round(currYrTotal) < Math.Round(nfySecTotalEffect))
+                        )))
+                        || (currYrTotal != 0 && objFlatFileHelper.getValue(drRow["TargetDec"].ToString()) == 0))
+                    {
+                        remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
+                            currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                    }
+                }
             }
             else
             {
-                // Check for Dec Target for cross yr if 0, and total monthly target != Total target then invalid entry               
-                if ((currYrTotal != 0 && ((currYrTotal > 0 && nfySecTotalEffect > 0 && (Math.Round(currYrTotal) > Math.Round(nfySecTotalEffect))) ||
-                    (currYrTotal < 0 && nfySecTotalEffect < 0 && (Math.Round(currYrTotal) < Math.Round(nfySecTotalEffect))
-                    )))
-                    || (currYrTotal != 0 && objFlatFileHelper.getValue(drRow["TargetDec"].ToString()) == 0))
-                {
-                    remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
-                        currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
-                }
+                remarks += " Invalid Target 12 Months,";
             }
             return remarks;
         }

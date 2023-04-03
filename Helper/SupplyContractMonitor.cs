@@ -202,6 +202,15 @@ namespace GAIN.Helper
             }
             else if (final_CPI == 0)
             {
+                ANNUALLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "ANNUALLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
+                if (ANNUALLY > 0)
+                {
+                    final_CPI = ANNUALLY;
+                    objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
+                }
+            }
+            else if (final_CPI == 0)
+            {
                 for (int i = 1; i <= 4; i++)
                 {
                     QUARTERLY = _mCPI.Where(x => x.Period_index == i && x.Period_type == "QUARTERLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
@@ -234,16 +243,7 @@ namespace GAIN.Helper
                         }
                     }
                 }
-            }
-            else if (final_CPI == 0)
-            {
-                ANNUALLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "ANNUALLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
-                if (ANNUALLY > 0)
-                {
-                    final_CPI = ANNUALLY;
-                    objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
-                }
-            }
+            }            
             return objCPIMonthValues;
         }
         #endregion
