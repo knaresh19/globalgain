@@ -940,8 +940,8 @@ namespace GAIN.Helper
                                (DateTime.TryParse(Convert.ToString(dtExcel["StartMonth"]), out _)) ?
                                lstInit.StartMonth != Convert.ToDateTime(Convert.ToString(dtExcel["StartMonth"])) : true
                                ) ||
-                               (                               
-                               (DateTime.TryParse(Convert.ToString(dtExcel["EndMonth"]), out _)) ? 
+                               (
+                               (DateTime.TryParse(Convert.ToString(dtExcel["EndMonth"]), out _)) ?
                                lstInit.EndMonth != Convert.ToDateTime(Convert.ToString(dtExcel["EndMonth"])) : true
                                ) ||
                                // Target comparison
@@ -1058,8 +1058,16 @@ namespace GAIN.Helper
                                (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
                                (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
                                (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
-                               (lstInit.StartMonth != Convert.ToDateTime(Convert.ToString(dtExcel["StartMonth"]))) ||
-                               (lstInit.EndMonth != Convert.ToDateTime(Convert.ToString(dtExcel["EndMonth"]))) ||
+                               (
+                               (DateTime.TryParse(Convert.ToString(dtExcel["StartMonth"]), out _)) ?
+                               lstInit.StartMonth != Convert.ToDateTime(Convert.ToString(dtExcel["StartMonth"]))
+                               : true
+                               ) ||
+                               (
+                               (DateTime.TryParse(Convert.ToString(dtExcel["EndMonth"]), out _)) ?
+                               lstInit.EndMonth != Convert.ToDateTime(Convert.ToString(dtExcel["EndMonth"]))
+                               : true
+                               ) ||
                                (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
                                (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
                                (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
@@ -1071,23 +1079,23 @@ namespace GAIN.Helper
                                ((userType == 3) ? ((this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"]))) : false) ||
                                (this.getText(lstInit.RPOCControl)) != this.getText(this.getValidityRPOC(Convert.ToString(dtExcel["RPOCControl"]))) ||
                                (lstInit.Unit_of_volumes.ToLower() != Convert.ToString(dtExcel["Unitofvolumes"]).ToLower()) ||
-                                Math.Round(this.getDecimalValue(lstInit.Input_Actuals_Volumes_Nmin1.ToString())) != Math.Round(this.getDecimalValue(dtExcel["InputActualsVolumesNmin1"].ToString())) ||
-                               this.getDecimalValue(lstInit.Input_Target_Volumes.ToString()) != this.getDecimalValue(dtExcel["TargetVolumesN"].ToString()) ||
-                               this.getDecimalValue(lstInit.Spend_Nmin1.ToString()) != this.getDecimalValue(dtExcel["SpendNmin1"].ToString()) ||
-                               this.getDecimalValue(lstInit.Spend_N.ToString()) != this.getDecimalValue(dtExcel["SpendN"].ToString()) ||
-                               this.getDecimalValue(lstInit.janActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["JanActualVolumes"].ToString()) ||
-                               this.getDecimalValue(lstInit.febActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["FebActualVolumes"].ToString()) ||
-                               this.getDecimalValue(lstInit.marActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["MarActualVolumes"].ToString()) ||
-                               this.getDecimalValue(lstInit.aprActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["AprActualVolumes"].ToString()) ||
-                               this.getDecimalValue(lstInit.mayActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["MayActualVolumes"].ToString()) ||
-                               this.getDecimalValue(lstInit.junActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["JunActualVolumes"].ToString()) ||
-                               this.getDecimalValue(lstInit.julActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["JulActualVolumes"].ToString()) ||
-                               this.getDecimalValue(lstInit.augActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["AugActualVolumes"].ToString()) ||
-                               this.getDecimalValue(lstInit.sepActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["SepActualVolumes"].ToString()) ||
-                               this.getDecimalValue(lstInit.octActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["OctActualVolumes"].ToString()) ||
-                               this.getDecimalValue(lstInit.novActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["NovActualVolumes"].ToString()) ||
-                               this.getDecimalValue(lstInit.decActual_volume_N.ToString()) != this.getDecimalValue(dtExcel["DecActualVolumes"].ToString())
-                               )
+                                (Math.Round(this.getDecimalValue(lstInit.Input_Actuals_Volumes_Nmin1.ToString())) != Math.Round(this.getDecimalValue(dtExcel["InputActualsVolumesNmin1"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.Input_Target_Volumes.ToString())) != Math.Round(this.getDecimalValue(dtExcel["TargetVolumesN"].ToString())))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.Spend_Nmin1.ToString())) != Math.Round(this.getDecimalValue(dtExcel["SpendNmin1"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.Spend_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["SpendN"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.janActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["JanActualVolumes"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.febActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["FebActualVolumes"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.marActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["MarActualVolumes"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.aprActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["AprActualVolumes"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.mayActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["MayActualVolumes"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.junActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["JunActualVolumes"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.julActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["JulActualVolumes"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.augActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["AugActualVolumes"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.sepActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["SepActualVolumes"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.octActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["OctActualVolumes"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.novActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["NovActualVolumes"].ToString()))) ||
+                               (Math.Round(this.getDecimalValue(lstInit.decActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["DecActualVolumes"].ToString())))
+
                                #endregion
                                )
                                )
