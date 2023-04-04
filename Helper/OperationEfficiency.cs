@@ -223,10 +223,10 @@ namespace GAIN.Helper
                         objFlatFileHelper.getInitTypeId(Convert.ToString(dataRow["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ?
                         " Agency user cannot change initiative type," : "";
                     remarks += (initNum.StartMonth != dtStartMonth || initNum.EndMonth != dtEndMonth) ?
-                       " Agency user cannot change the start or end date," : "";
-                    remarks += (initNum.TargetTY != Convert.ToDecimal(nfySecTotalEffect)) ? " Agency user cannot change Target 12 months" : "";
+                       " If initiative status is not 'Work in progress' then Agency user cannot change the start or end date," : "";
+                    remarks += (initNum.TargetTY != Convert.ToDecimal(nfySecTotalEffect)) ? " If initiative status is not 'Work in progress' then Agency user cannot change Target 12 months" : "";
                     isMonthlyTargetChanged = this.isMonthlyTargetChanged(initNum, dataRow);
-                    remarks += (isMonthlyTargetChanged) ? " Agency user cannot change the monthly targets" : "";
+                    remarks += (isMonthlyTargetChanged) ? " If initiative status is not 'Work in progress' then Agency user cannot change the monthly targets" : "";
                 }
             }
             return remarks;

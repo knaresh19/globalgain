@@ -158,17 +158,7 @@ namespace GAIN.Helper
                 {
                     // Restrict Date from edit for agency user on SCM inits.
                     remarks += (initNum.StartMonth != dtStartMonth || initNum.EndMonth != dtEndMonth) ?
-                        " Agency user cannot change the start or end date," : "";
-
-                    //remarks += (initNum.Unit_of_volumes != Convert.ToString(drRow["Unitofvolumes"])) ?
-                    //    " Agency user cannot update Unit of volumes," : "";
-                    //remarks += (initNum.Input_Actuals_Volumes_Nmin1 != dlActualVolNmin1) ?
-                    //    " Agency user cannot update Actual volumes N - 1," : "";
-                    //remarks += (initNum.Input_Target_Volumes != dlTargetVolN) ?
-                    //    " Agency user cannot update Target Volumes N," : "";
-                    //remarks += (initNum.Spend_Nmin1 != dlSpendNMin1) ?
-                    //     " Agency user cannot update Spend N-1," : "";
-                    //remarks += (initNum.Spend_N != dlSpendN) ? " Agency user cannot update Spend N," : "";
+                        " If initiative status is not 'Work in progress', then Agency user cannot change the start or end date," : "";
                 }
             }
             return remarks;

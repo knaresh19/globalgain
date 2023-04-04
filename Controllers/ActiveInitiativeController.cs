@@ -1771,7 +1771,7 @@ log4net.LogManager.GetLogger
                                     if (remarks != "")
                                     {
                                         (worksheet.Cells[1, 91]).Value = "Remarks";
-                                        (worksheet.Cells[(i + 2), 91]).Value = sInitNumber + " " + remarks;
+                                        (worksheet.Cells[(i + 2), 91]).Value = remarks;
                                         (worksheet.Cells[(i + 2), 90]).Value = "";
                                         (worksheet.Cells[(i + 2), 89]).Value = "";
                                         (worksheet.Cells[(i + 2), 88]).Value = "";
