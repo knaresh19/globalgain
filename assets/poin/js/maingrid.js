@@ -344,14 +344,21 @@ $(function () {
                             if (alertRes.successCount > 0) { $("#initHdng").html("Files uploaded successfully"); }
                             else { $("#initHdng").html("File upload results"); }
                             if (alertRes.errCount > 0) {
-                                $("#initResults").html("Auto Approved Initiative(s): " + alertRes.successCount + " <br> Updated Initiative(s): "
-                                    + alertRes.updateCount + "<br> Invalid Initiative(s): " + alertRes.errCount
-                                    + "<br> <br> Please <a download href=" + alertRes.outputExcelPath + " Download>Download!</a> the error excel."
-                                );
+                                var htmlContent = "Auto Approved Initiative(s): " + alertRes.successCount + " <br> Updated Initiative(s): "
+                                    + alertRes.updateCount + "<br> Invalid Initiative(s): " + alertRes.errCount;
+                                htmlContent += "<br> <br> Please <a download href=" + alertRes.outputExcelPath + " Download>Download!</a> the error excel."
+
+                                if (alertRes.updateCount > 0) {
+                                    htmlContent += "<br> <br> Please <a download href=" + alertRes.updatedInitPath + " Download>Download!</a> the updated initiative(s)."
+                                }
+                                $("#initResults").html(htmlContent);
                             } else {
-                                $("#initResults").html("Auto Approved Initiative(s): " + alertRes.successCount + " <br> Updated Initiative(s): "
-                                    + alertRes.updateCount + " <br> Invalid Initiative(s): " + alertRes.errCount
-                                );
+                                var htmlContent = "Auto Approved Initiative(s): " + alertRes.successCount + " <br> Updated Initiative(s): "
+                                    + alertRes.updateCount + " <br> Invalid Initiative(s): " + alertRes.errCount;
+                                if (alertRes.updateCount > 0) {
+                                    htmlContent += "<br> <br> Please <a download href=" + alertRes.updatedInitPath + " Download>Download!</a> the updated initiative(s)."
+                                }
+                                $("#initResults").html(htmlContent);
                             }
                         } else {
                             $("#initResults").html(alertRes.validationMsg);

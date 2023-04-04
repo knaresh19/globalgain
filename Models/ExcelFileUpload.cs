@@ -140,7 +140,7 @@ namespace GAIN.Models
         public string successCount { get; set; }
         public string errCount { get; set; }
         public string updateCount { get; set; }
-        public string updatedInitNos { get; set; }
+        public string updatedInitPath { get; set; }
         public string outputExcelPath { get; set; }       
         public string validationMsg { get; set; }
 

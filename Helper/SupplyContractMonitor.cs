@@ -193,6 +193,7 @@ namespace GAIN.Helper
             decimal MONTHLY = 0;
             decimal QUARTERLY = 0;
             decimal ANNUALLY = 0;
+            bool isQuarterly = false;
             mcpi obj_mcpi = new mcpi();
             MONTHLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "MONTHLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
             if (MONTHLY > 0)
@@ -202,20 +203,12 @@ namespace GAIN.Helper
             }
             else if (final_CPI == 0)
             {
-                ANNUALLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "ANNUALLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
-                if (ANNUALLY > 0)
-                {
-                    final_CPI = ANNUALLY;
-                    objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
-                }
-            }
-            else if (final_CPI == 0)
-            {
                 for (int i = 1; i <= 4; i++)
                 {
                     QUARTERLY = _mCPI.Where(x => x.Period_index == i && x.Period_type == "QUARTERLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
                     if (QUARTERLY > 0)
                     {
+                        isQuarterly = true;
                         final_CPI = QUARTERLY;
                         if (i == 1)
                         {
@@ -243,7 +236,17 @@ namespace GAIN.Helper
                         }
                     }
                 }
-            }            
+            }
+            else if (final_CPI == 0 && !isQuarterly)
+            {
+                ANNUALLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "ANNUALLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
+                if (ANNUALLY > 0)
+                {
+                    final_CPI = ANNUALLY;
+                    objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
+                }
+            }
+                       
             return objCPIMonthValues;
         }
         #endregion

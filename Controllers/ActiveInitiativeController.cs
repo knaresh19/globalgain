@@ -1539,8 +1539,7 @@ log4net.LogManager.GetLogger
                 int intValidIndex = -1;
                 List<t_initiative> lstExistingInits = new List<t_initiative>();
                 List<t_initiative> lstMergeDBRows = new List<t_initiative>();
-                t_initiative initRecord = new t_initiative();
-                string strUpdatedInitNos = string.Empty;
+                t_initiative initRecord = new t_initiative();                
                 #region 
 
                 String _path = Server.MapPath("~/UploadedFiles/");
@@ -1552,6 +1551,7 @@ log4net.LogManager.GetLogger
                 string _inputpath = Path.Combine(_path, fileName);
                 // save the file
                 file.SaveAs(_inputpath);
+
                 // Will set the subcountry brand list
                 this.SetSubCountryBrand();
 
@@ -1566,12 +1566,21 @@ log4net.LogManager.GetLogger
                 // Setting port types                
                 List<mport> lstPorts = this.getPortList(initYear);
 
+                // Error Excel file
                 string outExcelfileName = "errorExcel_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
                 int successCount = 0, errCount = 0, updateCount = 0;
                 if (!System.IO.Directory.Exists(_path + "ErrorExcel\\"))
                     System.IO.Directory.CreateDirectory(_path + "ErrorExcel\\");
+                string outputExcelPath = Path.Combine(_path + "ErrorExcel\\", outExcelfileName);
 
-                string outputExcelPath = Path.Combine(_path + "ErrorExcel\\", outExcelfileName);              
+                // Updated Initiatives txt file.
+                string updatedInitFile = "updatedInit_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt";
+
+                if (!System.IO.Directory.Exists(_path + "UpdatedInit\\"))
+                    System.IO.Directory.CreateDirectory(_path + "UpdatedInit\\");
+                string updatedInitPath = Path.Combine(_path + "UpdatedInit\\", updatedInitFile);
+                TextWriter twFileUpdatedInit = new StreamWriter(updatedInitPath);
+
                 ResultCount resultCountobj = new ResultCount();
                 DataTable dtExcelInitiatives = FlatFileHelper.ConvertExcelToDataTable(_inputpath, "Sheet$");
 
@@ -1639,7 +1648,7 @@ log4net.LogManager.GetLogger
 
                         DataTable dtExisting = objFlatFileHelper.GetUpdatedRows(dtExcelInitiatives, lstOOInitiatives, lstSCMInitiatives, lstInitiativeStatus,
                             lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts, lstActionType, userType);
-                        
+
                         if (newInitiatives.Count > 0)
                             dtExisting.Merge(newInitiatives.CopyToDataTable());
                         var lstUnchanged = dtExcelInitiatives.AsEnumerable().Except(dtExisting.AsEnumerable(), DataRowComparer.Default).ToList();
@@ -1677,7 +1686,7 @@ log4net.LogManager.GetLogger
                             dtInit.Columns.Add("TargetNY", typeof(float));
                             List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
                             DataTable dtValidInit = dtInit.Clone();
-                           
+
                             // Perform Mandatory validation
                             if (dtInit.Rows.Count > 0)
                             {
@@ -1712,7 +1721,7 @@ log4net.LogManager.GetLogger
 
                                     if (sInitNumber != "")
                                     {
-                                       lstMergeDBRows = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
+                                        lstMergeDBRows = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
                                         isActionTypeChanged = lstMergeDBRows.AsEnumerable().Where(
                                             tInit => tInit.InitNumber == sInitNumber
                                                 && tInit.ActionTypeID != objFlatFileHelper.getActionTypeId(actionType.ToLower(), lstActionType))
@@ -1790,12 +1799,12 @@ log4net.LogManager.GetLogger
                                         // Comments for HO/ Agency/ RPOC assignments
                                         if (!string.IsNullOrEmpty(sInitNumber))
                                         {
-                                            initRecord = lstMergeDBRows.Where(dbRow => dbRow.InitNumber.ToLower().Trim() == sInitNumber.ToLower().Trim()).FirstOrDefault();                                            
-                                        }                                        
+                                            initRecord = lstMergeDBRows.Where(dbRow => dbRow.InitNumber.ToLower().Trim() == sInitNumber.ToLower().Trim()).FirstOrDefault();
+                                        }
                                         if (userType == 1)
                                         { // HO User
                                             drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
-                                            drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord!= null) ? Convert.ToString(initRecord.RPOCComment) : "";
+                                            drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.RPOCComment) : "";
                                             drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.AgencyComment) : "";
                                         }
                                         else if (userType == 2)
@@ -1803,7 +1812,7 @@ log4net.LogManager.GetLogger
                                             drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
                                             drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.HOComment) : "";
                                             drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.AgencyComment) : "";
-                                        }                                        
+                                        }
                                         else if (userType == 3)
                                         { // set the agency comments
                                             drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
@@ -1820,8 +1829,8 @@ log4net.LogManager.GetLogger
                                         lstValidRowIndexes.Add(i);
                                         if (drRow["dbFlag"].ToString() == "I") successCount++;
                                         else if (drRow["dbFlag"].ToString() == "U")
-                                        {
-                                            strUpdatedInitNos += sInitNumber + ";";
+                                        {                                           
+                                            twFileUpdatedInit.WriteLine(sInitNumber);
                                             updateCount++;
                                         }
                                     }
@@ -1859,6 +1868,7 @@ log4net.LogManager.GetLogger
                         workbook.SaveDocument(outputExcelPath);
                         workbook.Dispose();
                         stream.Dispose();
+                        twFileUpdatedInit.Close();
 
                         if (dtExisting.Rows.Count > 0)
                         {
@@ -1867,7 +1877,7 @@ log4net.LogManager.GetLogger
                                 errCount = errCount.ToString(),
                                 successCount = successCount.ToString(),
                                 updateCount = updateCount.ToString(),
-                                updatedInitNos = strUpdatedInitNos.ToString(),
+                                updatedInitPath = "UploadedFiles/UpdatedInit/" + updatedInitFile,
                                 outputExcelPath = "UploadedFiles/ErrorExcel/" + outExcelfileName,
                                 validationMsg = ""
                             };
