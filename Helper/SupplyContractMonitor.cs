@@ -227,7 +227,7 @@ namespace GAIN.Helper
                     }
                 }
             }
-            else if (final_CPI == 0 && !isQuarterly)
+            if (final_CPI == 0 && !isQuarterly)
             {
                 ANNUALLY = _mCPI.Where(x => x.Period_index == 1 && x.Period_type == "ANNUALLY" && x.CPI > 0).Select(y => y.CPI).FirstOrDefault();
                 if (ANNUALLY > 0)
@@ -236,7 +236,6 @@ namespace GAIN.Helper
                     objCPIMonthValues = objFlatFileHelper.GetCPIMonthValues(final_CPI);
                 }
             }
-                       
             return objCPIMonthValues;
         }
         #endregion
