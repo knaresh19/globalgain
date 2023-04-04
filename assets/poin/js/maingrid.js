@@ -344,12 +344,21 @@ $(function () {
                             if (alertRes.successCount > 0) { $("#initHdng").html("Files uploaded successfully"); }
                             else { $("#initHdng").html("File upload results"); }
                             if (alertRes.errCount > 0) {
-                                $("#initResults").html("Auto Approved Initiative(s): " + alertRes.successCount + " <br> Invalid Initiative(s): " + alertRes.errCount
-                                    + "<br> <br> Please <a download href=" + alertRes.outputExcelPath + " Download>Download!</a> the error excel."
-                                );
+                                var htmlContent = "Auto Approved Initiative(s): " + alertRes.successCount + " <br> Updated Initiative(s): "
+                                    + alertRes.updateCount + "<br> Invalid Initiative(s): " + alertRes.errCount;
+                                htmlContent += "<br> <br> Please <a download href=" + alertRes.outputExcelPath + " Download>Download!</a> the error excel."
+
+                                if (alertRes.updateCount > 0) {
+                                    htmlContent += "<br> <br> Please <a download href=" + alertRes.updatedInitPath + " Download>Download!</a> the updated initiative(s)."
+                                }
+                                $("#initResults").html(htmlContent);
                             } else {
-                                $("#initResults").html("Auto Approved Initiative(s): " + alertRes.successCount + " <br> Invalid Initiative(s): " + alertRes.errCount
-                                );
+                                var htmlContent = "Auto Approved Initiative(s): " + alertRes.successCount + " <br> Updated Initiative(s): "
+                                    + alertRes.updateCount + " <br> Invalid Initiative(s): " + alertRes.errCount;
+                                if (alertRes.updateCount > 0) {
+                                    htmlContent += "<br> <br> Please <a download href=" + alertRes.updatedInitPath + " Download>Download!</a> the updated initiative(s)."
+                                }
+                                $("#initResults").html(htmlContent);
                             }
                         } else {
                             $("#initResults").html(alertRes.validationMsg);
@@ -1504,8 +1513,9 @@ function OnInit(s, e) {
         BtnProcurement.hidden = true;
         BtnInitiative.innerText = "Create New";
     }
-  
-    if (projectYear >= 2023 && years_right.includes(projectYear) && (user_type == 1) && istoadmin==1) {
+
+    // && (user_type == 1) && istoadmin==1 - Changes to remove for Sprint2,3.
+    if (projectYear >= 2023 && years_right.includes(projectYear)) {
         // Visible upload div true
         $("#divUpload").show();
     }

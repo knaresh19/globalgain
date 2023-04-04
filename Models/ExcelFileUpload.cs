@@ -1,4 +1,7 @@
-﻿namespace GAIN.Models
+﻿using System.Collections.Generic;
+using System.Data;
+
+namespace GAIN.Models
 {
     public class Initiatives
     {
@@ -130,12 +133,15 @@
         public string subCountryName { get; set; }
         public string CountryCode { get; set; }
 
+        public int subCountryId { get; set; }
     }
     public class ResultCount
     {
         public string successCount { get; set; }
         public string errCount { get; set; }
-        public string outputExcelPath { get; set; }
+        public string updateCount { get; set; }
+        public string updatedInitPath { get; set; }
+        public string outputExcelPath { get; set; }       
         public string validationMsg { get; set; }
 
     }
@@ -312,9 +318,12 @@
     }
     public class InitTypeCostSubCost
     {
+        public int initTypeId { get; set; }
         public string initType { get; set; }
         public string itemCategory { get; set; }
+        public int ItemCategoryId { get; set; }
         public string subCostName { get; set; }
+        public int SubCostId { get; set; }
     }
     public class MonthlyCPIValues
     {
@@ -364,6 +373,46 @@
     {
         public string text { get; set; }
         public string val { get; set; }
+    }
+    public static class ActionType
+    {
+        public static readonly string ooActionType = "optimization / efficiency";
+        public static readonly string scmType = "supplier contract monitoring";
+    }
+
+    public static class ValidationRemarks
+    {
+        public static readonly string INVALIDUNITOFVOL = " Invalid unit of volumes.";
+        public static readonly string INVALIDACTUALVOLNMIN1 = " Invalid Actual volumes N-1.";
+        public static readonly string INVALIDTARGETVOLN = " Invalid Target Volumes N.";
+        public static readonly string INVALIDSPENDNMIN1 = " Invalid Spend N-1.";
+        public static readonly string INVALIDSPENDN = " Invalid Spend N.";
+
+        // OO Types validation msgs
+        public static readonly string NEGATIVECOSTIMPACT =
+             " If Initiative type selected as Negative Cost Impact or Revenue Decrease, then value at Target for 12 Months should be Negative.";
+        public static readonly string POSITIVECOSTIMPACT =
+             " If Initiative type selected as Positive Cost Impact or Revenue Increase, then value at Target for 12 Months should be Positive.";
+        public static readonly string INVALIDFYSECTOTALEFFECT = " Invalid secured total effect.";
+        public static readonly string INCONSISTENTTARGET = " Inconsistent Target : The amount of All Applicable Target(current SUM of input is {0}) and Target 12 Months(current input as {1}) need to be aligned.";
+
+    }
+    public class InitiativeSaveModelXL
+    {
+        public DataRow drInitiatives { get; set; }
+        public InitiativeCalcs initiativeCalcs { get; set; }
+    }
+
+    public class mInitiativeStatus
+    {
+        public int id { get; set; }
+        public string status { get; set; }
+    }
+    public static class UserTypes
+    {
+        public static readonly int HOUser = 1;
+        public static readonly int RPOCUser = 2;
+        public static readonly int AgencyUser = 3;
 
     }
 }
