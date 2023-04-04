@@ -1520,6 +1520,24 @@ log4net.LogManager.GetLogger
             return lstMports;
         }
 
+        private void deleteFiles30Days(string path)
+        {
+            string errFilePath = path + "ErrorExcel";
+            string updatedFilePath = path + "UpdatedInit";
+
+            Directory.GetFiles(path).Select(f => new FileInfo(f))
+         .Where(f => f.LastWriteTime < DateTime.Now.AddMonths(-1))
+         .ToList().ForEach(f => f.Delete());
+
+            Directory.GetFiles(errFilePath).Select(f => new FileInfo(f))
+       .Where(f => f.LastWriteTime < DateTime.Now.AddMonths(-1))
+       .ToList().ForEach(f => f.Delete());
+
+            Directory.GetFiles(updatedFilePath).Select(f => new FileInfo(f))
+         .Where(f => f.LastWriteTime < DateTime.Now.AddMonths(-1))
+         .ToList().ForEach(f => f.Delete());
+        }
+
         // File upload functionality
         public ActionResult UploadFile(HttpPostedFileBase fileBase)
         {
@@ -1546,6 +1564,9 @@ log4net.LogManager.GetLogger
                 // create the uploads folder if it doesn't exist
                 if (!System.IO.Directory.Exists(_path))
                     Directory.CreateDirectory(_path);
+
+                // Delete Files Uploaded 30 days before
+                this.deleteFiles30Days(_path);
 
                 string fileName = Path.GetRandomFileName() + "_" + file.FileName;
                 string _inputpath = Path.Combine(_path, fileName);
@@ -1579,7 +1600,7 @@ log4net.LogManager.GetLogger
                 if (!System.IO.Directory.Exists(_path + "UpdatedInit\\"))
                     System.IO.Directory.CreateDirectory(_path + "UpdatedInit\\");
                 string updatedInitPath = Path.Combine(_path + "UpdatedInit\\", updatedInitFile);
-                TextWriter twFileUpdatedInit = new StreamWriter(updatedInitPath);
+                TextWriter twFileUpdatedInit = null;
 
                 ResultCount resultCountobj = new ResultCount();
                 DataTable dtExcelInitiatives = FlatFileHelper.ConvertExcelToDataTable(_inputpath, "Sheet$");
@@ -1829,7 +1850,11 @@ log4net.LogManager.GetLogger
                                         lstValidRowIndexes.Add(i);
                                         if (drRow["dbFlag"].ToString() == "I") successCount++;
                                         else if (drRow["dbFlag"].ToString() == "U")
-                                        {                                           
+                                        {
+                                            if (twFileUpdatedInit == null)
+                                            {
+                                                twFileUpdatedInit = new StreamWriter(updatedInitPath);
+                                            }
                                             twFileUpdatedInit.WriteLine(sInitNumber);
                                             updateCount++;
                                         }
@@ -1868,7 +1893,10 @@ log4net.LogManager.GetLogger
                         workbook.SaveDocument(outputExcelPath);
                         workbook.Dispose();
                         stream.Dispose();
-                        twFileUpdatedInit.Close();
+                        if (twFileUpdatedInit != null)
+                        {
+                            twFileUpdatedInit.Close();
+                        }
 
                         if (dtExisting.Rows.Count > 0)
                         {
