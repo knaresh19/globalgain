@@ -1525,15 +1525,18 @@ log4net.LogManager.GetLogger
             string errFilePath = path + "ErrorExcel";
             string updatedFilePath = path + "UpdatedInit";
 
-            Directory.GetFiles(path).Select(f => new FileInfo(f))
-         .Where(f => f.LastWriteTime < DateTime.Now.AddMonths(-1))
-         .ToList().ForEach(f => f.Delete());
+            if (System.IO.Directory.Exists(path))
+                Directory.GetFiles(path).Select(f => new FileInfo(f))
+          .Where(f => f.LastWriteTime < DateTime.Now.AddMonths(-1))
+          .ToList().ForEach(f => f.Delete());
 
-            Directory.GetFiles(errFilePath).Select(f => new FileInfo(f))
+            if (System.IO.Directory.Exists(errFilePath))
+                Directory.GetFiles(errFilePath).Select(f => new FileInfo(f))
        .Where(f => f.LastWriteTime < DateTime.Now.AddMonths(-1))
        .ToList().ForEach(f => f.Delete());
 
-            Directory.GetFiles(updatedFilePath).Select(f => new FileInfo(f))
+            if (System.IO.Directory.Exists(updatedFilePath))
+                Directory.GetFiles(updatedFilePath).Select(f => new FileInfo(f))
          .Where(f => f.LastWriteTime < DateTime.Now.AddMonths(-1))
          .ToList().ForEach(f => f.Delete());
         }
