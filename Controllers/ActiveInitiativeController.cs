@@ -1324,12 +1324,12 @@ log4net.LogManager.GetLogger
         {
             bool isUserSubCountry = false;
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            string usercountryIds = profileData.CountryID;
+            string usercountryIds = profileData.subcountry_right;
             string[] arrUserCountry = objFlatFileHelper.GetUserCountries(usercountryIds);
             var userCntry = arrUserCountry.ToList().Where(ucntry => ucntry.ToLower() == subCountryDesc.ToLower());
             var matchingSubCntry = lstSubCountryBrand.Where(uSubcntry => uSubcntry.subCountryName.ToLower() == subCountryDesc.ToLower()).FirstOrDefault();
 
-            if (profileData.subcountry_right == "|ALL|" && matchingSubCntry != null)
+            if ((profileData.subcountry_right == "|ALL|" && matchingSubCntry != null) || (profileData.UserType == 1))
                 isUserSubCountry = true;
             else
             {
