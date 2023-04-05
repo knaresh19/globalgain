@@ -1324,12 +1324,12 @@ log4net.LogManager.GetLogger
         {
             bool isUserSubCountry = false;
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            string usercountryIds = profileData.subcountry_right;
+            string usercountryIds = (profileData.UserType == 3) ? profileData.subcountry_right : "|ALL|";
             string[] arrUserCountry = objFlatFileHelper.GetUserCountries(usercountryIds);
             var userCntry = arrUserCountry.ToList().Where(ucntry => ucntry.ToLower() == subCountryDesc.ToLower());
             var matchingSubCntry = lstSubCountryBrand.Where(uSubcntry => uSubcntry.subCountryName.ToLower() == subCountryDesc.ToLower()).FirstOrDefault();
 
-            if ((profileData.subcountry_right == "|ALL|" && matchingSubCntry != null) || (profileData.UserType == 1))
+            if ((profileData.subcountry_right == "|ALL|" && matchingSubCntry != null) || (profileData.UserType != 3))
                 isUserSubCountry = true;
             else
             {
@@ -1348,7 +1348,7 @@ log4net.LogManager.GetLogger
         public void SetSubCountryBrand()
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            string usercountryIds = profileData.CountryID;
+            string usercountryIds = (profileData.UserType == 3) ? profileData.subcountry_right : "|ALL|";
             string[] arrUserCountry = objFlatFileHelper.GetUserCountries(usercountryIds);
             string subCntryCondn = "(";
             for (int i = 0; i < arrUserCountry.Length; i++)
@@ -1362,7 +1362,7 @@ log4net.LogManager.GetLogger
                                 + " mbrand mb on mbc.brandid = mb.id Inner join msubcountry ms on ms.id = mbc.subcountryid"
                                 + " Where ms.isActive = 'Y' and mbc.inityear = " + System.DateTime.Now.Year;
 
-            sqlQuery += ((usercountryIds != "|ALL|") && (profileData.UserType != 1)) ? " And ms.SubCountryName in " + subCntryCondn : "";
+            sqlQuery += ((usercountryIds != "|ALL|") && (profileData.UserType != 1 || profileData.UserType != 2)) ? " And ms.SubCountryName in " + subCntryCondn : "";
             lstSubCountryBrand = db.Database.SqlQuery<SubCountryBrand>(sqlQuery).ToList();
         }
 
