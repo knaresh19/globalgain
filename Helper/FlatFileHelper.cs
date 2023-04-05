@@ -504,12 +504,18 @@ namespace GAIN.Helper
         }
         public string[] GetUserCountries(string userCountries)
         {
-            string[] arrUserCountries = userCountries.Split('|');
-            List<string> tmp = new List<string>(arrUserCountries);
-            tmp.RemoveAt(arrUserCountries.Length - 1);
-            tmp.RemoveAt(0);
-            arrUserCountries = tmp.ToArray();
-            return arrUserCountries;
+            if (userCountries != null)
+            {
+                string[] arrUserCountries = userCountries.Split('|');
+                List<string> tmp = new List<string>(arrUserCountries);
+                tmp.RemoveAt(arrUserCountries.Length - 1);
+                tmp.RemoveAt(0);
+                arrUserCountries = tmp.ToArray();
+                return arrUserCountries;
+            }
+            else {
+                return null;
+            }            
         }
         public void DisposeFile(string _path)
         {
