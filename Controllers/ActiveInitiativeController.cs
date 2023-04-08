@@ -2355,14 +2355,18 @@ log4net.LogManager.GetLogger
                         if (initz != null)
                             //nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara) && c.CountryID == GrdCountry && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
                             nomerterakhir = db.t_initiative.Where(c => c.InitNumber.StartsWith(YearInitiative + KodeNegara)
-                             && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.InitNumber).FirstOrDefault().InitNumber;
+                             && c.SubCountryID == GrdSubCountry).OrderByDescending(o => o.id).FirstOrDefault().InitNumber;
                         else
                             nomerterakhir = YearInitiative + KodeNegara + "000";
 
-                        nomerterakhir = nomerterakhir.Substring((nomerterakhir.Length - 3), 3);
+                        nomerterakhir = nomerterakhir.Remove(0, 4).Replace(KodeNegara, ""); 
+
+                        //nomerterakhir = nomerterakhir.Substring((nomerterakhir.Length - 3), 3);
                         int nomerurut = (Int32.Parse(nomerterakhir) + 1);
-                        string nomerselanjutnya = ("00" + nomerurut.ToString());
-                        nomerselanjutnya = nomerselanjutnya.Substring((nomerselanjutnya.Length - 3), 3);
+                        //string nomerselanjutnya = ("00" + nomerurut.ToString());
+                        string nomerselanjutnya = (nomerurut < 10) ? ("00" + nomerurut.ToString()) : (nomerurut < 100) ?
+                             ("0" + nomerurut.ToString()) : nomerurut.ToString();
+                        //nomerselanjutnya = nomerselanjutnya.Substring((nomerselanjutnya.Length - 3), 3);
 
                         if (isProcurement != 1)
                         {
