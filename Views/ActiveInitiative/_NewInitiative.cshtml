@@ -524,7 +524,7 @@
                        settings.Name = "txTarget12";
                        //settings.ClientEnabled = false;
                        settings.Width = 190;
-                       settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                       settings.Properties.MaskSettings.Mask = "<-999999999..999999999>.99";
                        settings.Properties.NullText = " ";
                        settings.Properties.NullDisplayText = " ";
                        settings.Properties.DisplayFormatString = "#,###.##";
@@ -708,19 +708,19 @@
                                 <div class="span2a">
                                     Unit of volumes<font color="red">*</font>:
                                     @{ var CboUnitOfVolume = Html.DevExpress().ComboBox(settings =>
-                                             {
+                                        {
 
-                                                 settings.Name = "CboUnitOfVolume";
-                                                 settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
+                                            settings.Name = "CboUnitOfVolume";
+                                            settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
 
-                                                 settings.Properties.Items.Add("NONE", "");
-                                                 settings.Properties.Items.Add("TEU INLAND");
-                                                 settings.Properties.Items.Add("TEU SHIPPING");
-                                                 settings.Properties.Items.Add("TC INLAND");
-                                                 settings.Properties.Items.Add("TC SHIPPING");
-                                                 settings.Properties.Items.Add("OTHERS");
+                                            //settings.Properties.Items.Add("NONE", "");
+                                            settings.Properties.Items.Add("TEU INLAND");
+                                            settings.Properties.Items.Add("TEU SHIPPING");
+                                            settings.Properties.Items.Add("TC INLAND");
+                                            settings.Properties.Items.Add("TC SHIPPING");
+                                            settings.Properties.Items.Add("OTHERS");
 
-                                             }).GetHtml();}
+                                        }).GetHtml();}
                                 </div>
                                 <div class="span2a">
                                     Actuals Volumes N-1<font color="red">*</font>:

@@ -325,6 +325,8 @@ namespace GAIN.Helper
             isCrossYear = (dtStartMonth.Year != dtEndMonth.Year) ? true : false;
             double currYrTotal = this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth);
             string initType = drRow["TypeOfInitiative"].ToString().ToLower().Trim();
+            remarks += this.getMaxAmountRemarks(drRow, nfySecTotalEffect);
+
             if (nfySecTotalEffect != 0)
             {
                 if (!isCrossYear)
@@ -374,6 +376,31 @@ namespace GAIN.Helper
             }
             return remarks;
         }
+
+        private string getMaxAmountRemarks(DataRow drRow, double nfySecTotalEffect)
+        {
+            string remarks = string.Empty;
+
+            string[] columns = new string[] { "TargetJan", "TargetFeb", "TargetMar",
+                        "TargetApr", "TargetMay", "TargetJun", "TargetJul", "TargetAug", "TargetSep", "TargetOct",
+                        "TargetNov", "TargetDec", "AchJan", "AchFeb", "AchMar", "AchApr", "AchMay", "AchJun", "AchJul",
+                        "AchAug", "AchSep", "AchOct", "AchNov", "AchDec", "NFYSecuredTOTALEFFECT"};
+            string col = string.Empty;
+            for (int i = 0; i < columns.Length; i++)
+            {
+                col = columns[i];
+                drRow[col] = objFlatFileHelper.IsValidNumber(drRow[col].ToString()) ?
+                    Convert.ToDouble(drRow[columns[i]]) : 0;
+
+                if ((Convert.ToDouble(drRow[col]) >= 999999999.99) || (Convert.ToDouble(drRow[col]) <= -999999999.99))
+                {
+                    remarks = " Invalid value for " + col + ". Allowed range is from 999999999.99 to -999999999.99";
+                    break;
+                }
+            }
+            return remarks;
+        }
+
         private double getNextYrTarget(t_initiative tInitiative)
         {
 
