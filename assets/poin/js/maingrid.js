@@ -1914,6 +1914,13 @@ function isNumberKey(evt) {
     return true;
 }
 
+function maxValueCheck(ctl) {
+    if (ctl.value > 999999999.99 || ctl.value < -999999999.99) {
+        ctl.value = "";
+        return false;
+    }        
+}
+
 function OnClickEditInitiative(s, e) {
     var idx = s.GetRowKey(e.visibleIndex);
     ShowEditWindow(idx);
