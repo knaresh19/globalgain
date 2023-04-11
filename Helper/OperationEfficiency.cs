@@ -13,32 +13,32 @@ namespace GAIN.Helper
         FlatFileHelper objFlatFileHelper = new FlatFileHelper();
 
         #region InterfaceMethods
-        public InitiativeSaveModelXL GetCalculatedValues(DataRow row, DateTime dtStartMonth, DateTime dtEndMonth, 
+        public InitiativeSaveModelXL GetCalculatedValues(DataRow row, DateTime dtStartMonth, DateTime dtEndMonth,
             List<MonthlyCPIValues> lstMonthlyCPIValues, string CreatedBy, int initYear)
         {
             InitiativeSaveModelXL initiativeSaveModelXL = new InitiativeSaveModelXL();
             DataRow drRow = row;
-            float perMonthTarget = 0;
-            float nfySecTotalEffect = this.getFYSecTotalEffect(drRow);
-            float nCurrYrTarget = this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth);
+            double perMonthTarget = 0;
+            double nfySecTotalEffect = this.getFYSecTotalEffect(drRow);
+            double nCurrYrTarget = this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth);
             bool isCrossYear = (dtStartMonth.Year != dtEndMonth.Year) ? true : false;
             bool isAutoCalculate = (nCurrYrTarget == 0) ? true : false;
             string dbFlag = Convert.ToString(drRow["dbFlag"]);
 
-            drRow["TargetJan"] = objFlatFileHelper.getValue(drRow["TargetJan"].ToString());
-            drRow["TargetFeb"] = objFlatFileHelper.getValue(drRow["TargetFeb"].ToString());
-            drRow["TargetMar"] = objFlatFileHelper.getValue(drRow["TargetMar"].ToString());
-            drRow["TargetApr"] = objFlatFileHelper.getValue(drRow["TargetApr"].ToString());
-            drRow["TargetMay"] = objFlatFileHelper.getValue(drRow["TargetMay"].ToString());
-            drRow["TargetJun"] = objFlatFileHelper.getValue(drRow["TargetJun"].ToString());
-            drRow["TargetJul"] = objFlatFileHelper.getValue(drRow["TargetJul"].ToString());
-            drRow["TargetAug"] = objFlatFileHelper.getValue(drRow["TargetAug"].ToString());
-            drRow["TargetSep"] = objFlatFileHelper.getValue(drRow["TargetSep"].ToString());
-            drRow["TargetOct"] = objFlatFileHelper.getValue(drRow["TargetOct"].ToString());
-            drRow["TargetNov"] = objFlatFileHelper.getValue(drRow["TargetNov"].ToString());
-            drRow["TargetDec"] = objFlatFileHelper.getValue(drRow["TargetDec"].ToString());
+            drRow["TargetJan"] = objFlatFileHelper.IsValidNumber(drRow["TargetJan"].ToString()) ? Convert.ToDouble(drRow["TargetJan"].ToString()) : 0;
+            drRow["TargetFeb"] = objFlatFileHelper.IsValidNumber(drRow["TargetFeb"].ToString()) ? Convert.ToDouble(drRow["TargetFeb"].ToString()) : 0;
+            drRow["TargetMar"] = objFlatFileHelper.IsValidNumber(drRow["TargetMar"].ToString()) ? Convert.ToDouble(drRow["TargetMar"].ToString()) : 0;
+            drRow["TargetApr"] = objFlatFileHelper.IsValidNumber(drRow["TargetApr"].ToString()) ? Convert.ToDouble(drRow["TargetApr"].ToString()) : 0;
+            drRow["TargetMay"] = objFlatFileHelper.IsValidNumber(drRow["TargetMay"].ToString()) ? Convert.ToDouble(drRow["TargetMay"].ToString()) : 0;
+            drRow["TargetJun"] = objFlatFileHelper.IsValidNumber(drRow["TargetJun"].ToString()) ? Convert.ToDouble(drRow["TargetJun"].ToString()) : 0;
+            drRow["TargetJul"] = objFlatFileHelper.IsValidNumber(drRow["TargetJul"].ToString()) ? Convert.ToDouble(drRow["TargetJul"].ToString()) : 0;
+            drRow["TargetAug"] = objFlatFileHelper.IsValidNumber(drRow["TargetAug"].ToString()) ? Convert.ToDouble(drRow["TargetAug"].ToString()) : 0;
+            drRow["TargetSep"] = objFlatFileHelper.IsValidNumber(drRow["TargetSep"].ToString()) ? Convert.ToDouble(drRow["TargetSep"].ToString()) : 0;
+            drRow["TargetOct"] = objFlatFileHelper.IsValidNumber(drRow["TargetOct"].ToString()) ? Convert.ToDouble(drRow["TargetOct"].ToString()) : 0;
+            drRow["TargetNov"] = objFlatFileHelper.IsValidNumber(drRow["TargetNov"].ToString()) ? Convert.ToDouble(drRow["TargetNov"].ToString()) : 0;
+            drRow["TargetDec"] = objFlatFileHelper.IsValidNumber(drRow["TargetDec"].ToString()) ? Convert.ToDouble(drRow["TargetDec"].ToString()) : 0;
 
-            
+
             // Setting next yr values to 0
             drRow["TargetNexJan"] = 0; drRow["TargetNexFeb"] = 0;
             drRow["TargetNexMar"] = 0; drRow["TargetNexApr"] = 0;
@@ -101,9 +101,9 @@ namespace GAIN.Helper
                 {
                     if (nCurrYrTarget != nfySecTotalEffect)
                     {
-                        float diffTarget = nfySecTotalEffect - nCurrYrTarget;
+                        double diffTarget = nfySecTotalEffect - nCurrYrTarget;
                         int nxtYrTotalMonths = dtEndMonth.Month;
-                        float permonthValueNxtYr = diffTarget / nxtYrTotalMonths;
+                        double permonthValueNxtYr = diffTarget / nxtYrTotalMonths;
                         for (int month = 1; month <= dtEndMonth.Month; month++)
                         {
                             switch (month)
@@ -154,13 +154,14 @@ namespace GAIN.Helper
             drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]);
             drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
 
-            drRow["NFYSecuredTOTALEFFECT"] = objFlatFileHelper.getValue(drRow["NFYSecuredTOTALEFFECT"].ToString());
+            drRow["NFYSecuredTOTALEFFECT"] = Convert.ToDouble(drRow["NFYSecuredTOTALEFFECT"]);
             initiativeSaveModelXL.drInitiatives = drRow;
             initiativeSaveModelXL.initiativeCalcs = null;
             return initiativeSaveModelXL;
         }
         public string GetValidationRemarks(DataRow dataRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear, int userType,
-            List<t_initiative> lstExistingInit, List<InitTypeCostSubCost> lstInitTypeCostSubCosts, List<mInitiativeStatus> lstInitiativeStatus)
+            List<t_initiative> lstExistingInit, List<InitTypeCostSubCost> lstInitTypeCostSubCosts, List<mInitiativeStatus> lstInitiativeStatus,
+            t_initiative tInitiative)
         {
             string remarks = string.Empty;
             string sInitNumber = Convert.ToString(dataRow["InitNumber"]);
@@ -207,9 +208,9 @@ namespace GAIN.Helper
                 }
             }
 
-            float nfySecTotalEffect = this.getFYSecTotalEffect(dataRow);
+            double nfySecTotalEffect = this.getFYSecTotalEffect(dataRow);
             remarks += this.getInitTypeValidRemarks(dataRow, lstInitTypeCostSubCosts, nfySecTotalEffect);
-            remarks += this.getTargetValidationRemarks(nfySecTotalEffect, dataRow, dtStartMonth, dtEndMonth, initYear);
+            remarks += this.getTargetValidationRemarks(nfySecTotalEffect, dataRow, dtStartMonth, dtEndMonth, initYear, tInitiative);
 
             if (userType == 3 && lstExistingInit != null && sInitNumber != "")
             {
@@ -258,9 +259,9 @@ namespace GAIN.Helper
 
             return isChanged;
         }
-        private float getCurrentYrTarget(DataRow dataRow, DateTime dtStartMonth, DateTime dtEndMonth)
+        private double getCurrentYrTarget(DataRow dataRow, DateTime dtStartMonth, DateTime dtEndMonth)
         {
-            float flCurrYrTarget = 0;
+            double flCurrYrTarget = 0;
             int currYear = dtStartMonth.Year;
             for (DateTime dtThis = dtStartMonth; dtThis <= dtEndMonth; dtThis = dtThis.AddMonths(1))
             {
@@ -285,14 +286,15 @@ namespace GAIN.Helper
             }
             return flCurrYrTarget;
         }
-        private float getFYSecTotalEffect(DataRow dataRow)
+        private double getFYSecTotalEffect(DataRow dataRow)
         {
             // DB TargetFY
-            float nfySecTotalEffect = objFlatFileHelper.IsValidNumber(dataRow["NFYSecuredTOTALEFFECT"].ToString()) ?
-                                   float.Parse(dataRow["NFYSecuredTOTALEFFECT"].ToString()) : 0;
-            return nfySecTotalEffect;
+            decimal value = objFlatFileHelper.IsValidNumber(dataRow["NFYSecuredTOTALEFFECT"].ToString()) ?
+                                   Convert.ToDecimal(dataRow["NFYSecuredTOTALEFFECT"].ToString()) : 0;
+            double nFYSecTotalEffect = Convert.ToDouble(value);
+            return nFYSecTotalEffect;
         }
-        private string getInitTypeValidRemarks(DataRow dataRow, List<InitTypeCostSubCost> lstSavingType, float nfySecTotalEffect)
+        private string getInitTypeValidRemarks(DataRow dataRow, List<InitTypeCostSubCost> lstSavingType, double nfySecTotalEffect)
         {
             string remarks = string.Empty;
             // To check on NFYSecured total effect. For positive or revenue increase, this value should be positive.
@@ -315,30 +317,56 @@ namespace GAIN.Helper
             }
             return remarks;
         }
-        private string getTargetValidationRemarks(float nfySecTotalEffect, DataRow drRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear)
+        private string getTargetValidationRemarks(double nfySecTotalEffect, DataRow drRow, DateTime dtStartMonth, 
+            DateTime dtEndMonth, int initYear, t_initiative tInitiative)
         {
             string remarks = string.Empty;
             bool isCrossYear = false;
             isCrossYear = (dtStartMonth.Year != dtEndMonth.Year) ? true : false;
-            float currYrTotal = this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth);
+            double currYrTotal = this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth);
+            string initType = drRow["TypeOfInitiative"].ToString().ToLower().Trim();
+            remarks += this.getMaxAmountRemarks(drRow, nfySecTotalEffect);
+
             if (nfySecTotalEffect != 0)
             {
                 if (!isCrossYear)
                 {
-                    if (currYrTotal != 0 && Math.Round(currYrTotal) != Math.Round(nfySecTotalEffect))
-                        remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
-                            currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                    double diffValue = currYrTotal - nfySecTotalEffect;
+                    bool isToleranceAllowed = false;
+                    if (Math.Ceiling(diffValue) <= 1 && Math.Ceiling(diffValue) > -2)
+                    {
+                        isToleranceAllowed = true;
+                    }
+                    if (!isToleranceAllowed)
+                    {
+                        if (currYrTotal != 0 && Math.Round(currYrTotal) != Math.Round(nfySecTotalEffect))
+                            remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
+                                currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                    }
                 }
                 else
                 {
-                    // Check for Dec Target for cross yr if 0, and total monthly target != Total target then invalid entry               
-                    if ((currYrTotal != 0 && ((currYrTotal > 0 && nfySecTotalEffect > 0 && (Math.Round(currYrTotal) > Math.Round(nfySecTotalEffect))) ||
-                        (currYrTotal < 0 && nfySecTotalEffect < 0 && (Math.Round(currYrTotal) < Math.Round(nfySecTotalEffect))
-                        )))
-                        || (currYrTotal != 0 && objFlatFileHelper.getValue(drRow["TargetDec"].ToString()) == 0))
+                    double nxtYrTarget = this.getNextYrTarget(tInitiative);
+                    double totalTarget = currYrTotal + nxtYrTarget;
+                    bool isToleranceAllowed = false;
+                    double diffValue = totalTarget - nfySecTotalEffect;
+
+                    if (Math.Ceiling(diffValue) <= 1 && Math.Ceiling(diffValue) > -2)
                     {
-                        remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
-                            currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                        isToleranceAllowed = true;
+                    }
+
+                    if (!isToleranceAllowed)
+                    {
+                        // Check for Dec Target for cross yr if 0, and total monthly target != Total target then invalid entry               
+                        if ((currYrTotal != 0 && ((currYrTotal > 0 && nfySecTotalEffect > 0 && (Math.Round(currYrTotal) > Math.Round(nfySecTotalEffect))) ||
+                            (currYrTotal < 0 && nfySecTotalEffect < 0 && (Math.Round(currYrTotal) < Math.Round(nfySecTotalEffect))
+                            )))
+                            || (currYrTotal != 0 && objFlatFileHelper.getValue(drRow["TargetDec"].ToString()) == 0))
+                        {
+                            remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
+                                currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                        }
                     }
                 }
             }
@@ -347,6 +375,41 @@ namespace GAIN.Helper
                 remarks += " Invalid Target 12 Months,";
             }
             return remarks;
+        }
+
+        private string getMaxAmountRemarks(DataRow drRow, double nfySecTotalEffect)
+        {
+            string remarks = string.Empty;
+
+            string[] columns = new string[] { "TargetJan", "TargetFeb", "TargetMar",
+                        "TargetApr", "TargetMay", "TargetJun", "TargetJul", "TargetAug", "TargetSep", "TargetOct",
+                        "TargetNov", "TargetDec", "AchJan", "AchFeb", "AchMar", "AchApr", "AchMay", "AchJun", "AchJul",
+                        "AchAug", "AchSep", "AchOct", "AchNov", "AchDec", "NFYSecuredTOTALEFFECT"};
+            string col = string.Empty;
+            for (int i = 0; i < columns.Length; i++)
+            {
+                col = columns[i];
+                drRow[col] = objFlatFileHelper.IsValidNumber(drRow[col].ToString()) ?
+                    Convert.ToDouble(drRow[columns[i]]) : 0;
+
+                if ((Convert.ToDouble(drRow[col]) >= 999999999.99) || (Convert.ToDouble(drRow[col]) <= -999999999.99))
+                {
+                    remarks = " Invalid value for " + col + ". Allowed range is from 999999999.99 to -999999999.99";
+                    break;
+                }
+            }
+            return remarks;
+        }
+
+        private double getNextYrTarget(t_initiative tInitiative)
+        {
+
+            double nexYrTarget = 0;
+            nexYrTarget = Convert.ToDouble(tInitiative.TargetNexJan) + Convert.ToDouble(tInitiative.TargetNexFeb) + Convert.ToDouble(tInitiative.TargetNexMar)
+                     + Convert.ToDouble(tInitiative.TargetNexApr) + Convert.ToDouble(tInitiative.TargetNexMay) + Convert.ToDouble(tInitiative.TargetNexJun)
+                     + Convert.ToDouble(tInitiative.TargetNexJul) + Convert.ToDouble(tInitiative.TargetNexAug) + Convert.ToDouble(tInitiative.TargetNexSep)
+                     + Convert.ToDouble(tInitiative.TargetNexOct) + Convert.ToDouble(tInitiative.TargetNexNov) + Convert.ToDouble(tInitiative.TargetNexDec);
+            return nexYrTarget;
         }
         #endregion
     }

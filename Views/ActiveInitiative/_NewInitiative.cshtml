@@ -524,7 +524,7 @@
                        settings.Name = "txTarget12";
                        //settings.ClientEnabled = false;
                        settings.Width = 190;
-                       settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                       settings.Properties.MaskSettings.Mask = "<-999999999..999999999>.99";
                        settings.Properties.NullText = " ";
                        settings.Properties.NullDisplayText = " ";
                        settings.Properties.DisplayFormatString = "#,###.##";
@@ -539,7 +539,7 @@
                        settings.Name = "txTargetFullYear";
                        settings.ClientEnabled = false;
                        settings.Width = 190;
-                       settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                       settings.Properties.MaskSettings.Mask = "<-999999999..999999999>.99";
                        settings.Properties.NullText = " ";
                        settings.Properties.NullDisplayText = " ";
                        settings.Properties.DisplayFormatString = "#,###.##";
@@ -552,7 +552,7 @@
                    {
                        settings.Name = "txYTDTargetFullYear";
                        settings.ClientEnabled = false;
-                       settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                       settings.Properties.MaskSettings.Mask = "<-999999999..999999999>.99";
                        settings.Properties.DisplayFormatString = "#,###.##";
                        settings.Width = 190;
                    }).GetHtml()
@@ -563,7 +563,7 @@
                    {
                        settings.Name = "txYTDSavingFullYear";
                        settings.ClientEnabled = false;
-                       settings.Properties.MaskSettings.Mask = "<-999999999999..999999999999>.99";
+                       settings.Properties.MaskSettings.Mask = "<-999999999..999999999>.99";
                        settings.Properties.DisplayFormatString = "#,###.##";
                        settings.Width = 190;
                    }).GetHtml()
@@ -597,34 +597,34 @@
                             <tr style="height:20px;">&nbsp;</tr>
                             <tr style="height:20px;">
                                 <td>Monthly Target</td>
-                                <td><input class="txTarget targetjan" name="targetjan" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetfeb" name="targetfeb" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetmar" name="targetmar" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetapr" name="targetapr" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetmay" name="targetmay" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetjun" name="targetjun" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetjul" name="targetjul" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetaug" name="targetaug" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetsep" name="targetsep" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetoct" name="targetoct" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetnov" name="targetnov" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetdec" name="targetdec" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetjan" name="targetjan" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetfeb" name="targetfeb" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetmar" name="targetmar" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetapr" name="targetapr" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetmay" name="targetmay" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetjun" name="targetjun" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetjul" name="targetjul" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetaug" name="targetaug" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetsep" name="targetsep" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetoct" name="targetoct" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetnov" name="targetnov" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetdec" name="targetdec" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
                             </tr>
                             <tr style="height:20px;">&nbsp;</tr>
                             <tr style="height:20px;">
                                 <td>Monthly Saving</td>
-                                <td><input class="txSaving savingjan" name="savingjan" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingfeb" name="savingfeb" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingmar" name="savingmar" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingapr" name="savingapr" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingmay" name="savingmay" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingjun" name="savingjun" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingjul" name="savingjul" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingaug" name="savingaug" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingsep" name="savingsep" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingoct" name="savingoct" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingnov" name="savingnov" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingdec" name="savingdec" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingjan" name="savingjan" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingfeb" name="savingfeb" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingmar" name="savingmar" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingapr" name="savingapr" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingmay" name="savingmay" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingjun" name="savingjun" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingjul" name="savingjul" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingaug" name="savingaug" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingsep" name="savingsep" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingoct" name="savingoct" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingnov" name="savingnov" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingdec" name="savingdec" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
                             </tr>
                         </table>
                     </div>
@@ -657,34 +657,34 @@
                             <tr style="height:20px;">&nbsp;</tr>
                             <tr style="height:20px;">
                                 <td>Monthly Target</td>
-                                <td><input class="txTarget targetjan2" name="targetjan2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetfeb2" name="targetfeb2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetmar2" name="targetmar2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetapr2" name="targetapr2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetmay2" name="targetmay2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetjun2" name="targetjun2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetjul2" name="targetjul2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetaug2" name="targetaug2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetsep2" name="targetsep2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetoct2" name="targetoct2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetnov2" name="targetnov2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txTarget targetdec2" name="targetdec2" style="width:125px;" type="text" onblur="getYtdValue();" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetjan2" name="targetjan2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetfeb2" name="targetfeb2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetmar2" name="targetmar2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetapr2" name="targetapr2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetmay2" name="targetmay2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetjun2" name="targetjun2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetjul2" name="targetjul2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetaug2" name="targetaug2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetsep2" name="targetsep2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetoct2" name="targetoct2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetnov2" name="targetnov2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txTarget targetdec2" name="targetdec2" style="width:125px;" type="text" onblur="getYtdValue(); return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
                             </tr>
                             <tr style="height:20px;">&nbsp;</tr>
                             <tr style="height:20px;">
                                 <td>Monthly Saving</td>
-                                <td><input class="txSaving savingjan2" name="savingjan2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingfeb2" name="savingfeb2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingmar2" name="savingmar2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingapr2" name="savingapr2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingmay2" name="savingmay2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingjun2" name="savingjun2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingjul2" name="savingjul2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingaug2" name="savingaug2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingsep2" name="savingsep2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingoct2" name="savingoct2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingnov2" name="savingnov2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
-                                <td><input class="txSaving savingdec2" name="savingdec2" style="width:125px;" type="text" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingjan2" name="savingjan2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingfeb2" name="savingfeb2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingmar2" name="savingmar2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingapr2" name="savingapr2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingmay2" name="savingmay2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingjun2" name="savingjun2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingjul2" name="savingjul2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingaug2" name="savingaug2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingsep2" name="savingsep2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingoct2" name="savingoct2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingnov2" name="savingnov2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
+                                <td><input class="txSaving savingdec2" name="savingdec2" style="width:125px;" type="text" onblur="return maxValueCheck(this);" onkeypress="return isNumberKey(event)" /></td>
                             </tr>
                         </table>
                     </div>
@@ -708,19 +708,19 @@
                                 <div class="span2a">
                                     Unit of volumes<font color="red">*</font>:
                                     @{ var CboUnitOfVolume = Html.DevExpress().ComboBox(settings =>
-                                             {
+                                        {
 
-                                                 settings.Name = "CboUnitOfVolume";
-                                                 settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
+                                            settings.Name = "CboUnitOfVolume";
+                                            settings.Properties.DropDownWidth = System.Web.UI.WebControls.Unit.Pixel(190);
 
-                                                 settings.Properties.Items.Add("NONE", "");
-                                                 settings.Properties.Items.Add("TEU INLAND");
-                                                 settings.Properties.Items.Add("TEU SHIPPING");
-                                                 settings.Properties.Items.Add("TC INLAND");
-                                                 settings.Properties.Items.Add("TC SHIPPING");
-                                                 settings.Properties.Items.Add("OTHERS");
+                                            //settings.Properties.Items.Add("NONE", "");
+                                            settings.Properties.Items.Add("TEU INLAND");
+                                            settings.Properties.Items.Add("TEU SHIPPING");
+                                            settings.Properties.Items.Add("TC INLAND");
+                                            settings.Properties.Items.Add("TC SHIPPING");
+                                            settings.Properties.Items.Add("OTHERS");
 
-                                             }).GetHtml();}
+                                        }).GetHtml();}
                                 </div>
                                 <div class="span2a">
                                     Actuals Volumes N-1<font color="red">*</font>:
