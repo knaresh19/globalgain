@@ -1771,7 +1771,7 @@ log4net.LogManager.GetLogger
                                                 validationRemarks = new SupplyContractMonitor();
                                             }
                                             remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], dtStartMonth,
-                                                dtEndMonth, initYear, userType, lstExistingInits, lstInitTypeCostSubCosts, lstInitiativeStatus);
+                                                dtEndMonth, initYear, userType, lstExistingInits, lstInitTypeCostSubCosts, lstInitiativeStatus, tInitRecord);
                                         }
                                         else
                                         {

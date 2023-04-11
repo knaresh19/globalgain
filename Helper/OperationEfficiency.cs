@@ -160,7 +160,8 @@ namespace GAIN.Helper
             return initiativeSaveModelXL;
         }
         public string GetValidationRemarks(DataRow dataRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear, int userType,
-            List<t_initiative> lstExistingInit, List<InitTypeCostSubCost> lstInitTypeCostSubCosts, List<mInitiativeStatus> lstInitiativeStatus)
+            List<t_initiative> lstExistingInit, List<InitTypeCostSubCost> lstInitTypeCostSubCosts, List<mInitiativeStatus> lstInitiativeStatus,
+            t_initiative tInitiative)
         {
             string remarks = string.Empty;
             string sInitNumber = Convert.ToString(dataRow["InitNumber"]);
@@ -209,7 +210,7 @@ namespace GAIN.Helper
 
             double nfySecTotalEffect = this.getFYSecTotalEffect(dataRow);
             remarks += this.getInitTypeValidRemarks(dataRow, lstInitTypeCostSubCosts, nfySecTotalEffect);
-            remarks += this.getTargetValidationRemarks(nfySecTotalEffect, dataRow, dtStartMonth, dtEndMonth, initYear);
+            remarks += this.getTargetValidationRemarks(nfySecTotalEffect, dataRow, dtStartMonth, dtEndMonth, initYear, tInitiative);
 
             if (userType == 3 && lstExistingInit != null && sInitNumber != "")
             {
@@ -316,30 +317,54 @@ namespace GAIN.Helper
             }
             return remarks;
         }
-        private string getTargetValidationRemarks(double nfySecTotalEffect, DataRow drRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear)
+        private string getTargetValidationRemarks(double nfySecTotalEffect, DataRow drRow, DateTime dtStartMonth, 
+            DateTime dtEndMonth, int initYear, t_initiative tInitiative)
         {
             string remarks = string.Empty;
             bool isCrossYear = false;
             isCrossYear = (dtStartMonth.Year != dtEndMonth.Year) ? true : false;
             double currYrTotal = this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth);
+            string initType = drRow["TypeOfInitiative"].ToString().ToLower().Trim();
             if (nfySecTotalEffect != 0)
             {
                 if (!isCrossYear)
                 {
-                    if (currYrTotal != 0 && Math.Round(currYrTotal) != Math.Round(nfySecTotalEffect))
-                        remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
-                            currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                    double diffValue = currYrTotal - nfySecTotalEffect;
+                    bool isToleranceAllowed = false;
+                    if (Math.Ceiling(diffValue) <= 1 && Math.Ceiling(diffValue) > -2)
+                    {
+                        isToleranceAllowed = true;
+                    }
+                    if (!isToleranceAllowed)
+                    {
+                        if (currYrTotal != 0 && Math.Round(currYrTotal) != Math.Round(nfySecTotalEffect))
+                            remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
+                                currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                    }
                 }
                 else
-                {                    
-                    // Check for Dec Target for cross yr if 0, and total monthly target != Total target then invalid entry               
-                    if ((currYrTotal != 0 && ((currYrTotal > 0 && nfySecTotalEffect > 0 && (Math.Round(currYrTotal) > Math.Round(nfySecTotalEffect))) ||
-                        (currYrTotal < 0 && nfySecTotalEffect < 0 && (Math.Round(currYrTotal) < Math.Round(nfySecTotalEffect))
-                        )))
-                        || (currYrTotal != 0 && objFlatFileHelper.getValue(drRow["TargetDec"].ToString()) == 0))
+                {
+                    double nxtYrTarget = this.getNextYrTarget(tInitiative);
+                    double totalTarget = currYrTotal + nxtYrTarget;
+                    bool isToleranceAllowed = false;
+                    double diffValue = totalTarget - nfySecTotalEffect;
+
+                    if (Math.Ceiling(diffValue) <= 1 && Math.Ceiling(diffValue) > -2)
                     {
-                        remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
-                            currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                        isToleranceAllowed = true;
+                    }
+
+                    if (!isToleranceAllowed)
+                    {
+                        // Check for Dec Target for cross yr if 0, and total monthly target != Total target then invalid entry               
+                        if ((currYrTotal != 0 && ((currYrTotal > 0 && nfySecTotalEffect > 0 && (Math.Round(currYrTotal) > Math.Round(nfySecTotalEffect))) ||
+                            (currYrTotal < 0 && nfySecTotalEffect < 0 && (Math.Round(currYrTotal) < Math.Round(nfySecTotalEffect))
+                            )))
+                            || (currYrTotal != 0 && objFlatFileHelper.getValue(drRow["TargetDec"].ToString()) == 0))
+                        {
+                            remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
+                                currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                        }
                     }
                 }
             }
@@ -348,6 +373,16 @@ namespace GAIN.Helper
                 remarks += " Invalid Target 12 Months,";
             }
             return remarks;
+        }
+        private double getNextYrTarget(t_initiative tInitiative)
+        {
+
+            double nexYrTarget = 0;
+            nexYrTarget = Convert.ToDouble(tInitiative.TargetNexJan) + Convert.ToDouble(tInitiative.TargetNexFeb) + Convert.ToDouble(tInitiative.TargetNexMar)
+                     + Convert.ToDouble(tInitiative.TargetNexApr) + Convert.ToDouble(tInitiative.TargetNexMay) + Convert.ToDouble(tInitiative.TargetNexJun)
+                     + Convert.ToDouble(tInitiative.TargetNexJul) + Convert.ToDouble(tInitiative.TargetNexAug) + Convert.ToDouble(tInitiative.TargetNexSep)
+                     + Convert.ToDouble(tInitiative.TargetNexOct) + Convert.ToDouble(tInitiative.TargetNexNov) + Convert.ToDouble(tInitiative.TargetNexDec);
+            return nexYrTarget;
         }
         #endregion
     }

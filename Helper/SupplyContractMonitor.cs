@@ -13,7 +13,8 @@ namespace GAIN.Helper
         FlatFileHelper objFlatFileHelper = new FlatFileHelper();
 
         #region InterfaceMembers
-        public InitiativeSaveModelXL GetCalculatedValues(DataRow row, DateTime dtStartMonth, DateTime dtEndMonth, List<MonthlyCPIValues> lstMonthlyCPIValues, string CreatedBy, int initYear)
+        public InitiativeSaveModelXL GetCalculatedValues(DataRow row, DateTime dtStartMonth, DateTime dtEndMonth, List<MonthlyCPIValues> lstMonthlyCPIValues,
+            string CreatedBy, int initYear)
         {
             InitiativeSaveModelXL initiativeSaveModelXL = new InitiativeSaveModelXL();
 
@@ -132,7 +133,7 @@ namespace GAIN.Helper
         }
 
         public string GetValidationRemarks(DataRow drRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear, int userType, List<t_initiative> lstExistingInit,
-            List<InitTypeCostSubCost> lstInitTypeCostSubCosts, List<mInitiativeStatus> lstInitiativeStatus=null)
+            List<InitTypeCostSubCost> lstInitTypeCostSubCosts, List<mInitiativeStatus> lstInitiativeStatus = null, t_initiative tInitiative = null)
         {
             string remarks = string.Empty;
             decimal dlActualVolNmin1 = objFlatFileHelper.getDecimalValue(drRow["InputActualsVolumesNmin1"].ToString());
