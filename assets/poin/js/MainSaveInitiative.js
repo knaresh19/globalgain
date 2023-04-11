@@ -1095,7 +1095,7 @@ function clear_Procurement_BackCalcs() {
 }
 
 function clear_Procurement_fields() {
-    CboUnitOfVolume.SetValue('NONE');
+    CboUnitOfVolume.SetValue('');
     txt_Input_Actuals_Volumes_Nmin1.SetValue(0);
     txt_Input_Target_Volumes.SetValue(0);
     txt_Total_Actual_volume_N.SetValue(0);
