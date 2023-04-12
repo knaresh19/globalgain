@@ -1607,326 +1607,317 @@ log4net.LogManager.GetLogger
 
                 ResultCount resultCountobj = new ResultCount();
                 DataTable dtExcelInitiatives = FlatFileHelper.ConvertExcelToDataTable(_inputpath, "Sheet$");
-                if (dtExcelInitiatives.Rows.Count < 2500)
-                {
-                    using (FileStream stream = new FileStream(_inputpath, FileMode.Open))
-                    {
-                        Workbook workbook = new Workbook();
-                        workbook.LoadDocument(stream);
-                        Worksheet worksheet = workbook.Worksheets[0];
-                        RowCollection rows = worksheet.Rows;
-                        CellRange dataRange = worksheet.GetUsedRange();
-                        DataRow drFirstRow = dtExcelInitiatives.Rows[0];
-                        drFirstRow.Delete();
-                        dtExcelInitiatives.AcceptChanges();
 
-                        if (!(dtExcelInitiatives.Columns.Count >= 91 && dtExcelInitiatives.Columns.Count < 93))
+                using (FileStream stream = new FileStream(_inputpath, FileMode.Open))
+                {
+                    Workbook workbook = new Workbook();
+                    workbook.LoadDocument(stream);
+                    Worksheet worksheet = workbook.Worksheets[0];
+                    RowCollection rows = worksheet.Rows;
+                    CellRange dataRange = worksheet.GetUsedRange();
+                    DataRow drFirstRow = dtExcelInitiatives.Rows[0];
+                    drFirstRow.Delete();
+                    dtExcelInitiatives.AcceptChanges();
+
+                    if (!(dtExcelInitiatives.Columns.Count >= 91 && dtExcelInitiatives.Columns.Count < 93))
+                    {
+                        resultCountobj.validationMsg = "Please upload valid excel template";
+                        objFlatFileHelper.DisposeFile(_inputpath);
+                        return Content(JsonConvert.SerializeObject(resultCountobj));
+                    }
+                    else
+                    {
+                        // Column names space removal
+                        foreach (DataColumn col in dtExcelInitiatives.Columns)
                         {
-                            resultCountobj.validationMsg = "Please upload valid excel template";
-                            objFlatFileHelper.DisposeFile(_inputpath);
-                            return Content(JsonConvert.SerializeObject(resultCountobj));
+                            col.ColumnName = col.ColumnName.Replace(" ", "");
+                            col.ColumnName = col.ColumnName.Replace("(", "");
+                            col.ColumnName = col.ColumnName.Replace(")", "");
+                            col.ColumnName = col.ColumnName.Replace("/", "");
                         }
-                        else
-                        {
-                            // Column names space removal
-                            foreach (DataColumn col in dtExcelInitiatives.Columns)
-                            {
-                                col.ColumnName = col.ColumnName.Replace(" ", "");
-                                col.ColumnName = col.ColumnName.Replace("(", "");
-                                col.ColumnName = col.ColumnName.Replace(")", "");
-                                col.ColumnName = col.ColumnName.Replace("/", "");
-                            }
-                            string[] arrPrevCols = new string[] { "F36", "F40", "F44", "F48", "F52", "F56", "F60", "F64", "F68", "F72", "F76", "F80",
+                        string[] arrPrevCols = new string[] { "F36", "F40", "F44", "F48", "F52", "F56", "F60", "F64", "F68", "F72", "F76", "F80",
             "ActualsVolumesN-1", "$SPENDN-1", "$SPENDN"};
 
-                            string[] arrNewCols = new string[] { "JanActualVolumes", "FebActualVolumes", "MarActualVolumes", "AprActualVolumes",
+                        string[] arrNewCols = new string[] { "JanActualVolumes", "FebActualVolumes", "MarActualVolumes", "AprActualVolumes",
                 "MayActualVolumes" , "JunActualVolumes","JulActualVolumes", "AugActualVolumes", "SepActualVolumes", "OctActualVolumes",
                 "NovActualVolumes", "DecActualVolumes", "InputActualsVolumesNmin1", "SpendNmin1","SpendN"};
 
-                            for (int i = 0; i < arrPrevCols.Length; i++)
-                            {
-                                dtExcelInitiatives.Columns[dtExcelInitiatives.Columns.IndexOf(arrPrevCols[i])].ColumnName = arrNewCols[i];
-                            }
-                            // Setting OO Columns Target and Achieved cols for current yr
-                            string[] monthCols = new string[]{
+                        for (int i = 0; i < arrPrevCols.Length; i++)
+                        {
+                            dtExcelInitiatives.Columns[dtExcelInitiatives.Columns.IndexOf(arrPrevCols[i])].ColumnName = arrNewCols[i];
+                        }
+                        // Setting OO Columns Target and Achieved cols for current yr
+                        string[] monthCols = new string[]{
                             "January" + initYear.ToString(), "February" + initYear.ToString(), "March" + initYear.ToString(), "April" + initYear.ToString(), "May" + initYear.ToString(),
                         "June" + initYear.ToString(), "July" + initYear.ToString(), "August" + initYear.ToString(), "September" + initYear.ToString(), "October" + initYear.ToString(), "November" + initYear.ToString(), "December" + initYear.ToString(),
                        "F35", "F39", "F43", "F47", "F51", "F55", "F59", "F63", "F67", "F71", "F75", "F79"
                        };
 
-                            string[] monthColsNew = new string[] { "TargetJan", "TargetFeb", "TargetMar",
+                        string[] monthColsNew = new string[] { "TargetJan", "TargetFeb", "TargetMar",
                         "TargetApr", "TargetMay", "TargetJun", "TargetJul", "TargetAug", "TargetSep", "TargetOct",
                         "TargetNov", "TargetDec", "AchJan", "AchFeb", "AchMar", "AchApr", "AchMay", "AchJun", "AchJul",
                         "AchAug", "AchSep", "AchOct", "AchNov", "AchDec"};
 
-                            for (int i = 0; i < monthCols.Length; i++)
+                        for (int i = 0; i < monthCols.Length; i++)
+                        {
+                            dtExcelInitiatives.Columns[dtExcelInitiatives.Columns.IndexOf(monthCols[i])].ColumnName = monthColsNew[i];
+                        }
+                        dtExcelInitiatives.AcceptChanges();
+
+                        // Gets the valid rows
+                        var newInitiatives = dtExcelInitiatives.AsEnumerable()
+                            .Where(myRow =>
+                            (String.IsNullOrEmpty(myRow.Field<string>("InitNumber")))
+                         ).ToList();
+
+                        DataTable dtExisting = objFlatFileHelper.GetUpdatedRows(dtExcelInitiatives, lstOOInitiatives, lstSCMInitiatives, lstInitiativeStatus,
+                            lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts, lstActionType, userType);
+
+                        if (newInitiatives.Count > 0)
+                            dtExisting.Merge(newInitiatives.CopyToDataTable());
+                        var lstUnchanged = dtExcelInitiatives.AsEnumerable().Except(dtExisting.AsEnumerable(), DataRowComparer.Default).ToList();
+                        DataTable dtUnchanged = (lstUnchanged.Count > 0) ? lstUnchanged.CopyToDataTable() : null;
+                        if (dtUnchanged != null && dtUnchanged.Rows.Count > 0)
+                        {
+                            for (int i = dtUnchanged.Rows.Count - 1; i >= 0; i--)
                             {
-                                dtExcelInitiatives.Columns[dtExcelInitiatives.Columns.IndexOf(monthCols[i])].ColumnName = monthColsNew[i];
+                                intValidIndex = dtExcelInitiatives.Rows.IndexOf(
+                                  (dtExcelInitiatives.AsEnumerable().Where(excelInit => Convert.ToString(excelInit["InitNumber"]) ==
+                                   Convert.ToString(dtUnchanged.Rows[i]["InitNumber"]))).FirstOrDefault());
+                                //lstValidRowIndexes.Add(intValidIndex);
+                                (worksheet.Rows[(intValidIndex + 2)]).Delete();
                             }
-                            dtExcelInitiatives.AcceptChanges();
+                        }
+                        if (dtExisting != null && dtExisting.Rows.Count > 0)
+                        {
+                            DataTable dtInit = dtExisting;
+                            dtInit.Columns.Add("ProjectYear", typeof(String));
+                            dtInit.Columns.Add("dbFlag", typeof(String));
+                            dtInit.Columns.Add("isProcurement", typeof(System.Int32));
+                            // Adding next yr columns for OO Init types in cross yr scenarios.
+                            dtInit.Columns.Add("TargetNexJan", typeof(float));
+                            dtInit.Columns.Add("TargetNexFeb", typeof(float));
+                            dtInit.Columns.Add("TargetNexMar", typeof(float));
+                            dtInit.Columns.Add("TargetNexApr", typeof(float));
+                            dtInit.Columns.Add("TargetNexMay", typeof(float));
+                            dtInit.Columns.Add("TargetNexJun", typeof(float));
+                            dtInit.Columns.Add("TargetNexJul", typeof(float));
+                            dtInit.Columns.Add("TargetNexAug", typeof(float));
+                            dtInit.Columns.Add("TargetNexSep", typeof(float));
+                            dtInit.Columns.Add("TargetNexOct", typeof(float));
+                            dtInit.Columns.Add("TargetNexNov", typeof(float));
+                            dtInit.Columns.Add("TargetNexDec", typeof(float));
+                            dtInit.Columns.Add("TargetNY", typeof(float));
+                            List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
+                            DataTable dtValidInit = dtInit.Clone();
 
-                            // Gets the valid rows
-                            var newInitiatives = dtExcelInitiatives.AsEnumerable()
-                                .Where(myRow =>
-                                (String.IsNullOrEmpty(myRow.Field<string>("InitNumber")))
-                             ).ToList();
-
-                            DataTable dtExisting = objFlatFileHelper.GetUpdatedRows(dtExcelInitiatives, lstOOInitiatives, lstSCMInitiatives, lstInitiativeStatus,
-                                lstSubCountryBrand, lstPorts, lstInitTypeCostSubCosts, lstActionType, userType);
-
-                            if (newInitiatives.Count > 0)
-                                dtExisting.Merge(newInitiatives.CopyToDataTable());
-                            var lstUnchanged = dtExcelInitiatives.AsEnumerable().Except(dtExisting.AsEnumerable(), DataRowComparer.Default).ToList();
-                            DataTable dtUnchanged = (lstUnchanged.Count > 0) ? lstUnchanged.CopyToDataTable() : null;
-                            if (dtUnchanged != null && dtUnchanged.Rows.Count > 0)
+                            // Perform Mandatory validation
+                            if (dtInit.Rows.Count > 0)
                             {
-                                for (int i = dtUnchanged.Rows.Count - 1; i >= 0; i--)
+                                for (int i = 0; i < dtInit.Rows.Count; i++)
                                 {
-                                    intValidIndex = dtExcelInitiatives.Rows.IndexOf(
-                                      (dtExcelInitiatives.AsEnumerable().Where(excelInit => Convert.ToString(excelInit["InitNumber"]) ==
-                                       Convert.ToString(dtUnchanged.Rows[i]["InitNumber"]))).FirstOrDefault());
-                                    //lstValidRowIndexes.Add(intValidIndex);
-                                    (worksheet.Rows[(intValidIndex + 2)]).Delete();
-                                }
-                            }
-                            if (dtExisting != null && dtExisting.Rows.Count > 0)
-                            {
-                                DataTable dtInit = dtExisting;
-                                dtInit.Columns.Add("ProjectYear", typeof(String));
-                                dtInit.Columns.Add("dbFlag", typeof(String));
-                                dtInit.Columns.Add("isProcurement", typeof(System.Int32));
-                                // Adding next yr columns for OO Init types in cross yr scenarios.
-                                dtInit.Columns.Add("TargetNexJan", typeof(float));
-                                dtInit.Columns.Add("TargetNexFeb", typeof(float));
-                                dtInit.Columns.Add("TargetNexMar", typeof(float));
-                                dtInit.Columns.Add("TargetNexApr", typeof(float));
-                                dtInit.Columns.Add("TargetNexMay", typeof(float));
-                                dtInit.Columns.Add("TargetNexJun", typeof(float));
-                                dtInit.Columns.Add("TargetNexJul", typeof(float));
-                                dtInit.Columns.Add("TargetNexAug", typeof(float));
-                                dtInit.Columns.Add("TargetNexSep", typeof(float));
-                                dtInit.Columns.Add("TargetNexOct", typeof(float));
-                                dtInit.Columns.Add("TargetNexNov", typeof(float));
-                                dtInit.Columns.Add("TargetNexDec", typeof(float));
-                                dtInit.Columns.Add("TargetNY", typeof(float));
-                                List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
-                                DataTable dtValidInit = dtInit.Clone();
+                                    // Generic Validations
+                                    string remarks = string.Empty;
+                                    DateTime dtStartMonth = new DateTime();
+                                    DateTime dtEndMonth = new DateTime();
+                                    string sInitNumber = Convert.ToString(dtInit.Rows[i]["InitNumber"]).Trim();
+                                    string subCountry = Convert.ToString(dtInit.Rows[i]["SubCountry"].ToString());
+                                    string brand = Convert.ToString(dtInit.Rows[i]["Brand"].ToString());
+                                    string sConfidential = dtInit.Rows[i]["Confidential"] != null ? dtInit.Rows[i]["Confidential"].ToString().ToUpper() : "";
+                                    string sInitiativeStatus = dtInit.Rows[i]["InitiativeStatus"] != null ? dtInit.Rows[i]["InitiativeStatus"].ToString().ToLower() : "";
 
-                                // Perform Mandatory validation
-                                if (dtInit.Rows.Count > 0)
-                                {
-                                    for (int i = 0; i < dtInit.Rows.Count; i++)
+                                    // Duplicate Initnumber validation
+                                    if (sInitNumber != "")
                                     {
-                                        // Generic Validations
-                                        string remarks = string.Empty;
-                                        DateTime dtStartMonth = new DateTime();
-                                        DateTime dtEndMonth = new DateTime();
-                                        string sInitNumber = Convert.ToString(dtInit.Rows[i]["InitNumber"]).Trim();
-                                        string subCountry = Convert.ToString(dtInit.Rows[i]["SubCountry"].ToString());
-                                        string brand = Convert.ToString(dtInit.Rows[i]["Brand"].ToString());
-                                        string sConfidential = dtInit.Rows[i]["Confidential"] != null ? dtInit.Rows[i]["Confidential"].ToString().ToUpper() : "";
-                                        string sInitiativeStatus = dtInit.Rows[i]["InitiativeStatus"] != null ? dtInit.Rows[i]["InitiativeStatus"].ToString().ToLower() : "";
+                                        remarks += (dtExcelInitiatives.AsEnumerable().Where(init =>
+                                        Convert.ToString(init["InitNumber"].ToString().Trim().ToUpper()) == sInitNumber.Trim().ToUpper()).Count() > 1) ?
+                                        "Duplicate Initiatives," : "";
+                                    }
+                                    // Get General validation for all action types
+                                    remarks += this.GetGeneralRemarks(sInitNumber, subCountry, brand, sConfidential,
+                                   sInitiativeStatus, dtInit.Rows[i], userType);
 
-                                        // Duplicate Initnumber validation
-                                        if (sInitNumber != "")
-                                        {
-                                            remarks += (dtExcelInitiatives.AsEnumerable().Where(init =>
-                                            Convert.ToString(init["InitNumber"].ToString().Trim().ToUpper()) == sInitNumber.Trim().ToUpper()).Count() > 1) ?
-                                            "Duplicate Initiatives," : "";
-                                        }
-                                        // Get General validation for all action types
-                                        remarks += this.GetGeneralRemarks(sInitNumber, subCountry, brand, sConfidential,
-                                       sInitiativeStatus, dtInit.Rows[i], userType);
+                                    // Get the actionType and validations based on action type
+                                    string actionType =
+                                        objFlatFileHelper.GetActionType(Convert.ToString(dtInit.Rows[i]["ActionType"]));
+                                    isValidActionType = (actionType.ToLower() == ActionType.ooActionType.ToLower() ||
+                                        actionType.ToLower() == ActionType.scmType.ToLower()) ? true : false;
 
-                                        // Get the actionType and validations based on action type
-                                        string actionType =
-                                            objFlatFileHelper.GetActionType(Convert.ToString(dtInit.Rows[i]["ActionType"]));
-                                        isValidActionType = (actionType.ToLower() == ActionType.ooActionType.ToLower() ||
-                                            actionType.ToLower() == ActionType.scmType.ToLower()) ? true : false;
-
-                                        if (sInitNumber != "")
+                                    if (sInitNumber != "")
+                                    {
+                                        lstMergeDBRows = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
+                                        isActionTypeChanged = lstMergeDBRows.AsEnumerable().Where(
+                                            tInit => tInit.InitNumber == sInitNumber
+                                                && tInit.ActionTypeID != objFlatFileHelper.getActionTypeId(actionType.ToLower(), lstActionType))
+                                            .Count() > 0 ? true : false;
+                                    }
+                                    //Datetime check
+                                    remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth))) ? " Please enter a valid start date," : "";
+                                    remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))) ? " Please enter a valid end date" : "";
+                                    if (!isActionTypeChanged)
+                                    {
+                                        if (isValidActionType)
                                         {
-                                            lstMergeDBRows = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
-                                            isActionTypeChanged = lstMergeDBRows.AsEnumerable().Where(
-                                                tInit => tInit.InitNumber == sInitNumber
-                                                    && tInit.ActionTypeID != objFlatFileHelper.getActionTypeId(actionType.ToLower(), lstActionType))
-                                                .Count() > 0 ? true : false;
-                                        }
-                                        //Datetime check
-                                        remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth))) ? " Please enter a valid start date," : "";
-                                        remarks += (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))) ? " Please enter a valid end date" : "";
-                                        if (!isActionTypeChanged)
-                                        {
-                                            if (isValidActionType)
-                                            {
-                                                if (actionType.ToLower() == ActionType.ooActionType.ToLower())
-                                                {
-                                                    // OO Type Validation
-                                                    lstExistingInits = lstOOInitiatives;
-                                                    validationRemarks = new OperationEfficiency();
-                                                }
-                                                else if (actionType.ToLower() == ActionType.scmType.ToLower())
-                                                {
-                                                    // SCM Type validations
-                                                    lstExistingInits = lstSCMInitiatives;
-                                                    validationRemarks = new SupplyContractMonitor();
-                                                }
-                                                remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], dtStartMonth,
-                                                    dtEndMonth, initYear, userType, lstExistingInits, lstInitTypeCostSubCosts, lstInitiativeStatus, tInitRecord);
-                                            }
-                                            else
-                                            {
-                                                remarks += " Invalid Action Type,";
-                                            }
-                                        }
-                                        else
-                                        {
-                                            remarks += " Change in Action type is not allowed,";
-                                        }
-                                        if ((!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth)))
-                                            || (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))))
-                                            remarks += " Please enter a valid start and end date,";
-                                        else
-                                        {
-                                            remarks += (objFlatFileHelper.isValidMonth(dtStartMonth)) == false ? " Start year should be from " + initYear + " onwards." : "";
-                                            remarks += (objFlatFileHelper.isValidMonth(dtEndMonth)) == false ? " End year should be from " + initYear + " onwards." : "";
-                                            remarks += (objFlatFileHelper.isValidEndMonth(dtStartMonth, dtEndMonth)) == false ?
-                                                " Start month should be lesser than end month and difference should be less than/ equal to 12 months" : "";
-                                        }
-                                        if (remarks != "")
-                                        {
-                                            (worksheet.Cells[1, 91]).Value = "Remarks";
-                                            (worksheet.Cells[(i + 2), 91]).Value = remarks;
-                                            (worksheet.Cells[(i + 2), 90]).Value = "";
-                                            (worksheet.Cells[(i + 2), 89]).Value = "";
-                                            (worksheet.Cells[(i + 2), 88]).Value = "";
-                                            (worksheet.Rows[(i + 2)]).FillColor = System.Drawing.Color.Yellow;
-                                            errCount++;
-                                        }
-                                        else
-                                        {
-                                            List<MonthlyCPIValues> lstMonthlyCPIValues = null;
-                                            DataRow drRow = dtInit.Rows[i];
-                                            drRow["dbFlag"] = (!string.IsNullOrEmpty(sInitNumber)) ? "U" : "I";
-
-                                            // Valid Rows
                                             if (actionType.ToLower() == ActionType.ooActionType.ToLower())
                                             {
-                                                drRow["isProcurement"] = 0;
-                                                actionTypeCalculation = new OperationEfficiency();
+                                                // OO Type Validation
+                                                lstExistingInits = lstOOInitiatives;
+                                                validationRemarks = new OperationEfficiency();
                                             }
                                             else if (actionType.ToLower() == ActionType.scmType.ToLower())
                                             {
-                                                drRow["isProcurement"] = 1;
-                                                lstMonthlyCPIValues = this.GetMonthlyCPIValuesList(subCountry, initYear);
-                                                actionTypeCalculation = new SupplyContractMonitor();
+                                                // SCM Type validations
+                                                lstExistingInits = lstSCMInitiatives;
+                                                validationRemarks = new SupplyContractMonitor();
                                             }
-                                            // Comments for HO/ Agency/ RPOC assignments
-                                            if (!string.IsNullOrEmpty(sInitNumber))
+                                            remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], dtStartMonth,
+                                                dtEndMonth, initYear, userType, lstExistingInits, lstInitTypeCostSubCosts, lstInitiativeStatus, tInitRecord);
+                                        }
+                                        else
+                                        {
+                                            remarks += " Invalid Action Type,";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        remarks += " Change in Action type is not allowed,";
+                                    }
+                                    if ((!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth)))
+                                        || (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))))
+                                        remarks += " Please enter a valid start and end date,";
+                                    else
+                                    {
+                                        remarks += (objFlatFileHelper.isValidMonth(dtStartMonth)) == false ? " Start year should be from " + initYear + " onwards." : "";
+                                        remarks += (objFlatFileHelper.isValidMonth(dtEndMonth)) == false ? " End year should be from " + initYear + " onwards." : "";
+                                        remarks += (objFlatFileHelper.isValidEndMonth(dtStartMonth, dtEndMonth)) == false ?
+                                            " Start month should be lesser than end month and difference should be less than/ equal to 12 months" : "";
+                                    }
+                                    if (remarks != "")
+                                    {
+                                        (worksheet.Cells[1, 91]).Value = "Remarks";
+                                        (worksheet.Cells[(i + 2), 91]).Value = remarks;
+                                        (worksheet.Cells[(i + 2), 90]).Value = "";
+                                        (worksheet.Cells[(i + 2), 89]).Value = "";
+                                        (worksheet.Cells[(i + 2), 88]).Value = "";
+                                        (worksheet.Rows[(i + 2)]).FillColor = System.Drawing.Color.Yellow;
+                                        errCount++;
+                                    }
+                                    else
+                                    {
+                                        List<MonthlyCPIValues> lstMonthlyCPIValues = null;
+                                        DataRow drRow = dtInit.Rows[i];
+                                        drRow["dbFlag"] = (!string.IsNullOrEmpty(sInitNumber)) ? "U" : "I";
+
+                                        // Valid Rows
+                                        if (actionType.ToLower() == ActionType.ooActionType.ToLower())
+                                        {
+                                            drRow["isProcurement"] = 0;
+                                            actionTypeCalculation = new OperationEfficiency();
+                                        }
+                                        else if (actionType.ToLower() == ActionType.scmType.ToLower())
+                                        {
+                                            drRow["isProcurement"] = 1;
+                                            lstMonthlyCPIValues = this.GetMonthlyCPIValuesList(subCountry, initYear);
+                                            actionTypeCalculation = new SupplyContractMonitor();
+                                        }
+                                        // Comments for HO/ Agency/ RPOC assignments
+                                        if (!string.IsNullOrEmpty(sInitNumber))
+                                        {
+                                            initRecord = lstMergeDBRows.Where(dbRow => dbRow.InitNumber.ToLower().Trim() == sInitNumber.ToLower().Trim()).FirstOrDefault();
+                                        }
+                                        if (userType == 1)
+                                        { // HO User
+                                            drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
+                                            drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.RPOCComment) : "";
+                                            drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.AgencyComment) : "";
+                                        }
+                                        else if (userType == 2)
+                                        { // RPOC user
+                                            drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
+                                            drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.HOComment) : "";
+                                            drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.AgencyComment) : "";
+                                        }
+                                        else if (userType == 3)
+                                        { // set the agency comments
+                                            drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
+                                            drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.HOComment) : "";
+                                            drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.RPOCComment) : "";
+                                        }
+                                        InitiativeSaveModelXL initiativeSaveModelXL =
+                                            actionTypeCalculation.GetCalculatedValues(drRow, dtStartMonth, dtEndMonth, lstMonthlyCPIValues, profileData.ID, initYear);
+                                        drRow = initiativeSaveModelXL.drInitiatives;
+                                        InitiativeCalcs initiativeCalcs = initiativeSaveModelXL.initiativeCalcs;
+                                        dtInit.AcceptChanges();
+                                        dtValidInit.ImportRow(dtInit.Rows[i]);
+                                        lstInitiativeCalcs.Add(initiativeCalcs);
+                                        lstValidRowIndexes.Add(i);
+                                        if (drRow["dbFlag"].ToString() == "I") successCount++;
+                                        else if (drRow["dbFlag"].ToString() == "U")
+                                        {
+                                            if (twFileUpdatedInit == null)
                                             {
-                                                initRecord = lstMergeDBRows.Where(dbRow => dbRow.InitNumber.ToLower().Trim() == sInitNumber.ToLower().Trim()).FirstOrDefault();
+                                                twFileUpdatedInit = new StreamWriter(updatedInitPath);
                                             }
-                                            if (userType == 1)
-                                            { // HO User
-                                                drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
-                                                drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.RPOCComment) : "";
-                                                drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.AgencyComment) : "";
-                                            }
-                                            else if (userType == 2)
-                                            { // RPOC user
-                                                drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
-                                                drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.HOComment) : "";
-                                                drRow["AgencyComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.AgencyComment) : "";
-                                            }
-                                            else if (userType == 3)
-                                            { // set the agency comments
-                                                drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
-                                                drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.HOComment) : "";
-                                                drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.RPOCComment) : "";
-                                            }
-                                            InitiativeSaveModelXL initiativeSaveModelXL =
-                                                actionTypeCalculation.GetCalculatedValues(drRow, dtStartMonth, dtEndMonth, lstMonthlyCPIValues, profileData.ID, initYear);
-                                            drRow = initiativeSaveModelXL.drInitiatives;
-                                            InitiativeCalcs initiativeCalcs = initiativeSaveModelXL.initiativeCalcs;
-                                            dtInit.AcceptChanges();
-                                            dtValidInit.ImportRow(dtInit.Rows[i]);
-                                            lstInitiativeCalcs.Add(initiativeCalcs);
-                                            lstValidRowIndexes.Add(i);
-                                            if (drRow["dbFlag"].ToString() == "I") successCount++;
-                                            else if (drRow["dbFlag"].ToString() == "U")
-                                            {
-                                                if (twFileUpdatedInit == null)
-                                                {
-                                                    twFileUpdatedInit = new StreamWriter(updatedInitPath);
-                                                }
-                                                twFileUpdatedInit.WriteLine(sInitNumber);
-                                                updateCount++;
-                                            }
+                                            twFileUpdatedInit.WriteLine(sInitNumber);
+                                            updateCount++;
                                         }
                                     }
                                 }
-                                // To remove valid rowindexes from the excel.
-                                int validRowIndex = 0;
-                                for (int i = lstValidRowIndexes.Count - 1; i >= 0; i--)
-                                {
-                                    validRowIndex = lstValidRowIndexes[i];
-                                    (worksheet.Rows[(validRowIndex + 2)]).Delete();
-                                }
-
-                                dtInit.AcceptChanges();
-                                string initText = "inits";
-                                string initCalcText = "initCalcs";
-                                if (successCount > 0 || updateCount > 0)
-                                {
-                                    var json = "{" + JsonConvert.SerializeObject(initText) + ":" + JsonConvert.SerializeObject(dtValidInit) + ", " +
-                                        JsonConvert.SerializeObject(initCalcText) + ":" + JsonConvert.SerializeObject(lstInitiativeCalcs) + "}";
-                                    // Call SP for saving
-                                    DBOperations objDBOperations = new DBOperations();
-                                    objDBOperations.CallSaveInitiativesSP("SP_SAVEINITIATIVES", json, initYear);
-                                }
                             }
-                            else
+                            // To remove valid rowindexes from the excel.
+                            int validRowIndex = 0;
+                            for (int i = lstValidRowIndexes.Count - 1; i >= 0; i--)
                             {
-                                // To display message that no new initiatives available.
-                                resultCount = new ResultCount()
-                                {
-                                    validationMsg = "No new/ updated initiatives uploaded"
-                                };
+                                validRowIndex = lstValidRowIndexes[i];
+                                (worksheet.Rows[(validRowIndex + 2)]).Delete();
                             }
 
-                            workbook.SaveDocument(outputExcelPath);
-                            workbook.Dispose();
-                            stream.Dispose();
-                            if (twFileUpdatedInit != null)
+                            dtInit.AcceptChanges();
+                            string initText = "inits";
+                            string initCalcText = "initCalcs";
+                            if (successCount > 0 || updateCount > 0)
                             {
-                                twFileUpdatedInit.Close();
+                                var json = "{" + JsonConvert.SerializeObject(initText) + ":" + JsonConvert.SerializeObject(dtValidInit) + ", " +
+                                    JsonConvert.SerializeObject(initCalcText) + ":" + JsonConvert.SerializeObject(lstInitiativeCalcs) + "}";
+                                // Call SP for saving
+                                DBOperations objDBOperations = new DBOperations();
+                                objDBOperations.CallSaveInitiativesSP("SP_SAVEINITIATIVES", json, initYear);
                             }
-
-                            if (dtExisting.Rows.Count > 0)
-                            {
-                                resultCount = new ResultCount()
-                                {
-                                    errCount = errCount.ToString(),
-                                    successCount = successCount.ToString(),
-                                    updateCount = updateCount.ToString(),
-                                    updatedInitPath = "UploadedFiles/UpdatedInit/" + updatedInitFile,
-                                    outputExcelPath = "UploadedFiles/ErrorExcel/" + outExcelfileName,
-                                    validationMsg = ""
-                                };
-                            }
-                            return Content(JsonConvert.SerializeObject(resultCount));
                         }
-                        #endregion
+                        else
+                        {
+                            // To display message that no new initiatives available.
+                            resultCount = new ResultCount()
+                            {
+                                validationMsg = "No new/ updated initiatives uploaded"
+                            };
+                        }
+
+                        workbook.SaveDocument(outputExcelPath);
+                        workbook.Dispose();
+                        stream.Dispose();
+                        if (twFileUpdatedInit != null)
+                        {
+                            twFileUpdatedInit.Close();
+                        }
+
+                        if (dtExisting.Rows.Count > 0)
+                        {
+                            resultCount = new ResultCount()
+                            {
+                                errCount = errCount.ToString(),
+                                successCount = successCount.ToString(),
+                                updateCount = updateCount.ToString(),
+                                updatedInitPath = "UploadedFiles/UpdatedInit/" + updatedInitFile,
+                                outputExcelPath = "UploadedFiles/ErrorExcel/" + outExcelfileName,
+                                validationMsg = ""
+                            };
+                        }
+                        return Content(JsonConvert.SerializeObject(resultCount));
                     }
+                    #endregion
                 }
-                else
-                {
-                    resultCount = new ResultCount()
-                    {
-                        validationMsg = "Please upload the file less than 2500 initiatives"
-                    };
-                    return Content(JsonConvert.SerializeObject(resultCount));
-                }
+
             }
             catch (Exception ex)
             {

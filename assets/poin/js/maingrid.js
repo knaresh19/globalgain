@@ -325,54 +325,66 @@ $(function () {
 
         // get file extension
         if (files.length > 0) {
-            const extension = files[0].name.split('.').pop();
-            if (extension && (extension == "xls" || extension == "xlsx")) {
-                fileData.append(files[0].name, files[0]);
-                var xFormStatus = $("#FormStatus").val();
-                $("#fileBase").val('');
-                $.ajax({
-                    url: '/ActiveInitiative/UploadFile',
-                    type: 'post',
-                    datatype: 'json',
-                    contentType: false,
-                    processData: false,
-                    async: false,
-                    data: fileData,
-                    success: function (response) {
-                        var alertRes = JSON.parse(response);
-                        if (alertRes.validationMsg == "") {
-                            if (alertRes.successCount > 0) { $("#initHdng").html("Files uploaded successfully"); }
-                            else { $("#initHdng").html("File upload results"); }
-                            if (alertRes.errCount > 0) {
-                                var htmlContent = "Auto Approved Initiative(s): " + alertRes.successCount + " <br> Updated Initiative(s): "
-                                    + alertRes.updateCount + "<br> Invalid Initiative(s): " + alertRes.errCount;
-                                htmlContent += "<br> <br> Please <a download href=" + alertRes.outputExcelPath + " Download>Download!</a> the error excel."
 
-                                if (alertRes.updateCount > 0) {
-                                    htmlContent += "<br> <br> Please <a download href=" + alertRes.updatedInitPath + " Download>Download!</a> the updated initiative(s)."
-                                }
-                                $("#initResults").html(htmlContent);
-                            } else {
-                                var htmlContent = "Auto Approved Initiative(s): " + alertRes.successCount + " <br> Updated Initiative(s): "
-                                    + alertRes.updateCount + " <br> Invalid Initiative(s): " + alertRes.errCount;
-                                if (alertRes.updateCount > 0) {
-                                    htmlContent += "<br> <br> Please <a download href=" + alertRes.updatedInitPath + " Download>Download!</a> the updated initiative(s)."
-                                }
-                                $("#initResults").html(htmlContent);
-                            }
-                        } else {
-                            $("#initResults").html(alertRes.validationMsg);
-                        }
-                        $("#btnEdit").click(); $("#btnClose").click();
-                        WindowInitiative.Hide();
-                        WindowInitSaved.Show();
-                    }
-                });
-            } else {
-                $("#initResults").html("Please upload valid excel template");
+            if (files[0].size > 2500000) {
+                // Alert file size
+                $("#fileBase").val('');
+                $("#initResults").html("Please upload file size less than 2.5 MB");
                 $("#btnEdit").click(); $("#btnClose").click();
                 WindowInitiative.Hide();
-                WindowInitSaved.Show();
+                WindowInitSaved.Show();                
+            }
+            else {
+                const extension = files[0].name.split('.').pop();
+                if (extension && (extension == "xls" || extension == "xlsx")) {
+                    fileData.append(files[0].name, files[0]);
+                    var xFormStatus = $("#FormStatus").val();
+                    $("#fileBase").val('');
+                    $.ajax({
+                        url: '/ActiveInitiative/UploadFile',
+                        type: 'post',
+                        datatype: 'json',
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        data: fileData,
+                        success: function (response) {
+                            var alertRes = JSON.parse(response);
+                            if (alertRes.validationMsg == "") {
+                                if (alertRes.successCount > 0) { $("#initHdng").html("Files uploaded successfully"); }
+                                else { $("#initHdng").html("File upload results"); }
+                                if (alertRes.errCount > 0) {
+                                    var htmlContent = "Auto Approved Initiative(s): " + alertRes.successCount + " <br> Updated Initiative(s): "
+                                        + alertRes.updateCount + "<br> Invalid Initiative(s): " + alertRes.errCount;
+                                    htmlContent += "<br> <br> Please <a download href=" + alertRes.outputExcelPath + " Download>Download!</a> the error excel."
+
+                                    if (alertRes.updateCount > 0) {
+                                        htmlContent += "<br> <br> Please <a download href=" + alertRes.updatedInitPath + " Download>Download!</a> the updated initiative(s)."
+                                    }
+                                    $("#initResults").html(htmlContent);
+                                } else {
+                                    var htmlContent = "Auto Approved Initiative(s): " + alertRes.successCount + " <br> Updated Initiative(s): "
+                                        + alertRes.updateCount + " <br> Invalid Initiative(s): " + alertRes.errCount;
+                                    if (alertRes.updateCount > 0) {
+                                        htmlContent += "<br> <br> Please <a download href=" + alertRes.updatedInitPath + " Download>Download!</a> the updated initiative(s)."
+                                    }
+                                    $("#initResults").html(htmlContent);
+                                }
+                            } else {
+                                $("#initResults").html(alertRes.validationMsg);
+                            }
+                            $("#btnEdit").click(); $("#btnClose").click();
+                            WindowInitiative.Hide();
+                            WindowInitSaved.Show();
+                        }
+                    });
+                }
+                else {
+                    $("#initResults").html("Please upload valid excel template");
+                    $("#btnEdit").click(); $("#btnClose").click();
+                    WindowInitiative.Hide();
+                    WindowInitSaved.Show();
+                }
             }
         } else {
             $("#initResults").html("Please upload valid excel template");
