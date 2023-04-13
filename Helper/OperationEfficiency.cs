@@ -331,9 +331,9 @@ namespace GAIN.Helper
             {
                 if (!isCrossYear)
                 {
-                    double diffValue = currYrTotal - nfySecTotalEffect;
+                    double diffValue = nfySecTotalEffect - currYrTotal;
                     bool isToleranceAllowed = false;
-                    if (Math.Ceiling(diffValue) <= 1 && Math.Ceiling(diffValue) > -2)
+                    if (Math.Floor(diffValue) > -2 && Math.Ceiling(diffValue) < 2)
                     {
                         isToleranceAllowed = true;
                     }
@@ -349,9 +349,9 @@ namespace GAIN.Helper
                     double nxtYrTarget = this.getNextYrTarget(tInitiative);
                     double totalTarget = currYrTotal + nxtYrTarget;
                     bool isToleranceAllowed = false;
-                    double diffValue = totalTarget - nfySecTotalEffect;
+                    double diffValue = nfySecTotalEffect - totalTarget;
 
-                    if (Math.Ceiling(diffValue) <= 1 && Math.Ceiling(diffValue) > -2)
+                    if (Math.Floor(diffValue) > -2 && Math.Ceiling(diffValue) < 2)
                     {
                         isToleranceAllowed = true;
                     }

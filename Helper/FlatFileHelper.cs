@@ -38,10 +38,10 @@ namespace GAIN.Helper
             return double.TryParse(number, out _);
         }
 
-        public float getValue(string number)
+        public double getValue(string number)
         {
-            float flValue = 0;
-            flValue = this.IsValidNumber(number) ? float.Parse(number) : 0;
+            double flValue = 0;
+            flValue = this.IsValidNumber(number) ? Convert.ToDouble(number) : 0;
             return flValue;
         }
 
