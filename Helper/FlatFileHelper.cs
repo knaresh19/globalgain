@@ -939,7 +939,7 @@ namespace GAIN.Helper
                                (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
                                (
                                // Target TY comparison
-                               Math.Round(Convert.ToDecimal(Convert.IsDBNull(lstInit.TargetTY) ? 0 : lstInit.TargetTY)) != Math.Round(Convert.ToDecimal(this.getValue(dtExcel["NFYSecuredTOTALEFFECT"].ToString())))
+                               this.getValue(lstInit.TargetTY.ToString()) != this.getValue(dtExcel["NFYSecuredTOTALEFFECT"].ToString())
                                )
                                ||
                                (
@@ -952,103 +952,79 @@ namespace GAIN.Helper
                                ) ||
                                // Target comparison
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.TargetJan.Equals(DBNull.Value)) ? 0 : lstInit.TargetJan)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["TargetJan"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetJan"]))
+                               this.getValue(lstInit.TargetJan.ToString()) != this.getValue(dtExcel["TargetJan"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.TargetFeb.Equals(DBNull.Value)) ? 0 : lstInit.TargetFeb)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["TargetFeb"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetFeb"]))
+                               this.getValue(lstInit.TargetFeb.ToString()) != this.getValue(dtExcel["TargetFeb"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.TargetMar.Equals(DBNull.Value)) ? 0 : lstInit.TargetMar)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["TargetMar"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetMar"]))
+                                this.getValue(lstInit.TargetMar.ToString()) != this.getValue(dtExcel["TargetMar"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.TargetApr.Equals(DBNull.Value)) ? 0 : lstInit.TargetApr)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["TargetApr"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetApr"]))
+                               this.getValue(lstInit.TargetApr.ToString()) != this.getValue(dtExcel["TargetApr"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.TargetMay.Equals(DBNull.Value)) ? 0 : lstInit.TargetMay)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["TargetMay"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetMay"]))
+                               this.getValue(lstInit.TargetMay.ToString()) != this.getValue(dtExcel["TargetMay"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.TargetJun.Equals(DBNull.Value)) ? 0 : lstInit.TargetJun)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["TargetJun"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetJun"]))
+                               this.getValue(lstInit.TargetJun.ToString()) != this.getValue(dtExcel["TargetJun"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.TargetJul.Equals(DBNull.Value)) ? 0 : lstInit.TargetJul)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["TargetJul"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetJul"]))
+                               this.getValue(lstInit.TargetJul.ToString()) != this.getValue(dtExcel["TargetJul"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.TargetAug.Equals(DBNull.Value)) ? 0 : lstInit.TargetAug)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["TargetAug"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetAug"]))
+                               this.getValue(lstInit.TargetAug.ToString()) != this.getValue(dtExcel["TargetAug"].ToString())
                                ) ||
                                (
-                              Math.Round(Convert.ToDecimal((lstInit.TargetSep.Equals(DBNull.Value)) ? 0 : lstInit.TargetSep)) !=
-                              Math.Round(Convert.ToDecimal((dtExcel["TargetSep"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetSep"]))
+                               this.getValue(lstInit.TargetSep.ToString()) != this.getValue(dtExcel["TargetSep"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.TargetOct.Equals(DBNull.Value)) ? 0 : lstInit.TargetOct)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["TargetOct"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetOct"]))
+                               this.getValue(lstInit.TargetOct.ToString()) != this.getValue(dtExcel["TargetOct"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.TargetNov.Equals(DBNull.Value)) ? 0 : lstInit.TargetNov)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["TargetNov"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetNov"]))
+                               this.getValue(lstInit.TargetNov.ToString()) != this.getValue(dtExcel["TargetNov"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.TargetDec.Equals(DBNull.Value)) ? 0 : lstInit.TargetDec)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["TargetDec"].Equals(DBNull.Value)) ? 0 : dtExcel["TargetDec"]))
+                               this.getValue(lstInit.TargetDec.ToString()) != this.getValue(dtExcel["TargetDec"].ToString())
                                )
                                // Savings field comparison
                                ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.AchJan.Equals(DBNull.Value)) ? 0 : lstInit.AchJan)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchJan"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJan"]))
+                               this.getValue(lstInit.AchJan.ToString()) != this.getValue(dtExcel["AchJan"].ToString())
                                )
                                ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.AchFeb.Equals(DBNull.Value)) ? 0 : lstInit.AchFeb)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchFeb"].Equals(DBNull.Value)) ? 0 : dtExcel["AchFeb"]))
+                               this.getValue(lstInit.AchFeb.ToString()) != this.getValue(dtExcel["AchFeb"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.AchMar.Equals(DBNull.Value)) ? 0 : lstInit.AchMar)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchMar"].Equals(DBNull.Value)) ? 0 : dtExcel["AchMar"]))
+                               this.getValue(lstInit.AchMar.ToString()) != this.getValue(dtExcel["AchMar"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.AchApr.Equals(DBNull.Value)) ? 0 : lstInit.AchApr)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchApr"].Equals(DBNull.Value)) ? 0 : dtExcel["AchApr"]))
+                               this.getValue(lstInit.AchApr.ToString()) != this.getValue(dtExcel["AchApr"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.AchMay.Equals(DBNull.Value)) ? 0 : lstInit.AchMay)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchMay"].Equals(DBNull.Value)) ? 0 : dtExcel["AchMay"]))
+                              this.getValue(lstInit.AchMay.ToString()) != this.getValue(dtExcel["AchMay"].ToString())
+                              ) ||
+                               (
+                               this.getValue(lstInit.AchJun.ToString()) != this.getValue(dtExcel["AchJun"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.AchJun.Equals(DBNull.Value)) ? 0 : lstInit.AchJun)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchJun"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJun"]))
+                               this.getValue(lstInit.AchJul.ToString()) != this.getValue(dtExcel["AchJul"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.AchJul.Equals(DBNull.Value)) ? 0 : lstInit.AchJul)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchJul"].Equals(DBNull.Value)) ? 0 : dtExcel["AchJul"]))
+                               this.getValue(lstInit.AchAug.ToString()) != this.getValue(dtExcel["AchAug"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.AchAug.Equals(DBNull.Value)) ? 0 : lstInit.AchAug)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchAug"].Equals(DBNull.Value)) ? 0 : dtExcel["AchAug"]))
+                               this.getValue(lstInit.AchSep.ToString()) != this.getValue(dtExcel["AchSep"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.AchSep.Equals(DBNull.Value)) ? 0 : lstInit.AchSep)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchSep"].Equals(DBNull.Value)) ? 0 : dtExcel["AchSep"]))
+                               this.getValue(lstInit.AchOct.ToString()) != this.getValue(dtExcel["AchOct"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.AchOct.Equals(DBNull.Value)) ? 0 : lstInit.AchOct)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchOct"].Equals(DBNull.Value)) ? 0 : dtExcel["AchOct"]))
+                               this.getValue(lstInit.AchNov.ToString()) != this.getValue(dtExcel["AchNov"].ToString())
                                ) ||
                                (
-                               Math.Round(Convert.ToDecimal((lstInit.AchNov.Equals(DBNull.Value)) ? 0 : lstInit.AchNov)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchNov"].Equals(DBNull.Value)) ? 0 : dtExcel["AchNov"]))
-                               ) ||
-                               (
-                               Math.Round(Convert.ToDecimal((lstInit.AchDec.Equals(DBNull.Value)) ? 0 : lstInit.AchDec)) !=
-                               Math.Round(Convert.ToDecimal((dtExcel["AchDec"].Equals(DBNull.Value)) ? 0 : dtExcel["AchDec"]))
+                               this.getValue(lstInit.AchDec.ToString()) != this.getValue(dtExcel["AchDec"].ToString())
                                )
                                ))
                                #endregion
@@ -1085,22 +1061,22 @@ namespace GAIN.Helper
                                ((userType == 3) ? ((this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"]))) : false) ||
                                (this.getText(lstInit.RPOCControl)) != this.getText(this.getValidityRPOC(Convert.ToString(dtExcel["RPOCControl"]))) ||
                                (lstInit.Unit_of_volumes.ToLower() != Convert.ToString(dtExcel["Unitofvolumes"]).ToLower()) ||
-                                (Math.Round(this.getDecimalValue(lstInit.Input_Actuals_Volumes_Nmin1.ToString())) != Math.Round(this.getDecimalValue(dtExcel["InputActualsVolumesNmin1"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.Input_Target_Volumes.ToString())) != Math.Round(this.getDecimalValue(dtExcel["TargetVolumesN"].ToString())))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.Spend_Nmin1.ToString())) != Math.Round(this.getDecimalValue(dtExcel["SpendNmin1"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.Spend_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["SpendN"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.janActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["JanActualVolumes"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.febActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["FebActualVolumes"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.marActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["MarActualVolumes"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.aprActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["AprActualVolumes"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.mayActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["MayActualVolumes"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.junActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["JunActualVolumes"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.julActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["JulActualVolumes"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.augActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["AugActualVolumes"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.sepActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["SepActualVolumes"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.octActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["OctActualVolumes"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.novActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["NovActualVolumes"].ToString()))) ||
-                               (Math.Round(this.getDecimalValue(lstInit.decActual_volume_N.ToString())) != Math.Round(this.getDecimalValue(dtExcel["DecActualVolumes"].ToString())))
+                                (this.getValue(lstInit.Input_Actuals_Volumes_Nmin1.ToString()) != this.getValue(dtExcel["InputActualsVolumesNmin1"].ToString())) ||
+                               (this.getValue(lstInit.Input_Target_Volumes.ToString()) != this.getValue(dtExcel["TargetVolumesN"].ToString()))) ||
+                               (this.getValue(lstInit.Spend_Nmin1.ToString()) != this.getValue(dtExcel["SpendNmin1"].ToString())) ||
+                               (this.getValue(lstInit.Spend_N.ToString()) != this.getValue(dtExcel["SpendN"].ToString())) ||
+                               (this.getValue(lstInit.janActual_volume_N.ToString()) != this.getValue(dtExcel["JanActualVolumes"].ToString())) ||
+                               (this.getValue(lstInit.febActual_volume_N.ToString()) != this.getValue(dtExcel["FebActualVolumes"].ToString())) ||
+                               (this.getValue(lstInit.marActual_volume_N.ToString()) != this.getValue(dtExcel["MarActualVolumes"].ToString())) ||
+                               (this.getValue(lstInit.aprActual_volume_N.ToString()) != this.getValue(dtExcel["AprActualVolumes"].ToString())) ||
+                               (this.getValue(lstInit.mayActual_volume_N.ToString()) != this.getValue(dtExcel["MayActualVolumes"].ToString())) ||
+                               (this.getValue(lstInit.junActual_volume_N.ToString()) != this.getValue(dtExcel["JunActualVolumes"].ToString())) ||
+                               (this.getValue(lstInit.julActual_volume_N.ToString()) != this.getValue(dtExcel["JulActualVolumes"].ToString())) ||
+                               (this.getValue(lstInit.augActual_volume_N.ToString()) != this.getValue(dtExcel["AugActualVolumes"].ToString())) ||
+                               (this.getValue(lstInit.sepActual_volume_N.ToString()) != this.getValue(dtExcel["SepActualVolumes"].ToString())) ||
+                               (this.getValue(lstInit.octActual_volume_N.ToString()) != this.getValue(dtExcel["OctActualVolumes"].ToString())) ||
+                               (this.getValue(lstInit.novActual_volume_N.ToString()) != this.getValue(dtExcel["NovActualVolumes"].ToString())) ||
+                               (this.getValue(lstInit.decActual_volume_N.ToString()) != this.getValue(dtExcel["DecActualVolumes"].ToString()))
 
                                #endregion
                                )

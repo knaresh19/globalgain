@@ -314,7 +314,7 @@ namespace GAIN.Helper
             }
             return remarks;
         }
-        private string getTargetValidationRemarks(double nfySecTotalEffect, DataRow drRow, DateTime dtStartMonth, 
+        private string getTargetValidationRemarks(double nfySecTotalEffect, DataRow drRow, DateTime dtStartMonth,
             DateTime dtEndMonth, int initYear, t_initiative tInitiative)
         {
             string remarks = string.Empty;
@@ -330,7 +330,7 @@ namespace GAIN.Helper
                 {
                     double diffValue = nfySecTotalEffect - currYrTotal;
                     bool isToleranceAllowed = false;
-                    if (Math.Floor(diffValue) > -2 && Math.Ceiling(diffValue) < 2)
+                    if (this.isTolerance(diffValue, initType))
                     {
                         isToleranceAllowed = true;
                     }
@@ -348,11 +348,10 @@ namespace GAIN.Helper
                     bool isToleranceAllowed = false;
                     double diffValue = nfySecTotalEffect - totalTarget;
 
-                    if (Math.Floor(diffValue) > -2 && Math.Ceiling(diffValue) < 2)
+                    if (this.isTolerance(diffValue, initType))
                     {
                         isToleranceAllowed = true;
                     }
-
                     if (!isToleranceAllowed)
                     {
                         // Check for Dec Target for cross yr if 0, and total monthly target != Total target then invalid entry               
@@ -373,7 +372,19 @@ namespace GAIN.Helper
             }
             return remarks;
         }
-
+        private bool isTolerance(double diffValue, string initType)
+        {
+            bool isTolerance = false;
+            if (initType == "positive cost impact" || initType == "revenue increase")
+            {
+                isTolerance = (Math.Floor(diffValue) > -2 && Math.Ceiling(diffValue) < 2);
+            }
+            else if (initType == "negative cost impact" || initType == "revenue decrease")
+            {
+                isTolerance = ((diffValue >= -1) && (diffValue < 2));
+            }
+            return isTolerance;
+        }
         private string getMaxAmountRemarks(DataRow drRow, double nfySecTotalEffect)
         {
             string remarks = string.Empty;
