@@ -1695,19 +1695,19 @@ log4net.LogManager.GetLogger
                             dtInit.Columns.Add("dbFlag", typeof(String));
                             dtInit.Columns.Add("isProcurement", typeof(System.Int32));
                             // Adding next yr columns for OO Init types in cross yr scenarios.
-                            dtInit.Columns.Add("TargetNexJan", typeof(float));
-                            dtInit.Columns.Add("TargetNexFeb", typeof(float));
-                            dtInit.Columns.Add("TargetNexMar", typeof(float));
-                            dtInit.Columns.Add("TargetNexApr", typeof(float));
-                            dtInit.Columns.Add("TargetNexMay", typeof(float));
-                            dtInit.Columns.Add("TargetNexJun", typeof(float));
-                            dtInit.Columns.Add("TargetNexJul", typeof(float));
-                            dtInit.Columns.Add("TargetNexAug", typeof(float));
-                            dtInit.Columns.Add("TargetNexSep", typeof(float));
-                            dtInit.Columns.Add("TargetNexOct", typeof(float));
-                            dtInit.Columns.Add("TargetNexNov", typeof(float));
-                            dtInit.Columns.Add("TargetNexDec", typeof(float));
-                            dtInit.Columns.Add("TargetNY", typeof(float));
+                            dtInit.Columns.Add("TargetNexJan", typeof(double));
+                            dtInit.Columns.Add("TargetNexFeb", typeof(double));
+                            dtInit.Columns.Add("TargetNexMar", typeof(double));
+                            dtInit.Columns.Add("TargetNexApr", typeof(double));
+                            dtInit.Columns.Add("TargetNexMay", typeof(double));
+                            dtInit.Columns.Add("TargetNexJun", typeof(double));
+                            dtInit.Columns.Add("TargetNexJul", typeof(double));
+                            dtInit.Columns.Add("TargetNexAug", typeof(double));
+                            dtInit.Columns.Add("TargetNexSep", typeof(double));
+                            dtInit.Columns.Add("TargetNexOct", typeof(double));
+                            dtInit.Columns.Add("TargetNexNov", typeof(double));
+                            dtInit.Columns.Add("TargetNexDec", typeof(double));
+                            dtInit.Columns.Add("TargetNY", typeof(double));
                             List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
                             DataTable dtValidInit = dtInit.Clone();
 

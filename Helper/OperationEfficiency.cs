@@ -139,14 +139,11 @@ namespace GAIN.Helper
             drRow["AchNov"] = objFlatFileHelper.getValue(drRow["AchNov"].ToString());
             drRow["AchDec"] = objFlatFileHelper.getValue(drRow["AchDec"].ToString());
             nCurrYrTarget = (isAutoCalculate) ? this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth) : nCurrYrTarget;
-            drRow["TargetNY"] = nCurrYrTarget;
+            drRow["TargetNY"] = objFlatFileHelper.getValue(nCurrYrTarget.ToString());
             drRow["StartMonth"] = dtStartMonth.ToString("yyyy-MM-dd");
             drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd");
             drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
             drRow["Description"] = Convert.ToString(drRow["Description"]);
-            //drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
-            //drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
-            //drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
             drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
             drRow["CreatedBy"] = CreatedBy;
             drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
@@ -154,7 +151,7 @@ namespace GAIN.Helper
             drRow["AdditionalInformation"] = Convert.ToString(drRow["AdditionalInformation"]);
             drRow["RPOCControl"] = objFlatFileHelper.getValidityRPOC(Convert.ToString(drRow["RPOCControl"]));
 
-            drRow["NFYSecuredTOTALEFFECT"] = Convert.ToDouble(drRow["NFYSecuredTOTALEFFECT"]);
+            drRow["NFYSecuredTOTALEFFECT"] = objFlatFileHelper.getValue(drRow["NFYSecuredTOTALEFFECT"].ToString());
             initiativeSaveModelXL.drInitiatives = drRow;
             initiativeSaveModelXL.initiativeCalcs = null;
             return initiativeSaveModelXL;
@@ -240,23 +237,23 @@ namespace GAIN.Helper
             bool isChanged = false;
             if (initNum != null && drRow != null)
             {
-                if (initNum.TargetJan != objFlatFileHelper.getDecimalValue(drRow["TargetJan"].ToString()) ||
-                   initNum.TargetFeb != objFlatFileHelper.getDecimalValue(drRow["TargetFeb"].ToString()) ||
-                   initNum.TargetMar != objFlatFileHelper.getDecimalValue(drRow["TargetMar"].ToString()) ||
-                   initNum.TargetApr != objFlatFileHelper.getDecimalValue(drRow["TargetApr"].ToString()) ||
-                   initNum.TargetMay != objFlatFileHelper.getDecimalValue(drRow["TargetMay"].ToString()) ||
-                   initNum.TargetJun != objFlatFileHelper.getDecimalValue(drRow["TargetJun"].ToString()) ||
-                   initNum.TargetJul != objFlatFileHelper.getDecimalValue(drRow["TargetJul"].ToString()) ||
-                   initNum.TargetAug != objFlatFileHelper.getDecimalValue(drRow["TargetAug"].ToString()) ||
-                   initNum.TargetSep != objFlatFileHelper.getDecimalValue(drRow["TargetSep"].ToString()) ||
-                   initNum.TargetOct != objFlatFileHelper.getDecimalValue(drRow["TargetOct"].ToString()) ||
-                   initNum.TargetNov != objFlatFileHelper.getDecimalValue(drRow["TargetNov"].ToString()) ||
-                   initNum.TargetDec != objFlatFileHelper.getDecimalValue(drRow["TargetDec"].ToString()))
+                if (
+                   Convert.ToDecimal(initNum.TargetJan) != objFlatFileHelper.getDecimalValue(drRow["TargetJan"].ToString()) ||
+                   Convert.ToDecimal(initNum.TargetFeb) != objFlatFileHelper.getDecimalValue(drRow["TargetFeb"].ToString()) ||
+                   Convert.ToDecimal(initNum.TargetMar) != objFlatFileHelper.getDecimalValue(drRow["TargetMar"].ToString()) ||
+                   Convert.ToDecimal(initNum.TargetApr) != objFlatFileHelper.getDecimalValue(drRow["TargetApr"].ToString()) ||
+                   Convert.ToDecimal(initNum.TargetMay) != objFlatFileHelper.getDecimalValue(drRow["TargetMay"].ToString()) ||
+                   Convert.ToDecimal(initNum.TargetJun) != objFlatFileHelper.getDecimalValue(drRow["TargetJun"].ToString()) ||
+                   Convert.ToDecimal(initNum.TargetJul) != objFlatFileHelper.getDecimalValue(drRow["TargetJul"].ToString()) ||
+                   Convert.ToDecimal(initNum.TargetAug) != objFlatFileHelper.getDecimalValue(drRow["TargetAug"].ToString()) ||
+                   Convert.ToDecimal(initNum.TargetSep) != objFlatFileHelper.getDecimalValue(drRow["TargetSep"].ToString()) ||
+                   Convert.ToDecimal(initNum.TargetOct) != objFlatFileHelper.getDecimalValue(drRow["TargetOct"].ToString()) ||
+                   Convert.ToDecimal(initNum.TargetNov) != objFlatFileHelper.getDecimalValue(drRow["TargetNov"].ToString()) ||
+                   Convert.ToDecimal(initNum.TargetDec) != objFlatFileHelper.getDecimalValue(drRow["TargetDec"].ToString()))
                 {
                     isChanged = true;
                 }
             }
-
             return isChanged;
         }
         private double getCurrentYrTarget(DataRow dataRow, DateTime dtStartMonth, DateTime dtEndMonth)
