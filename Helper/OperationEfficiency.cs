@@ -328,9 +328,8 @@ namespace GAIN.Helper
             {
                 if (!isCrossYear)
                 {
-                    double diffValue = nfySecTotalEffect - currYrTotal;
                     bool isToleranceAllowed = false;
-                    if (this.isTolerance(diffValue, initType))
+                    if (this.isTolerance(initType, nfySecTotalEffect, currYrTotal))
                     {
                         isToleranceAllowed = true;
                     }
@@ -346,9 +345,8 @@ namespace GAIN.Helper
                     double nxtYrTarget = this.getNextYrTarget(tInitiative);
                     double totalTarget = currYrTotal + nxtYrTarget;
                     bool isToleranceAllowed = false;
-                    double diffValue = nfySecTotalEffect - totalTarget;
-
-                    if (this.isTolerance(diffValue, initType))
+                   
+                    if (this.isTolerance(initType, nfySecTotalEffect, totalTarget))
                     {
                         isToleranceAllowed = true;
                     }
@@ -372,16 +370,25 @@ namespace GAIN.Helper
             }
             return remarks;
         }
-        private bool isTolerance(double diffValue, string initType)
+        private bool isTolerance(string initType, double nfySecTotalEffect, double totalTarget)
         {
             bool isTolerance = false;
+            double diffValue = 0;
             if (initType == "positive cost impact" || initType == "revenue increase")
             {
-                isTolerance = (Math.Floor(diffValue) > -2 && Math.Ceiling(diffValue) < 2);
+                diffValue = Math.Floor(nfySecTotalEffect) - Math.Floor(totalTarget);
+                if (diffValue <= 1 && diffValue >= -1)
+                {
+                    isTolerance = true;
+                }
             }
             else if (initType == "negative cost impact" || initType == "revenue decrease")
             {
-                isTolerance = ((diffValue >= -1) && (diffValue < 2));
+                diffValue = Math.Ceiling(nfySecTotalEffect) - Math.Ceiling(totalTarget);
+                if (diffValue <= 1 && diffValue >= -1)
+                {
+                    isTolerance = true;
+                }
             }
             return isTolerance;
         }
