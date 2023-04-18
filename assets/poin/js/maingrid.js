@@ -952,6 +952,8 @@ function ShowEditWindow(id) {
                 if (GrdInit_Type != null) {
                     if (isProcurement == 1) {
                         GrdInitType.clientEnabled = false;
+                    } else {
+                        GrdInitType.clientEnabled = true;
                     }
                     GrdInitType.SelectIndex(GrdInit_Type);
                 }
