@@ -131,7 +131,7 @@ namespace GAIN.Helper
         public string GetCrossYrRemarks(t_initiative tInitiative, DateTime dtStartMonth, DateTime dtEndMonth, int projectYear)
         {
             string remarks = string.Empty;
-            int endYear = dtEndMonth.Year;
+            int endYear = System.DateTime.Now.Year;            
             remarks += (objFlatFileHelper.isValidMonth(dtStartMonth, endYear)) == false ?
                 " Start year should be from " + endYear + " onwards." : "";
             return remarks;
