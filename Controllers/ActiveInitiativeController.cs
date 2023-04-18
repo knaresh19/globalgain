@@ -1500,19 +1500,21 @@ log4net.LogManager.GetLogger
             long scmTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.scmType
            && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
 
+            // Getting only cross yr inits 2022-2023 only for Opern Efficiency
+
             lstOOInitiatives = db.t_initiative.Where(tInit =>
-                  tInit.ActionTypeID == ooTypeId && tInit.ProjectYear == initYear).ToList();
+                  tInit.ActionTypeID == ooTypeId && ((tInit.ProjectYear == initYear)
+                  || (tInit.EndMonth.Value.Year == initYear))
+                  ).ToList();
 
             lstSCMInitiatives = db.t_initiative.Where(tInit =>
                   tInit.ActionTypeID == scmTypeId && tInit.ProjectYear == initYear).ToList();
         }
-
         private void setActionTypeList(int initYear)
         {
             lstActionType = db.mactiontypes.Where(action =>
                               action.isActive == "Y" && action.InitYear == initYear).ToList();
         }
-
         private List<mport> getPortList(int initYear) {
             List<mport> lstMports = new List<mport>();
             string sqlQry = "Select id, PortName, InitYear From mport Where inityear = 2023";
@@ -1691,7 +1693,7 @@ log4net.LogManager.GetLogger
                         if (dtExisting != null && dtExisting.Rows.Count > 0)
                         {
                             DataTable dtInit = dtExisting;
-                            dtInit.Columns.Add("ProjectYear", typeof(String));
+                            dtInit.Columns.Add("ProjectYear", typeof(int));
                             dtInit.Columns.Add("dbFlag", typeof(String));
                             dtInit.Columns.Add("isProcurement", typeof(System.Int32));
                             // Adding next yr columns for OO Init types in cross yr scenarios.
@@ -1707,7 +1709,21 @@ log4net.LogManager.GetLogger
                             dtInit.Columns.Add("TargetNexOct", typeof(double));
                             dtInit.Columns.Add("TargetNexNov", typeof(double));
                             dtInit.Columns.Add("TargetNexDec", typeof(double));
+
+                            dtInit.Columns.Add("AchNexJan", typeof(double));
+                            dtInit.Columns.Add("AchNexFeb", typeof(double));
+                            dtInit.Columns.Add("AchNexMar", typeof(double));
+                            dtInit.Columns.Add("AchNexApr", typeof(double));
+                            dtInit.Columns.Add("AchNexMay", typeof(double));
+                            dtInit.Columns.Add("AchNexJun", typeof(double));
+                            dtInit.Columns.Add("AchNexJul", typeof(double));
+                            dtInit.Columns.Add("AchNexAug", typeof(double));
+                            dtInit.Columns.Add("AchNexSep", typeof(double));
+                            dtInit.Columns.Add("AchNexOct", typeof(double));
+                            dtInit.Columns.Add("AchNexNov", typeof(double));
+                            dtInit.Columns.Add("AchNexDec", typeof(double));
                             dtInit.Columns.Add("TargetNY", typeof(double));
+                            
                             List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();
                             DataTable dtValidInit = dtInit.Clone();
 
@@ -1772,6 +1788,8 @@ log4net.LogManager.GetLogger
                                             }
                                             remarks += validationRemarks.GetValidationRemarks(dtInit.Rows[i], dtStartMonth,
                                                 dtEndMonth, initYear, userType, lstExistingInits, lstInitTypeCostSubCosts, lstInitiativeStatus, tInitRecord);
+
+                                            remarks += validationRemarks.GetCrossYrRemarks(tInitRecord, dtStartMonth, dtEndMonth, initYear);
                                         }
                                         else
                                         {
@@ -1787,8 +1805,8 @@ log4net.LogManager.GetLogger
                                         remarks += " Please enter a valid start and end date,";
                                     else
                                     {
-                                        remarks += (objFlatFileHelper.isValidMonth(dtStartMonth)) == false ? " Start year should be from " + initYear + " onwards." : "";
-                                        remarks += (objFlatFileHelper.isValidMonth(dtEndMonth)) == false ? " End year should be from " + initYear + " onwards." : "";
+                                        //remarks += (objFlatFileHelper.isValidMonth(dtStartMonth)) == false ? " Start year should be from " + initYear + " onwards." : "";
+                                        remarks += (objFlatFileHelper.isValidMonth(dtEndMonth, initYear)) == false ? " End year should be from " + initYear + " onwards." : "";
                                         remarks += (objFlatFileHelper.isValidEndMonth(dtStartMonth, dtEndMonth)) == false ?
                                             " Start month should be lesser than end month and difference should be less than/ equal to 12 months" : "";
                                     }
@@ -1816,7 +1834,7 @@ log4net.LogManager.GetLogger
                                         }
                                         else if (actionType.ToLower() == ActionType.scmType.ToLower())
                                         {
-                                            drRow["isProcurement"] = 1;
+                                            drRow["isProcurement"] = 1;                                           
                                             lstMonthlyCPIValues = this.GetMonthlyCPIValuesList(subCountry, initYear);
                                             actionTypeCalculation = new SupplyContractMonitor();
                                         }
@@ -1843,8 +1861,11 @@ log4net.LogManager.GetLogger
                                             drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.HOComment) : "";
                                             drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.RPOCComment) : "";
                                         }
+
+                                        drRow["ProjectYear"] = objFlatFileHelper.GetProjectYear(tInitRecord);
                                         InitiativeSaveModelXL initiativeSaveModelXL =
-                                            actionTypeCalculation.GetCalculatedValues(drRow, dtStartMonth, dtEndMonth, lstMonthlyCPIValues, profileData.ID, initYear);
+                                            actionTypeCalculation.GetCalculatedValues(drRow, dtStartMonth, dtEndMonth, 
+                                            lstMonthlyCPIValues, profileData.ID, initYear, tInitRecord);
                                         drRow = initiativeSaveModelXL.drInitiatives;
                                         InitiativeCalcs initiativeCalcs = initiativeSaveModelXL.initiativeCalcs;
                                         dtInit.AcceptChanges();

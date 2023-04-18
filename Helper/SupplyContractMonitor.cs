@@ -14,7 +14,7 @@ namespace GAIN.Helper
 
         #region InterfaceMembers
         public InitiativeSaveModelXL GetCalculatedValues(DataRow row, DateTime dtStartMonth, DateTime dtEndMonth, List<MonthlyCPIValues> lstMonthlyCPIValues,
-            string CreatedBy, int initYear)
+            string CreatedBy, int initYear, t_initiative tInitRecord)
         {
             InitiativeSaveModelXL initiativeSaveModelXL = new InitiativeSaveModelXL();
 
@@ -37,12 +37,8 @@ namespace GAIN.Helper
             drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd");
             drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
             drRow["Description"] = Convert.ToString(drRow["Description"]);
-            //drRow["AgencyComment"] = Convert.ToString(drRow["AgencyComment"]);
-            //drRow["RPOCComment"] = Convert.ToString(drRow["RPOCComment"]);
-            //drRow["HOComment"] = Convert.ToString(drRow["HOComment"]);
-            drRow["ProjectYear"] = System.DateTime.Now.Year.ToString();
             drRow["ActualsVolumesN"] = objFlatFileHelper.getTotalVolumes(drRow);
-            //var profileData = Session["DefaultGAINSess"] as LoginSession;
+
             drRow["CreatedBy"] = CreatedBy;
             drRow["Unitofvolumes"] = Convert.ToString(drRow["Unitofvolumes"]).ToUpper();
             drRow["VendorSupplier"] = Convert.ToString(drRow["VendorSupplier"]).ToUpper();
@@ -132,6 +128,14 @@ namespace GAIN.Helper
             return initiativeSaveModelXL;
         }
 
+        public string GetCrossYrRemarks(t_initiative tInitiative, DateTime dtStartMonth, DateTime dtEndMonth, int projectYear)
+        {
+            string remarks = string.Empty;
+            int endYear = dtEndMonth.Year;
+            remarks += (objFlatFileHelper.isValidMonth(dtStartMonth, endYear)) == false ?
+                " Start year should be from " + endYear + " onwards." : "";
+            return remarks;
+        }
         public string GetValidationRemarks(DataRow drRow, DateTime dtStartMonth, DateTime dtEndMonth, int initYear, int userType, List<t_initiative> lstExistingInit,
             List<InitTypeCostSubCost> lstInitTypeCostSubCosts, List<mInitiativeStatus> lstInitiativeStatus = null, t_initiative tInitiative = null)
         {

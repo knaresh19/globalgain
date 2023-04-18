@@ -10,5 +10,6 @@ namespace GAIN.Helper
         string GetValidationRemarks(DataRow dataRow, DateTime dtStartMonth, DateTime dtEndMonth,
             int initYear, int userType, List<t_initiative> lstExistingInit, List<InitTypeCostSubCost> lstSavingTypes, List<mInitiativeStatus> lstInitiativeStatus,
             t_initiative tInitiative);
+        string GetCrossYrRemarks(t_initiative tInitiative, DateTime dtStartMonth , DateTime dtEndMonth, int projectYear);
     }
 }
