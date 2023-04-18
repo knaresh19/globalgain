@@ -907,7 +907,8 @@ namespace GAIN.Helper
         {
             DataTable dtUpdated = new DataTable();
             var lstExistingInits = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
-
+            int currentYear = System.DateTime.Now.Year;
+            int prevYear = currentYear - 1;
             //var updatedInitOO = null;
             var updatedInit = (from dtExcel in dtExcelInitiatives.AsEnumerable()
                                join
@@ -916,6 +917,7 @@ namespace GAIN.Helper
                                #region Oprn Filters
                                // OPERATION EFFICIENCY FILTER
                                ((Convert.ToString(dtExcel["ActionType"]).ToLower().Trim() == ActionType.ooActionType.ToLower().Trim())
+                               && (lstInit.ProjectYear == currentYear)
                                &&
                                (
                                // Related initiative
@@ -1025,6 +1027,121 @@ namespace GAIN.Helper
                                ) ||
                                (
                                this.getValue(lstInit.AchDec.ToString()) != this.getValue(dtExcel["AchDec"].ToString())
+                               )
+                               ))
+                               #endregion
+                               ||
+                               #region Oprn Filters with prevyr-curr yr
+                               ((Convert.ToString(dtExcel["ActionType"]).ToLower().Trim() == ActionType.ooActionType.ToLower().Trim())
+                               && (lstInit.ProjectYear == prevYear) &&
+                               (
+                               // Related initiative
+                               (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
+                               // Brand
+                               (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
+                               // Confidential
+                               (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
+                               (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
+                               (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
+                                (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
+                               (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
+                               (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
+                               (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
+                               (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
+                               ((userType == 1) ? ((this.getText(lstInit.HOComment)) != this.getText(Convert.ToString(dtExcel["HOComment"]))) : false) ||
+                               ((userType == 2) ? ((this.getText(lstInit.RPOCComment)) != this.getText(Convert.ToString(dtExcel["RPOCComment"]))) : false) ||
+                               ((userType == 3) ? ((this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"]))) : false) ||
+                               (this.getText(lstInit.RPOCControl)) != this.getText(this.getValidityRPOC(Convert.ToString(dtExcel["RPOCControl"]))) ||
+                               // Init status - compare
+                               (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
+                               (
+                               // Target TY comparison
+                               this.getValue(lstInit.TargetTY.ToString()) != this.getValue(dtExcel["NFYSecuredTOTALEFFECT"].ToString())
+                               )
+                               ||
+                               (
+                               (DateTime.TryParse(Convert.ToString(dtExcel["StartMonth"]), out _)) ?
+                               lstInit.StartMonth != Convert.ToDateTime(Convert.ToString(dtExcel["StartMonth"])) : true
+                               ) ||
+                               (
+                               (DateTime.TryParse(Convert.ToString(dtExcel["EndMonth"]), out _)) ?
+                               lstInit.EndMonth != Convert.ToDateTime(Convert.ToString(dtExcel["EndMonth"])) : true
+                               ) ||
+                               // Target comparison
+                               (
+                               this.getValue(lstInit.TargetNexJan.ToString()) != this.getValue(dtExcel["TargetJan"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.TargetNexFeb.ToString()) != this.getValue(dtExcel["TargetFeb"].ToString())
+                               ) ||
+                               (
+                                this.getValue(lstInit.TargetNexMar.ToString()) != this.getValue(dtExcel["TargetMar"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.TargetNexApr.ToString()) != this.getValue(dtExcel["TargetApr"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.TargetNexMay.ToString()) != this.getValue(dtExcel["TargetMay"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.TargetNexJun.ToString()) != this.getValue(dtExcel["TargetJun"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.TargetNexJul.ToString()) != this.getValue(dtExcel["TargetJul"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.TargetNexAug.ToString()) != this.getValue(dtExcel["TargetAug"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.TargetNexSep.ToString()) != this.getValue(dtExcel["TargetSep"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.TargetNexOct.ToString()) != this.getValue(dtExcel["TargetOct"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.TargetNexNov.ToString()) != this.getValue(dtExcel["TargetNov"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.TargetNexDec.ToString()) != this.getValue(dtExcel["TargetDec"].ToString())
+                               )
+                               // Savings field comparison
+                               ||
+                               (
+                               this.getValue(lstInit.AchNexJan.ToString()) != this.getValue(dtExcel["AchJan"].ToString())
+                               )
+                               ||
+                               (
+                               this.getValue(lstInit.AchNexFeb.ToString()) != this.getValue(dtExcel["AchFeb"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.AchNexMar.ToString()) != this.getValue(dtExcel["AchMar"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.AchNexApr.ToString()) != this.getValue(dtExcel["AchApr"].ToString())
+                               ) ||
+                               (
+                              this.getValue(lstInit.AchNexMay.ToString()) != this.getValue(dtExcel["AchMay"].ToString())
+                              ) ||
+                               (
+                               this.getValue(lstInit.AchNexJun.ToString()) != this.getValue(dtExcel["AchJun"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.AchNexJul.ToString()) != this.getValue(dtExcel["AchJul"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.AchNexAug.ToString()) != this.getValue(dtExcel["AchAug"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.AchNexSep.ToString()) != this.getValue(dtExcel["AchSep"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.AchNexOct.ToString()) != this.getValue(dtExcel["AchOct"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.AchNexNov.ToString()) != this.getValue(dtExcel["AchNov"].ToString())
+                               ) ||
+                               (
+                               this.getValue(lstInit.AchNexDec.ToString()) != this.getValue(dtExcel["AchDec"].ToString())
                                )
                                ))
                                #endregion

@@ -20,9 +20,8 @@ namespace GAIN.Helper
             DataRow drRow = row;
             double perMonthTarget = 0;
             string sInitNumber = Convert.ToString(drRow["InitNumber"].ToString()).Trim();
-            double nfySecTotalEffect = this.getFYSecTotalEffect(drRow);
-            bool isPrevYrInit = false;
-            isPrevYrInit = ((dtStartMonth.Year < initYear) && sInitNumber != "");
+            double nfySecTotalEffect = this.getFYSecTotalEffect(drRow);           
+            bool isPrevYrInit = ((dtStartMonth.Year < initYear) && sInitNumber != "");
             double nCurrYrTarget = this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth, isPrevYrInit);
             bool isCrossYear = (dtStartMonth.Year != dtEndMonth.Year) ? true : false;
             bool isAutoCalculate = (nCurrYrTarget == 0) ? true : false;
@@ -158,13 +157,13 @@ namespace GAIN.Helper
             else
             {
                 // Next yr values will be from current yr
+                //drRow = this.setPrevCurrYrInitValues(drRow, tInitRecord);
                 if (nCurrYrTarget <= 0)
                 {
                     nCurrYrTarget = this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth, isPrevYrInit);
                 }
                 drRow["TargetNY"] = objFlatFileHelper.getValue(nCurrYrTarget.ToString());
                 drRow["NFYSecuredTOTALEFFECT"] = objFlatFileHelper.getValue(drRow["NFYSecuredTOTALEFFECT"].ToString());
-                drRow = this.setPrevCurrYrInitValues(drRow, tInitRecord);
             }
             drRow["StartMonth"] = dtStartMonth.ToString("yyyy-MM-dd");
             drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd");
@@ -236,6 +235,10 @@ namespace GAIN.Helper
                         }
                     }
                 }
+            }
+            else
+            {
+                dataRow = this.setPrevCurrYrInitValues(dataRow, tInitiative);
             }
             double nfySecTotalEffect = this.getFYSecTotalEffect(dataRow);
             remarks += this.getInitTypeValidRemarks(dataRow, lstInitTypeCostSubCosts, nfySecTotalEffect);
@@ -346,18 +349,18 @@ namespace GAIN.Helper
                 {
                     switch (month)
                     {
-                        case 1: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetJan"].ToString()); break; }
-                        case 2: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetFeb"].ToString()); break; }
-                        case 3: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetMar"].ToString()); break; }
-                        case 4: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetApr"].ToString()); break; }
-                        case 5: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetMay"].ToString()); break; }
-                        case 6: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetJun"].ToString()); break; }
-                        case 7: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetJul"].ToString()); break; }
-                        case 8: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetAug"].ToString()); break; }
-                        case 9: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetSep"].ToString()); break; }
-                        case 10: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetOct"].ToString()); break; }
-                        case 11: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNov"].ToString()); break; }
-                        case 12: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetDec"].ToString()); break; }
+                        case 1: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexJan"].ToString()); break; }
+                        case 2: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexFeb"].ToString()); break; }
+                        case 3: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexMar"].ToString()); break; }
+                        case 4: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexApr"].ToString()); break; }
+                        case 5: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexMay"].ToString()); break; }
+                        case 6: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexJun"].ToString()); break; }
+                        case 7: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexJul"].ToString()); break; }
+                        case 8: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexAug"].ToString()); break; }
+                        case 9: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexSep"].ToString()); break; }
+                        case 10: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexOct"].ToString()); break; }
+                        case 11: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexNov"].ToString()); break; }
+                        case 12: { flCurrYrTarget += objFlatFileHelper.getValue(dataRow["TargetNexDec"].ToString()); break; }
                     }
                 }
             }
@@ -439,11 +442,15 @@ namespace GAIN.Helper
                         if ((currYrTotal != 0 && ((currYrTotal > 0 && nfySecTotalEffect > 0 && (Math.Round(currYrTotal) > Math.Round(nfySecTotalEffect))) ||
                             (currYrTotal < 0 && nfySecTotalEffect < 0 && (Math.Round(currYrTotal) < Math.Round(nfySecTotalEffect))
                             )))
-                            || (currYrTotal != 0 && objFlatFileHelper.getValue(drRow["TargetDec"].ToString()) == 0))
+                            || (currYrTotal != 0 && objFlatFileHelper.getValue(drRow["TargetDec"].ToString()) == 0)
+                            || (isPrevYrInit))
                         {
+                            //remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
+                            //    currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+
                             remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
-                                currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
-                        }
+                                totalTarget + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
+                        }                        
                     }
                 }
 
