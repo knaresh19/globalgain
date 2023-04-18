@@ -1722,7 +1722,6 @@ log4net.LogManager.GetLogger
                             dtInit.Columns.Add("AchNexOct", typeof(double));
                             dtInit.Columns.Add("AchNexNov", typeof(double));
                             dtInit.Columns.Add("AchNexDec", typeof(double));
-
                             dtInit.Columns.Add("TargetNY", typeof(double));
                             
                             List<InitiativeCalcs> lstInitiativeCalcs = new List<InitiativeCalcs>();

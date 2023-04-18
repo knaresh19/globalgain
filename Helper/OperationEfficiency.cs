@@ -158,8 +158,11 @@ namespace GAIN.Helper
             {
                 // Next yr values will be from current yr
                 //drRow = this.setPrevCurrYrInitValues(drRow, tInitRecord);
-                if (nCurrYrTarget <= 0)
+                if (nCurrYrTarget == 0)
                 {
+                    double crossYrTarget = this.getPrevYrTarget(tInitRecord);
+                    // Calculate with break up.
+                    drRow = this.setNexYrTargets(drRow, nfySecTotalEffect, crossYrTarget, dtEndMonth);
                     nCurrYrTarget = this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth, isPrevYrInit);
                 }
                 drRow["TargetNY"] = objFlatFileHelper.getValue(nCurrYrTarget.ToString());
@@ -275,9 +278,9 @@ namespace GAIN.Helper
                 {
                     remarks += " Start month cannot be changed.";
                 }
-                if (tInitiative.EndMonth < dtEndMonth)
+                if (dtEndMonth.AddMonths(-12) >= tInitiative.StartMonth)
                 {
-                    remarks += " End month cannot exceed previous end month.";
+                    remarks += " Difference between start and end month should be equal/ less than 12 months.";
                 }
                 else if (dtEndMonth.Year == dtStartMonth.Year)
                 {
@@ -290,7 +293,33 @@ namespace GAIN.Helper
         #endregion
 
         #region CustomMethods
-        
+
+        private DataRow setNexYrTargets(DataRow drRow, double nfySecTotalEffect, double nCurrYrTarget, DateTime dtEndMonth) 
+        {
+            double diffTarget = nfySecTotalEffect - nCurrYrTarget;
+            int nxtYrTotalMonths = dtEndMonth.Month;
+            double permonthValueNxtYr = diffTarget / nxtYrTotalMonths;
+            for (int month = 1; month <= dtEndMonth.Month; month++)
+            {
+                switch (month)
+                {
+                    case 1: { drRow["TargetNexJan"] = permonthValueNxtYr; break; }
+                    case 2: { drRow["TargetNexFeb"] = permonthValueNxtYr; break; }
+                    case 3: { drRow["TargetNexMar"] = permonthValueNxtYr; break; }
+                    case 4: { drRow["TargetNexApr"] = permonthValueNxtYr; break; }
+                    case 5: { drRow["TargetNexMay"] = permonthValueNxtYr; break; }
+                    case 6: { drRow["TargetNexJun"] = permonthValueNxtYr; break; }
+                    case 7: { drRow["TargetNexJul"] = permonthValueNxtYr; break; }
+                    case 8: { drRow["TargetNexAug"] = permonthValueNxtYr; break; }
+                    case 9: { drRow["TargetNexSep"] = permonthValueNxtYr; break; }
+                    case 10: { drRow["TargetNexOct"] = permonthValueNxtYr; break; }
+                    case 11: { drRow["TargetNexNov"] = permonthValueNxtYr; break; }
+                    case 12: { drRow["TargetNexDec"] = permonthValueNxtYr; break; }
+                }
+            }
+            return drRow;
+        }
+
         private bool isMonthlyTargetChanged(t_initiative initNum, DataRow drRow)
         {
             bool isChanged = false;
@@ -443,7 +472,7 @@ namespace GAIN.Helper
                             (currYrTotal < 0 && nfySecTotalEffect < 0 && (Math.Round(currYrTotal) < Math.Round(nfySecTotalEffect))
                             )))
                             || (currYrTotal != 0 && objFlatFileHelper.getValue(drRow["TargetDec"].ToString()) == 0)
-                            || (isPrevYrInit))
+                            || (isPrevYrInit && currYrTotal != 0))
                         {
                             //remarks += "Inconsistent Target : The amount of All Applicable Target(current SUM of input is " +
                             //    currYrTotal + ") and Target 12 Months(current input as " + nfySecTotalEffect + ") need to be aligned";
@@ -527,6 +556,7 @@ namespace GAIN.Helper
 
         private DataRow setPrevCurrYrInitValues(DataRow drRow, t_initiative tInitRecord)
         {
+            // Set the prev yr values as TargetJan.. and AchJan.. and excel values TargetNexJan and achnexjan
             drRow["TargetNexJan"] = objFlatFileHelper.getValue(drRow["TargetJan"].ToString());
             drRow["TargetNexFeb"] = objFlatFileHelper.getValue(drRow["TargetFeb"].ToString());
             drRow["TargetNexMar"] = objFlatFileHelper.getValue(drRow["TargetMar"].ToString());
