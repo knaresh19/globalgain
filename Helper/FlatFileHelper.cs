@@ -482,10 +482,10 @@ namespace GAIN.Helper
             }
             return flYTDAVolEffect;
         }
-        public bool isValidMonth(DateTime dtStartMonth)
+        public bool isValidMonth(DateTime dtMonth, int endYear)
         {
             bool isValidYear = true;
-            if (dtStartMonth.Year < 2023)
+            if (dtMonth.Year < endYear)
             {
                 isValidYear = false;
             }
@@ -1102,6 +1102,19 @@ namespace GAIN.Helper
             var objActionType = lstActionType
                  .Where(action => action.ActionTypeName.ToLower() == actionType.ToLower()).FirstOrDefault();
             return (objActionType != null) ? objActionType.id : 0;
+        }
+        public int GetProjectYear(t_initiative tInitRecord)
+        {
+            int projectYear = 0;
+            if (tInitRecord == null)
+            {
+                projectYear = System.DateTime.Now.Year;
+            }
+            else
+            {
+                projectYear = Convert.ToInt32(tInitRecord.ProjectYear);
+            }
+            return projectYear;
         }
     }
 }

@@ -7,6 +7,9 @@ namespace GAIN.Helper
 {
     public interface IActionTypeCalculation
     {
-        InitiativeSaveModelXL GetCalculatedValues(DataRow row, DateTime dtStartMonth, DateTime dtEndMonth, List<MonthlyCPIValues> lstMonthlyCPIValues, string CreatedBy, int initYear);
+        InitiativeSaveModelXL GetCalculatedValues(DataRow row, DateTime dtStartMonth, DateTime dtEndMonth, 
+            List<MonthlyCPIValues> lstMonthlyCPIValues, string CreatedBy, int initYear, t_initiative tInitRecord);
+
+
     }
 }
