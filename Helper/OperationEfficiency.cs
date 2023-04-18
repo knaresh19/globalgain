@@ -168,6 +168,9 @@ namespace GAIN.Helper
                 drRow["TargetNY"] = objFlatFileHelper.getValue(nCurrYrTarget.ToString());
                 drRow["NFYSecuredTOTALEFFECT"] = objFlatFileHelper.getValue(drRow["NFYSecuredTOTALEFFECT"].ToString());
             }
+
+            drRow["NYTDSecuredTOTALEFFECT"] = this.getYTDTarget(drRow, dtStartMonth, dtEndMonth, isPrevYrInit);
+            drRow["YTDAchievedTOTALEFFECT"] = this.getYTDAchieved(drRow, dtStartMonth, dtEndMonth, isPrevYrInit);
             drRow["StartMonth"] = dtStartMonth.ToString("yyyy-MM-dd");
             drRow["EndMonth"] = dtEndMonth.ToString("yyyy-MM-dd");
             drRow["RelatedInitiative"] = Convert.ToString(drRow["RelatedInitiative"]);
@@ -294,6 +297,193 @@ namespace GAIN.Helper
 
         #region CustomMethods
 
+        private double getYTDTarget(DataRow drRow, DateTime dtStartMonth, DateTime dtEndMonth, bool isPrevYrInit)
+        {
+            double yTDTarget = 0;
+            bool isCrossYear = (dtStartMonth.Year != dtEndMonth.Year);
+            int currMonth = System.DateTime.Now.Month;
+            int i = 0;
+
+            if (isPrevYrInit)
+                i = 1;
+            else
+                i = dtStartMonth.Month;
+
+            while (i <= currMonth)
+            {
+                switch (i)
+                {
+                    case 1:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetJan"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexJan"].ToString());
+                            break;
+                        }
+                    case 2:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetFeb"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexFeb"].ToString());
+                            break;
+                        }
+                    case 3:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetMar"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexMar"].ToString());
+                            break;
+                        }
+                    case 4:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetApr"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexApr"].ToString());
+                            break;
+                        }
+                    case 5:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetMay"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexMay"].ToString());
+                            break;
+                        }
+                    case 6:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetJun"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexJun"].ToString());
+                            break;
+                        }
+                    case 7:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetJul"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexJul"].ToString());
+                            break;
+                        }
+                    case 8:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetAug"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexAug"].ToString());
+                            break;
+                        }
+                    case 9:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetSep"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexSep"].ToString());
+                            break;
+                        }
+                    case 10:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetOct"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexOct"].ToString());
+                            break;
+                        }
+                    case 11:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetNov"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexNov"].ToString());
+                            break;
+                        }
+                    case 12:
+                        {
+                            yTDTarget += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["TargetDec"].ToString())
+                                : objFlatFileHelper.getValue(drRow["TargetNexDec"].ToString());
+                            break;
+                        }
+                }
+                i++;
+            }
+            return yTDTarget;
+        }
+
+        private double getYTDAchieved(DataRow drRow, DateTime dtStartMonth, DateTime dtEndMonth, bool isPrevYrInit)
+        {
+            double yTDAchieved = 0;
+            bool isCrossYear = (dtStartMonth.Year != dtEndMonth.Year);
+            int currMonth = System.DateTime.Now.Month;
+            int i = 0;
+
+            if (isPrevYrInit)
+                i = 1;
+            else
+                i = dtStartMonth.Month;
+
+            while (i <= currMonth)
+            {
+                switch (i)
+                {
+                    case 1:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchJan"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexJan"].ToString());
+                            break;
+                        }
+                    case 2:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchFeb"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexFeb"].ToString());
+                            break;
+                        }
+                    case 3:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchMar"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexMar"].ToString());
+                            break;
+                        }
+                    case 4:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchApr"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexApr"].ToString());
+                            break;
+                        }
+                    case 5:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchMay"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexMay"].ToString());
+                            break;
+                        }
+                    case 6:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchJun"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexJun"].ToString());
+                            break;
+                        }
+                    case 7:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchJul"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexJul"].ToString());
+                            break;
+                        }
+                    case 8:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchAug"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexAug"].ToString());
+                            break;
+                        }
+                    case 9:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchSep"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexSep"].ToString());
+                            break;
+                        }
+                    case 10:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchOct"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexOct"].ToString());
+                            break;
+                        }
+                    case 11:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchNov"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexNov"].ToString());
+                            break;
+                        }
+                    case 12:
+                        {
+                            yTDAchieved += (!isPrevYrInit) ? objFlatFileHelper.getValue(drRow["AchDec"].ToString())
+                                : objFlatFileHelper.getValue(drRow["AchNexDec"].ToString());
+                            break;
+                        }
+                }
+                i++;
+            }
+            return yTDAchieved;
+        }
         private DataRow setNexYrTargets(DataRow drRow, double nfySecTotalEffect, double nCurrYrTarget, DateTime dtEndMonth) 
         {
             double diffTarget = nfySecTotalEffect - nCurrYrTarget;
