@@ -1223,13 +1223,13 @@ namespace GAIN.Helper
         public int GetProjectYear(t_initiative tInitRecord)
         {
             int projectYear = 0;
-            if (tInitRecord == null)
+            if (tInitRecord != null && tInitRecord.InitNumber != null)
             {
-                projectYear = System.DateTime.Now.Year;
+                projectYear = Convert.ToInt32(tInitRecord.ProjectYear);
             }
             else
             {
-                projectYear = Convert.ToInt32(tInitRecord.ProjectYear);
+                projectYear = System.DateTime.Now.Year;
             }
             return projectYear;
         }

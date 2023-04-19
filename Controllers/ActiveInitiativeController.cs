@@ -1861,8 +1861,14 @@ log4net.LogManager.GetLogger
                                             drRow["HOComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.HOComment) : "";
                                             drRow["RPOCComment"] = (!string.IsNullOrEmpty(sInitNumber) && initRecord != null) ? Convert.ToString(initRecord.RPOCComment) : "";
                                         }
+                                        if (sInitNumber != "" && tInitRecord.InitNumber == sInitNumber)
+                                        {
+                                            drRow["ProjectYear"] = objFlatFileHelper.GetProjectYear(tInitRecord);
+                                        }
+                                        else {
+                                            drRow["ProjectYear"] = objFlatFileHelper.GetProjectYear(null);
+                                        }
 
-                                        drRow["ProjectYear"] = objFlatFileHelper.GetProjectYear(tInitRecord);
                                         InitiativeSaveModelXL initiativeSaveModelXL =
                                             actionTypeCalculation.GetCalculatedValues(drRow, dtStartMonth, dtEndMonth, 
                                             lstMonthlyCPIValues, profileData.ID, initYear, tInitRecord);
