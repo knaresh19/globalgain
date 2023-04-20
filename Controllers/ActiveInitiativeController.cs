@@ -1798,7 +1798,7 @@ log4net.LogManager.GetLogger
                                     }
                                     else
                                     {
-                                        remarks += " Change in Action type is not allowed,";
+                                        remarks += " Change in Action type is not allowed.";
                                     }
                                     if ((!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["StartMonth"]), out dtStartMonth)))
                                         || (!(DateTime.TryParse(Convert.ToString(dtInit.Rows[i]["EndMonth"]), out dtEndMonth))))
