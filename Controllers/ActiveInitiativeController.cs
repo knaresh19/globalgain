@@ -1741,7 +1741,7 @@ log4net.LogManager.GetLogger
                                     string brand = Convert.ToString(dtInit.Rows[i]["Brand"].ToString());
                                     string sConfidential = dtInit.Rows[i]["Confidential"] != null ? dtInit.Rows[i]["Confidential"].ToString().ToUpper() : "";
                                     string sInitiativeStatus = dtInit.Rows[i]["InitiativeStatus"] != null ? dtInit.Rows[i]["InitiativeStatus"].ToString().ToLower() : "";
-
+                                    isActionTypeChanged = false;
                                     // Duplicate Initnumber validation
                                     if (sInitNumber != "")
                                     {
