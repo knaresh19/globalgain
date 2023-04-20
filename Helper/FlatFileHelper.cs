@@ -1197,6 +1197,14 @@ namespace GAIN.Helper
 
                                #endregion
                                )
+                               ||
+                               #region ActionTypeChanged Filter
+
+                               (
+                               lstInit.ActionTypeID != this.getActionTypeId(Convert.ToString(dtExcel["ActionType"]), lstActionType)
+                               )
+
+                               #endregion
                                )
                                select dtExcel
                                            ).ToList();
