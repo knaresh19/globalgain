@@ -798,6 +798,7 @@ namespace GAIN.Helper
             }
             else
                 return null;
+
         }
         public float GetNFYSecuredPriceEffect(STPriceEffectMonthValues objSTPriceEffect)
         {
