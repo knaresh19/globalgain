@@ -328,7 +328,7 @@ $(function () {
         // get file extension
         if (files.length > 0) {
 
-            if (files[0].size > 2500000) {
+            if (files[0].size > 2560000) {
                 // Alert file size
                 $("#fileBase").val('');
                 $("#initResults").html("Please upload file size less than 2.5 MB");
