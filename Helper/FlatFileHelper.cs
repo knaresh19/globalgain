@@ -788,9 +788,9 @@ namespace GAIN.Helper
             List<textvalPair> lUnitVul = new List<textvalPair>();
             lUnitVul.Add(new textvalPair() { text = "KO", val = "KO" });
             lUnitVul.Add(new textvalPair() { text = "Under Review", val = "UR" });
-            lUnitVul.Add(new textvalPair() { text = "OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", val = "L1" });
-            lUnitVul.Add(new textvalPair() { text = "OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", val = "L2" });
-            lUnitVul.Add(new textvalPair() { text = "OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", val = "L3" });
+            lUnitVul.Add(new textvalPair() { text = "ok level 1 (cost controller)", val = "L1" });
+            lUnitVul.Add(new textvalPair() { text = "ok level 2 (management ro)", val = "L2" });
+            lUnitVul.Add(new textvalPair() { text = "ok level 3 (coordinateur ho)", val = "L3" });
             if (!string.IsNullOrEmpty(txt))
             {
                 var str = lUnitVul.Where(i => i.text.ToLower() == txt.ToLower()).FirstOrDefault();
@@ -798,6 +798,7 @@ namespace GAIN.Helper
             }
             else
                 return null;
+
         }
         public float GetNFYSecuredPriceEffect(STPriceEffectMonthValues objSTPriceEffect)
         {
