@@ -851,13 +851,21 @@ namespace GAIN.Helper
         }
         public long getInitStatus(string initStatus, List<mInitiativeStatus> lstInitStatus)
         {
-            long status = 0;
+            long statusId = 0;
             if (initStatus != "")
             {
-                status = lstInitStatus.Where(item => item.status.ToLower().Trim() == initStatus.ToLower().Trim()).FirstOrDefault().id;
+                var status = lstInitStatus.Where(item => item.status.ToLower().Trim() == initStatus.ToLower().Trim()).FirstOrDefault();
+                statusId = (status != null) ? status.id : 0;
             }
-            return status;
-        }        
+            return statusId;
+        }
+        public string getInitStatusText(long? initStatusId, List<mInitiativeStatus> lstInitStatus)
+        {
+            string initStatusText = "";
+            var initstatus = lstInitStatus.Where(item => item.id == initStatusId).FirstOrDefault();
+            initStatusText = (initstatus != null) ? initstatus.status : "";
+            return initStatusText;
+        }
         private long getBrandId(string brandName, List<SubCountryBrand> lstSubCountryBrand)
         {
             var brand = lstSubCountryBrand.Where(item => item.brandName.ToLower().Trim() == brandName.ToLower().Trim()).FirstOrDefault();

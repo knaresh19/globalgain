@@ -126,8 +126,13 @@ log4net.LogManager.GetLogger
             ViewData["NEWIN"] = "Y";
             return PartialView("_NewInitiative");
         }
+        [HttpGet]
+        public ActionResult ShowDeletedInitiatives(string data) {
+           return RedirectToAction("GrdMainInitiativePartial");
+        }
+
         [ValidateInput(false)]
-        public ActionResult GrdMainInitiativePartial() // Main Function to show data in Main Grid
+        public ActionResult GrdMainInitiativePartial(string flag="")// Main Function to show data in Main Grid
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
             var projYear = profileData.ProjectYear;
@@ -137,9 +142,10 @@ log4net.LogManager.GetLogger
             if (profileData.ProjectYear < 2023)
                 profileData.ProjectYear = 2022;
 
-
             var where = "";
-
+            var deletedStatus = db.mstatus.Where(s => s.Status.ToLower() == "deleted" &&
+            s.InitYear == profileData.ProjectYear && s.isActive == "Y").FirstOrDefault();
+            long deleteStatusId = (deletedStatus != null) ? deletedStatus.id : 0;
 
             if (profileData.confidential_right == 0) where += " and Confidential != 'Y'";
             if (profileData.RegionalOffice_right != null && profileData.RegionalOffice_right != "" && profileData.RegionalOffice_right.Substring(0, 1) == "|")
@@ -198,8 +204,6 @@ log4net.LogManager.GetLogger
             }
             if (profileData.SubCostItem_right != null && profileData.SubCostItem_right != "" && profileData.SubCostItem_right != "ALL")
             {
-
-
                 var subcostitemtext = profileData.SubCostItem_right.Replace("|", "','");
                 int lensubcostitem = subcostitemtext.Length;
                 subcostitemtext = "(" + subcostitemtext.Substring(2, (lensubcostitem - 4)) + ")";
@@ -364,8 +368,8 @@ log4net.LogManager.GetLogger
 
                 _counter++;
             }
-
-            var spcondi = "a.isDeleted =0 " + where;
+            where += " and initStatus != " + deleteStatusId + " ";
+            var spcondi = "a.isDeleted =0 " + where ;
             //if (Session["issaveupdtae"] == "1")
             //{
             //    Session["issaveupdtae"] = 0;
@@ -1110,7 +1114,9 @@ log4net.LogManager.GetLogger
             var profileData = Session["DefaultGAINSess"] as LoginSession;
             var model = db.t_initiative;
             var model2 = db.vwheaderinitiatives.OrderByDescending(o => o.CreatedDate);
-
+            long year = profileData.ProjectYear;
+            long status = db.mstatus.Where(s => s.Status.ToLower() == "deleted" && s.InitYear == year).FirstOrDefault().id;
+            
             if (item.id >= 0)
             {
                 try
@@ -1120,8 +1126,7 @@ log4net.LogManager.GetLogger
 
                     if (itemx != null)
                     {
-                        //model.Remove(itemx);
-                        itemx.InitStatus = 1;
+                        itemx.InitStatus = status;
                     }
                     db.SaveChanges();
                 }
@@ -1130,7 +1135,6 @@ log4net.LogManager.GetLogger
                     ViewData["EditError"] = e.Message;
                 }
             }
-
 
             //ViewData["mregions"] = db.mregions.SqlQuery("SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY','')); SELECT * FROM mregion group by RegionName").ToList();
             //ViewData["brandname"] = db.mbrands.SqlQuery("SELECT * FROM mbrand group by brandname").Where(c => c.isActive == "Y" && c.isDeleted == "N").ToList();
@@ -1424,13 +1428,13 @@ log4net.LogManager.GetLogger
             return _mCPI;
         }
        
-        private string GetGeneralRemarks(string sInitNumber, string subCountry, string brand, string sConfidential, string sInitiativeStatus, DataRow dataRow,
-            int userType)
+        private string GetGeneralRemarks(string sInitNumber, string subCountry, string brand, string sConfidential,
+            string sInitiativeStatus, DataRow dataRow,int userType, int initYear, int isToAdmin)
         {
             string remarks = string.Empty;
             bool isUserSubCountry = false;
             bool isValidBrand = false;
-            List<msubcountry> lstmSubCountry = new List<msubcountry>();
+            List<msubcountry> lstmSubCountry = new List<msubcountry>();            
 
             if (!string.IsNullOrEmpty(sInitNumber))
             {
@@ -1463,8 +1467,12 @@ log4net.LogManager.GetLogger
             if (sConfidential != "N" && sConfidential != "Y")
                 remarks += " Invalid confidential.";
 
-            if (sInitiativeStatus != "cancelled" && sInitiativeStatus != "ongoing" && sInitiativeStatus != "work in progress")
-                remarks += " Invalid Initiative Status.";
+            if (db.mstatus.Where(s => s.Status.ToLower() == sInitiativeStatus.ToLower() &&
+            s.InitYear == initYear && s.isActive == "Y").ToList().Count == 0)
+                remarks += " Invalid Initiative Status.";            
+
+            //if (sInitiativeStatus != "cancelled" && sInitiativeStatus != "ongoing" && sInitiativeStatus != "work in progress")
+               
 
             // Validation for Agency not to change init status to Work in progress
             List<t_initiative> lstExistingInits = lstOOInitiatives;
@@ -1481,6 +1489,30 @@ log4net.LogManager.GetLogger
                     }
                 }
             }
+
+            if (userType != 1 || isToAdmin != 1)
+            {
+                if (sInitNumber != "")
+                {
+                    if (tInitRecord != null)
+                    {
+                        string dbinitStatusText = objFlatFileHelper.getInitStatusText(tInitRecord.InitStatus, lstInitiativeStatus);
+                        if (dbinitStatusText.ToLower() == "deleted" || sInitiativeStatus == "deleted")
+                        {
+                            if (dbinitStatusText.ToLower() != sInitiativeStatus.ToLower())
+                            {
+                                remarks += "Only HO user with Admin access can change Deleted initiative status,";
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (sInitiativeStatus.ToLower() == "deleted")
+                        remarks += "Only HO user with Admin access can create Deleted initiative status,";
+                }
+            }
+           
             remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["TypeOfInitiative"]), "initType", "", "")) ?
                 " Invalid Initiative type," : "";
             remarks += (!this.isValidTypeCostSubCost(Convert.ToString(dataRow["ItemCategory"]), "itemCategory", "", Convert.ToString(dataRow["TypeOfInitiative"]))) ?
@@ -1553,7 +1585,7 @@ log4net.LogManager.GetLogger
                 IActionTypeValidation validationRemarks = null;
                 IActionTypeCalculation actionTypeCalculation = null;
                 var profileData = Session["DefaultGAINSess"] as LoginSession;
-                int userType = profileData.UserType;
+                int userType = profileData.UserType;                
                 ResultCount resultCount = null;
                 int initYear = System.DateTime.Now.Year;
                 bool isActionTypeChanged = false;
@@ -1751,7 +1783,7 @@ log4net.LogManager.GetLogger
                                     }
                                     // Get General validation for all action types
                                     remarks += this.GetGeneralRemarks(sInitNumber, subCountry, brand, sConfidential,
-                                   sInitiativeStatus, dtInit.Rows[i], userType);
+                                   sInitiativeStatus, dtInit.Rows[i], userType, initYear, profileData.istoadmin);
 
                                     // Get the actionType and validations based on action type
                                     string actionType =
