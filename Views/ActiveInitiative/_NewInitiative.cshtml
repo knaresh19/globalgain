@@ -232,6 +232,7 @@
                             settings.Properties.ClientInstanceName = "GrdInitStatus";
                                         //settings.ClientEnabled = false;
                                         settings.Width = 190;
+                            settings.Properties.ClientSideEvents.GotFocus = "OnInitStatusFocus";
                             settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnInitStatusChanged";
                         }).GetHtml();
                     }
