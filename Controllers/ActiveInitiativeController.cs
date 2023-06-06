@@ -1498,12 +1498,8 @@ log4net.LogManager.GetLogger
                     {
                         string dbinitStatusText = objFlatFileHelper.getInitStatusText(tInitRecord.InitStatus, lstInitiativeStatus);
                         if (dbinitStatusText.ToLower() == "deleted" || sInitiativeStatus == "deleted")
-                        {
                             if (dbinitStatusText.ToLower() != sInitiativeStatus.ToLower())
-                            {
                                 remarks += "Only HO user with Admin access can change Deleted initiative status,";
-                            }
-                        }
                     }
                 }
                 else
