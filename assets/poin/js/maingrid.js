@@ -396,6 +396,19 @@ $(function () {
         }
     });
 
+    // Show deleted inits
+    $('#chkShowDeleteInit').click(function () {
+        var data = "";
+        if ($(this).is(':checked')) {
+            data = "yes";
+        } else {
+            data = "no";
+        }        
+        var url = '/ActiveInitiative/ShowDeletedInitiatives?data=' + data;
+        $.get(url, null, function (data) {            
+            GrdMainInitiative.Refresh();
+        });  
+    });
 
     $(".txSaving, .txTarget").on("change", function () {
         $(this).val(formatValue($(this).val()));
@@ -1540,7 +1553,7 @@ function OnInit(s, e) {
     else {
         // Visible false
         $("#divUpload").hide();
-    }
+    }    
     GrdSubCountryPopup.SelectIndex(0);
     AdjustSize();
 }

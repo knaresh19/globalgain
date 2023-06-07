@@ -840,6 +840,12 @@ function OnGrdInitCategoryPopupChanged(s, e) {
         GrdSubCost.SelectIndex(0);
     });
 }
+var initStatusText = "";
+var initStatusSelIndx = 0;
+function OnInitStatusFocus(s, e) {
+    initStatusText = s.GetText();
+    initStatusSelIndx = s.GetSelectedIndex();
+}
 function OnInitStatusChanged(s, e) {
     var id = s.GetText();
     var uType = user_type;
@@ -861,8 +867,16 @@ function OnInitStatusChanged(s, e) {
             'error'
         );
     }
+    if ((uType != 1 || istoadmin != 1) && (initStatusText.toLowerCase() == "deleted" || GrdInitStatus.GetSelectedItem().text.toLowerCase() == "deleted")
+        && (initStatusText.toLowerCase() != GrdInitStatus.GetSelectedItem().text.toLowerCase())) {
+        GrdInitStatus.SelectIndex(initStatusSelIndx);
+        Swal.fire(
+            'You can not change the status',
+            'Only HO user with Admin role can set to deleted status/ change from deleted initiative status',
+            'error'
+        );
+    }
 }
-
 
 function OnCostCategoryChanged(s, e) {
     var id = InitiativeType.GetValue(InitiativeType.GetSelectedIndex()); var id2 = s.GetValue(); var id3 = BrandID.GetValue(BrandID.GetSelectedIndex());

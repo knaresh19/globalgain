@@ -32,7 +32,10 @@
         settings.CommandColumn.FixedStyle = GridViewColumnFixedStyle.Left;
         settings.CommandColumn.Width = 120;
         //settings.CommandColumn.ShowNewButton = true;
-        settings.CommandColumn.ShowDeleteButton = true;
+        if (profileData.UserType == 1 && profileData.istoadmin == 1)
+        {
+            settings.CommandColumn.ShowDeleteButton = true;
+        }
         settings.CommandColumn.ShowEditButton = true;
         settings.CommandColumn.Caption = " ";
         settings.CommandColumn.Width = 150;
@@ -51,6 +54,9 @@
         settings.SettingsCommandButton.DeleteButton.Image.IconID = "Open_Folder_Delete_Icon_16";
         settings.SettingsCommandButton.DeleteButton.Image.Url = Url.Content("~/assets/poin/images/Open_Folder_Delete_Icon_22.png");
         settings.SettingsCommandButton.DeleteButton.Image.ToolTip = "To Be Deleted";
+
+
+
         settings.SettingsCommandButton.UpdateButton.RenderMode = GridCommandButtonRenderMode.Image;
         settings.SettingsCommandButton.UpdateButton.Image.IconID = "Total Commander_32";
         settings.SettingsCommandButton.UpdateButton.Image.Url = Url.Content("~/assets/poin/images/Total Commander_22.png");
@@ -289,7 +295,7 @@
                 p.ValueField = "CostControlSiteName";
                 p.ClientInstanceName = "CostControlID";
                 p.ValueType = typeof(string);
-              //  p.DropDownHeight = 0;
+                //  p.DropDownHeight = 0;
                 p.BindList(ViewData["CostControlSiteName"]);
                 //p.ButtonStyle = 
             });
@@ -499,7 +505,7 @@
             c.EditorProperties().ComboBox(p =>
             {
                 p.ValueType = typeof(string);
-               // p.Items.Add("Y");
+                // p.Items.Add("Y");
                 //p.Items.Add("N");
                 p.Items.Add("KO", "KO");
                 p.Items.Add("Under Review", "UR");
@@ -1951,7 +1957,7 @@
 
                 gridView.JSProperties["cpTotalTarget"] = String.Format("$ {0:N2}", TotalTarget);
                 gridView.JSProperties["cpTotalSavingAchieved"] = String.Format("$ {0:N2}", TotalSavingAchieved);
-                gridView.JSProperties["cpNumberOfInitiative"] = String.Format("{0:N0}", gridView.VisibleRowCount); 
+                gridView.JSProperties["cpNumberOfInitiative"] = String.Format("{0:N0}", gridView.VisibleRowCount);
             }
             else
             {
