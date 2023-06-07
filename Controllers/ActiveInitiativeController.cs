@@ -127,17 +127,21 @@ log4net.LogManager.GetLogger
             return PartialView("_NewInitiative");
         }
         [HttpGet]
-        public ActionResult ShowDeletedInitiatives(string data) {
-           return RedirectToAction("GrdMainInitiativePartial");
+        public ActionResult ShowDeletedInitiatives(string data)
+        {
+            TempData["showDeleteInit"] = data;           
+            var json = "refresh";
+            return Content(JsonConvert.SerializeObject(json));
         }
 
         [ValidateInput(false)]
-        public ActionResult GrdMainInitiativePartial(string flag="")// Main Function to show data in Main Grid
+        public ActionResult GrdMainInitiativePartial()// Main Function to show data in Main Grid
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
             var projYear = profileData.ProjectYear;
             var spprojyear = projYear;
             var projMonth = profileData.ProjectMonth;
+            string showDeleteInit = Convert.ToString(TempData["showDeleteInit"]);
 
             if (profileData.ProjectYear < 2023)
                 profileData.ProjectYear = 2022;
@@ -368,8 +372,11 @@ log4net.LogManager.GetLogger
 
                 _counter++;
             }
-            where += " and initStatus != " + deleteStatusId + " ";
-            var spcondi = "a.isDeleted =0 " + where ;
+            if (showDeleteInit != "yes")
+            {
+                where += " and initStatus != " + deleteStatusId + " ";
+            }
+            var spcondi = "a.isDeleted =0 " + where;
             //if (Session["issaveupdtae"] == "1")
             //{
             //    Session["issaveupdtae"] = 0;
@@ -789,8 +796,6 @@ log4net.LogManager.GetLogger
 
                 }
             }
-
-
             return PartialView("_GrdMainInitiativePartial", model);
         }
 
