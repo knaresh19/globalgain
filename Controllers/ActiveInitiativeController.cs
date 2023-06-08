@@ -46,6 +46,7 @@ log4net.LogManager.GetLogger
         t_initiative tInitRecord = new t_initiative();
         public ActionResult Index()
         {
+            Session["showDeletedInit"] = "no";
             //vwheaderinitiative model = new vwheaderinitiative();
             return View();
         }
@@ -129,7 +130,8 @@ log4net.LogManager.GetLogger
         [HttpGet]
         public ActionResult ShowDeletedInitiatives(string data)
         {
-            TempData["showDeleteInit"] = data;           
+            //TempData["showDeleteInit"] = data;
+            Session["showDeletedInit"] = data;
             var json = "refresh";
             return Content(JsonConvert.SerializeObject(json));
         }
@@ -141,7 +143,7 @@ log4net.LogManager.GetLogger
             var projYear = profileData.ProjectYear;
             var spprojyear = projYear;
             var projMonth = profileData.ProjectMonth;
-            string showDeleteInit = Convert.ToString(TempData["showDeleteInit"]);
+            string showDeleteInit = Convert.ToString(Session["showDeletedInit"]);
 
             if (profileData.ProjectYear < 2023)
                 profileData.ProjectYear = 2022;
