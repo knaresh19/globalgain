@@ -1,22 +1,19 @@
+using DevExpress.Spreadsheet;
+using DevExpress.Web;
 using DevExpress.Web.Mvc;
+using GAIN.Helper;
+using GAIN.Models;
+using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+//using Excel = Microsoft.Office.Interop.Excel;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Globalization;
-using GAIN.Models;
-using Newtonsoft.Json;
-using DevExpress.Web;
-using DevExpress.Web.Export;
-using DevExpress.XtraCharts;
-using System.Configuration;
-using MySql.Data.MySqlClient;
-using System.Data;
-using GAIN.Helper;
-//using Excel = Microsoft.Office.Interop.Excel;
-using System.IO;
-using DevExpress.Spreadsheet;
 /*
 * Adding comment here
 */
@@ -1120,7 +1117,14 @@ log4net.LogManager.GetLogger
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
             var model = db.t_initiative;
-            var model2 = db.vwheaderinitiatives.OrderByDescending(o => o.CreatedDate);
+            var deletedStatus = db.mstatus.Where(s => s.Status.ToLower() == "deleted" &&
+            s.InitYear == profileData.ProjectYear && s.isActive == "Y").FirstOrDefault();
+            long deleteStatusId = (deletedStatus != null) ? deletedStatus.id : 0;
+            var model2 = (Convert.ToString(Session["showDeletedInit"]) == "no") ?
+                 db.vwheaderinitiatives.Where(o => o.InitStatus != deleteStatusId)
+                    .OrderByDescending(o => o.CreatedDate) :
+                     db.vwheaderinitiatives.OrderByDescending(o => o.CreatedDate);
+                 
             long year = profileData.ProjectYear;
             long status = db.mstatus.Where(s => s.Status.ToLower() == "deleted" && s.InitYear == year).FirstOrDefault().id;
             
