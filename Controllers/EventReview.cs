@@ -8,8 +8,9 @@ using GAIN.Models;
 using System.Configuration;
 
 namespace GAIN.Controllers
-{    public class EventReviewController : MyBaseController
-     {
+{
+    public class EventReviewController : MyBaseController
+    {
         GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
 
         public ActionResult GrdEventReviewPartial()
@@ -31,11 +32,11 @@ namespace GAIN.Controllers
                 }
                 else
                 {
-                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.projectyear >= (profileData2.ProjectYear-1)).ToList();
+                    model = db.logtables.Where(c => c.initnumber == initiative.InitNumber && c.projectyear >= (profileData2.ProjectYear - 1)).ToList();
                 }
 
                 //manipulate the model accordingly to show the current value for File upload
-                foreach(logtable lt in model)
+                foreach (logtable lt in model)
                 {
                     if (lt.newValues != null && lt.newValues.Length > 0)
                     {
@@ -66,7 +67,8 @@ namespace GAIN.Controllers
                     }
                 }
                 ViewBag.Initnumber = initiative.InitNumber;
-            } else
+            }
+            else
             {
                 model = db.logtables.Where(c => c.initnumber == ID.ToString()).ToList();
                 ViewBag.Initnumber = "";
@@ -75,6 +77,13 @@ namespace GAIN.Controllers
             return PartialView("~/Views/ActiveInitiative/_GrdEventReviewPartial.cshtml", model);
         }
 
+        public ActionResult GrdUserEventReviewPartial()
+        {
+            //return null;
+            var model = Session["UserEventReview"];
+            Session["UserEventReview"] = null;
+            return PartialView("~/Views/MUsers/_GrdUserEventReviewPartial.cshtml", model);
+        }
         public ActionResult SetEventReviewID(FormPost PostedData)
         {
             EventReviewSession EventReviewSession = new EventReviewSession
@@ -102,6 +111,15 @@ namespace GAIN.Controllers
 
             return Content(initiative.InitNumber);
             //return PartialView("~/Views/ActiveInitiative/_GrdEventReviewPartial.cshtml", model);
+        }
+        [HttpPost]
+        public ActionResult SetUserEventReviewID(FormPost PostedData)
+        {
+            int userId = Convert.ToInt32(PostedData.ID);
+            var model = db.logtables.Where(item => item.tablesName == "user_list" && item.user_listid == userId).ToList();            
+            Session["UserEventReview"] = model;
+            return null;
+            //return (null);
         }
     }
 }

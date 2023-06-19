@@ -19,6 +19,7 @@
 					<Property Name="newValues" Type="text" />
 					<Property Name="dateUpdate" Type="datetime" Precision="0" />
 					<Property Name="updateBy" Type="varchar" MaxLength="100" />
+					<Property Name="user_listid" Type="int" />
 				</EntityType>
 				<EntityType Name="maccess_menu">
 					<Key>
@@ -33,6 +34,7 @@
 					<Property Name="createddate" Type="datetime" Precision="0" />
 					<Property Name="modifiedby" Type="varchar" MaxLength="64" />
 					<Property Name="modifieddate" Type="datetime" Precision="0" />
+					
 				</EntityType>
 				<EntityType Name="mactiontype">
 					<Key>
@@ -1968,6 +1970,7 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 					<Property Name="newValues" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
 					<Property Name="dateUpdate" Type="DateTime" />
 					<Property Name="updateBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+					<Property Name="user_listid" Type="Int32" />
 				</EntityType>
 				<EntityType Name="maccess_menu">
 					<Key>
@@ -3773,6 +3776,7 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 								<ScalarProperty Name="newValues" ColumnName="newValues" />
 								<ScalarProperty Name="dateUpdate" ColumnName="dateUpdate" />
 								<ScalarProperty Name="updateBy" ColumnName="updateBy" />
+								<ScalarProperty Name="user_listid" ColumnName="user_listid" />
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>

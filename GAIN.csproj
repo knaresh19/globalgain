@@ -6293,6 +6293,7 @@
     <Content Include="Web.config" />
     <Content Include="Views\MSubCountryCostControl\_GrdSubCountryCostControlPartial.cshtml" />
     <Content Include="Views\MSubCountryCostControl\Index.cshtml" />
+    <Content Include="Views\MUsers\_GrdUserEventReviewPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

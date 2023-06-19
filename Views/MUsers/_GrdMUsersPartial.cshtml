@@ -34,6 +34,8 @@
         settings.CommandColumn.ShowNewButton = true;
         settings.CommandColumn.ShowDeleteButton = true;
         settings.CommandColumn.ShowEditButton = true;
+        settings.CommandColumn.Width = 130;
+
         settings.SettingsPager.PageSize = 10;
         settings.SettingsPager.PageSizeItemSettings.Visible = true;
 
@@ -41,6 +43,7 @@
         settings.SettingsCommandButton.EditButton.Image.IconID = "icoEdit";
         settings.SettingsCommandButton.EditButton.Image.Url = Url.Content("~/assets/poin/images/Sign_up_Icon_22.png");
         settings.SettingsCommandButton.EditButton.Image.ToolTip = "Edit";
+
         settings.SettingsCommandButton.NewButton.RenderMode = GridCommandButtonRenderMode.Image;
         settings.SettingsCommandButton.NewButton.Image.IconID = "add-file";
         settings.SettingsCommandButton.NewButton.Image.Url = Url.Content("~/assets/poin/images/add-file.png");
@@ -49,6 +52,20 @@
         settings.SettingsCommandButton.DeleteButton.Image.IconID = "Open_Folder_Delete_Icon_22";
         settings.SettingsCommandButton.DeleteButton.Image.Url = Url.Content("~/assets/poin/images/Open_Folder_Delete_Icon_22.png");
         settings.SettingsCommandButton.DeleteButton.Image.ToolTip = "Delete";
+
+        #region Grid View Custom Command Button
+        GridViewCommandColumnCustomButton EventUserReview = new GridViewCommandColumnCustomButton();
+        //EventUserReview.ID = "eventUserReview";
+        EventUserReview.Image.Url = Url.Content("~/assets/poin/images/log_22.png");
+        EventUserReview.Image.ToolTip = "Event User Review";
+        //EventUserReview.Assi
+        settings.CommandColumn.CustomButtons.Add(EventUserReview);
+        //OnClickEventReview(s, e);
+        EventUserReview.Image.IconID = "eventUserReview";
+        settings.ClientSideEvents.CustomButtonClick = string.Format("function(s, e) {{ OnClickUserEventReview(s,e); }}");
+
+        #endregion
+
         settings.SettingsCommandButton.UpdateButton.RenderMode = GridCommandButtonRenderMode.Button;
         //settings.SettingsCommandButton.UpdateButton.Image.IconID = "Total Commander_32";
         settings.SettingsCommandButton.UpdateButton.Image.Url = Url.Content("~/assets/poin/images/Total Commander_22.png");
