@@ -52,5 +52,7 @@ namespace GAIN.Models
         public Nullable<int> validity_right { get; set; }
         public Nullable<int> confidential_right { get; set; }
         public string years_right { get; set; }
+        public string updatedBy { get; set; }
+        public DateTime updatedDate { get; set; }
     }
 }

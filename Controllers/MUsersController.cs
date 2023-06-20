@@ -46,6 +46,7 @@ namespace GAIN.Controllers
         public ActionResult GrdMUsersPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.user_list item)
         {
             var model = db.user_list;
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
 
             ProcessOthersData(ref item);
 
@@ -93,6 +94,8 @@ namespace GAIN.Controllers
             //Copy the cost control site right to cost control site
 
             item.costcontrolsite = item.CostControlSite_right;
+            item.updatedBy = profileData.ID;
+            item.updatedDate = System.DateTime.Now;
             if (TryValidateModel(item))
             {
                 DbEntityValidationResult resultVal = db.Entry(item).GetValidationResult();
@@ -145,6 +148,7 @@ namespace GAIN.Controllers
         public ActionResult GrdMUsersPartialUpdate(GAIN.Models.user_list item)
         {
             var model = db.user_list;
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
 
             if (Request.Form["user_id"] != null)
             {
@@ -232,7 +236,9 @@ namespace GAIN.Controllers
                         modelItem.validity_right = item.validity_right;
                         modelItem.confidential_right = item.confidential_right;
                         modelItem.years_right = item.years_right;
-
+                        modelItem.updatedBy = profileData.ID;
+                        modelItem.updatedDate = System.DateTime.Now;
+                        //modelItem
                         //modelItem.encPassword = GAIN.Controllers.LoginController.GetSha1(item.encPassword.Trim());
                         db.SaveChanges();
                     }
