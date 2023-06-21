@@ -6,7 +6,7 @@
 ////    var projectMonth = profileData.ProjectMonth;
 ////}
 
-function URLContent(url) {
+function URLContent(url) {    
     return UrlContent + url;
 }
 
@@ -1608,6 +1608,18 @@ function OnClickEventReview(s, e) {
         WindowEventReview.Show();
     });
 }
+
+function OnClickUserEventReview(s, e) {
+    var idx = s.GetRowKey(e.visibleIndex);    
+    $('.titleinitiative').html('');
+    $.post('EventReview/SetUserEventReviewID', { ID: idx }, function (data) {
+        //WindowEventReview.SetContentHtml(data);
+        $('.titleinitiative').html('User Events' + data);
+        GrdUserEventReview.Refresh();
+        WindowUserEventReview.Show();
+    });
+}
+
 
 function OnClickComment(s, e) {
     var id = s.GetRowKey(e.visibleIndex);

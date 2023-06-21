@@ -271,6 +271,8 @@
 
 
 @Html.Partial("_ViewKebutuhanDevExpress")
+<script src="@Url.Content("~/assets/poin/js/maingrid.js?v=" + DateTime.Now.Ticks.ToString())" type="text/javascript"></script>
+
 
 @Html.Partial("_StyleMaster")
 
@@ -331,3 +333,60 @@
     }
 </script>
 
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "WindowUserEventReview";
+    settings.Width = 1050;
+    settings.Height = 500;
+    settings.ShowPageScrollbarWhenModal = true;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.AllowResize = false;
+    settings.ShowHeader = true;
+    settings.ShowFooter = true;
+    settings.ShowOnPageLoad = false;
+    settings.AllowDragging = true;
+    settings.CloseAction = CloseAction.CloseButton;
+    settings.CloseOnEscape = true;
+    settings.Modal = true;
+    settings.HeaderText = "GAIN - User Event Review Window";
+    settings.FooterText = "GAIN - CMACGM Copyright @" + DateTime.Now.Year + ". APAC DIGITAL FACTORY - CMA-CGM";
+
+    settings.SetContent(() =>
+    {
+        //Html.Action("GrdEventReviewPartial", "EventReview");
+
+        ViewContext.Writer.Write("" +
+            "<div class=\"row\" style=\"display: block;\"> " +
+            "    <div class=\"col-md-12 col-sm-12\">" +
+            "        <div class=\"col-md-10 col-sm-10\">" +
+            "            <h2 class=\"titleinitiative\"></h2> " +
+            "        </div> " +
+            "        <div class=\"col-md-2 col-sm-2\"> " +
+            "            <div style=\"float:right;\"> " +
+            "                &nbsp; " +
+            "            </div> " +
+            "        </div> " +
+            "    </div> " +
+            "</div> ");
+
+        Html.RenderPartial("_GrdUserEventReviewPartial");
+
+        ViewContext.Writer.Write("" +
+        "<div class=\"row\"><br /></div> " +
+        "" +
+        "<div class=\"row\" style=\"display: block;\">" +
+        "    <div class=\"col-md-12 col-sm-12\">" +
+        "        <div class=\"col-md-10 col-sm-10\">" +
+        "            &nbsp;" +
+        "        </div>" +
+        "        <div class=\"col-md-2 col-sm-2\">" +
+        "            <div style=\"float:right;\">" +
+        "                <button class=\"btn btn-danger\" onclick=\"WindowUserEventReview.Hide();\">Close</button>" +
+        "            </div>" +
+        "        </div>" +
+        "    </div>" +
+        "</div>");
+
+    });
+}).GetHtml()
