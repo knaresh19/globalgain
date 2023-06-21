@@ -24,6 +24,6 @@ namespace GAIN.Models
         public string newValues { get; set; }
         public Nullable<System.DateTime> dateUpdate { get; set; }
         public string updateBy { get; set; }
-        public int user_listid { get; set; }
+        public Nullable<int> user_listid { get; set; }
     }
 }
