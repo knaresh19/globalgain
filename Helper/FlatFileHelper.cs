@@ -517,16 +517,16 @@ namespace GAIN.Helper
                 return null;
             }            
         }
-        public void DisposeFile(string _path)
-        {
-            if (System.IO.File.Exists(_path))
-            {
-                FileStream s = new FileStream(_path, FileMode.Open); //openning stream, them file in use by a process               
-                s.Close();
-                s.Dispose();
-                System.IO.File.Delete(_path);
-            }
-        }
+        //public void DisposeFile(string _path)
+        //{
+        //    if (System.IO.File.Exists(_path))
+        //    {
+        //        FileStream s = new FileStream(_path, FileMode.Open); //openning stream, them file in use by a process               
+        //        s.Close();
+        //        s.Dispose();
+        //        System.IO.File.Delete(_path);
+        //    }
+        //}
         public CPIMonthValues GetCPIMonthValues(decimal cpiValue)
         {
             CPIMonthValues objCPIMonthValues = new CPIMonthValues()

@@ -1663,7 +1663,9 @@ log4net.LogManager.GetLogger
                     if (!(dtExcelInitiatives.Columns.Count >= 91 && dtExcelInitiatives.Columns.Count < 93))
                     {
                         resultCountobj.validationMsg = "Please upload valid excel template";
-                        objFlatFileHelper.DisposeFile(_inputpath);
+                        workbook.Dispose();
+                        stream.Dispose();
+                        System.IO.File.Delete(_inputpath);
                         return Content(JsonConvert.SerializeObject(resultCountobj));
                     }
                     else
