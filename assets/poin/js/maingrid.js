@@ -1620,6 +1620,14 @@ function OnClickUserEventReview(s, e) {
     });
 }
 
+function closeUserEventWindow() {
+
+    $.post('EventReview/CloseUserEventWindow', function (data) {
+        //WindowEventReview.SetContentHtml(data);
+        WindowUserEventReview.Hide();
+    });
+}
+
 
 function OnClickComment(s, e) {
     var id = s.GetRowKey(e.visibleIndex);

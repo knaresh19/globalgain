@@ -330,7 +330,8 @@
         else {
             $('#form-upload-files-list-user').submit();
         }
-    }
+    }    
+
 </script>
 
 @Html.DevExpress().PopupControl(settings =>
@@ -382,7 +383,7 @@
         "        </div>" +
         "        <div class=\"col-md-2 col-sm-2\">" +
         "            <div style=\"float:right;\">" +
-        "                <button class=\"btn btn-danger\" onclick=\"WindowUserEventReview.Hide();\">Close</button>" +
+        "                <button class=\"btn btn-danger\" onclick=\"closeUserEventWindow();\">Close</button>" +
         "            </div>" +
         "        </div>" +
         "    </div>" +
