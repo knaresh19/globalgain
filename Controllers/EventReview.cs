@@ -81,7 +81,7 @@ namespace GAIN.Controllers
         {
             //return null;
             var model = Session["UserEventReview"];
-            Session["UserEventReview"] = null;
+            //Session["UserEventReview"] = null;
             return PartialView("~/Views/MUsers/_GrdUserEventReviewPartial.cshtml", model);
         }
         public ActionResult SetEventReviewID(FormPost PostedData)
@@ -115,11 +115,18 @@ namespace GAIN.Controllers
         [HttpPost]
         public ActionResult SetUserEventReviewID(FormPost PostedData)
         {
+            //Session["UserEventReview"] = null;
             int userId = Convert.ToInt32(PostedData.ID);
-            var model = db.logtables.Where(item => item.tablesName == "user_list" && item.user_listid == userId).ToList();            
+            var model = db.logtables.Where(item => item.tablesName == "user_list" && item.user_listid == userId).ToList();
             Session["UserEventReview"] = model;
             return null;
             //return (null);
+        }
+
+        [HttpPost]
+        public ActionResult CloseUserEventWindow(FormPost PostedData) {
+            Session["UserEventReview"] = null;
+            return null;
         }
     }
 }
