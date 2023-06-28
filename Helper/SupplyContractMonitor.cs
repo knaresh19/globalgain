@@ -166,6 +166,12 @@ namespace GAIN.Helper
                         " If initiative status is not 'Work in progress', then Agency user cannot change the start or end date," : "";
                 }
             }
+
+            //ENH00209
+            if (Convert.ToString(drRow["InitiativeStatus"]).ToLower() == "cost avoidance")
+            {
+                remarks += "Invalid Initiative Status.";
+            }
             return remarks;
         }
 

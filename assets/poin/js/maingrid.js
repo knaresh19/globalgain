@@ -210,9 +210,19 @@ $(function () {
                 value = JSON.stringify(value); obj = JSON.parse(value);
                 if (obj != null) GrdSynImpact.AddItem(obj.SynImpactName, obj.id);
             });
+            //ENH00209
             $.each(data[0]["InitStatusData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
-                if (obj != null) GrdInitStatus.AddItem(obj.Status, obj.id);
+                if (obj != null) {
+                    if (isProcurement == 1) {
+                        if (obj.Status.toLowerCase() != "cost avoidance")
+                            GrdInitStatus.AddItem(obj.Status, obj.id);
+                    }
+                    else {
+                        GrdInitStatus.AddItem(obj.Status, obj.id);
+                    }
+                }
+                //GrdInitStatus.AddItem(obj.Status, obj.id);
             });
             $.each(data[0]["PortNameData"], function (key, value) {
                 value = JSON.stringify(value); obj = JSON.parse(value);
@@ -449,7 +459,7 @@ $(function () {
             $(this).text("Cancel");
             $("#chkAuto").prop('disabled', false);
             CheckUncheck();
-        }
+        }      
     });
 
     $("#btnClose").on('click', function () {
@@ -849,7 +859,7 @@ function ShowEditWindow(id) {
 
 
     $("#FormStatus").val("Edit");
-    // debugger;
+    //debugger;
 
 
 
@@ -878,9 +888,6 @@ function ShowEditWindow(id) {
 
             var brandId = obj.BrandID;
             var legalentityidx = (obj.LegalEntityID == null) ? 0 : obj.LegalEntityID;
-
-
-
             $.post(URLContent('ActiveInitiative/GetInfoForPopUp'), { Id: id }, function (DDdata) {
                 var obj1; GrdInitType.ClearItems(); GrdActionType.ClearItems(); GrdSynImpact.ClearItems(); GrdInitStatus.ClearItems(); TxPortName.ClearItems(); GrdInitCategory.ClearItems(); GrdSubCost.ClearItems();
                 var uType = user_type;
@@ -915,9 +922,18 @@ function ShowEditWindow(id) {
                     dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
                     if (obj1 != null) GrdSynImpact.AddItem(obj1.SynImpactName, obj1.id);
                 });
+               //ENH00209
                 $.each(DDdata[0]["InitStatusData"], function (key, dd_value) {
                     dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
-                    if (obj1 != null) GrdInitStatus.AddItem(obj1.Status, obj1.id);
+                    if (obj1 != null) {
+                        if (isProcurement == 1) {
+                            if (obj1.Status.toLowerCase() != "cost avoidance")
+                                GrdInitStatus.AddItem(obj1.Status, obj1.id);
+                        }
+                        else {
+                            GrdInitStatus.AddItem(obj1.Status, obj1.id);
+                        }
+                    }
                 });
                 $.each(DDdata[0]["PortNameData"], function (key, dd_value) {
                     dd_value = JSON.stringify(dd_value); obj1 = JSON.parse(dd_value);
