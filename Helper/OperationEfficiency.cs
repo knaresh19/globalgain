@@ -137,18 +137,18 @@ namespace GAIN.Helper
                     }
                 }
                 // Setting Achieved values
-                drRow["AchJan"] = objFlatFileHelper.getValue(drRow["AchJan"].ToString());
-                drRow["AchFeb"] = objFlatFileHelper.getValue(drRow["AchFeb"].ToString());
-                drRow["AchMar"] = objFlatFileHelper.getValue(drRow["AchMar"].ToString());
-                drRow["AchApr"] = objFlatFileHelper.getValue(drRow["AchApr"].ToString());
-                drRow["AchMay"] = objFlatFileHelper.getValue(drRow["AchMay"].ToString());
-                drRow["AchJun"] = objFlatFileHelper.getValue(drRow["AchJun"].ToString());
-                drRow["AchJul"] = objFlatFileHelper.getValue(drRow["AchJul"].ToString());
-                drRow["AchAug"] = objFlatFileHelper.getValue(drRow["AchAug"].ToString());
-                drRow["AchSep"] = objFlatFileHelper.getValue(drRow["AchSep"].ToString());
-                drRow["AchOct"] = objFlatFileHelper.getValue(drRow["AchOct"].ToString());
-                drRow["AchNov"] = objFlatFileHelper.getValue(drRow["AchNov"].ToString());
-                drRow["AchDec"] = objFlatFileHelper.getValue(drRow["AchDec"].ToString());
+                drRow["AchJan"] = this.getAchievedValue(1, drRow["AchJan"].ToString(), dtStartMonth, dtEndMonth); //objFlatFileHelper.getValue(drRow["AchJan"].ToString()); //
+                drRow["AchFeb"] = this.getAchievedValue(2, drRow["AchFeb"].ToString(), dtStartMonth, dtEndMonth); 
+                drRow["AchMar"] = this.getAchievedValue(3, drRow["AchMar"].ToString(), dtStartMonth, dtEndMonth); 
+                drRow["AchApr"] = this.getAchievedValue(4, drRow["AchApr"].ToString(), dtStartMonth, dtEndMonth); 
+                drRow["AchMay"] = this.getAchievedValue(5, drRow["AchMay"].ToString(), dtStartMonth, dtEndMonth); 
+                drRow["AchJun"] = this.getAchievedValue(6, drRow["AchJun"].ToString(), dtStartMonth, dtEndMonth); 
+                drRow["AchJul"] = this.getAchievedValue(7, drRow["AchJul"].ToString(), dtStartMonth, dtEndMonth); 
+                drRow["AchAug"] = this.getAchievedValue(8, drRow["AchAug"].ToString(), dtStartMonth, dtEndMonth); 
+                drRow["AchSep"] = this.getAchievedValue(9, drRow["AchSep"].ToString(), dtStartMonth, dtEndMonth); 
+                drRow["AchOct"] = this.getAchievedValue(10, drRow["AchOct"].ToString(), dtStartMonth, dtEndMonth);
+                drRow["AchNov"] = this.getAchievedValue(11, drRow["AchNov"].ToString(), dtStartMonth, dtEndMonth);
+                drRow["AchDec"] = this.getAchievedValue(12, drRow["AchDec"].ToString(), dtStartMonth, dtEndMonth);
                 nCurrYrTarget = (isAutoCalculate) ? this.getCurrentYrTarget(drRow, dtStartMonth, dtEndMonth, isPrevYrInit) : nCurrYrTarget;
                 drRow["TargetNY"] = objFlatFileHelper.getValue(nCurrYrTarget.ToString());
                 drRow["NFYSecuredTOTALEFFECT"] = objFlatFileHelper.getValue(drRow["NFYSecuredTOTALEFFECT"].ToString());
@@ -556,6 +556,17 @@ namespace GAIN.Helper
             }
             return isChanged;
         }
+        #region INC1700381 
+        //INC1700381 - Able to update achieved savings in august even if the end date is June 2023 or earlier
+        private double getAchievedValue(int iMonth, string drMonthAchievedVal, DateTime dtStartMonth, DateTime dtEndMonth)
+        {
+            if (dtStartMonth.Year != dtEndMonth.Year)
+                return ((dtStartMonth.Month <= iMonth) ? objFlatFileHelper.getValue(drMonthAchievedVal) : 0);
+            else
+                return objFlatFileHelper.getValue(drMonthAchievedVal);
+        }
+        #endregion
+
         private double getCurrentYrTarget(DataRow dataRow, DateTime dtStartMonth, DateTime dtEndMonth, bool isPrevInitYr)
         {
             double flCurrYrTarget = 0;
