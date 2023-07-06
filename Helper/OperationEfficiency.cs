@@ -244,7 +244,7 @@ namespace GAIN.Helper
             }
             else
             {
-                dataRow = this.setPrevCurrYrInitValues(dataRow, tInitiative);
+                dataRow = this.setPrevCurrYrInitValues(dataRow, tInitiative, dtStartMonth, dtEndMonth);
             }
             double nfySecTotalEffect = this.getFYSecTotalEffect(dataRow);
             remarks += this.getInitTypeValidRemarks(dataRow, lstInitTypeCostSubCosts, nfySecTotalEffect);
@@ -561,7 +561,6 @@ namespace GAIN.Helper
         private double getCurAchievedValue(int iMonth, string drMonthAchievedVal, DateTime dtStartMonth, DateTime dtEndMonth)
         {
             int curYear = System.DateTime.Now.Year;
-
             if (dtStartMonth.Year != dtEndMonth.Year)
                 if (curYear == dtStartMonth.Year)
                     return ((dtStartMonth.Month <= iMonth) ? objFlatFileHelper.getValue(drMonthAchievedVal) : 0);
@@ -784,7 +783,7 @@ namespace GAIN.Helper
             return prevYrTarget;
         }
 
-        private DataRow setPrevCurrYrInitValues(DataRow drRow, t_initiative tInitRecord)
+        private DataRow setPrevCurrYrInitValues(DataRow drRow, t_initiative tInitRecord ,DateTime dtStartMonth, DateTime dtEndMonth)
         {
             // Set the prev yr values as TargetJan.. and AchJan.. and excel values TargetNexJan and achnexjan
             drRow["TargetNexJan"] = objFlatFileHelper.getValue(drRow["TargetJan"].ToString());
@@ -800,18 +799,18 @@ namespace GAIN.Helper
             drRow["TargetNexNov"] = objFlatFileHelper.getValue(drRow["TargetNov"].ToString());
             drRow["TargetNexDec"] = objFlatFileHelper.getValue(drRow["TargetDec"].ToString());
 
-            drRow["AchNexJan"] = objFlatFileHelper.getValue(drRow["AchJan"].ToString());
-            drRow["AchNexFeb"] = objFlatFileHelper.getValue(drRow["AchFeb"].ToString());
-            drRow["AchNexMar"] = objFlatFileHelper.getValue(drRow["AchMar"].ToString());
-            drRow["AchNexApr"] = objFlatFileHelper.getValue(drRow["AchApr"].ToString());
-            drRow["AchNexMay"] = objFlatFileHelper.getValue(drRow["AchMay"].ToString());
-            drRow["AchNexJun"] = objFlatFileHelper.getValue(drRow["AchJun"].ToString());
-            drRow["AchNexJul"] = objFlatFileHelper.getValue(drRow["AchJul"].ToString());
-            drRow["AchNexAug"] = objFlatFileHelper.getValue(drRow["AchAug"].ToString());
-            drRow["AchNexSep"] = objFlatFileHelper.getValue(drRow["AchSep"].ToString());
-            drRow["AchNexOct"] = objFlatFileHelper.getValue(drRow["AchOct"].ToString());
-            drRow["AchNexNov"] = objFlatFileHelper.getValue(drRow["AchNov"].ToString());
-            drRow["AchNexDec"] = objFlatFileHelper.getValue(drRow["AchDec"].ToString());
+            drRow["AchNexJan"] = this.getCurAchievedValue(1, drRow["AchJan"].ToString(), dtStartMonth, dtEndMonth); // objFlatFileHelper.getValue(drRow["AchJan"].ToString());
+            drRow["AchNexFeb"] = this.getCurAchievedValue(2, drRow["AchFeb"].ToString(), dtStartMonth, dtEndMonth); //objFlatFileHelper.getValue(drRow["AchFeb"].ToString());
+            drRow["AchNexMar"] = this.getCurAchievedValue(3, drRow["AchMar"].ToString(), dtStartMonth, dtEndMonth);
+            drRow["AchNexApr"] = this.getCurAchievedValue(4, drRow["AchApr"].ToString(), dtStartMonth, dtEndMonth);
+            drRow["AchNexMay"] = this.getCurAchievedValue(5, drRow["AchMay"].ToString(), dtStartMonth, dtEndMonth);
+            drRow["AchNexJun"] = this.getCurAchievedValue(6, drRow["AchJun"].ToString(), dtStartMonth, dtEndMonth);
+            drRow["AchNexJul"] = this.getCurAchievedValue(7, drRow["AchJul"].ToString(), dtStartMonth, dtEndMonth);
+            drRow["AchNexAug"] = this.getCurAchievedValue(8, drRow["AchAug"].ToString(), dtStartMonth, dtEndMonth);
+            drRow["AchNexSep"] = this.getCurAchievedValue(9, drRow["AchSep"].ToString(), dtStartMonth, dtEndMonth);
+            drRow["AchNexOct"] = this.getCurAchievedValue(10, drRow["AchOct"].ToString(), dtStartMonth, dtEndMonth);
+            drRow["AchNexNov"] = this.getCurAchievedValue(11, drRow["AchNov"].ToString(), dtStartMonth, dtEndMonth);
+            drRow["AchNexDec"] = this.getCurAchievedValue(12, drRow["AchDec"].ToString(), dtStartMonth, dtEndMonth);
 
             // Previous yr values as existing in table.
             drRow["TargetJan"] = objFlatFileHelper.getValue(tInitRecord.TargetJan.ToString());
