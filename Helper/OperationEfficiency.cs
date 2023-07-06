@@ -561,7 +561,7 @@ namespace GAIN.Helper
         private double getAchievedValue(int iMonth, string drMonthAchievedVal, DateTime dtStartMonth, DateTime dtEndMonth)
         {
             if (dtStartMonth.Year != dtEndMonth.Year)
-                return ((dtStartMonth.Month <= iMonth) ? objFlatFileHelper.getValue(drMonthAchievedVal) : 0);
+                return ((dtStartMonth.Month <= iMonth || dtEndMonth.Month <= iMonth) ? objFlatFileHelper.getValue(drMonthAchievedVal) : 0);
             else
                 return objFlatFileHelper.getValue(drMonthAchievedVal);
         }
