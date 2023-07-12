@@ -1660,7 +1660,7 @@ log4net.LogManager.GetLogger
                     drFirstRow.Delete();
                     dtExcelInitiatives.AcceptChanges();
 
-                    if (!(dtExcelInitiatives.Columns.Count >= 91 && dtExcelInitiatives.Columns.Count < 93))
+                    if (!(dtExcelInitiatives.Columns.Count >= 91 && dtExcelInitiatives.Columns.Count < 94))
                     {
                         resultCountobj.validationMsg = "Please upload valid excel template";
                         workbook.Dispose();
@@ -1693,7 +1693,7 @@ log4net.LogManager.GetLogger
                         string[] monthCols = new string[]{
                             "January" + initYear.ToString(), "February" + initYear.ToString(), "March" + initYear.ToString(), "April" + initYear.ToString(), "May" + initYear.ToString(),
                         "June" + initYear.ToString(), "July" + initYear.ToString(), "August" + initYear.ToString(), "September" + initYear.ToString(), "October" + initYear.ToString(), "November" + initYear.ToString(), "December" + initYear.ToString(),
-                       "F35", "F39", "F43", "F47", "F51", "F55", "F59", "F63", "F67", "F71", "F75", "F79"
+                       "F37", "F41", "F45", "F49", "F53", "F57", "F61", "F65", "F69", "F73", "F77", "F81"
                        };
 
                         string[] monthColsNew = new string[] { "TargetJan", "TargetFeb", "TargetMar",

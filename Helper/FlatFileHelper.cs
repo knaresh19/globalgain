@@ -946,6 +946,9 @@ namespace GAIN.Helper
                                ((userType == 2) ? ((this.getText(lstInit.RPOCComment)) != this.getText(Convert.ToString(dtExcel["RPOCComment"]))) : false) ||
                                ((userType == 3) ? ((this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"]))) : false) ||
                                (this.getText(lstInit.RPOCControl)) != this.getText(this.getValidityRPOC(Convert.ToString(dtExcel["RPOCControl"]))) ||
+                               // responsible name
+                               (this.getText(Convert.ToString(lstInit.ResponsibleFullName)) != this.getText(dtExcel["Responsiblename"].ToString())) ||
+
                                // Init status - compare
                                (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
                                (
@@ -1054,6 +1057,8 @@ namespace GAIN.Helper
                                (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
                                 (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
                                (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
+                               // responsible name
+                               (this.getText(Convert.ToString(lstInit.ResponsibleFullName)) != this.getText(dtExcel["Responsiblename"].ToString())) ||
                                (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
@@ -1178,6 +1183,8 @@ namespace GAIN.Helper
                                ) ||
                                (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
                                (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
+                               // responsible name
+                               (this.getText(lstInit.ResponsibleFullName) != this.getText(dtExcel["Responsiblename"].ToString())) ||
                                (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
                                (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
