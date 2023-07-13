@@ -625,36 +625,12 @@
         #region ENH00208
         settings.Columns.Add(c =>
         {
-            c.FieldName = "TargetNY";
-            //c.FieldName = "N_FY_ST_Total_EF";
+            c.FieldName = "N_FY_ST_Total_EF_Target";
             c.Caption = "Target " + tahun + " (USD)";
             c.PropertiesEdit.DisplayFormatString = "{0:#,###.00}";
             c.Width = 140;
             c.CellStyle.BackColor = System.Drawing.Color.AliceBlue;
             c.Visible = isVisible;
-            c.SetDataItemTemplateContent(cell =>
-            {
-                var column1Value = DataBinder.Eval(cell.DataItem, "ActionTypeID");
-                var column2Value = DataBinder.Eval(cell.DataItem, "TargetNY");
-                var column3Value = DataBinder.Eval(cell.DataItem, "N_FY_ST_Total_EF");
-
-                if (column1Value.ToString() == "51")
-                {
-                    Html.DevExpress().Label(
-                        l =>
-                        {
-                            l.Text = String.Format("{0}", DataBinder.Eval(cell.DataItem, "N_FY_ST_Total_EF"));
-                        }).Render();
-                }
-                else
-                {
-                    Html.DevExpress().Label(
-                        l =>
-                        {
-                            l.Text = String.Format("{0}", DataBinder.Eval(cell.DataItem, "TargetNY"));
-                        }).Render();
-                }
-            });
         });
         #endregion
 
