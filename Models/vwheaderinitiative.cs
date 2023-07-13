@@ -153,6 +153,7 @@ namespace GAIN.Models
         public int isProcurement { get; set; }
 
         public Nullable<decimal> N_FY_ST_Total_EF { get; set; }
+        public Nullable<decimal> N_FY_ST_Total_EF_Target { get; set; }
         public Nullable<decimal> N_YTD_ST_Total_EF { get; set; }
         public Nullable<decimal> N_YTD_A_Total_EF { get; set; }
 

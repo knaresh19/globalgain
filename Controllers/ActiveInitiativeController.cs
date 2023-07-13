@@ -388,6 +388,20 @@ log4net.LogManager.GetLogger
             //}
             var model = GetGridData(spprojyear, spcondi, projMonth, 1);
 
+            #region [ENH00208]Target [Year] USD
+            foreach (var item in model)
+            {
+                if (item.ActionTypeID == 51)// 51 : Action Type Name is "Supplier Contract Monitoring"
+                {
+                    item.N_FY_ST_Total_EF_Target = Convert.ToDecimal(item.N_FY_ST_Total_EF);
+                }
+                else
+                {
+                    item.N_FY_ST_Total_EF_Target = Convert.ToDecimal(item.TargetNY);
+                }
+            }
+            #endregion
+
             // model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where isDeleted = 0 and ProjectYear = '" + profileData.ProjectYear + "' " + where + " order by CreatedDate desc").ToList();
             //model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "' or Year(EndMonth) = '" + profileData.ProjectYear + "') " + where + " order by CreatedDate desc").ToList();
             // var  model = db.vwheaderinitiatives.SqlQuery("select * from vwheaderinitiative as a where   isDeleted = 0 and (Year(StartMonth) = '" + profileData.ProjectYear + "') "+ where + "  order by CreatedDate desc").ToList();
