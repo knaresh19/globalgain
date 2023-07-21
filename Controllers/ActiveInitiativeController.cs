@@ -1692,7 +1692,7 @@ log4net.LogManager.GetLogger
                             col.ColumnName = col.ColumnName.Replace(")", "");
                             col.ColumnName = col.ColumnName.Replace("/", "");
                         }
-                        string[] arrPrevCols = new string[] { "F36", "F40", "F44", "F48", "F52", "F56", "F60", "F64", "F68", "F72", "F76", "F80",
+                        string[] arrPrevCols = new string[] { "F37", "F41", "F45", "F49", "F53", "F57", "F61", "F65", "F69", "F73", "F77", "F81",
             "ActualsVolumesN-1", "$SPENDN-1", "$SPENDN"};
 
                         string[] arrNewCols = new string[] { "JanActualVolumes", "FebActualVolumes", "MarActualVolumes", "AprActualVolumes",
@@ -1707,7 +1707,7 @@ log4net.LogManager.GetLogger
                         string[] monthCols = new string[]{
                             "January" + initYear.ToString(), "February" + initYear.ToString(), "March" + initYear.ToString(), "April" + initYear.ToString(), "May" + initYear.ToString(),
                         "June" + initYear.ToString(), "July" + initYear.ToString(), "August" + initYear.ToString(), "September" + initYear.ToString(), "October" + initYear.ToString(), "November" + initYear.ToString(), "December" + initYear.ToString(),
-                       "F37", "F41", "F45", "F49", "F53", "F57", "F61", "F65", "F69", "F73", "F77", "F81"
+                       "F36", "F40", "F44", "F48", "F52", "F56", "F60", "F64", "F68", "F72", "F76", "F80"
                        };
 
                         string[] monthColsNew = new string[] { "TargetJan", "TargetFeb", "TargetMar",
