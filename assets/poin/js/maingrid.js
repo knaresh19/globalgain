@@ -98,8 +98,8 @@ $(function () {
 
             GrdInitType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
         });
-       // CboHoValidity.AddItem("Y");
-        //CboHoValidity.AddItem("N");
+        CboHoValidity.AddItem("Y");
+        CboHoValidity.AddItem("N");
         CboWebinarCat.AddItem("");
         CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
         CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
@@ -265,8 +265,8 @@ $(function () {
 
             /*GrdInitType.SelectIndex(0);*/ GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
         });
-        //CboHoValidity.AddItem("Y");
-        //CboHoValidity.AddItem("N");
+        CboHoValidity.AddItem("Y");
+        CboHoValidity.AddItem("N");
         CboWebinarCat.AddItem("");
         CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
         CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
@@ -621,8 +621,8 @@ $(function () {
 
             GrdInitType.SelectIndex(0); GrdSynImpact.SelectIndex(0); GrdInitStatus.SelectIndex(0); TxPortName.SelectIndex(0); GrdInitCategory.SelectIndex(0); CboWebinarCat.SelectIndex(0);
         });
-        //CboHoValidity.AddItem("Y");
-        //CboHoValidity.AddItem("N");
+        CboHoValidity.AddItem("Y");
+        CboHoValidity.AddItem("N");
         CboWebinarCat.AddItem("");
         CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
         CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
@@ -864,8 +864,8 @@ function ShowEditWindow(id) {
 
 
 
-   // CboHoValidity.AddItem("Y");
-    //CboHoValidity.AddItem("N");
+    CboHoValidity.AddItem("Y");
+    CboHoValidity.AddItem("N");
     CboRPOCValidity.AddItem("KO", "KO"); CboRPOCValidity.AddItem("Under Review", "UR"); CboRPOCValidity.AddItem("OK Level 1 - L1 if FY Target > 200 kUSD (L1= Cost controller)", "L1");
     CboRPOCValidity.AddItem("OK Level 2 - L2 if FY Target > 300 kUSD (L2 =Management RO)", "L2"); CboRPOCValidity.AddItem("OK Level 3 - L3 if FY Target > 500 kUSD (L3 = Coordinateur HO)", "L3");
     // debugger;
