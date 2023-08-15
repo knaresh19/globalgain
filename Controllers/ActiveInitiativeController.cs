@@ -1867,11 +1867,11 @@ log4net.LogManager.GetLogger
                                     }
                                     if (remarks != "")
                                     {
-                                        (worksheet.Cells[1, 91]).Value = "Remarks";
-                                        (worksheet.Cells[(i + 2), 91]).Value = remarks;
-                                        (worksheet.Cells[(i + 2), 90]).Value = "";
-                                        (worksheet.Cells[(i + 2), 89]).Value = "";
-                                        (worksheet.Cells[(i + 2), 88]).Value = "";
+                                        (worksheet.Cells[1, 93]).Value = "Remarks";
+                                        (worksheet.Cells[(i + 2), 93]).Value = remarks;
+                                        //(worksheet.Cells[(i + 2), 90]).Value = "";
+                                        //(worksheet.Cells[(i + 2), 89]).Value = "";
+                                        //(worksheet.Cells[(i + 2), 88]).Value = "";
                                         (worksheet.Rows[(i + 2)]).FillColor = System.Drawing.Color.Yellow;
                                         errCount++;
                                     }
