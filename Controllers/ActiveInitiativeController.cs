@@ -1674,7 +1674,7 @@ log4net.LogManager.GetLogger
                     drFirstRow.Delete();
                     dtExcelInitiatives.AcceptChanges();
 
-                    if (!(dtExcelInitiatives.Columns.Count >= 91 && dtExcelInitiatives.Columns.Count < 94))
+                    if (!(dtExcelInitiatives.Columns.Count >= 91 && dtExcelInitiatives.Columns.Count < 95))//to handle the remarks column hence its 95 column
                     {
                         resultCountobj.validationMsg = "Please upload valid excel template";
                         workbook.Dispose();
