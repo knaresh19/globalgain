@@ -2869,7 +2869,8 @@ log4net.LogManager.GetLogger
                     initdata.CostCategoryID = GrdInitCategory;
                     initdata.SubCostCategoryID = GrdSubCost;
                     initdata.ActionTypeID = GrdActionType;
-                    if (GrdSynImpact != 0) initdata.SynergyImpactID = GrdSynImpact;
+                    //if (GrdSynImpact != 0) initdata.SynergyImpactID = GrdSynImpact;
+                    initdata.SynergyImpactID = GrdSynImpact;
                     initdata.InitStatus = GrdInitStatus;
                     initdata.StartMonth = StartMonth;
                     initdata.EndMonth = EndMonth;
