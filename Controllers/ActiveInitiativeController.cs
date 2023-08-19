@@ -1674,7 +1674,7 @@ log4net.LogManager.GetLogger
                     drFirstRow.Delete();
                     dtExcelInitiatives.AcceptChanges();
 
-                    if (!(dtExcelInitiatives.Columns.Count >= 91 && dtExcelInitiatives.Columns.Count < 94))
+                    if (!(dtExcelInitiatives.Columns.Count >= 91 && dtExcelInitiatives.Columns.Count < 95))//to handle the remarks column hence its 95 column
                     {
                         resultCountobj.validationMsg = "Please upload valid excel template";
                         workbook.Dispose();
@@ -2869,7 +2869,8 @@ log4net.LogManager.GetLogger
                     initdata.CostCategoryID = GrdInitCategory;
                     initdata.SubCostCategoryID = GrdSubCost;
                     initdata.ActionTypeID = GrdActionType;
-                    if (GrdSynImpact != 0) initdata.SynergyImpactID = GrdSynImpact;
+                    //if (GrdSynImpact != 0) initdata.SynergyImpactID = GrdSynImpact;
+                    initdata.SynergyImpactID = GrdSynImpact;
                     initdata.InitStatus = GrdInitStatus;
                     initdata.StartMonth = StartMonth;
                     initdata.EndMonth = EndMonth;
