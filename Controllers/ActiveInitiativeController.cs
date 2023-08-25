@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Drawing;
 //using Excel = Microsoft.Office.Interop.Excel;
 using System.IO;
 using System.Linq;
@@ -2204,6 +2205,8 @@ log4net.LogManager.GetLogger
             long GrdRegional = NewInitiative.GrdRegional;
             long GrdSubRegion = NewInitiative.GrdSubRegion;
             long GrdCluster = NewInitiative.GrdCluster;
+            mregional_office objRegionalOff = db.mregional_office.SqlQuery("select * from mregional_office where BrandID = " + GrdBrand + " and SubCountryID = " + GrdSubCountry + " and InitYear = " + NewInitiative.ProjectYear).FirstOrDefault();
+            //long GrdRegionalOffice = objRegionalOff.id;
             long GrdRegionalOffice = NewInitiative.GrdRegionalOffice;
             long GrdCostControl = NewInitiative.GrdCostControl;
             string CboConfidential = NewInitiative.CboConfidential;
@@ -3590,17 +3593,19 @@ log4net.LogManager.GetLogger
         }
         public ActionResult GetLegalFromBrand(Models.GetInfoByBrandIDModel GetInfo)
         {
+            List<RegionalOfficeList> RegionalOfficeList = new List<RegionalOfficeList>();
             List<LegalEntityList> LegalEntity = new List<LegalEntityList>();
             List<CostControlList> CostControl = new List<CostControlList>();
             var costControlId = db.mlegalentities.Where(le => le.CountryID == GetInfo.CountryID && le.BrandID == GetInfo.BrandID && le.SubCountryID == GetInfo.SubCountryID).FirstOrDefault().CostControlSiteID;
             CostControl = db.mcostcontrolsites.Where(c => c.id == costControlId).Select(s => new CostControlList { id = s.id, CostControlSiteName = s.CostControlSiteName }).ToList();
             LegalEntity = db.mlegalentities.Where(c => c.BrandID == GetInfo.BrandID && c.CountryID == GetInfo.CountryID && c.SubCountryID == GetInfo.SubCountryID && c.CostControlSiteID == costControlId).Select(s => new LegalEntityList { id = s.id, LegalEntityName = s.LegalEntityName }).ToList();
+            RegionalOfficeList = db.mregional_office.Where(ro => ro.BrandID == GetInfo.BrandID && ro.SubCountryID == GetInfo.SubCountryID).Select(s => new RegionalOfficeList { id = s.id, RegionalOfficeName = s.RegionalOffice_Name }).ToList();
             List<GetDataFromSubCountry> GDSC = new List<GetDataFromSubCountry>();
             GDSC.Add(new GetDataFromSubCountry
             {
                 LegalEntityData = LegalEntity,
-                CostControlSiteData = CostControl
-
+                CostControlSiteData = CostControl,
+                RegionalOfficeData = RegionalOfficeList
             });
             return Json(GDSC, JsonRequestBehavior.AllowGet);
         }
