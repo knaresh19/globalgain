@@ -2238,31 +2238,31 @@ log4net.LogManager.GetLogger
             long? SourceCategory = NewInitiative.SourceCategory;
             SourceCategory = (long?)(SourceCategory == 0 ? (long?)null : SourceCategory);
 
-            decimal? targetjan = NewInitiative.targetjan; decimal? targetjan2 = NewInitiative.targetjan2;
-            decimal? targetfeb = NewInitiative.targetfeb; decimal? targetfeb2 = NewInitiative.targetfeb2;
-            decimal? targetmar = NewInitiative.targetmar; decimal? targetmar2 = NewInitiative.targetmar2;
-            decimal? targetapr = NewInitiative.targetapr; decimal? targetapr2 = NewInitiative.targetapr2;
-            decimal? targetmay = NewInitiative.targetmay; decimal? targetmay2 = NewInitiative.targetmay2;
-            decimal? targetjun = NewInitiative.targetjun; decimal? targetjun2 = NewInitiative.targetjun2;
-            decimal? targetjul = NewInitiative.targetjul; decimal? targetjul2 = NewInitiative.targetjul2;
-            decimal? targetaug = NewInitiative.targetaug; decimal? targetaug2 = NewInitiative.targetaug2;
-            decimal? targetsep = NewInitiative.targetsep; decimal? targetsep2 = NewInitiative.targetsep2;
-            decimal? targetoct = NewInitiative.targetoct; decimal? targetoct2 = NewInitiative.targetoct2;
-            decimal? targetnov = NewInitiative.targetnov; decimal? targetnov2 = NewInitiative.targetnov2;
-            decimal? targetdec = NewInitiative.targetdec; decimal? targetdec2 = NewInitiative.targetdec2;
+            decimal? targetjan = NewInitiative.targetjan ?? 0; decimal? targetjan2 = NewInitiative.targetjan2 ?? 0;
+            decimal? targetfeb = NewInitiative.targetfeb ?? 0; decimal? targetfeb2 = NewInitiative.targetfeb2 ?? 0;
+            decimal? targetmar = NewInitiative.targetmar ?? 0; decimal? targetmar2 = NewInitiative.targetmar2 ?? 0;
+            decimal? targetapr = NewInitiative.targetapr ?? 0; decimal? targetapr2 = NewInitiative.targetapr2 ?? 0;
+            decimal? targetmay = NewInitiative.targetmay ?? 0; decimal? targetmay2 = NewInitiative.targetmay2 ?? 0;
+            decimal? targetjun = NewInitiative.targetjun ?? 0; decimal? targetjun2 = NewInitiative.targetjun2 ?? 0;
+            decimal? targetjul = NewInitiative.targetjul ?? 0; decimal? targetjul2 = NewInitiative.targetjul2 ?? 0;
+            decimal? targetaug = NewInitiative.targetaug ?? 0; decimal? targetaug2 = NewInitiative.targetaug2 ?? 0;
+            decimal? targetsep = NewInitiative.targetsep ?? 0; decimal? targetsep2 = NewInitiative.targetsep2 ?? 0;
+            decimal? targetoct = NewInitiative.targetoct ?? 0; decimal? targetoct2 = NewInitiative.targetoct2 ?? 0;
+            decimal? targetnov = NewInitiative.targetnov ?? 0; decimal? targetnov2 = NewInitiative.targetnov2 ?? 0;
+            decimal? targetdec = NewInitiative.targetdec ?? 0; decimal? targetdec2 = NewInitiative.targetdec2 ?? 0;
 
-            decimal? savingjan = NewInitiative.savingjan; decimal? savingjan2 = NewInitiative.savingjan2;
-            decimal? savingfeb = NewInitiative.savingfeb; decimal? savingfeb2 = NewInitiative.savingfeb2;
-            decimal? savingmar = NewInitiative.savingmar; decimal? savingmar2 = NewInitiative.savingmar2;
-            decimal? savingapr = NewInitiative.savingapr; decimal? savingapr2 = NewInitiative.savingapr2;
-            decimal? savingmay = NewInitiative.savingmay; decimal? savingmay2 = NewInitiative.savingmay2;
-            decimal? savingjun = NewInitiative.savingjun; decimal? savingjun2 = NewInitiative.savingjun2;
-            decimal? savingjul = NewInitiative.savingjul; decimal? savingjul2 = NewInitiative.savingjul2;
-            decimal? savingaug = NewInitiative.savingaug; decimal? savingaug2 = NewInitiative.savingaug2;
-            decimal? savingsep = NewInitiative.savingsep; decimal? savingsep2 = NewInitiative.savingsep2;
-            decimal? savingoct = NewInitiative.savingoct; decimal? savingoct2 = NewInitiative.savingoct2;
-            decimal? savingnov = NewInitiative.savingnov; decimal? savingnov2 = NewInitiative.savingnov2;
-            decimal? savingdec = NewInitiative.savingdec; decimal? savingdec2 = NewInitiative.savingdec2;
+            decimal? savingjan = NewInitiative.savingjan ?? 0; decimal? savingjan2 = NewInitiative.savingjan2 ?? 0;
+            decimal? savingfeb = NewInitiative.savingfeb ?? 0; decimal? savingfeb2 = NewInitiative.savingfeb2 ?? 0;
+            decimal? savingmar = NewInitiative.savingmar ?? 0; decimal? savingmar2 = NewInitiative.savingmar2 ?? 0;
+            decimal? savingapr = NewInitiative.savingapr ?? 0; decimal? savingapr2 = NewInitiative.savingapr2 ?? 0;
+            decimal? savingmay = NewInitiative.savingmay ?? 0; decimal? savingmay2 = NewInitiative.savingmay2 ?? 0;
+            decimal? savingjun = NewInitiative.savingjun ?? 0; decimal? savingjun2 = NewInitiative.savingjun2 ?? 0;
+            decimal? savingjul = NewInitiative.savingjul ?? 0; decimal? savingjul2 = NewInitiative.savingjul2 ?? 0;
+            decimal? savingaug = NewInitiative.savingaug ?? 0; decimal? savingaug2 = NewInitiative.savingaug2 ?? 0;
+            decimal? savingsep = NewInitiative.savingsep ?? 0; decimal? savingsep2 = NewInitiative.savingsep2 ?? 0;
+            decimal? savingoct = NewInitiative.savingoct ?? 0; decimal? savingoct2 = NewInitiative.savingoct2 ?? 0;
+            decimal? savingnov = NewInitiative.savingnov ?? 0; decimal? savingnov2 = NewInitiative.savingnov2 ?? 0;
+            decimal? savingdec = NewInitiative.savingdec ?? 0; decimal? savingdec2 = NewInitiative.savingdec2 ?? 0;
 
             #region new properties enh153-2 Mapping from view to variables
 
