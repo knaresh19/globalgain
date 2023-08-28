@@ -99,14 +99,18 @@ namespace GAIN.Helper
             return objSecPriceEffect;
         }
 
-        public float getNYTDSecPriceEffect(float perMonthValue, int startMonth)
+        public float getNYTDSecPriceEffect(float perMonthValue, int startMonth, int endMonth)
         {
+            // As SCM dont have cross yr the below logic is applied
             float flNytdSecPriceEffect = 0;
             int projectMonth = System.DateTime.Now.Month;
 
-            if (projectMonth >= startMonth)
+            if (projectMonth >= startMonth && projectMonth <= endMonth)
             {
                 flNytdSecPriceEffect = ((perMonthValue) * (projectMonth - (startMonth - 1)));
+            }
+            else if (projectMonth >= startMonth && projectMonth > endMonth) {
+                flNytdSecPriceEffect = ((perMonthValue) * (endMonth - (startMonth - 1)));
             }
             else
             {

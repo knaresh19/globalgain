@@ -52,7 +52,7 @@ namespace GAIN.Helper
             SecPriceEffect objSecPriceEffect = new SecPriceEffect();
             objSecPriceEffect = objFlatFileHelper.getSecPriceEffectValues(flSpendN, flSpendNMin1, flActualVolNMin1, startMonth, flTargetVolumesN,
                endMonth);
-            drRow["NYTDSecuredPRICEEFFECT"] = objFlatFileHelper.getNYTDSecPriceEffect(objSecPriceEffect.perMonthValue, startMonth);
+            drRow["NYTDSecuredPRICEEFFECT"] = objFlatFileHelper.getNYTDSecPriceEffect(objSecPriceEffect.perMonthValue, startMonth, endMonth);
 
             SecVolumeEffect objSecVolEffect = new SecVolumeEffect();
             objSecVolEffect = objFlatFileHelper.getFYSecVolumeEffect(flTargetVolumesN, flActualVolNMin1, flSpendNMin1);
