@@ -761,6 +761,8 @@ function setCPI_on_Country_Selection(_obj) {
 }
 
 function OnBrandPopupChanged(s, e) {
+    $("#GrdRegionalOfficeVal").val('');//Hidden field value
+    $("#GrdRegionalOffice").val('');
     var id = s.GetValue(); var Country = $("#GrdCountryVal").val(); var SubCountry = GrdSubCountryPopup.GetValue(); var CostControlSite = $("#GrdCostControlVal").val();
     $.post(URLContent('ActiveInitiative/GetLegalFromBrand'), { BrandID: id, CountryID: Country, SubCountryID: SubCountry, CostControlSiteID: CostControlSite }, function (data) {
         var obj; GrdLegalEntityPopup.ClearItems();
@@ -774,6 +776,12 @@ function OnBrandPopupChanged(s, e) {
                 $("#GrdCostControlVal").val(obj.id); $("#GrdCostControl").val(obj.CostControlSiteName);
             }
         });
+        $.each(data[0]["RegionalOfficeData"], function (key, value) {
+            value = JSON.stringify(value); obj = JSON.parse(value);
+            if (obj != null) {
+                $("#GrdRegionalOfficeVal").val(obj.id); $("#GrdRegionalOffice").val(obj.RegionalOfficeName);
+            }
+        });		
         GrdLegalEntityPopup.SelectIndex(0);
 
     });
