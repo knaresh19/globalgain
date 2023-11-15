@@ -9,6 +9,7 @@ using System.Text;
 //using Excel = Microsoft.Office.Interop.Excel;
 using DevExpress.Spreadsheet;
 using System.Configuration;
+using System.Web;
 
 namespace GAIN.Helper
 {
@@ -919,8 +920,11 @@ namespace GAIN.Helper
            List<mactiontype> lstActionType, int userType)
         {
             DataTable dtUpdated = new DataTable();
+           
+            
             var lstExistingInits = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
-            int currentYear = System.DateTime.Now.Year;
+            var profileData = HttpContext.Current.Session["DefaultGAINSess"] as LoginSession;
+            int currentYear = (int)profileData.ProjectYear; //System.DateTime.Now.Year;
             int prevYear = currentYear - 1;
             //var updatedInitOO = null;
             var updatedInit = (from dtExcel in dtExcelInitiatives.AsEnumerable()
@@ -1257,7 +1261,8 @@ namespace GAIN.Helper
             }
             else
             {
-                projectYear = System.DateTime.Now.Year;
+                var profileData = HttpContext.Current.Session["DefaultGAINSess"] as LoginSession;
+                projectYear = (int)profileData.ProjectYear; //System.DateTime.Now.Year; ENH00252
             }
             return projectYear;
         }

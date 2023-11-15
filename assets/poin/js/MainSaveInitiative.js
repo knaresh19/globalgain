@@ -329,6 +329,22 @@ function SaveInitiative() {
                         }
                     }
                 }
+                if (xisProcurement == 1 && ((new Date(StartMonth.GetValue()).getFullYear()) != (new Date(EndMonth.GetValue()).getFullYear())) ) {
+                    Swal.fire(
+                        'Inconsistent start and end month',
+                        'End month cannot be greater than December ' + (new Date(StartMonth.GetValue()).getFullYear()),
+                        'error'
+                    );
+                    return;
+                }
+                if (xisProcurement == 1 && (xStartMonth > xEndMonth)) {
+                    Swal.fire(
+                        'Inconsistent start and end month',
+                        'End month cannot be lesser than start month',
+                        'error'
+                    );
+                    return;
+                }
                 //}
 
                 //else {

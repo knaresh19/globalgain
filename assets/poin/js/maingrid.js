@@ -2026,7 +2026,7 @@ function calculateAllTarget() {
 function hitungtahunini() {
     var startyear = new Date(StartMonth.GetValue()).getFullYear();
     var d = new Date();
-    let currentyear = d.getFullYear();
+    let currentyear = projectYear; //d.getFullYear();
     let tex = "";
 
     if (projectYear == startyear) {
@@ -2093,7 +2093,8 @@ function getYtdValue() {
     var endmon = ((moment(StartMonth.GetValue()).format("M")));
     var startyear = new Date(StartMonth.GetValue()).getFullYear()
     let offset = -1;
-    let currentyear = d.getFullYear();
+    //let currentyear = d.getFullYear();
+    let currentyear = projectYear;
     var tex = "";
     //if ((new Date(StartMonth.GetValue()).getFullYear()) == projectYear) {
     //    m = startmon;

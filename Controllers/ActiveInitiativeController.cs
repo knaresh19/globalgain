@@ -145,7 +145,7 @@ log4net.LogManager.GetLogger
 
             if (profileData.ProjectYear < 2023)
                 profileData.ProjectYear = 2022;
-
+            
             var where = "";
             var deletedStatus = db.mstatus.Where(s => s.Status.ToLower() == "deleted" &&
             s.InitYear == profileData.ProjectYear && s.isActive == "Y").FirstOrDefault();
@@ -392,7 +392,9 @@ log4net.LogManager.GetLogger
             #region [ENH00208]Target [Year] USD
             foreach (var item in model)
             {
-                if (item.ActionTypeID == 51)// 51 : Action Type Name is "Supplier Contract Monitoring"
+
+                //if (item.ActionTypeID == 51)// 51 : Action Type Name is "Supplier Contract Monitoring"
+                if (item.ActionTypeName.ToLower().Trim() == "supplier contract monitoring")
                 {
                     item.N_FY_ST_Total_EF_Target = Convert.ToDecimal(item.N_FY_ST_Total_EF);
                 }
@@ -1390,7 +1392,8 @@ log4net.LogManager.GetLogger
 
             string sqlQuery = "SELECT mb.brandname As brandName, mbc.brandid As brandId, mbc.subcountryid As subCountryId, ms.SubCountryName,ms.CountryCode FROM mbrandcountry mbc inner join "
                                 + " mbrand mb on mbc.brandid = mb.id Inner join msubcountry ms on ms.id = mbc.subcountryid"
-                                + " Where ms.isActive = 'Y' and mbc.inityear = " + System.DateTime.Now.Year;
+                                + " Where ms.isActive = 'Y' and mbc.inityear = " + (int)profileData.ProjectYear;
+            //System.DateTime.Now.Year; // ENH00252 
 
             sqlQuery += ((usercountryIds != "|ALL|") && (profileData.UserType != 1 || profileData.UserType != 2)) ? " And ms.SubCountryName in " + subCntryCondn : "";
             lstSubCountryBrand = db.Database.SqlQuery<SubCountryBrand>(sqlQuery).ToList();
@@ -1428,7 +1431,10 @@ log4net.LogManager.GetLogger
 
         public void setInitTypeCostSubCost()
         {
-            int projectYear = System.DateTime.Now.Year;
+            //int projectYear = System.DateTime.Now.Year; // ENH00252 
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
+            int projectYear = (int)profileData.ProjectYear;
+
             string strQuery = "SELECT ms.id As InitTypeId, ms.SavingTypeName As InitType, mct.CostTypeName As ItemCategory, mct.id As ItemCategoryId, b.id As SubCostId," +
                 "b.SubCostName FROM t_subcostbrand a"
 + " Inner JOIN msubcost b ON a.subcostid = b.id  Inner Join mcostType mct on mct.id = a.costtypeid"
@@ -1609,7 +1615,8 @@ log4net.LogManager.GetLogger
                 var profileData = Session["DefaultGAINSess"] as LoginSession;
                 int userType = profileData.UserType;                
                 ResultCount resultCount = null;
-                int initYear = System.DateTime.Now.Year;
+                //int initYear = System.DateTime.Now.Year; // ENH00252 
+                int initYear = (int)profileData.ProjectYear;
                 bool isActionTypeChanged = false;
                 bool isValidActionType = false;
                 List<int> lstValidRowIndexes = new List<int>();
@@ -2214,7 +2221,14 @@ log4net.LogManager.GetLogger
             string TxDesc = NewInitiative.TxDesc;
             long GrdInitStatus = NewInitiative.GrdInitStatus;
             string TxLaraCode = NewInitiative.TxLaraCode;
+
             Int64 TxPortName = NewInitiative.TxPortName;
+
+            if (TxPortName == 0 || TxPortName == 570)
+            {
+                mport objMport = db.mports.SqlQuery("select * from mport where portName = '*Port Name Not In The List' and InitYear = " + NewInitiative.ProjectYear).FirstOrDefault();
+                TxPortName = objMport != null ? objMport.id : 0;
+            }
             string TxVendorSupp = NewInitiative.TxVendorSupp;
             string TxAdditionalInfo = NewInitiative.TxAdditionalInfo;
             long GrdInitType = NewInitiative.GrdInitType;
@@ -3658,8 +3672,8 @@ log4net.LogManager.GetLogger
             var projYear = profileData.ProjectYear;
             if (profileData.ProjectYear < 2023)
                 projYear = 2022;
-            else
-                projYear = 2023;
+            //else // ENH00252 
+                //projYear = 2023;  // ENH00252 
 
 
             db.Configuration.ProxyCreationEnabled = false;
@@ -3673,7 +3687,7 @@ log4net.LogManager.GetLogger
                 if (savingdatayear == 2022)
                     projYear = 2022;
                 else
-                    projYear = 2023;
+                    projYear = savingdatayear; // 2023 ; ENH00252
 
                 GIFP.Add(new OutInitiative
                 {
