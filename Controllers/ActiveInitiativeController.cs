@@ -1,3 +1,8 @@
+
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Transfer;
 using DevExpress.Spreadsheet;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
@@ -15,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
 /*
 * Adding comment here
 */
@@ -3785,6 +3791,7 @@ log4net.LogManager.GetLogger
 
             string FileDiDB = "";
             LoginSession profileData = this.Session["DefaultGAINSess"] as LoginSession;
+            #region comment line 
             //t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
             //if (InitID.InitNumber != null)
             //{
@@ -3801,6 +3808,7 @@ log4net.LogManager.GetLogger
             //    db.SaveChanges();
             //    db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
             //db.SaveChanges();
+            #endregion
             UploadControlValidationSettings UploadValidationSettings = new DevExpress.Web.UploadControlValidationSettings()
             {
                 AllowedFileExtensions = new string[] { ".txt", ".xls", ".xlsx", ".pdf", ".doc", "docx", ".pptx", ".ppt", ".msg", ".mseg" },
@@ -3818,6 +3826,25 @@ log4net.LogManager.GetLogger
                     resultFileUrl = UploadDirectory + resultFileName;
                     resultFilePath = HttpContext.Request.MapPath(resultFileUrl);
                     e.UploadedFile.SaveAs(resultFilePath);
+
+                    //ENH00249 S3 Bucket implementation St
+                    IAmazonS3 client = new AmazonS3Client(RegionEndpoint.APSoutheast1);
+                    TransferUtility tu = new TransferUtility(client);
+
+                    var filepath = resultFilePath;
+                    FileInfo file = new FileInfo(filepath);
+
+                    var response =  client.PutObjectAsync(new PutObjectRequest
+                    {
+                        InputStream = file.OpenRead(),
+                        BucketName = System.Configuration.ConfigurationManager.AppSettings["S3BUCKET"],
+                        Key = resultFileName
+                        //Key = UID + "/" + origFileName
+                    });
+
+                    //ENH00249 S3 Bucket implementation end
+
+
 
                     FileDiDB = "";
                     t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
@@ -3894,6 +3921,8 @@ log4net.LogManager.GetLogger
             }
 
         }
+
+
         public ActionResult GetInitiativeComment(GetInfoByIDModel GetInfo)
         {
             t_initiative Initiative = db.t_initiative.Where(c => c.id == GetInfo.Id).FirstOrDefault();
