@@ -1,5 +1,5 @@
 pipelineType: net
-runSonar: false
+runSonar: true
 provisionFor: 
  - master
  - develop
