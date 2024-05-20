@@ -23,38 +23,47 @@ namespace GAIN.Controllers
         public ActionResult GrdCountryPartial()
         {
             var model = db.mcountries;
-            ViewData["RegionList"] = db.mregions.ToList();
-            ViewData["SubRegionList"] = db.msubregions.ToList();
-            return PartialView("_GrdCountryPartial", model.ToList());
+            ViewData["RegionList"] = db.mregions.Where(x => x.InitYear == 2024 && x.isActive == 1).ToList();
+            ViewData["SubRegionList"] = db.msubregions.Where(x => x.InitYear == 2024).ToList();
+            return PartialView("_GrdCountryPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
 
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdCountryPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mcountry item)
         {
             var model = db.mcountries;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
+
+            if (tmodel.Where(x => x.CountryName == item.CountryName).ToList().Count == 0)
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    model.Add(item);
-                    db.SaveChanges();
+                    try
+                    {
+                        item.InitYear = 2024;
+                        model.Add(item);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
+                    }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
+                ViewData["EditError"] = "Already Exists!.";
 
-            ViewData["RegionList"] = db.mregions.ToList();
-            ViewData["SubRegionList"] = db.msubregions.ToList();
-            return PartialView("_GrdCountryPartial", model.ToList());
+            ViewData["RegionList"] = db.mregions.Where(x => x.InitYear == 2024 && x.isActive == 1).ToList();
+            ViewData["SubRegionList"] = db.msubregions.Where(x => x.InitYear == 2024).ToList();
+            return PartialView("_GrdCountryPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdCountryPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mcountry item)
         {
             var model = db.mcountries;
+            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
             if (ModelState.IsValid)
             {
                 try
@@ -62,10 +71,13 @@ namespace GAIN.Controllers
                     var modelItem = model.FirstOrDefault(it => it.id == item.id);
                     if (modelItem != null)
                     {
-                        modelItem.RegionID = item.RegionID;
-                        modelItem.SubRegionID = item.SubRegionID;
-                        modelItem.CountryName = item.CountryName;
-                        db.SaveChanges();
+                        if (tmodel.Where(x => x.RegionID == item.RegionID && x.SubRegionID == item.SubRegionID && x.CountryName == item.CountryName && x.id != item.id).ToList().Count == 0)
+                        {
+                            modelItem.RegionID = item.RegionID;
+                            modelItem.SubRegionID = item.SubRegionID;
+                            modelItem.CountryName = item.CountryName;
+                            db.SaveChanges();
+                        }
                     }
                 }
                 catch (Exception e)
@@ -76,9 +88,9 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please, correct all errors.";
 
-            ViewData["RegionList"] = db.mregions.ToList();
-            ViewData["SubRegionList"] = db.msubregions.ToList();
-            return PartialView("_GrdCountryPartial", model.ToList());
+            ViewData["RegionList"] = db.mregions.Where(x => x.InitYear == 2024 && x.isActive == 1).ToList();
+            ViewData["SubRegionList"] = db.msubregions.Where(x => x.InitYear == 2024).ToList();
+            return PartialView("_GrdCountryPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdCountryPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mcountry itemx)
@@ -99,23 +111,38 @@ namespace GAIN.Controllers
                 }
             }
 
-            ViewData["RegionList"] = db.mregions.ToList();
-            ViewData["SubRegionList"] = db.msubregions.ToList();
-            return PartialView("_GrdCountryPartial", model.ToList());
+            ViewData["RegionList"] = db.mregions.Where(x => x.InitYear == 2024 && x.isActive == 1).ToList();
+            ViewData["SubRegionList"] = db.msubregions.Where(x => x.InitYear == 2024).ToList();
+            return PartialView("_GrdCountryPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
 
 
+        //[HttpPost]
+        //public ActionResult GetRegionDetailsbySubRegion(int subRegionID)
+        //{
+        //    List<MasterCountry> lst_me = new List<MasterCountry>();
+        //    MasterCountry ml = new MasterCountry();            
+        //    var region_name = (from subregion in db.msubregions
+        //                   join region in db.mregions
+        //                   on subregion.RegionID equals region.id
+        //                   where subregion.id ==  subRegionID
+        //                   select region.id).FirstOrDefault();
+        //    ml.RegionName = region_name.ToString();
+        //    lst_me.Add(ml);
+        //    return Json(lst_me);
+        //}
+
         [HttpPost]
-        public ActionResult GetRegionDetailsbySubRegion(int subRegionID)
+        public ActionResult GetSubRegionByRegionID(int RegionID)
         {
             List<MasterCountry> lst_me = new List<MasterCountry>();
-            MasterCountry ml = new MasterCountry();            
-            var region_name = (from subregion in db.msubregions
-                           join region in db.mregions
-                           on subregion.RegionID equals region.id
-                           where subregion.id ==  subRegionID
-                           select region.id).FirstOrDefault();
-            ml.RegionName = region_name.ToString();
+            MasterCountry ml = new MasterCountry();
+            var subregion_name = (from subregion in db.msubregions
+                               join region in db.mregions
+                               on subregion.RegionID equals region.id
+                               where region.id == RegionID
+                               select region.id).FirstOrDefault();
+            ml.SubRegionName = subregion_name.ToString();
             lst_me.Add(ml);
             return Json(lst_me);
         }

@@ -106,6 +106,7 @@
     <Compile Include="Helper\OperationEfficiency.cs" />
     <Compile Include="Helper\QueryHelper.cs" />
     <Compile Include="Helper\SupplyContractMonitor.cs" />
+    <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\ExcelFileUpload.cs" />
     <Compile Include="Models\GainModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -6334,8 +6335,7 @@
     </Reference>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>packages\AWSSDK.Core.3.7.300.16\lib\net45\AWSSDK.Core.dll</HintPath>
-    </Reference> 
-	
+    </Reference>
     <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>packages\AWSSDK.S3.3.7.304.5\lib\net45\AWSSDK.S3.dll</HintPath>
     </Reference>

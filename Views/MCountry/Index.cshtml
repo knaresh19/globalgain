@@ -8,24 +8,23 @@
     function OnSelectedIndexChanged(s, e) {
         debugger
         $.ajax({
-            url: '@Url.Action("GetRegionDetailsbySubRegion")',
+            url: '@Url.Action("GetSubRegionByRegionID")',
             type: "POST",
             dataType: "json",
-            data: { subRegionID: GrdCountry.GetEditor('SubRegionID').GetValue() },
+            data: { RegionID: GrdCountry.GetEditor('RegionID').GetValue() },
             success: function (data) {
                 debugger;
                 value = JSON.stringify(data);
                 obj = JSON.parse(value);
                 if (obj != null) {
-                    x = obj[0].RegionName;
-                    GrdCountry.GetEditor('RegionID').SetValue(x);
+                    x = obj[0].SubRegionName;
+                    GrdCountry.GetEditor('SubRegionID').SetValue(x);
                 }
             },
             error: function (xhr, textStatus, errorThrown) {
                 alert('Request Status: ' + xhr.status + '; Status Text: ' + textStatus + '; Error: ' + errorThrown);
             }
         });
-
     }
     window.onload = loadsettings;
 </script>

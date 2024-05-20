@@ -52,16 +52,29 @@
         settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
         settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
 
+
+
         settings.Columns.Add(c =>
         {
             c.FieldName = "ActionTypeName";
             c.Width = 6000;
         });
+
         settings.Columns.Add(c =>
         {
-            c.FieldName = "InitYear";
-            c.Caption = "Year";
+            c.FieldName = "isActive";
+            c.Caption = "Is Active :";
             c.Width = 2000;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "isActive";
+                p.ValueField = "id";
+                p.Items.Add("Yes", "Y");
+                p.Items.Add("No", "N");
+                p.ValueType = typeof(string);
+
+
+            });
         });
     });
     if (ViewData["EditError"] != null)

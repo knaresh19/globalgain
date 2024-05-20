@@ -22,11 +22,11 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdBrandCountryPartial()
         {
-           List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
-            ViewData["CountryList"] = db.mcountries.ToList();
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear == 2024).ToList();
+            ViewData["CountryList"] = db.mcountries.Where(x => x.InitYear == 2024).ToList();
             ViewData["BrandList"] = lst;
-            ViewData["Subcountry"] = db.msubcountries.ToList();
-            var model = db.mbrandcountries;
+            ViewData["Subcountry"] = db.msubcountries.Where(x => x.InitYear == 2024).ToList();
+            var model = db.mbrandcountries.Where(x => x.InitYear == 2024);
             return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
         }
 
@@ -34,26 +34,32 @@ namespace GAIN.Controllers
         public ActionResult GrdBrandCountryPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mbrandcountry item)
         {
             var model = db.mbrandcountries;
-            if (ModelState.IsValid)
+
+            if (model.Where(x => x.InitYear == 2024 && x.brandid == item.brandid && x.countryid==item.countryid && x.subcountryid == item.subcountryid).ToList().Count == 0)
             {
-                try
+                if (ModelState.IsValid)
                 {
-                   // item.msubcountry.isActive = "Y";
-                    model.Add(item);
-                    db.SaveChanges();
+                    try
+                    {
+                        item.InitYear = 2024;
+                        model.Add(item);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
+                    }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
-            ViewData["CountryList"] = db.mcountries.ToList();
+                ViewData["EditError"] = "Already Exists!.";
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear == 2024).ToList();
+            ViewData["CountryList"] = db.mcountries.Where(x => x.InitYear == 2024).ToList();
             ViewData["BrandList"] = lst;
-            ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
+            ViewData["Subcountry"] = db.msubcountries.Where(x => x.InitYear == 2024).ToList();
+            return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => P.InitYear == 2024 && lst.Any(s => s.id == P.brandid)));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdBrandCountryPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mbrandcountry item)
@@ -66,10 +72,15 @@ namespace GAIN.Controllers
                     var modelItem = model.FirstOrDefault(it => it.id == item.id);
                     if (modelItem != null)
                     {
-                        modelItem.brandid = item.brandid;
-                        modelItem.countryid = item.countryid;
-                        modelItem.subcountryid = item.subcountryid;
-                        db.SaveChanges();
+                        if (model.Where(x => x.InitYear == 2024 && x.brandid == item.brandid && x.countryid == item.countryid && x.subcountryid == item.subcountryid && x.id != item.id).ToList().Count == 0)
+                        {
+                            modelItem.brandid = item.brandid;
+                            modelItem.countryid = item.countryid;
+                            modelItem.subcountryid = item.subcountryid;
+                            db.SaveChanges();
+                        }
+                        else
+                            ViewData["EditError"] = "Already Exists!.";
                     }
                 }
                 catch (Exception e)
@@ -80,11 +91,11 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please, correct all errors.";
 
-            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
-            ViewData["CountryList"] = db.mcountries.ToList();
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear == 2024).ToList();
+            ViewData["CountryList"] = db.mcountries.Where(x => x.InitYear == 2024).ToList();
             ViewData["BrandList"] = lst;
-            ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
+            ViewData["Subcountry"] = db.msubcountries.Where(x => x.InitYear == 2024).ToList();
+            return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => P.InitYear == 2024 && lst.Any(s => s.id == P.brandid)));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdBrandCountryPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mbrandcountry itemx )
@@ -104,11 +115,12 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
-            ViewData["CountryList"] = db.mcountries.ToList();
+            
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear == 2024).ToList();
+            ViewData["CountryList"] = db.mcountries.Where(x => x.InitYear == 2024).ToList();
             ViewData["BrandList"] = lst;
-            ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
+            ViewData["Subcountry"] = db.msubcountries.Where(x => x.InitYear == 2024).ToList();
+            return PartialView("_GrdBrandCountryPartial", model.ToList().Where(P => P.InitYear == 2024 && lst.Any(s => s.id == P.brandid)));
         }
 
         [HttpPost, ValidateInput(false)]

@@ -401,7 +401,7 @@ namespace GAIN.Controllers
             }
             else
             {
-                listSubCountry = db.msubcountries.OrderBy(o => o.SubCountryName).Select(x => x.SubCountryName).ToList();
+                listSubCountry = db.msubcountries.Where(x => x.InitYear == 2024).OrderBy(o => o.SubCountryName).Select(x => x.SubCountryName).ToList();
                 listSubCountry.Insert(0, "ALL");
             }
 
@@ -412,7 +412,7 @@ namespace GAIN.Controllers
             }
             else
             {
-                listCountry = db.mcountries.OrderBy(o => o.CountryName).Select(x => new SimpleModel { id = (int)x.id, def = x.CountryName }).ToList();
+                listCountry = db.mcountries.Where(x => x.InitYear == 2024).OrderBy(o => o.CountryName).Select(x => new SimpleModel { id = (int)x.id, def = x.CountryName }).ToList();
                 listCountry.Insert(0, new SimpleModel { id = 0, def = "ALL" });
             }
 
@@ -424,7 +424,7 @@ namespace GAIN.Controllers
             }
             else
             {
-                listRegion = db.mregions.Where(f => f.isActive == 1).OrderBy(o => o.RegionName).Select(x => new SimpleModel { id = (int)x.id, def = x.RegionName }).ToList();
+                listRegion = db.mregions.Where(f => f.isActive == 1 && f.InitYear==2024).OrderBy(o => o.RegionName).Select(x => new SimpleModel { id = (int)x.id, def = x.RegionName }).ToList();
                 listRegion.Insert(0, new SimpleModel { id = 0, def = "ALL" });
             }
 
@@ -435,7 +435,7 @@ namespace GAIN.Controllers
             }
             else
             {
-                listSubRegion = db.msubregions.OrderBy(o => o.SubRegionName).Select(x => new SimpleModel2 { id = (int)x.id, parent_id = (int)x.RegionID, def = x.SubRegionName }).ToList();
+                listSubRegion = db.msubregions.Where(x => x.InitYear == 2024).OrderBy(o => o.SubRegionName).Select(x => new SimpleModel2 { id = (int)x.id, parent_id = (int)x.RegionID, def = x.SubRegionName }).ToList();
                 listSubRegion.Insert(0, new SimpleModel2 { id = 0, parent_id = 0, def = "ALL" });
             }
 
@@ -447,7 +447,7 @@ namespace GAIN.Controllers
             }
             else
             {
-                listBrand = db.mbrands.OrderBy(o => o.brandname).Select(x => new SimpleModel { id = (int)x.id, def = x.brandname }).ToList();
+                listBrand = db.mbrands.Where(x => x.InitYear == 2024).OrderBy(o => o.brandname).Select(x => new SimpleModel { id = (int)x.id, def = x.brandname }).ToList();
                 listBrand.Insert(0, new SimpleModel { id = 0, def = "ALL" });
             }
 
@@ -459,7 +459,7 @@ namespace GAIN.Controllers
             }
             else
             {
-                listRegionOffice = db.mregional_office.GroupBy(g => g.RegionalOffice_Name).OrderBy(o => o.Key).Select(x => new RegionalOfficeDto { id = 0, RegionID = 0, CountryID = 0, SubCountryID = 0, BrandID = 0, RegionalOffice_Name = x.Key }).ToList();
+                listRegionOffice = db.mregional_office.Where(x => x.InitYear == 2024).GroupBy(g => g.RegionalOffice_Name).OrderBy(o => o.Key).Select(x => new RegionalOfficeDto { id = 0, RegionID = 0, CountryID = 0, SubCountryID = 0, BrandID = 0, RegionalOffice_Name = x.Key }).ToList();
                 //listRegionOffice = db.mregional_office.OrderBy(o => o.RegionalOffice_Name).Select(x => new RegionalOfficeDto { id = x.id, RegionID = x.RegionID, CountryID = x.CountryID, SubCountryID = x.SubCountryID, BrandID = x.SubCountryID, RegionalOffice_Name = x.Key }).ToList();
                 listRegionOffice.Insert(0, new RegionalOfficeDto { id = 0, RegionID = 0, CountryID = 0, BrandID = 0, SubCountryID = 0, RegionalOffice_Name = "ALL" });
             }
@@ -472,7 +472,7 @@ namespace GAIN.Controllers
             }
             else
             {
-                listCostControlSite = db.mcostcontrolsites.OrderBy(o => o.CostControlSiteName).Select(x => x.CostControlSiteName).ToList();
+                listCostControlSite = db.mcostcontrolsites.Where(x => x.InitYear == 2024).OrderBy(o => o.CostControlSiteName).Select(x => x.CostControlSiteName).ToList();
                 listCostControlSite.Insert(0, "ALL");
             }
 
@@ -484,7 +484,7 @@ namespace GAIN.Controllers
             }
             else
             {
-                listCostItemType = db.mcosttypes.OrderBy(o => o.CostTypeName).Select(x => x.CostTypeName).ToList();
+                listCostItemType = db.mcosttypes.Where(x => x.InitYear == 2024).OrderBy(o => o.CostTypeName).Select(x => x.CostTypeName).ToList();
                 listCostItemType.Insert(0, "ALL");
             }
 
@@ -496,7 +496,7 @@ namespace GAIN.Controllers
             }
             else
             {
-                listSubCostItem = db.msubcosts.Select(x => x.SubCostName).ToList();
+                listSubCostItem = db.msubcosts.Where(x => x.InitYear == 2024).Select(x => x.SubCostName).ToList();
                 listSubCostItem.Insert(0, "ALL");
             }
 

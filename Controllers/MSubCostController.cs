@@ -21,7 +21,7 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdSubCostPartial()
         {
-            var model = db.msubcosts;
+            var model = db.msubcosts.Where(x => x.InitYear == 2024);
             return PartialView("_GrdSubCostPartial", model.ToList());
         }
 
@@ -29,45 +29,72 @@ namespace GAIN.Controllers
         public ActionResult GrdSubCostPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msubcost item)
         {
             var model = db.msubcosts;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
+
+            if (item.SubCostName != null && item.SubCostName != string.Empty)
             {
-                try
+                if (tmodel.Where(x => x.SubCostName.ToLower() == item.SubCostName.ToLower()).ToList().Count == 0)
                 {
-                    model.Add(item);
-                    db.SaveChanges();
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            item.InitYear = 2024;
+                            model.Add(item);
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            ViewData["EditError"] = e.Message;
+                        }
+                    }
+                    else
+                        ViewData["EditError"] = "Please, correct all errors.";
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Already Exists!.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdSubCostPartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            return PartialView("_GrdSubCostPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCostPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msubcost item)
         {
             var model = db.msubcosts;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
+            if (item.SubCostName != null && item.SubCostName != string.Empty)
             {
-                try
+
+                if (ModelState.IsValid)
                 {
-                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
-                    if (modelItem != null)
+                    try
                     {
-                        modelItem.SubCostName = item.SubCostName;
-                        db.SaveChanges();
+                        var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                        if (modelItem != null)
+                        {
+                            if (tmodel.Where(x => x.SubCostName.ToLower() == item.SubCostName.ToLower() && x.id != item.id).ToList().Count == 0)
+                            {
+                                modelItem.SubCostName = item.SubCostName;
+                                db.SaveChanges();
+                            }
+                            else
+                                ViewData["EditError"] = "Already Exists!.";
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
                     }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdSubCostPartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            return PartialView("_GrdSubCostPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCostPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msubcost itemx)
@@ -79,7 +106,8 @@ namespace GAIN.Controllers
                 {
                     var item = model.FirstOrDefault(it => it.id == itemx.id);
                     if (item != null)
-                        model.Remove(item);
+                        item.isActive = "N";
+                    //model.Remove(item);
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -87,7 +115,7 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            return PartialView("_GrdSubCostPartial", model.ToList());
+            return PartialView("_GrdSubCostPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
     }
 }

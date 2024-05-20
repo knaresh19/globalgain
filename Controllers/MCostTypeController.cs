@@ -21,7 +21,7 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdCostTypePartial()
         {
-            var model = db.mcosttypes;
+            var model = db.mcosttypes.Where(x => x.InitYear == 2024); 
             return PartialView("_GrdCostTypePartial", model.ToList());
         }
 
@@ -29,26 +29,35 @@ namespace GAIN.Controllers
         public ActionResult GrdCostTypePartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mcosttype item)
         {
             var model = db.mcosttypes;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
+
+            if (tmodel.Where(x => x.CostTypeName == item.CostTypeName).ToList().Count == 0)
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    model.Add(item);
-                    db.SaveChanges();
+                    try
+                    {
+                        item.InitYear = 2024;
+                        model.Add(item);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
+                    }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdCostTypePartial", model.ToList());
+                ViewData["EditError"] = "Already Exists!.";
+            return PartialView("_GrdCostTypePartial", model.Where(x => x.InitYear == 2024).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdCostTypePartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mcosttype item)
         {
             var model = db.mcosttypes;
+            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
             if (ModelState.IsValid)
             {
                 try
@@ -56,8 +65,14 @@ namespace GAIN.Controllers
                     var modelItem = model.FirstOrDefault(it => it.id == item.id);
                     if (modelItem != null)
                     {
-                        modelItem.CostTypeName = item.CostTypeName;
-                        db.SaveChanges();
+                        if (tmodel.Where(x => x.CostTypeName == item.CostTypeName && x.id != item.id).ToList().Count == 0)
+                        {
+                            modelItem.CostTypeName = item.CostTypeName;
+                            modelItem.isActive = item.isActive;
+                            db.SaveChanges();
+                        }
+                        else
+                            ViewData["EditError"] = "Already Exists!.";
                     }
                 }
                 catch (Exception e)
@@ -67,7 +82,7 @@ namespace GAIN.Controllers
             }
             else
                 ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdCostTypePartial", model.ToList());
+            return PartialView("_GrdCostTypePartial", model.Where(x => x.InitYear == 2024).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdCostTypePartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mcosttype itemx)
@@ -79,15 +94,18 @@ namespace GAIN.Controllers
                 {
                     var item = model.FirstOrDefault(it => it.id == itemx.id);
                     if (item != null)
-                        model.Remove(item);
-                    db.SaveChanges();
+                    {
+                        //model.Remove(item);
+                        item.isActive = "N";
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception e)
                 {
                     ViewData["EditError"] = e.Message;
                 }
             }
-            return PartialView("_GrdCostTypePartial", model.ToList());
+            return PartialView("_GrdCostTypePartial", model.Where(x => x.InitYear == 2024).ToList());
         }
     }
 }

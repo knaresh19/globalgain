@@ -21,7 +21,7 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdSynergyImpactPartial()
         {
-            var model = db.msynimpacts;
+            var model = db.msynimpacts.Where(x => x.InitYear == 2024);
             return PartialView("_GrdSynergyImpactPartial", model.ToList());
         }
 
@@ -29,45 +29,70 @@ namespace GAIN.Controllers
         public ActionResult GrdSynergyImpactPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msynimpact item)
         {
             var model = db.msynimpacts;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
+            if (item.SynImpactName != null && item.SynImpactName != string.Empty)
             {
-                try
+                if (tmodel.Where(x => x.SynImpactName.ToLower() == item.SynImpactName.ToLower()).ToList().Count == 0)
                 {
-                    model.Add(item);
-                    db.SaveChanges();
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            item.InitYear = 2024;
+                            model.Add(item);
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            ViewData["EditError"] = e.Message;
+                        }
+                    }
+                    else
+                        ViewData["EditError"] = "Please, correct all errors.";
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Already Exists!.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdSynergyImpactPartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            return PartialView("_GrdSynergyImpactPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSynergyImpactPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msynimpact item)
         {
             var model = db.msynimpacts;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
+            if (item.SynImpactName != null && item.SynImpactName != string.Empty)
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
-                    if (modelItem != null)
+                    try
                     {
-                        modelItem.SynImpactName = item.SynImpactName;
-                        db.SaveChanges();
+                        var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                        if (modelItem != null)
+                        {
+                            if (tmodel.Where(x => x.SynImpactName.ToLower() == item.SynImpactName.ToLower() && x.id != item.id).ToList().Count == 0)
+                            {
+                                modelItem.SynImpactName = item.SynImpactName;
+                                db.SaveChanges();
+                            }
+                            else
+                                ViewData["EditError"] = "Already Exists!.";
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
                     }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdSynergyImpactPartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            return PartialView("_GrdSynergyImpactPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSynergyImpactPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msynimpact itemx)
@@ -79,7 +104,8 @@ namespace GAIN.Controllers
                 {
                     var item = model.FirstOrDefault(it => it.id == itemx.id);
                     if (item != null)
-                        model.Remove(item);
+                        item.isActive = "N";
+                        //model.Remove(item);
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -87,7 +113,7 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            return PartialView("_GrdSynergyImpactPartial", model.ToList());
+            return PartialView("_GrdSynergyImpactPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
     }
 }

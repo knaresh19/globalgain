@@ -1,4 +1,5 @@
-﻿using DevExpress.Web.Mvc;
+﻿using DevExpress.Data.ODataLinq.Helpers;
+using DevExpress.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -22,40 +23,50 @@ namespace GAIN.Controllers
         public ActionResult GrdClusterPartial()
         {
             var model = db.mclusters;
-            ViewData["RegionList"] = db.mregions.ToList();
-            ViewData["SubRegionList"] = db.msubregions.ToList();
-            ViewData["CountryList"] = db.mcountries.ToList();
-            return PartialView("_GrdClusterPartial", model.ToList());
+            ViewData["RegionList"] = db.mregions.Where(x=> x.InitYear ==2024).ToList();
+            ViewData["SubRegionList"] = db.msubregions.Where(x => x.InitYear == 2024).ToList();
+            ViewData["CountryList"] = db.mcountries.Where(x => x.InitYear == 2024).ToList();
+            return PartialView("_GrdClusterPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
 
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdClusterPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mcluster item)
         {
             var model = db.mclusters;
+            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
+
             if (ModelState.IsValid)
             {
-                try
+                if (tmodel.Where(x => x.ClusterName == item.ClusterName && x.RegionID==item.RegionID && x.SubRegionID==item.SubRegionID
+                && x.CountryID==item.CountryID).ToList().Count == 0)
                 {
-                    model.Add(item);
-                    db.SaveChanges();
+                    try
+                    {
+                        item.InitYear = 2024;
+                        model.Add(item);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
+                    }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Already Exists!.";
             }
             else
                 ViewData["EditError"] = "Please, correct all errors.";
 
-            ViewData["RegionList"] = db.mregions.ToList();
-            ViewData["SubRegionList"] = db.msubregions.ToList();
-            ViewData["CountryList"] = db.mcountries.ToList();
-            return PartialView("_GrdClusterPartial", model.ToList());
+            ViewData["RegionList"] = db.mregions.Where(x => x.InitYear == 2024).ToList();
+            ViewData["SubRegionList"] = db.msubregions.Where(x => x.InitYear == 2024).ToList();
+            ViewData["CountryList"] = db.mcountries.Where(x => x.InitYear == 2024).ToList();
+            return PartialView("_GrdClusterPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdClusterPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mcluster item)
         {
             var model = db.mclusters;
+            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
             if (ModelState.IsValid)
             {
                 try
@@ -63,11 +74,16 @@ namespace GAIN.Controllers
                     var modelItem = model.FirstOrDefault(it => it.id == item.id);
                     if (modelItem != null)
                     {
-                        modelItem.RegionID = item.RegionID;
-                        modelItem.SubRegionID = item.SubRegionID;
-                        modelItem.CountryID = item.CountryID;
-                        modelItem.ClusterName = item.ClusterName;
-                        db.SaveChanges();
+                        if (tmodel.Where(x => x.ClusterName == item.ClusterName && x.RegionID == item.RegionID && x.SubRegionID == item.SubRegionID && x.CountryID==item.CountryID && x.id != item.id).ToList().Count == 0)
+                        {
+                            modelItem.RegionID = item.RegionID;
+                            modelItem.SubRegionID = item.SubRegionID;
+                            modelItem.CountryID = item.CountryID;
+                            modelItem.ClusterName = item.ClusterName;
+                            db.SaveChanges();
+                        }
+                        else
+                            ViewData["EditError"] = "Already Exists!.";
                     }
                 }
                 catch (Exception e)
@@ -78,10 +94,10 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please, correct all errors.";
 
-            ViewData["RegionList"] = db.mregions.ToList();
-            ViewData["SubRegionList"] = db.msubregions.ToList();
-            ViewData["CountryList"] = db.mcountries.ToList();
-            return PartialView("_GrdClusterPartial", model.ToList());
+            ViewData["RegionList"] = db.mregions.Where(x => x.InitYear == 2024).ToList();
+            ViewData["SubRegionList"] = db.msubregions.Where(x => x.InitYear == 2024).ToList();
+            ViewData["CountryList"] = db.mcountries.Where(x => x.InitYear == 2024).ToList();
+            return PartialView("_GrdClusterPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdClusterPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mcluster itemx)
@@ -102,10 +118,10 @@ namespace GAIN.Controllers
                 }
             }
 
-            ViewData["RegionList"] = db.mregions.ToList();
-            ViewData["SubRegionList"] = db.msubregions.ToList();
-            ViewData["CountryList"] = db.mcountries.ToList();
-            return PartialView("_GrdClusterPartial", model.ToList());
+            ViewData["RegionList"] = db.mregions.Where(x => x.InitYear == 2024).ToList();
+            ViewData["SubRegionList"] = db.msubregions.Where(x => x.InitYear == 2024).ToList();
+            ViewData["CountryList"] = db.mcountries.Where(x => x.InitYear == 2024).ToList();
+            return PartialView("_GrdClusterPartial", model.Where(x => x.InitYear == 2024).ToList());
         }
     }
 }
