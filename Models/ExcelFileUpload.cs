@@ -132,8 +132,8 @@ namespace GAIN.Models
         public int brandId { get; set; }
         public string subCountryName { get; set; }
         public string CountryCode { get; set; }
-
         public int subCountryId { get; set; }
+        public int initYear { get; set; }
     }
     public class ResultCount
     {
@@ -324,6 +324,7 @@ namespace GAIN.Models
         public int ItemCategoryId { get; set; }
         public string subCostName { get; set; }
         public int SubCostId { get; set; }
+        public int initYear { get; set; }
     }
     public class MonthlyCPIValues
     {
@@ -407,6 +408,7 @@ namespace GAIN.Models
     {
         public int id { get; set; }
         public string status { get; set; }
+        public int initYear { get; set; }
     }
     public static class UserTypes
     {
