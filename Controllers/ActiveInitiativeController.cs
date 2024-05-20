@@ -1642,7 +1642,7 @@ log4net.LogManager.GetLogger
          .ToList().ForEach(f => f.Delete());
         }
 
-        // File upload functionality
+        // File upload functionalities
         public ActionResult UploadFile(HttpPostedFileBase fileBase)
         {
             try
