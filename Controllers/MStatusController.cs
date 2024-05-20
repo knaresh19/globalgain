@@ -1,4 +1,5 @@
 ﻿using DevExpress.Web.Mvc;
+using DevExpress.XtraRichEdit.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -21,7 +22,7 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdStatusPartial()
         {
-            var model = db.mstatus.Where(x => x.InitYear == 2024);
+            var model = db.mstatus.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear);
             return PartialView("_GrdStatusPartial", model.ToList());
         }
 
@@ -29,8 +30,8 @@ namespace GAIN.Controllers
         public ActionResult GrdStatusPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mstatu item)
         {
             var model = db.mstatus;
-            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
-            if (item.Status != null && item.Status != string.Empty)
+            var tmodel = model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList();
+            if (item.Status != null && item.Status != string.Empty && item.isActive!=null)
             {
                 if (tmodel.Where(x => x.Status.ToLower() == item.Status.ToLower()).ToList().Count == 0)
                 {
@@ -38,7 +39,7 @@ namespace GAIN.Controllers
                     {
                         try
                         {
-                            item.InitYear = 2024;
+                            item.InitYear = GAIN.Models.Constants.defaultyear;
                             model.Add(item);
                             db.SaveChanges();
                         }
@@ -55,14 +56,14 @@ namespace GAIN.Controllers
             }
             else
                 ViewData["EditError"] = "Please fill out all required fields.";
-            return PartialView("_GrdStatusPartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdStatusPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdStatusPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mstatu item)
         {
             var model = db.mstatus;
-            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
-            if (item.Status != null && item.Status != string.Empty)
+            var tmodel = model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList();
+            if (item.Status != null && item.Status != string.Empty && item.isActive != null)
             {
                 if (ModelState.IsValid)
                 {
@@ -91,7 +92,7 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please fill out all required fields.";
 
-            return PartialView("_GrdStatusPartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdStatusPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdStatusPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mstatu itemx)
@@ -112,7 +113,7 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            return PartialView("_GrdStatusPartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdStatusPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
     }
 }

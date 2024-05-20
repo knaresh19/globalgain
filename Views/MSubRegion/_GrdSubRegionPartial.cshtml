@@ -60,7 +60,7 @@
         {
             c.FieldName = "RegionID";
             c.Caption = "Region Name";
-            c.Width = 200;
+            c.Width = 500;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "regionname";
@@ -74,14 +74,14 @@
         {
             c.FieldName = "SubRegionName";
             c.Caption = "Sub Region Name";
-            c.Width = 1000;
+            c.Width = 800;
         });
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "InitYear";
-            c.Caption = "Year";
-            c.Width = 500;
-        });
+        //settings.Columns.Add(c =>
+        //{
+        //    c.FieldName = "InitYear";
+        //    c.Caption = "Year";
+        //    c.Width = 500;
+        //});
     });
     if (ViewData["EditError"] != null)
     {
