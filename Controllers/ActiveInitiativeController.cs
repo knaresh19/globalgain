@@ -1862,11 +1862,12 @@ log4net.LogManager.GetLogger
                                         actionType.ToLower() == ActionType.scmType.ToLower()) ? true : false;
 
                                     if (sInitNumber != "")
-                                    {
+                                    {                                        
                                         lstMergeDBRows = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
                                         isActionTypeChanged = lstMergeDBRows.AsEnumerable().Where(
                                             tInit => tInit.InitNumber == sInitNumber
-                                                && tInit.ActionTypeID != objFlatFileHelper.getActionTypeId(actionType.ToLower(), lstActionType))
+                                                && tInit.ActionTypeID != 
+                                                objFlatFileHelper.getActionTypeId(actionType.ToLower(), lstActionType, tInitRecord))
                                             .Count() > 0 ? true : false;
                                     }
                                     //Datetime check

@@ -920,8 +920,6 @@ namespace GAIN.Helper
            List<mactiontype> lstActionType, int userType)
         {
             DataTable dtUpdated = new DataTable();
-           
-            
             var lstExistingInits = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
             var profileData = HttpContext.Current.Session["DefaultGAINSess"] as LoginSession;
             int currentYear = (int)profileData.ProjectYear; //System.DateTime.Now.Year;
@@ -1225,7 +1223,7 @@ namespace GAIN.Helper
                                #region ActionTypeChanged Filter
 
                                (
-                               lstInit.ActionTypeID != this.getActionTypeId(Convert.ToString(dtExcel["ActionType"]), lstActionType)
+                               lstInit.ActionTypeID != this.getActionTypeId(Convert.ToString(dtExcel["ActionType"]), lstActionType, lstInit)
                                )
 
                                #endregion
@@ -1246,10 +1244,11 @@ namespace GAIN.Helper
             dlValue = this.IsValidNumber(number) ? Convert.ToDecimal(number) : 0;
             return dlValue;
         }
-        public long getActionTypeId(string actionType, List<mactiontype> lstActionType)
+        public long getActionTypeId(string actionType, List<mactiontype> lstActionType, t_initiative tInitRecord)
         {
             var objActionType = lstActionType
-                 .Where(action => action.ActionTypeName.ToLower() == actionType.ToLower()).FirstOrDefault();
+                 .Where(action => action.ActionTypeName.ToLower() == actionType.ToLower()
+                 && action.InitYear == tInitRecord.ProjectYear).FirstOrDefault();
             return (objActionType != null) ? objActionType.id : 0;
         }
         public int GetProjectYear(t_initiative tInitRecord)
@@ -1265,7 +1264,7 @@ namespace GAIN.Helper
                 projectYear = (int)profileData.ProjectYear; //System.DateTime.Now.Year; ENH00252
             }
             return projectYear;
-        }
+        }      
     }
 }
 
