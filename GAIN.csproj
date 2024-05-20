@@ -104,6 +104,7 @@
     <Compile Include="Helper\IActionTypeCalculation.cs" />
     <Compile Include="Helper\IActionTypeValidation.cs" />
     <Compile Include="Helper\OperationEfficiency.cs" />
+    <Compile Include="Helper\QueryHelper.cs" />
     <Compile Include="Helper\SupplyContractMonitor.cs" />
     <Compile Include="Models\ExcelFileUpload.cs" />
     <Compile Include="Models\GainModel.Context.cs">
