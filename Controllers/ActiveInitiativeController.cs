@@ -2053,7 +2053,8 @@ log4net.LogManager.GetLogger
             {
                 ResultCount resultCount = new ResultCount()
                 {
-                    validationMsg = "Please upload valid excel template"//ex.Message.ToString()
+                    //validationMsg = "Please upload valid excel template"//ex.Message.ToString()
+                    validationMsg = ex.Message.ToString()
                 };
                 return Content(JsonConvert.SerializeObject(resultCount));
             }
