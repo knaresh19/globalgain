@@ -35,7 +35,7 @@ namespace GAIN.Controllers
             var model = db.mactiontypes;
             var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
 
-            if (item.ActionTypeName != null && item.ActionTypeName != string.Empty)
+            if (item.ActionTypeName != null && item.ActionTypeName != string.Empty && item.isActive !=null)
             {
                 if (tmodel.Where(x => x.ActionTypeName.ToLower() == item.ActionTypeName.ToLower()).ToList().Count == 0)
                 {
@@ -68,7 +68,7 @@ namespace GAIN.Controllers
         {
             var model = db.mactiontypes;
             var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
-            if (item.ActionTypeName != null && item.ActionTypeName != string.Empty)
+            if (item.ActionTypeName != null && item.ActionTypeName != string.Empty && item.isActive != null)
             {
                 if (ModelState.IsValid)
                 {

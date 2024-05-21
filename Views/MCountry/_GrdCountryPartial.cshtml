@@ -58,26 +58,15 @@
 
         settings.Columns.Add(c =>
         {
-            c.FieldName = "RegionID";
-            c.Caption = "Region Name";
+            c.FieldName = "CountryName";
+            c.Caption = "Country Name";
             c.Width = 200;
-            //c.ReadOnly = true;
-            c.EditorProperties().ComboBox(p =>
-            {
-                p.TextField = "regionname";
-                p.ValueField = "id";
-                p.ValueType = typeof(string);
-                p.ClientInstanceName = "CboRegion";
-                p.BindList(ViewData["RegionList"]);
-                p.ClientSideEvents.SelectedIndexChanged = "OnSelectedIndexChanged";
-
-            });
         });
         settings.Columns.Add(c =>
         {
             c.FieldName = "SubRegionID";
             c.Caption = "Sub Region Name";
-            c.Width = 200;
+            c.Width = 300;
             c.EditorProperties().ComboBox(p =>
             {
                 p.TextField = "subregionname";
@@ -85,15 +74,27 @@
                 p.ValueType = typeof(string);
                 p.ClientInstanceName = "CboSubRegion";
                 p.BindList(ViewData["SubRegionList"]);
-               // p.ClientSideEvents.SelectedIndexChanged = "OnSelectedIndexChanged";
+                p.ClientSideEvents.SelectedIndexChanged = "OnSelectedIndexChanged";
             });
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "CountryName";
-            c.Caption = "Country Name";
-            c.Width = 200;
+            c.FieldName = "RegionID";
+            c.Caption = "Region Name";
+            c.Width = 300;
+            c.ReadOnly = true;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "regionname";
+                p.ValueField = "id";
+                p.ValueType = typeof(string);
+                p.ClientInstanceName = "CboRegion";
+                p.BindList(ViewData["RegionList"]);
+
+            });
         });
+        
+
         //settings.Columns.Add(c =>
         //{
         //    c.FieldName = "InitYear";

@@ -73,6 +73,20 @@
         });
         settings.Columns.Add(c =>
         {
+            c.FieldName = "subcountryid";
+            c.Caption = "Sub Country";
+            c.Width = 350;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "SubCountryName";
+                p.ValueField = "id";
+                p.ValueType = typeof(string);
+                p.ClientInstanceName = "BrandSubCountry";
+                p.BindList(ViewData["Subcountry"]);
+            });
+        });
+        settings.Columns.Add(c =>
+        {
             c.FieldName = "brandid";
             c.Caption = "Brand Name";
             c.Width = 350;
@@ -86,20 +100,7 @@
             });
         });
 
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "subcountryid";
-            c.Caption = "Sub Country";
-            c.Width = 350;
-            c.EditorProperties().ComboBox(p =>
-            {
-                p.TextField = "SubCountryName";
-                p.ValueField = "id";
-                p.ValueType = typeof(string);
-                p.ClientInstanceName = "BrandSubCountry";
-                p.BindList(ViewData["Subcountry"]);
-            });
-        });
+        
         //settings.Columns.Add(c =>
         //{
         //    c.FieldName = "InitYear";

@@ -7,8 +7,8 @@ namespace GAIN.Models
 {
     public class MasterCountry
     {
-        private string subregionName;
+        private string regionName;
 
-        public string SubRegionName { get => subregionName; set => subregionName = value; }
+        public string RegionName { get => regionName; set => regionName = value; }
     }
 }
