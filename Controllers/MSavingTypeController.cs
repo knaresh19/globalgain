@@ -75,6 +75,7 @@ namespace GAIN.Controllers
                             if (tmodel.Where(x => x.SavingTypeName.ToLower() == item.SavingTypeName.ToLower() && x.id != item.id).ToList().Count == 0)
                             {
                                 modelItem.SavingTypeName = item.SavingTypeName;
+                                modelItem.isActive = item.isActive;
                                 db.SaveChanges();
                             }
                             else
