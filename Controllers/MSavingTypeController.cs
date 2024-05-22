@@ -21,7 +21,7 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdSavingTypePartial()
         {
-            var model = db.msavingtypes.Where(x => x.InitYear == 2024);
+            var model = db.msavingtypes.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear);
             return PartialView("_GrdSavingTypePartial", model.ToList());
         }
 
@@ -29,8 +29,8 @@ namespace GAIN.Controllers
         public ActionResult GrdSavingTypePartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msavingtype item)
         {
             var model = db.msavingtypes;
-            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
-            if (item.SavingTypeName != null && item.SavingTypeName != string.Empty)
+            var tmodel = model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList();
+            if (item.SavingTypeName != null && item.SavingTypeName != string.Empty && item.isActive !=null)
             {
                 if (tmodel.Where(x => x.SavingTypeName.ToLower() == item.SavingTypeName.ToLower()).ToList().Count == 0)
                 {
@@ -38,7 +38,7 @@ namespace GAIN.Controllers
                     {
                         try
                         {
-                            item.InitYear = 2024;
+                            item.InitYear = GAIN.Models.Constants.defaultyear;
                             model.Add(item);
                             db.SaveChanges();
                         }
@@ -56,14 +56,14 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please fill out all required fields.";
 
-            return PartialView("_GrdSavingTypePartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdSavingTypePartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSavingTypePartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msavingtype item)
         {
             var model = db.msavingtypes;
-            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
-            if (item.SavingTypeName != null && item.SavingTypeName != string.Empty)
+            var tmodel = model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList();
+            if (item.SavingTypeName != null && item.SavingTypeName != string.Empty && item.isActive != null)
             {
                 if (ModelState.IsValid)
                 {
@@ -92,7 +92,7 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please fill out all required fields.";
 
-            return PartialView("_GrdSavingTypePartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdSavingTypePartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSavingTypePartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msavingtype itemx)
@@ -113,7 +113,7 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            return PartialView("_GrdSavingTypePartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdSavingTypePartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
     }
 }

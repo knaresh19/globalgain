@@ -1,4 +1,5 @@
-﻿using DevExpress.Web.Mvc;
+﻿using DevExpress.DashboardWeb.Native;
+using DevExpress.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -21,7 +22,7 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdPortPartial()
         {
-            var model = db.mports.Where(x => x.InitYear == 2024);
+            var model = db.mports.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear);
             return PartialView("_GrdPortPartial", model.ToList());
         }
 
@@ -29,17 +30,57 @@ namespace GAIN.Controllers
         public ActionResult GrdPortPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mport item)
         {
             var model = db.mports;
-            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
+            var tmodel = model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList();
+            if (item.PortName != null)
+            {
+                if (tmodel.Where(x => x.PortName.ToLower() == item.PortName.ToLower()).ToList().Count == 0)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            item.InitYear = GAIN.Models.Constants.defaultyear;
+                            model.Add(item);
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            ViewData["EditError"] = e.Message;
+                        }
+                    }
+                    else
+                        ViewData["EditError"] = "Please, correct all errors.";
+                }
+                else
+                    ViewData["EditError"] = "Already Exists!.";
+            }
+            else
+                ViewData["EditError"] = "Please fill out all required fields.";
 
-            if (tmodel.Where(x => x.PortName.ToLower() == item.PortName.ToLower()).ToList().Count == 0)
+            return PartialView("_GrdPortPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
+        }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult GrdPortPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mport item)
+        {
+            var model = db.mports;
+            var tmodel = model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList();
+            if (item.PortName != null)
             {
                 if (ModelState.IsValid)
                 {
                     try
                     {
-                        item.InitYear = 2024;
-                        model.Add(item);
-                        db.SaveChanges();
+                        var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                        if (modelItem != null)
+                        {
+                            if (tmodel.Where(x => x.PortName.ToLower() == item.PortName.ToLower() && x.id != item.id).ToList().Count == 0)
+                            {
+                                modelItem.PortName = item.PortName;
+                                db.SaveChanges();
+                            }
+                            else
+                                ViewData["EditError"] = "Already Exists!.";
+                        }
                     }
                     catch (Exception e)
                     {
@@ -50,38 +91,9 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Already Exists!.";
-            return PartialView("_GrdPortPartial", model.Where(x => x.InitYear == 2024).ToList());
-        }
-        [HttpPost, ValidateInput(false)]
-        public ActionResult GrdPortPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mport item)
-        {
-            var model = db.mports;
-            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
-                    if (modelItem != null)
-                    {
-                        if (tmodel.Where(x => x.PortName.ToLower() == item.PortName.ToLower() && x.id != item.id).ToList().Count == 0)
-                        {
-                            modelItem.PortName = item.PortName;
-                            db.SaveChanges();
-                        }
-                        else
-                            ViewData["EditError"] = "Already Exists!.";
-                    }
-                }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
-            }
-            else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdPortPartial", model.Where(x => x.InitYear == 2024).ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            return PartialView("_GrdPortPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdPortPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mport itemx)
@@ -101,7 +113,7 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            return PartialView("_GrdPortPartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdPortPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
     }
 }

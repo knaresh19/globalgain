@@ -1,4 +1,5 @@
 ﻿using DevExpress.Web.Mvc;
+using DevExpress.XtraRichEdit.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -21,7 +22,7 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdSubCostPartial()
         {
-            var model = db.msubcosts.Where(x => x.InitYear == 2024);
+            var model = db.msubcosts.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear);
             return PartialView("_GrdSubCostPartial", model.ToList());
         }
 
@@ -29,9 +30,9 @@ namespace GAIN.Controllers
         public ActionResult GrdSubCostPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msubcost item)
         {
             var model = db.msubcosts;
-            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
+            var tmodel = model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList();
 
-            if (item.SubCostName != null && item.SubCostName != string.Empty)
+            if (item.SubCostName != null && item.SubCostName != string.Empty && item.isActive!=null)
             {
                 if (tmodel.Where(x => x.SubCostName.ToLower() == item.SubCostName.ToLower()).ToList().Count == 0)
                 {
@@ -39,7 +40,7 @@ namespace GAIN.Controllers
                     {
                         try
                         {
-                            item.InitYear = 2024;
+                            item.InitYear = GAIN.Models.Constants.defaultyear;
                             model.Add(item);
                             db.SaveChanges();
                         }
@@ -57,14 +58,14 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please fill out all required fields.";
 
-            return PartialView("_GrdSubCostPartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdSubCostPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCostPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msubcost item)
         {
             var model = db.msubcosts;
-            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
-            if (item.SubCostName != null && item.SubCostName != string.Empty)
+            var tmodel = model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList();
+            if (item.SubCostName != null && item.SubCostName != string.Empty && item.isActive != null)
             {
 
                 if (ModelState.IsValid)
@@ -94,7 +95,7 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please fill out all required fields.";
 
-            return PartialView("_GrdSubCostPartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdSubCostPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCostPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msubcost itemx)
@@ -115,7 +116,7 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            return PartialView("_GrdSubCostPartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdSubCostPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
     }
 }

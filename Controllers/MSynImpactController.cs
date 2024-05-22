@@ -1,9 +1,8 @@
 ﻿using DevExpress.Web.Mvc;
+using GAIN.Models;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace GAIN.Controllers
@@ -21,16 +20,16 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdSynergyImpactPartial()
         {
-            var model = db.msynimpacts.Where(x => x.InitYear == 2024);
-            return PartialView("_GrdSynergyImpactPartial", model.ToList());
+            var model = db.msynimpacts;
+            return PartialView("_GrdSynergyImpactPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
 
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSynergyImpactPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msynimpact item)
         {
             var model = db.msynimpacts;
-            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
-            if (item.SynImpactName != null && item.SynImpactName != string.Empty)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            if (item.SynImpactName != null && item.SynImpactName != string.Empty && item.isActive !=null)
             {
                 if (tmodel.Where(x => x.SynImpactName.ToLower() == item.SynImpactName.ToLower()).ToList().Count == 0)
                 {
@@ -38,7 +37,7 @@ namespace GAIN.Controllers
                     {
                         try
                         {
-                            item.InitYear = 2024;
+                            item.InitYear = Constants.defaultyear;
                             model.Add(item);
                             db.SaveChanges();
                         }
@@ -56,14 +55,14 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please fill out all required fields.";
 
-            return PartialView("_GrdSynergyImpactPartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdSynergyImpactPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSynergyImpactPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msynimpact item)
         {
             var model = db.msynimpacts;
-            var tmodel = model.Where(x => x.InitYear == 2024).ToList();
-            if (item.SynImpactName != null && item.SynImpactName != string.Empty)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            if (item.SynImpactName != null && item.SynImpactName != string.Empty && item.isActive != null)
             {
                 if (ModelState.IsValid)
                 {
@@ -92,7 +91,7 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please fill out all required fields.";
 
-            return PartialView("_GrdSynergyImpactPartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdSynergyImpactPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSynergyImpactPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.msynimpact itemx)
@@ -113,7 +112,7 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            return PartialView("_GrdSynergyImpactPartial", model.Where(x => x.InitYear == 2024).ToList());
+            return PartialView("_GrdSynergyImpactPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
     }
 }
