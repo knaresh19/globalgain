@@ -74,6 +74,7 @@ namespace GAIN.Controllers
                             if (tmodel.Where(x => x.SynImpactName.ToLower() == item.SynImpactName.ToLower() && x.id != item.id).ToList().Count == 0)
                             {
                                 modelItem.SynImpactName = item.SynImpactName;
+                                modelItem.isActive = item.isActive;
                                 db.SaveChanges();
                             }
                             else

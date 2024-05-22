@@ -66,7 +66,8 @@ namespace GAIN.Controllers
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.Where(x => x.InitYear == Constants.defaultyear).ToList();
             ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.Where(x => x.InitYear == Constants.defaultyear).ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.Where(x => x.InitYear == Constants.defaultyear).Where(P => lst.Any(s => s.id == P.brandid)));
+            var modelresult = db.t_subctry_costcntrlsite.Where(x => x.InitYear == Constants.defaultyear).ToList().Where(P => lst.Any(s => s.id == P.brandid));
+            return PartialView("_GrdSubCountryCostControlPartial", modelresult.ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCountryCostControlPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subctry_costcntrlsite item)
@@ -110,7 +111,8 @@ namespace GAIN.Controllers
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.Where(x => x.InitYear == Constants.defaultyear).ToList();
             ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.Where(x => x.InitYear == Constants.defaultyear).ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.Where(x => x.InitYear == Constants.defaultyear).Where(P => lst.Any(s => s.id == P.brandid)));
+            var modelresult = db.t_subctry_costcntrlsite.Where(x => x.InitYear == Constants.defaultyear).ToList().Where(P => lst.Any(s => s.id == P.brandid));
+            return PartialView("_GrdSubCountryCostControlPartial", modelresult.ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCountryCostControlPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subctry_costcntrlsite itemx )
@@ -134,7 +136,8 @@ namespace GAIN.Controllers
             ViewData["Costcontrolsite"] = db.mcostcontrolsites.Where(x => x.InitYear == Constants.defaultyear).ToList();
             ViewData["BrandList"] = lst;
             ViewData["Subcountry"] = db.msubcountries.Where(x => x.InitYear == Constants.defaultyear).ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.Where(x => x.InitYear == Constants.defaultyear).Where(P => lst.Any(s => s.id == P.brandid)));
+            var modelresult = db.t_subctry_costcntrlsite.Where(x => x.InitYear == Constants.defaultyear).ToList().Where(P => lst.Any(s => s.id == P.brandid));
+            return PartialView("_GrdSubCountryCostControlPartial", modelresult.ToList());
         }
 
         [HttpPost, ValidateInput(false)]

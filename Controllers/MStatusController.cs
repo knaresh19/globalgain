@@ -75,6 +75,7 @@ namespace GAIN.Controllers
                             if (tmodel.Where(x => x.Status.ToLower() == item.Status.ToLower() && x.id != item.id).ToList().Count == 0)
                             {
                                 modelItem.Status = item.Status;
+                                modelItem.isActive = item.isActive;
                                 db.SaveChanges();
                             }
                             else

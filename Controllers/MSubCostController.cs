@@ -78,6 +78,7 @@ namespace GAIN.Controllers
                             if (tmodel.Where(x => x.SubCostName.ToLower() == item.SubCostName.ToLower() && x.id != item.id).ToList().Count == 0)
                             {
                                 modelItem.SubCostName = item.SubCostName;
+                                modelItem.isActive = item.isActive;
                                 db.SaveChanges();
                             }
                             else

@@ -80,7 +80,6 @@ namespace GAIN.Controllers
                             {
                                 modelItem.brandname = item.brandname;
                                 modelItem.isActive = item.isActive;
-                                modelItem.InitYear = Constants.defaultyear;
                                 db.SaveChanges();
                             }
                             else
