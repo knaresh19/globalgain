@@ -2681,7 +2681,7 @@ log4net.LogManager.GetLogger
                                     RPOCComment = TxRPOCComment,
                                     HOComment = TxHOComment,
                                     AdditionalInfo = TxAdditionalInfo,
-                                    PortID = (TxPortName == 0 ? (profileData.ProjectYear <= 2022 ? 1 : 570) : TxPortName),
+                                    PortID = TxPortName, //(TxPortName == 0 ? (profileData.ProjectYear <= 2022 ? 1 : 570) : TxPortName),
                                     ProjectYear = (short)ProjectYear,
                                     VendorName = TxVendorSupp,
                                     TargetJan = targetjan,
@@ -2893,7 +2893,7 @@ log4net.LogManager.GetLogger
                             #endregion
 
                         }
-
+                        log.Info("port ID : " + Convert.ToString(TxPortName) + ", Project year : " + Convert.ToString(ProjectYear));
                         db.SaveChanges();
                         return Content("saved|" + YearInitiative + KodeNegara + nomerselanjutnya);
                     }
