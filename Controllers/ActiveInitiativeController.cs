@@ -3134,7 +3134,7 @@ log4net.LogManager.GetLogger
                     db.SaveChanges();
 
                     var dataTable = new DataTable();
-
+                    log.Info("port ID : " + Convert.ToString(TxPortName) + ", Project year : " + Convert.ToString(ProjectYear));
                     dataTable = Session["Maingrid"] as DataTable;
                     return Content("saved|" + initdata.InitNumber);
                 }
