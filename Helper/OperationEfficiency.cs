@@ -260,7 +260,7 @@ namespace GAIN.Helper
                 if (Convert.ToString(dataRow["InitiativeStatus"]).ToLower() != "work in progress")
                 {
                     remarks += (initNum.InitiativeType !=
-                        objFlatFileHelper.getInitTypeId(Convert.ToString(dataRow["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ?
+                        objFlatFileHelper.getInitTypeId(Convert.ToString(dataRow["TypeOfInitiative"]), lstInitTypeCostSubCosts, initNum.ProjectYear)) ?
                         " Agency user cannot change initiative type," : "";
                     remarks += (initNum.StartMonth != dtStartMonth || initNum.EndMonth != dtEndMonth) ?
                        " If initiative status is not 'Work in progress' then Agency user cannot change the start or end date," : "";

@@ -1516,7 +1516,7 @@ log4net.LogManager.GetLogger
                 if (sInitiativeStatus.ToLower() == "work in progress")
                 {
                     var initStatusCheck = lstExistingInits.Where(tInit => tInit.InitNumber == sInitNumber
-                    && tInit.InitStatus != objFlatFileHelper.getInitStatus(sInitiativeStatus, lstInitiativeStatus)).ToList();
+                    && tInit.InitStatus != objFlatFileHelper.getInitStatus(sInitiativeStatus, lstInitiativeStatus, tInit.ProjectYear)).ToList();
                     if (initStatusCheck.Count > 0)
                     {
                         remarks += "Agency user not authorized to change to Work in progress,";
@@ -1530,7 +1530,7 @@ log4net.LogManager.GetLogger
                 {
                     if (tInitRecord != null)
                     {
-                        string dbinitStatusText = objFlatFileHelper.getInitStatusText(tInitRecord.InitStatus, lstInitiativeStatus);
+                        string dbinitStatusText = objFlatFileHelper.getInitStatusText(tInitRecord.InitStatus, lstInitiativeStatus, tInitRecord.ProjectYear);
                         if (dbinitStatusText.ToLower() == "deleted" || sInitiativeStatus == "deleted")
                             if (dbinitStatusText.ToLower() != sInitiativeStatus.ToLower())
                                 remarks += "Only HO user with Admin access can change Deleted initiative status,";

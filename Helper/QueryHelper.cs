@@ -64,7 +64,7 @@ namespace GAIN.Helper
                 _query = "";
                 for (int i = initYear; i >= initYear - 1; i--)
                 {
-                    _query += GetQuery(initYear, "GetInitiativeStatusQry");
+                    _query += GetQuery(i, "GetInitiativeStatusQry");
                     if (i == initYear)
                         _query += " UNION ";
                 }
