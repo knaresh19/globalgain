@@ -2265,7 +2265,7 @@ log4net.LogManager.GetLogger
 
             Int64 TxPortName = NewInitiative.TxPortName;
 
-            if (TxPortName == 0 || TxPortName == 570)
+            if (TxPortName == 0)
             {
                 mport objMport = db.mports.SqlQuery("select * from mport where portName = '*Port Name Not In The List' and InitYear = " + NewInitiative.ProjectYear).FirstOrDefault();
                 TxPortName = objMport != null ? objMport.id : 0;
