@@ -9,6 +9,7 @@ using System.Text;
 //using Excel = Microsoft.Office.Interop.Excel;
 using DevExpress.Spreadsheet;
 using System.Configuration;
+using System.Web;
 
 namespace GAIN.Helper
 {
@@ -848,46 +849,54 @@ namespace GAIN.Helper
             return row;
         }
 
-        public long getInitTypeId(string initType, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
+        public long getInitTypeId(string initType, List<InitTypeCostSubCost> lstInitTypeCostSubCosts, short? projectYr)
         {
-            var initTypeIds = lstInitTypeCostSubCosts.Where(init => init.initType.ToLower() == initType.ToString().ToLower()).FirstOrDefault();
+            var initTypeIds = lstInitTypeCostSubCosts.Where(init => init.initType.ToLower() == initType.ToString().ToLower()
+            && init.initYear == projectYr).FirstOrDefault();
             return initTypeIds != null ? initTypeIds.initTypeId : 0;
         }
-        public long getInitStatus(string initStatus, List<mInitiativeStatus> lstInitStatus)
+        public long getInitStatus(string initStatus, List<mInitiativeStatus> lstInitStatus, short? projectYr)
         {
             long statusId = 0;
             if (initStatus != "")
             {
-                var status = lstInitStatus.Where(item => item.status.ToLower().Trim() == initStatus.ToLower().Trim()).FirstOrDefault();
+                var status = lstInitStatus.Where(item => item.status.ToLower().Trim() == initStatus.ToLower().Trim()
+                && item.initYear == projectYr).FirstOrDefault();
                 statusId = (status != null) ? status.id : 0;
             }
             return statusId;
         }
-        public string getInitStatusText(long? initStatusId, List<mInitiativeStatus> lstInitStatus)
+        public string getInitStatusText(long? initStatusId, List<mInitiativeStatus> lstInitStatus, short? projectYr)
         {
             string initStatusText = "";
-            var initstatus = lstInitStatus.Where(item => item.id == initStatusId).FirstOrDefault();
+            var initstatus = lstInitStatus.Where(item => item.id == initStatusId
+            && item.initYear == projectYr).FirstOrDefault();
             initStatusText = (initstatus != null) ? initstatus.status : "";
             return initStatusText;
         }
-        private long getBrandId(string brandName, List<SubCountryBrand> lstSubCountryBrand)
+        private long getBrandId(string brandName, List<SubCountryBrand> lstSubCountryBrand, short? projectYr)
         {
-            var brand = lstSubCountryBrand.Where(item => item.brandName.ToLower().Trim() == brandName.ToLower().Trim()).FirstOrDefault();
+            var brand = lstSubCountryBrand.Where(item => item.brandName.ToLower().Trim() == brandName.ToLower().Trim()
+           && item.initYear == projectYr).FirstOrDefault();
             return (brand != null) ? brand.brandId : 0;
         }
-        private long getPortId(string portName, List<mport> lstPort) {
+        private long getPortId(string portName, List<mport> lstPort, short? projectYr)
+        {
             long portId = 0;
-            var portList = lstPort.Where(port => port.PortName.ToLower().Trim() == portName.ToLower().Trim()).FirstOrDefault();
-            if (portList != null) {
+            var portList = lstPort.Where(port => port.PortName.ToLower().Trim() == portName.ToLower().Trim()
+            && port.InitYear == projectYr).FirstOrDefault();
+            if (portList != null)
+            {
                 portId = portList.id;
             }
             return portId;
         }
-        private long getItemCatId(string itemCatName, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
+        private long getItemCatId(string itemCatName, List<InitTypeCostSubCost> lstInitTypeCostSubCosts, short? projectYr)
         {
             long itemCatId = 0;
             var itemCat = lstInitTypeCostSubCosts.Where(item =>
-            item.itemCategory.ToLower().Trim() == itemCatName.ToLower().Trim()).FirstOrDefault();
+            item.itemCategory.ToLower().Trim() == itemCatName.ToLower().Trim()
+            && item.initYear == projectYr).FirstOrDefault();
             if (itemCat != null)
             {
                 itemCatId = itemCat.ItemCategoryId;
@@ -895,11 +904,11 @@ namespace GAIN.Helper
 
             return itemCatId;
         }
-        private long getSubCostId(string subCostName, List<InitTypeCostSubCost> lstInitTypeCostSubCosts)
+        private long getSubCostId(string subCostName, List<InitTypeCostSubCost> lstInitTypeCostSubCosts, short? projectYr)
         {
             long subCostId = 0;
             var subCost = lstInitTypeCostSubCosts.Where(item =>
-            item.subCostName.ToLower().Trim() == subCostName.ToLower().Trim()).FirstOrDefault();
+            item.subCostName.ToLower().Trim() == subCostName.ToLower().Trim() && item.initYear == projectYr).FirstOrDefault();
             if (subCost != null)
             {
                 subCostId =  subCost.SubCostId;
@@ -920,7 +929,8 @@ namespace GAIN.Helper
         {
             DataTable dtUpdated = new DataTable();
             var lstExistingInits = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
-            int currentYear = System.DateTime.Now.Year;
+            var profileData = HttpContext.Current.Session["DefaultGAINSess"] as LoginSession;
+            int currentYear = (int)profileData.ProjectYear; //System.DateTime.Now.Year;
             int prevYear = currentYear - 1;
             //var updatedInitOO = null;
             var updatedInit = (from dtExcel in dtExcelInitiatives.AsEnumerable()
@@ -936,16 +946,16 @@ namespace GAIN.Helper
                                // Related initiative
                                (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
                                // Brand
-                               (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
+                               (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand, lstInit.ProjectYear)) ||
                                // Confidential
                                (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
                                (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
-                               (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
+                               (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts, lstInit.ProjectYear)) ||
                                 (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
                                (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
-                               (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
-                               (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
-                               (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
+                               (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts, lstInit.ProjectYear)) ||
+                               (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts, lstInit.ProjectYear)) ||
+                               (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts, lstInit.ProjectYear)) ||
                                ((userType == 1) ? ((this.getText(lstInit.HOComment)) != this.getText(Convert.ToString(dtExcel["HOComment"]))) : false) ||
                                ((userType == 2) ? ((this.getText(lstInit.RPOCComment)) != this.getText(Convert.ToString(dtExcel["RPOCComment"]))) : false) ||
                                ((userType == 3) ? ((this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"]))) : false) ||
@@ -954,7 +964,7 @@ namespace GAIN.Helper
                                (this.getText(Convert.ToString(lstInit.ResponsibleFullName)) != this.getText(dtExcel["Responsiblename"].ToString())) ||
 
                                // Init status - compare
-                               (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
+                               (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus, lstInit.ProjectYear)) ||
                                (
                                // Target TY comparison
                                this.getValue(lstInit.TargetTY.ToString()) != this.getValue(dtExcel["NFYSecuredTOTALEFFECT"].ToString())
@@ -1054,24 +1064,24 @@ namespace GAIN.Helper
                                // Related initiative
                                (this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
                                // Brand
-                               (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
+                               (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand, lstInit.ProjectYear)) ||
                                // Confidential
                                (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
                                (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
-                               (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
+                               (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts, lstInit.ProjectYear)) ||
                                 (this.getText(lstInit.VendorName) != this.getText(Convert.ToString(dtExcel["VendorSupplier"]))) ||
                                (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
                                // responsible name
                                (this.getText(Convert.ToString(lstInit.ResponsibleFullName)) != this.getText(dtExcel["Responsiblename"].ToString())) ||
-                               (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
-                               (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
-                               (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
+                               (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts, lstInit.ProjectYear)) ||
+                               (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts, lstInit.ProjectYear)) ||
+                               (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts, lstInit.ProjectYear)) ||
                                ((userType == 1) ? ((this.getText(lstInit.HOComment)) != this.getText(Convert.ToString(dtExcel["HOComment"]))) : false) ||
                                ((userType == 2) ? ((this.getText(lstInit.RPOCComment)) != this.getText(Convert.ToString(dtExcel["RPOCComment"]))) : false) ||
                                ((userType == 3) ? ((this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"]))) : false) ||
                                (this.getText(lstInit.RPOCControl)) != this.getText(this.getValidityRPOC(Convert.ToString(dtExcel["RPOCControl"]))) ||
                                // Init status - compare
-                               (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
+                               (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus, lstInit.ProjectYear)) ||
                                (
                                // Target TY comparison
                                this.getValue(lstInit.TargetTY.ToString()) != this.getValue(dtExcel["NFYSecuredTOTALEFFECT"].ToString())
@@ -1170,11 +1180,11 @@ namespace GAIN.Helper
                                    (Convert.ToString(dtExcel["ActionType"]).ToLower().Trim() == ActionType.scmType.ToLower().Trim()) &&
                                ((this.getText(lstInit.RelatedInitiative) != this.getText(Convert.ToString(dtExcel["RelatedInitiative"]))) ||
                                //Brand
-                               (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand)) ||
+                               (lstInit.BrandID != this.getBrandId(Convert.ToString(dtExcel["Brand"]), lstSubCountryBrand, lstInit.ProjectYear)) ||
                                //Confidential
                                (Convert.ToString(lstInit.Confidential) != Convert.ToString(dtExcel["Confidential"])) ||
                                (this.getText(lstInit.Description) != this.getText(Convert.ToString(dtExcel["Description"]))) ||
-                               (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts)) ||
+                               (lstInit.PortID != this.getPortId(Convert.ToString(dtExcel["PortName"]), lstPorts, lstInit.ProjectYear)) ||
                                (
                                (DateTime.TryParse(Convert.ToString(dtExcel["StartMonth"]), out _)) ?
                                lstInit.StartMonth != Convert.ToDateTime(Convert.ToString(dtExcel["StartMonth"]))
@@ -1189,10 +1199,10 @@ namespace GAIN.Helper
                                (this.getText(lstInit.AdditionalInfo) != this.getText(Convert.ToString(dtExcel["AdditionalInformation"]))) ||
                                // responsible name
                                (this.getText(lstInit.ResponsibleFullName) != this.getText(dtExcel["Responsiblename"].ToString())) ||
-                               (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ||
-                               (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts)) ||
-                               (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts)) ||
-                                (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus)) ||
+                               (lstInit.InitiativeType != this.getInitTypeId(Convert.ToString(dtExcel["TypeOfInitiative"]), lstInitTypeCostSubCosts, lstInit.ProjectYear)) ||
+                               (lstInit.CostCategoryID != this.getItemCatId(Convert.ToString(dtExcel["ItemCategory"]), lstInitTypeCostSubCosts, lstInit.ProjectYear)) ||
+                               (lstInit.SubCostCategoryID != this.getSubCostId(Convert.ToString(dtExcel["SubCostItemImpacted"]), lstInitTypeCostSubCosts, lstInit.ProjectYear)) ||
+                                (lstInit.InitStatus != this.getInitStatus(Convert.ToString(dtExcel["InitiativeStatus"]), lstInitiativeStatus, lstInit.ProjectYear)) ||
                                 ((userType == 1) ? ((this.getText(lstInit.HOComment)) != this.getText(Convert.ToString(dtExcel["HOComment"]))) : false) ||
                                ((userType == 2) ? ((this.getText(lstInit.RPOCComment)) != this.getText(Convert.ToString(dtExcel["RPOCComment"]))) : false) ||
                                ((userType == 3) ? ((this.getText(lstInit.AgencyComment)) != this.getText(Convert.ToString(dtExcel["AgencyComment"]))) : false) ||
@@ -1221,7 +1231,7 @@ namespace GAIN.Helper
                                #region ActionTypeChanged Filter
 
                                (
-                               lstInit.ActionTypeID != this.getActionTypeId(Convert.ToString(dtExcel["ActionType"]), lstActionType)
+                               lstInit.ActionTypeID != this.getActionTypeId(Convert.ToString(dtExcel["ActionType"]), lstActionType, lstInit)
                                )
 
                                #endregion
@@ -1242,10 +1252,11 @@ namespace GAIN.Helper
             dlValue = this.IsValidNumber(number) ? Convert.ToDecimal(number) : 0;
             return dlValue;
         }
-        public long getActionTypeId(string actionType, List<mactiontype> lstActionType)
+        public long getActionTypeId(string actionType, List<mactiontype> lstActionType, t_initiative tInitRecord)
         {
             var objActionType = lstActionType
-                 .Where(action => action.ActionTypeName.ToLower() == actionType.ToLower()).FirstOrDefault();
+                 .Where(action => action.ActionTypeName.ToLower() == actionType.ToLower()
+                 && action.InitYear == tInitRecord.ProjectYear).FirstOrDefault();
             return (objActionType != null) ? objActionType.id : 0;
         }
         public int GetProjectYear(t_initiative tInitRecord)
@@ -1257,10 +1268,11 @@ namespace GAIN.Helper
             }
             else
             {
-                projectYear = System.DateTime.Now.Year;
+                var profileData = HttpContext.Current.Session["DefaultGAINSess"] as LoginSession;
+                projectYear = (int)profileData.ProjectYear; //System.DateTime.Now.Year; ENH00252
             }
             return projectYear;
-        }
+        }      
     }
 }
 

@@ -1,3 +1,8 @@
+
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Transfer;
 using DevExpress.Spreadsheet;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
@@ -15,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
 /*
 * Adding comment here
 */
@@ -42,6 +48,8 @@ log4net.LogManager.GetLogger
         List<t_initiative> lstSCMInitiatives = new List<t_initiative>();
         List<mactiontype> lstActionType = new List<mactiontype>();
         t_initiative tInitRecord = new t_initiative();
+        QueryHelper qryHelper = new QueryHelper();
+       
         public ActionResult Index()
         {
             Session["showDeletedInit"] = "no";
@@ -145,7 +153,7 @@ log4net.LogManager.GetLogger
 
             if (profileData.ProjectYear < 2023)
                 profileData.ProjectYear = 2022;
-
+            
             var where = "";
             var deletedStatus = db.mstatus.Where(s => s.Status.ToLower() == "deleted" &&
             s.InitYear == profileData.ProjectYear && s.isActive == "Y").FirstOrDefault();
@@ -392,7 +400,9 @@ log4net.LogManager.GetLogger
             #region [ENH00208]Target [Year] USD
             foreach (var item in model)
             {
-                if (item.ActionTypeID == 51)// 51 : Action Type Name is "Supplier Contract Monitoring"
+
+                //if (item.ActionTypeID == 51)// 51 : Action Type Name is "Supplier Contract Monitoring"
+                if (item.ActionTypeName.ToLower().Trim() == "supplier contract monitoring")
                 {
                     item.N_FY_ST_Total_EF_Target = Convert.ToDecimal(item.N_FY_ST_Total_EF);
                 }
@@ -1378,6 +1388,7 @@ log4net.LogManager.GetLogger
         public void SetSubCountryBrand()
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
+            string sqlQuery = "";
             string usercountryIds = (profileData.UserType == 3) ? profileData.subcountry_right : "|ALL|";
             string[] arrUserCountry = objFlatFileHelper.GetUserCountries(usercountryIds);
             string subCntryCondn = "(";
@@ -1388,11 +1399,9 @@ log4net.LogManager.GetLogger
             }
             subCntryCondn += ")";
 
-            string sqlQuery = "SELECT mb.brandname As brandName, mbc.brandid As brandId, mbc.subcountryid As subCountryId, ms.SubCountryName,ms.CountryCode FROM mbrandcountry mbc inner join "
-                                + " mbrand mb on mbc.brandid = mb.id Inner join msubcountry ms on ms.id = mbc.subcountryid"
-                                + " Where ms.isActive = 'Y' and mbc.inityear = " + System.DateTime.Now.Year;
+            sqlQuery = qryHelper.GetSubCountryBrandQry((int)profileData.ProjectYear, usercountryIds,
+                profileData.UserType, subCntryCondn);
 
-            sqlQuery += ((usercountryIds != "|ALL|") && (profileData.UserType != 1 || profileData.UserType != 2)) ? " And ms.SubCountryName in " + subCntryCondn : "";
             lstSubCountryBrand = db.Database.SqlQuery<SubCountryBrand>(sqlQuery).ToList();
         }
 
@@ -1411,7 +1420,8 @@ log4net.LogManager.GetLogger
                         }
                     case "itemCategory":
                         {
-                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.itemCategory.ToLower() == strMatchingText.ToLower() && item.initType.ToLower() == initType.ToLower()).FirstOrDefault();
+                            var matchingItem = lstInitTypeCostSubCosts.Where(item => item.itemCategory.ToLower() == strMatchingText.ToLower() &&
+                            item.initType.ToLower() == initType.ToLower()).FirstOrDefault();
                             isValidItem = (matchingItem != null) ? true : false;
                             break;
                         }
@@ -1428,20 +1438,17 @@ log4net.LogManager.GetLogger
 
         public void setInitTypeCostSubCost()
         {
-            int projectYear = System.DateTime.Now.Year;
-            string strQuery = "SELECT ms.id As InitTypeId, ms.SavingTypeName As InitType, mct.CostTypeName As ItemCategory, mct.id As ItemCategoryId, b.id As SubCostId," +
-                "b.SubCostName FROM t_subcostbrand a"
-+ " Inner JOIN msubcost b ON a.subcostid = b.id  Inner Join mcostType mct on mct.id = a.costtypeid"
- + " Inner join msavingtype ms on ms.id = a.savingtypeid"
- + " WHERE b.isActive = 'Y' And ms.InitYear = " + projectYear.ToString() + " And ms.isActive = 'Y' And a.InitYear = " + projectYear.ToString()
- + " And mct.isActive = 'Y' And  mct.InitYear = " + projectYear.ToString() + " Group by InitTypeId, InitType, ItemCategoryId, ItemCategory, SubCostId, b.SubCostName Order by ms.SavingTypeName, mct.CostTypeName, b.SubCostName";
-
+            //int projectYear = System.DateTime.Now.Year; // ENH00252 
+            var profileData = Session["DefaultGAINSess"] as LoginSession;
+            int projectYear = (int)profileData.ProjectYear;
+            string strQuery = qryHelper.GetInitTypeCostSubCostQry(projectYear);
             lstInitTypeCostSubCosts = db.Database.SqlQuery<InitTypeCostSubCost>(strQuery).ToList();
         }
 
         public void setInitiativeStatus(int initYear)
         {
-            string strQry = "Select id, status From mstatus Where InitYear = " + initYear + " And isActive = 'Y'";
+            //string strQry = "Select id, status From mstatus Where InitYear = " + initYear + " And isActive = 'Y'";
+            string strQry = qryHelper.GetInitiativeStatusQry(initYear);
             lstInitiativeStatus = db.Database.SqlQuery<mInitiativeStatus>(strQry).ToList();
         }
         public List<MonthlyCPIValues> GetMonthlyCPIValuesList(string subCountryDesc, int initYear)
@@ -1477,7 +1484,8 @@ log4net.LogManager.GetLogger
             }
             if (!string.IsNullOrEmpty(sInitNumber))
             {
-                var subCountryItem = lstSubCountryBrand.Where(item => item.subCountryName.ToLower().Trim() == subCountry.ToLower().Trim()).FirstOrDefault();
+                var subCountryItem = lstSubCountryBrand.Where(item => item.subCountryName.ToLower().Trim() == subCountry.ToLower().Trim()
+                && item.initYear == tInitRecord.ProjectYear).FirstOrDefault();
                 if ((subCountryItem != null && tInitRecord != null) && (subCountryItem.subCountryId != tInitRecord.SubCountryID))
                 {
                     remarks += " Subcountry cannot be changed on edit mode,";
@@ -1508,7 +1516,7 @@ log4net.LogManager.GetLogger
                 if (sInitiativeStatus.ToLower() == "work in progress")
                 {
                     var initStatusCheck = lstExistingInits.Where(tInit => tInit.InitNumber == sInitNumber
-                    && tInit.InitStatus != objFlatFileHelper.getInitStatus(sInitiativeStatus, lstInitiativeStatus)).ToList();
+                    && tInit.InitStatus != objFlatFileHelper.getInitStatus(sInitiativeStatus, lstInitiativeStatus, tInit.ProjectYear)).ToList();
                     if (initStatusCheck.Count > 0)
                     {
                         remarks += "Agency user not authorized to change to Work in progress,";
@@ -1522,7 +1530,7 @@ log4net.LogManager.GetLogger
                 {
                     if (tInitRecord != null)
                     {
-                        string dbinitStatusText = objFlatFileHelper.getInitStatusText(tInitRecord.InitStatus, lstInitiativeStatus);
+                        string dbinitStatusText = objFlatFileHelper.getInitStatusText(tInitRecord.InitStatus, lstInitiativeStatus, tInitRecord.ProjectYear);
                         if (dbinitStatusText.ToLower() == "deleted" || sInitiativeStatus == "deleted")
                             if (dbinitStatusText.ToLower() != sInitiativeStatus.ToLower())
                                 remarks += "Only HO user with Admin access can change Deleted initiative status,";
@@ -1549,29 +1557,66 @@ log4net.LogManager.GetLogger
         }
         private void SetInitiativeList(int initYear)
         {
+            int pYear = initYear;
+            long ooTypeId = 0;
+            long scmTypeId = 0;
+
+            for (int i = pYear; i >= pYear - 1; i--)
+            {
+                ooTypeId = getOOTypeIdForYr(i);
+                scmTypeId = getSCMTypIdForYr(i);
+
+                // Getting only cross yr inits 2022-2023 only for Opern Efficiency
+                var ooInitiatives = getOOInitiatives(pYear, ooTypeId);
+                var scmInitiatives = getSCMInitiatives(pYear, scmTypeId);
+                if (i == pYear)
+                {
+                    lstOOInitiatives = ooInitiatives.ToList();
+                    lstSCMInitiatives = scmInitiatives.ToList();
+                }
+                else
+                {
+                    lstOOInitiatives = lstOOInitiatives.Union(ooInitiatives).ToList();
+                    lstSCMInitiatives = lstSCMInitiatives.Union(scmInitiatives).ToList();
+                }
+            }
+        }
+        private List<t_initiative> getOOInitiatives(int pYear, long ooTypeId)
+        {
+            return (db.t_initiative.Where(tInit =>
+               tInit.ActionTypeID == ooTypeId && ((tInit.ProjectYear == pYear)
+               || (tInit.EndMonth.Value.Year == pYear))
+               ).ToList());
+        }
+        private List<t_initiative> getSCMInitiatives(int pYear, long scmTypeId)
+        {
+            return (db.t_initiative.Where(tInit =>
+                 tInit.ActionTypeID == scmTypeId && tInit.ProjectYear == pYear).ToList());
+        }
+        private long getOOTypeIdForYr(int initYear) {
             long ooTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.ooActionType
-                            && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
+                           && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
+            return ooTypeId;
+        }
+        private long getSCMTypIdForYr(int initYear) {
             long scmTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.scmType
-           && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
-
-            // Getting only cross yr inits 2022-2023 only for Opern Efficiency
-
-            lstOOInitiatives = db.t_initiative.Where(tInit =>
-                  tInit.ActionTypeID == ooTypeId && ((tInit.ProjectYear == initYear)
-                  || (tInit.EndMonth.Value.Year == initYear))
-                  ).ToList();
-
-            lstSCMInitiatives = db.t_initiative.Where(tInit =>
-                  tInit.ActionTypeID == scmTypeId && tInit.ProjectYear == initYear).ToList();
+               && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
+            return scmTypeId;
         }
         private void setActionTypeList(int initYear)
         {
             lstActionType = db.mactiontypes.Where(action =>
                               action.isActive == "Y" && action.InitYear == initYear).ToList();
+
+            lstActionType = db.mactiontypes.Where(action =>
+                              action.isActive == "Y" && action.InitYear == initYear - 1).ToList().
+                              Union(lstActionType).ToList();
         }
-        private List<mport> getPortList(int initYear) {
+        private List<mport> getPortList(int initYear)
+        {
             List<mport> lstMports = new List<mport>();
-            string sqlQry = "Select id, PortName, InitYear From mport Where inityear = 2023";
+            string sqlQry = "Select id, PortName, InitYear From mport Where inityear = " + initYear + "" +
+                " UNION Select id, PortName, InitYear From mport Where inityear = " + (initYear - 1) + "";
             lstMports = db.Database.SqlQuery<mport>(sqlQry).ToList();
             return lstMports;
         }
@@ -1597,7 +1642,7 @@ log4net.LogManager.GetLogger
          .ToList().ForEach(f => f.Delete());
         }
 
-        // File upload functionality
+        // File upload functionalities
         public ActionResult UploadFile(HttpPostedFileBase fileBase)
         {
             try
@@ -1609,7 +1654,8 @@ log4net.LogManager.GetLogger
                 var profileData = Session["DefaultGAINSess"] as LoginSession;
                 int userType = profileData.UserType;                
                 ResultCount resultCount = null;
-                int initYear = System.DateTime.Now.Year;
+                //int initYear = System.DateTime.Now.Year; // ENH00252 
+                int initYear = (int)profileData.ProjectYear;
                 bool isActionTypeChanged = false;
                 bool isValidActionType = false;
                 List<int> lstValidRowIndexes = new List<int>();
@@ -1816,11 +1862,12 @@ log4net.LogManager.GetLogger
                                         actionType.ToLower() == ActionType.scmType.ToLower()) ? true : false;
 
                                     if (sInitNumber != "")
-                                    {
+                                    {                                        
                                         lstMergeDBRows = lstOOInitiatives.Concat(lstSCMInitiatives).ToList();
                                         isActionTypeChanged = lstMergeDBRows.AsEnumerable().Where(
                                             tInit => tInit.InitNumber == sInitNumber
-                                                && tInit.ActionTypeID != objFlatFileHelper.getActionTypeId(actionType.ToLower(), lstActionType))
+                                                && tInit.ActionTypeID != 
+                                                objFlatFileHelper.getActionTypeId(actionType.ToLower(), lstActionType, tInitRecord))
                                             .Count() > 0 ? true : false;
                                     }
                                     //Datetime check
@@ -2006,7 +2053,8 @@ log4net.LogManager.GetLogger
             {
                 ResultCount resultCount = new ResultCount()
                 {
-                    validationMsg = "Please upload valid excel template"//ex.Message.ToString()
+                    //validationMsg = "Please upload valid excel template"//ex.Message.ToString()
+                    validationMsg = ex.Message.ToString()
                 };
                 return Content(JsonConvert.SerializeObject(resultCount));
             }
@@ -2214,7 +2262,14 @@ log4net.LogManager.GetLogger
             string TxDesc = NewInitiative.TxDesc;
             long GrdInitStatus = NewInitiative.GrdInitStatus;
             string TxLaraCode = NewInitiative.TxLaraCode;
+
             Int64 TxPortName = NewInitiative.TxPortName;
+
+            if (TxPortName == 0)
+            {
+                mport objMport = db.mports.SqlQuery("select * from mport where portName = '*Port Name Not In The List' and InitYear = " + NewInitiative.ProjectYear).FirstOrDefault();
+                TxPortName = objMport != null ? objMport.id : 0;
+            }
             string TxVendorSupp = NewInitiative.TxVendorSupp;
             string TxAdditionalInfo = NewInitiative.TxAdditionalInfo;
             long GrdInitType = NewInitiative.GrdInitType;
@@ -2626,7 +2681,7 @@ log4net.LogManager.GetLogger
                                     RPOCComment = TxRPOCComment,
                                     HOComment = TxHOComment,
                                     AdditionalInfo = TxAdditionalInfo,
-                                    PortID = (TxPortName == 0 ? (profileData.ProjectYear <= 2022 ? 1 : 570) : TxPortName),
+                                    PortID = TxPortName, //(TxPortName == 0 ? (profileData.ProjectYear <= 2022 ? 1 : 570) : TxPortName),
                                     ProjectYear = (short)ProjectYear,
                                     VendorName = TxVendorSupp,
                                     TargetJan = targetjan,
@@ -2838,7 +2893,7 @@ log4net.LogManager.GetLogger
                             #endregion
 
                         }
-
+                        log.Info("port ID : " + Convert.ToString(TxPortName) + ", Project year : " + Convert.ToString(ProjectYear));
                         db.SaveChanges();
                         return Content("saved|" + YearInitiative + KodeNegara + nomerselanjutnya);
                     }
@@ -3079,7 +3134,7 @@ log4net.LogManager.GetLogger
                     db.SaveChanges();
 
                     var dataTable = new DataTable();
-
+                    log.Info("port ID : " + Convert.ToString(TxPortName) + ", Project year : " + Convert.ToString(ProjectYear));
                     dataTable = Session["Maingrid"] as DataTable;
                     return Content("saved|" + initdata.InitNumber);
                 }
@@ -3658,8 +3713,8 @@ log4net.LogManager.GetLogger
             var projYear = profileData.ProjectYear;
             if (profileData.ProjectYear < 2023)
                 projYear = 2022;
-            else
-                projYear = 2023;
+            //else // ENH00252 
+                //projYear = 2023;  // ENH00252 
 
 
             db.Configuration.ProxyCreationEnabled = false;
@@ -3673,7 +3728,7 @@ log4net.LogManager.GetLogger
                 if (savingdatayear == 2022)
                     projYear = 2022;
                 else
-                    projYear = 2023;
+                    projYear = savingdatayear; // 2023 ; ENH00252
 
                 GIFP.Add(new OutInitiative
                 {
@@ -3771,6 +3826,7 @@ log4net.LogManager.GetLogger
 
             string FileDiDB = "";
             LoginSession profileData = this.Session["DefaultGAINSess"] as LoginSession;
+            #region comment line 
             //t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
             //if (InitID.InitNumber != null)
             //{
@@ -3787,6 +3843,7 @@ log4net.LogManager.GetLogger
             //    db.SaveChanges();
             //    db.Database.ExecuteSqlCommand("update t_initiative set UploadedFile = CONCAT(if(UploadedFile IS NULL,\'\',UploadedFile), \'" + FileDiDB + "|\'), ModifiedBy = \'" + profileData.ID + "\' where InitNumber = \'" + InitiativeNumber + "\' and ProjectYear = '" + profileData.ProjectYear + "' ");
             //db.SaveChanges();
+            #endregion
             UploadControlValidationSettings UploadValidationSettings = new DevExpress.Web.UploadControlValidationSettings()
             {
                 AllowedFileExtensions = new string[] { ".txt", ".xls", ".xlsx", ".pdf", ".doc", "docx", ".pptx", ".ppt", ".msg", ".mseg" },
@@ -3804,6 +3861,25 @@ log4net.LogManager.GetLogger
                     resultFileUrl = UploadDirectory + resultFileName;
                     resultFilePath = HttpContext.Request.MapPath(resultFileUrl);
                     e.UploadedFile.SaveAs(resultFilePath);
+
+                    //ENH00249 S3 Bucket implementation St
+                    IAmazonS3 client = new AmazonS3Client(RegionEndpoint.APSoutheast1);
+                    TransferUtility tu = new TransferUtility(client);
+
+                    var filepath = resultFilePath;
+                    FileInfo file = new FileInfo(filepath);
+
+                    var response =  client.PutObjectAsync(new PutObjectRequest
+                    {
+                        InputStream = file.OpenRead(),
+                        BucketName = System.Configuration.ConfigurationManager.AppSettings["S3BUCKET"],
+                        Key = resultFileName
+                        //Key = UID + "/" + origFileName
+                    });
+
+                    //ENH00249 S3 Bucket implementation end
+
+
 
                     FileDiDB = "";
                     t_initiative InitID = db.t_initiative.Where(c => c.InitNumber == InitiativeNumber).FirstOrDefault();
@@ -3880,6 +3956,8 @@ log4net.LogManager.GetLogger
             }
 
         }
+
+
         public ActionResult GetInitiativeComment(GetInfoByIDModel GetInfo)
         {
             t_initiative Initiative = db.t_initiative.Where(c => c.id == GetInfo.Id).FirstOrDefault();

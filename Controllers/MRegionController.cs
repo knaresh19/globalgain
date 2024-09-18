@@ -1,4 +1,6 @@
 ﻿using DevExpress.Web.Mvc;
+using DevExpress.XtraRichEdit.Model;
+using GAIN.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -21,7 +23,7 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdRegionPartial()
         {
-            var model = db.mregions;
+            var model = db.mregions.Where(x => x.InitYear == Constants.defaultyear);
             return PartialView("_GrdRegionPartial", model.ToList());
         }
 
@@ -29,45 +31,69 @@ namespace GAIN.Controllers
         public ActionResult GrdRegionPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mregion item)
         {
             var model = db.mregions;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            if (item.RegionName != null && item.RegionName != string.Empty && item.isActive!=null)
             {
-                try
+                if (tmodel.Where(x => x.RegionName.ToLower() == item.RegionName.ToLower()).ToList().Count == 0)
                 {
-                    model.Add(item);
-                    db.SaveChanges();
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            item.InitYear = Constants.defaultyear;
+                            model.Add(item);
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            ViewData["EditError"] = e.Message;
+                        }
+                    }
+                    else
+                        ViewData["EditError"] = "Please, correct all errors.";
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Already Exists!.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdRegionPartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            return PartialView("_GrdRegionPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdRegionPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mregion item)
         {
             var model = db.mregions;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            if (item.RegionName != null && item.RegionName != string.Empty && item.isActive != null)
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
-                    if (modelItem != null)
+                    try
                     {
-                        modelItem.RegionName = item.RegionName;
-                        db.SaveChanges();
+                        var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                        if (modelItem != null)
+                        {
+                            if (tmodel.Where(x => x.RegionName.ToLower() == item.RegionName.ToLower() && x.id != item.id).ToList().Count == 0)
+                            {
+                                modelItem.RegionName = item.RegionName;
+                                modelItem.isActive = item.isActive;
+                                db.SaveChanges();
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
                     }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdRegionPartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            return PartialView("_GrdRegionPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdRegionPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mregion itemx)
@@ -79,7 +105,8 @@ namespace GAIN.Controllers
                 {
                     var item = model.FirstOrDefault(it => it.id == itemx.id);
                     if (item != null)
-                        model.Remove(item);
+                        item.isActive = 0;
+                    //model.Remove(item);
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -87,7 +114,7 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            return PartialView("_GrdRegionPartial", model.ToList());
+            return PartialView("_GrdRegionPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
     }
 }

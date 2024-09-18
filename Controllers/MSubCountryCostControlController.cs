@@ -22,11 +22,11 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdSubCountryCostControlPartial()
         {
-            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
-            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear== Constants.defaultyear).ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.Where(x => x.InitYear == Constants.defaultyear).ToList();
             ViewData["BrandList"] = lst;
-            ViewData["Subcountry"] = db.msubcountries.ToList();
-            var model = db.t_subctry_costcntrlsite.ToList().Where(P => lst.Any(s => s.id == P.brandid));
+            ViewData["Subcountry"] = db.msubcountries.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            var model = db.t_subctry_costcntrlsite.Where(x => x.InitYear == Constants.defaultyear).ToList().Where(P => lst.Any(s => s.id == P.brandid));
             return PartialView("_GrdSubCountryCostControlPartial", model.ToList());
         }
 
@@ -34,57 +34,85 @@ namespace GAIN.Controllers
         public ActionResult GrdSubCountryCostControlPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subctry_costcntrlsite item)
         {
             var model = db.t_subctry_costcntrlsite;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            if (item.brandid != 0 && item.subcountryid != 0 && item.costcontrolid != 0)
             {
-                try
+                if (tmodel.Where(x => x.brandid == item.brandid && x.subcountryid == item.subcountryid && x.costcontrolid == item.costcontrolid).ToList().Count == 0)
                 {
-                   // item.msubcountry.isActive = "Y";
-                    model.Add(item);
-                    db.SaveChanges();
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            item.InitYear = Constants.defaultyear;
+                            model.Add(item);
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            ViewData["EditError"] = e.Message;
+                        }
+                    }
+                    else
+                        ViewData["EditError"] = "Please, correct all errors.";
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Already Exists!.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
-            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear == Constants.defaultyear).ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.Where(x => x.InitYear == Constants.defaultyear).ToList();
             ViewData["BrandList"] = lst;
-            ViewData["Subcountry"] = db.msubcountries.ToList();
-            //model = (System.Data.Entity.DbSet<t_subctry_costcntrlsite>)model.Where(P => lst.Any(s => s.id == P.brandid));
-            return PartialView("_GrdSubCountryCostControlPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
+            ViewData["Subcountry"] = db.msubcountries.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            var modelresult = db.t_subctry_costcntrlsite.Where(x => x.InitYear == Constants.defaultyear).ToList().Where(P => lst.Any(s => s.id == P.brandid));
+            return PartialView("_GrdSubCountryCostControlPartial", modelresult.ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCountryCostControlPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subctry_costcntrlsite item)
         {
             var model = db.t_subctry_costcntrlsite;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+
+            if (item.brandid != 0 && item.subcountryid != 0 && item.costcontrolid != 0)
             {
-                try
+
+                if (ModelState.IsValid)
                 {
-                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
-                    if (modelItem != null)
+                    try
                     {
-                        modelItem.brandid = item.brandid;
-                        modelItem.subcountryid = item.subcountryid;
-                        modelItem.costcontrolid = item.costcontrolid;
-                        db.SaveChanges();
+                        var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                        if (modelItem != null)
+                        {
+                            if (tmodel.Where(x => x.id != item.id && x.brandid == item.brandid && x.subcountryid == item.subcountryid && x.costcontrolid == item.costcontrolid).ToList().Count == 0)
+                            {
+                                modelItem.brandid = item.brandid;
+                                modelItem.subcountryid = item.subcountryid;
+                                modelItem.costcontrolid = item.costcontrolid;
+                                db.SaveChanges();
+                            }
+                            else
+                                ViewData["EditError"] = "Already Exists!.";
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
                     }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
-            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear == Constants.defaultyear).ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.Where(x => x.InitYear == Constants.defaultyear).ToList();
             ViewData["BrandList"] = lst;
-            ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
+            ViewData["Subcountry"] = db.msubcountries.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            var modelresult = db.t_subctry_costcntrlsite.Where(x => x.InitYear == Constants.defaultyear).ToList().Where(P => lst.Any(s => s.id == P.brandid));
+            return PartialView("_GrdSubCountryCostControlPartial", modelresult.ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCountryCostControlPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subctry_costcntrlsite itemx )
@@ -104,11 +132,12 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
-            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear == Constants.defaultyear).ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.Where(x => x.InitYear == Constants.defaultyear).ToList();
             ViewData["BrandList"] = lst;
-            ViewData["Subcountry"] = db.msubcountries.ToList();
-            return PartialView("_GrdSubCountryCostControlPartial", model.ToList().Where(P => lst.Any(s => s.id == P.brandid)));
+            ViewData["Subcountry"] = db.msubcountries.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            var modelresult = db.t_subctry_costcntrlsite.Where(x => x.InitYear == Constants.defaultyear).ToList().Where(P => lst.Any(s => s.id == P.brandid));
+            return PartialView("_GrdSubCountryCostControlPartial", modelresult.ToList());
         }
 
         [HttpPost, ValidateInput(false)]

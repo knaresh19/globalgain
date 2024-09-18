@@ -59,10 +59,19 @@
         });
         settings.Columns.Add(c =>
         {
-            c.FieldName = "InitYear";
-            c.Caption = "Year";
-            c.Width = 2000;
+            c.FieldName = "isActive";
+            c.Caption = "Is Active :";
+            c.Width = 4500;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "isActive";
+                p.ValueField = "id";
+                p.Items.Add("Yes", "1");
+                p.Items.Add("No", "0");
+                p.ValueType = typeof(string);
+            });
         });
+
     });
     if (ViewData["EditError"] != null)
     {

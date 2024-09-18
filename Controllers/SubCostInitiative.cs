@@ -1,4 +1,5 @@
 ﻿using DevExpress.Web.Mvc;
+using GAIN.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -22,57 +23,85 @@ namespace GAIN.Controllers
         public ActionResult GrdSubCostInitiativePartial() 
         {
             var model = db.t_subcostinitiative;
-            ViewData["SavingTypeName"] = db.msavingtypes.ToList();
-            ViewData["CostTypeName"] = db.mcosttypes.ToList();
-            ViewData["SubCostName"] = db.msubcosts.ToList();
-            return PartialView("_GrdSubCostInitiativePartial", model.ToList());
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            return PartialView("_GrdSubCostInitiativePartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
 
         [HttpPost, ValidateInput(false)] 
         public ActionResult GrdSubCostInitiativePartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subcostinitiative item)
         {
             var model = db.t_subcostinitiative;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+
+            if (item.savingtypeid != 0 && item.costitemid != 0 && item.subcostid != 0)
             {
-                try
+                if (tmodel.Where(x => x.savingtypeid == item.savingtypeid && x.costitemid== item.costitemid && x.subcostid== item.subcostid).ToList().Count == 0)
                 {
-                    model.Add(item);
-                    db.SaveChanges();
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            item.InitYear = Constants.defaultyear;
+                            model.Add(item);
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            ViewData["EditError"] = e.Message;
+                        }
+                    }
+                    else
+                        ViewData["EditError"] = "Please, correct all errors.";
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Already Exists!.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdSubCostInitiativePartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            return PartialView("_GrdSubCostInitiativePartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCostInitiativePartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subcostinitiative item)
         {
             var model = db.t_subcostinitiative;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+
+            if (item.savingtypeid != 0 && item.costitemid != 0 && item.subcostid != 0)
             {
-                try
+
+                if (ModelState.IsValid)
                 {
-                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
-                    if (modelItem != null)
+                    try
                     {
-                        modelItem.savingtypeid = item.savingtypeid;
-                        modelItem.costitemid = item.costitemid;
-                        modelItem.subcostid = item.subcostid;
-                        db.SaveChanges();
+                        var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                        if (modelItem != null)
+                        {
+                            if (tmodel.Where(x => x.savingtypeid == item.savingtypeid && x.costitemid == item.costitemid && x.subcostid== item.subcostid && x.id != item.id).ToList().Count == 0)
+                            {
+                                modelItem.savingtypeid = item.savingtypeid;
+                                modelItem.costitemid = item.costitemid;
+                                modelItem.subcostid = item.subcostid;
+                                db.SaveChanges();
+                            }
+                            else
+                                ViewData["EditError"] = "Already Exists!.";
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
                     }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdSubCostInitiativePartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            return PartialView("_GrdSubCostInitiativePartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCostInitiativePartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subcostinitiative itemx)
@@ -92,7 +121,7 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            return PartialView("_GrdSubCostInitiativePartial", model.ToList());
+            return PartialView("_GrdSubCostInitiativePartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
     }
 }

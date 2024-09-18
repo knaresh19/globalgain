@@ -1,4 +1,5 @@
 ﻿using DevExpress.Web.Mvc;
+using DevExpress.XtraRichEdit.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -21,7 +22,7 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdStatusPartial()
         {
-            var model = db.mstatus;
+            var model = db.mstatus.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear);
             return PartialView("_GrdStatusPartial", model.ToList());
         }
 
@@ -29,45 +30,70 @@ namespace GAIN.Controllers
         public ActionResult GrdStatusPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mstatu item)
         {
             var model = db.mstatus;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList();
+            if (item.Status != null && item.Status != string.Empty && item.isActive!=null)
             {
-                try
+                if (tmodel.Where(x => x.Status.ToLower() == item.Status.ToLower()).ToList().Count == 0)
                 {
-                    model.Add(item);
-                    db.SaveChanges();
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            item.InitYear = GAIN.Models.Constants.defaultyear;
+                            model.Add(item);
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            ViewData["EditError"] = e.Message;
+                        }
+                    }
+                    else
+                        ViewData["EditError"] = "Please, correct all errors.";
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Already Exists!.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdStatusPartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+            return PartialView("_GrdStatusPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdStatusPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mstatu item)
         {
             var model = db.mstatus;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList();
+            if (item.Status != null && item.Status != string.Empty && item.isActive != null)
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
-                    if (modelItem != null)
+                    try
                     {
-                        modelItem.Status = item.Status;
-                        db.SaveChanges();
+                        var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                        if (modelItem != null)
+                        {
+                            if (tmodel.Where(x => x.Status.ToLower() == item.Status.ToLower() && x.id != item.id).ToList().Count == 0)
+                            {
+                                modelItem.Status = item.Status;
+                                modelItem.isActive = item.isActive;
+                                db.SaveChanges();
+                            }
+                            else
+                                ViewData["EditError"] = "Already Exists!.";
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
                     }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdStatusPartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            return PartialView("_GrdStatusPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdStatusPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mstatu itemx)
@@ -79,7 +105,8 @@ namespace GAIN.Controllers
                 {
                     var item = model.FirstOrDefault(it => it.id == itemx.id);
                     if (item != null)
-                        model.Remove(item);
+                        item.isActive = "N";
+                        //model.Remove(item);
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -87,7 +114,7 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            return PartialView("_GrdStatusPartial", model.ToList());
+            return PartialView("_GrdStatusPartial", model.Where(x => x.InitYear == GAIN.Models.Constants.defaultyear).ToList());
         }
     }
 }

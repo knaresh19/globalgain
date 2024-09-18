@@ -5,13 +5,14 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace GAIN.Helper
 {
     public class SupplyContractMonitor : IActionTypeValidation, IActionTypeCalculation
     {
         FlatFileHelper objFlatFileHelper = new FlatFileHelper();
-
+        
         #region InterfaceMembers
         public InitiativeSaveModelXL GetCalculatedValues(DataRow row, DateTime dtStartMonth, DateTime dtEndMonth, List<MonthlyCPIValues> lstMonthlyCPIValues,
             string CreatedBy, int initYear, t_initiative tInitRecord)
@@ -131,7 +132,8 @@ namespace GAIN.Helper
         public string GetCrossYrRemarks(t_initiative tInitiative, DateTime dtStartMonth, DateTime dtEndMonth, int projectYear)
         {
             string remarks = string.Empty;
-            int endYear = System.DateTime.Now.Year;            
+            var profileData = HttpContext.Current.Session["DefaultGAINSess"] as LoginSession;
+            int endYear = (int)profileData.ProjectYear; //System.DateTime.Now.Year;  ENH00252          
             remarks += (objFlatFileHelper.isValidMonth(dtStartMonth, endYear)) == false ?
                 " Start year should be from " + endYear + " onwards." : "";
             return remarks;
@@ -146,7 +148,8 @@ namespace GAIN.Helper
             decimal dlSpendN = objFlatFileHelper.getDecimalValue(drRow["SpendN"].ToString());
 
             string sInitNumber = Convert.ToString(drRow["InitNumber"].ToString().Trim());
-            remarks += (!this.isEndmonthCurrentYear(dtEndMonth)) ? " End month cannot be greater than December" + System.DateTime.Now.Year + "." : "";
+            var profileData = HttpContext.Current.Session["DefaultGAINSess"] as LoginSession;
+            remarks += (!this.isEndmonthCurrentYear(dtEndMonth)) ? " End month cannot be greater than December" + (int)profileData.ProjectYear + "." : ""; // System.DateTime.Now.Year ENH00252
             remarks += (!objFlatFileHelper.isValidUnitofVol(Convert.ToString(drRow["Unitofvolumes"]))) ? ValidationRemarks.INVALIDUNITOFVOL : "";
             remarks += (!objFlatFileHelper.IsValidNumber(Convert.ToString(drRow["InputActualsVolumesNmin1"]))) ? ValidationRemarks.INVALIDACTUALVOLNMIN1 : "";
             remarks += (!objFlatFileHelper.IsValidNumber(Convert.ToString(drRow["TargetVolumesN"]))) ?
@@ -180,8 +183,10 @@ namespace GAIN.Helper
         #region CustomMethods
         private bool isEndmonthCurrentYear(DateTime dtEndMonth)
         {
+            var profileData = HttpContext.Current.Session["DefaultGAINSess"] as LoginSession;
+           
             bool isValidEndmonth = false;
-            if (dtEndMonth.Year == System.DateTime.Now.Year)
+            if (dtEndMonth.Year == (int)profileData.ProjectYear)//System.DateTime.Now.Year) ENH00252
             {
                 isValidEndmonth = true;
             }

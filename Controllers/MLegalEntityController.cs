@@ -22,12 +22,12 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdLegalEntityPartial()
         {
-            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();            
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear == Constants.defaultyear).ToList();            
             ViewData["BrandList"] = lst;
-            ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["Subcountrylist"] = db.msubcountries.ToList();
-            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            var model = db.mlegalentities.ToList();
+            ViewData["CountryList"] = db.mcountries.Where(s =>  s.InitYear == Constants.defaultyear).ToList();
+            ViewData["Subcountrylist"] = db.msubcountries.Where(s =>  s.InitYear == Constants.defaultyear).ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.Where(s => s.InitYear == Constants.defaultyear).ToList();
+            var model = db.mlegalentities.Where(s => s.InitYear == Constants.defaultyear).ToList();
             return PartialView("_GrdLegalEntityPartial", model.ToList().Where(P => lst.Any(s => s.id == P.BrandID)));
         }
 
@@ -35,60 +35,89 @@ namespace GAIN.Controllers
         public ActionResult GrdLegalEntityPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mlegalentity item)
         {
             var model = db.mlegalentities;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+
+            if (item.BrandID != 0 && item.CountryID != 0 && item.LegalEntityName != null)
             {
-                try
+                if (tmodel.Where(x => x.LegalEntityName.ToLower() == item.LegalEntityName.ToLower() && x.BrandID==item.BrandID && x.CountryID == item.CountryID && 
+                x.SubCountryID == item.SubCountryID && x.CostControlSiteID == item.CostControlSiteID).ToList().Count == 0)
                 {
-                    model.Add(item);
-                    db.SaveChanges();
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            item.InitYear = Constants.defaultyear;
+                            model.Add(item);
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            ViewData["EditError"] = e.Message;
+                        }
+                    }
+                    else
+                        ViewData["EditError"] = "Please, correct all errors.";
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Already Exists!.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear == Constants.defaultyear).ToList();
             ViewData["BrandList"] = lst;
-            ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["Subcountrylist"] = db.msubcountries.ToList();
-            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-            //model = (System.Data.Entity.DbSet<mlegalentity>)model.Where(P => lst.Any(s => s.id == P.BrandID));
-            return PartialView("_GrdLegalEntityPartial", model.ToList().Where(P => lst.Any(s => s.id == P.BrandID)));
+            ViewData["CountryList"] = db.mcountries.Where(s => s.InitYear == Constants.defaultyear).ToList();
+            ViewData["Subcountrylist"] = db.msubcountries.Where(s => s.InitYear == Constants.defaultyear).ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.Where(s => s.InitYear == Constants.defaultyear).ToList();
+            return PartialView("_GrdLegalEntityPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList().Where(P => lst.Any(s => s.id == P.BrandID)));
+
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdLegalEntityPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mlegalentity item)
         {
             var model = db.mlegalentities;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+
+            if (item.BrandID != 0 && item.CountryID != 0 && item.LegalEntityName != null)
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
-                    if (modelItem != null)
+                    try
                     {
-                        modelItem.BrandID = item.BrandID;
-                        modelItem.CountryID = item.CountryID;
-                        modelItem.LegalEntityName = item.LegalEntityName;
-                        modelItem.SubCountryID = item.SubCountryID;
-                        modelItem.CostControlSiteID = item.CostControlSiteID;
-                        db.SaveChanges();
+                        var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                        if (modelItem != null)
+                        {
+                            if (tmodel.Where(x => x.LegalEntityName.ToLower() == item.LegalEntityName.ToLower() && x.BrandID == item.BrandID && x.CountryID == item.CountryID &&
+                x.SubCountryID == item.SubCountryID && x.CostControlSiteID == item.CostControlSiteID && x.id != item.id).ToList().Count == 0)
+                            {
+                                modelItem.BrandID = item.BrandID;
+                                modelItem.CountryID = item.CountryID;
+                                modelItem.LegalEntityName = item.LegalEntityName;
+                                modelItem.SubCountryID = item.SubCountryID;
+                                modelItem.CostControlSiteID = item.CostControlSiteID;
+                                db.SaveChanges();
+                            }
+                            else
+                                ViewData["EditError"] = "Already Exists!.";
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
                     }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-           
-            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear == Constants.defaultyear).ToList();
             ViewData["BrandList"] = lst;
-            ViewData["CountryList"] = db.mcountries.ToList();
-            //model = (System.Data.Entity.DbSet<mlegalentity>)model.Where(P => lst.Any(s => s.id == P.BrandID));
-            return PartialView("_GrdLegalEntityPartial", model.ToList().Where(P => lst.Any(s => s.id == P.BrandID)));
+            ViewData["CountryList"] = db.mcountries.Where(s => s.InitYear == Constants.defaultyear).ToList();
+            ViewData["Subcountrylist"] = db.msubcountries.Where(s => s.InitYear == Constants.defaultyear).ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.Where(s => s.InitYear == Constants.defaultyear).ToList();
+            return PartialView("_GrdLegalEntityPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList().Where(P => lst.Any(s => s.id == P.BrandID)));
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdLegalEntityPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.mlegalentity itemx)
@@ -108,13 +137,12 @@ namespace GAIN.Controllers
                     ViewData["EditError"] = e.Message;
                 }
             }
-            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N").ToList();
+            List<mbrand> lst = db.mbrands.Where(s => s.isDeleted == "N" && s.InitYear == Constants.defaultyear).ToList();
             ViewData["BrandList"] = lst;
-            ViewData["CountryList"] = db.mcountries.ToList();
-            ViewData["Subcountrylist"] = db.msubcountries.ToList();
-            ViewData["Costcontrolsite"] = db.mcostcontrolsites.ToList();
-           // model = (System.Data.Entity.DbSet<mlegalentity>)model.Where(P => lst.Any(s => s.id == P.BrandID));
-            return PartialView("_GrdLegalEntityPartial", model.ToList().Where(P => lst.Any(s => s.id == P.BrandID)));
+            ViewData["CountryList"] = db.mcountries.Where(s => s.InitYear == Constants.defaultyear).ToList();
+            ViewData["Subcountrylist"] = db.msubcountries.Where(s => s.InitYear == Constants.defaultyear).ToList();
+            ViewData["Costcontrolsite"] = db.mcostcontrolsites.Where(s => s.InitYear == Constants.defaultyear).ToList();
+            return PartialView("_GrdLegalEntityPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList().Where(P => lst.Any(s => s.id == P.BrandID)));
         }
         [HttpPost]
         public ActionResult Getdetailsbysubcountry(int subcountryID, int brandId)

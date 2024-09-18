@@ -5,6 +5,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace GAIN.Helper
 {
@@ -259,7 +260,7 @@ namespace GAIN.Helper
                 if (Convert.ToString(dataRow["InitiativeStatus"]).ToLower() != "work in progress")
                 {
                     remarks += (initNum.InitiativeType !=
-                        objFlatFileHelper.getInitTypeId(Convert.ToString(dataRow["TypeOfInitiative"]), lstInitTypeCostSubCosts)) ?
+                        objFlatFileHelper.getInitTypeId(Convert.ToString(dataRow["TypeOfInitiative"]), lstInitTypeCostSubCosts, initNum.ProjectYear)) ?
                         " Agency user cannot change initiative type," : "";
                     remarks += (initNum.StartMonth != dtStartMonth || initNum.EndMonth != dtEndMonth) ?
                        " If initiative status is not 'Work in progress' then Agency user cannot change the start or end date," : "";
@@ -560,7 +561,9 @@ namespace GAIN.Helper
         //INC1700381 - Able to update achieved savings in august even if the end date is June 2023 or earlier
         private double getCurAchievedValue(int iMonth, string drMonthAchievedVal, DateTime dtStartMonth, DateTime dtEndMonth)
         {
-            int curYear = System.DateTime.Now.Year;
+            var profileData = HttpContext.Current.Session["DefaultGAINSess"] as LoginSession;
+            int curYear = (int)profileData.ProjectYear; //System.DateTime.Now.Year ENH00252;
+
             if (dtStartMonth.Year != dtEndMonth.Year)
                 if (curYear == dtStartMonth.Year)
                     return ((dtStartMonth.Month <= iMonth) ? objFlatFileHelper.getValue(drMonthAchievedVal) : 0);
