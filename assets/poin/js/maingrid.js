@@ -1252,13 +1252,13 @@ function ShowEditWindow(id) {
             //    $('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', false);
             //}
 
-            if (uType == 3 && formstatus == "Edit" && (initstatusvalue != "4" && initstatusvalue != "15")) {
+            if (uType == 3 && formstatus == "Edit" && (initstatusvalue != "79" && initstatusvalue != "15")) {
                 $("#chkAuto").prop("disabled", true);
                 $(".txTarget").prop("disabled", true); //prevent Agency User to edit the target except pending initiative
                 StartMonth.clientEnabled = false; EndMonth.clientEnabled = false; //prevent Agency User from selecting different Start / End dates (Except for Pending initiative)
                 txTarget12.clientEnabled = false;
             }
-            if (uType == 3 && formstatus == "Edit" && (initstatusvalue == "4" || initstatusvalue == "15")) {
+            if (uType == 3 && formstatus == "Edit" && (initstatusvalue == "79" || initstatusvalue == "15")) {
 
 
                 var targetjan = $(".targetjan").val().replaceAll(",", ""); var targetfeb = $(".targetfeb").val().replaceAll(",", ""); var targetmar = $(".targetmar").val().replaceAll(",", ""); var targetapr = $(".targetapr").val().replaceAll(",", ""); var targetmay = $(".targetmay").val().replaceAll(",", "");
