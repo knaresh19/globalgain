@@ -1251,7 +1251,7 @@ function ShowEditWindow(id) {
             //{
             //    $('#TxResponsibleName,#TxDesc,#TxLaraCode,#TxPortName,#TxVendorSupp,#TxAdditionalInfo').prop('disabled', false);
             //}
-
+            //from 2024 Master data ID will; not get changed so we use ID
             if (uType == 3 && formstatus == "Edit" && (initstatusvalue != "24" && initstatusvalue != "15")) {
                 $("#chkAuto").prop("disabled", true);
                 $(".txTarget").prop("disabled", true); //prevent Agency User to edit the target except pending initiative
