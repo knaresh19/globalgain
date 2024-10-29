@@ -146,8 +146,8 @@ log4net.LogManager.GetLogger
         public ActionResult GrdMainInitiativePartial()// Main Function to show data in Main Grid
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            var projYear = profileData.ProjectYear;
-            var spprojyear = projYear;
+            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+            var spprojyear = profileData.ProjectYear;
             var projMonth = profileData.ProjectMonth;
             string showDeleteInit = Convert.ToString(Session["showDeletedInit"]);
 
@@ -156,7 +156,7 @@ log4net.LogManager.GetLogger
             
             var where = "";
             var deletedStatus = db.mstatus.Where(s => s.Status.ToLower() == "deleted" &&
-            s.InitYear == profileData.ProjectYear && s.isActive == "Y").FirstOrDefault();
+            s.InitYear == projYear && s.isActive == "Y").FirstOrDefault();
             long deleteStatusId = (deletedStatus != null) ? deletedStatus.id : 0;
 
             if (profileData.confidential_right == 0) where += " and Confidential != 'Y'";
@@ -1142,16 +1142,18 @@ log4net.LogManager.GetLogger
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
             var model = db.t_initiative;
+            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+
             var deletedStatus = db.mstatus.Where(s => s.Status.ToLower() == "deleted" &&
-            s.InitYear == profileData.ProjectYear && s.isActive == "Y").FirstOrDefault();
+            s.InitYear == projYear && s.isActive == "Y").FirstOrDefault();
             long deleteStatusId = (deletedStatus != null) ? deletedStatus.id : 0;
             var model2 = (Convert.ToString(Session["showDeletedInit"]) == "no") ?
                  db.vwheaderinitiatives.Where(o => o.InitStatus != deleteStatusId)
                     .OrderByDescending(o => o.CreatedDate) :
                      db.vwheaderinitiatives.OrderByDescending(o => o.CreatedDate);
                  
-            long year = profileData.ProjectYear;
-            long status = db.mstatus.Where(s => s.Status.ToLower() == "deleted" && s.InitYear == year).FirstOrDefault().id;
+            
+            long status = db.mstatus.Where(s => s.Status.ToLower() == "deleted" && s.InitYear == projYear).FirstOrDefault().id;
             
             if (item.id >= 0)
             {
@@ -1190,7 +1192,7 @@ log4net.LogManager.GetLogger
             //ViewData["Status"] = db.mstatus.SqlQuery("SELECT * FROM gain.mstatus group by Status").Where(c => c.isActive == "Y").ToList();
             //ViewData["portName"] = db.mports.SqlQuery("SELECT * FROM gain.mport group by PortName").ToList();
             //ViewData["SourceCategoryName"] = db.msourcecategories.SqlQuery("SELECT * FROM gain.msourcecategory group by categoryname").ToList();
-            var projYear = profileData.ProjectYear;
+            
 
 
 
@@ -1280,7 +1282,7 @@ log4net.LogManager.GetLogger
         {
 
             var profileData = Session["DefaultGAINSess"] as LoginSession; var where = "";
-            var projYear = profileData.ProjectYear;
+            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
             if (profileData.ProjectYear < 2023)
                 profileData.ProjectYear = 2022;
 
@@ -1399,7 +1401,8 @@ log4net.LogManager.GetLogger
             }
             subCntryCondn += ")";
 
-            sqlQuery = qryHelper.GetSubCountryBrandQry((int)profileData.ProjectYear, usercountryIds,
+            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+            sqlQuery = qryHelper.GetSubCountryBrandQry((int)projYear, usercountryIds,
                 profileData.UserType, subCntryCondn);
 
             lstSubCountryBrand = db.Database.SqlQuery<SubCountryBrand>(sqlQuery).ToList();
@@ -1440,7 +1443,7 @@ log4net.LogManager.GetLogger
         {
             //int projectYear = System.DateTime.Now.Year; // ENH00252 
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            int projectYear = (int)profileData.ProjectYear;
+            int projectYear = (int)profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
             string strQuery = qryHelper.GetInitTypeCostSubCostQry(projectYear);
             lstInitTypeCostSubCosts = db.Database.SqlQuery<InitTypeCostSubCost>(strQuery).ToList();
         }
@@ -3538,7 +3541,7 @@ log4net.LogManager.GetLogger
             }
 
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            var projYear = profileData.ProjectYear;
+            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
             if (profileData.ProjectYear < 2023)
                 profileData.ProjectYear = 2022;
 
@@ -3679,7 +3682,7 @@ log4net.LogManager.GetLogger
         public ActionResult GetItemFromSubCost(Models.GetInfoByIDModel GetInfo)
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            var projYear = profileData.ProjectYear;
+            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
             long SCID = GetInfo.Id;
             List<GetItemCategoryDataFromInitiative> GDFI = new List<GetItemCategoryDataFromInitiative>();
 
@@ -3693,7 +3696,7 @@ log4net.LogManager.GetLogger
         public ActionResult GetItemFromCostCategory(Models.GetInfoByIDModel GetInfo)
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            var projYear = profileData.ProjectYear;
+            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
             long SCID = GetInfo.Id; long SCID2 = GetInfo.Id2; long SCID3 = GetInfo.Id3;
             List<GetItemSubCategoryDataFromCategory> GDFC = new List<GetItemSubCategoryDataFromCategory>();
 
@@ -3710,11 +3713,11 @@ log4net.LogManager.GetLogger
             List<OutInitiative> GIFP = new List<OutInitiative>();
 
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            var projYear = profileData.ProjectYear;
+            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
             if (profileData.ProjectYear < 2023)
                 projYear = 2022;
             //else // ENH00252 
-                //projYear = 2023;  // ENH00252 
+            //projYear = 2023;  // ENH00252 
 
 
             db.Configuration.ProxyCreationEnabled = false;
