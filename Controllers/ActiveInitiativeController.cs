@@ -1443,7 +1443,7 @@ log4net.LogManager.GetLogger
         {
             //int projectYear = System.DateTime.Now.Year; // ENH00252 
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            int projectYear = (int)profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+            int projectYear = profileData.ProjectYear <= 2024 ? 2024 : (int)profileData.ProjectYear;
             string strQuery = qryHelper.GetInitTypeCostSubCostQry(projectYear);
             lstInitTypeCostSubCosts = db.Database.SqlQuery<InitTypeCostSubCost>(strQuery).ToList();
         }
