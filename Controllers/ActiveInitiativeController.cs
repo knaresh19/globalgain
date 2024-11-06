@@ -146,7 +146,7 @@ log4net.LogManager.GetLogger
         public ActionResult GrdMainInitiativePartial()// Main Function to show data in Main Grid
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+            var projYear = profileData.ProjectYear >= Constants.defaultyear ? Constants.defaultyear : profileData.ProjectYear;
             var spprojyear = profileData.ProjectYear;
             var projMonth = profileData.ProjectMonth;
             string showDeleteInit = Convert.ToString(Session["showDeletedInit"]);
@@ -1142,7 +1142,7 @@ log4net.LogManager.GetLogger
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
             var model = db.t_initiative;
-            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+            var projYear = profileData.ProjectYear >= Constants.defaultyear ? Constants.defaultyear : profileData.ProjectYear;
 
             var deletedStatus = db.mstatus.Where(s => s.Status.ToLower() == "deleted" &&
             s.InitYear == projYear && s.isActive == "Y").FirstOrDefault();
@@ -1282,7 +1282,7 @@ log4net.LogManager.GetLogger
         {
 
             var profileData = Session["DefaultGAINSess"] as LoginSession; var where = "";
-            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+            var projYear = profileData.ProjectYear >= Constants.defaultyear ? Constants.defaultyear : profileData.ProjectYear;
             if (profileData.ProjectYear < 2023)
                 profileData.ProjectYear = 2022;
 
@@ -1401,7 +1401,7 @@ log4net.LogManager.GetLogger
             }
             subCntryCondn += ")";
 
-            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+            var projYear = profileData.ProjectYear >= Constants.defaultyear ? Constants.defaultyear : profileData.ProjectYear;
             sqlQuery = qryHelper.GetSubCountryBrandQry((int)projYear, usercountryIds,
                 profileData.UserType, subCntryCondn);
 
@@ -1443,7 +1443,7 @@ log4net.LogManager.GetLogger
         {
             //int projectYear = System.DateTime.Now.Year; // ENH00252 
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            int projectYear = profileData.ProjectYear <= 2024 ? 2024 : (int)profileData.ProjectYear;
+            int projectYear = (int)profileData.ProjectYear;//<= Constants.defaultyear ? Constants.defaultyear : (int)profileData.ProjectYear;
             string strQuery = qryHelper.GetInitTypeCostSubCostQry(projectYear);
             lstInitTypeCostSubCosts = db.Database.SqlQuery<InitTypeCostSubCost>(strQuery).ToList();
         }
@@ -1488,7 +1488,7 @@ log4net.LogManager.GetLogger
             if (!string.IsNullOrEmpty(sInitNumber))
             {
                 var subCountryItem = lstSubCountryBrand.Where(item => item.subCountryName.ToLower().Trim() == subCountry.ToLower().Trim()
-                && item.initYear == tInitRecord.ProjectYear).FirstOrDefault();
+                && item.initYear == ((tInitRecord.ProjectYear >= Constants.defaultyear) ? Constants.defaultyear : (int)tInitRecord.ProjectYear)).FirstOrDefault();
                 if ((subCountryItem != null && tInitRecord != null) && (subCountryItem.subCountryId != tInitRecord.SubCountryID))
                 {
                     remarks += " Subcountry cannot be changed on edit mode,";
@@ -1505,7 +1505,7 @@ log4net.LogManager.GetLogger
                 remarks += " Invalid confidential.";
 
             if (db.mstatus.Where(s => s.Status.ToLower() == sInitiativeStatus.ToLower() &&
-            s.InitYear == initYear && s.isActive == "Y").ToList().Count == 0)
+            s.InitYear == ((initYear >= Constants.defaultyear) ? Constants.defaultyear : initYear) && s.isActive == "Y").ToList().Count == 0)
                 remarks += " Invalid Initiative Status.";            
 
             //if (sInitiativeStatus != "cancelled" && sInitiativeStatus != "ongoing" && sInitiativeStatus != "work in progress")
@@ -1597,17 +1597,20 @@ log4net.LogManager.GetLogger
                  tInit.ActionTypeID == scmTypeId && tInit.ProjectYear == pYear).ToList());
         }
         private long getOOTypeIdForYr(int initYear) {
+            initYear = initYear >= Constants.defaultyear ? Constants.defaultyear : initYear;
             long ooTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.ooActionType
                            && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
             return ooTypeId;
         }
         private long getSCMTypIdForYr(int initYear) {
+            initYear = initYear >= Constants.defaultyear ? Constants.defaultyear : initYear;
             long scmTypeId = db.mactiontypes.Where(action => action.ActionTypeName == ActionType.scmType
                && action.isActive == "Y" && action.InitYear == initYear).ToList().FirstOrDefault().id;
             return scmTypeId;
         }
         private void setActionTypeList(int initYear)
         {
+            initYear = initYear >= Constants.defaultyear ? Constants.defaultyear : initYear;
             lstActionType = db.mactiontypes.Where(action =>
                               action.isActive == "Y" && action.InitYear == initYear).ToList();
 
@@ -1617,6 +1620,7 @@ log4net.LogManager.GetLogger
         }
         private List<mport> getPortList(int initYear)
         {
+            initYear = initYear >= Constants.defaultyear ? Constants.defaultyear : initYear;
             List<mport> lstMports = new List<mport>();
             string sqlQry = "Select id, PortName, InitYear From mport Where inityear = " + initYear + "" +
                 " UNION Select id, PortName, InitYear From mport Where inityear = " + (initYear - 1) + "";
@@ -2256,7 +2260,7 @@ log4net.LogManager.GetLogger
             long GrdRegional = NewInitiative.GrdRegional;
             long GrdSubRegion = NewInitiative.GrdSubRegion;
             long GrdCluster = NewInitiative.GrdCluster;
-            mregional_office objRegionalOff = db.mregional_office.SqlQuery("select * from mregional_office where BrandID = " + GrdBrand + " and SubCountryID = " + GrdSubCountry + " and InitYear = " + NewInitiative.ProjectYear).FirstOrDefault();
+            mregional_office objRegionalOff = db.mregional_office.SqlQuery("select * from mregional_office where BrandID = " + GrdBrand + " and SubCountryID = " + GrdSubCountry + " and InitYear = " + ((NewInitiative.ProjectYear>= Constants.defaultyear) ? Constants.defaultyear : NewInitiative.ProjectYear)).FirstOrDefault();
             //long GrdRegionalOffice = objRegionalOff.id;
             long GrdRegionalOffice = NewInitiative.GrdRegionalOffice;
             long GrdCostControl = NewInitiative.GrdCostControl;
@@ -2270,7 +2274,7 @@ log4net.LogManager.GetLogger
 
             if (TxPortName == 0)
             {
-                mport objMport = db.mports.SqlQuery("select * from mport where portName = '*Port Name Not In The List' and InitYear = " + NewInitiative.ProjectYear).FirstOrDefault();
+                mport objMport = db.mports.SqlQuery("select * from mport where portName = '*Port Name Not In The List' and InitYear = " + ((NewInitiative.ProjectYear >= Constants.defaultyear) ? Constants.defaultyear : NewInitiative.ProjectYear)).FirstOrDefault();
                 TxPortName = objMport != null ? objMport.id : 0;
             }
             string TxVendorSupp = NewInitiative.TxVendorSupp;
@@ -3541,7 +3545,7 @@ log4net.LogManager.GetLogger
             }
 
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+            var projYear = profileData.ProjectYear >= Constants.defaultyear ? Constants.defaultyear : profileData.ProjectYear;
             if (profileData.ProjectYear < 2023)
                 profileData.ProjectYear = 2022;
 
@@ -3682,7 +3686,7 @@ log4net.LogManager.GetLogger
         public ActionResult GetItemFromSubCost(Models.GetInfoByIDModel GetInfo)
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+            var projYear = profileData.ProjectYear >= Constants.defaultyear ? Constants.defaultyear : profileData.ProjectYear;
             long SCID = GetInfo.Id;
             List<GetItemCategoryDataFromInitiative> GDFI = new List<GetItemCategoryDataFromInitiative>();
 
@@ -3696,7 +3700,7 @@ log4net.LogManager.GetLogger
         public ActionResult GetItemFromCostCategory(Models.GetInfoByIDModel GetInfo)
         {
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+            var projYear = profileData.ProjectYear >= Constants.defaultyear ? Constants.defaultyear : profileData.ProjectYear;
             long SCID = GetInfo.Id; long SCID2 = GetInfo.Id2; long SCID3 = GetInfo.Id3;
             List<GetItemSubCategoryDataFromCategory> GDFC = new List<GetItemSubCategoryDataFromCategory>();
 
@@ -3713,7 +3717,7 @@ log4net.LogManager.GetLogger
             List<OutInitiative> GIFP = new List<OutInitiative>();
 
             var profileData = Session["DefaultGAINSess"] as LoginSession;
-            var projYear = profileData.ProjectYear <= 2024 ? 2024 : profileData.ProjectYear;
+            var projYear = profileData.ProjectYear >= Constants.defaultyear ? Constants.defaultyear : profileData.ProjectYear;
             if (profileData.ProjectYear < 2023)
                 projYear = 2022;
             //else // ENH00252 
@@ -3742,8 +3746,6 @@ log4net.LogManager.GetLogger
                     PortNameData = db.mports.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS PortName , \'0\' AS  InitYear UNION ALL Select id, PortName , InitYear From mport  where InitYear =" + projYear + "").ToList(),
 
                     MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname  ,\'0\' AS  InitYear UNION ALL SELECT id, categoryname ,InitYear FROM msourcecategory  where InitYear =" + projYear + "").ToList(),
-
-
 
                     MSubCostData = db.msubcosts.SqlQuery("SELECT b.id,b.SubCostName,b.isActive ,  b.InitYear  FROM t_subcostbrand a LEFT JOIN msubcost b ON a.subcostid = b.id WHERE a.savingtypeid = " + model.InitiativeType + " AND a.costtypeid = " + model.CostCategoryID + "  and b.isActive = 'Y' and  b.InitYear =" + projYear + "  GROUP BY b.id,b.SubCostName; ").ToList(),
                     //  MSourceCategory = db.msourcecategories.SqlQuery("SELECT \'0\' AS id, \'[Please Select]\' AS categoryname UNION ALL SELECT id, categoryname FROM msourcecategory").ToList()

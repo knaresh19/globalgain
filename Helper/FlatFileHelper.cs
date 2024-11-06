@@ -851,6 +851,7 @@ namespace GAIN.Helper
 
         public long getInitTypeId(string initType, List<InitTypeCostSubCost> lstInitTypeCostSubCosts, short? projectYr)
         {
+            projectYr = projectYr >= Constants.defaultyear ? (short)Constants.defaultyear : projectYr;
             var initTypeIds = lstInitTypeCostSubCosts.Where(init => init.initType.ToLower() == initType.ToString().ToLower()
             && init.initYear == projectYr).FirstOrDefault();
             return initTypeIds != null ? initTypeIds.initTypeId : 0;
@@ -858,6 +859,7 @@ namespace GAIN.Helper
         public long getInitStatus(string initStatus, List<mInitiativeStatus> lstInitStatus, short? projectYr)
         {
             long statusId = 0;
+            projectYr = projectYr >= Constants.defaultyear ? (short)Constants.defaultyear : projectYr;
             if (initStatus != "")
             {
                 var status = lstInitStatus.Where(item => item.status.ToLower().Trim() == initStatus.ToLower().Trim()
@@ -876,6 +878,7 @@ namespace GAIN.Helper
         }
         private long getBrandId(string brandName, List<SubCountryBrand> lstSubCountryBrand, short? projectYr)
         {
+            projectYr = projectYr >= Constants.defaultyear ? (short)Constants.defaultyear : projectYr;
             var brand = lstSubCountryBrand.Where(item => item.brandName.ToLower().Trim() == brandName.ToLower().Trim()
            && item.initYear == projectYr).FirstOrDefault();
             return (brand != null) ? brand.brandId : 0;
@@ -883,6 +886,7 @@ namespace GAIN.Helper
         private long getPortId(string portName, List<mport> lstPort, short? projectYr)
         {
             long portId = 0;
+            projectYr = projectYr >= Constants.defaultyear ? (short)Constants.defaultyear : projectYr;
             var portList = lstPort.Where(port => port.PortName.ToLower().Trim() == portName.ToLower().Trim()
             && port.InitYear == projectYr).FirstOrDefault();
             if (portList != null)
@@ -894,6 +898,7 @@ namespace GAIN.Helper
         private long getItemCatId(string itemCatName, List<InitTypeCostSubCost> lstInitTypeCostSubCosts, short? projectYr)
         {
             long itemCatId = 0;
+            projectYr = projectYr >= Constants.defaultyear ? (short)Constants.defaultyear : projectYr;
             var itemCat = lstInitTypeCostSubCosts.Where(item =>
             item.itemCategory.ToLower().Trim() == itemCatName.ToLower().Trim()
             && item.initYear == projectYr).FirstOrDefault();
@@ -907,6 +912,7 @@ namespace GAIN.Helper
         private long getSubCostId(string subCostName, List<InitTypeCostSubCost> lstInitTypeCostSubCosts, short? projectYr)
         {
             long subCostId = 0;
+            projectYr = projectYr >= Constants.defaultyear ? (short)Constants.defaultyear : projectYr;
             var subCost = lstInitTypeCostSubCosts.Where(item =>
             item.subCostName.ToLower().Trim() == subCostName.ToLower().Trim() && item.initYear == projectYr).FirstOrDefault();
             if (subCost != null)
@@ -1256,7 +1262,7 @@ namespace GAIN.Helper
         {
             var objActionType = lstActionType
                  .Where(action => action.ActionTypeName.ToLower() == actionType.ToLower()
-                 && action.InitYear == tInitRecord.ProjectYear).FirstOrDefault();
+                 && action.InitYear == ((tInitRecord.ProjectYear >= Constants.defaultyear) ? (short)Constants.defaultyear : tInitRecord.ProjectYear)).FirstOrDefault();
             return (objActionType != null) ? objActionType.id : 0;
         }
         public int GetProjectYear(t_initiative tInitRecord)
