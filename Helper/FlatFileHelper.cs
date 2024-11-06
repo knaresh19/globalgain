@@ -859,7 +859,7 @@ namespace GAIN.Helper
         public long getInitStatus(string initStatus, List<mInitiativeStatus> lstInitStatus, short? projectYr)
         {
             long statusId = 0;
-            //projectYr = projectYr >= Constants.defaultyear ? (short)Constants.defaultyear : projectYr;
+            projectYr = projectYr >= Constants.defaultyear ? (short)Constants.defaultyear : projectYr;
             if (initStatus != "")
             {
                 var status = lstInitStatus.Where(item => item.status.ToLower().Trim() == initStatus.ToLower().Trim()
@@ -871,7 +871,7 @@ namespace GAIN.Helper
         public string getInitStatusText(long? initStatusId, List<mInitiativeStatus> lstInitStatus, short? projectYr)
         {
             string initStatusText = "";
-            //projectYr = projectYr >= Constants.defaultyear ? (short)Constants.defaultyear : projectYr;
+            projectYr = projectYr >= Constants.defaultyear ? (short)Constants.defaultyear : projectYr;
             var initstatus = lstInitStatus.Where(item => item.id == initStatusId
             && item.initYear == projectYr).FirstOrDefault();
             initStatusText = (initstatus != null) ? initstatus.status : "";
