@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -100,7 +100,7 @@ log4net.LogManager.GetLogger
                     }
                     //form the connection string 
                     // string.Format("Data source={0};Initial Catalog={1};User ID={2};Password={3};Connection Timeout=3000", objdtls.host,’db Name required here ’, objdtls.username, objdtls.password);
-                    log.Info(secret);
+                    //log.Info(secret);
                     return secret;
                     //Console.WriteLine(response);
                 }
