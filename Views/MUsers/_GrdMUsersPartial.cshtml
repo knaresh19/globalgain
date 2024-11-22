@@ -62,7 +62,9 @@
         settings.CommandColumn.CustomButtons.Add(EventUserReview);
         //OnClickEventReview(s, e);
         EventUserReview.Image.IconID = "eventUserReview";
-        settings.ClientSideEvents.CustomButtonClick = string.Format("function(s, e) {{ OnClickUserEventReview(s,e); }}");
+        //fix XLdeploy placeholder
+        //settings.ClientSideEvents.CustomButtonClick = string.Format("function(s, e) {{ OnClickUserEventReview(s,e); }}");
+        settings.ClientSideEvents.CustomButtonClick = string.Format("function(s, e) { OnClickUserEventReview(s,e); }");
 
         #endregion
 
