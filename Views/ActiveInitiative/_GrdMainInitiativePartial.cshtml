@@ -84,7 +84,9 @@
         settings.CommandColumn.CustomButtons.Add(Upload);
         settings.CommandColumn.ButtonRenderMode = GridCommandButtonRenderMode.Image;
 
-        settings.ClientSideEvents.CustomButtonClick = string.Format("function(s, e) {{ if(e.buttonID == 'Comment') OnClickComment(s, e); else if (e.buttonID == 'Upload') OnClickUpload(s,e); else if (e.buttonID == 'EditInitiative') OnClickEditInitiative(s,e); else OnClickEventReview(s, e); }}");
+        //fix XLdeploy placeholder
+        //settings.ClientSideEvents.CustomButtonClick = string.Format("function(s, e) {{ if(e.buttonID == 'Comment') OnClickComment(s, e); else if (e.buttonID == 'Upload') OnClickUpload(s,e); else if (e.buttonID == 'EditInitiative') OnClickEditInitiative(s,e); else OnClickEventReview(s, e); }}");
+        settings.ClientSideEvents.CustomButtonClick = string.Format("function(s, e) {0} if(e.buttonID == 'Comment') OnClickComment(s, e); " + "else if (e.buttonID == 'Upload') OnClickUpload(s, e); " + "else if (e.buttonID == 'EditInitiative') OnClickEditInitiative(s, e); " + "else OnClickEventReview(s, e); {1}", "{", "}");
         #endregion
 
         settings.SettingsExport.EnableClientSideExportAPI = true;
