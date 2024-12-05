@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Amazon.SecretsManager;
 using Amazon;
 using Amazon.SecretsManager.Model;
@@ -30,9 +26,7 @@ namespace GAIN.Controllers
  *      using Amazon.SecretsManager.Model;
  *
  */
-        private static readonly log4net.ILog log =
-log4net.LogManager.GetLogger
-(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         /*
          * AWSSDK.SecretsManager version="3.3.0" targetFramework="net45"
          */
@@ -104,58 +98,14 @@ log4net.LogManager.GetLogger
                     return secret;
                     //Console.WriteLine(response);
                 }
-                catch (DecryptionFailureException e)
+                catch (Exception e)
                 {
-                    // Secrets Manager can't decrypt the protected secret text using the provided KMS key.
-                    // Deal with the exception here, and/or rethrow at your discretion.
-                    //Console.WriteLine("Decrypfail");
-                    //Console.WriteLine(e.Message);
-
-
+                    log.Error(e.Message, e);
                 }
-                catch (InternalServiceErrorException e)
-                {
-                    // An error occurred on the server side.
-                    // Deal with the exception here, and/or rethrow at your discretion.
-                    //Console.WriteLine("ISE");
-                    //Console.WriteLine(e.Message);
-                }
-                catch (InvalidParameterException e)
-                {
-                    // You provided an invalid value for a parameter.
-                    // Deal with the exception here, and/or rethrow at your discretion
-
-                }
-                catch (InvalidRequestException e)
-                {
-                    // You provided a parameter value that is not valid for the current state of the resource.
-                    // Deal with the exception here, and/or rethrow at your discretion.
-
-
-
-                }
-                catch (ResourceNotFoundException e)
-                {
-                    // We can't find the resource that you asked for.
-                    // Deal with the exception here, and/or rethrow at your discretion.
-                    //Console.WriteLine("RNF");
-                    //Console.WriteLine(e.Message);
-
-                }
-                catch (System.AggregateException e)
-                {
-                    // More than one of the above exceptions were triggered.
-                    // Deal with the exception here, and/or rethrow at your discretion.
-                    //Console.WriteLine(e.InnerException.Message);
-                    //Console.WriteLine(e.Message);
-                    //Console.ReadLine();
-
-                }
-
+                
                 // Decrypts secret using the associated KMS CMK.
                 // Depending on whether the secret is a string or binary, one of these fields will be populated.
                 return "";
-              
             }
 
             else

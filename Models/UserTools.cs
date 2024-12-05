@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
@@ -91,6 +90,7 @@ namespace GAIN.Models
     public class ExportUserListExcelToDb
     {
         private readonly GainEntities _db;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ExportUserListExcelToDb(GainEntities db)
         {
@@ -299,6 +299,7 @@ namespace GAIN.Models
             catch (Exception ex)
             {
                 model.error_message = GetInnermostExceptionMessage(ex);
+                log.Error(ex.Message, ex);
             }
 
             if (newUserList.Count > 0)
@@ -382,12 +383,14 @@ namespace GAIN.Models
                                         itemStatus.error_message.Add(inErr.ErrorMessage);
                                     }
                                 }
+                                log.Error(ex.Message, ex);
                             }
                             catch (Exception ex)
                             {
                                 string err = GetInnermostExceptionMessage(ex);
                                 itemStatus.status = "NOK";
                                 itemStatus.error_message.Add(err);
+                                log.Error(ex.Message, ex);
                             }
 
                             if (affectedRow > 0)

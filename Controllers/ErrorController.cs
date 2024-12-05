@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace GAIN.Controllers
 {
@@ -10,6 +6,13 @@ namespace GAIN.Controllers
     {
         // GET: Error
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult GeneralError()
         {
             return View();
         }

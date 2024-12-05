@@ -10,14 +10,13 @@ using DevExpress.Spreadsheet;
 using System.Web;
 using System.IO;
 using System.Configuration;
-using System.Diagnostics;
 
 namespace GAIN.Controllers
 {
     public class MUsersController : MyBaseController
     {
         private GAIN.Models.GainEntities db;
-
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public MUsersController()
         {
@@ -109,6 +108,7 @@ namespace GAIN.Controllers
                     catch (Exception e)
                     {
                         ViewData["EditError"] = e.Message;
+                        log.Error(e.Message, e);
                     }
                 }
                 else
@@ -246,6 +246,7 @@ namespace GAIN.Controllers
                 catch (Exception e)
                 {
                     ViewData["EditError"] = e.Message;
+                    log.Error(e.Message, e);
                 }
             }
             else
@@ -292,6 +293,7 @@ namespace GAIN.Controllers
                 catch (Exception e)
                 {
                     ViewData["EditError"] = e.Message;
+                    log.Error(e.Message, e);
                 }
             }
             return PartialView("_GrdMUsersPartial", model.ToList());
@@ -380,6 +382,7 @@ namespace GAIN.Controllers
                 catch (Exception ex)
                 {
                     ViewData["EditError"] = "ERROR:" + ex.Message.ToString();
+                    log.Error(ex.Message, ex);
                 }
             }
             else

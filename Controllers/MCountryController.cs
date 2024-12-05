@@ -18,6 +18,7 @@ namespace GAIN.Controllers
         }
 
         GAIN.Models.GainEntities db = new GAIN.Models.GainEntities(clsSecretManager.GetConnectionstring(ConfigurationManager.AppSettings["rdssecret"]));
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         [ValidateInput(false)]
         public ActionResult GrdCountryPartial()
@@ -49,6 +50,7 @@ namespace GAIN.Controllers
                         catch (Exception e)
                         {
                             ViewData["EditError"] = e.Message;
+                            log.Error(e.Message, e);
                         }
                     }
                     else
@@ -92,6 +94,7 @@ namespace GAIN.Controllers
                     catch (Exception e)
                     {
                         ViewData["EditError"] = e.Message;
+                        log.Error(e.Message, e);
                     }
                 }
                 else
@@ -120,6 +123,7 @@ namespace GAIN.Controllers
                 catch (Exception e)
                 {
                     ViewData["EditError"] = e.Message;
+                    log.Error(e.Message, e);
                 }
             }
 

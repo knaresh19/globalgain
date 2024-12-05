@@ -1084,6 +1084,7 @@ log4net.LogManager.GetLogger
                 catch (Exception e)
                 {
                     ViewData["EditError"] = e.Message;
+                    log.Error(e.Message, e);
                 }
             }
             else
@@ -1127,6 +1128,7 @@ log4net.LogManager.GetLogger
                 catch (Exception e)
                 {
                     ViewData["EditError"] = e.Message;
+                    log.Error(e.Message, e);
                     return PartialView("_GrdMainInitiativePartial", model.ToList());
                 }
             }
@@ -1171,6 +1173,7 @@ log4net.LogManager.GetLogger
                 catch (Exception e)
                 {
                     ViewData["EditError"] = e.Message;
+                    log.Error(e.Message, e);
                 }
             }
 
@@ -2058,6 +2061,7 @@ log4net.LogManager.GetLogger
             }
             catch (Exception ex)
             {
+                log.Error(ex.Message, ex);
                 ResultCount resultCount = new ResultCount()
                 {
                     //validationMsg = "Please upload valid excel template"//ex.Message.ToString()
@@ -2907,7 +2911,7 @@ log4net.LogManager.GetLogger
                 }
                 catch (Exception E)
                 {
-                    log.Error("Exception occured in saving new initiative" + E.Message);
+                    log.Error("Exception occured in saving new initiative: " + E.Message, E);
                     return Content("Error occured during Initiative save");
                 }
             }
@@ -3147,7 +3151,7 @@ log4net.LogManager.GetLogger
                 }
                 catch (Exception E)
                 {
-                    log.Error("Exception occured during Saving exisisting initiative" + E.Message);
+                    log.Error("Exception occured during Saving exisisting initiative: " + E.Message, E);
                     return Content("Error ocuured during initiativeSave");
                 }
             }
@@ -3228,7 +3232,7 @@ log4net.LogManager.GetLogger
             }
             catch (Exception e)
             {
-                log.Error("Exception occured during GetInfobyID" + e.Message);
+                log.Error("Exception occured during GetInfobyID: " + e.Message, e);
                 return Content("Error");
             }
         }
