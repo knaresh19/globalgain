@@ -1,11 +1,12 @@
+@using System.Linq
 @{
     var profileData = this.Session["DefaultGAINSess"] as GAIN.Models.LoginSession;
     var tahun = profileData.ProjectYear;
     var projectMonth = profileData.ProjectMonth;
-    bool isVisible = tahun >= 2023 ? true : false ;
-    bool isVisible2022 = tahun < 2023 ? true : false ;
+    bool isVisible = tahun >= 2023 ? true : false;
+    bool isVisible2022 = tahun < 2023 ? true : false;
     bool VisibleStat = false;
-    //var startdate = 
+    //var startdate =
 }
 
 @{
@@ -300,7 +301,7 @@
                 p.ValueType = typeof(string);
                 //  p.DropDownHeight = 0;
                 p.BindList(ViewData["CostControlSiteName"]);
-                //p.ButtonStyle = 
+                //p.ButtonStyle =
             });
         });
         settings.Columns.Add(c =>

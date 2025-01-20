@@ -6328,6 +6328,9 @@
     <TypeScriptCompile Include="assets\poin\vendors\moment\moment.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="netstandard">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Amazon.SecretsManager.Extensions.Caching, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\AWSSDK.SecretsManager.Caching.1.0.3\lib\net461\Amazon.SecretsManager.Extensions.Caching.dll</HintPath>
     </Reference>
