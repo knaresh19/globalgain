@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\10641239\source\repos\AMS\GAIN\cap500_global_v2\Models\GainModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\CODE\CMA\GAIN\cap500_global_v2\Models\GainModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
