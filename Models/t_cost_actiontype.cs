@@ -17,7 +17,7 @@ namespace GAIN.Models
         public long id { get; set; }
         public long costitemid { get; set; }
         public long actiontypeid { get; set; }
-    
+        public long InitYear { get; set; }
         public virtual mactiontype mactiontype { get; set; }
         public virtual mcosttype mcosttype { get; set; }
     }

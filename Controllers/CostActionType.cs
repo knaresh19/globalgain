@@ -1,4 +1,5 @@
 ﻿using DevExpress.Web.Mvc;
+using GAIN.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -22,9 +23,9 @@ namespace GAIN.Controllers
         [ValidateInput(false)]
         public ActionResult GrdCostActionTypePartial()
         {
-            var model = db.t_cost_actiontype;
-            ViewData["SavingTypeName"] = db.msavingtypes.ToList();
-            ViewData["CostTypeName"] = db.mcosttypes.ToList();
+            var model = db.t_cost_actiontype.Where(x => x.InitYear == Constants.defaultyear);
+            ViewData["ActionTypeName"] = db.mactiontypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear ).ToList();
             return PartialView("_GrdCostActionTypePartial", model.ToList());
         }
 
@@ -32,48 +33,78 @@ namespace GAIN.Controllers
         public ActionResult GrdCostActionTypePartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_cost_actiontype item)
         {
             var model = db.t_cost_actiontype;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+
+            if (item.costitemid != 0 && item.actiontypeid != 0 )
             {
-                try
+                if (tmodel.Where(x => x.costitemid == item.costitemid && x.actiontypeid == item.actiontypeid).ToList().Count == 0)
                 {
-                    model.Add(item);
-                    db.SaveChanges();
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            item.InitYear = Constants.defaultyear;
+                            model.Add(item);
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            ViewData["EditError"] = e.Message;
+                            log.Error(e.Message, e);
+                        }
+                    }
+                    else
+                        ViewData["EditError"] = "Please, correct all errors.";
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                    log.Error(e.Message, e);
-                }
+                else
+                    ViewData["EditError"] = "Already Exists!.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdCostActionTypePartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            ViewData["ActionTypeName"] = db.mactiontypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            return PartialView("_GrdCostActionTypePartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdCostActionTypePartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_cost_actiontype item)
         {
+
+
             var model = db.t_cost_actiontype;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            if (item.costitemid != 0 && item.actiontypeid != 0)
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
-                    if (modelItem != null)
+                    try
                     {
-                        modelItem.costitemid = item.costitemid;
-                        modelItem.actiontypeid = item.actiontypeid;
-                        db.SaveChanges();
+                        var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                        if (modelItem != null)
+                        {
+                            if (tmodel.Where(x => x.costitemid == item.costitemid && x.actiontypeid == item.actiontypeid && x.id != item.id).ToList().Count == 0)
+                            {
+                                modelItem.costitemid = item.costitemid;
+                                modelItem.actiontypeid = item.actiontypeid;
+                                db.SaveChanges();
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
+                        log.Error(e.Message, e);
                     }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                    log.Error(e.Message, e);
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdCostActionTypePartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            ViewData["ActionTypeName"] = db.mactiontypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            return PartialView("_GrdCostActionTypePartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdCostActionTypePartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_cost_actiontype itemx)
@@ -94,7 +125,9 @@ namespace GAIN.Controllers
                     log.Error(e.Message, e);
                 }
             }
-            return PartialView("_GrdCostActionTypePartial", model.ToList());
+            ViewData["ActionTypeName"] = db.mactiontypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            return PartialView("_GrdCostActionTypePartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
     }
 }

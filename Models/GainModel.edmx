@@ -277,6 +277,7 @@
 					<Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
 					<Property Name="costitemid" Type="bigint" Nullable="false" />
 					<Property Name="actiontypeid" Type="bigint" Nullable="false" />
+					<Property Name="InitYear" Type="bigint" Nullable="false" DefaultValue="0" />
 				</EntityType>
 				<EntityType Name="t_initiative">
 					<Key>
@@ -413,6 +414,7 @@
 					<Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
 					<Property Name="subcostid" Type="bigint" />
 					<Property Name="actiontypeid" Type="bigint" />
+					<Property Name="InitYear" Type="bigint" Nullable="false" DefaultValue="0" />
 				</EntityType>
 				<EntityType Name="t_subcostbrand">
 					<Key>
@@ -423,6 +425,7 @@
 					<Property Name="costtypeid" Type="bigint" />
 					<Property Name="subcostid" Type="bigint" />
 					<Property Name="brandid" Type="bigint" />
+					<Property Name="InitYear" Type="bigint" Nullable="false" DefaultValue="0" />
 				</EntityType>
 				<EntityType Name="t_subcostinitiative">
 					<Key>
@@ -432,6 +435,7 @@
 					<Property Name="savingtypeid" Type="bigint" />
 					<Property Name="costitemid" Type="bigint" />
 					<Property Name="subcostid" Type="bigint" />
+					<Property Name="InitYear" Type="bigint" Nullable="false" DefaultValue="0" />
 				</EntityType>
 				<EntityType Name="t_subctry_costcntrlsite">
 					<Key>
@@ -2294,6 +2298,8 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 					<Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
 					<Property Name="costitemid" Type="Int64" Nullable="false" />
 					<Property Name="actiontypeid" Type="Int64" Nullable="false" />
+					<Property Name="InitYear" Type="Int64"  Nullable="false"/>
+					
 					<NavigationProperty Name="mactiontype" Relationship="Self.FK_ACTIONTYPE_COSTITEM_ID" FromRole="t_cost_actiontype" ToRole="mactiontype" />
 					<NavigationProperty Name="mcosttype" Relationship="Self.FK_COSTITEM_ACTIONTYPE_ID" FromRole="t_cost_actiontype" ToRole="mcosttype" />
 				</EntityType>
@@ -2446,6 +2452,7 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 					<Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
 					<Property Name="subcostid" Type="Int64" />
 					<Property Name="actiontypeid" Type="Int64" />
+					<Property Name="InitYear" Type="Int64"  Nullable="false"/>
 					<NavigationProperty Name="mactiontype" Relationship="Self.FK_actiontypeid_actiontype_subcost" FromRole="t_subcostactiontype" ToRole="mactiontype" />
 					<NavigationProperty Name="msubcost" Relationship="Self.FK_subcostid_actiontype_subcost" FromRole="t_subcostactiontype" ToRole="msubcost" />
 				</EntityType>
@@ -2458,6 +2465,7 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 					<Property Name="costtypeid" Type="Int64" />
 					<Property Name="subcostid" Type="Int64" />
 					<Property Name="brandid" Type="Int64" />
+					<Property Name="InitYear" Type="Int64"  Nullable="false"/>
 					<NavigationProperty Name="mbrand" Relationship="Self.FK_BRANDID_SUBCOSTID" FromRole="t_subcostbrand" ToRole="mbrand" />
 					<NavigationProperty Name="mcosttype" Relationship="Self.FK_t_subcostbrand_mcosttype" FromRole="t_subcostbrand" ToRole="mcosttype" />
 					<NavigationProperty Name="msavingtype" Relationship="Self.FK_SAVINGTYPEID_SUBCOSTID" FromRole="t_subcostbrand" ToRole="msavingtype" />
@@ -2471,6 +2479,7 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 					<Property Name="savingtypeid" Type="Int64" />
 					<Property Name="costitemid" Type="Int64" />
 					<Property Name="subcostid" Type="Int64" />
+					<Property Name="InitYear" Type="Int64"  Nullable="false"/>
 					<NavigationProperty Name="mcosttype" Relationship="Self.FK_costitemid" FromRole="t_subcostinitiative" ToRole="mcosttype" />
 					<NavigationProperty Name="msavingtype" Relationship="Self.FK_savingtypeid" FromRole="t_subcostinitiative" ToRole="msavingtype" />
 					<NavigationProperty Name="msubcost" Relationship="Self.FK_subcostid" FromRole="t_subcostinitiative" ToRole="msubcost" />
@@ -4056,6 +4065,7 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 								<ScalarProperty Name="id" ColumnName="id" />
 								<ScalarProperty Name="costitemid" ColumnName="costitemid" />
 								<ScalarProperty Name="actiontypeid" ColumnName="actiontypeid" />
+								<ScalarProperty Name="InitYear" ColumnName="InitYear" />
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
@@ -4194,6 +4204,7 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 								<ScalarProperty Name="id" ColumnName="id" />
 								<ScalarProperty Name="subcostid" ColumnName="subcostid" />
 								<ScalarProperty Name="actiontypeid" ColumnName="actiontypeid" />
+								<ScalarProperty Name="InitYear" ColumnName="InitYear" />
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
@@ -4205,6 +4216,7 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 								<ScalarProperty Name="costtypeid" ColumnName="costtypeid" />
 								<ScalarProperty Name="subcostid" ColumnName="subcostid" />
 								<ScalarProperty Name="brandid" ColumnName="brandid" />
+								<ScalarProperty Name="InitYear" ColumnName="InitYear" />
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
@@ -4215,6 +4227,7 @@ warning 6002: The table/view 'def.gain2.vwtypeofsaving' does not have a primary 
 								<ScalarProperty Name="savingtypeid" ColumnName="savingtypeid" />
 								<ScalarProperty Name="costitemid" ColumnName="costitemid" />
 								<ScalarProperty Name="subcostid" ColumnName="subcostid" />
+								<ScalarProperty Name="InitYear" ColumnName="InitYear" />
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>

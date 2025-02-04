@@ -58,12 +58,12 @@
             c.Width = 300;
             c.EditorProperties().ComboBox(p =>
             {
-                p.TextField = "SavingTypeName";
+                p.TextField = "ActionTypeName";
                 p.ValueField = "id";
-                p.ClientInstanceName = "ActionTypeID";
+                p.ClientInstanceName = "actiontypeid";
                 p.ValueType = typeof(string);
                 //p.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
-                p.BindList(ViewData["SavingTypeName"]);
+                p.BindList(ViewData["ActionTypeName"]);
             });
         });
         settings.Columns.Add(c =>

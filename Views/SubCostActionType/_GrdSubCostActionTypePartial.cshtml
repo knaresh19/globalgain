@@ -58,12 +58,12 @@
             c.Width = 300;
             c.EditorProperties().ComboBox(p =>
             {
-                p.TextField = "SavingTypeName";
+                p.TextField = "ActionTypeName";
                 p.ValueField = "id";
                 p.ClientInstanceName = "ActionTypeID";
                 p.ValueType = typeof(string);
                 //p.ClientSideEvents.SelectedIndexChanged = "OnBrandChanged";
-                p.BindList(ViewData["SavingTypeName"]);
+                p.BindList(ViewData["ActionTypeName"]);
             });
         });
         settings.Columns.Add(c =>
@@ -81,12 +81,12 @@
                 p.BindList(ViewData["SubCostName"]);
             });
         });
-        settings.Columns.Add(c =>
-        {
-            c.FieldName = "InitYear";
-            c.Caption = "Year";
-            c.Width = 500;
-        });
+        //settings.Columns.Add(c =>
+        //{
+        //    c.FieldName = "InitYear";
+        //    c.Caption = "Year";
+        //    c.Width = 500;
+        //});
     });
     if (ViewData["EditError"] != null)
     {

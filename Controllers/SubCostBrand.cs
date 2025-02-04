@@ -1,4 +1,5 @@
 ﻿using DevExpress.Web.Mvc;
+using GAIN.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -23,61 +24,102 @@ namespace GAIN.Controllers
         public ActionResult GrdSubCostBrandPartial() 
         {
             var model = db.t_subcostbrand;
-            ViewData["SavingTypeName"] = db.msavingtypes.ToList();
-            ViewData["CostTypeName"] = db.mcosttypes.ToList();
-            ViewData["SubCostName"] = db.msubcosts.ToList();
-            ViewData["BrandName"] = db.mbrands.ToList().Where(s => s.isDeleted == "N");
-            return PartialView("_GrdSubCostBrandPartial", model.ToList());
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["BrandName"] = db.mbrands.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            return PartialView("_GrdSubCostBrandPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
 
         [HttpPost, ValidateInput(false)] 
         public ActionResult GrdSubCostBrandPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subcostbrand item)
         {
             var model = db.t_subcostbrand;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+
+            if (item.savingtypeid != 0 && item.costtypeid != 0 && item.brandid != 0 && item.subcostid != 0)
             {
-                try
+                if (tmodel.Where(x => x.savingtypeid == item.savingtypeid && x.costtypeid == item.costtypeid && x.brandid == item.brandid && x.subcostid == item.subcostid).ToList().Count == 0)
                 {
-                    model.Add(item);
-                    db.SaveChanges();
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            item.InitYear = Constants.defaultyear;
+                            model.Add(item);
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            ViewData["EditError"] = e.Message;
+                            log.Error(e.Message, e);
+                        }
+                    }
+                    else
+                        ViewData["EditError"] = "Please, correct all errors.";
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                    log.Error(e.Message, e);
-                }
+                else
+                    ViewData["EditError"] = "Already Exists!.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdSubCostBrandPartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["BrandName"] = db.mbrands.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            return PartialView("_GrdSubCostBrandPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCostBrandPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subcostbrand item)
         {
+            
+
             var model = db.t_subcostbrand;
-            if (ModelState.IsValid)
+            var tmodel = model.Where(x => x.InitYear == Constants.defaultyear).ToList();
+
+            if (item.savingtypeid != 0 && item.costtypeid != 0 && item.brandid != 0 && item.subcostid != 0)
             {
-                try
+
+                if (ModelState.IsValid)
                 {
-                    var modelItem = model.FirstOrDefault(it => it.id == item.id);
-                    if (modelItem != null)
+                    try
                     {
-                        modelItem.savingtypeid = item.savingtypeid;
-                        modelItem.costtypeid = item.costtypeid;
-                        modelItem.subcostid = item.subcostid;
-                        modelItem.brandid = item.brandid;
-                        db.SaveChanges();
+                        var modelItem = model.FirstOrDefault(it => it.id == item.id);
+                        if (modelItem != null)
+                        {
+                            if (tmodel.Where(x => x.savingtypeid == item.savingtypeid && x.costtypeid == item.costtypeid && x.brandid == item.brandid && x.subcostid == item.subcostid && x.id != item.id).ToList().Count == 0)
+                            {
+                                modelItem.savingtypeid = item.savingtypeid;
+                                modelItem.costtypeid = item.costtypeid;
+                                modelItem.subcostid = item.subcostid;
+                                modelItem.brandid = item.brandid;
+                                db.SaveChanges();
+                            }
+                            else
+                                ViewData["EditError"] = "Already Exists!.";
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ViewData["EditError"] = e.Message;
+                        log.Error(e.Message, e);
                     }
                 }
-                catch (Exception e)
-                {
-                    ViewData["EditError"] = e.Message;
-                    log.Error(e.Message, e);
-                }
+                else
+                    ViewData["EditError"] = "Please, correct all errors.";
             }
             else
-                ViewData["EditError"] = "Please, correct all errors.";
-            return PartialView("_GrdSubCostBrandPartial", model.ToList());
+                ViewData["EditError"] = "Please fill out all required fields.";
+
+
+
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["BrandName"] = db.mbrands.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            return PartialView("_GrdSubCostBrandPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
+            
         }
         [HttpPost, ValidateInput(false)]
         public ActionResult GrdSubCostBrandPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] GAIN.Models.t_subcostbrand itemx)
@@ -98,7 +140,13 @@ namespace GAIN.Controllers
                     log.Error(e.Message, e);
                 }
             }
-            return PartialView("_GrdSubCostBrandPartial", model.ToList());
+
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["BrandName"] = db.mbrands.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            return PartialView("_GrdSubCostBrandPartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
+            
         }
     }
 }

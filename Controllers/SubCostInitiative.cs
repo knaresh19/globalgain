@@ -63,6 +63,9 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please fill out all required fields.";
 
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(x => x.InitYear == Constants.defaultyear).ToList();
             return PartialView("_GrdSubCostInitiativePartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
@@ -104,6 +107,9 @@ namespace GAIN.Controllers
             else
                 ViewData["EditError"] = "Please fill out all required fields.";
 
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(x => x.InitYear == Constants.defaultyear).ToList();
             return PartialView("_GrdSubCostInitiativePartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
         [HttpPost, ValidateInput(false)]
@@ -125,6 +131,10 @@ namespace GAIN.Controllers
                     log.Error(e.Message, e);
                 }
             }
+
+            ViewData["SavingTypeName"] = db.msavingtypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["CostTypeName"] = db.mcosttypes.Where(x => x.InitYear == Constants.defaultyear).ToList();
+            ViewData["SubCostName"] = db.msubcosts.Where(x => x.InitYear == Constants.defaultyear).ToList();
             return PartialView("_GrdSubCostInitiativePartial", model.Where(x => x.InitYear == Constants.defaultyear).ToList());
         }
     }

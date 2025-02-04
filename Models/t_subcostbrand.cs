@@ -19,7 +19,8 @@ namespace GAIN.Models
         public Nullable<long> costtypeid { get; set; }
         public Nullable<long> subcostid { get; set; }
         public Nullable<long> brandid { get; set; }
-    
+
+        public long InitYear { get; set; }
         public virtual mbrand mbrand { get; set; }
         public virtual mcosttype mcosttype { get; set; }
         public virtual msavingtype msavingtype { get; set; }
